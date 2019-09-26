@@ -24,7 +24,8 @@ if(!defined('MGR_DIR') && is_dir($base_path."manager")) {
 }
 
 require_once($path."lang.php");
-require_once($base_path.MGR_DIR.'/includes/version.inc.php');
+require_once($base_path.MGR_DIR . '/includes/version.inc.php');
+include_once($base_path.MGR_DIR . '/includes/preload.functions.inc.php');
 
 $moduleName = "EVO";
 $moduleVersion = $modx_branch.' '.$modx_version;
@@ -1342,10 +1343,11 @@ if (is_array($modulePlugins) || $installData) {
                     if ($ds) {
                         $row = mysqli_fetch_assoc($ds);
                         $id = $row["id"];
-                        // remove existing events
-                        mysqli_query($sqlParser->conn, 'DELETE FROM ' . $dbase . '.`' . $table_prefix . 'site_plugin_events` WHERE pluginid = \'' . $id . '\'');
+                        $_events = implode("','", $events);
                         // add new events
-                        mysqli_query($sqlParser->conn, "INSERT INTO $dbase.`" . $table_prefix . "site_plugin_events` (pluginid, evtid) SELECT '$id' as 'pluginid',se.id as 'evtid' FROM $dbase.`" . $table_prefix . "system_eventnames` se WHERE name IN ('" . implode("','", $events) . "')");
+                        mysqli_query($sqlParser->conn, "INSERT IGNORE INTO $dbase.`" . $table_prefix . "site_plugin_events` (pluginid, evtid, priority) SELECT '$id' as 'pluginid', se.id as 'evtid', IF(spe.priority IS NULL, 0, MAX(spe.priority) + 1) as 'priority' FROM $dbase.`" . $table_prefix . "system_eventnames` se LEFT JOIN $dbase.`" . $table_prefix . "site_plugin_events` spe ON spe.evtid = se.id WHERE name IN ('{$_events}') GROUP BY se.id");
+                        // remove absent events
+                        mysqli_query($sqlParser->conn, "DELETE `pe` FROM {$dbase}.`{$table_prefix}site_plugin_events` `pe` LEFT JOIN {$dbase}.`{$table_prefix}system_eventnames` `se` ON `pe`.`evtid`=`se`.`id` AND `name` IN ('{$_events}') WHERE ISNULL(`name`) AND `pluginid` = {$id}");
                     }
                 }
             }
