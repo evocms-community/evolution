@@ -141,6 +141,21 @@ WebFXTabPane.prototype = {
 
     return tp;
   },
+  removeTabPage: function(oElement) {
+    if (oElement.tabPage) {
+      var tab  = oElement.tabPage.tab,
+          span = oElement.tabPage.aElement;
+
+      while (span.hasChildNodes()) {
+        tab.appendChild(span.firstChild);
+      }
+
+      tab.removeChild(span);
+
+      oElement.insertBefore(tab, oElement.firstChild);
+      oElement.tabPage.dispose();
+    }
+  },
   dispose: function() {
     this.element.tabPane = null;
     this.element = null;
@@ -273,7 +288,7 @@ function setupAllTabs()
   var tabPaneRe = /tab\-pane/;
   var tabPageRe = /tab\-page/;
   var cn, el;
-  var parentTabPane;
+  var panes = [];
 
   for (var i = 0; i < l; i++) {
     el = all[i];
@@ -282,13 +297,25 @@ function setupAllTabs()
     // no className
     if (cn === '') continue;
 
+    if (el.tabPane) {
+      panes.push(el);
+    }
+
     // uninitiated tab pane
     if (tabPaneRe.test(cn) && !el.tabPane) {
       new WebFXTabPane(el);
     }// unitiated tab page wit a valid tab pane parent
-    else if (tabPageRe.test(cn) && !el.tabPage &&
-        tabPaneRe.test(el.parentNode.className)) {
+    else if (tabPageRe.test(cn) && !el.tabPage && tabPaneRe.test(el.parentNode.className)) {
       el.parentNode.tabPane.addTabPage(el);
+    }
+  }
+  
+  for (i = 0; i < panes.length; i++) {
+    var pane  = panes[i].tabPane,
+        index = pane.getSelectedIndex();
+
+    if (!pane.pages[index]) {
+      pane.setSelectedIndex(pane.pages.length - 1);
     }
   }
 }
