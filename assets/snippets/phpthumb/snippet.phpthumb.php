@@ -117,7 +117,7 @@ if (isset($webp) && class_exists('\WebPConvert\WebPConvert')) {
         if (file_exists($outputFilename . '.webp')) {
             $fNameSuf .= '.webp';
         } else {
-            WebPConvert::convert($outputFilename, $outputFilename . '.webp');
+            WebPConvert::convert($outputFilename, $outputFilename . '.webp', ['quality' => 90]);
             $fNameSuf .= '.webp';
         }
     }
