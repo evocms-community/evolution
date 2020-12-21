@@ -54,6 +54,7 @@ function record_sort($array, $key)
 }
 
 $rs = $modx->db->select('DISTINCT internalKey, username, action, itemid, itemname', $modx->getFullTableName('manager_log'));
+
 $logs = $modx->db->makeArray($rs);
 ?>
     <h1>

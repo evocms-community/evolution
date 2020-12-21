@@ -15,6 +15,7 @@ function newCategory($newCat)
         array(
             'category' => $modx->db->escape($newCat),
         ), $useTable);
+
     if (!$categoryId) {
         $categoryId = 0;
     }

@@ -91,7 +91,7 @@ class logHandler
         $fields['itemid'] = $this->entry['itemId'];
         $fields['itemname'] = $modx->db->escape($this->entry['itemName']);
         $fields['message'] = $modx->db->escape($this->entry['msg']);
-        $fields['ip'] = $this->getUserIP();
+        $fields['ip'] = $modx->db->escape($this->getUserIP());
         $fields['useragent'] = $_SERVER['HTTP_USER_AGENT'];
             
         $insert_id = $modx->db->insert($fields, $tbl_manager_log);

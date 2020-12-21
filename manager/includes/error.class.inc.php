@@ -42,7 +42,6 @@ class errorHandler
             13 => $_lang["No user selected as recipient of this message!"],
             14 => $_lang["No group selected as recipient of this message!"],
             15 => $_lang["The document was not found!"],
-
             100 => $_lang["Double action (GET & POST) posted!"],
             600 => $_lang["Document cannot be it's own parent!"],
             601 => $_lang["Document's ID not passed in request!"],

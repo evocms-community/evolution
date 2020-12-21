@@ -41,10 +41,12 @@ function getTVDisplayFormat($name, $value, $format, $paramstring = "", $tvtype =
 		case 'image':
 			$images = parseInput($value, '||', 'array');
 			foreach($images as $image) {
-				if(!is_array($image)) {
+
+			    if(!is_array($image)) {
 					$image = explode('==', $image);
 				}
-				$src = $image[0];
+
+			    $src = $image[0];
 
 				if($src) {
 					// We have a valid source
