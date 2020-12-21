@@ -1,4 +1,4 @@
-<?php
+<?php if (!class_exists('APIhelpers')) {
 
 /**
  * Class APIhelpers
@@ -483,4 +483,5 @@ class APIhelpers
 
         return $out;
     }
+}
 }
