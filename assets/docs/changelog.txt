@@ -1,9 +1,37 @@
 This file shows the changes in recent releases of Evolution CMS. The most current release is usually the
 development release, and is only shown to give an idea of what's currently in the pipeline.
 
+Evolution CMS 1.4.12 (Dec 21, 2020)
+* [GitHub:#2c4e76676] - update TinyMCE (Dmi3yy)
+* [GitHub:#6d4c526a0] - fix langs and typo (Dmi3yy)
+* [GitHub:#005fec9b2] - Fix classes for the fontawesome icons (Oleg Nosov)
+* [GitHub:#437225a40] - Update save_template.processor.php (zatomant)
+* [GitHub:#d7983172e] - Update snippet.phpthumb.php (Andrey Myagkov)
+* [GitHub:#301b83bb4] - Change string to a correct for a fontawesome class in manager. (Oleg Nosov)
+* [GitHub:#626602019] - list of modules icons with class .fas or .fab are shown without margins.  (Oleg Nosov)
+* [GitHub:#34304c5eb] - Change table format for logs list so pagination become usable. (Oleg Nosov)
+* [GitHub:#5daefd7f7] - Update phpcompat.class.inc.php (zatomant)
+* [GitHub:#dcacfa757] - Update japanese-utf8.inc.php (Shobu UMEMURA)
+* [GitHub:#1aa13c048] - Update files.dynamic.php (Mr B)
+* [GitHub:#9ccf1d74f] - fix warning (Pathologic)
+* [GitHub:#b62f7a317] - refactor backup manager (Pathologic)
+* [GitHub:#cd8a83815] - refactor backup manager: dump structures before data (Pathologic)
+* [GitHub:#778fc347b] - fix plugins install (Pathologic)
+* [GitHub:#989386eef] - Update phpcompat.class.inc.php (zatomant)
+* [GitHub:#526a2ef6a] - fix lost plugin events on install (Pathologic)
+* [GitHub:#41aa87b5f] - fix #1403 timestamps for users (Pathologic)
+* [GitHub:#3fc9f616b] - fix save verified field from manager (Pathologic)
+* [GitHub:#ab0011f96] - Update phpthumb.class.php (zatomant)
+* [GitHub:#a33a0ea7c] - Fixed a bug that caused the double "-" will be lost when editing a url. (Segr)
+* [GitHub:#0690d7c05] - Removed the extra " - " in the browser title in manager. (Segr)
+* [GitHub:#ad84795ad] - fix pager (mnoskov)
+* [GitHub:#4da2e5ecf] - fix mcpuk directory check (dzhuryn.volodymyr)
+* [GitHub:#38331d202] - Update qm.inc.php (Mr B)
+* [GitHub:#10d2fac80] - Check doc to return to if cancel button used (Mr B)
+* [GitHub:#10f96625d] - fix breadcrumbs icons (liber87)
+
 
 Evolution CMS 1.4.11 (Mar 13, 2020)
-
 * [GitHub:#6f67301ba] - Update DocLister to 2.5.2 (Dmi3yy)
 * [GitHub:#8d5b31b1f] - Update FormLister to 1.10.3 (Dmi3yy)
 * [GitHub:#6e491904a] - keep plugins priority (mnoskov)
