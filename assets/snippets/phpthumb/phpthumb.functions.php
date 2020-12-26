@@ -169,7 +169,7 @@ class phpthumb_functions {
 
 
 	public static function ImageTypeToMIMEtype($imagetype) {
-		if (function_exists('image_type_to_mime_type') && ($imagetype >= 1) && ($imagetype <= 16)) {
+		if (function_exists('image_type_to_mime_type') && ($imagetype >= 1) && ($imagetype <= 18)) {
 			// PHP v4.3.0+
 			return image_type_to_mime_type($imagetype);
 		}
@@ -190,13 +190,16 @@ class phpthumb_functions {
 			14 => 'image/iff',                     // IMAGETYPE_IFF
 			15 => 'image/vnd.wap.wbmp',            // IMAGETYPE_WBMP
 			16 => 'image/xbm',                     // IMAGETYPE_XBM
+			17 => 'image/x-icon',                  // IMAGETYPE_ICO
+			18 => 'image/webp',                    // IMAGETYPE_WEBP
 
 			'gif'  => 'image/gif',                 // IMAGETYPE_GIF
 			'jpg'  => 'image/jpeg',                // IMAGETYPE_JPEG
 			'jpeg' => 'image/jpeg',                // IMAGETYPE_JPEG
 			'png'  => 'image/png',                 // IMAGETYPE_PNG
 			'bmp'  => 'image/bmp',                 // IMAGETYPE_BMP
-			'ico'  => 'image/x-icon',
+			'ico'  => 'image/x-icon',              // IMAGETYPE_ICO
+			'webp' => 'image/webp',                // IMAGETYPE_WEBP
 		);
 
 		return (isset($image_type_to_mime_type[$imagetype]) ? $image_type_to_mime_type[$imagetype] : false);
@@ -216,7 +219,7 @@ class phpthumb_functions {
 		$len = strlen($string);
 		$output = '';
 		for ($i = 0; $i < $len; $i++) {
-			$output .= ' 0x'.str_pad(dechex(ord($string{$i})), 2, '0', STR_PAD_LEFT);
+			$output .= ' 0x'.str_pad(dechex(ord($string[$i])), 2, '0', STR_PAD_LEFT);
 		}
 		return $output;
 	}
@@ -663,7 +666,7 @@ class phpthumb_functions {
 				} else {
 					$data_body .= $line;
 				}
-				if (preg_match('#^HTTP/[\\.\d]+ ([\d]+) (.+)$#i', rtrim($line), $matches)) {
+				if (preg_match('#^HTTP/[\\.\d]+ ([\d]+)\s*(.+)?$#i', rtrim($line), $matches)) {
 					list( , $errno, $errstr) = $matches;
 					$errno = (int) $errno;
 				} elseif (preg_match('#^Location: (.*)$#i', rtrim($line), $matches)) {
@@ -722,7 +725,7 @@ class phpthumb_functions {
 		}
 
 		$cleaned_url  = $parsed_url['scheme'].'://';
-		$cleaned_url .= ($parsed_url['username'] ? $parsed_url['username'].($parsed_url['password'] ? ':'.$parsed_url['password'] : '').'@' : '');
+		$cleaned_url .= ($parsed_url['user'] ? $parsed_url['user'].($parsed_url['pass'] ? ':'.$parsed_url['pass'] : '').'@' : '');
 		$cleaned_url .= $parsed_url['host'];
 		$cleaned_url .= (($parsed_url['port'] && ($parsed_url['port'] != self::URLschemeDefaultPort($parsed_url['scheme']))) ? ':'.$parsed_url['port'] : '');
 		$cleaned_url .= '/'.implode('/', $CleanPathElements);
@@ -1016,7 +1019,7 @@ if (!function_exists('preg_quote')) {
 		if (empty($preg_quote_array)) {
 			$escapeables = '.\\+*?[^]$(){}=!<>|:';
 			for ($i = 0, $iMax = strlen($escapeables); $i < $iMax; $i++) {
-				$strtr_preg_quote[$escapeables{$i}] = $delimiter.$escapeables{$i};
+				$strtr_preg_quote[$escapeables[$i]] = $delimiter.$escapeables[$i];
 			}
 		}
 		return strtr($string, $strtr_preg_quote);
