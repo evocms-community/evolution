@@ -212,7 +212,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                             <table class="table data nowrap">
                                 <thead>
                                 <tr>
-                                    <td><label class="form-check-label"><input type="checkbox" name="chkselall" class="form-check-input" onclick="selectAll();" title="Select All Tables" /> <?= $_lang['database_table_tablename'] ?></label></td>
+                                    <td><label class="form-check form-check-label"><input type="checkbox" name="chkselall" class="form-check-input" onclick="selectAll();" title="Select All Tables" /> <?= $_lang['database_table_tablename'] ?></label></td>
                                     <td width="1%"></td>
                                     <td class="text-xs-center"><?= $_lang['database_table_records'] ?></td>
                                     <td class="text-xs-center"><?= $_lang['database_collation'] ?></td>
