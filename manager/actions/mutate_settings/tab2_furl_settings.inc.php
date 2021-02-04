@@ -83,6 +83,22 @@
 <td colspan="2"><div class="split"></div></td>
 </tr>
 
+
+    <tr class="furlRow" <?php echo showHide($friendly_urls==1);?>>
+        <th><?php echo $_lang['full_aliaslisting_title'] ?><br><small>[(full_aliaslisting)]</small></th>
+        <td>
+            <?php echo wrap_label($_lang['yes'],form_radio('full_aliaslisting','1'));?><br />
+            <?php echo wrap_label($_lang['no'],form_radio('full_aliaslisting','0'));?>
+        </td>
+    </tr>
+    <tr class="furlRow" <?php echo showHide($friendly_urls==1);?>>
+        <td width="200">&nbsp;</td>
+        <td class="comment"><?php echo $_lang['full_aliaslisting_title'] ?></td>
+    </tr>
+    <tr class="furlRow" <?php echo showHide($friendly_urls==1);?>>
+        <td colspan="2"><div class="split"></div></td>
+    </tr>
+
 <tr class="furlRow" <?php echo showHide($friendly_urls==1);?>>
   <th><?php echo $_lang['aliaslistingfolder_title'] ?><br><small>[(aliaslistingfolder)]</small></th>
   <td>
