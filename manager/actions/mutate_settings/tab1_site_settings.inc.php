@@ -258,6 +258,30 @@ table.sysSettings tr.noborder td {border:none;}
 </tr>
 
 <tr>
+<th><?php echo $_lang['disable_chunk_cache_title'] ?><br><small>[(disable_chunk_cache)]</small></th>
+<td>
+    <?php echo wrap_label($_lang['yes'],form_radio('disable_chunk_cache', 1));?><br />
+    <?php echo wrap_label($_lang['no'], form_radio('disable_chunk_cache', 0));?><br />
+</td>
+</tr>
+
+<tr>
+<th><?php echo $_lang['disable_snippet_cache_title'] ?><br><small>[(disable_snippet_cache)]</small></th>
+<td>
+    <?php echo wrap_label($_lang['yes'],form_radio('disable_snippet_cache', 1));?><br />
+    <?php echo wrap_label($_lang['no'], form_radio('disable_snippet_cache', 0));?><br />
+</td>
+</tr>
+
+<tr>
+<th><?php echo $_lang['disable_plugins_cache_title'] ?><br><small>[(disable_plugins_cache)]</small></th>
+<td>
+    <?php echo wrap_label($_lang['yes'],form_radio('disable_plugins_cache', 1));?><br />
+    <?php echo wrap_label($_lang['no'], form_radio('disable_plugins_cache', 0));?><br />
+</td>
+</tr>
+
+<tr>
 <th><?php echo $_lang['cache_type_title'] ?><br><small>[(cache_type)]</small></th>
 <td>
 <?php echo wrap_label($_lang['cache_type_1'],form_radio('cache_type', 1));?><br />

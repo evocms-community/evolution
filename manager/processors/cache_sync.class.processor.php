@@ -310,57 +310,64 @@ class synccache
                 $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
             }
         }
-        // WRITE Chunks to cache file
-        $rs = $modx->db->select('*', '[+prefix+]site_htmlsnippets');
-        $content .= '$c=&$this->chunkCache;';
-        while ($doc = $modx->db->getRow($rs)) {
-            $content .= '$c[\'' . $modx->db->escape($doc['name']) . '\']=\'' . ($doc['disabled'] ? '' : $this->escapeSingleQuotes($doc['snippet'])) . '\';';
+
+        if (!isset($config['disable_chunk_cache']) || $config['disable_chunk_cache'] != 1) {
+            // WRITE Chunks to cache file
+            $rs = $modx->db->select('*', '[+prefix+]site_htmlsnippets');
+            $content .= '$c=&$this->chunkCache;';
+            while ($doc = $modx->db->getRow($rs)) {
+                $content .= '$c[\'' . $modx->db->escape($doc['name']) . '\']=\'' . ($doc['disabled'] ? '' : $this->escapeSingleQuotes($doc['snippet'])) . '\';';
+            }
         }
 
-        // WRITE snippets to cache file
-        $f = 'ss.*, sm.properties as sharedproperties';
-        $from = '[+prefix+]site_snippets ss LEFT JOIN [+prefix+]site_modules sm on sm.guid=ss.moduleguid';
-        $rs = $modx->db->select($f, $from);
-        $content .= '$s=&$this->snippetCache;';
-        while ($row = $modx->db->getRow($rs)) {
-            $key = $modx->db->escape($row['name']);
-            if ($row['disabled']) {
-                $content .= '$s[\'' . $key . '\']=\'return false;\';';
-            } else {
-                $value = trim($row['snippet']);
+        if (!isset($config['disable_snippet_cache']) || $config['disable_snippet_cache'] != 1) {
+            // WRITE snippets to cache file
+            $f = 'ss.*, sm.properties as sharedproperties';
+            $from = '[+prefix+]site_snippets ss LEFT JOIN [+prefix+]site_modules sm on sm.guid=ss.moduleguid';
+            $rs = $modx->db->select($f, $from);
+            $content .= '$s=&$this->snippetCache;';
+            while ($row = $modx->db->getRow($rs)) {
+                $key = $modx->db->escape($row['name']);
+                if ($row['disabled']) {
+                    $content .= '$s[\'' . $key . '\']=\'return false;\';';
+                } else {
+                    $value = trim($row['snippet']);
+                    if ($modx->config['minifyphp_incache']) {
+                        $value = $this->php_strip_whitespace($value);
+                    }
+                    $content .= '$s[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';
+                    $properties = $modx->parseProperties($row['properties']);
+                    $sharedproperties = $modx->parseProperties($row['sharedproperties']);
+                    $properties = array_merge($sharedproperties, $properties);
+                    if (0 < count($properties)) {
+                        $content .= '$s[\'' . $key . 'Props\']=\'' . $this->escapeSingleQuotes(json_encode($properties)) . '\';';
+                    }
+                }
+            }
+        }
+
+        if (!isset($config['disable_plugins_cache']) || $config['disable_plugins_cache'] != 1) {
+            // WRITE plugins to cache file
+            $f = 'sp.*, sm.properties as sharedproperties';
+            $from = array();
+            $from[] = '[+prefix+]site_plugins sp';
+            $from[] = 'LEFT JOIN [+prefix+]site_modules sm on sm.guid=sp.moduleguid';
+            $rs = $modx->db->select($f, $from, 'sp.disabled=0');
+            $content .= '$p=&$this->pluginCache;';
+            while ($row = $modx->db->getRow($rs)) {
+                $key = $modx->db->escape($row['name']);
+                $value = trim($row['plugincode']);
                 if ($modx->config['minifyphp_incache']) {
                     $value = $this->php_strip_whitespace($value);
                 }
-                $content .= '$s[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';
-                $properties = $modx->parseProperties($row['properties']);
-                $sharedproperties = $modx->parseProperties($row['sharedproperties']);
-                $properties = array_merge($sharedproperties, $properties);
-                if (0 < count($properties)) {
-                    $content .= '$s[\'' . $key . 'Props\']=\'' . $this->escapeSingleQuotes(json_encode($properties)) . '\';';
-                }
-            }
-        }
-
-        // WRITE plugins to cache file
-        $f = 'sp.*, sm.properties as sharedproperties';
-        $from = array();
-        $from[] = '[+prefix+]site_plugins sp';
-        $from[] = 'LEFT JOIN [+prefix+]site_modules sm on sm.guid=sp.moduleguid';
-        $rs = $modx->db->select($f, $from, 'sp.disabled=0');
-        $content .= '$p=&$this->pluginCache;';
-        while ($row = $modx->db->getRow($rs)) {
-            $key = $modx->db->escape($row['name']);
-            $value = trim($row['plugincode']);
-            if ($modx->config['minifyphp_incache']) {
-                $value = $this->php_strip_whitespace($value);
-            }
-            $content .= '$p[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';
-            if ($row['properties'] != '' || $row['sharedproperties'] != '') {
-                $properties = $modx->parseProperties($row['properties']);
-                $sharedproperties = $modx->parseProperties($row['sharedproperties']);
-                $properties = array_merge($sharedproperties, $properties);
-                if (0 < count($properties)) {
-                    $content .= '$p[\'' . $key . 'Props\']=\'' . $this->escapeSingleQuotes(json_encode($properties)) . '\';';
+                $content .= '$p[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';
+                if ($row['properties'] != '' || $row['sharedproperties'] != '') {
+                    $properties = $modx->parseProperties($row['properties']);
+                    $sharedproperties = $modx->parseProperties($row['sharedproperties']);
+                    $properties = array_merge($sharedproperties, $properties);
+                    if (0 < count($properties)) {
+                        $content .= '$p[\'' . $key . 'Props\']=\'' . $this->escapeSingleQuotes(json_encode($properties)) . '\';';
+                    }
                 }
             }
         }
