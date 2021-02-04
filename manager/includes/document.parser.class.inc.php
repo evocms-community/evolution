@@ -2459,8 +2459,16 @@ class DocumentParser
                     $isfolder[$docid] = $this->aliasListing[$docid]['isfolder'];
                 }
             }
-
-            if ($this->config['aliaslistingfolder'] == 1) {
+            if (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1){
+                preg_match_all('!\[\~([0-9]+)\~\]!is', $documentSource, $match);
+                $ids = array_unique($match['1']);
+                if (is_array($ids)) {
+                    foreach ($ids as $id){
+                        $documentSource = str_replace('[~'.$id.'~]', $this->makeUrl($id), $documentSource);
+                    }
+                }
+            }
+            elseif ($this->config['aliaslistingfolder'] == 1) {
                 preg_match_all('!\[\~([0-9]+)\~\]!is', $documentSource, $match);
                 $ids = implode(',', array_unique($match['1']));
                 if ($ids) {
@@ -2788,7 +2796,7 @@ class DocumentParser
                     $this->documentIdentifier = $this->documentListing[$alias];
                 } else {
                     //@TODO: check new $alias;
-                    if ($this->config['aliaslistingfolder'] == 1) {
+                    if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
                         $tbl_site_content = $this->getFullTableName('site_content');
 
                         $parentId = empty($this->virtualDir) ? 0 : $this->getIdFromAlias($this->virtualDir);
@@ -3048,7 +3056,7 @@ class DocumentParser
         $parents = array();
         while ($id && $height--) {
             $thisid = $id;
-            if ($this->config['aliaslistingfolder'] == 1) {
+            if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
                 $id = isset($this->aliasListing[$id]['parent']) ? $this->aliasListing[$id]['parent'] : $this->db->getValue("SELECT `parent` FROM " . $this->getFullTableName("site_content") . " WHERE `id` = '{$id}' LIMIT 0,1");
                 if (!$id || $id == '0') {
                     break;
@@ -3098,7 +3106,7 @@ class DocumentParser
             return $this->tmpCache[__FUNCTION__][$cacheKey];
         }
 
-        if ($this->config['aliaslistingfolder'] == 1) {
+        if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
 
             $res = $this->db->select("id,alias,isfolder,parent", $this->getFullTableName('site_content'), "parent IN (" . $id . ") AND deleted = '0'");
             $idx = array();
@@ -4163,7 +4171,7 @@ class DocumentParser
 
                 if ($this->config['friendly_alias_urls'] == 1) {
 
-                    if ($this->config['aliaslistingfolder'] == 1) {
+                    if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
                         $al = $this->getAliasListing($id);
                     } else {
                         $al = $this->aliasListing[$id];

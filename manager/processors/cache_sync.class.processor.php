@@ -264,51 +264,52 @@ class synccache
             }
         }
 
-        if ($config['aliaslistingfolder'] == 1) {
-            $f['id'] = 'c.id';
-            $f['alias'] = "IF( c.alias='', c.id, c.alias)";
-            $f['parent'] = 'c.parent';
-            $f['isfolder'] = 'c.isfolder';
-            $f['alias_visible'] = 'c.alias_visible';
-            $from = array();
-            $from[] = '[+prefix+]site_content c';
-            $from[] = 'LEFT JOIN [+prefix+]site_content p ON p.id=c.parent';
-            $where = 'c.deleted=0 AND (c.isfolder=1 OR p.alias_visible=0)';
-            $rs = $modx->db->select($f, $from, $where, 'c.parent, c.menuindex');
-        } else {
-            $f = "id, IF(alias='', id, alias) AS alias, parent, isfolder, alias_visible";
-            $rs = $modx->db->select($f, '[+prefix+]site_content', 'deleted=0', 'parent, menuindex');
-        }
-
-        $use_alias_path = ($config['friendly_urls'] && $config['use_alias_path']) ? 1 : 0;
-        $tmpPath = '';
-        $content .= '$this->aliasListing=array();';
-        $content .= '$a=&$this->aliasListing;';
-        $content .= '$d=&$this->documentListing;';
-        $content .= '$m=&$this->documentMap;';
-        while ($doc = $modx->db->getRow($rs)) {
-            $docid = $doc['id'];
-            if ($use_alias_path) {
-                $tmpPath = $this->getParents($doc['parent']);
-                $alias = (strlen($tmpPath) > 0 ? "$tmpPath/" : '') . $doc['alias'];
-                $key = $alias;
+        if (!isset($config['full_aliaslisting']) || $config['full_aliaslisting'] != 1) {
+            if ($config['aliaslistingfolder'] == 1) {
+                $f['id'] = 'c.id';
+                $f['alias'] = "IF( c.alias='', c.id, c.alias)";
+                $f['parent'] = 'c.parent';
+                $f['isfolder'] = 'c.isfolder';
+                $f['alias_visible'] = 'c.alias_visible';
+                $from = array();
+                $from[] = '[+prefix+]site_content c';
+                $from[] = 'LEFT JOIN [+prefix+]site_content p ON p.id=c.parent';
+                $where = 'c.deleted=0 AND (c.isfolder=1 OR p.alias_visible=0)';
+                $rs = $modx->db->select($f, $from, $where, 'c.parent, c.menuindex');
             } else {
-                $key = $doc['alias'];
+                $f = "id, IF(alias='', id, alias) AS alias, parent, isfolder, alias_visible";
+                $rs = $modx->db->select($f, '[+prefix+]site_content', 'deleted=0', 'parent, menuindex');
             }
 
-            $doc['path'] = $tmpPath;
-            $content .= '$a[' . $docid . ']=array(\'id\'=>' . $docid . ',\'alias\'=>\'' . $doc['alias'] . '\',\'path\'=>\'' . $doc['path'] . '\',\'parent\'=>' . $doc['parent'] . ',\'isfolder\'=>' . $doc['isfolder'] . ',\'alias_visible\'=>' . $doc['alias_visible'] . ');';
-            $content .= '$d[\'' . $key . '\']=' . $docid . ';';
-            $content .= '$m[]=array(' . $doc['parent'] . '=>' . $docid . ');';
-        }
+            $use_alias_path = ($config['friendly_urls'] && $config['use_alias_path']) ? 1 : 0;
+            $tmpPath = '';
+            $content .= '$this->aliasListing=array();';
+            $content .= '$a=&$this->aliasListing;';
+            $content .= '$d=&$this->documentListing;';
+            $content .= '$m=&$this->documentMap;';
+            while ($doc = $modx->db->getRow($rs)) {
+                $docid = $doc['id'];
+                if ($use_alias_path) {
+                    $tmpPath = $this->getParents($doc['parent']);
+                    $alias = (strlen($tmpPath) > 0 ? "$tmpPath/" : '') . $doc['alias'];
+                    $key = $alias;
+                } else {
+                    $key = $doc['alias'];
+                }
 
-        // get content types
-        $rs = $modx->db->select('id, contentType', '[+prefix+]site_content', "contentType!='text/html'");
-        $content .= '$c=&$this->contentTypes;';
-        while ($doc = $modx->db->getRow($rs)) {
-            $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
-        }
+                $doc['path'] = $tmpPath;
+                $content .= '$a[' . $docid . ']=array(\'id\'=>' . $docid . ',\'alias\'=>\'' . $doc['alias'] . '\',\'path\'=>\'' . $doc['path'] . '\',\'parent\'=>' . $doc['parent'] . ',\'isfolder\'=>' . $doc['isfolder'] . ',\'alias_visible\'=>' . $doc['alias_visible'] . ');';
+                $content .= '$d[\'' . $key . '\']=' . $docid . ';';
+                $content .= '$m[]=array(' . $doc['parent'] . '=>' . $docid . ');';
+            }
 
+            // get content types
+            $rs = $modx->db->select('id, contentType', '[+prefix+]site_content', "contentType!='text/html'");
+            $content .= '$c=&$this->contentTypes;';
+            while ($doc = $modx->db->getRow($rs)) {
+                $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
+            }
+        }
         // WRITE Chunks to cache file
         $rs = $modx->db->select('*', '[+prefix+]site_htmlsnippets');
         $content .= '$c=&$this->chunkCache;';
