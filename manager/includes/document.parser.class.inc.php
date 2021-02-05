@@ -2796,7 +2796,10 @@ class DocumentParser
                     $this->documentIdentifier = $this->documentListing[$alias];
                 } else {
                     //@TODO: check new $alias;
-                    if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
+                    if((isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)){
+                        $this->documentIdentifier = $this->getIdFromAlias($alias);
+                    }
+                    elseif ($this->config['aliaslistingfolder'] == 1) {
                         $tbl_site_content = $this->getFullTableName('site_content');
 
                         $parentId = empty($this->virtualDir) ? 0 : $this->getIdFromAlias($this->virtualDir);
