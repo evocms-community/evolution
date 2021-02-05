@@ -6622,7 +6622,7 @@ class DocumentParser
                 if ($child['child_alias'] == $alias || $child['child_id'] == $alias) {
                     $out = $child['child_id'];
                     break;
-                } else if ($child['grandsons_count'] > 0 && ($id = $this->getHiddenIdFromAlias($child['child_id'], $alias))) {
+                } else if ($child['grandsons_count'] > 0 && ($id = $this->getHiddenIdFromAlias($child['hidden_id'], $alias))) {
                     $out = $id;
                     break;
                 }
