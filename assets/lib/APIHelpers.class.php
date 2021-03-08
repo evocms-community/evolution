@@ -3,6 +3,8 @@
 /**
  * Class APIhelpers
  */
+if (!class_exists(APIhelpers)) {
+
 class APIhelpers
 {
 
@@ -483,4 +485,6 @@ class APIhelpers
 
         return $out;
     }
+}
+
 }
