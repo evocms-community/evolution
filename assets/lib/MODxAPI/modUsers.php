@@ -52,7 +52,8 @@ class modUsers extends MODxAPI
      * @var string
      */
     protected $givenPassword = '';
-    protected $groupIds = array();
+    protected $groups = [];
+    protected $groupIds = [];
     protected $userIdCache = array(
         'attribute.internalKey' => '',
         'attribute.email' => '',
@@ -287,7 +288,7 @@ class modUsers extends MODxAPI
             return false;
         }
 
-        if ($this->isChanged('username') && ! $this->checkUnique('web_users', 'username')) {
+        if ($this->isChanged('username') && ! $this->isUnique('username')) {
             $this->log['UniqueUsername'] = 'username not unique <pre>' . print_r(
                 $this->get('username'),
                 true
@@ -296,7 +297,7 @@ class modUsers extends MODxAPI
             return false;
         }
 
-        if ($this->isChanged('username') && ! $this->checkUnique('web_user_attributes', 'email', 'internalKey')) {
+        if ($this->isChanged('email') && ! $this->isUnique('email')) {
             $this->log['UniqueEmail'] = 'Email not unique <pre>' . print_r($this->get('email'), true) . '</pre>';
 
             return false;
@@ -357,6 +358,21 @@ class modUsers extends MODxAPI
         }
 
         return $this->id;
+    }
+    
+    /**
+     * @param $field
+     * @return bool
+     */
+    public function isUnique($field) {
+        $out = false;
+        if (isset($this->default_field['user'][$field])) {
+            $out = $this->checkUnique('web_users', $field);
+        } elseif(isset($this->default_field['attribute'][$field])) {
+            $out = $this->checkUnique('web_user_attributes', $field, 'internalKey');
+        }
+
+        return $out;
     }
 
     /**
@@ -713,6 +729,31 @@ class modUsers extends MODxAPI
         unset($user);
 
         return $out;
+    }
+    
+    /**
+     * @param  int  $userID
+     * @param  array  $groupNames
+     * @return $this
+     */
+    public function setUserGroupsByName($userID = 0, $groupNames = array()) 
+    {
+        if (!is_array($groupNames)) {
+            return $this;
+        }
+        
+        if (empty($this->groups)) {
+            $q = $this->query("SELECT `id`,`name` FROM {$this->makeTable('webgroup_names')}");
+            while ($row = $this->modx->db->getRow($q)) {
+                $this->groups[$row['name']] = $row['id'];
+            }
+        }
+        $groupIds = [];
+        foreach ($groupNames as $group) {
+            $groupIds[] = $this->groups[$group];
+        }
+        
+        return $this->setUserGroups($userID, $groupIds);
     }
 
     /**

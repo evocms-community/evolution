@@ -2675,3 +2675,30 @@
     color:red;
     font-size:16px;
 }
+.eui-image-browser {
+    position: relative;
+}
+.eui-image-browser a.clear {
+    display:block;
+    position:absolute;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    right:2px;
+    top:2px;
+    cursor: pointer;
+    opacity:.6;
+    color:red;
+    background:#fff;
+    text-align:center;
+}
+.eui-image-browser a.clear:hover {
+    color:red;
+    opacity:1;
+}
+.eui-image-browser a.clear:before {
+    content:"\f00d";
+    font: normal normal normal 14px/1 'Font Awesome 5 Free';
+    font-weight: 900;
+    text-align: center;
+}

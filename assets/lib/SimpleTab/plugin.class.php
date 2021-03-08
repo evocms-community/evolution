@@ -103,7 +103,10 @@ abstract class Plugin
         $templates = isset($this->params['templates']) ? explode(',', $this->params['templates']) : false;
         $documents = isset($this->params['documents']) ? explode(',', $this->params['documents']) : false;
         $ignoreDocs = isset($this->params['ignoreDoc']) ? explode(',', $this->params['ignoreDoc']) : false;
-        $roles = isset($this->params['roles']) ? explode(',', $this->params['roles']) : false;
+        $roles = isset($this->params['role']) ? explode(',', $this->params['role']) : false;
+        if ($roles !== false && !in_array($_SESSION['mgrRole'], $roles)) {
+            return true;
+        }
         if ($this->checkTemplate && $templates !== false && in_array($this->params['template'], $templates)) {
             $out = false;
         } elseif ($this->checkId && $documents !== false && in_array($this->params['id'], $documents)) {
@@ -115,9 +118,7 @@ abstract class Plugin
         if (!$out && $this->checkId && $ignoreDocs !== false && in_array($this->params['id'], $ignoreDocs)) {
             $out = true;
         }
-        if (!$out && $roles !== false && in_array($_SESSION['mgrRole'], $roles)) {
-            $out = false;
-        }
+
 
         return $out;
     }

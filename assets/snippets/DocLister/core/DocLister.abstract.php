@@ -8,11 +8,14 @@
 include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
 include_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
 include_once(MODX_BASE_PATH . 'assets/lib/Helpers/Config.php');
-require_once(dirname(dirname(__FILE__)) . "/lib/jsonHelper.class.php");
-require_once(dirname(dirname(__FILE__)) . "/lib/sqlHelper.class.php");
-require_once(dirname(dirname(__FILE__)) . "/lib/DLTemplate.class.php");
-require_once(dirname(dirname(__FILE__)) . "/lib/DLCollection.class.php");
-require_once(dirname(dirname(__FILE__)) . "/lib/xnop.class.php");
+include_once(MODX_BASE_PATH . 'assets/lib/Helpers/Lexicon.php');
+include_once(MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/AbstractLexiconHandler.php');
+include_once(MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/EvoBabelLexiconHandler.php');
+include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/jsonHelper.class.php');
+include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/sqlHelper.class.php');
+include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLTemplate.class.php');
+include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLCollection.class.php');
+include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/xnop.class.php');
 
 /**
  * Class DocLister
@@ -70,20 +73,6 @@ abstract class DocLister
      * @access protected
      */
     protected $_plh = array();
-
-    /**
-     * Языковой пакет
-     * @var array
-     * @access protected
-     */
-    protected $_lang = array();
-
-    /**
-     * Пользовательский языковой пакет
-     * @var array
-     * @access protected
-     */
-    protected $_customLang = array();
 
     /**
      * Список таблиц уже с префиксами MODX
@@ -186,6 +175,8 @@ abstract class DocLister
      */
     protected $extCache;
 
+    protected $lexicon;
+
     /**
      * Конструктор контроллеров DocLister
      *
@@ -225,6 +216,11 @@ abstract class DocLister
         if ($this->config->setConfig($cfg) === false) {
             throw new Exception('no parameters to run DocLister');
         }
+        $this->lexicon = new \Helpers\Lexicon($this->modx, [
+            'langDir' => 'assets/snippets/DocLister/core/lang/',
+            'lang'    => $this->getCFGDef('lang', $this->modx->getConfig('lang_code')),
+            'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler')
+        ]);
 
         $this->loadLang(array('core', 'json'));
         $this->setDebug($this->getCFGDef('debug', 0));
@@ -272,9 +268,8 @@ abstract class DocLister
 
         $this->setLocate();
 
-        if ($this->getCFGDef("customLang")) {
-            $this->getCustomLang();
-        }
+        $this->getCustomLang($this->getCFGDef('customLang', $this->getCFGDef('lexicon')));
+
         $this->loadExtender($this->getCFGDef("extender", ""));
 
         if ($this->checkExtender('request')) {
@@ -785,15 +780,9 @@ abstract class DocLister
      */
     public function getCustomLang($lang = '')
     {
-        if (empty($lang)) {
-            $lang = $this->getCFGDef('lang', $this->modx->config['manager_language']);
-        }
-        if (file_exists(dirname(dirname(__FILE__)) . "/lang/" . $lang . ".php")) {
-            $tmp = include(dirname(__FILE__) . "/lang/" . $lang . ".php");
-            $this->_customLang = is_array($tmp) ? $tmp : array();
-        }
+        $langDir = $this->getCFGDef('langDir', 'assets/snippets/DocLister/lang/');
 
-        return $this->_customLang;
+        return $this->lexicon->fromFile($lang, '', $langDir);
     }
 
     /**
@@ -801,40 +790,18 @@ abstract class DocLister
      *
      * @param array|string $name ключ языкового пакета
      * @param string $lang имя языкового пакета
-     * @param boolean $rename Переименовывать ли элементы массива
      * @return array массив с лексиконом
      */
-    public function loadLang($name = 'core', $lang = '', $rename = true)
+    public function loadLang($name = 'core', $lang = '')
     {
-        if (empty($lang)) {
-            $lang = $this->getCFGDef('lang', $this->modx->config['manager_language']);
-        }
-
         $this->debug->debug(
             'Load language ' . $this->debug->dumpData($name) . "." . $this->debug->dumpData($lang),
             'loadlang',
             2
         );
-        if (is_scalar($name)) {
-            $name = array($name);
-        }
-        foreach ($name as $n) {
-            if (file_exists(dirname(__FILE__) . "/lang/" . $lang . "/" . $n . ".inc.php")) {
-                $tmp = include(dirname(__FILE__) . "/lang/" . $lang . "/" . $n . ".inc.php");
-                if (is_array($tmp)) {
-                    /**
-                     * Переименовыываем элементы массива из array('test'=>'data') в array('name.test'=>'data')
-                     */
-                    if ($rename) {
-                        $tmp = $this->renameKeyArr($tmp, $n, '', '.');
-                    }
-                    $this->_lang = array_merge($this->_lang, $tmp);
-                }
-            }
-        }
         $this->debug->debugEnd("loadlang");
 
-        return $this->_lang;
+        return $this->lexicon->fromFile($name, $lang);
     }
 
     /**
@@ -846,13 +813,7 @@ abstract class DocLister
      */
     public function getMsg($name, $def = '')
     {
-        if (isset($this->_customLang[$name])) {
-            $say = $this->_customLang[$name];
-        } else {
-            $say = \APIHelpers::getkey($this->_lang, $name, $def);
-        }
-
-        return $say;
+        return $this->lexicon->get($name, $def);
     }
 
     /**
@@ -936,17 +897,7 @@ abstract class DocLister
     public function parseLang($tpl)
     {
         $this->debug->debug(array("parseLang" => $tpl), "parseLang", 2, array('html'));
-        if (is_scalar($tpl) && !empty($tpl)) {
-            if (preg_match_all("/\[\%([a-zA-Z0-9\.\_\-]+)\%\]/", $tpl, $match)) {
-                $langVal = array();
-                foreach ($match[1] as $item) {
-                    $langVal[] = $this->getMsg($item);
-                }
-                $tpl = str_replace($match[0], $langVal, $tpl);
-            }
-        } else {
-            $tpl = '';
-        }
+        $tpl = $this->lexicon->parse($tpl);
         $this->debug->debugEnd("parseLang");
 
         return $tpl;

@@ -6,10 +6,12 @@ use modUsers;
 /**
  * Class DeleteUser
  * @package FormLister
- * @property modUsers $user
  */
 class DeleteUser extends Form
 {
+    /**
+     * @var object|null
+     */
     public $user;
 
     /**
@@ -77,7 +79,7 @@ class DeleteUser extends Form
      */
     public function process()
     {
-        $uid = $this->modx->getLoginUserID('web');
+        $uid = (int)$this->modx->getLoginUserID('web');
         if (!is_null($this->user)) {
             $password = $this->getField('password');
             if ($this->user->testAuth($uid, $password, true)) {

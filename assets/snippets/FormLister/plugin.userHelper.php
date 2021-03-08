@@ -6,7 +6,9 @@
  * Time: 18:59
  */
 $e = $modx->event;
-include_once(MODX_BASE_PATH . 'assets/lib/MODxAPI/modUsers.php');
+if (!class_exists('\\FormLister\\Core')) {
+    include_once(MODX_BASE_PATH . 'assets/snippets/FormLister/__autoload.php');
+}
 if ($e->name == 'OnWebAuthentication' && isset($userObj)) {
     /**
      * @var modUsers $userObj
@@ -36,12 +38,14 @@ if ($e->name == 'OnWebLogin' && isset($userObj)) {
     }
 }
 if ($e->name == 'OnWebPageInit' || $e->name == 'OnPageNotFound') {
-    $user = new \modUsers($modx);
-    if ($uid = $modx->getLoginUserID('web')) {
+    $model = isset($params['model']) && class_exists($params['model']) ? $params['model'] : '\\modUsers';
+    $user = new $model($modx);
+    if ($uid = (int)$modx->getLoginUserID('web')) {
         if ($trackWebUserActivity == 'Yes') {
             $sid = $modx->sid = session_id();
             $pageId = (int)$modx->documentIdentifier;
-            $q = $modx->db->query("REPLACE INTO {$modx->getFullTableName('active_users')} (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) values('{$sid}',-{$uid}, '{$_SESSION['webShortname']}', '{$modx->time}', 998, {$pageId})");
+            $uid = class_exists('\\EvolutionCMS\\Services\\UserManager') ? $uid : -1 * $uid;
+            $q = $modx->db->query("REPLACE INTO {$modx->getFullTableName('active_users')} (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) values('{$sid}', {$uid}, '{$_SESSION['webShortname']}', '{$modx->time}', 998, {$pageId})");
             $modx->updateValidatedUserSession();
         }
         if (isset($_REQUEST[$logoutKey])) {

@@ -7,15 +7,22 @@ use modUsers;
  * Контроллер для авторизации пользователя
  * Class Login
  * @package FormLister
- * @property modUsers $user
- * @property string $requestUri
- * @property string $context
  */
 class Login extends Core
 {
     use DateConverter;
+
+    /**
+     * @var object|null
+     */
     public $user;
+    /**
+     * @var string
+     */
     protected $requestUri = '';
+    /**
+     * @var string
+     */
     protected $context = '';
 
     /**

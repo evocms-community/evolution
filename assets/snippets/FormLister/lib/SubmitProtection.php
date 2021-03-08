@@ -1,6 +1,7 @@
 <?php namespace FormLister;
 
 use jsonHelper;
+
 /**
  * Trait SubmitProtection
  * @package FormLister
@@ -8,6 +9,7 @@ use jsonHelper;
 trait SubmitProtection
 {
     abstract public function isSubmitted();
+
     abstract public function getFormId();
 
     /**
@@ -79,7 +81,7 @@ trait SubmitProtection
      */
     public function getFormHash()
     {
-        $hash = array();
+        $hash = [];
         $protectSubmit = $this->getCFGDef('protectSubmit', 1);
         if (!is_numeric($protectSubmit)) { //supplied field names
             $protectSubmit = $this->config->loadArray($protectSubmit);
@@ -88,12 +90,14 @@ trait SubmitProtection
             }
         } else //all required fields
         {
-            foreach ($this->rules as $field => $rules) {
-                foreach ($rules as $rule => $description) {
-                    if ($rule == 'required') {
-                        $hash[] = $this->getField($field);
-                    }
+            $rules = $this->getValidationRules();
+            foreach (array_keys($rules) as $field) {
+                if (isset($rules[$field]['required'])) {
+                    $hash[] = $this->getField($field);
                 }
+            }
+            if (empty($hash)) {
+                $this->log('No rules found to run submit protection');
             }
         }
         if ($hash) {

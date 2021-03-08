@@ -8,18 +8,28 @@ use modUsers;
  * Контроллер для создания записей
  * Class Content
  * @package FormLister
- * @property string $mode;
- * @property int $id
- * @property int $owner
- * @property autoTable $content;
- * @property modUsers $user
  */
 class Content extends Form
 {
+    /**
+     * @var string
+     */
     protected $mode = 'create';
+    /**
+     * @var int
+     */
     protected $id = 0;
+    /**
+     * @var int
+     */
     protected $owner = 0;
+    /**
+     * @var object|null
+     */
     public $content;
+    /**
+     * @var object|null
+     */
     public $user;
 
     /**

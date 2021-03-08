@@ -84,7 +84,7 @@ class SmsCaptchaWrapper implements CaptchaInterface
                 'Код авторизации истек, получите новый');
         } else {
             if (!$sms->get('active')) {
-                $sms->set('active', 1)->set('expires', time() + \APIhelpers::getkey($captcha->cfg, 'codeLifeTime',
+                $sms->set('active', 0)->set('expires', time() + \APIhelpers::getkey($captcha->cfg, 'codeLifeTime',
                         86400))->set('ip', \APIhelpers::getUserIP())->save();
             } else {
 

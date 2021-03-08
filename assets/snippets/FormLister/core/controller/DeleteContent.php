@@ -7,14 +7,20 @@ use modUsers;
 /**
  * Class DeleteUser
  * @package FormLister
- * @property autoTable $content
- * @property modUsers $user
- * @property int $id
  */
 class DeleteContent extends Form
 {
+    /**
+     * @var object|null
+     */
     public $content;
+    /**
+     * @var object|null
+     */
     public $user;
+    /**
+     * @var int
+     */
     protected $id = 0;
 
     /**

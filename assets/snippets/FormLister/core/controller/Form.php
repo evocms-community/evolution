@@ -1,5 +1,6 @@
 <?php namespace FormLister;
 
+use DocumentParser;
 use Helpers\Mailer;
 
 /**
@@ -9,7 +10,6 @@ use Helpers\Mailer;
 /**
  * Class Form
  * @package FormLister
- * @property array $mailConfig
  */
 class Form extends Core
 {
@@ -22,10 +22,10 @@ class Form extends Core
 
     /**
      * Form constructor.
-     * @param \DocumentParser $modx
+     * @param DocumentParser $modx
      * @param array $cfg
      */
-    public function __construct (\DocumentParser $modx, array $cfg = [])
+    public function __construct (DocumentParser $modx, array $cfg = [])
     {
         parent::__construct($modx, $cfg);
         $this->mailConfig = [
@@ -51,7 +51,7 @@ class Form extends Core
      */
     public function renderReport ($tplParam = 'reportTpl')
     {
-        $tpl = $this->getCFGDef($tplParam, 'reportTpl');
+        $tpl = $this->getCFGDef($tplParam);
         $skipPrerender = $this->getCFGDef('skipPrerender', 0);
         if (empty($tpl) && $tplParam == 'reportTpl') {
             $tpl = '@CODE:';
@@ -291,6 +291,12 @@ class Form extends Core
             $plh = \APIhelpers::renameKeyArr($this->prerenderForm(true), '[', ']', '+');
             $search = array_keys($plh);
             $replace = array_values($plh);
+            foreach ($cfg as $key => &$value) {
+                $value = str_replace($search, $replace, $value);
+            }
+            $config = \APIhelpers::renameKeyArr($this->modx->config, '[(', ')]', '');
+            $search = array_keys($config);
+            $replace = array_values($config);
             foreach ($cfg as $key => &$value) {
                 $value = str_replace($search, $replace, $value);
             }

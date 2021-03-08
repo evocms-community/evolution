@@ -1,6 +1,7 @@
 <?php
 
 use \Doctrine\Common\Cache\Cache;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Class cache_DL_Extender
@@ -18,7 +19,9 @@ class cache_DL_Extender extends extDocLister
      */
     protected function run()
     {
-        $result = (bool)$this->getCFGDef('cache', 1) && isset($this->modx->cache) && ($this->modx->cache instanceof Cache);
+        $result = (bool)$this->getCFGDef('cache', 1)
+            && (isset($this->modx->cache) || ($this->modx instanceof Application && $this->modx->offsetExists('cache'))) 
+            && ($this->modx->cache instanceof Cache);
         $this->enabled = $result;
         if ($result) {
             $this->setCacheLifetime((int)$this->getCFGDef('cacheLifetime', 0));

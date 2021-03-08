@@ -58,6 +58,8 @@ abstract class filterDocLister
      */
     protected $totalFilters = 0;
 
+    protected $filterValues = [];
+
     /**
      * Запуск фильтра
      *
@@ -70,6 +72,8 @@ abstract class filterDocLister
         $this->DocLister = $DocLister;
         $this->modx = $this->DocLister->getMODX();
         $this->totalFilters = $this->DocLister->getCountFilters();
+        $values = $this->DocLister->getCFGDef('filterValues');
+        $this->filterValues = $this->DocLister->config->loadArray($values, '');
 
         return $this->parseFilter($filter);
     }
@@ -100,7 +104,12 @@ abstract class filterDocLister
         $parsed = explode(':', $filter, 4);
         $this->field = APIHelpers::getkey($parsed, 1);
         $this->operator = APIHelpers::getkey($parsed, 2);
-        $this->value = APIHelpers::getkey($parsed, 3);
+        if (!empty($this->filterValues)) {
+            $key = APIHelpers::getkey($parsed, 3);
+            $this->value = APIhelpers::getkey($this->filterValues, $key);
+        } else {
+            $this->value = APIhelpers::getkey($parsed, 3);
+        }
 
         // exit if something is wrong
         return !(empty($this->field) || empty($this->operator) || is_null($this->value));

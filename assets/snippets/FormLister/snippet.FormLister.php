@@ -17,15 +17,12 @@ if (!class_exists('\FormLister\Core')) {
 }
 $out = '';
 $FLDir = MODX_BASE_PATH . 'assets/snippets/FormLister/';
-if (isset($controller)) {
-    preg_match('/^(\w+)$/iu', $controller, $controller);
-    $controller = $controller[1];
-} else {
+if (!isset($controller) || $controller == 'Core') {
+    $modx->logEvent(0, 1, "Controller parameter is not set, it's assumed to be Form", 'FormLister');
     $params['controller'] = $controller = "Form";
 }
-if ($controller == 'Core') return $out;
 
-$classname = '\FormLister\\'.$controller;
+$classname = strpos($controller, '\\') === 0 ? $controller : '\\FormLister\\'.$controller;
 
 if (!class_exists($classname)) {
     $dir = isset($dir) ? MODX_BASE_PATH . $dir : $FLDir . "core/controller/";
@@ -37,7 +34,7 @@ if (!class_exists($classname)) {
 $DLTemplate = DLTemplate::getInstance($modx);
 $templatePath = $DLTemplate->getTemplatePath();
 $templateExtension = $DLTemplate->getTemplateExtension();
-if (class_exists($classname)) {
+if (class_exists($classname) && is_a($classname, '\\FormLister\\Core', true)) {
     /** @var \FormLister\Core $FormLister */
     $FormLister = new $classname($modx, $params);
     if (!$FormLister->getFormId()) return;

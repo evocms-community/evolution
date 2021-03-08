@@ -8,15 +8,21 @@ use modUsers;
  * Контроллер для восстановления паролей
  * Class Reminder
  * @package FormLister
- * @property modUsers $user
- * @property string $mode;
- * @property string $userField
  */
 class Activate extends Form
 {
+    /**
+     * @var object
+     */
     protected $user;
 
+    /**
+     * @var string
+     */
     protected $mode = 'hash';
+    /**
+     * @var string
+     */
     protected $userField = '';
 
     /**
@@ -49,7 +55,7 @@ class Activate extends Form
      */
     public function render()
     {
-        if ($id = $this->modx->getLoginUserID('web')) {
+        if ($id = (int)$this->modx->getLoginUserID('web')) {
             $this->redirect('exitTo');
             $this->user->edit($id);
             $this->setFields($this->user->toArray());
@@ -70,7 +76,7 @@ class Activate extends Form
     public function renderActivate()
     {
         $hash = $this->getField('hash');
-        $uid = $this->getField('id');
+        $uid = (int)$this->getField('id');
         if (is_scalar($hash) && $hash && $hash == $this->getUserHash($uid)) {
             $this->process();
         } else {
@@ -138,7 +144,7 @@ class Activate extends Form
              * Отправляем пользователю письмо для активации, если указан шаблон такого письма
              */
             case "activate":
-                $uid = $this->getField('id');
+                $uid = (int)$this->getField('id');
                 $hash = $this->getField('hash');
                 if ($hash && $hash == $this->getUserHash($uid)) {
                     $result = $this->user->edit($uid)->set('verified', 1)->save(true);
@@ -147,7 +153,13 @@ class Activate extends Form
                         $this->addMessage($this->translate('activate.update_failed'));
                     } else {
                         $this->setFields($this->user->toArray());
-                        $this->postProcess();
+                        if ($tpl = $this->getCFGDef('activateReportTpl')) {
+                            $this->mailConfig['to'] = $this->getField('email');
+                            $this->config->setConfig([
+                                'reportTpl' => $tpl
+                            ]);
+                            parent::process();
+                        }
                     }
                 } else {
                     $this->addMessage($this->translate('activate.update_failed'));

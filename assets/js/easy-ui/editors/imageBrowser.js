@@ -5,15 +5,21 @@
             noImage: '',
             init: function (container, options) {
                 var input = $('<input type="hidden">').appendTo(container);
-                var image = $('<a href="javascript:void(0)"><img style="' + options.css + '" src=""></a>').appendTo(container);
+                var image = $('<div class="eui-image-browser"><img style="' + options.css + '" src=""><a class="clear"></a>').appendTo(container);
                 this.thumb_prefix = options.thumb_prefix;
                 this.noImage = options.noImage;
-                image.click({
+                $('img', image).click({
                     target: this,
                     field: input,
                     browserUrl: options.browserUrl,
                     opener: options.opener
                 }, this.browse);
+                $('a', image).click({
+                    target: this,
+                    field: input,
+                }, function(e){
+                    e.data.target.setValue(e.data.field, '');
+                })
                 return input;
             },
             destroy: function (target) {
