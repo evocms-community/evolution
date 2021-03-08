@@ -3,7 +3,7 @@
 /**
  * Class APIhelpers
  */
-if (!class_exists(APIhelpers)) {
+if (!class_exists('APIhelpers')) {
 
 class APIhelpers
 {
