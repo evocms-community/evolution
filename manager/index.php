@@ -48,9 +48,14 @@
  *          content
  */
 
-$autoloader = realpath(__DIR__.'/../vendor/autoload.php');
+$autoloader = realpath(__DIR__ . '/../assets/vendor/autoload.php');
 if (file_exists($autoloader) && is_readable($autoloader)) {
 	include_once($autoloader);
+} else {
+	$autoloader = realpath(__DIR__ . '/../vendor/autoload.php');
+	if (file_exists($autoloader) && is_readable($autoloader)) {
+		include_once($autoloader);
+	}
 }
 
 // get start time
