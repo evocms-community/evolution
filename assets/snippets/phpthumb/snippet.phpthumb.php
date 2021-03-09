@@ -93,7 +93,7 @@ if (isset($adBlockFix) && $adBlockFix === '1')
 $outputFilename = MODX_BASE_PATH . $fNamePref . $fName . $fNameSuf;
 if (!file_exists($outputFilename)) {
     if (!class_exists('phpthumb')) {
-        require_once MODX_BASE_PATH . $phpThumbPath . '/phpthumb.class.php';
+        require_once MODX_BASE_PATH . $phpThumbPath . '/vendor/autoload.php';
     }
     $phpThumb = new phpthumb();
     $phpThumb->config_cache_directory = MODX_BASE_PATH . $defaultCacheFolder;
