@@ -18,7 +18,6 @@ if (!class_exists('\FormLister\Core')) {
 $out = '';
 $FLDir = MODX_BASE_PATH . 'assets/snippets/FormLister/';
 if (!isset($controller) || $controller == 'Core') {
-    $modx->logEvent(0, 1, "Controller parameter is not set, it's assumed to be Form", 'FormLister');
     $params['controller'] = $controller = "Form";
 }
 

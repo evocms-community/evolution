@@ -1,0 +1,5 @@
+{
+    "require": {
+        "james-heinrich/phpthumb": "^1.7"
+    }
+}

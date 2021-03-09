@@ -2,7 +2,9 @@
 use Exception;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 
-include_once(MODX_BASE_PATH . 'assets/snippets/phpthumb/phpthumb.class.php');
+if (!class_exists('phpthumb')) {
+    include_once(MODX_BASE_PATH . 'assets/snippets/phpthumb/phpthumb.class.php');
+}
 require_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
 
 /**

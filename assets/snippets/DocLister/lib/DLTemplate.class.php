@@ -103,7 +103,7 @@ if (!class_exists('\\DLTemplate')) {
             if (!empty($path)) {
                 $this->templatePath = $path;
                 if ($this->twigEnabled) {
-                    $this->twig->setLoader(new Twig_Loader_Filesystem(MODX_BASE_PATH . $path));
+                    $this->twig->setLoader(new \Twig\Loader\FilesystemLoader(MODX_BASE_PATH . $path));
                 }
                 if ($this->bladeEnabled) {
                     $filesystem = new Illuminate\Filesystem\Filesystem;
@@ -226,7 +226,7 @@ if (!class_exists('\\DLTemplate')) {
                                 0 === strpos($path, $real) &&
                                 file_exists($path)
                             ) {
-                                $tpl = $this->twig->loadTemplate($this->cleanPath($subTmp) . '.' . $this->templateExtension);
+                                $tpl = $this->twig->load($this->cleanPath($subTmp) . '.' . $this->templateExtension);
                             }
                         }
                         break;
