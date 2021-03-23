@@ -1464,7 +1464,7 @@ abstract class DocLister
         }
         $offset += $this->getCFGDef('start', 0);
         $total = $this->getCFGDef('total', 0);
-        if ($limit < ($total - $limit)) {
+        if ((int)$limit < ((int)$total - (int)$limit)) {
             $limit = $total - $offset;
         }
 
