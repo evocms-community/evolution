@@ -153,6 +153,11 @@ $lockElementId = $id;
 $lockElementType = 7;
 require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 ?>
+    <style>
+        .image_for_field[data-image] { display: block; content: ""; width: 120px; height: 120px; margin: .1rem .1rem 0 0; border: 1px #ccc solid; background: #fff 50% 50% no-repeat; background-size: contain; cursor: pointer }
+        .image_for_field[data-image=""] { display: none }
+
+    </style>
 	<script type="text/javascript">
 		/* <![CDATA[ */
 
@@ -542,6 +547,17 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		<?php $ResourceManagerLoaded = true; } ?>
 		/* ]]> */
 	</script>
+    <script>
+        function evoRenderTvImageCheck(a) {
+            var b = document.getElementById('image_for_' + a.target.id),
+                c = new Image;
+            a.target.value ? (c.src = "<?php echo EvolutionCMS()->getConfig('site_url')?>" + a.target.value, c.onerror = function () {
+                b.style.backgroundImage = '', b.setAttribute('data-image', '');
+            }, c.onload = function () {
+                b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src);
+            }) : (b.style.backgroundImage = '', b.setAttribute('data-image', ''));
+        }
+    </script>
 
 	<form name="mutate" method="post" action="index.php" enctype="multipart/form-data" id="mutate" class="content" onsubmit="documentDirty=false;">
 		<?php
