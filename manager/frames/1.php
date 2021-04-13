@@ -143,7 +143,8 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
         MODX_MANAGER_URL: '<?= MODX_MANAGER_URL ?>',
         user: {
           role: <?= (int)$user['role'] ?>,
-          username: "<?= html_escape($user['username'], $modx->config['modx_charset']) ?>"
+          username: "<?= html_escape($user['username'], $modx->config['modx_charset']) ?>",
+          groups: <?= json_encode($modx->getUserDocGroups()) ?>
         },
         config: {
           mail_check_timeperiod: <?= $modx->config['mail_check_timeperiod'] ?>,
