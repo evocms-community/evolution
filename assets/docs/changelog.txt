@@ -1,6 +1,14 @@
 This file shows the changes in recent releases of Evolution CMS. The most current release is usually the
 development release, and is only shown to give an idea of what's currently in the pipeline.
 
+Evolution CMS 1.4.15 (Jul 12, 2021)
+* [GitHub: 6a3cbda19] - fix phpthumb webp support (Dmi3yy)
+* [GitHub: b0cb798d1] - manager (add) add check user and resource groups (Serious)
+* [GitHub: b6726eadb] - manager (remove) remove preview to image TVs (Serious)
+* [GitHub: d7319a548] - manager (add) add preview to image TVs (Serious)
+* [GitHub: 8afe4a446] - Update DocLister.abstract.php (Dreamer0x01)
+
+
 Evolution CMS 1.4.12 (Dec 21, 2020)
 * [GitHub:#2c4e76676] - update TinyMCE (Dmi3yy)
 * [GitHub:#6d4c526a0] - fix langs and typo (Dmi3yy)
