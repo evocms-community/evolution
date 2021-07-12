@@ -111,9 +111,7 @@ if (!file_exists($outputFilename)) {
 }
 
 if (isset($webp) && class_exists('\WebPConvert\WebPConvert')) {
-    if (strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false
-        || (strpos($_SERVER['HTTP_USER_AGENT'], ' Safari/') !== false
-            && strpos($_SERVER['HTTP_USER_AGENT'], ' Version/') === false) || strpos($_SERVER['HTTP_USER_AGENT'], ' Safari/') === false) {
+    if( isset( $_SERVER['HTTP_ACCEPT'] ) && strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false ) {
         if (file_exists($outputFilename . '.webp')) {
             $fNameSuf .= '.webp';
         } else {
