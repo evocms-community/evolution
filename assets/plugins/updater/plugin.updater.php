@@ -160,6 +160,8 @@ if ($role != 1 && $wdgVisibility == 'AdminOnly') {
                 curl_setopt($ch, CURLOPT_REFERER, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: updateNotify widget'));
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 4); //timeout in 4 seconds 
                 $info = curl_exec($ch);
                 curl_close($ch);
                 if (substr($info, 0, 1) != '[') {
