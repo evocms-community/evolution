@@ -10,7 +10,7 @@
  * @author Agel_Nash <Agel_Nash@xaker.ru>
  * @see http://blog.agel-nash.ru/addon/summary.html
  * @date 31.07.2013
- * @version 1.0.3
+ * @version 1.0.4
  */
 include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
 
@@ -283,7 +283,7 @@ class SummaryText
         }
 
         $string = mb_substr($string, 0, $limit, 'UTF-8');
-        if (false !== ($breakpoint = mb_strrpos($string, $break, 'UTF-8'))) {
+        if (false !== ($breakpoint = mb_strrpos($string, $break, 0, 'UTF-8'))) {
             $string = mb_substr($string, 0, $breakpoint + 1, 'UTF-8');
         } else {
             if ($break != ' ') {
