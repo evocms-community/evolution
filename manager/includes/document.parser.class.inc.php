@@ -3578,7 +3578,7 @@ class DocumentParser
             if ($this->config['send_errormail'] <= $type) {
                 $this->sendmail(array(
                     'subject' => 'Evolution CMS System Error on ' . $this->config['site_name'],
-                    'body' => 'Source: ' . $source . ' - The details of the error could be seen in the MODX system events log.',
+                    'body' => 'Source: ' . $source . ' - The details of the error could be seen in the Evolution CMS system events log.',
                     'type' => 'text'
                 ));
             }
@@ -4291,7 +4291,7 @@ class DocumentParser
     }
 
     /**
-     * Returns the MODX version information as version, branch, release date and full application name.
+     * Returns the EVO version information as version, branch, release date and full application name.
      *
      * @param null $data
      * @return array
