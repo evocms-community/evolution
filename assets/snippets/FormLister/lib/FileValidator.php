@@ -184,8 +184,11 @@ class FileValidator
     protected static function value($value): array
     {
         $out = [];
-        if (!empty($value) && !self::isArray($value)) {
+        $isArray = self::isArray($value);
+        if (!empty($value) && !$isArray) {
             $out = [$value];
+        } elseif ($isArray) {
+            $out = $value;
         }
 
         return $out;

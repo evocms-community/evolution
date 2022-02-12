@@ -116,7 +116,7 @@ class Validator
      */
     public static function numeric($value): bool
     {
-        return (bool) is_scalar($value) && preg_match('#^[0-9]*$#', $value);
+        return (bool) is_scalar($value) && preg_match('/^[0-9]+$/', $value);
     }
 
     /**
@@ -153,7 +153,7 @@ class Validator
      */
     public static function phone($value): bool
     {
-        return (bool) is_scalar($value) && preg_match('#^[0-9\(\)\+ \-]*$#', $value);
+        return (bool) is_scalar($value) && preg_match('#^[0-9\(\)\+ \-]+$#', $value);
     }
 
     /**

@@ -1058,7 +1058,7 @@ abstract class DocLister
             $data[$this->getCFGDef("sysKey", "dl") . '.is_last'] = 0;
         }
 
-        if ($this->modx->documentIdentifier == $data['id']) {
+        if (array_key_exists('id', $data) && $this->modx->documentIdentifier == $data['id']) {
             $this->renderTPL = $this->getCFGDef('tplCurrent', $this->renderTPL);
             $data[$this->getCFGDef(
                 "sysKey",
@@ -1464,7 +1464,7 @@ abstract class DocLister
         }
         $offset += $this->getCFGDef('start', 0);
         $total = $this->getCFGDef('total', 0);
-        if ((int)$limit < ((int)$total - (int)$limit)) {
+        if ($limit < ($total - $limit)) {
             $limit = $total - $offset;
         }
 

@@ -122,7 +122,11 @@ class dataTable extends \autoTable
             unlink(MODX_BASE_PATH . $url);
         }
         $dir = $this->fs->takeFileDir($url);
-        $iterator = new \FilesystemIterator($dir);
+        try {
+            $iterator = new \FilesystemIterator($dir);
+        } catch (\Exception $e) {
+            return;
+        }
         if (! $iterator->valid()) {
             rmdir($dir);
         }

@@ -393,8 +393,11 @@ abstract class Core
                         $value = [$key => $value];
                     }
                 }
-                if (is_array($value) && array_keys($value) !== range(0, count($value) - 1)) {
-                    $fields = $value;
+                if (is_array($value)) {
+                    if (array_keys($value) === range(0, count($value) - 1)) {
+                        $value = [$key => $value];
+                    }
+                    $fields = array_merge($fields, $value);
                 }
             }
         }
@@ -555,6 +558,9 @@ abstract class Core
             }
         }
         if ($api) {
+            $allowed = $this->config->loadArray($this->getCFGDef('allowedApiFields'));
+            $forbidden = $this->config->loadArray($this->getCFGDef('forbiddenApiFields'));
+            $out['fields'] = $this->filterFields($out['fields'], $allowed, $forbidden);
             $out = $this->getCFGDef('apiFormat', 'json') == 'json' ? jsonHelper::toJson($out) : $out;
         }
 
@@ -721,19 +727,19 @@ abstract class Core
                     $message = $description;
                 }
                 if (method_exists($validator, $rule)) {
-                    $result = count($params) === $reflection->getMethod($rule)->getNumberOfRequiredParameters() && call_user_func_array(
+                    $result = count($params) >= $reflection->getMethod($rule)->getNumberOfRequiredParameters() && call_user_func_array(
                         [$validator, $rule],
                         $params
                     );
                 } else {
                     if (isset($description['function'])) {
-                        $rule = $description['function'];
-                        if (is_callable($rule)) {
-                            $result = call_user_func_array($rule, array_merge([$this], $params));
+                        $customRule = $description['function'];
+                        if (is_callable($customRule)) {
+                            $result = call_user_func_array($customRule, array_merge([$this], $params));
                         }
                     } elseif (isset($description['snippet'])) {
-                        $rule = $description['snippet'];
-                        $result = $this->modx->runSnippet($rule, [
+                        $customRule = $description['snippet'];
+                        $result = $this->modx->runSnippet($customRule, [
                             'FormLister' => $this,
                             'value' => $value
                         ]);
@@ -1326,11 +1332,11 @@ abstract class Core
         if ($redirect = $this->getCFGDef($param, 0)) {
             $header = '';
             $query = http_build_query($_query);
-            if (is_numeric($redirect)) {
+            if (is_numeric($redirect) || filter_var($redirect, FILTER_VALIDATE_URL) !== false) {
                 $page = $redirect;
             } else {
                 $redirect = $this->config->loadArray($redirect, '');
-                if (!is_array($redirect)) {
+                if (filter_var($redirect, FILTER_VALIDATE_URL) !== false) {
                     $page = $redirect;
                 } else {
                     if (isset($redirect['query']) && is_array($redirect['query'])) {

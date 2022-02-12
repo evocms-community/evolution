@@ -54,7 +54,7 @@ class Login extends Core
     public function render()
     {
         if ($id = $this->modx->getLoginUserID($this->context)) {
-            $this->redirect();
+            $this->redirect('exitTo');
             $this->user->edit($id);
             $this->setFields($this->user->toArray());
             $this->renderTpl = $this->getCFGDef('skipTpl', $this->lexicon->getMsg('login.default_skipTpl'));

@@ -89,6 +89,12 @@ class user_DL_Extender extends extDocLister
         $type = $this->DocLister->getCFGDef('usertype', 'web');
         $table = array();
         switch ($type) {
+            case 'users':
+                $table['users'] = $this->modx->getFullTableName('users');
+                $table['attributes'] = $this->modx->getFullTableName('user_attributes');
+                $table['groups'] = $this->modx->getFullTableName('member_groups');
+                $table['groupnames'] = $this->modx->getFullTableName('membergroup_names');
+                break;
             case 'manager':
             case 'mgr':
                 $table['users'] = $this->modx->getFullTableName('manager_users');
@@ -177,6 +183,7 @@ class user_DL_Extender extends extDocLister
             $ids = implode(',', $users);
             $table = "{$this->table['groups']} `g` LEFT JOIN {$this->table['groupnames']} `n`";
             switch ($type) {
+                case 'users':
                 case 'manager':
                 case 'mgr':
                     $q = "SELECT `member` as `user`, `name` FROM {$table} ON `g`.`user_group` = `n`.`id`  WHERE `member` IN ({$ids})";

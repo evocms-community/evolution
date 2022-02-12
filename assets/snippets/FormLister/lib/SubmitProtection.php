@@ -49,7 +49,7 @@ trait SubmitProtection
                 $this->addMessage($this->translate('form.submitLimit') .
                     ($submitLimit >= 60
                         ? round($submitLimit / 60, 0) . ' ' . $this->translate('form.minutes') . '.'
-                        : $submitLimit . ' ' . $this->translate('form.minutes') . '.'
+                        : $submitLimit . ' ' . $this->translate('form.seconds') . '.'
                     ));
                 $this->log('Submit limit enabled');
             } else {

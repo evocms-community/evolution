@@ -54,7 +54,7 @@ if ($e->name == 'OnWebPageInit' || $e->name == 'OnPageNotFound') {
             $query = $_GET;
             unset($query[$logoutKey], $query['q']);
             if ($query) {
-                $page . '?' . http_build_query($query);
+                $page .= '?' . http_build_query($query);
             }
             $modx->sendRedirect($page);
         } elseif (!$user->edit($uid)->getID() || $user->checkBlock($uid)) {
