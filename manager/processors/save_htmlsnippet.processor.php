@@ -10,8 +10,8 @@ $id = (int)$_POST['id'];
 $snippet = $modx->db->escape($_POST['post']);
 $name = $modx->db->escape(trim($_POST['name']));
 $description = $modx->db->escape($_POST['description']);
-$locked = $_POST['locked'] == 'on' ? 1 : 0;
-$disabled = $_POST['disabled'] == "on" ? '1' : '0';
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
+$disabled = isset($_POST['disabled']) && $_POST['disabled'] == "on" ? '1' : '0';
 $currentdate = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support

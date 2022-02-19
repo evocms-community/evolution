@@ -481,7 +481,8 @@ if (isset ($_POST['module']) || $installData) {
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
 
-                $module = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2));
+                $module = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
+                $module = end($module);
                 // $module = removeDocblock($module, 'module'); // Modules have no fileBinding, keep docblock for info-tab
                 $module = mysqli_real_escape_string($conn, $module);
                 $rs = mysqli_query($sqlParser->conn, "SELECT * FROM $dbase.`" . $table_prefix . "site_modules` WHERE name='$name'");
@@ -511,7 +512,7 @@ if (isset ($_POST['plugin']) || $installData) {
     echo "<h3>" . $_lang['plugins'] . ":</h3> ";
     $selPlugs = $_POST['plugin'];
     foreach ($modulePlugins as $k=>$modulePlugin) {
-        $installSample = in_array('sample', $modulePlugin[8]) && $installData == 1;
+        $installSample = in_array('sample', (array) $modulePlugin[8]) && $installData == 1;
         if($installSample || in_array($k, $selPlugs)) {
             $name = mysqli_real_escape_string($conn, $modulePlugin[0]);
             $desc = mysqli_real_escape_string($conn, $modulePlugin[1]);
@@ -539,7 +540,8 @@ if (isset ($_POST['plugin']) || $installData) {
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
 
-                $plugin = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2));
+                $plugin = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
+                $plugin = end($plugin);
                 $plugin = removeDocblock($plugin, 'plugin');
                 $plugin = mysqli_real_escape_string($conn, $plugin);
                 $rs = mysqli_query($sqlParser->conn, "SELECT * FROM $dbase.`" . $table_prefix . "site_plugins` WHERE name='$name' ORDER BY id");
@@ -633,7 +635,8 @@ if (isset ($_POST['snippet']) || $installData) {
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
 
-                $snippet = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent)));
+                $snippet = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent));
+                $snippet = end($snippet);
                 $snippet = removeDocblock($snippet, 'snippet');
                 $snippet = mysqli_real_escape_string($conn, $snippet);
                 $rs = mysqli_query($sqlParser->conn, "SELECT * FROM $dbase.`" . $table_prefix . "site_snippets` WHERE name='$name'");
@@ -810,8 +813,8 @@ function parseProperties($propertyString, $json=false) {
     $propertyString = str_replace('{}', '', $propertyString );
     $propertyString = str_replace('} {', ',', $propertyString );
 
-    if(empty($propertyString)) return array();
-    if($propertyString=='{}' || $propertyString=='[]') return array();
+    if(empty($propertyString)) return $json ? json_encode(array(), JSON_UNESCAPED_UNICODE) : array();
+    if($propertyString=='{}' || $propertyString=='[]') return $json ? json_encode(array(), JSON_UNESCAPED_UNICODE) : array();
 
     $jsonFormat = isJson($propertyString, true);
     $property = array();

@@ -5,7 +5,7 @@ if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 
 // PROCESSOR FIRST
 if($_SESSION['mgrRole'] == 1) {
-	if($_REQUEST['b'] == 'resetSysfilesChecksum' && $modx->hasPermission('settings')) {
+	if(isset($_REQUEST['b']) && $_REQUEST['b'] == 'resetSysfilesChecksum' && $modx->hasPermission('settings')) {
 		$current = $modx->manager->getSystemChecksum($modx->config['check_files_onlogin']);
 		if(!empty($current)) {
 			$modx->manager->setSystemChecksum($current);

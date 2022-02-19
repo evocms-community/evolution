@@ -122,7 +122,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
 	// Current Params/Configurations
 	var currentParams = {};
-	var internal = <?= json_encode($internal) ?>;
+	var internal = <?= json_encode(isset($internal) ? $internal : []) ?>;
 	var first = true;
 
 	function showParameters(ctrl) {
@@ -686,7 +686,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 						<p><?= $_lang['module_group_access_msg'] ?></p>
 						<?php
 					}
-					$chk = '';
+					$chks = '';
+                    $notPublic = false;
 					$rs = $modx->db->select('name, id', $tbl_membergroup_names, '', 'name');
 					while($row = $modx->db->getRow($rs)) {
 						$groupsarray = is_numeric($id) && $id > 0 ? $groupsarray : array();

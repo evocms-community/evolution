@@ -118,7 +118,7 @@ if($modx->db->getRecordCount($rs) < 1) {
 								</div>
 							</div>
 						</form>
-						<?= $_lang['web_access_permissions_users_in_group'] ?>
+						<?= $_lang['web_access_permissions_user_groups'] ?>
 						<?php
 					}
 					if(!$row['user_id']) {

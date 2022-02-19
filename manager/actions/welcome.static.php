@@ -590,10 +590,10 @@ function getRecentInfoList() {
 
 		$ph['info_btn'] = str_replace('[+id+]', $docid, '<a title="[%resource_overview%]" data-toggle="collapse" data-target=".collapse[+id+]"><i class="fa fa-info fa-fw"></i></a>');
 
-        $ph['longtitle'] = $ph['longtitle'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['longtitle']);
-        $ph['description'] = $ph['description'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['description']);
-        $ph['introtext'] = $ph['introtext'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['introtext']);
-        $ph['alias'] = $ph['alias'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['alias']);
+        $ph['longtitle'] = !isset($ph['longtitle']) || $ph['longtitle'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['longtitle']);
+        $ph['description'] = !isset($ph['description']) || $ph['description'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['description']);
+        $ph['introtext'] = !isset($ph['introtext']) || $ph['introtext'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['introtext']);
+        $ph['alias'] = !isset($ph['alias']) || $ph['alias'] == '' ? '(<i>[%not_set%]</i>)' : html_escape($ph['alias']);
 
 		$output[] = $modx->parseText($tpl, $ph);
 	}

@@ -913,7 +913,7 @@
           parent: parent,
           menuindex: menuindex
         }, function(r) {
-          if (r.errors) alert(r.errors);
+          if (r?.errors) alert(r.errors);
           modx.tree.restoreTree();
         }, 'json');
         var b = w.main.frameElement.contentWindow.location.search.substr(1);

@@ -541,9 +541,11 @@ if(is_array($evtOut)) {
 						<?php
 						$chk = '';
 						$rs = $modx->db->select('name, id', $tbl_documentgroup_names);
-						if(empty($groupsarray) && is_array($_POST['docgroups']) && empty($_POST['id'])) {
+						if(empty($groupsarray) && !empty($_POST['docgroups']) && is_array($_POST['docgroups']) && empty($_POST['id'])) {
 							$groupsarray = $_POST['docgroups'];
 						}
+                        $chks = '';
+                        $notPublic = false;
 						while($row = $modx->db->getRow($rs)) {
 							$checked = in_array($row['id'], $groupsarray);
 							if($modx->hasPermission('access_permissions')) {

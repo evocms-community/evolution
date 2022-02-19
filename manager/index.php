@@ -87,9 +87,15 @@ if(!defined('MGR_DIR') || MGR_DIR!==$mgr_dir) {
 if ( ! defined('IN_MANAGER_MODE')) {
 	define('IN_MANAGER_MODE', true);
 }
+if (!defined('MODX_API_MODE')) {
+    define('MODX_API_MODE', false);
+}
+if (!defined('IN_PARSER_MODE')) {
+    define('IN_PARSER_MODE', false);
+}
 
 // harden it
-require_once('./includes/protect.inc.php');
+require_once(__DIR__ . '/includes/protect.inc.php');
 
 // send anti caching headers
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -102,7 +108,7 @@ header('X-XSS-Protection: 0');
 
 // provide english $_lang for error-messages
 $_lang = array();
-include_once "includes/lang/english.inc.php";
+include_once __DIR__ . "/includes/lang/english.inc.php";
 
 // check PHP version. EVO is compatible with php 5 (5.0.0+)
 $php_ver_comp =  version_compare(phpversion(), "5.0.0");
@@ -132,7 +138,7 @@ if(!isset($_SERVER['DOCUMENT_ROOT']) || empty($_SERVER['DOCUMENT_ROOT'])) {
 }
 
 // include_once config file
-$config_filename = "./includes/config.inc.php";
+$config_filename = realpath(__DIR__ . "/includes/config.inc.php");
 if (!file_exists($config_filename)) {
 	echo "<h3>Unable to load configuration settings</h3>";
 	echo "Please run the EVO <a href='../install'>install utility</a>";
@@ -140,7 +146,7 @@ if (!file_exists($config_filename)) {
 }
 
 // include the database configuration file
-include_once "config.inc.php";
+include_once $config_filename;
 
 // initiate the content manager class
 if (isset($coreClass) && class_exists($coreClass)) {
@@ -162,6 +168,10 @@ $modx->db->connect();
 // start session
 startCMSSession();
 $modx->sid = session_id();
+
+if (MODX_API_MODE) {
+    return;
+}
 
 // Now that session is given get user settings and merge into $modx->config
 $usersettings = $modx->getUserSettings();

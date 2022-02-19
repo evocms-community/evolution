@@ -166,6 +166,7 @@ if (empty ($unpub_date)) {
 
 // get document groups for current user
 $tmplvars = array ();
+$docgrp = '';
 if ($_SESSION['mgrDocgroups']) {
     $docgrp = implode(",", $_SESSION['mgrDocgroups']);
 }

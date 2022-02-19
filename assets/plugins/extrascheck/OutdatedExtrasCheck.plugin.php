@@ -9,6 +9,8 @@ $internalKey = $modx->getLoginUserID();
 $sid = $modx->sid;
 $role = (int)$_SESSION['mgrRole'];
 $user = $_SESSION['mgrShortname'];
+$ThisRole = isset($ThisRole) ? $ThisRole : '';
+$ThisUser = isset($ThisUser) ? $ThisUser : '';
 
 switch (true)
 {

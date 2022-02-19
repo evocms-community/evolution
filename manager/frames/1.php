@@ -45,8 +45,9 @@ if (!$MODX_widthSideBar) {
     $body_class .= 'sidebar-closed';
 }
 
+$theme_mode = isset($_COOKIE['MODX_themeMode']) ? $_COOKIE['MODX_themeMode'] : '';
 $theme_modes = array('', 'lightness', 'light', 'dark', 'darkness');
-if (!empty($theme_modes[$_COOKIE['MODX_themeMode']])) {
+if (!empty($theme_modes[$theme_mode])) {
     $body_class .= ' ' . $theme_modes[$_COOKIE['MODX_themeMode']];
 } elseif (!empty($theme_modes[$modx->config['manager_theme_mode']])) {
     $body_class .= ' ' . $theme_modes[$modx->config['manager_theme_mode']];
@@ -78,7 +79,7 @@ foreach ($unlockTranslations as $key => $value) {
 }
 
 $user = $modx->getUserInfo($modx->getLoginUserID());
-if ($user['which_browser'] == 'default') {
+if (isset($user['which_browser']) && $user['which_browser'] == 'default') {
     $user['which_browser'] = $modx->config['which_browser'];
 }
 
@@ -156,9 +157,9 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
           tree_page_click: <?=(!empty($modx->config['tree_page_click']) ? (int)$modx->config['tree_page_click'] : 27) ?>,
           theme: "<?= html_escape($modx->config['manager_theme'], $modx->config['modx_charset']) ?>",
           theme_mode: "<?= html_escape($modx->config['manager_theme_mode'], $modx->config['modx_charset']) ?>",
-          which_browser: '<?= $user['which_browser'] ?>',
+          which_browser: '<?= (isset($user['which_browser']) ? $user['which_browser'] : '') ?>',
           layout: <?= (int)$manager_layout ?>,
-          textdir: '<?= $modx_textdir ?>',
+          textdir: '<?= (isset($modx_textdir) ? $modx_textdir : '') ?>',
           global_tabs: <?= $modx->config['global_tabs'] ?>
 
         },
@@ -245,7 +246,8 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
         lockedElementsTranslation: <?= json_encode($unlockTranslations, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE) . "\n" ?>
       };
       <?php
-      $opened = array_filter(array_map('intval', explode('|', $_SESSION['openedArray'])));
+          $openedArray = isset($_SESSION['openedArray']) ? $_SESSION['openedArray'] : '';
+      $opened = array_filter(array_map('intval', explode('|', $openedArray)));
       echo (empty($opened) ? '' : 'modx.openedArray[' . implode("] = 1;\n		modx.openedArray[", $opened) . '] = 1;') . "\n";
       ?>
     </script>
@@ -463,7 +465,7 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
         ?>
         <form name="sortFrm" id="sortFrm">
             <div class="form-group">
-                <input type="hidden" name="dt" value="<?= htmlspecialchars($_REQUEST['dt']) ?>" />
+                <input type="hidden" name="dt" value="<?= (isset($_REQUEST['dt']) ? htmlspecialchars($_REQUEST['dt']) : '') ?>" />
                 <label><?= $_lang["sort_tree"] ?></label>
                 <select name="sortby" class="form-control">
                     <option value="isfolder" <?= $_SESSION['tree_sortby'] == 'isfolder' ? "selected='selected'" : "" ?>><?= $_lang['folder'] ?></option>

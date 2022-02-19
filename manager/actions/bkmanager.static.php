@@ -78,9 +78,9 @@ if ($mode == 'restore1') {
     if (!is_writable(rtrim($modx->config['snapshot_path'], '/'))) {
         $modx->webAlertAndQuit(parsePlaceholder($_lang["bkmgr_alert_mkdir"], array('snapshot_path' => $modx->config['snapshot_path'])));
     }
-    $sql = "SHOW TABLE STATUS FROM `{$dbase}` LIKE '" . $modx->db->escape($modx->db->config['table_prefix']) . "%'";
-    $rs = $modx->db->query($sql);
-    $tables = $modx->db->getColumn('Name', $rs);
+    $sql = "SHOW TABLE STATUS FROM `{$dbase}` LIKE '" . $modx->getDatabase()->escape($modx->getDatabase()->config['table_prefix']) . "%'";
+    $rs = $modx->getDatabase()->query($sql);
+    $tables = $modx->getDatabase()->getColumn('Name', $rs);
     $today = date('Y-m-d_H-i-s');
     global $path;
     $path = "{$modx->config['snapshot_path']}{$today}.sql";
@@ -225,10 +225,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 </thead>
                                 <tbody>
                                 <?php
-                                $sql = "SHOW TABLE STATUS FROM `{$dbase}` LIKE '" . $modx->db->escape($modx->db->config['table_prefix']) . "%'";
-                                $rs = $modx->db->query($sql);
+                                $sql = "SHOW TABLE STATUS FROM `{$dbase}` LIKE '" . $modx->getDatabase()->escape($modx->getDatabase()->config['table_prefix']) . "%'";
+                                $rs = $modx->getDatabase()->query($sql);
                                 $i = 0;
-                                while ($db_status = $modx->db->getRow($rs)) {
+                                $total = 0;
+                                $totaloverhead = 0;
+                                while ($db_status = $modx->getDatabase()->getRow($rs)) {
                                     if (isset($tables)) {
                                         $table_string = implode(',', $table);
                                     } else {
@@ -242,8 +244,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
                                     // Enable record deletion for certain tables (TRUNCATE TABLE) if they're not already empty
                                     $truncateable = array(
-                                        $modx->db->config['table_prefix'] . 'event_log',
-                                        $modx->db->config['table_prefix'] . 'manager_log',
+                                        $modx->getDatabase()->config['table_prefix'] . 'event_log',
+                                        $modx->getDatabase()->config['table_prefix'] . 'manager_log',
                                     );
                                     if ($modx->hasPermission('settings') && in_array($db_status['Name'], $truncateable) && $db_status['Rows'] > 0) {
                                         echo '<td class="text-xs-right"><a class="text-danger" href="index.php?a=54&mode=' . $action . '&u=' . $db_status['Name'] . '" title="' . $_lang['truncate_table'] . '">' . $modx->nicesize($db_status['Data_length'] + $db_status['Data_free']) . '</a>' . '</td>' . "\n";
@@ -482,7 +484,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
     </div>
 <?php
 
-if (is_numeric($_GET['tab'])) {
+if (isset($_GET['tab']) && is_numeric($_GET['tab'])) {
     echo '<script type="text/javascript">tpDBM.setSelectedIndex( ' . $_GET['tab'] . ' );</script>';
 }
 
@@ -572,13 +574,13 @@ class Mysqldumper
         }
 
         if (empty($this->_dbtables)) {
-            $result = $modx->db->query('SHOW TABLES');
+            $result = $modx->getDatabase()->query('SHOW TABLES');
             $tables = $this->result2Array(0, $result);
         } else {
             $tables = $this->_dbtables;
         }
         foreach ($tables as $tblval) {
-            $result = $modx->db->query("SHOW CREATE TABLE `{$tblval}`");
+            $result = $modx->getDatabase()->query("SHOW CREATE TABLE `{$tblval}`");
 
             $createtable[$tblval] = $this->result2Array(1, $result);
 
@@ -593,7 +595,7 @@ class Mysqldumper
         $output .= "# {$lf}";
         $output .= "# Host: {$this->database_server}{$lf}";
         $output .= "# Generation Time: " . $modx->toDateFormat(time()) . $lf;
-        $output .= "# Server version: " . $modx->db->getVersion() . $lf;
+        $output .= "# Server version: " . $modx->getDatabase()->getVersion() . $lf;
         $output .= "# PHP Version: " . phpversion() . $lf;
         $output .= "# Database: `{$this->dbname}`{$lf}";
         $output .= "# Description: " . trim($_REQUEST['backup_title']) . "{$lf}";
@@ -624,7 +626,7 @@ class Mysqldumper
                 }
             }
             if ($callBack === 'snapshot') {
-                if (!preg_match('@^' . $modx->db->config['table_prefix'] . '@', $tblval)) {
+                if (!preg_match('@^' . $modx->getDatabase()->config['table_prefix'] . '@', $tblval)) {
                     continue;
                 }
             }
@@ -651,7 +653,7 @@ class Mysqldumper
             //количество строк за запрос
             $rowByOneQuery = 10000;
             //делим на части
-            $rowCount = $modx->db->getValue($modx->db->select("COUNT(*)",$tblval));
+            $rowCount = $modx->getDatabase()->getValue($modx->getDatabase()->select("COUNT(*)",$tblval));
             // Находим общее число страниц
             $total = intval(($rowCount - 1) / $rowByOneQuery) + 1;
 
@@ -659,8 +661,8 @@ class Mysqldumper
 
             for ($page = 1; $page <= $total; $page++) {
                 $start = $page * $rowByOneQuery - $rowByOneQuery;
-                $result = $modx->db->select('*', $tblval, '', '', "$start, $rowByOneQuery");
-                while ($arr = $modx->db->getRow($result)) {
+                $result = $modx->getDatabase()->select('*', $tblval, '', '', "$start, $rowByOneQuery");
+                while ($arr = $modx->getDatabase()->getRow($result)) {
                     //формируем блок  значений
                     $insertdump = "(";
                     if (!is_array($arr)) $arr = array();
@@ -737,14 +739,14 @@ class Mysqldumper
      * @param mysqli_result $resource
      * @return array
      */
-    public function result2Array($numinarray = 0, $resource)
+    public function result2Array($numinarray = 0, $resource = null)
     {
         $modx = evolutionCMS();
         $array = array();
-        while ($row = $modx->db->getRow($resource, 'num')) {
+        while ($row = $modx->getDatabase()->getRow($resource, 'num')) {
             $array[] = $row[$numinarray];
         }
-        $modx->db->freeResult($resource);
+        $modx->getDatabase()->freeResult($resource);
         return $array;
     }
 
@@ -761,18 +763,18 @@ class Mysqldumper
      * @param mysqli_result $resource
      * @return array
      */
-    public function loadObjectList($key = '', $resource)
+    public function loadObjectList($key = '', $resource = null)
     {
         $modx = evolutionCMS();
         $array = array();
-        while ($row = $modx->db->getRow($resource, 'object')) {
+        while ($row = $modx->getDatabase()->getRow($resource, 'object')) {
             if ($key) {
                 $array[$row->$key] = $row;
             } else {
                 $array[] = $row;
             }
         }
-        $modx->db->freeResult($resource);
+        $modx->getDatabase()->freeResult($resource);
         return $array;
     }
 
@@ -854,13 +856,13 @@ function import_sql($source, $result_code = 'import_ok')
         if (empty($sql_entry)) {
             continue;
         }
-        $rs = $modx->db->query($sql_entry);
+        $rs = $modx->getDatabase()->query($sql_entry);
     }
     restoreSettings($settings);
 
     $modx->clearCache();
 
-    $_SESSION['last_result'] = ($rs !== null) ? null : $modx->db->makeArray($rs);
+    $_SESSION['last_result'] = ($rs !== null) ? null : $modx->getDatabase()->makeArray($rs);
     $_SESSION['result_msg'] = $result_code;
 }
 
@@ -907,10 +909,10 @@ function getSettings()
     $modx = evolutionCMS();
     $tbl_system_settings = $modx->getFullTableName('system_settings');
 
-    $rs = $modx->db->select('setting_name, setting_value', $tbl_system_settings);
+    $rs = $modx->getDatabase()->select('setting_name, setting_value', $tbl_system_settings);
 
     $settings = array();
-    while ($row = $modx->db->getRow($rs)) {
+    while ($row = $modx->getDatabase()->getRow($rs)) {
         switch ($row['setting_name']) {
             case 'rb_base_dir':
             case 'filemanager_path':
@@ -932,7 +934,7 @@ function restoreSettings($settings)
     $tbl_system_settings = $modx->getFullTableName('system_settings');
 
     foreach ($settings as $k => $v) {
-        $modx->db->update(array('setting_value' => $v), $tbl_system_settings, "setting_name='{$k}'");
+        $modx->getDatabase()->update(array('setting_value' => $v), $tbl_system_settings, "setting_name='{$k}'");
     }
 }
 

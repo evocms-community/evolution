@@ -215,7 +215,7 @@ if (isset($_REQUEST['submitok'])) {
     <div class="tab-page">
         <div class="container container-body">
             <?php
-            if ($_GET['ajax'] != 1) {
+            if (isset($_GET['ajax']) && $_GET['ajax'] != 1) {
 
                 if ($limit < 1) {
                     echo $_lang['search_empty'];

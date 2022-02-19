@@ -100,6 +100,8 @@ class MagpieRSS {
             $this->error( "Failed to load PHP's XML Extension. " .
                           "http://www.php.net/manual/en/ref.xml.php",
                            E_USER_ERROR );
+
+            return false;
         }
 
         list($parser, $source) = $this->create_parser($source,
@@ -110,6 +112,8 @@ class MagpieRSS {
             $this->error( "Failed to create an instance of PHP's XML parser. " .
                           "http://www.php.net/manual/en/ref.xml.php",
                           E_USER_ERROR );
+
+            return false;
         }
 
 

@@ -55,15 +55,15 @@ if(!$modx->hasPermission('export_static')) {
 						</tr>
 						<tr>
 							<td class="head"><?= $_lang['a83_ignore_ids_title'] ?></td>
-							<td><input type="text" name="ignore_ids" value="<?= $ignore_ids ?>" style="width:300px;" /></td>
+							<td><input type="text" name="ignore_ids" value="<?= (isset($ignore_ids) ? $ignore_ids : '') ?>" style="width:300px;" /></td>
 						</tr>
 						<tr>
 							<td class="head"><?= $_lang['export_site.static.php4'] ?></td>
-							<td><input type="text" name="repl_before" value="<?= $repl_before ?>" style="width:300px;" /></td>
+							<td><input type="text" name="repl_before" value="<?= (isset($repl_before) ? $repl_before : '') ?>" style="width:300px;" /></td>
 						</tr>
 						<tr>
 							<td class="head"><?= $_lang['export_site.static.php5'] ?></td>
-							<td><input type="text" name="repl_after" value="<?= $repl_after ?>" style="width:300px;" /></td>
+							<td><input type="text" name="repl_after" value="<?= (isset($repl_after) ? $repl_after : '') ?>" style="width:300px;" /></td>
 						</tr>
 						<tr>
 							<td class="head"><?= $_lang['export_site_maxtime'] ?></td>

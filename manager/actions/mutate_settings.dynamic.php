@@ -154,6 +154,6 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
     </script>
 <?php
-if(is_numeric($_GET['tab'])) {
+if(isset($_GET['tab']) && is_numeric($_GET['tab'])) {
 	echo '<script type="text/javascript">tpSettings.setSelectedIndex( ' . $_GET['tab'] . ' );</script>';
 }

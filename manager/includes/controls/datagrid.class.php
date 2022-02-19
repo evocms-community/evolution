@@ -149,7 +149,7 @@ class DataGrid {
 		$tblColHdr = "<thead><tr>";
 		for($c = 0; $c < $this->_colcount; $c++) {
 			$name = $this->_colnames[$c];
-			$width = $this->_colwidths[$c];
+			$width = isset($this->_colwidths[$c]) ? $this->_colwidths[$c] : '';
 			$tblColHdr .= "<td $columnHeaderStyle $columnHeaderClass" . ($width ? " width='$width'" : "") . ">$name</td>";
 		}
 		$tblColHdr .= "</tr></thead>\n";
@@ -157,6 +157,8 @@ class DataGrid {
 		// build rows
 		$rowcount = $this->_isDataset ? $modx->db->getRecordCount($this->ds) : count($this->ds);
 		$this->_fieldnames = explode(",", $this->fields);
+        $tblRows = '';
+        $tblPager = '';
 		if($rowcount == 0) {
 			$tblRows .= "<tr><td " . $this->_itemStyle . " " . $this->_itemClass . " colspan='" . $this->_colcount . "'>" . $this->noRecordMsg . "</td></tr>\n";
 		} else {
@@ -226,7 +228,7 @@ class DataGrid {
 			$color = isset($this->_colcolors[$c]) ? $this->_colcolors[$c] : null;
 			$type = isset($this->_coltypes[$c]) ? $this->_coltypes[$c] : null;
 			$nowrap = isset($this->_colwraps[$c]) ? $this->_colwraps[$c] : null;
-			$value = $row[($this->_isDataset && $fld ? $fld : $c)];
+			$value = isset($row[($this->_isDataset && $fld ? $fld : $c)]) ? $row[($this->_isDataset && $fld ? $fld : $c)] : '';
 			if($color && $Style) {
 				$colStyle = substr($colStyle, 0, -1) . ";background-color:$color;'";
 			}

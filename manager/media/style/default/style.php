@@ -10,12 +10,12 @@
  */
 $style_path = 'media/style/' . $modx->config['manager_theme'] . '/images/';
 $modx->config['mgr_date_picker_path'] = 'media/calendar/datepicker.inc.php';
-if(!$modx->config['lang_code']) {
+if(empty($modx->config['lang_code'])) {
 	global $modx_lang_attribute;
 	$modx->config['lang_code'] = !$modx_lang_attribute ? 'en' : $modx_lang_attribute;
 }
 
-if($_GET['a'] == 2) {
+if(isset($_GET['a']) && $_GET['a'] == 2) {
 	include_once('welcome.php');
 }
 
