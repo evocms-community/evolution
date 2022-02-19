@@ -39,10 +39,10 @@ $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
 // initiate the content manager class
 // for backward compatibility
 
-$username = $modx->db->escape($modx->htmlspecialchars($_REQUEST['username'], ENT_NOQUOTES));
-$givenPassword = $modx->htmlspecialchars($_REQUEST['password'], ENT_NOQUOTES);
-$captcha_code = $_REQUEST['captcha_code'];
-$rememberme = $_REQUEST['rememberme'];
+$username = $modx->db->escape($modx->htmlspecialchars($_POST['username'], ENT_NOQUOTES));
+$givenPassword = $modx->htmlspecialchars($_POST['password'], ENT_NOQUOTES);
+$captcha_code = $_POST['captcha_code'];
+$rememberme = $_POST['rememberme'];
 $failed_allowed = $modx->config['failed_login_attempts'];
 
 // invoke OnBeforeManagerLogin event
@@ -174,11 +174,11 @@ if(!isset($rt) || !$rt || (is_array($rt) && !in_array(true, $rt))) {
 	// check user password - local authentication
 	$hashType = $modx->manager->getHashType($dbasePassword);
 	if($hashType == 'phpass') {
-		$matchPassword = login($username, $_REQUEST['password'], $dbasePassword);
+		$matchPassword = login($username, $_POST['password'], $dbasePassword);
 	} elseif($hashType == 'md5') {
-		$matchPassword = loginMD5($internalKey, $_REQUEST['password'], $dbasePassword, $username);
+		$matchPassword = loginMD5($internalKey, $_POST['password'], $dbasePassword, $username);
 	} elseif($hashType == 'v1') {
-		$matchPassword = loginV1($internalKey, $_REQUEST['password'], $dbasePassword, $username);
+		$matchPassword = loginV1($internalKey, $_POST['password'], $dbasePassword, $username);
 	} else {
 		$matchPassword = false;
 	}

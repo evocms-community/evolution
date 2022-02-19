@@ -16,10 +16,7 @@ require_once($DLDir . "core/DocLister.abstract.php");
 require_once($DLDir . "core/extDocLister.abstract.php");
 require_once($DLDir . "core/filterDocLister.abstract.php");
 
-if (isset($controller)) {
-    preg_match('/^(\w+)$/iu', $controller, $controller);
-    $controller = $controller[1];
-} else {
+if (!isset($controller)) {
     $controller = "site_content";
 }
 $class = $controller;

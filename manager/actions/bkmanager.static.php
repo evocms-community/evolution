@@ -509,7 +509,7 @@ class Mysqldumper
     /**
      * @var array
      */
-    public $_dbtables;
+    public $_dbtables = [];
     /**
      * @var bool
      */
@@ -571,8 +571,12 @@ class Mysqldumper
             unlink($tempfile_path);
         }
 
-        $result = $modx->db->query('SHOW TABLES');
-        $tables = $this->result2Array(0, $result);
+        if (empty($this->_dbtables)) {
+            $result = $modx->db->query('SHOW TABLES');
+            $tables = $this->result2Array(0, $result);
+        } else {
+            $tables = $this->_dbtables;
+        }
         foreach ($tables as $tblval) {
             $result = $modx->db->query("SHOW CREATE TABLE `{$tblval}`");
 

@@ -8,7 +8,7 @@
 
 $_lang = array();
 $_lang['form.protectSubmit'] = 'Bericht is verzonden. Het is niet nodig om het opnieuw te verzenden';
-$_lang['form.submitLimit'] = 'U kunt binnen opnieuw bericht verzenden ';
+$_lang['form.submitLimit'] = 'U kunt opnieuw een bericht verzenden over';
 $_lang['form.minutes'] = 'min';
 $_lang['form.seconds'] = 'sec';
 $_lang['form.dateFormat'] = 'd-m-Y';
