@@ -25,7 +25,7 @@ $tbl_site_templates = $modx->getFullTableName('site_templates');
 if($_SESSION['mgrDocgroups']) {
 	$docgrp = implode(",", $_SESSION['mgrDocgroups']);
 }
-$access = "1='" . $_SESSION['mgrRole'] . "' OR sc.privatemgr=0" . (!$docgrp ? "" : " OR dg.document_group IN ($docgrp)");
+$access = "1='" . $_SESSION['mgrRole'] . "' OR sc.privatemgr=0" . (empty($docgrp) ? "" : " OR dg.document_group IN ($docgrp)");
 
 //
 if($_SESSION['tree_show_only_folders']) {
@@ -84,6 +84,7 @@ $rs = $modx->db->select('DISTINCT sc.*', "{$tbl_site_content} AS sc
 );
 $filter_sort = '';
 $filter_dir = '';
+$add_path = '';
 if($numRecords > 0) {
 	$filter_sort = '<select size="1" name="sort" class="form-control form-control-sm" onchange="document.location=\'index.php?a=3&id=' . $id . '&dir=' . $dir . '&sort=\'+this.options[this.selectedIndex].value">' . '<option value="createdon"' . (($sort == 'createdon') ? ' selected' : '') . '>' . $_lang['createdon'] . '</option>' . '<option value="pub_date"' . (($sort == 'pub_date') ? ' selected' : '') . '>' . $_lang["page_data_publishdate"] . '</option>' . '<option value="pagetitle"' . (($sort == 'pagetitle') ? ' selected' : '') . '>' . $_lang['pagetitle'] . '</option>' . '<option value="menuindex"' . (($sort == 'menuindex') ? ' selected' : '') . '>' . $_lang['resource_opt_menu_index'] . '</option>' . //********  resource_opt_is_published - //
 		'<option value="published"' . (($sort == 'published') ? ' selected' : '') . '>' . $_lang['resource_opt_is_published'] . '</option>' . //********//
@@ -438,7 +439,7 @@ if(isset($_GET['tab']) && is_numeric($_GET['tab'])) {
 }
 ?>
 
-<?php if($show_preview == 1) { ?>
+<?php if(isset($show_preview) && $show_preview == 1) { ?>
 	<div class="sectionHeader"><?= $_lang['preview'] ?></div>
 	<div class="sectionBody" id="lyr2">
 		<iframe src="<?= MODX_SITE_URL ?>index.php?id=<?= $id ?>&z=manprev" frameborder="0" border="0" id="previewIframe"></iframe>

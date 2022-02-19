@@ -45,7 +45,7 @@ if(!empty($id)) {
 	}
 } else {
 	$_SESSION['itemname'] = $_lang["new_template"];
-	$content['category'] = (int)$_REQUEST['catid'];
+	$content['category'] = isset($_REQUEST['catid']) ? (int)$_REQUEST['catid'] : 0;
 }
 
 if($modx->manager->hasFormValues()) {
@@ -72,7 +72,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		duplicate: function() {
 			if(confirm("<?= $_lang['confirm_duplicate_record'] ?>") === true) {
 				documentDirty = false;
-				document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=96";
+				document.location.href = "index.php?id=<?= $id ?>&a=96";
 			}
 		},
 		delete: function() {
@@ -105,11 +105,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 	}
 	?>
 	<input type="hidden" name="a" value="20">
-	<input type="hidden" name="id" value="<?= $_REQUEST['id'] ?>">
+	<input type="hidden" name="id" value="<?= $id ?>">
 	<input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
 	<h1>
-		<i class="fa fa-newspaper-o"></i><?= ($content['templatename'] ? $content['templatename'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_template']) ?><i class="fa fa-question-circle help"></i>
+		<i class="fa fa-newspaper-o"></i><?= (isset($content['templatename']) ? $content['templatename'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_template']) ?><i class="fa fa-question-circle help"></i>
 	</h1>
 
 	<?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -138,7 +138,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 						</label>
 						<div class="col-md-9 col-lg-10">
 							<div class="form-control-name clearfix">
-								<input name="templatename" type="text" maxlength="100" value="<?= $modx->htmlspecialchars($content['templatename']) ?>" class="form-control form-control-lg" onchange="documentDirty=true;">
+								<input name="templatename" type="text" maxlength="100" value="<?= (isset($content['templatename']) ? $modx->htmlspecialchars($content['templatename']) : '') ?>" class="form-control form-control-lg" onchange="documentDirty=true;">
 								<?php if($modx->hasPermission('save_role')): ?>
 									<label class="custom-control" title="<?= $_lang['lock_template'] . "\n" . $_lang['lock_template_msg'] ?>" tooltip>
 										<input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />

@@ -458,7 +458,7 @@ class modxRTEbridge
         $value = $value === NULL && isset($this->themeConfig[$key]['force']) ? $this->themeConfig[$key]['force'] : $value;
         $value = $value === NULL && isset($this->themeConfig[$key]['value']) ? $this->themeConfig[$key]['value'] : $value;
 
-        if(!in_array($conf['type'], array('boolean','bool'))) {
+        if($conf && !in_array($conf['type'], array('boolean','bool'))) {
             if ($value === '' && $conf['empty'] === false) {  // Empty values not allowed
                 if ($conf['default'] === '') return NULL;    // Skip none-allowed empty setting
                 $value = $conf['default'];

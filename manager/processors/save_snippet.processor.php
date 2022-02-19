@@ -10,8 +10,8 @@ $id = (int)$_POST['id'];
 $snippet = trim($_POST['post']);
 $name = $modx->db->escape(trim($_POST['name']));
 $description = $modx->db->escape($_POST['description']);
-$locked = $_POST['locked'] == 'on' ? 1 : 0;
-$disabled = $_POST['disabled'] == "on" ? '1' : '0';
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
+$disabled = isset($_POST['disabled']) && $_POST['disabled'] == "on" ? '1' : '0';
 $currentdate = time() + $modx->config['server_offset_time'];
 
 // strip out PHP tags from snippets
@@ -29,7 +29,7 @@ if (substr($snippet, -2) == '?>') {
 $snippet = $modx->db->escape($snippet);
 $properties = $modx->db->escape($_POST['properties']);
 $moduleguid = $modx->db->escape($_POST['moduleguid']);
-$parse_docblock = $_POST['parse_docblock'] == "1" ? '1' : '0';
+$parse_docblock = isset($_POST['parse_docblock']) && $_POST['parse_docblock'] == "1" ? '1' : '0';
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
@@ -157,7 +157,7 @@ switch ($_POST['mode']) {
         // empty cache
         $modx->clearCache('full');
 
-        if ($_POST['runsnippet']) {
+        if (!empty($_POST['runsnippet'])) {
             run_snippet($snippet);
         }
         // finished emptying cache - redirect

@@ -155,6 +155,7 @@ function prepareElementRowPh($row, $resourceTable, $resources) {
 	$types = isset($resources->types[$resourceTable]) ? $resources->types[$resourceTable] : false;
 
 	$_lang["confirm_delete"] = $_lang["delete"];
+    $lockElementType = '';
 
 	switch($resourceTable){
         case 'site_templates':
@@ -192,7 +193,7 @@ function prepareElementRowPh($row, $resourceTable, $resources) {
 
 	// Prepare displaying user-locks
 	$lockedByUser = '';
-	$rowLock = $modx->elementIsLocked($lockElementType, $row['id'], true);
+	$rowLock = $lockElementType ? $modx->elementIsLocked($lockElementType, $row['id'], true) : null;
 	if($rowLock && $modx->hasPermission('display_locks')) {
 		if($rowLock['sid'] == $modx->sid) {
 			$title = $modx->parseText($_lang["lock_element_editing"], array(

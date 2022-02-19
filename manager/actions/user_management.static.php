@@ -10,17 +10,17 @@ if(!$modx->hasPermission('edit_user')) {
 $modx->manager->initPageViewState();
 
 // get and save search string
-if($_REQUEST['op'] == 'reset') {
+if(isset($_REQUEST['op']) && $_REQUEST['op'] == 'reset') {
 	$query = '';
 	$_PAGE['vs']['search'] = '';
 } else {
-	$query = isset($_REQUEST['search']) ? $_REQUEST['search'] : $_PAGE['vs']['search'];
+	$query = isset($_REQUEST['search']) ? $_REQUEST['search'] : (isset($_PAGE['vs']['search']) ? $_PAGE['vs']['search'] : '');
 	$sqlQuery = $modx->db->escape($query);
 	$_PAGE['vs']['search'] = $query;
 }
 
 // get & save listmode
-$listmode = isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : $_PAGE['vs']['lm'];
+$listmode = isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : (isset($_PAGE['vs']['lm']) ? $_PAGE['vs']['lm'] : '');
 $_PAGE['vs']['lm'] = $listmode;
 
 
@@ -90,7 +90,6 @@ echo $cm->render();
 
 </script>
 <form name="resource" method="post">
-	<input type="hidden" name="id" value="<?= $id ?>" />
 	<input type="hidden" name="listmode" value="<?= $listmode ?>" />
 	<input type="hidden" name="op" value="" />
 
@@ -168,7 +167,7 @@ echo $cm->render();
 					if($listmode == '1') {
 						$grd->pageSize = 0;
 					}
-					if($_REQUEST['op'] == 'reset') {
+					if(isset($_REQUEST['op']) && $_REQUEST['op'] == 'reset') {
 						$grd->pageNumber = 1;
 					}
 					// render grid

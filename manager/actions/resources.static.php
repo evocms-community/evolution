@@ -102,7 +102,7 @@ foreach($mraTranslations as $key => $value) $mraTranslations[$key] = iconv($modx
 		}
 
 
-		if(is_numeric($_GET['tab'])) {
+		if(isset($_GET['tab']) && is_numeric($_GET['tab'])) {
 			echo '<script type="text/javascript"> tpResources.setSelectedIndex( ' . $_GET['tab'] . ' );</script>';
 		}
 		?>

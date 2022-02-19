@@ -12,7 +12,7 @@ $res = $modx->db->query("show variables like 'collation_database'");
 $collation = $modx->db->getRow($res, 'num');
 
 $serverArr = array(
-    $_lang['modx_version'] => $modx->getVersionData('version') . ' ' . $newversiontext,
+    $_lang['modx_version'] => $modx->getVersionData('version') . (isset($newversiontext) ? ' ' . $newversiontext : ''),
     $_lang['release_date'] => $modx->getVersionData('release_date'),
     'PHP Version' => phpversion(),
     'phpInfo()' => '<a class="text-underline" href="javascript:;" onclick="viewPHPInfo();return false;">' . $_lang['view'] . '</a>',
@@ -98,6 +98,8 @@ $serverArr = array(
                     $sql = "SHOW TABLE STATUS FROM $dbase LIKE '" . $modx->db->escape($modx->db->config['table_prefix']) . "%';";
                     $rs = $modx->db->query($sql);
                     $i = 0;
+                    $total = 0;
+                    $totaloverhead = 0;
                     while ($log_status = $modx->db->getRow($rs)) {
                         ?>
                         <tr>

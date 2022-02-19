@@ -36,7 +36,7 @@ $content = $modx->db->getRow($ds);
 <form name="resource" method="get">
 	<input type="hidden" name="id" value="<?= $id ?>" />
 	<input type="hidden" name="a" value="<?= $modx->manager->action ?>" />
-	<input type="hidden" name="listmode" value="<?= $_REQUEST['listmode'] ?>" />
+	<input type="hidden" name="listmode" value="<?= (isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : '') ?>" />
 	<input type="hidden" name="op" value="" />
 	<div class="tab-page">
 		<div class="container container-body">

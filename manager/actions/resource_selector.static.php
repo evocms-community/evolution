@@ -26,7 +26,7 @@ $rt = strtolower($_REQUEST['rt']);
 $sm = strtolower($_REQUEST['sm']);
 
 // get search string
-$query = $_REQUEST['search'];
+$query = isset($_REQUEST['search']) ? $_REQUEST['search'] : '';
 $sqlQuery = $modx->db->escape($query);
 
 // select SQL
@@ -153,9 +153,9 @@ include_once MODX_MANAGER_PATH . "includes/header.inc.php";
 </div>
 
 <form name="selector" method="get">
-    <input type="hidden" name="id" value="<?= $id ?>" />
+    <input type="hidden" name="id" value="<?= (isset($id) ? $id : 0) ?>" />
     <input type="hidden" name="a" value="<?= $modx->manager->action ?>" />
-    <input type="hidden" name="listmode" value="<?= $_REQUEST['listmode'] ?>" />
+    <input type="hidden" name="listmode" value="<?= (isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : '') ?>" />
     <input type="hidden" name="op" value="" />
     <input type="hidden" name="rt" value="<?= $rt ?>" />
     <input type="hidden" name="rt" value="<?= $rt ?>" />
@@ -190,7 +190,7 @@ include_once MODX_MANAGER_PATH . "includes/header.inc.php";
                     $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') . "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+value+]";
                     $grd->colWidths = "45%";
                     $grd->fields = "name,description";
-                    if ($_REQUEST['listmode'] == '1') {
+                    if (isset($_REQUEST['listmode']) && $_REQUEST['listmode'] == '1') {
                         $grd->pageSize = 0;
                     }
                     echo $grd->render();

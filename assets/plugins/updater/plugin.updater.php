@@ -148,7 +148,8 @@ if ($role != 1 && $wdgVisibility == 'AdminOnly') {
             $output = '';
             
             $currentVersion = $modx->getVersionData();
-            $currentMajorVersion = array_shift(explode('.', $currentVersion['version']));
+            $currentMajorVersion = explode('.', $currentVersion['version']);
+            $currentMajorVersion = array_shift($currentMajorVersion);
 
             if (!file_exists(MODX_BASE_PATH . 'assets/cache/updater/check_' . date("d") . '.json')) {
                 $ch = curl_init();
@@ -170,7 +171,8 @@ if ($role != 1 && $wdgVisibility == 'AdminOnly') {
                 $info = json_decode($info, true);
 
                 foreach($info as $key => $val ) {
-                    if( $currentMajorVersion == array_shift(explode('.', $val['name'])) ){
+                    $names = explode('.', $val['name']);
+                    if( $currentMajorVersion == array_shift($names) ){
                         
                         $git['version'] = $val['name'];
                         

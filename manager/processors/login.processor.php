@@ -5,7 +5,7 @@ if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 }
 define('IN_MANAGER_MODE', true);  // we use this to make sure files are accessed through
 define('MODX_API_MODE', true);
-include_once(__DIR__ . '/../../index.php');
+include_once(__DIR__ . '/../../manager/index.php');
 $modx->db->connect();
 $modx->getSettings();
 $modx->invokeEvent('OnManagerPageInit');
@@ -39,10 +39,10 @@ $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
 // initiate the content manager class
 // for backward compatibility
 
-$username = $modx->db->escape($modx->htmlspecialchars($_POST['username'], ENT_NOQUOTES));
-$givenPassword = $modx->htmlspecialchars($_POST['password'], ENT_NOQUOTES);
-$captcha_code = $_POST['captcha_code'];
-$rememberme = $_POST['rememberme'];
+$username = isset($_POST['username']) ? $modx->db->escape($modx->htmlspecialchars($_POST['username'], ENT_NOQUOTES)) : '';
+$givenPassword = isset($_POST['password']) ? $modx->htmlspecialchars($_POST['password'], ENT_NOQUOTES) : '';
+$captcha_code = isset($_POST['captcha_code']) ? $_POST['captcha_code'] : '';
+$rememberme = isset($_POST['rememberme']) ? $_POST['rememberme'] : '';
 $failed_allowed = $modx->config['failed_login_attempts'];
 
 // invoke OnBeforeManagerLogin event
@@ -306,7 +306,7 @@ if($id > 0) {
  */
 function jsAlert($msg) {
 	$modx = evolutionCMS();
-	if($_POST['ajax'] != 1) {
+	if(isset($_POST['ajax']) && $_POST['ajax'] != 1) {
 		echo "<script>window.setTimeout(\"alert('" . addslashes($modx->db->escape($msg)) . "')\",10);history.go(-1)</script>";
 	} else {
 		echo $msg . "\n";

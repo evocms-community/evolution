@@ -43,6 +43,18 @@ if($modx->manager->action == '88') {
 	while($row = $modx->db->getRow($rs)) $usersettings[$row['setting_name']] = $row['setting_value'];
 	extract($usersettings, EXTR_OVERWRITE);
 
+    if (!isset($usersettings['login_home'])) {
+        $usersettings['login_home'] = '';
+    }
+
+    if (!isset($usersettings['allowed_ip'])) {
+        $usersettings['allowed_ip'] = '';
+    }
+
+    if (!isset($usersettings['allowed_days'])) {
+        $usersettings['allowed_days'] = '';
+    }
+
 	// get user name
 	$rs = $modx->db->select('*', $modx->getFullTableName('web_users'), "id = '{$user}'");
 	$usernamedata = $modx->db->getRow($rs);
@@ -60,7 +72,10 @@ if($modx->manager->action == '88') {
 // avoid doubling htmlspecialchars (already encoded in DB)
 foreach($userdata as $key => $val) {
 	$userdata[$key] = html_entity_decode($val, ENT_NOQUOTES, $modx->config['modx_charset']);
-};
+}
+if (!isset($userdata['failedlogins'])) {
+    $userdata['failedlogins'] = 0;
+}
 $usernamedata['username'] = html_entity_decode($usernamedata['username'], ENT_NOQUOTES, $modx->config['modx_charset']);
 
 // restore saved form
@@ -199,7 +214,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     <input type="hidden" name="a" value="89">
 	<input type="hidden" name="mode" value="<?php echo $modx->manager->action; ?>" />
 	<input type="hidden" name="id" value="<?php echo $user ?>" />
-	<input type="hidden" name="blockedmode" value="<?php echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) || $userdata['failedlogins'] > $modx->getConfig('failed_login_attempts')) ? "1" : "0" ?>" />
+	<input type="hidden" name="blockedmode" value="<?php echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) || $userdata['failedlogins'] > $modx->getConfig('failed_login_attempts') ? "1" : "0") ?>" />
 
 	<h1>
         <i class="fa fa-user"></i><?= ($usernamedata['username'] ? $usernamedata['username'] . '<small>(' . $usernamedata['id'] . ')</small>' : $_lang['web_user_title']) ?>
@@ -249,10 +264,10 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 							<span style="display:<?php echo $modx->manager->action == "87" ? "block" : "none"; ?>" id="passwordBlock">
 							<fieldset style="width:300px">
 								<legend><?php echo $_lang['password_gen_method']; ?></legend>
-								<input type=radio name="passwordgenmethod" value="g" <?php echo $_POST['passwordgenmethod'] == "spec" ? "" : 'checked="checked"'; ?> />
+								<input type=radio name="passwordgenmethod" value="g" <?php echo isset($_POST['passwordgenmethod']) && $_POST['passwordgenmethod'] == "spec" ? "" : 'checked="checked"'; ?> />
 								<?php echo $_lang['password_gen_gen']; ?>
 								<br />
-								<input type=radio name="passwordgenmethod" value="spec" <?php echo $_POST['passwordgenmethod'] == "spec" ? 'checked="checked"' : ""; ?>>
+								<input type=radio name="passwordgenmethod" value="spec" <?php echo isset($_POST['passwordgenmethod']) && $_POST['passwordgenmethod'] == "spec" ? 'checked="checked"' : ""; ?>>
 								<?php echo $_lang['password_gen_specify']; ?>
 								<br />
 								<div>
@@ -267,10 +282,10 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 							<br />
 							<fieldset style="width:300px">
 								<legend><?php echo $_lang['password_method']; ?></legend>
-								<input type=radio name="passwordnotifymethod" value="e" <?php echo $_POST['passwordnotifymethod'] == "e" ? 'checked="checked"' : ""; ?> />
+								<input type=radio name="passwordnotifymethod" value="e" <?php echo isset($_POST['passwordnotifymethod']) && $_POST['passwordnotifymethod'] == "e" ? 'checked="checked"' : ""; ?> />
 								<?php echo $_lang['password_method_email']; ?>
 								<br />
-								<input type=radio name="passwordnotifymethod" value="s" <?php echo $_POST['passwordnotifymethod'] == "e" ? "" : 'checked="checked"'; ?> />
+								<input type=radio name="passwordnotifymethod" value="s" <?php echo isset($_POST['passwordnotifymethod']) && $_POST['passwordnotifymethod'] == "e" ? "" : 'checked="checked"'; ?> />
 								<?php echo $_lang['password_method_screen']; ?>
 							</fieldset>
 							</span></td>
@@ -345,9 +360,9 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 						<td>&nbsp;</td>
 						<td><select name="gender" onChange="documentDirty=true;">
 								<option value=""></option>
-								<option value="1" <?php echo ($_POST['gender'] == '1' || $userdata['gender'] == '1') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_male']; ?></option>
-								<option value="2" <?php echo ($_POST['gender'] == '2' || $userdata['gender'] == '2') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_female']; ?></option>
-								<option value="3" <?php echo ($_POST['gender'] == '3' || $userdata['gender'] == '3') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_other']; ?></option>
+								<option value="1" <?php echo ((isset($_POST['gender']) && $_POST['gender'] == '1') || $userdata['gender'] == '1') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_male']; ?></option>
+								<option value="2" <?php echo ((isset($_POST['gender']) && $_POST['gender'] == '2') || $userdata['gender'] == '2') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_female']; ?></option>
+								<option value="3" <?php echo ((isset($_POST['gender']) && $_POST['gender'] == '3') || $userdata['gender'] == '3') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_other']; ?></option>
 							</select></td>
 					</tr>
 					<tr>
@@ -500,7 +515,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 						<td class='comment'><?php echo $_lang["user_photo_message"] ?></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><img name="iphoto" src="<?php echo isset($_POST['photo']) ? (strpos($_POST['photo'], "http://") === false ? MODX_SITE_URL : "") . $_POST['photo'] : !empty($userdata['photo']) ? (strpos($userdata['photo'], "http://") === false ? MODX_SITE_URL : "") . $userdata['photo'] : $_style["tx"]; ?>" /></td>
+						<td colspan="2" align="center"><img name="iphoto" src="<?php echo (isset($_POST['photo']) ? (strpos($_POST['photo'], "http://") === false ? MODX_SITE_URL : "") . $_POST['photo'] : !empty($userdata['photo'])) ? (strpos($userdata['photo'], "http://") === false ? MODX_SITE_URL : "") . $userdata['photo'] : $_style["tx"]; ?>" /></td>
 					</tr>
 				</table>
 			</div>
@@ -514,7 +529,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 				$groupsarray = $modx->db->getColumn('webgroup', $rs);
 			}
 			// retain selected user groups between post
-			if(is_array($_POST['user_groups'])) {
+			if(!empty($_POST['user_groups']) && is_array($_POST['user_groups'])) {
 				foreach($_POST['user_groups'] as $n => $v) $groupsarray[] = $v;
 			}
 			?>

@@ -658,6 +658,8 @@ function bold($cond = false)
                 if ($limit == 0) {
                     echo "";
                 } else {
+                    $srv = '';
+                    $grp = '';
                     while ($row = $modx->db->getRow($rs)) {
                         // display records
                         if ($srv != $row['service']) {

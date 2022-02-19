@@ -10,7 +10,7 @@ $id = (int)$_POST['id'];
 $template = $modx->db->escape($_POST['post']);
 $templatename = $modx->db->escape(trim($_POST['templatename']));
 $description = $modx->db->escape($_POST['description']);
-$locked = $_POST['locked'] == 'on' ? 1 : 0;
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
 $selectable = $id == $modx->config['default_template'] ? 1 :    // Force selectable
     ($_POST['selectable'] == 'on' ? 1 : 0);
 $currentdate = time() + $modx->config['server_offset_time'];
@@ -151,7 +151,7 @@ function saveTemplateAccess($id)
 {
     $modx = evolutionCMS();
     if ($_POST['tvsDirty'] == 1) {
-        $newAssignedTvs = $_POST['assignedTv'];
+        $newAssignedTvs = isset($_POST['assignedTv']) ? $_POST['assignedTv'] : '';
 
         // Preserve rankings of already assigned TVs
         $rs = $modx->db->select("`tmplvarid`, `rank`", $modx->getFullTableName('site_tmplvar_templates'), "templateid='{$id}'", "");

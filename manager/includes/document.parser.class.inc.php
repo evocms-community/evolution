@@ -457,9 +457,37 @@ class DocumentParser
         $this->config['valid_hostnames'] = MODX_SITE_HOSTNAMES;
         $this->config['site_manager_url'] = MODX_MANAGER_URL;
         $this->config['site_manager_path'] = MODX_MANAGER_PATH;
-        $this->error_reporting = $this->config['error_reporting'];
-        $this->config['filemanager_path'] = str_replace('[(base_path)]', MODX_BASE_PATH, $this->config['filemanager_path']);
-        $this->config['rb_base_dir'] = str_replace('[(base_path)]', MODX_BASE_PATH, $this->config['rb_base_dir']);
+        $this->error_reporting = isset($this->config['error_reporting']) ? $this->config['error_reporting'] : 0;
+        $this->config['filemanager_path'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : ''));
+        $this->config['rb_base_dir'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['rb_base_dir']) ? $this->config['rb_base_dir'] : ''));
+
+        if (!isset($this->config['session_timeout'])) {
+            $this->config['session_timeout'] = 15;
+        }
+
+        if (!isset($this->config['make_folders'])) {
+            $this->config['make_folders'] = 0;
+        }
+
+        if (!isset($this->config['tree_page_click'])) {
+            $this->config['tree_page_click'] = 27;
+        }
+
+        if (!isset($this->config['site_unavailable_page'])) {
+            $this->config['site_unavailable_page'] = '';
+        }
+
+        if (!isset($this->config['aliaslistingfolder'])) {
+            $this->config['aliaslistingfolder'] = 0;
+        }
+
+        if (!isset($this->config['friendly_url_prefix'])) {
+            $this->config['friendly_url_prefix'] = '';
+        }
+
+        if (!isset($this->config['friendly_url_suffix'])) {
+            $this->config['friendly_url_suffix'] = '';
+        }
 
         if (!isset($this->config['enable_at_syntax'])) {
             $this->config['enable_at_syntax'] = 1;
@@ -3251,7 +3279,7 @@ class DocumentParser
         $state = 0;
         $pms = $_SESSION['mgrPermissions'];
         if ($pms) {
-            $state = ((bool)$pms[$pm] === true);
+            $state = ((isset($pms[$pm]) ? (bool) $pms[$pm] : false) === true);
         }
         return (int)$state;
     }
@@ -3275,7 +3303,7 @@ class DocumentParser
         // Build lockedElements-Cache at first call
         $this->buildLockedElementsCache();
 
-        if (!$includeThisUser && $this->lockedElements[$type][$id]['sid'] == $this->sid) {
+        if (!$includeThisUser && isset($this->lockedElements[$type][$id]) && $this->lockedElements[$type][$id]['sid'] == $this->sid) {
             return null;
         }
 
@@ -4153,6 +4181,10 @@ class DocumentParser
 
         if (!is_numeric($id)) {
             $this->messageQuit("`{$id}` is not numeric and may not be passed to makeUrl()");
+        }
+
+        if (!$id) {
+            return $url;
         }
 
         if ($args !== '') {
