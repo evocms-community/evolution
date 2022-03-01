@@ -28,7 +28,7 @@ For content management, you can easily duplicate documents, folders (and all the
 Most significant, though, is **Evolution CMS's** ability to empower you to quickly and easily create and maintain a rich and dynamic website like never before.
 
 ## Install
-You can use the single click installer: [Evolution CMS Installer](https://github.com/evolution-cms/installer)
+You can use the single click installer: [Evolution CMS Installer](https://github.com/evocms-community/installer)
 Evolution CMS 3.0 requires **PHP >= 7.3**
 
 ## Docker
@@ -41,13 +41,13 @@ Official Website:
 https://evo.im/
 
 Telegram group:
-https://t.me/evolutioncms
+https://t.me/evo_cms
 
 English Forum:
 https://forum.evo.im
 
 Download:
-https://github.com/evolution-cms/evolution/releases
+https://github.com/evocms-community/evolution/releases
 
 Previous Releases:
 https://modx.com/download/evolution/previous-releases.html
