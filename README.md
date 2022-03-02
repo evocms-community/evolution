@@ -1,6 +1,6 @@
 # Evolution CMS
 
-[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evolution-cms/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v5.6-green.svg?php=5.6) [![Issues](https://img.shields.io/github/issues-closed-raw/evolution-cms/evolution.svg?maxAge=2592000)](https://github.com/evolution-cms/evolution/issues) [![Code quality](https://img.shields.io/scrutinizer/g/evolution-cms/evolution.svg?maxAge=2592000&b=develop)](https://scrutinizer-ci.com/g/evolution-cms/evolution/?branch=develop) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evolution-cms/docs/)
+[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v5.6-green.svg?php=5.6) [![Issues](https://img.shields.io/github/issues-closed-raw/evolution-cms/evolution.svg?maxAge=2592000)](https://github.com/evolution-cms/evolution/issues) [![Code quality](https://img.shields.io/scrutinizer/g/evolution-cms/evolution.svg?maxAge=2592000&b=develop)](https://scrutinizer-ci.com/g/evolution-cms/evolution/?branch=develop) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
 Evolution CMS requires **PHP >= 5.6**
 
@@ -29,7 +29,7 @@ Most significant, though, is **EVO's** ability to empower you to quickly and eas
 
 
 ## Install
-Just use [Evo Installer](https://github.com/evolution-cms/installer)
+Just use [Evo Installer](https://github.com/evocms-community/installer)
 
 
 ### Screenshots
@@ -46,7 +46,7 @@ Official Website:
 https://evo.im/
 
 Download:
-https://github.com/evolution-cms/evolution/releases
+https://github.com/evocms-community/evolution/releases
 
 Previous Releases:
 https://modx.com/download/evolution/previous-releases.html
