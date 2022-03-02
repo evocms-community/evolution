@@ -11,7 +11,7 @@
 
 ## History
 
-Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by *Dmytro Lukianenko* and a core team of contributors at the **Evolution CMS Project**.
+Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by a team of contributors at the **Evolution CMS Project**.
 
 ## License
 
@@ -48,3 +48,16 @@ https://github.com/evocms-community/evolution/releases
 
 Documentation:
 https://github.com/evocms-community/docs/
+
+Previous Releases:
+https://modx.com/download/evolution/previous-releases.html
+
+Extras / Add-ons:
+https://extras.evocms.ru
+
+Documentation:
+https://github.com/evocms-community/docs
+https://evolution-docs.com
+
+Youtube:
+https://www.youtube.com/channel/UCS7ZUn62Qln_OhHSVaFTTig

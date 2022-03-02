@@ -242,7 +242,7 @@ store = {
 	query:function(action,param,callback){
 		param = store.extend(param);
 		$.ajax({
-			url:'https://extras.evo.im/get.php?get=' + action,
+			url:'https://extras.evocms.ru/get.php?get=' + action,
 			cache:false,
 			data:param,
 			dataType: "json",
