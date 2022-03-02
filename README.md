@@ -1,6 +1,6 @@
 # Evolution CMS
 
-[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v5.6-green.svg?php=5.6) [![Issues](https://img.shields.io/github/issues-closed-raw/evolution-cms/evolution.svg?maxAge=2592000)](https://github.com/evolution-cms/evolution/issues) [![Code quality](https://img.shields.io/scrutinizer/g/evolution-cms/evolution.svg?maxAge=2592000&b=develop)](https://scrutinizer-ci.com/g/evolution-cms/evolution/?branch=develop) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
+[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v5.6-green.svg?php=5.6) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
 Evolution CMS requires **PHP >= 5.6**
 
@@ -11,7 +11,7 @@ Evolution CMS requires **PHP >= 5.6**
 
 ## History
 
-Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by *Dmytro Lukianenko* and a core team of contributors at the **EVO Project**.
+Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by a team of contributors at the **EVO Project**.
 
 ## License
 
@@ -43,7 +43,7 @@ Just use [Evo Installer](https://github.com/evocms-community/installer)
 ### References
 
 Official Website:
-https://evo.im/
+https://evocms.ru/
 
 Download:
 https://github.com/evocms-community/evolution/releases
@@ -55,5 +55,5 @@ Extras:
 https://extras.evo.im
 
 Documentation:
-http://docs.evo.im
+https://github.com/evocms-community/docs/
 https://evolution-docs.com
