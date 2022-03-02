@@ -2,7 +2,7 @@
 
 ![screenshot_1](https://user-images.githubusercontent.com/523389/105744390-5a720e00-5f3d-11eb-8405-7b0f7e28688a.jpg)
 
-[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evolution-cms/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.3-red.svg?php=7.3) [![Issues](https://img.shields.io/github/issues-closed-raw/evolution-cms/evolution.svg?maxAge=2592000)](https://github.com/evolution-cms/evolution/issues) [![Code quality](https://img.shields.io/scrutinizer/g/evolution-cms/evolution.svg?maxAge=2592000&b=develop)](https://scrutinizer-ci.com/g/evolution-cms/evolution/?branch=develop) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evolution-cms/docs/)
+[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evocms-community/evolution) [![GitHub release](https://img.shields.io/github/release/evocms-community/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.3-red.svg?php=7.3) [![Issues](https://img.shields.io/github/issues-closed-raw/evocms-community/evolution.svg?maxAge=2592000)](https://github.com/evocms-community/evolution/issues) [![Code quality](https://img.shields.io/scrutinizer/g/evocms-community/evolution.svg?maxAge=2592000&b=develop)](https://scrutinizer-ci.com/g/evocms-community/evolution/?branch=3.x) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
 
 ## What is Evolution CMS
@@ -11,7 +11,7 @@
 
 ## History
 
-Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by *Dmytro Lukianenko* and a core team of contributors at the **Evolution CMS Project**.
+Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained a team of contributors at the **Evolution CMS Project**.
 
 ## License
 
@@ -38,7 +38,7 @@ To run **Evolution CMS** using docker make **docker-compose up -d** command in y
 ## References
 
 Official Website:
-https://evo.im/
+https://evocms.ru/
 
 Telegram group:
 https://t.me/evo_cms
@@ -53,10 +53,10 @@ Previous Releases:
 https://modx.com/download/evolution/previous-releases.html
 
 Extras / Add-ons:
-https://extras.evo.im
+https://extras.evocms.ru
 
 Documentation:
-https://docs.evo.im
+https://github.com/evocms-community/docs
 https://evolution-docs.com
 
 Youtube:
