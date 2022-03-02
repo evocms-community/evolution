@@ -1,5 +1,5 @@
 {
-  "name": "evolutioncms/evolution",
+  "name": "evocms/evolution",
   "description": "Evolution CMS is a Content Management System, ex MODX Evolution",
   "type": "project",
   "keywords": [
@@ -10,20 +10,11 @@
   ],
   "homepage": "http://evo.im/",
   "license": "GPL-2.0+",
-  "authors": [
-    {
-      "name": "Dmytro Lukianenko",
-      "email": "dmi3yy@gmail.com",
-      "homepage": "http://dmi3yy.com",
-      "role": "Developer"
-    }
-  ],
   "support": {
-    "docs": "http://docs.evo.im",
-    "email": "dmi3yy@evo.im",
-    "telegram": "https://t.me/evolutioncms",
-    "issues": "https://github.com/evolution-cms/evolution/issues/",
-    "source": "https://github.com/evolution-cms/evolution/"
+    "docs": "https://docs.evo.im",
+    "telegram": "https://t.me/evo_cms",
+    "issues": "https://github.com/evocms-community/evolution/issues/",
+    "source": "https://github.com/evocms-community/evolution/"
   },
   "config": {
     "vendor-dir": "vendor"
