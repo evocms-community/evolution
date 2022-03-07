@@ -5,7 +5,7 @@ if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 }
 define('IN_MANAGER_MODE', true);  // we use this to make sure files are accessed through
 define('MODX_API_MODE', true);
-include_once(__DIR__ . '/../../manager/index.php');
+include_once(__DIR__ . '/../index.php');
 $modx->db->connect();
 $modx->getSettings();
 $modx->invokeEvent('OnManagerPageInit');
