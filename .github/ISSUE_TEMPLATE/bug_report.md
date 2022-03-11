@@ -1,13 +1,13 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: "[BUG]"
 labels: bug, not confirmed
 assignees: ''
 
 ---
 
-### Summary
+### Summary 
 Quick summary what's this issue about.
 
 ### Step to reproduce
