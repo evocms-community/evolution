@@ -97,7 +97,7 @@ if (isset($_REQUEST['path']) && !empty($_REQUEST['path'])) {
 } else {
     $startpath = $filemanager_path;
 }
-$startpath = rtrim($startpath, '/');
+$startpath = $startpath == '/' ? '/' : rtrim($startpath, '/');
 
 if (!is_readable($startpath)) {
     $modx->webAlertAndQuit($_lang["not_readable_dir"]);
