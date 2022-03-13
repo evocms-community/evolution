@@ -142,7 +142,7 @@
                 IntlDateFormatter::MEDIUM,
                 null,
                 null,
-                "hh:mm:ss"
+                "HH:mm:ss"
             );
             $ph['now'] = $formatter->format($now);
         } else {
@@ -186,7 +186,7 @@
                     IntlDateFormatter::MEDIUM,
                     null,
                     null,
-                    "hh:mm:ss"
+                    "HH:mm:ss"
                 );
                 $lasthit = $formatter->format($modx->timestamp($activeUser['lasthit']));
             } else {

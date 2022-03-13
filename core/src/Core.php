@@ -4650,17 +4650,17 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             // https://www.php.net/manual/en/datetime.createfromformat.php
             $dateFormat = str_replace(
                 ['%Y', '%m', '%d', '%I', '%H', '%M', '%S', '%p'],
-                ['Y', 'MM', 'dd', 'h', 'hh', 'mm', 'ss', 'a'],
+                ['Y', 'MM', 'dd', 'h', 'HH', 'mm', 'ss', 'a'],
                 $dateFormat
             );
             if (empty($mode)) {
-                $formatter = new IntlDateFormatter(
+		$formatter = new IntlDateFormatter(
                     $this->getConfig('manager_language'),
                     IntlDateFormatter::FULL,
                     IntlDateFormatter::FULL,
                     null,
                     null,
-                    $dateFormat . " hh:mm:ss"
+                    $dateFormat . " HH:mm:ss"
                 );
                 $strTime = $formatter->format($timestamp);
             } elseif ($mode === 'dateOnly') {
@@ -4680,7 +4680,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                     IntlDateFormatter::MEDIUM,
                     null,
                     null,
-                    "hh:mm:ss"
+                    "HH:mm:ss"
                 );
                 $strTime = $formatter->format($timestamp);
             } elseif ($mode === 'formatOnly') {
