@@ -71,7 +71,6 @@ class SiteUpdateCommand extends Command
         $currentMajorVersion = array_shift($arrayVersion);
 
         $info = json_decode($info, true);
-        print_r($info);die();
         foreach ($info as $key => $val) {
 
             $arrayVersion = explode('.', $val['name']);
