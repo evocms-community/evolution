@@ -51,7 +51,7 @@ class SiteUpdateCommand extends Command
         $evo = EvolutionCMS();
         $updateRepository = $evo->getConfig('UpgradeRepository');
         if ($updateRepository == '') {
-            $updateRepository = 'evolution-cms/evolution';
+            $updateRepository = 'evocms-community/evolution';
         }
         $ch = curl_init();
         $url = 'https://api.github.com/repos/' . $updateRepository . '/tags';
@@ -71,6 +71,7 @@ class SiteUpdateCommand extends Command
         $currentMajorVersion = array_shift($arrayVersion);
 
         $info = json_decode($info, true);
+        print_r($info);die();
         foreach ($info as $key => $val) {
 
             $arrayVersion = explode('.', $val['name']);
@@ -99,8 +100,8 @@ class SiteUpdateCommand extends Command
                 }
             }
         }
-        if ($git['version'] != '') {
-            $url = 'https://github.com/evolution-cms/evolution/archive/' . $git['version'] . '.zip';
+        if ($git['version'] != '' && $git['version'] != 'null') {
+            $url = 'https://github.com/evocms-community/evolution/archive/' . $git['version'] . '.zip';
             echo "Start download EvolutionCMS\n";
             $url = file_get_contents($url);
             $file = MODX_BASE_PATH . 'new_version.zip';
