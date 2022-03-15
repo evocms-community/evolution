@@ -238,7 +238,7 @@ if (!isset($database_connection_method) || empty($database_connection_method)) {
 // check table prefix
 if ($conn && $installMode == 0) {
     echo '<p>' . $_lang['checking_table_prefix'] . $table_prefix . '`: ';
-    if ($rs= mysqli_query($conn, "SELECT COUNT(*) FROM $dbase.`" . $table_prefix . "site_content`")) {
+    if ($rs= checkIssetTable($conn, "$dbase.`" . $table_prefix . "site_content`")) {
         echo '<span class="notok">' . $_lang['failed'] . '</span></b>' . $_lang['table_prefix_already_inuse'] . '</p>';
         $errors++;
         echo "<p>" . $_lang['table_prefix_already_inuse_note'] . '</p>';
@@ -247,7 +247,7 @@ if ($conn && $installMode == 0) {
     }
 } elseif ($conn && $installMode == 2) {
     echo '<p>' . $_lang['checking_table_prefix'] . $table_prefix . '`: ';
-    if (!$rs = mysqli_query($conn, "SELECT COUNT(*) FROM $dbase.`" . $table_prefix . "site_content`")) {
+    if (!$rs = checkIssetTable($conn, "$dbase.`" . $table_prefix . "site_content`")) {
         echo '<span class="notok">' . $_lang['failed'] . '</span></b>' . $_lang['table_prefix_not_exist'] . '</p>';
         $errors++;
         echo '<p>' . $_lang['table_prefix_not_exist_note'] . '</p>';

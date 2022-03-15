@@ -27,7 +27,7 @@ class synccache
     {
         $modx = evolutionCMS();
 
-        $this->request_time = $_SERVER['REQUEST_TIME'] + $modx->config['server_offset_time'];
+        $this->request_time = $_SERVER['REQUEST_TIME'] + ($modx->config['server_offset_time'] ?? 0);
     }
 
     /**
@@ -265,7 +265,7 @@ class synccache
         }
 
         if (!isset($config['full_aliaslisting']) || $config['full_aliaslisting'] != 1) {
-            if ($config['aliaslistingfolder'] == 1) {
+            if (!empty($config['aliaslistingfolder'])) {
                 $f['id'] = 'c.id';
                 $f['alias'] = "IF( c.alias='', c.id, c.alias)";
                 $f['parent'] = 'c.parent';
@@ -332,7 +332,7 @@ class synccache
                     $content .= '$s[\'' . $key . '\']=\'return false;\';';
                 } else {
                     $value = trim($row['snippet']);
-                    if ($modx->config['minifyphp_incache']) {
+                    if (!empty($modx->config['minifyphp_incache'])) {
                         $value = $this->php_strip_whitespace($value);
                     }
                     $content .= '$s[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';
@@ -357,7 +357,7 @@ class synccache
             while ($row = $modx->db->getRow($rs)) {
                 $key = $modx->db->escape($row['name']);
                 $value = trim($row['plugincode']);
-                if ($modx->config['minifyphp_incache']) {
+                if (!empty($modx->config['minifyphp_incache'])) {
                     $value = $this->php_strip_whitespace($value);
                 }
                 $content .= '$p[\'' . $key . '\']=\'' . $this->escapeSingleQuotes($value) . '\';';

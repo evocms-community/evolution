@@ -14,10 +14,11 @@ if(!defined('MGR_DIR') && is_dir("{$base_path}manager")) {
 	define('MGR_DIR','manager');
 }
 require_once("lang.php");
+require_once 'functions.php';
 
 $output = $_lang["status_checking_database"];
 $h = explode(':', $host, 2);
-if (!$conn = mysqli_connect($h[0], $uid, $pwd,'', isset($h[1]) ? $h[1] : null)) {
+if (!$conn = mysqli_connect($h[0], $uid, $pwd,'', $h[1] ?? null)) {
     $output .= '<span id="database_fail" style="color:#FF0000;">'.$_lang['status_failed'].'</span>';
 }
 else {
@@ -39,7 +40,7 @@ else {
             $output .= '<span id="database_pass" style="color:#80c000;">'.$_lang['status_passed_database_created'].'</span>';
         }
     }
-    elseif (($installMode == 0) && (mysqli_query($conn, "SELECT COUNT(*) FROM {$database_name}.`{$tableprefix}site_content`"))) {
+    elseif (($installMode == 0) && checkIssetTable($conn, "`$database_name`.`{$tableprefix}site_content`")) {
         $output .= '<span id="database_fail" style="color:#FF0000;">'.$_lang['status_failed_table_prefix_already_in_use'].'</span>';
     }
     elseif (($database_connection_method != 'SET NAMES') && ($rs = mysqli_query($conn, "show variables like 'collation_database'")) && ($row = mysqli_fetch_row($rs)) && ($row[1] != $database_collation)) {

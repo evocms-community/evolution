@@ -18,9 +18,9 @@ class SqlParser {
 	public $adminpass;
 	public $managerlanguage;
 	public $mode;
-	public $fileManagerPath;
-	public $imgPath;
-	public $imgUrl;
+	public $fileManagerPath = '';
+	public $imgPath = '';
+	public $imgUrl = '';
 	public $dbMODx;
 	public $dbVersion;
     public $connection_charset;
@@ -29,7 +29,7 @@ class SqlParser {
     public $autoTemplateLogic;
     public $database_collation;
 
-	public function __construct($host, $user, $password, $db, $prefix='modx_', $adminname, $adminemail, $adminpass, $connection_charset= 'utf8', $managerlanguage='english', $connection_method = 'SET CHARACTER SET', $auto_template_logic = 'parent') {
+	public function __construct($host = null, $user = null, $password = null, $db = null, $prefix='modx_', $adminname = null, $adminemail = null, $adminpass = null, $connection_charset= 'utf8', $managerlanguage='english', $connection_method = 'SET CHARACTER SET', $auto_template_logic = 'parent') {
 		$this->host = $host;
 		$this->dbname = $db;
 		$this->prefix = $prefix;
@@ -128,7 +128,13 @@ class SqlParser {
 
 
 			$num = $num + 1;
-			if ($sql_do) mysqli_query($this->conn, $sql_do);
+			if ($sql_do) {
+                try {
+                    mysqli_query($this->conn, $sql_do);
+                } catch (Exception $exception) {
+
+                }
+            }
 			if(mysqli_error($this->conn)) {
 				// Ignore duplicate and drop errors - Raymond
 				if ($this->ignoreDuplicateErrors){
