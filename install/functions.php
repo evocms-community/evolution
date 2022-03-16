@@ -177,3 +177,19 @@ if( ! function_exists('getLangs')) {
         return implode("\n", $_);
     }
 }
+
+if (!function_exists('checkIssetTable')) {
+    function checkIssetTable($conn, $tableName)
+    {
+        try {
+            $r = mysqli_query($conn, "SELECT COUNT(*) FROM $tableName");
+
+            if ($r && $r->fetch_assoc()) {
+                return true;
+            }
+        } catch (Exception $exception) {
+        }
+
+        return false;
+    }
+}

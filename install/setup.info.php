@@ -57,10 +57,10 @@ if(is_dir($tvPath) && is_readable($tvPath)) {
                 $params['caption'],
                 $description,
                 $params['input_type'],
-                $params['input_options'],
-                $params['input_default'],
-                $params['output_widget'],
-                $params['output_widget_params'],
+                $params['input_options'] ?? null,
+                $params['input_default'] ?? null,
+                $params['output_widget'] ?? null,
+                $params['output_widget_params'] ?? null,
                 "$templatePath/{$params['filename']}", /* not currently used */
                 $params['template_assignments']!="*"?$params['template_assignments']:implode(",",array_map(function($value){return isset($value[0]) && is_scalar($value[0]);},$mt)), /* comma-separated list of template names */
                 $params['modx_category'],
@@ -110,7 +110,7 @@ if(is_dir($snippetPath) && is_readable($snippetPath)) {
                 $params['name'],
                 $description,
                 "$snippetPath/{$params['filename']}",
-                $params['properties'],
+                $params['properties'] ?? null,
                 $params['modx_category'],
                 array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
             );
@@ -134,13 +134,13 @@ if(is_dir($pluginPath) && is_readable($pluginPath)) {
                 $params['name'],
                 $description,
                 "$pluginPath/{$params['filename']}",
-                $params['properties'],
+                $params['properties'] ?? null,
                 $params['events'],
-                $params['guid'],
+                $params['guid'] ?? null,
                 $params['modx_category'],
-                $params['legacy_names'],
+                $params['legacy_names'] ?? null,
                 array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false,
-                (int)$params['disabled']
+                (int)($params['disabled'] ?? 0)
             );
         }
     }
@@ -163,8 +163,8 @@ if(is_dir($modulePath) && is_readable($modulePath)) {
                 $params['name'],
                 $description,
                 "$modulePath/{$params['filename']}",
-                $params['properties'],
-                $params['guid'],
+                $params['properties'] ?? null,
+                $params['guid'] ?? null,
                 (int)$params['shareparams'],
                 $params['modx_category'],
                 array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false

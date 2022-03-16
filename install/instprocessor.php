@@ -1,4 +1,8 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 if (file_exists(dirname(__FILE__)."/../assets/cache/siteManager.php")) {
     include_once(dirname(__FILE__)."/../assets/cache/siteManager.php");
 }else{
@@ -87,7 +91,7 @@ if (!mysqli_select_db($conn, str_replace("`", "", $dbase))) {
     echo "<span class=\"notok\" style='color:#707070'>".$_lang['setup_database_selection_failed']."</span>".$_lang['setup_database_selection_failed_note']."</p>";
     $create = true;
 } else {
-	if (function_exists('mysqli_set_charset')) mysqli_set_charset($conn, $database_charset);
+	if (function_exists('mysqli_set_charset') && $database_charset) mysqli_set_charset($conn, $database_charset);
     mysqli_query($conn, "{$database_connection_method} {$database_connection_charset}");
     echo '<span class="ok">'.$_lang['ok']."</span></p>";
 }
@@ -116,7 +120,7 @@ if ($create) {
 // check table prefix
 if ($installMode == 0) {
     echo "<p>" . $_lang['checking_table_prefix'] . $table_prefix . "`: ";
-    if (@ $rs = mysqli_query($conn, "SELECT COUNT(*) FROM $dbase.`" . $table_prefix . "site_content`")) {
+    if (@ $rs = checkIssetTable($conn, "$dbase.`" . $table_prefix . "site_content`")) {
         echo '<span class="notok">' . $_lang['failed'] . "</span>" . $_lang['table_prefix_already_inuse'] . "</p>";
         $errors += 1;
         echo "<p>" . $_lang['table_prefix_already_inuse_note'] . "</p>";
@@ -282,7 +286,7 @@ if ($installData && $moduleSQLDataFile && $moduleSQLResetFile) {
 // Install Templates
 if (isset ($_POST['template']) || $installData) {
     echo "<h3>" . $_lang['templates'] . ":</h3> ";
-    $selTemplates = $_POST['template'];
+    $selTemplates = $_POST['template'] ?? [];
     foreach ($moduleTemplates as $k=>$moduleTemplate) {
         $installSample = in_array('sample', $moduleTemplate[6]) && $installData == 1;
         if($installSample || in_array($k, $selTemplates)) {
@@ -337,22 +341,22 @@ if (isset ($_POST['template']) || $installData) {
 // Install Template Variables
 if (isset ($_POST['tv']) || $installData) {
     echo "<h3>" . $_lang['tvs'] . ":</h3> ";
-    $selTVs = $_POST['tv'];
+    $selTVs = $_POST['tv'] ?? [];
     foreach ($moduleTVs as $k=>$moduleTV) {
         $installSample = in_array('sample', $moduleTV[12]) && $installData == 1;
         if($installSample || in_array($k, $selTVs)) {
-            $name = mysqli_real_escape_string($conn, $moduleTV[0]);
-            $caption = mysqli_real_escape_string($conn, $moduleTV[1]);
-            $desc = mysqli_real_escape_string($conn, $moduleTV[2]);
-            $input_type = mysqli_real_escape_string($conn, $moduleTV[3]);
-            $input_options = mysqli_real_escape_string($conn, $moduleTV[4]);
-            $input_default = mysqli_real_escape_string($conn, $moduleTV[5]);
-            $output_widget = mysqli_real_escape_string($conn, $moduleTV[6]);
-            $output_widget_params = mysqli_real_escape_string($conn, $moduleTV[7]);
-            $filecontent = $moduleTV[8];
-            $assignments = $moduleTV[9];
-            $category = mysqli_real_escape_string($conn, $moduleTV[10]);
-            $locked = mysqli_real_escape_string($conn, $moduleTV[11]);
+            $name = mysqli_real_escape_string($conn, $moduleTV[0] ?? '');
+            $caption = mysqli_real_escape_string($conn, $moduleTV[1] ?? '');
+            $desc = mysqli_real_escape_string($conn, $moduleTV[2] ?? '');
+            $input_type = mysqli_real_escape_string($conn, $moduleTV[3] ?? '');
+            $input_options = mysqli_real_escape_string($conn, $moduleTV[4] ?? '');
+            $input_default = mysqli_real_escape_string($conn, $moduleTV[5] ?? '');
+            $output_widget = mysqli_real_escape_string($conn, $moduleTV[6] ?? '');
+            $output_widget_params = mysqli_real_escape_string($conn, $moduleTV[7] ?? '');
+            $filecontent = $moduleTV[8] ?? '';
+            $assignments = $moduleTV[9] ?? '';
+            $category = mysqli_real_escape_string($conn, $moduleTV[10] ?? '');
+            $locked = mysqli_real_escape_string($conn, $moduleTV[11] ?? '');
 
 
             // Create the category if it does not already exist
@@ -394,7 +398,7 @@ if (isset ($_POST['tv']) || $installData) {
                 foreach ($assignments as $assignment) {
                     $template = mysqli_real_escape_string($conn, $assignment);
                     $ts = mysqli_query($sqlParser->conn, "SELECT id FROM $dbase.`".$table_prefix."site_templates` WHERE templatename='$template';");
-                    if ($ds && $ts) {
+                    if ($ds && $ts && $ts->lengths) {
                         $tRow = mysqli_fetch_assoc($ts);
                         $templateId = $tRow['id'];
                         mysqli_query($sqlParser->conn, "INSERT INTO $dbase.`" . $table_prefix . "site_tmplvar_templates` (tmplvarid, templateid) VALUES($id, $templateId)");
@@ -408,7 +412,7 @@ if (isset ($_POST['tv']) || $installData) {
 // Install Chunks
 if (isset ($_POST['chunk']) || $installData) {
     echo "<h3>" . $_lang['chunks'] . ":</h3> ";
-    $selChunks = $_POST['chunk'];
+    $selChunks = $_POST['chunk'] ?? [];
     foreach ($moduleChunks as $k=>$moduleChunk) {
         $installSample = in_array('sample', $moduleChunk[5]) && $installData == 1;
         $count_new_name = 0;
@@ -463,7 +467,7 @@ if (isset ($_POST['chunk']) || $installData) {
 // Install Modules
 if (isset ($_POST['module']) || $installData) {
     echo "<h3>" . $_lang['modules'] . ":</h3> ";
-    $selModules = $_POST['module'];
+    $selModules = $_POST['module'] ?? [];
     foreach ($moduleModules as $k=>$moduleModule) {
         $installSample = in_array('sample', $moduleModule[7]) && $installData == 1;
         if($installSample || in_array($k, $selModules)) {
@@ -510,22 +514,22 @@ if (isset ($_POST['module']) || $installData) {
 // Install Plugins
 if (isset ($_POST['plugin']) || $installData) {
     echo "<h3>" . $_lang['plugins'] . ":</h3> ";
-    $selPlugs = $_POST['plugin'];
+    $selPlugs = $_POST['plugin'] ?? [];
     foreach ($modulePlugins as $k=>$modulePlugin) {
-        $installSample = in_array('sample', (array) $modulePlugin[8]) && $installData == 1;
+        $installSample = in_array('sample', (array) $modulePlugin[8] ?? []) && $installData == 1;
         if($installSample || in_array($k, $selPlugs)) {
-            $name = mysqli_real_escape_string($conn, $modulePlugin[0]);
-            $desc = mysqli_real_escape_string($conn, $modulePlugin[1]);
-            $filecontent = $modulePlugin[2];
-            $properties = $modulePlugin[3];
-            $events = explode(",", $modulePlugin[4]);
-            $guid = mysqli_real_escape_string($conn, $modulePlugin[5]);
-            $category = mysqli_real_escape_string($conn, $modulePlugin[6]);
+            $name = mysqli_real_escape_string($conn, $modulePlugin[0] ?? '');
+            $desc = mysqli_real_escape_string($conn, $modulePlugin[1] ?? '');
+            $filecontent = $modulePlugin[2] ?? '';
+            $properties = $modulePlugin[3] ?? '';
+            $events = explode(",", $modulePlugin[4] ?? '');
+            $guid = mysqli_real_escape_string($conn, $modulePlugin[5] ?? '');
+            $category = mysqli_real_escape_string($conn, $modulePlugin[6] ?? '');
             $leg_names = '';
-            $disabled = $modulePlugin[9];
+            $disabled = $modulePlugin[9] ?? '';
             if(array_key_exists(7, $modulePlugin)) {
                 // parse comma-separated legacy names and prepare them for sql IN clause
-                $leg_names = "'" . implode("','", preg_split('/\s*,\s*/', mysqli_real_escape_string($conn, $modulePlugin[7]))) . "'";
+                $leg_names = "'" . implode("','", preg_split('/\s*,\s*/', mysqli_real_escape_string($conn, $modulePlugin[7] ?? ''))) . "'";
             }
             if (!file_exists($filecontent))
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_plugin'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
@@ -619,7 +623,7 @@ if (isset ($_POST['plugin']) || $installData) {
 // Install Snippets
 if (isset ($_POST['snippet']) || $installData) {
     echo "<h3>" . $_lang['snippets'] . ":</h3> ";
-    $selSnips = $_POST['snippet'];
+    $selSnips = $_POST['snippet'] ?? [];
     foreach ($moduleSnippets as $k=>$moduleSnippet) {
         $installSample = in_array('sample', $moduleSnippet[5]) && $installData == 1;
         if($installSample || in_array($k, $selSnips)) {
@@ -809,9 +813,9 @@ function propUpdate($new,$old){
  * @param bool|mixed $json
  * @return string
  */
-function parseProperties($propertyString, $json=false) {
-    $propertyString = str_replace('{}', '', $propertyString );
-    $propertyString = str_replace('} {', ',', $propertyString );
+function parseProperties($propertyString = '', $json=false) {
+    $propertyString = str_replace('{}', '', $propertyString ?? '');
+    $propertyString = str_replace('} {', ',', $propertyString ?? '');
 
     if(empty($propertyString)) return $json ? json_encode(array(), JSON_UNESCAPED_UNICODE) : array();
     if($propertyString=='{}' || $propertyString=='[]') return $json ? json_encode(array(), JSON_UNESCAPED_UNICODE) : array();
