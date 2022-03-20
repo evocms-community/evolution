@@ -275,6 +275,7 @@ function clean_up($sqlParser) {
         echo "An error occurred while executing a query: ".mysqli_error($sqlParser->conn);
     }
     else {
+        $ids = [];
         while($r = mysqli_fetch_assoc($ds)) $ids[]=$r["id"];
         if(count($ids)>0) {
             mysqli_query($sqlParser->conn,"UPDATE `".$sqlParser->prefix."site_content` SET privatemgr = 1 WHERE id IN (".implode(", ",$ids).")");
