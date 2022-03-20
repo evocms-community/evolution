@@ -254,7 +254,7 @@ function prepareElementRowPh($row, $resourceTable, $resources) {
 	return array(
 		'class' => $class ? ' class="' . $class . '"' : '',
 		'lockedByUser' => $lockedByUser,
-		'name' => $row['name'],
+		'name' => $modx->htmlspecialchars($row['name']),
 		'caption' => $caption,
 		'buttons' => $buttons,
 		'marks' => $marks,
