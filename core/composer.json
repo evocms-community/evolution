@@ -9,7 +9,7 @@
     "templating",
     "core"
   ],
-  "homepage": "http://evo.im/",
+  "homepage": "https://evocms.ru/",
   "license": "GPL-2.0+",
   "authors": [
     {
@@ -66,7 +66,7 @@
     "predis/predis": "*",
     "james-heinrich/phpthumb": "1.*",
     "evocms-services/user-manager": "1.*",
-    "evolutioncms-services/document-manager": "1.*",
+    "evocms-services/document-manager": "1.*",
     "evolution-cms/salo": "1.*"
   },
   "require-dev": {
@@ -131,10 +131,9 @@
     "upd": "Updating sub-levels composer.json files"
   },
   "support": {
-    "email": "dmi3yy@evo.im",
-    "issues": "https://github.com/evolution-cms/evolution/issues/",
-    "source": "https://github.com/evolution-cms/evolution/",
+    "issues": "https://github.com/evocms-community/evolution/issues/",
+    "source": "https://github.com/evocms-community/evolution/",
     "docs": "http://docs.evo.im",
-    "telegram": "https://t.me/evolutioncms"
+    "telegram": "https://t.me/evo_cms"
   }
 }
