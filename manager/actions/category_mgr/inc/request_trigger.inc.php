@@ -121,7 +121,7 @@ if( isset( $_POST[$cm->get('request_key')]['add']['submit'] ) )
         $cm->addMessage(
             sprintf(
                 $cm->txt( 'cm_category_x_saved_at_position_y' ),
-                $category,
+                htmlspecialchars($category),
                 $rank
             ),
             'add'
@@ -153,7 +153,7 @@ if( isset( $_POST[$cm->get('request_key')]['sort']['submit'] ) )
             $cm->addMessage(
                 sprintf(
                     $cm->txt('cm_category_x_moved_to_position_y'),
-                    $data['category'],
+                    htmlspecialchars($data['category']),
                     $data['rank']
                 ),
                 'sort'
@@ -195,7 +195,7 @@ if( isset( $_POST[$cm->get('request_key')]['edit']['submit'] ) )
                 $cm->addMessage(
                     sprintf(
                         $cm->txt('cm_category_x_deleted'),
-                        urldecode( $_data['origin'] )
+                        htmlspecialchars(urldecode( $_data['origin'] ))
                     ),
                     'edit'
                 );
@@ -215,7 +215,7 @@ if( isset( $_POST[$cm->get('request_key')]['edit']['submit'] ) )
                 sprintf(
                     $cm->txt('cm_category_x_renamed_to_y'),
                     urldecode( $_data['origin'] ),
-                    $data['category']
+                    htmlspecialchars($data['category'])
                 ),
                 'edit'
             );
@@ -242,7 +242,7 @@ if( isset( $_GET[$cm->get('request_key')]['delete'] )
         $cm->addMessage(
             sprintf(
                 $cm->txt('cm_category_x_deleted'),
-                urldecode( $_GET[$cm->get('request_key')]['category'] )
+                htmlspecialchars(urldecode( $_GET[$cm->get('request_key')]['category'] ))
             ),
             'edit'
         );
