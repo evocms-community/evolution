@@ -17,12 +17,6 @@
       "email": "modx@agel-nash.ru",
       "homepage": "https://agel-nash.ru",
       "role": "Developer"
-    },
-    {
-      "name": "Dmytro Lukianenko",
-      "email": "dmi3yy@gmail.com",
-      "homepage": "http://dmi3yy.com",
-      "role": "Developer"
     }
   ],
   "require": {
