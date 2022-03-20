@@ -400,7 +400,7 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
                                     <?php } ?>
                                     <?php
                                     $style = $modx->config['settings_version'] != $modx->getVersionData('version') ? 'style="color:#ffff8a;"' : '';
-                                    $version = 'Evolution';
+                                    $version = 'Evolution CE';
                                     ?>
                                     <?php
                                     echo sprintf('<li><span class="dropdown-item" title="%s &ndash; %s" %s>' . $version . ' %s</span></li>', $site_name, $modx->getVersionData('full_appname'), $style, $modx->config['settings_version']);
