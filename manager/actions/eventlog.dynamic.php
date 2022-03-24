@@ -147,7 +147,7 @@ echo $cm->render();
                     $grd->colWidths = "1%,,1%,1%,1%";
                     $grd->colAligns = "center,,,center,center";
                     $grd->colWraps = ",,1";
-                    $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang['click_to_context'] . "'><i class='[+icon+]'></i></a>||template:<a href='index.php?a=115&id=[+id+]' title='" . $_lang['click_to_view_details'] . "'>[+source+]</a>||date: " . $modx->toDateFormat(null, 'formatOnly') . ' %I:%M %p';
+                    $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang['click_to_context'] . "'><i class='[+icon+]'></i></a>||template:<a href='index.php?a=115&id=[+id+]' title='" . $_lang['click_to_view_details'] . "'>[+source+]</a>||date: " . $modx->toDateFormat(null, 'formatOnly') . ' %R';
                     if($listmode == '1') {
                         $grd->pageSize = 0;
                     }
