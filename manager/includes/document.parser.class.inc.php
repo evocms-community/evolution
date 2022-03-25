@@ -2560,7 +2560,7 @@ class DocumentParser
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
         $len_base_url = strlen($this->config['base_url']);
 
-        $url_path = $q;//LANG
+        $url_path = $q ?? '';//LANG
 
         if (substr($url_path, 0, $len_base_url) === $this->config['base_url']) {
             $url_path = substr($url_path, $len_base_url);
