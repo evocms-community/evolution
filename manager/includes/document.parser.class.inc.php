@@ -4589,9 +4589,9 @@ class DocumentParser
         }
 
         if (empty($mode)) {
-            $strTime = date_format(date_create('@' . $timestamp), $dateFormat . " %H:%M:%S");
+            $strTime = strftime($dateFormat . " %H:%M:%S", $timestamp);
         } elseif ($mode == 'dateOnly') {
-            $strTime = date_format(date_create('@' . $timestamp), $dateFormat);
+            $strTime = strftime($dateFormat, $timestamp);
         } elseif ($mode == 'formatOnly') {
             $strTime = $dateFormat;
         }
@@ -6639,7 +6639,7 @@ class DocumentParser
         $out = false;
         if ($alias !== '') {
             $table = $this->getFullTableName('site_content');
-            $query = $this->db->query("SELECT 
+            $query = $this->db->query("SELECT
                 `sc`.`id` AS `hidden_id`,
                 `children`.`id` AS `child_id`,
                 children.alias AS `child_alias`,
