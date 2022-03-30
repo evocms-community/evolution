@@ -154,7 +154,12 @@ class DBAPI
             $sql = implode("\n", $sql);
         }
         $this->lastQuery = $sql;
-        if (!($result = $this->conn->query($sql))) {
+        try {
+            $result = $this->conn->query($sql);
+        } catch (Exception $e) {
+            $result = false;
+        }
+        if (!$result) {
             if (!$watchError) {
                 return false;
             }
