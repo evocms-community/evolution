@@ -97,7 +97,7 @@ if($modx->getManagerApi()->action == '88') {
 
 // avoid doubling htmlspecialchars (already encoded in DB)
 foreach($userdata as $key => $val) {
-	$userdata[$key] = html_entity_decode($val, ENT_NOQUOTES, $modx->getConfig('modx_charset'));
+	$userdata[$key] = html_entity_decode($val ?? '', ENT_NOQUOTES, $modx->getConfig('modx_charset'));
 };
 $usernamedata['username'] = html_entity_decode(
     get_by_key($usernamedata, 'username', ''),
