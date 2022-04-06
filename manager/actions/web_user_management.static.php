@@ -138,7 +138,7 @@ echo $cm->render();
 					$grd->colWidths = "1%,,,,1%,1%,1%";
 					$grd->colAligns = "center,,,,right' nowrap='nowrap,right,center";
 					$grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='" . $_style["icons_web_user"] . "'></i></a>||template:<a href='index.php?a=88&id=[+id+]' title='" . $_lang["click_to_edit_title"] . "'>[+value+]</a>||template:[+fullname+]||template:[+email+]||date: " . $modx->toDateFormat('[+thislogin+]', 'formatOnly') . 
-					" %H:%M";
+					" H:i";
 					if($listmode == '1') {
 						$grd->pageSize = 0;
 					}

@@ -160,7 +160,7 @@ echo $cm->render();
 						'template:[+fullname+]',
 						'template:[+role+]',
 						'template:[+email+]',
-						'date: ' . $modx->toDateFormat('[+thislogin+]', 'formatOnly') . ' %H:%M',
+						'date: ' . $modx->toDateFormat('[+thislogin+]', 'formatOnly') . ' H:i',
 						'template:[+logincount+]',
 						'template:[+blocked+]'
 					));

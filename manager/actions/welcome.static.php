@@ -167,7 +167,7 @@ if($modx->db->getRecordCount($rs) < 1) {
 } else {
     include_once(MODX_MANAGER_PATH . 'includes/actionlist.inc.php');
     $now = $_SERVER['REQUEST_TIME'] + $server_offset_time;
-    $ph['now'] = strftime('%H:%M:%S', $now);
+    $ph['now'] = date('H:i:s', $now);
     $timetocheck = ($now - (60 * 20)); //+$server_offset_time;
     $html = '
     <div class="card-body">
@@ -204,7 +204,7 @@ if($modx->db->getRecordCount($rs) < 1) {
             $webicon,
             abs($activeusers['internalKey']),
             $ip,
-            strftime($modx->toDateFormat(0,'formatOnly').' %H:%M:%S', $activeusers['lasthit'] + $server_offset_time),
+            date($modx->toDateFormat(0,'formatOnly').' H:i:s', $activeusers['lasthit'] + $server_offset_time),
             $currentaction
         );
     }
@@ -594,7 +594,7 @@ function getRecentInfoRowTpl() {
                         <tr>
                             <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-right"><span class="label label-info">[+id+]</span></td>
                             <td data-toggle="collapse" data-target=".collapse[+id+]"><a class="[+status+]" title="[%edit_resource%]" href="index.php?a=3&amp;id=[+id+]" target="main">[+pagetitle:htmlentities+]</a></td>
-                            <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-right text-nowrap">[+editedon:math("%s+[(server_offset_time)]"):dateFormat=`'.$modx->toDateFormat(0,'formatOnly').' %H:%M:%S`+]</td>
+                            <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-right text-nowrap">[+editedon:math("%s+[(server_offset_time)]"):dateFormat=`'.$modx->toDateFormat(0,'formatOnly').' H:i:s`+]</td>
                             <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-nowrap">[+username:htmlentities+]</td>
                             <td style="text-align: right;" class="actions">[+edit_btn+][+preview_btn+][+delete_btn+][+publish_btn+][+info_btn+]</td>
                         </tr>

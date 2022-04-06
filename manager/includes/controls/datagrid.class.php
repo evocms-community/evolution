@@ -279,9 +279,9 @@ class DataGrid {
 					$value = strtotime($value);
 				}
 				if(!$type_format) {
-					$type_format = "%A %d, %B %Y";
+					$type_format = "l d, F Y";
 				}
-				$value = strftime($type_format, $value);
+				$value = date($type_format, $value);
 				break;
 
 			case "boolean":
