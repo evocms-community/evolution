@@ -295,8 +295,8 @@ if (count($moduleModules )>0) {
 
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
-
-                $module = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2));
+                $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
+                $module = end($tmp);
                 // remove installer docblock
                 $module = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $module, 1);
                 $module = $modx->db->escape($module);
@@ -354,8 +354,8 @@ if (count($modulePlugins )>0) {
 
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
-
-                $plugin = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2));
+                $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
+                $plugin = end($tmp);
                 // remove installer docblock
                 $plugin = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $plugin, 1);
                 $plugin = $modx->db->escape($plugin);
@@ -449,8 +449,8 @@ if (count($moduleSnippets ) > 0) {
 
                 // Create the category if it does not already exist
                 $category = getCreateDbCategory($category, $sqlParser);
-
-                $snippet = end(preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent)));
+                $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
+                $snippet = end($tmp);
                 // remove installer docblock
                 $snippet = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $snippet, 1);
                 $snippet = $modx->db->escape($snippet);
