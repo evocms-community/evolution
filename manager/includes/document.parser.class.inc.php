@@ -4567,7 +4567,7 @@ class DocumentParser
     {
         $timestamp = trim($timestamp);
         if ($mode !== 'formatOnly' && empty($timestamp)) {
-            return '-';
+            return '';
         }
         $timestamp = (int)$timestamp;
 
