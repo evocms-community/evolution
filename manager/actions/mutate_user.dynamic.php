@@ -766,7 +766,7 @@ if($which_browser == 'default') {
 						<td class='comment'><?php echo $_lang["user_photo_message"] ?></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><img name="iphoto" src="<?php echo !empty($userdata['photo']) ? MODX_SITE_URL . $userdata['photo'] : $_style['tx']; ?>" /></td>
+						<td colspan="2" align="center"><img name="iphoto" src="<?php echo !empty($userdata['photo']) ? MODX_SITE_URL . $modx->htmlspecialchars($userdata['photo']) : $_style['tx']; ?>" /></td>
 					</tr>
 				</table>
 			</div>

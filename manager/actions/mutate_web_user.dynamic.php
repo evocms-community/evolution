@@ -515,7 +515,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 						<td class='comment'><?php echo $_lang["user_photo_message"] ?></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><img name="iphoto" src="<?php echo (isset($_POST['photo']) ? (strpos($_POST['photo'], "http://") === false ? MODX_SITE_URL : "") . $_POST['photo'] : !empty($userdata['photo'])) ? (strpos($userdata['photo'], "http://") === false ? MODX_SITE_URL : "") . $userdata['photo'] : $_style["tx"]; ?>" /></td>
+						<td colspan="2" align="center"><img name="iphoto" src="<?php echo (isset($_POST['photo']) ? (strpos($_POST['photo'], "http://") === false ? MODX_SITE_URL : "") . $_POST['photo'] : !empty($userdata['photo'])) ? (strpos($userdata['photo'], "http://") === false ? MODX_SITE_URL : "") . $modx->htmlspecialchars($userdata['photo']) : $_style["tx"]; ?>" /></td>
 					</tr>
 				</table>
 			</div>
