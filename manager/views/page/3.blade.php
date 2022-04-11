@@ -13,7 +13,6 @@
         $_SESSION['openedArray'] = $_GET['opened'];
     }
 
-
     if ($_SESSION['tree_show_only_folders']) {
         $resource = \EvolutionCMS\Models\SiteContent::find($id);
         $parent = $id ? $resource->parent : 0;
@@ -43,6 +42,24 @@
         EvolutionCMS()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
     }
     $content = $content->toArray();
+
+    $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
+    $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
+    $pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
+    $add_path = $sd . $sb . $pg;
+
+    $actions = [
+        'new' => 'index.php?pid=' . $_REQUEST['id'] . '&a=4',
+        'newlink' => 'index.php?pid=' . $_REQUEST['id'] . '&a=72',
+        'edit' => 'index.php?id=' . $_REQUEST['id'] . '&a=27',
+        'save' => '',
+        'delete' => 'index.php?id=' . $_REQUEST['id'] . '&a=6',
+        'cancel' => 'index.php?' . ($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path),
+        'move' => 'index.php?id=' . $_REQUEST['id'] . '&a=51',
+        'duplicate' => 'index.php?id=' . $_REQUEST['id'] . '&a=94',
+        'view' => $modx->getConfig('friendly_urls') ? UrlProcessor::makeUrl($id) : MODX_SITE_URL . 'index.php?id=' . $id,
+    ];
+
     /**
      * "General" tab setup
      */
@@ -74,6 +91,19 @@
     $maxpageSize = $modx->getConfig('number_of_results');
     define('MAX_DISPLAY_RECORDS_NUM', $maxpageSize);
 
+    // predefined constants
+    $filter_sort = [
+        'createdon' => ManagerTheme::getLexicon('createdon'),
+        'pub_date' => ManagerTheme::getLexicon('page_data_publishdate'),
+        'pagetitle' => ManagerTheme::getLexicon('pagetitle'),
+        'menuindex' => ManagerTheme::getLexicon('resource_opt_menu_index'),
+        'published' => ManagerTheme::getLexicon('resource_opt_is_published'),
+    ];
+    $filter_dir = [
+        'ASC' => ManagerTheme::getLexicon('sort_asc'),
+        'DESC' => ManagerTheme::getLexicon('sort_desc'),
+    ];
+
     // Get child document count
     $childs = \EvolutionCMS\Models\SiteContent::query()->select('site_content.*')->distinct()
         ->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id')
@@ -98,15 +128,9 @@
 
     // Get child documents (with paging)
 
-    $filter_sort = '';
-    $filter_dir = '';
     if ($numRecords > 0) {
         $childs = $childs->orderBy($sort, $dir)->offset($pg * MAX_DISPLAY_RECORDS_NUM)->limit(MAX_DISPLAY_RECORDS_NUM)->get();
 
-        $filter_sort = '<select size="1" name="sort" class="form-control form-control-sm" onchange="document.location=\'index.php?a=3&id=' . $id . '&dir=' . $dir . '&sort=\'+this.options[this.selectedIndex].value">' . '<option value="createdon"' . (($sort == 'createdon') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('createdon') . '</option>' . '<option value="pub_date"' . (($sort == 'pub_date') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('page_data_publishdate') . '</option>' . '<option value="pagetitle"' . (($sort == 'pagetitle') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('pagetitle') . '</option>' . '<option value="menuindex"' . (($sort == 'menuindex') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('resource_opt_menu_index') . '</option>' . //********  resource_opt_is_published - //
-            '<option value="published"' . (($sort == 'published') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('resource_opt_is_published') . '</option>' . //********//
-            '</select>';
-        $filter_dir = '<select size="1" name="dir" class="form-control form-control-sm" onchange="document.location=\'index.php?a=3&id=' . $id . '&sort=' . $sort . '&dir=\'+this.options[this.selectedIndex].value">' . '<option value="DESC"' . (($dir == 'DESC') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('sort_desc') . '</option>' . '<option value="ASC"' . (($dir == 'ASC') ? ' selected' : '') . '>' . ManagerTheme::getLexicon('sort_asc') . '</option>' . '</select>';
         $resource = $childs->toArray();
 
         // CSS style for table
@@ -148,11 +172,6 @@
             '1%'
         );
         $table->setColumnWidths($tbWidth);
-
-        $sd = isset($_REQUEST['dir']) ? '&amp;dir=' . $_REQUEST['dir'] : '&amp;dir=DESC';
-        $sb = isset($_REQUEST['sort']) ? '&amp;sort=' . $_REQUEST['sort'] : '&amp;sort=createdon';
-        $pg = isset($_REQUEST['page']) ? '&amp;page=' . (int)$_REQUEST['page'] : '';
-        $add_path = $sd . $sb . $pg;
 
         $icons = array(
             'text/plain' => '<i class="' . $_style['icon_document'] . '"></i>',
@@ -205,14 +224,18 @@
             //$class .= ($children['hidemenu'] ? ' text-muted' : ' text-primary');
             //$class .= ($children['isfolder'] ? ' font-weight-bold' : '');
             if ($modx->hasPermission('edit_document')) {
-                $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&amp;id=' . $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . entities($children['pagetitle'], $modx->getConfig('modx_charset')) . '</span></a></span>';
+                $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&id=' . $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . entities($children['pagetitle'], $modx->getConfig('modx_charset')) . '</span></a></span>';
             } else {
                 $title = '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . entities($children['pagetitle'], $modx->getConfig('modx_charset')) . '</span></span>';
             }
 
-            $icon_pub_unpub = (!$children['published']) ? '<a href="index.php?a=61&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>' : '<a href="index.php?a=62&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
+            $icon_pub_unpub = (!$children['published'])
+                ? '<a href="index.php?a=61&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>'
+                : '<a href="index.php?a=62&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
 
-            $icon_del_undel = (!$children['deleted']) ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') . '\')" href="index.php?a=6&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('delete_resource') . '"><i class="' . $_style['icon_trash'] . '"></i></a>' : '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_undelete') . '\')" href="index.php?a=63&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('undelete_resource') . '"><i class="' . $_style['icon_undo'] . '"></i></a>';
+            $icon_del_undel = (!$children['deleted'])
+                ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') . '\')" href="index.php?a=6&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('delete_resource') . '"><i class="' . $_style['icon_trash'] . '"></i></a>'
+                : '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_undelete') . '\')" href="index.php?a=63&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('undelete_resource') . '"><i class="' . $_style['icon_undo'] . '"></i></a>';
 
             $listDocs[] = array(
                 'docid' => '<div class="text-right">' . $children['id'] . '</div>',
@@ -220,29 +243,49 @@
                 'createdon' => '<div class="text-right">' . ($modx->toDateFormat($children['createdon'] + $modx->timestamp(0), 'dateOnly')) . '</div>',
                 'pub_date' => '<div class="text-right">' . ($children['pub_date'] ? ($modx->toDateFormat($children['pub_date'] + $modx->timestamp(0), 'dateOnly')) : '') . '</div>',
                 'status' => '<div class="text-nowrap">' . ($children['published'] == 0 ? '<span class="unpublishedDoc">' . ManagerTheme::getLexicon('page_data_unpublished') . '</span>' : '<span class="publishedDoc">' . ManagerTheme::getLexicon('page_data_published') . '</span>') . '</div>',
-                'edit' => '<div class="actions text-center text-nowrap">' . ($modx->hasPermission('edit_document') ? '<a href="index.php?a=27&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' . $_style['icon_edit'] . '"></i></a><a href="index.php?a=51&amp;id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
-				class="' . $_style['icon_move'] . '"></i></a>' . $icon_pub_unpub : '') . ($modx->hasPermission('delete_document') ? $icon_del_undel : '') . '</div>'
+                'edit' => '<div class="actions text-center text-nowrap">' . ($modx->hasPermission('edit_document') ? '<a href="index.php?a=27&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' . $_style['icon_edit'] . '"></i></a>
+                    <a href="index.php?a=51&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
+                    class="' . $_style['icon_move'] . '"></i></a>' . $icon_pub_unpub : '') . ($modx->hasPermission('delete_document') ? $icon_del_undel : '') . '</div>'
             );
         }
 
         $table->createPagingNavigation($numRecords, 'a=3&id=' . $content['id'] . '&dir=' . $dir . '&sort=' . $sort);
-        $children_output = $table->create($listDocs, $listTableHeader, 'index.php?a=3&amp;id=' . $content['id']);
+        $children_output = $table->create($listDocs, $listTableHeader, 'index.php?a=3&id=' . $content['id']);
     } else {
         // No Child documents
         $children_output = '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
         $add_path = '';
     }
+
+    /**
+    * "Source" tab setup
+    */
+    $buffer = '';
+    $is_cached = false;
+    if($modx->getConfig('cache_type')) {
+        $filename = $modx->bootstrapPath() . "/docid_{$id}.pageCache.php";
+        if (file_exists($filename)) {
+            $handle = @fopen($filename, "r");
+            while (!feof($handle)) {
+                $buffer .= fgets($handle, 4096);
+            }
+            fclose($handle);
+            $buffer = $modx->getPhpCompat()->htmlspecialchars($buffer);
+            $is_cached = true;
+        }
+    }
+
     ?>
     <script type="text/javascript">
         var actions = {
             new: function () {
-                document.location.href = "index.php?pid=<?= $_REQUEST['id'] ?>&a=4";
+                document.location.href = "{!! $actions['new'] !!}";
             },
             newlink: function () {
-                document.location.href = "index.php?pid=<?= $_REQUEST['id'] ?>&a=72";
+                document.location.href = "{!! $actions['newlink'] !!}";
             },
             edit: function () {
-                document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=27";
+                document.location.href = "{!! $actions['edit'] !!}";
             },
             save: function () {
                 documentDirty = false;
@@ -251,39 +294,40 @@
             },
             delete: function () {
                 if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_resource') }}") === true) {
-                    document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=6";
+                    document.location.href = "{!! $actions['delete'] !!}";
                 }
             },
             cancel: function () {
                 documentDirty = false;
-                document.location.href = 'index.php?<?=($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path) ?>';
+                document.location.href = "{!! $actions['cancel'] !!}";
             },
             move: function () {
-                document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=51";
+                document.location.href = "{!! $actions['move'] !!}";
             },
             duplicate: function () {
                 if (confirm("{{ ManagerTheme::getLexicon('confirm_resource_duplicate') }}") === true) {
-                    document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=94";
+                    document.location.href = "{!! $actions['duplicate'] !!}";
                 }
             },
             view: function () {
-                window.open('<?= ($modx->getConfig('friendly_urls')) ? UrlProcessor::makeUrl($id) : MODX_SITE_URL . 'index.php?id=' . $id ?>', 'previeWin');
+                window.open("{!! $actions['view'] !!}", "previewWin");
             }
         };
-
     </script>
     <script type="text/javascript" src="media/script/tablesort.js"></script>
 
     <h1>
-        <i class="{{ $_style['icon_info'] }}"></i><?= entities(iconv_substr($content['pagetitle'], 0, 50, $modx->getConfig('modx_charset')), $modx->getConfig('modx_charset')) . (iconv_strlen($content['pagetitle'], $modx->getConfig('modx_charset')) > 50 ? '...' : '') . ' <small>(' . (int)$_REQUEST['id'] . ')</small>' ?>
+        <i class="{{ $_style['icon_info'] }}"></i>
+        {{ entities(iconv_substr($content['pagetitle'], 0, 50, $modx->getConfig('modx_charset')), $modx->getConfig('modx_charset')) }}
+        @if(iconv_strlen($content['pagetitle'], $modx->getConfig('modx_charset')) > 50)...@endif
+        <small>({{ (int)$_REQUEST['id'] }})</small>
     </h1>
 
-    <?= $_style['actionbuttons']['static']['document'] ?>
-
+    {!! $_style['actionbuttons']['static']['document'] !!}
 
     <div class="tab-pane" id="childPane">
         <script type="text/javascript">
-            docSettings = new WebFXTabPane(document.getElementById("childPane"), <?= ($modx->getConfig('remember_last_tab') ? 'true' : 'false') ?> );
+            docSettings = new WebFXTabPane(document.getElementById("childPane"),@if($modx->getConfig('remember_last_tab')) true @else false @endif);
         </script>
 
         <!-- General -->
@@ -411,56 +455,58 @@
             <script type="text/javascript">docSettings.addTabPage(document.getElementById("tabChildren"));</script>
             <div class="container container-body">
                 <div class="form-group clearfix">
-                    <?php if($numRecords > 0) : ?>
+                    @if($numRecords > 0)
                     <div class="float-xs-left">
-                        <span class="publishedDoc"><?= $numRecords . ' ' . ManagerTheme::getLexicon('resources_in_container') ?> (<strong><?= entities($content['pagetitle'], $modx->getConfig('modx_charset')) ?></strong>)</span>
+                        <span class="publishedDoc">{{ $numRecords }} {{ ManagerTheme::getLexicon('resources_in_container') }} (<strong>{{ entities($content['pagetitle'], $modx->getConfig('modx_charset')) }}</strong>)</span>
                     </div>
-                    <?php endif; ?>
+                    @endif
                     <div class="float-right">
-                        <?= $filter_sort . ' ' . $filter_dir ?>
+                        @if($numRecords > 0)
+                        <select size="1" name="sort" class="form-control form-control-sm" onchange="document.location='index.php?a=3&id={{ $id }}&dir={{ $dir }}&sort=' + this.options[this.selectedIndex].value">
+                            @foreach($filter_sort as $key => $val)
+                            <option value="{{ $key }}" @if($key == $sort) selected @endif>{{ $val }}</option>
+                            @endforeach
+                        </select>
+                        <select size="1" name="dir" class="form-control form-control-sm" onchange="document.location='index.php?a=3&id={{ $id }}&sort={{ $sort }}&dir=' + this.options[this.selectedIndex].value">
+                            @foreach($filter_dir as $key => $val)
+                            <option value="{{ $key }}" @if($key == $dir) selected @endif>{{ $val }}</option>
+                            @endforeach
+                        </select>
+                        @endif
                     </div>
-
                 </div>
                 <div class="row">
-                    <div class="table-responsive"><?= $children_output ?></div>
+                    <div class="table-responsive">{!! $children_output !!}</div>
                 </div>
             </div>
         </div><!-- end tab-page -->
 
-    @if($modx->getConfig('cache_type'))
+        @if($modx->getConfig('cache_type'))
         <!-- Page Source -->
-            <div class="tab-page" id="tabSource">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('page_data_source') }}</h2>
-                <script type="text/javascript">docSettings.addTabPage(document.getElementById("tabSource"));</script>
-                <?php
-                $buffer = "";
-                $filename = $modx->bootstrapPath() . "/docid_{$id}.pageCache.php";
-                if (!file_exists($filename)) {
-                    $buffer = '<div class="container container-body">' . ManagerTheme::getLexicon('page_data_notcached') . '</div>';
-                } else {
-                    $handle = @fopen($filename, "r");
-                    while (!feof($handle)) {
-                        $buffer .= fgets($handle, 4096);
-                    }
-                    fclose($handle);
-                    $buffer = '<div class="navbar navbar-editor">' . ManagerTheme::getLexicon('page_data_cached') . '</div><div class="section-editor clearfix"><textarea rows="20" wrap="soft">' . $modx->getPhpCompat()->htmlspecialchars($buffer) . "</textarea></div>\n";
-                }
-                echo $buffer;
-                ?>
-            </div><!-- end tab-page -->
+        <div class="tab-page" id="tabSource">
+            <h2 class="tab">{{ ManagerTheme::getLexicon('page_data_source') }}</h2>
+            <script type="text/javascript">docSettings.addTabPage(document.getElementById("tabSource"));</script>
+            @if($is_cached)
+            <div class="navbar navbar-editor">' . ManagerTheme::getLexicon('page_data_cached') . '</div>
+            <div class="section-editor clearfix"><textarea rows="20" wrap="soft">{!! $buffer !!}</textarea></div>
+            @else
+            <div class="container container-body">{{ ManagerTheme::getLexicon('page_data_notcached') }}</div>
+            @endif
+        </div><!-- end tab-page -->
         @endif
 
     </div><!-- end documentPane -->
 
     @if(is_numeric(get_by_key($_GET, 'tab')))
-        <script type="text/javascript"> docSettings.setSelectedIndex({{ $_GET['tab'] }});</script>
+        <script type="text/javascript">
+            docSettings.setSelectedIndex({{ $_GET['tab'] }});
+        </script>
     @endif
 
     @if(!empty($show_preview))
         <div class="sectionHeader">{{ ManagerTheme::getLexicon('preview') }}</div>
         <div class="sectionBody" id="lyr2">
-            <iframe src="{{ MODX_SITE_URL }}index.php?id={{ $id }}&z=manprev" frameborder="0" border="0"
-                    id="previewIframe"></iframe>
+            <iframe src="{{ MODX_SITE_URL }}index.php?id={{ $id }}&z=manprev" frameborder="0" border="0" id="previewIframe"></iframe>
         </div>
     @endif
 @endsection
