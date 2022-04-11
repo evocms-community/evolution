@@ -1,9 +1,9 @@
 <?php
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-	die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if(!$modx->hasPermission('edit_user')) {
-	$modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!$modx->hasPermission('edit_user')) {
+    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
 // initialize page view state - the $_PAGE object
@@ -12,17 +12,18 @@ $modx->getManagerApi()->initPageViewState();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : '';
 
 // get and save search string
-if($op == 'reset') {
-	$query = '';
-	$query_role = 0;
-	$_PAGE['vs']['search'] = '';
-	$_PAGE['vs']['role'] = '';
+if ($op == 'reset') {
+    $query = '';
+    $query_role = 0;
+    $_PAGE['vs']['search'] = '';
+    $_PAGE['vs']['role'] = '';
 } else {
-	$query = isset($_REQUEST['search']) ? $_REQUEST['search'] : (isset($_PAGE['vs']['search']) ? $_PAGE['vs']['search'] : '');
-	$query_role = isset($_REQUEST['role']) ? $_REQUEST['role'] : (isset($_PAGE['vs']['role']) ? $_PAGE['vs']['role'] : '');
-	$_PAGE['vs']['search'] = $query;
-	$_PAGE['vs']['role'] = $query_role;
+    $query = isset($_REQUEST['search']) ? $_REQUEST['search'] : (isset($_PAGE['vs']['search']) ? $_PAGE['vs']['search'] : '');
+    $query_role = isset($_REQUEST['role']) ? $_REQUEST['role'] : (isset($_PAGE['vs']['role']) ? $_PAGE['vs']['role'] : '');
+    $_PAGE['vs']['search'] = $query;
+    $_PAGE['vs']['role'] = $query_role;
 }
+
 
 // get & save listmode
 $listmode = isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : (isset($_PAGE['vs']['lm']) ? $_PAGE['vs']['lm'] : '');
@@ -38,10 +39,97 @@ echo $cm->render();
 // roles
 $role_options = '';
 $roles = \EvolutionCMS\Models\UserRole::query()->select('id', 'name')->get()->toArray();
-foreach($roles as $row) {
-	$role_options .= '<option value="'.$row['id'].'" '.($row['id'] == $query_role ? 'selected' : '').'>'.$row['name'].'</option>';
+foreach ($roles as $row) {
+    $role_options .= '<option value="'.$row['id'].'" '.($row['id'] == $query_role ? 'selected' : '').'>'.$row['name'].'</option>';
 }
 
+
+// prepare data
+$managerUsers = \EvolutionCMS\Models\User::query()
+    ->select('users.id', 'users.username', 'user_attributes.fullname', 'user_attributes.email', 'user_attributes.blocked', 'user_attributes.thislogin', 'user_attributes.logincount', 'user_attributes.blockeduntil', 'user_attributes.blockedafter')
+    ->join('user_attributes', 'user_attributes.internalKey', '=', 'users.id')
+    ->join('user_roles', 'user_roles.id', '=', 'user_attributes.role')
+    ->orderBy('users.username', 'ASC');
+$where = "";
+
+if (!empty($query)) {
+    $managerUsers = $managerUsers->where(function ($q) use ($query) {
+        $q->where('users.username', 'LIKE', $query.'%')
+            ->orWhere('user_attributes.fullname', 'LIKE', '%'.$query.'%')
+            ->orWhere('user_attributes.email', 'LIKE', '%'.$query.'%');
+    });
+}
+if (!empty($query_role)) {
+    $managerUsers = $managerUsers->where(function ($q) use ($query_role) {
+        $q->where('user_attributes.role', '=', $query_role);
+    });
+}
+
+// NEW
+$maxpageSize = $modx->getConfig('number_of_results');
+define('MAX_DISPLAY_RECORDS_NUM', $maxpageSize);
+
+$numRecords = $managerUsers->count();
+
+$pg = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] - 1 : 0;
+
+if ($numRecords > 0) {
+    $managerUsers = $managerUsers->offset($pg * $maxpageSize)->limit($maxpageSize);
+
+    $resource = $managerUsers->get()->toArray();
+
+    // CSS style for table
+    // $tableClass = 'grid';
+    // $rowHeaderClass = 'gridHeader';
+    // $rowRegularClass = 'gridItem';
+    // $rowAlternateClass = 'gridAltItem';
+    $tableClass = 'table data nowrap';
+    $columnHeaderClass = [
+        'center',
+        '',
+        '',
+        '',
+        'right" nowrap="nowrap,right,center',
+    ];
+    $table = new \EvolutionCMS\Support\MakeTable();
+    $table->setTableClass($tableClass);
+    $table->setColumnHeaderClass($columnHeaderClass);
+    // $modx->getMakeTable()->setRowHeaderClass($rowHeaderClass);
+    // $modx->getMakeTable()->setRowRegularClass($rowRegularClass);
+    // $modx->getMakeTable()->setRowAlternateClass($rowAlternateClass);
+
+    // Table header
+    $listTableHeader = [
+        'icon' => ManagerTheme::getLexicon('icon'),
+        'name' => ManagerTheme::getLexicon('name'),
+        'user_full_name' => ManagerTheme::getLexicon('user_full_name'),
+        'email' => ManagerTheme::getLexicon('email'),
+        'user_prevlogin' => ManagerTheme::getLexicon('user_prevlogin'),
+        'user_logincount' => ManagerTheme::getLexicon('user_logincount'),
+        'user_block' => ManagerTheme::getLexicon('user_block'),
+    ];
+    $tbWidth = [ '1%', '', '', '', '1%', '1%', '1%' ];
+    $table->setColumnWidths($tbWidth);
+
+    $listDocs = [];
+    foreach ($resource as $k => $el) {
+        $listDocs[] = [
+            'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] . ',event);" title="' . $_lang["click_to_context"] . '"><i class="' . $_style["icon_web_user"] . '"></i></a>',
+            'name' => '<a href="index.php?a=88&id=' . $el['id'] . ' title="' . $_lang["click_to_edit_title"] . '">' . $el['username'] . '</a>',
+            'user_full_name' => $el['fullname'],
+            'email' => $el['email'],
+            'user_prevlogin' => $el['thislogin'] ? $modx->toDateFormat($el['thislogin']) : '-',
+            'user_logincount' => $el['logincount'],
+            'user_block' => $el['blockeduntil'] ? $modx->toDateFormat($el['blockeduntil']) : '-',
+        ];
+    }
+
+    $table->createPagingNavigation($numRecords, 'a=99');
+    $output = $table->create($listDocs, $listTableHeader, 'index.php?a=99');
+} else {
+    // No Child documents
+    $output = '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
+}
 ?>
 <script language="JavaScript" type="text/javascript">
 	function searchResource() {
@@ -101,19 +189,19 @@ foreach($roles as $row) {
 
 </script>
 <form name="resource" method="post">
-	<input type="hidden" name="listmode" value="<?= $listmode ?>" />
-	<input type="hidden" name="op" value="" />
+    <input type="hidden" name="listmode" value="<?= $listmode ?>" />
+    <input type="hidden" name="op" value="" />
 
-	<h1>
-		<i class="<?= $_style['icon_web_user'] ?>"></i><?= $_lang['web_user_management_title'] ?><i class="<?= $_style['icon_question_circle'] ?> help"></i>
-	</h1>
+    <h1>
+        <i class="<?= $_style['icon_web_user'] ?>"></i><?= $_lang['web_user_management_title'] ?> <i class="<?= $_style['icon_question_circle'] ?> help"></i>
+    </h1>
 
-	<div class="container element-edit-message">
-		<div class="alert alert-info"><?= $_lang['web_user_management_msg'] ?></div>
-	</div>
+    <div class="container element-edit-message">
+        <div class="alert alert-info"><?= $_lang['web_user_management_msg'] ?></div>
+    </div>
 
-	<div class="tab-page">
-		<div class="container container-body">
+    <div class="tab-page">
+        <div class="container container-body">
             <div class="row searchbar form-group">
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
@@ -135,52 +223,18 @@ foreach($roles as $row) {
                     </div>
                 </div>
             </div>
-			<div class="row">
-				<div class="table-responsive">
-					<?php
-                    $managerUsers = \EvolutionCMS\Models\User::query()
-                        ->select('users.id', 'users.username', 'user_attributes.fullname', 'user_attributes.email', 'user_attributes.blocked', 'user_attributes.thislogin', 'user_attributes.logincount', 'user_attributes.blockeduntil', 'user_attributes.blockedafter')
-                        ->join('user_attributes', 'user_attributes.internalKey', '=', 'users.id')
-                        ->join('user_roles', 'user_roles.id', '=', 'user_attributes.role')
-                        ->orderBy('users.username', 'ASC');
-                    $where = "";
-                    if (!empty($query)) {
-                        $managerUsers = $managerUsers->where(function ($q) use ($query) {
-                            $q->where('users.username', 'LIKE', $query.'%')
-                                ->orWhere('user_attributes.fullname', 'LIKE', '%'.$query.'%')
-                                ->orWhere('user_attributes.email', 'LIKE', '%'.$query.'%');
-                        });
-                    }
-                    if (!empty($query_role)) {
-                        $managerUsers = $managerUsers->where(function ($q) use ($query_role) {
-                            $q->where('user_attributes.role', '=', $query_role);
-                        });
-                    }
-
-					$grd = new \EvolutionCMS\Support\DataGrid('', $managerUsers, $modx->getConfig('number_of_results')); // set page size to 0 t show all items
-					$grd->noRecordMsg = $_lang["no_records_found"];
-					$grd->cssClass = "table data";
-					$grd->columnHeaderClass = "tableHeader";
-                    $grd->prepareResult = ['blocked'=>[1=>$_lang['yes'],0=>'-', '__checktime' => ['blockeduntil', 'blockedafter']]];
-					$grd->itemClass = "tableItem";
-					$grd->altItemClass = "tableAltItem";
-					$grd->fields = "id,username,fullname,email,thislogin,logincount,blocked";
-					$grd->columns = $_lang["icon"] . " ," . $_lang["name"] . " ," . $_lang["user_full_name"] . " ," . $_lang["email"] . " ," . $_lang["user_prevlogin"] . " ," . $_lang["user_logincount"] . " ," . $_lang["user_block"];
-					$grd->colWidths = "1%,,,,1%,1%,1%";
-					$grd->colAligns = "center,,,,right' nowrap='nowrap,right,center";
-					$grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='" . $_style["icon_web_user"] . "'></i></a>||template:<a href='index.php?a=88&id=[+id+]' title='" . $_lang["click_to_edit_title"] . "'>[+value+]</a>||template:[+fullname+]||template:[+email+]||date: " . $modx->toDateFormat('[+thislogin+]', 'formatOnly') .
-					" %H:%M";
-					if($listmode == '1') {
-						$grd->pageSize = 0;
-					}
-					if($op == 'reset') {
-						$grd->pageNumber = 1;
-					}
-					// render grid
-					echo $grd->render();
-					?>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="form-group clearfix">
+                <?php if ($numRecords > 0) : ?>
+                    <div class="float-xs-left">
+                        <span class="publishedDoc"><?php echo $numRecords . ' ' . ManagerTheme::getLexicon('resources_in_container') ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                <?php echo $output; ?>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
