@@ -129,7 +129,9 @@ if ($modx->getConfig('friendly_urls')) {
         $alias = $modx->stripAlias($alias);
         $docid = \EvolutionCMS\Models\SiteContent::withTrashed()->select('id')
             ->where('id', '<>', $id)
-            ->where('alias', $alias)->where('parent', $parent)->first();
+            ->where('alias', $alias)
+            ->where('parent', $parent)
+            ->first();
         if (!is_null($docid)) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
@@ -171,24 +173,26 @@ if (empty ($unpub_date)) {
 }
 
 // get document groups for current user
-$tmplvars = array ();
-$docgrp = $_SESSION['mgrDocgroups'] ? implode(",", $_SESSION['mgrDocgroups']) : '';
+$tmplvars =[];
+$docgrp = !empty($_SESSION['mgrDocgroups']) ? implode(",", $_SESSION['mgrDocgroups']) : '';
 
 // ensure that user has not made this document inaccessible to themselves
 if($_SESSION['mgrRole'] != 1 && is_array($document_groups)) {
+    $document_group_list = implode(',', $document_groups);
+    $document_group_list = array_filter(explode(',', $document_group_list), 'is_numeric');
     if(!empty($document_group_list)) {
         $count = \EvolutionCMS\Models\MembergroupAccess::query()
             ->join('member_groups', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
-            ->whereIn('membergroup_access.documentgroup', $document_groups)
+            ->whereIn('membergroup_access.documentgroup', $document_group_list)
             ->where('member_groups.member', $_SESSION['mgrInternalKey'])->count('member_groups.id');
 
         if($count == 0) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang["resource_permissions_error"]), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=27&id={$id}");
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(sprintf($_lang["resource_permissions_error"]), "index.php?a=4");
+                $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=4");
             }
         }
     }
@@ -264,6 +268,8 @@ if ($actionToTake != "new") {
     $existingDocument = $existingDocument->toArray();
 }
 
+
+
 // check to see if the user is allowed to save the document in the place he wants to save it in
 if ($modx->getConfig('use_udperms') == 1) {
     if (!isset($existingDocument) || $existingDocument['parent'] != $parent) {
@@ -275,17 +281,16 @@ if ($modx->getConfig('use_udperms') == 1) {
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], "index.php?a=27&id={$id}");
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias), "index.php?a=4");
+                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], "index.php?a=4");
             }
         }
     }
 }
 
-$resourceArray = array
-(
+$resourceArray = [
     "introtext"        => $introtext ,
     "content"          => $content ,
     "pagetitle"        => $pagetitle ,
@@ -308,11 +313,11 @@ $resourceArray = array
     "unpub_date"       => $unpub_date ,
     "contentType"      => $contentType ,
     "content_dispo"    => $contentdispo ,
-    "hide_from_tree"          => $hide_from_tree ,
+    "hide_from_tree"   => $hide_from_tree ,
     "menutitle"        => $menutitle ,
     "hidemenu"         => $hidemenu ,
     "alias_visible"    => $aliasvisible
-);
+];
 
 switch ($actionToTake) {
         case 'new' :
@@ -386,11 +391,11 @@ switch ($actionToTake) {
 
         // document access permissions
         if ($modx->getConfig('use_udperms') == 1 && is_array($document_groups)) {
-            $new_groups = array();
+            $new_groups = [];
             foreach ($document_groups as $value_pair) {
                 // first, split the pair (this is a new document, so ignore the second value
                 [$group] = explode(',', $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
-                $new_groups[] = ['document_group'=>(int)$group, 'document'=>$key];
+                $new_groups[] = ['document_group' => (int)$group, 'document'=> $key];
             }
             $saved = true;
             if (!empty($new_groups)) {
@@ -406,7 +411,6 @@ switch ($actionToTake) {
                 foreach ($groupsParent as $item){
                     \EvolutionCMS\Models\DocumentGroup::insert(['document_group'=>$item->document_group, 'document'=>$key]);
                 }
-
             }
         }
 
@@ -425,6 +429,7 @@ switch ($actionToTake) {
         // secure web documents - flag as private
         include MODX_MANAGER_PATH . "includes/secure_web_documents.inc.php";
         secureWebDocument($key);
+        secureMgrDocument($key);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $no_esc_pagetitle;
@@ -636,6 +641,7 @@ switch ($actionToTake) {
             // secure web documents - flag as private
             include MODX_MANAGER_PATH . "includes/secure_web_documents.inc.php";
             secureWebDocument($id);
+            secureMgrDocument($id);
 
 
             // Set the item name for logger
