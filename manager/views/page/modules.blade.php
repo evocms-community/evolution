@@ -25,40 +25,42 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($modules as $module)
-                    <tr>
-                        <td class="tableItem text-center" style="width: 34px;">
-                            @if(evo()->hasAnyPermissions(['edit_module', 'exec_module']))
-                                <a class="tableRowIcon" href="javascript:;" onclick="return showContentMenu({{ $module->getKey() }}, event);" title="{{ __('global.click_to_context') }}">
-                                    <i class="fa fa-cube"></i>
-                                </a>
-                            @else
-                                <i class="fa fa-cube"></i>
-                            @endif
-                        </td>
-                        <td class="tableItem">
-                            @if(evo()->hasAnyPermissions(['edit_module']))
-                                <a href="index.php?a=108&id={{ $module->getKey() }}" title="{{ __('global.module_edit_click_title') }}">{{ $module->name }}</a>
-                            @else
-                                {{ $module->name }}
-                            @endif
-                        </td>
-                        <td class="tableItem">{!! $module->description !!}</td>
-                        <td class="tableItem text-center" style="width: 60px;">
-                            @if($module->locked)
-                                {{ __('global.yes') }}
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td class="tableItem text-center" style="width: 60px;">
-                            @if($module->disabled)
-                                {{ __('global.yes') }}
-                            @else
-                                -
-                            @endif
-                        </td>
-                    </tr>
+                @foreach($categories as $cat)
+                    @foreach($cat->modules as $module)
+                        <tr>
+                            <td class="tableItem text-center" style="width: 34px;">
+                                @if(evo()->hasAnyPermissions(['edit_module', 'exec_module']))
+                                    <a class="tableRowIcon" href="javascript:;" onclick="return showContentMenu({{ $module->getKey() }}, event);" title="{{ __('global.click_to_context') }}">
+                                        <i class="{!! !empty($module->icon) ? $module->icon : 'fa fa-cube' !!}"></i>
+                                    </a>
+                                @else
+                                    <i class="{!! !empty($module->icon) ? $module->icon : 'fa fa-cube' !!}"></i>
+                                @endif
+                            </td>
+                            <td class="tableItem">
+                                @if(evo()->hasAnyPermissions(['edit_module']))
+                                    <a href="index.php?a=108&id={{ $module->getKey() }}" title="{{ __('global.module_edit_click_title') }}">{{ $module->name }}</a>
+                                @else
+                                    {{ $module->name }}
+                                @endif
+                            </td>
+                            <td class="tableItem">{!! $module->description !!}</td>
+                            <td class="tableItem text-center" style="width: 60px;">
+                                @if($module->locked)
+                                    {{ __('global.yes') }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td class="tableItem text-center" style="width: 60px;">
+                                @if($module->disabled)
+                                    {{ __('global.yes') }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
                 </tbody>
             </table>
