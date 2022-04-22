@@ -100,7 +100,8 @@ if(!isset($database_user) || $database_user=="") {
 	$rt = @include_once(dirname(__FILE__).'/'.MGR_DIR.'/includes/config.inc.php');
 	// Be sure config.inc.php is there and that it contains some important values
 	if(!$rt || !$database_type || !$database_server || !$database_user || !$dbase) {
-		readfile('install/not_installed.tpl');
+		header("HTTP/1.1 302 Moved Temporarily");
+		header("Location: /install");
 		exit;
 	}
 }
