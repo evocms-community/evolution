@@ -688,41 +688,40 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         else {
             $docObj = unserialize($a[0]); // rebuild document object
             // check page security
-            if ((!isset($_SESSION['mgrRole']) || $_SESSION['mgrRole'] != 1)) {
-                if ($docObj['privatemgr'] && isset ($docObj['__MODxDocGroups__'])) {
-                    $pass = false;
-                    $usrGrps = $this->getUserDocGroups();
-                    $docGrps = explode(',', $docObj['__MODxDocGroups__']);
-                    // check is user has access to doc groups
-                    if (is_array($usrGrps)) {
-                        foreach ($usrGrps as $k => $v) {
-                            if (!in_array($v, $docGrps)) {
-                                continue;
-                            }
-                            $pass = true;
-                            break;
+            if ($this->isFrontend() && $docObj['privateweb'] && isset ($docObj['__MODxDocGroups__'])) {
+                $pass = false;
+                $usrGrps = $this->getUserDocGroups();
+                $docGrps = explode(',', $docObj['__MODxDocGroups__']);
+                // check is user has access to doc groups
+                if (is_array($usrGrps)) {
+                    foreach ($usrGrps as $k => $v) {
+                        if (!in_array($v, $docGrps)) {
+                            continue;
                         }
-                    }
-                    // diplay error pages if user has no access to cached doc
-                    if (!$pass) {
-                        if ($this->getConfig('unauthorized_page')) {
-                            // check if file is not public
-                            $documentGroups = DocumentGroup::where('document', $id);
-                            $total = $documentGroups->count();
-                        } else {
-                            $total = 0;
-                        }
-
-                        if ($total > 0) {
-                            $this->sendUnauthorizedPage();
-                        } else {
-                            $this->sendErrorPage();
-                        }
-
-                        exit; // stop here
+                        $pass = true;
+                        break;
                     }
                 }
+                // diplay error pages if user has no access to cached doc
+                if (!$pass) {
+                    if ($this->getConfig('unauthorized_page')) {
+                        // check if file is not public
+                        $documentGroups = DocumentGroup::where('document', $id);
+                        $total = $documentGroups->count();
+                    } else {
+                        $total = 0;
+                    }
+
+                    if ($total > 0) {
+                        $this->sendUnauthorizedPage();
+                    } else {
+                        $this->sendErrorPage();
+                    }
+
+                    exit; // stop here
+                }
             }
+
             // Grab the Scripts
             if (isset($docObj['__MODxSJScripts__'])) {
                 $this->sjscripts = $docObj['__MODxSJScripts__'];
@@ -2447,12 +2446,14 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function getDocumentObject($method, $identifier, $isPrepareResponse = false)
     {
-        $documentObject = false;
-        $cacheKey = $this->makePageCacheKey($identifier);
+        $cacheKey = md5(print_r(func_get_args(), true));
+        if (isset($this->tmpCache[__FUNCTION__][$cacheKey])) {
+            return $this->tmpCache[__FUNCTION__][$cacheKey];
+        }
 
         // allow alias to be full path
         if ($method === 'alias') {
-            $identifier = $this->cleanDocumentIdentifier($identifier);
+            $identifier = UrlProcessor::getFacadeRoot()->cleanDocumentIdentifier($identifier);
             $method = $this->documentMethod;
         }
         if ($method === 'alias' && $this->getConfig('use_alias_path') && array_key_exists($identifier,
@@ -2469,23 +2470,47 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if (is_array($out) && is_array($out[0])) {
             $documentObject = $out[0];
         } else {
-            $cachedData = Cache::get($cacheKey);
-            if (!is_null($cachedData)) {
-                $documentObject = $cachedData;
-            }
-        }
-
-        if ($documentObject === false) {
+            // get document groups for current user
+            $docgrp = $this->getUserDocGroups();
+            // get document
             $documentObject = SiteContent::query()
-                ->where('site_content.' . $method, $identifier)->first();
-
-
-            if (is_null($documentObject)) {
-                $this->sendErrorPage();
-                exit;
+                ->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id')
+                ->where('site_content.' . $method, $identifier);
+            if ($this->isFrontend()) {
+                $documentObject->where('privateweb', 0);
+            } else {
+                $documentObject->where(function($query) use ($docgrp) {
+                    $query->whereRaw("1 = {$_SESSION['mgrRole']} OR site_content.privatemgr=0");
+                    if ($docgrp) {
+                        $query->orWhereIn('document_groups.document_group', $docgrp);
+                    }
+                });
             }
-
-            # this is now the document :) #
+            $documentObject = $documentObject->first();
+            if (is_null($documentObject)) {
+                $seclimit = 0;
+                if ($this->getConfig('unauthorized_page')) {
+                    // method may still be alias, while identifier is not full path alias, e.g. id not found above
+                    if ($method === 'alias') {
+                        $seclimit = DocumentGroup::query()
+                            ->join('site_content')
+                            ->where('document_groups.document', 'sc.id')
+                            ->where('site_content.alias', \DB::Raw($identifier))
+                            ->exists();
+                    } else {
+                        $seclimit = DocumentGroup::query()
+                            ->where('document', \DB::Raw($identifier))
+                            ->exists();
+                    }
+                    if ($seclimit) {
+                        // match found but not publicly accessible, send the visitor to the unauthorized_page
+                        $this->sendUnauthorizedPage();
+                    } else {
+                        $this->sendErrorPage();
+                    }
+                }
+            }
+            //this is now the document :)
             $documentObject = $documentObject->toArray();
 
             if ($isPrepareResponse === 'prepareResponse') {
@@ -2535,42 +2560,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 $documentObject = $out[0];
             }
         }
-        if ($documentObject['privatemgr'] == 1 && (!isset($_SESSION['mgrRole']) || $_SESSION['mgrRole'] != 1)) {
-            $checkRole = false;
-            if (!isset($documentObject['__user_groups'])) {
-                if ($method !== 'alias') {
-                    $documentObject['__user_groups'] = \EvolutionCMS\Models\DocumentGroup::where('document', $identifier)->pluck('document_group')->toArray();
-                } else {
-                    $documentObject['__user_groups'] = \EvolutionCMS\Models\DocumentGroup::query()->select('document_groups.document_group')
-                        ->join('site_content', function ($join) use ($identifier) {
-                            $join->on('document_groups.document', '=', 'site_content.id');
-                            $join->on('site_content.alias', '=', $identifier);
-                        })->pluck('document_group')->toArray();
-                }
-            }
-            $docgrp = $this->getUserDocGroups();
-
-            if (is_array($docgrp)) {
-                foreach ($docgrp as $group) {
-                    if (in_array($group, $documentObject['__user_groups'])) {
-                        $checkRole = true;
-                        break;
-                    }
-                }
-            }
-            // method may still be alias, while identifier is not full path alias, e.g. id not found above
-            if ($this->getConfig('unauthorized_page') && $checkRole === false) {
-                // match found but not publicly accessible, send the visitor to the unauthorized_page
-                $this->sendUnauthorizedPage();
-                exit; // stop here
-            }
-            if ($checkRole === false) {
-                $this->sendErrorPage();
-                exit;
-            }
-        }
-
-        Cache::forever($cacheKey, $documentObject);
+        $this->tmpCache[__FUNCTION__][$cacheKey] = $documentObject;
 
         return $documentObject;
     }
@@ -4188,10 +4178,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return false;
         }
 
-        // get document groups for current user
-        if ($docgrp = $this->getUserDocGroups()) {
-            $docgrp = implode(",", $docgrp);
-        }
         $fields = array_filter(array_map('trim', explode(',', $fields)));
         foreach ($fields as $key => $value) {
             if (stristr($value, '.') === false) {
@@ -4204,15 +4190,17 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if ($active == 1) {
             $pageInfo = $pageInfo->where('site_content.published', 1)->where('site_content.deleted', 0);
         }
-        if ($docgrp = $this->getUserDocGroups() && $_SESSION['mgrRole'] != 1) {
-            if ($this->isFrontend()) {
-                $pageInfo = $pageInfo->where('site_content.privatemgr', 0);
-            } else {
-                $pageInfo = $pageInfo->where(function ($query) use ($docgrp) {
-                    $query->where('site_content.privatemgr', '=', 0)
-                        ->orWhereIn('document_groups.document_group', $docgrp);
-                });
-            }
+        if ($this->isFrontend()) {
+            $pageInfo = $pageInfo->where('site_content.privateweb', 0);
+        } else {
+            $docgrp = $this->getUserDocGroups();
+            $pageInfo = $pageInfo->where(function ($query) use ($docgrp) {
+                $query->whereRaw('1 = ' . $_SESSION['mgrRole']);
+                $query->orWhere('site_content.privatemgr', '=', 0);
+                if (!empty($docgrp)) {
+                    $query->orWhereIn('document_groups.document_group', $docgrp);
+                }
+            });
         }
         $pageInfo = $pageInfo->first();
         if (!is_null($pageInfo)) {
