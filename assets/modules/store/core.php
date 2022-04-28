@@ -200,8 +200,6 @@ class Store{
 			}
 	}
 
-
-
 	public function removeFolder($path){
 		$dir = realpath($path);
 		if ( !is_dir($dir)) return;
@@ -220,9 +218,11 @@ class Store{
 		}
 		rmdir($dir);
 	}
+
 	public static function copyFolder($src, $dest) {
-		$path = realpath($src);
+        $path = realpath($src);
 		$dest = realpath($dest);
+        if (!is_dir($path) || !is_dir($dest)) return;
 		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
 		foreach($objects as $name => $object)
 		{
