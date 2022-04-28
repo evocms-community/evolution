@@ -346,8 +346,12 @@ class DBAPI
                 $this->query("INSERT INTO {$intotable} {$fields}");
             } else {
                 if (empty($fromtable)) {
-                    $fields = "(`" . implode("`, `", array_keys($fields)) . "`) VALUES('" . implode("', '",
-                            array_values($fields)) . "')";
+                    $field_values = $fields; //проверим значения на null, их нужно передать в запрос без кавычек
+                    foreach($field_values as &$f)
+                    {
+                        $f = (null === $f) ? "NULL" : "'{$f}'";
+                    }
+                    $fields = "(`" . implode("`, `", array_keys($fields)) . "`) VALUES(" . implode(", ", array_values($field_values)) . ")";
                     $this->query("INSERT INTO {$intotable} {$fields}");
                 } else {
                     $fromtable = $this->replaceFullTableName($fromtable);
