@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "james-heinrich/phpthumb",
-            "version": "v1.7.16",
-            "version_normalized": "1.7.16.0",
+            "version": "v1.7.17",
+            "version_normalized": "1.7.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesHeinrich/phpThumb.git",
-                "reference": "79aa5b21ee7277f67b863560bccc2490c4f0b82a"
+                "reference": "1ef2db62e8d4a4e391159653b200144a37462de3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesHeinrich/phpThumb/zipball/79aa5b21ee7277f67b863560bccc2490c4f0b82a",
-                "reference": "79aa5b21ee7277f67b863560bccc2490c4f0b82a",
+                "url": "https://api.github.com/repos/JamesHeinrich/phpThumb/zipball/1ef2db62e8d4a4e391159653b200144a37462de3",
+                "reference": "1ef2db62e8d4a4e391159653b200144a37462de3",
                 "shasum": ""
             },
             "require": {
@@ -22,7 +22,7 @@
                 "ext-gd": "PHP GD library",
                 "ext-imagick": "PHP ImageMagick"
             },
-            "time": "2021-02-06T16:34:15+00:00",
+            "time": "2021-09-22T15:40:00+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -56,10 +56,11 @@
             ],
             "support": {
                 "issues": "https://github.com/JamesHeinrich/phpThumb/issues",
-                "source": "https://github.com/JamesHeinrich/phpThumb/tree/v1.7.16"
+                "source": "https://github.com/JamesHeinrich/phpThumb/tree/v1.7.17"
             },
             "install-path": "../james-heinrich/phpthumb"
         }
     ],
-    "dev": true
+    "dev": true,
+    "dev-package-names": []
 }

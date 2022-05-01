@@ -1,24 +1,4 @@
 <?php
-/**
- * phpthumb
- *
- * PHPThumb creates thumbnails and altered images on the fly and caches them
- *
- * @category    snippet
- * @version    1.3.3
- * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @internal    @properties
- * @internal    @modx_category Content
- * @internal    @installset base, sample
- * @documentation Usage: [[phpthumb? &input=`[+image+]` &options=`w=150,h=76,far=C,bg=FFFFFF`]]
- * @documentation phpThumb docs http://phpthumb.sourceforge.net/demo/docs/phpthumb.readme.txt
- * @reportissues https://github.com/modxcms/evolution
- * @link        noimage.png here [+site_url+]assets/snippets/phpthumb/noimage.png
- * @author      Bumkaka
- * @author      Many contributors since then
- * @lastupdate  26/11/2018
- */
-
 use WebPConvert\WebPConvert;
 
 if (!defined('MODX_BASE_PATH')) {
