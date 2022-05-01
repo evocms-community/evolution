@@ -305,7 +305,7 @@
 
                                 <?php
                                 $style = $modx->getConfig('settings_version') !== $modx->getVersionData('version') ? 'style="color:#ffff8a;"' : '';
-                                $version = 'Evolution CMS';
+                                $version = 'Evolution CE';
                                     echo '<li><span class="dropdown-item" title="' . $modx->getPhpCompat()->entities($modx->getConfig('site_name')) . ' &ndash; ' . $modx->getVersionData('full_appname') . '" ' . $style . '>' . $version . ' ' . $modx->getConfig('settings_version') . '</span></li>';
                                 ?>
                             </ul>
