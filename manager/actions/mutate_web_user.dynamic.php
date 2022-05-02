@@ -117,9 +117,10 @@ if($modx->getManagerApi()->hasFormValues()) {
 	$usernamedata['oldusername'] = $_POST['oldusername'];
 	$usersettings = array_merge($usersettings, $userdata);
 	if (isset($_POST['allowed_days'])) {
-        $usersettings['allowed_days'] = is_array($_POST['allowed_days']) ? implode(",", $_POST['allowed_days']) : "";
+        $usersettings['allowed_days'] = is_array($_POST['allowed_days']) ? implode(",",
+            $_POST['allowed_days']) : "";
     }
-    extract($usersettings, EXTR_OVERWRITE);
+	extract($usersettings, EXTR_OVERWRITE);
 }
 
 // include the country list language file
@@ -278,7 +279,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 			<div class="tab-page" id="tabGeneral">
 				<h2 class="tab"><?php echo $_lang["settings_general"] ?></h2>
 				<script type="text/javascript">tpUser.addTabPage(document.getElementById("tabGeneral"));</script>
-				<table border="0" cellspacing="0" cellpadding="3" class="table table--edit table--editUser">
+				<table border="0" cellspacing="0" cellpadding="3">
 					<?php if($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) || $userdata['failedlogins'] > 3) { ?>
 					<tr>
 						<td colspan="3"><span id="blocked" class="warning">
@@ -289,21 +290,18 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 					<?php } ?>
 					<?php if(!empty($userdata['id'])) { ?>
 						<tr id="showname" style="display: <?php echo ($modx->getManagerApi()->action == '88' && (!isset($usernamedata['oldusername']) || $usernamedata['oldusername'] == $usernamedata['username'])) ? $displayStyle : 'none'; ?> ">
-                            <th><?php echo $_lang['username']; ?>:</th>
-                            <td>&nbsp;</td>
+                            <td><?php echo $_lang['username']; ?>:</td>
                             <td><i class="<?php echo $_style["icon_web_user"] ?>"></i>&nbsp;<b><?php echo $modx->getPhpCompat()->htmlspecialchars(!empty($usernamedata['oldusername']) ? $usernamedata['oldusername'] : $usernamedata['username']); ?></b> - <span class="comment"><a href="javascript:;" onClick="changeName();return false;"><?php echo $_lang["change_name"]; ?></a></span>
                             	<input type="hidden" name="oldusername" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(!empty($usernamedata['oldusername']) ? $usernamedata['oldusername'] : $usernamedata['username']); ?>" />
 							</td>
 						</tr>
 					<?php } ?>
 					<tr id="editname" style="display:<?php echo $modx->getManagerApi()->action == '87' || (isset($usernamedata['oldusername']) && $usernamedata['oldusername'] != $usernamedata['username']) ? $displayStyle : 'none'; ?>">
-						<th><?php echo $_lang['username']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['username']; ?>:</td>
 						<td><input type="text" name="newusername" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['newusername']) ? $_POST['newusername'] : $usernamedata['username']); ?>" onChange='documentDirty=true;' maxlength="100" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $modx->getManagerApi()->action == '87' ? $_lang['password'] . ":" : $_lang['change_password_new'] . ":"; ?></th>
-						<td>&nbsp;</td>
+						<td><?php echo $modx->getManagerApi()->action == '87' ? $_lang['password'] . ":" : $_lang['change_password_new'] . ":"; ?></td>
 						<td><input name="newpasswordcheck" type="checkbox" onClick="changestate(document.userform.newpassword);changePasswordState(document.userform.newpassword);"<?php echo $modx->getManagerApi()->action == "87" ? " checked disabled" : ""; ?>>
 							<input type="hidden" name="newpassword" value="<?php echo $modx->getManagerApi()->action == "87" ? 1 : 0; ?>" onChange="documentDirty=true;" />
 							<br />
@@ -337,35 +335,29 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 							</span></td>
 					</tr>
                     <tr>
-                        <th><?php echo $_lang['user_full_name']; ?>:</th>
-                        <td>&nbsp;</td>
+                        <td><?php echo $_lang['user_full_name']; ?>:</td>
                         <td><input type="text" name="fullname" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['fullname']) ? $_POST['fullname'] : $userdata['fullname']); ?>" onChange="documentDirty=true;" /></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang['user_first_name']; ?>:</th>
-                        <td>&nbsp;</td>
+                        <td><?php echo $_lang['user_first_name']; ?>:</td>
                         <td><input type="text" name="first_name" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars($userdata['first_name']); ?>" onChange="documentDirty=true;" /></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang['user_middle_name']; ?>:</th>
-                        <td>&nbsp;</td>
+                        <td><?php echo $_lang['user_middle_name']; ?>:</td>
                         <td><input type="text" name="middle_name" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars($userdata['middle_name']); ?>" onChange="documentDirty=true;" /></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang['user_last_name']; ?>:</th>
-                        <td>&nbsp;</td>
+                        <td><?php echo $_lang['user_last_name']; ?>:</td>
                         <td><input type="text" name="last_name" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars($userdata['last_name']); ?>" onChange="documentDirty=true;" /></td>
                     </tr>
 
 					<tr>
-						<th><?php echo $_lang['user_email']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_email']; ?>:</td>
 						<td><input type="text" name="email" class="inputBox" value="<?php echo isset($_POST['email']) ? $_POST['email'] : $userdata['email']; ?>" onChange="documentDirty=true;" />
 							<input type="hidden" name="oldemail" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(!empty($userdata['oldemail']) ? $userdata['oldemail'] : $userdata['email']); ?>" /></td>
 					</tr>
                     <tr>
-                        <th><?php echo $_lang['user_role']; ?>:</th>
-                        <td>&nbsp;</td>
+                        <td><?php echo $_lang['user_role']; ?>:</td>
                         <td><?php
                             $roles = \EvolutionCMS\Models\UserRole::query()->select('name', 'id');
                             if(!$modx->hasPermission('save_role')){
@@ -389,43 +381,35 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             </select></td>
                     </tr>
 					<tr>
-						<th><?php echo $_lang['user_phone']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_phone']; ?>:</td>
 						<td><input type="text" name="phone" class="inputBox" value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : $userdata['phone']; ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_mobile']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_mobile']; ?>:</td>
 						<td><input type="text" name="mobilephone" class="inputBox" value="<?php echo isset($_POST['mobilephone']) ? $_POST['mobilephone'] : $userdata['mobilephone']; ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_fax']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_fax']; ?>:</td>
 						<td><input type="text" name="fax" class="inputBox" value="<?php echo isset($_POST['fax']) ? $_POST['fax'] : $userdata['fax']; ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_street']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_street']; ?>:</td>
 						<td><input type="text" name="street" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars($userdata['street']); ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_city']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_city']; ?>:</td>
 						<td><input type="text" name="city" class="inputBox" value="<?php echo $modx->getPhpCompat()->htmlspecialchars($userdata['city']); ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_state']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_state']; ?>:</td>
 						<td><input type="text" name="state" class="inputBox" value="<?php echo isset($_POST['state']) ? $_POST['state'] : $userdata['state']; ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_zip']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_zip']; ?>:</td>
 						<td><input type="text" name="zip" class="inputBox" value="<?php echo isset($_POST['zip']) ? $_POST['zip'] : $userdata['zip']; ?>" onChange="documentDirty=true;" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_country']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_country']; ?>:</td>
 						<td><select name="country" onChange="documentDirty=true;">
 								<?php $chosenCountry = isset($_POST['country']) ? $_POST['country'] : $userdata['country']; ?>
 								<option value="" <?php (!isset($chosenCountry) ? ' selected' : '') ?> >&nbsp;</option>
@@ -437,14 +421,12 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 							</select></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_dob']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_dob']; ?>:</td>
 						<td><input type="text" id="dob" name="dob" class="DatePicker" value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : ($userdata['dob'] ? $modx->toDateFormat($userdata['dob']) : ""); ?>" onBlur='documentDirty=true;' readonly />
 							<i onClick="document.userform.dob.value=''; return true;" class="clearDate <?php echo $_style["icon_calendar_close"] ?>" data-tooltip="<?php echo $_lang['remove_date']; ?>"></i></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_gender']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_gender']; ?>:</td>
 						<td><select name="gender" onChange="documentDirty=true;">
 								<option value=""></option>
 								<option value="1" <?php echo (get_by_key($_POST, 'gender') === '1' || $userdata['gender'] == '1') ? "selected='selected'" : ""; ?>><?php echo $_lang['user_male']; ?></option>
@@ -453,166 +435,299 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 							</select></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['comment']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['comment']; ?>:</td>
 						<td><textarea type="text" name="comment" class="inputBox" rows="5" onChange="documentDirty=true;"><?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['comment']) ? $_POST['comment'] : $userdata['comment']); ?></textarea></td>
 					</tr>
 					<tr>
-						<th><?php echo $_lang['user_verification']; ?>:</th>
-						<td>&nbsp;</td>
+						<td><?php echo $_lang['user_verification']; ?>:</td>
 						<td><input type="checkbox" name="verified" value="1" <?php echo ($userdata['verified'] == 1 || $modx->getManagerApi()->action == 87 ? 'checked ' : ''); ?><?php echo ($modx->getManagerApi()->action == 87 ? 'disabled' : ''); ?>></td>
 					</tr>
 					<?php if($modx->getManagerApi()->action == '88') { ?>
 						<tr>
-							<th><?php echo $_lang['user_logincount']; ?>:</th>
-							<td>&nbsp;</td>
+							<td><?php echo $_lang['user_logincount']; ?>:</td>
 							<td><?php echo $userdata['logincount'] ?></td>
 						</tr>
 						<tr>
-							<th><?php echo $_lang['user_prevlogin']; ?>:</th>
-							<td>&nbsp;</td>
+							<td><?php echo $_lang['user_prevlogin']; ?>:</td>
 							<td><?php echo $modx->toDateFormat($userdata['thislogin'] + $modx->getConfig('server_offset_time')) ?></td>
 						</tr>
 						<tr>
-							<th><?php echo $_lang['user_failedlogincount']; ?>:</th>
-							<td>&nbsp;
-								<input type="hidden" name="failedlogincount" onChange='documentDirty=true;' value="<?php echo $userdata['failedlogincount']; ?>"></td>
+							<td><?php echo $_lang['user_failedlogincount']; ?>:</td>
+								<input type="hidden" name="failedlogincount" onChange='documentDirty=true;' value="<?php echo $userdata['failedlogincount']; ?>">
 							<td><span id='failed'><?php echo $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a href="javascript:resetFailed()"><?php echo $_lang['reset_failedlogins']; ?></a>]</td>
 						</tr>
 						<tr>
-							<th><?php echo $_lang['user_block']; ?>:</th>
-							<td>&nbsp;</td>
+							<td><?php echo $_lang['user_block']; ?>:</td>
 							<td><input name="blockedcheck" type="checkbox" onClick="changeblockstate(document.userform.blockedmode, document.userform.blockedcheck);"<?php echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0)) ? " checked='checked'" : ""; ?> />
 								<input type="hidden" name="blocked" value="<?php echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0)) ? 1 : 0; ?>"></td>
 						</tr>
 						<tr>
-							<th><?php echo $_lang['user_blockeduntil']; ?>:</th>
-							<td>&nbsp;</td>
+							<td><?php echo $_lang['user_blockeduntil']; ?>:</td>
 							<td><input type="text" id="blockeduntil" name="blockeduntil" class="DatePicker" value="<?php echo isset($_POST['blockeduntil']) ? $_POST['blockeduntil'] : ($userdata['blockeduntil'] ? $modx->toDateFormat($userdata['blockeduntil']) : ""); ?>" onBlur='documentDirty=true;' readonly />
 								<i onClick="document.userform.blockeduntil.value=''; return true;" class="clearDate <?php echo $_style["icon_calendar_close"] ?>" data-tooltip="<?php echo $_lang['remove_date']; ?>"></i></td>
 						</tr>
 						<tr>
-							<th><?php echo $_lang['user_blockedafter']; ?>:</th>
-							<td>&nbsp;</td>
+							<td><?php echo $_lang['user_blockedafter']; ?>:</td>
 							<td><input type="text" id="blockedafter" name="blockedafter" class="DatePicker" value="<?php echo isset($_POST['blockedafter']) ? $_POST['blockedafter'] : ($userdata['blockedafter'] ? $modx->toDateFormat($userdata['blockedafter']) : ""); ?>" onBlur='documentDirty=true;' readonly />
 								<i onClick="document.userform.blockedafter.value=''; return true;" class="clearDate <?php echo $_style["icon_calendar_close"] ?>" data-tooltip="<?php echo $_lang['remove_date']; ?>"></i></td>
 						</tr>
 						<?php
 					}
 					?>
-
-                    <?php
-                        $tvs = SiteTmplvar::select('site_tmplvars.*', 'user_role_vars.rank as tvrank', 'user_role_vars.roleid', 'site_tmplvars.id', 'site_tmplvars.rank', 'user_values.value')
-                            ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
-                            ->leftJoin('user_values', function($query) use ($user) {
-                                $query->on('user_values.userid', '=', \DB::raw($user));
-                                $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
-                            })
-                            ->orderBy('user_role_vars.rank', 'ASC')
-                            ->orderBy('site_tmplvars.rank', 'ASC')
-                            ->orderBy('site_tmplvars.id', 'ASC')
-                            ->where('user_role_vars.roleid', $userdata['role'])
-                            ->get()
-                            ->toArray();
-
-                        $richtexteditorIds = $richtexteditorOptions = [];
-                        $richtextEditor = $modx->getConfig('which_editor');
-
-                        foreach ($tvs as $row) {
-                            $tvValue = '';
-                            $tvName  = 'tv' . $row['id'];
-
-                            if ($row['value'] == '') {
-                                $row['value'] = $row['default_text'];
-                            }
-
-                            // post back value
-                            if (array_key_exists($tvName, $_POST)) {
-                                if (is_array($_POST[$tvName])) {
-                                    $tvValue = implode('||', $_POST[$tvName]);
-                                } else {
-                                    $tvValue = $_POST[$tvName];
-                                }
-                            } else {
-                                $tvValue = $row['value'];
-                            }
-
-                            if ($row['type'] == 'richtext') {
-                                $tvOptions = $modx->parseProperties($row['elements']);
-
-                                if (!empty($tvOptions) && !empty($tvOptions['editor'])) {
-                                    $editor = $tvOptions['editor'];
-                                } else {
-                                    $editor = $richtextEditor;
-                                }
-
-                                // Add richtext editor to the list
-                                $richtexteditorIds[$editor][] = $tvName;
-                                $richtexteditorOptions[$editor][$tvName] = $tvOptions;
-                            }
-
-                            ?>
-
-                            <tr>
-                                <th>
-                                    <span class="warning"><?= $row['caption'] ?></span>
-
-                                    <?php if (!empty($row['description'])): ?>
-                                        <br /><span class="comment"><?= $row['description'] ?></span>
-                                    <?php endif; ?>
-
-                                    <?php if (substr($tvValue, 0, 8) == '@INHERIT'): ?>
-                                        <br /><span class="comment inherited">(<?= $_lang['tmplvars_inherited'] ?>)</span>
-                                    <?php endif; ?>
-                                </th>
-
-                                <td>&nbsp;</td>
-
-                                <td>
-                                    <div style="position: relative;">
-                                        <?= renderFormElement(
-                                            $row['type'],
-                                            $row['id'],
-                                            $row['default_text'],
-                                            $row['elements'],
-                                            $tvValue,
-                                            '',
-                                            $row,
-                                            $tvsArray ?? [],
-                                            $row['roleid']
-                                        ) ?>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <?php
-                        }
-
-                        if ($modx->getConfig('use_editor')) {
-                            foreach ($richtexteditorIds as $editor => $elements) {
-                                // invoke OnRichTextEditorInit event
-                                $evtOut = $modx->invokeEvent('OnRichTextEditorInit', [
-                                    'editor'   => $editor,
-                                    'elements' => $elements,
-                                    'options'  => $richtexteditorOptions[$editor]
-                                ]);
-
-                                if (is_array($evtOut)) {
-                                    echo implode('', $evtOut);
-                                }
-                            }
-                        }
-                    ?>
 				</table>
+                <?php
+                $tvs = SiteTmplvar::query()->select('site_tmplvars.*', 'user_values.value', 'user_role_vars.rank as tvrank', 'user_role_vars.rank', 'site_tmplvars.id', 'site_tmplvars.rank')
+                    ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
+                    ->leftJoin('user_values', function($query) use ($user) {
+                        $query->on('user_values.userid', '=', \DB::raw($user));
+                        $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
+                    });
+                $group_tvs = $modx->getConfig('group_tvs');
+                $templateVariables = '';
+                $templateVariablesOutput = '';
+                if ($group_tvs) {
+                    $tvs = $tvs->select('site_tmplvars.*',
+                        'user_values.value', 'categories.id as category_id', 'categories.category as category_name', 'categories.rank as category_rank', 'user_role_vars.rank', 'site_tmplvars.id', 'site_tmplvars.rank');
+                    $tvs = $tvs->leftJoin('categories', 'categories.id', '=', 'site_tmplvars.category');
+                    //$sort = 'category_rank,category_id,' . $sort;
+                    $tvs = $tvs->orderBy('category_rank', 'ASC');
+                    $tvs = $tvs->orderBy('category_id', 'ASC');
+                }
+                $tvs = $tvs->orderBy('user_role_vars.rank', 'ASC');
+                $tvs = $tvs->orderBy('site_tmplvars.rank', 'ASC');
+                $tvs = $tvs->orderBy('site_tmplvars.id', 'ASC');
+                $tvs = $tvs->where('user_role_vars.roleid', $userdata['role']);
+                $tvs = $tvs->get();
+                if (count($tvs)>0) {
+                    $tvsArray = $tvs->toArray();
+
+                    $templateVariablesOutput = '';
+                    $templateVariablesGeneral = '';
+
+                    $i = $ii = 0;
+                    $tab = '';
+                    foreach ($tvsArray as $row) {
+                        $row['category'] = $row['category_name'] ?? '';
+                        if(!isset($row['category_id'])){
+                            $row['category_id'] = 0;
+                            $row['category'] = $_lang['no_category'];
+                            $row['category_rank'] = 0;
+                        }
+                        if($row['value'] == '') $row['value'] = $row['default_text'];
+                        if ($group_tvs && $row['category_id'] != 0) {
+                            $ii = 0;
+                            if ($tab !== $row['category_id']) {
+                                if ($group_tvs == 1 || $group_tvs == 3) {
+                                    if ($i === 0) {
+                                        $templateVariablesOutput .= '
+                            <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
+                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-body tmplvars">
+                                    <table>' . "\n";
+                                    } else {
+                                        $templateVariablesOutput .= '
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
+                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-body tmplvars">
+                                    <table>';
+                                    }
+                                } else if ($group_tvs == 2 || $group_tvs == 4) {
+                                    if ($i === 0) {
+                                        $templateVariablesOutput .= '
+                            <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
+                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
+
+                                <div class="tab-body tmplvars">
+                                    <table>';
+                                    } else {
+                                        $templateVariablesOutput .= '
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
+                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
+
+                                <div class="tab-body tmplvars">
+                                    <table>';
+                                    }
+                                } else if ($group_tvs == 5) {
+                                    if ($i === 0) {
+                                        $templateVariablesOutput .= '
+                                <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
+                                    <h2 class="tab">' . $row['category'] . '</h2>
+                                    <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
+                                    <table>';
+                                    } else {
+                                        $templateVariablesOutput .= '
+                                    </table>
+                                </div>
+
+                                <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
+                                    <h2 class="tab">' . $row['category'] . '</h2>
+                                    <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
+
+                                    <table>';
+                                    }
+                                }
+                                $split = 0;
+                            } else {
+                                $split = 1;
+                            }
+                        }
+
+                        // Go through and display all Template Variables
+                        if ($row['type'] == 'richtext' || $row['type'] == 'htmlarea') {
+                            // determine TV-options
+                            $tvOptions = $modx->parseProperties($row['elements']);
+                            if (!empty($tvOptions)) {
+                                // Allow different Editor with TV-option {"editor":"CKEditor4"} or &editor=Editor;text;CKEditor4
+                                $editor = isset($tvOptions['editor']) ? $tvOptions['editor'] : $modx->getConfig('which_editor');
+                            };
+                            // Add richtext editor to the list
+                            $richtexteditorIds[$editor][] = "tv" . $row['id'];
+                            $richtexteditorOptions[$editor]["tv" . $row['id']] = $tvOptions;
+                        }
+
+                        $templateVariablesTmp = '';
+
+                        // splitter
+                        if ($group_tvs) {
+                            if ((! empty($split) && $i) || $ii) {
+                                $templateVariablesTmp .= '
+                                            <tr><td colspan="2"><div class="split"></div></td></tr>' . "\n";
+                            }
+                        } else if ($i) {
+                            $templateVariablesTmp .= '
+                                        <tr><td colspan="2"><div class="split"></div></td></tr>' . "\n";
+                        }
+
+                        // post back value
+                        if (array_key_exists('tv' . $row['id'], $_POST)) {
+                            if (is_array($_POST['tv' . $row['id']])) {
+                                $tvPBV = implode('||', $_POST['tv' . $row['id']]);
+                            } else {
+                                $tvPBV = $_POST['tv' . $row['id']];
+                            }
+                        } else {
+                            $tvPBV = $row['value'];
+                        }
+
+                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . $row['description'] . '</span>' : '';
+                        $tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT') ? '<br /><span class="comment inherited">(' . $_lang['tmplvars_inherited'] . ')</span>' : '';
+                        $tvName = '<br/><small class="protectedNode">[*' . $row['name'] . '*]</small>';
+
+                        $templateVariablesTmp .= '
+                                        <tr>
+                                            <td><span class="warning">' . $row['caption'] . $tvName . '</span>' . $tvDescription . $tvInherited . '</td>
+                                            <td><div style="position:relative;' . ($row['type'] == 'date' ? '' : '') . '">' .
+                            renderFormElement(
+                                $row['type'],
+                                $row['id'],
+                                $row['default_text'],
+                                $row['elements'],
+                                $tvPBV,
+                                '',
+                                $row,
+                                $tvsArray ?? [],
+                                $userdata['role']
+                            ) .
+                            '</div></td>
+                                        </tr>';
+
+                        if ($group_tvs && $row['category_id'] == 0) {
+                            $templateVariablesGeneral .= $templateVariablesTmp;
+                            $ii++;
+                        } else {
+                            $templateVariablesOutput .= $templateVariablesTmp;
+                            $tab = $row['category_id'];
+                            $i++;
+                        }
+                    }
+
+                    if ($templateVariablesGeneral) {
+                        echo '<table id="tabTV_0" class="tmplvars"><tbody>' . $templateVariablesGeneral . '</tbody></table>';
+                    }
+
+                    $templateVariables .= '
+                        <!-- Template Variables -->' . "\n";
+                    if (!$group_tvs) {
+                        $templateVariables .= '
+                                    <div class="sectionHeader" id="tv_header">' . $_lang['settings_templvars'] . '</div>
+                                        <div class="sectionBody tmplvars">
+                                            <table>';
+                    } else if ($group_tvs == 2) {
+                        $templateVariables .= '
+                    <div class="tab-section">
+                        <div class="tab-header" id="tv_header">' . $_lang['settings_templvars'] . '</div>
+                        <div class="tab-pane" id="paneTemplateVariables">
+                            <script type="text/javascript">
+                                tpTemplateVariables = new WebFXTabPane(document.getElementById(\'paneTemplateVariables\'), ' . ($modx->getConfig('remember_last_tab') ? 'true' : 'false') . ');
+                            </script>';
+                    } else if ($group_tvs == 3) {
+                        $templateVariables .= '
+                        <div id="templateVariables" class="tab-page tmplvars">
+                            <h2 class="tab">' . $_lang['settings_templvars'] . '</h2>
+                            <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'templateVariables\'));</script>';
+                    } else if ($group_tvs == 4) {
+                        $templateVariables .= '
+                    <div id="templateVariables" class="tab-page tmplvars">
+                        <h2 class="tab">' . $_lang['settings_templvars'] . '</h2>
+                        <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'templateVariables\'));</script>
+                        <div class="tab-pane" id="paneTemplateVariables">
+                            <script type="text/javascript">
+                                tpTemplateVariables = new WebFXTabPane(document.getElementById(\'paneTemplateVariables\'), ' . ($modx->getConfig('remember_last_tab') ? 'true' : 'false') . ');
+                            </script>';
+                    }
+                    if ($templateVariablesOutput) {
+                        $templateVariables .= $templateVariablesOutput;
+                        $templateVariables .= '
+                                    </table>
+                                </div>' . "\n";
+                        if ($group_tvs == 1) {
+                            $templateVariables .= '
+                            </div>' . "\n";
+                        } else if ($group_tvs == 2 || $group_tvs == 4) {
+                            $templateVariables .= '
+                            </div>
+                        </div>
+                    </div>' . "\n";
+                        } else if ($group_tvs == 3) {
+                            $templateVariables .= '
+                            </div>
+                        </div>' . "\n";
+                        }
+                    }
+                    $templateVariables .= '
+                        <!-- end Template Variables -->' . "\n";
+                }
+
+                // Template Variables
+                if ($group_tvs < 3 && $templateVariablesOutput) {
+                    echo $templateVariables;
+                }
+                ?>
 			</div>
+            <?php
+            //Template Variables
+            if ($group_tvs > 2 && $templateVariablesOutput) {
+                echo $templateVariables;
+            }
+            ?>
 
             <!-- Settings -->
             <div class="tab-page" id="tabSettings">
                 <h2 class="tab"><?php echo $_lang["settings_users"] ?></h2>
                 <script type="text/javascript">tpUser.addTabPage(document.getElementById("tabSettings"));</script>
-                <table border="0" cellspacing="0" cellpadding="3" class="table table--edit table--editUser">
+                <table border="0" cellspacing="0" cellpadding="3">
                     <tr>
-                        <th><?php echo $_lang["language_title"] ?></th>
+                        <td><?php echo $_lang["language_title"] ?></td>
                         <td><select name="manager_language" class="inputBox" onChange="documentDirty=true">
                                 <option value=""></option>
                                 <?php
@@ -636,7 +751,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["language_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["mgr_login_start"] ?></th>
+                        <td><?php echo $_lang["mgr_login_start"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='50' name="manager_login_startup" value="<?php echo isset($_POST['manager_login_startup']) ? $_POST['manager_login_startup'] : (isset($usersettings['manager_login_startup']) ? $usersettings['manager_login_startup'] : ""); ?>"></td>
                     </tr>
                     <tr>
@@ -644,7 +759,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["mgr_login_start_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["login_homepage"] ?></th>
+                        <td><?php echo $_lang["login_homepage"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='50' name="login_home" value="<?php echo isset($_POST['login_home']) ? $_POST['login_home'] : (isset($usersettings['login_home']) ? $usersettings['login_home'] : ""); ?>"></td>
                     </tr>
                     <tr>
@@ -652,7 +767,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["allow_mgr_access_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["login_allowed_ip"] ?></th>
+                        <td><?php echo $_lang["login_allowed_ip"] ?></td>
                         <td><input onChange="documentDirty=true;" type="text" maxlength='255' style="width: 300px;" name="allowed_ip" value="<?php echo isset($usersettings['allowed_ip']) ? $usersettings['allowed_ip'] : ""; ?>" /></td>
                     </tr>
                     <tr>
@@ -660,7 +775,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["login_allowed_ip_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["login_allowed_days"] ?></th>
+                        <td><?php echo $_lang["login_allowed_days"] ?></td>
                         <td><label> <?php if(!isset($usersettings['allowed_days'])) $usersettings['allowed_days'] = ''; ?>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]" value="1" <?php echo strpos($usersettings['allowed_days'], '1') !== false ? "checked='checked'" : ""; ?> />
                                 <?php echo $_lang['sunday']; ?></label>
@@ -695,7 +810,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["login_allowed_days_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["manager_theme"] ?></th>
+                        <td><?php echo $_lang["manager_theme"] ?></td>
                         <td><select name="manager_theme" class="inputBox" onChange="documentDirty=true;document.userform.theme_refresher.value = Date.parse(new Date());">
                                 <option value=""></option>
                                 <?php
@@ -747,7 +862,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                     </tr>
 
                     <tr>
-                        <th><?php echo $_lang["which_browser_title"] ?></th>
+                        <td><?php echo $_lang["which_browser_title"] ?></td>
                         <td><select name="which_browser" class="inputBox" onChange="documentDirty=true;">
                                 <?php
                                 if(isset($usersettings['which_browser'])){
@@ -774,7 +889,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["which_browser_msg"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["filemanager_path_title"] ?></th>
+                        <td><?php echo $_lang["filemanager_path_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;" name="filemanager_path" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($usersettings['filemanager_path']) ? $usersettings['filemanager_path'] : ""); ?>"></td>
                     </tr>
                     <tr>
@@ -782,7 +897,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["filemanager_path_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["uploadable_images_title"] ?></th>
+                        <td><?php echo $_lang["uploadable_images_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_images" value="<?php echo isset($usersettings['upload_images']) ? $usersettings['upload_images'] : ""; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_images" value="1" <?php echo isset($usersettings['upload_images']) && $usersettings['upload_images'] != '' ? '' : 'checked'; ?> />
@@ -794,7 +909,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["uploadable_images_message"] . $_lang["user_upload_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["uploadable_media_title"] ?></th>
+                        <td><?php echo $_lang["uploadable_media_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_media" value="<?php echo isset($usersettings['upload_media']) ? $usersettings['upload_media'] : ""; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_media" value="1" <?php echo isset($usersettings['upload_media']) && $usersettings['upload_media'] != '' ? '' : 'checked'; ?> />
@@ -806,7 +921,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["uploadable_media_message"] . $_lang["user_upload_message"] ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $_lang["uploadable_files_title"] ?></th>
+                        <td><?php echo $_lang["uploadable_files_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_files" value="<?php echo isset($usersettings['upload_files']) ? $usersettings['upload_files'] : ""; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_files" value="1" <?php echo isset($usersettings['upload_files']) && $usersettings['upload_files'] != '' ? '' : 'checked'; ?> />
@@ -818,7 +933,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["uploadable_files_message"] . $_lang["user_upload_message"] ?></td>
                     </tr>
                     <tr class='row2'>
-                        <th><?php echo $_lang["upload_maxsize_title"] ?></th>
+                        <td><?php echo $_lang["upload_maxsize_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;" name="upload_maxsize" value="<?php echo isset($usersettings['upload_maxsize']) ? $usersettings['upload_maxsize'] : ""; ?>"></td>
                     </tr>
                     <tr class='row2'>
@@ -826,7 +941,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["upload_maxsize_message"] ?></td>
                     </tr>
                     <tr id='editorRow0' style="display: <?php echo $modx->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
-                        <th><?php echo $_lang["which_editor_title"] ?></th>
+                        <td><?php echo $_lang["which_editor_title"] ?></td>
                         <td><select name="which_editor" onChange="documentDirty=true;">
                                 <option value=""></option>
                                 <?php
@@ -849,7 +964,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["which_editor_message"] ?></td>
                     </tr>
                     <tr id='editorRow14' class="row3" style="display: <?php echo $modx->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
-                        <th><?php echo $_lang["editor_css_path_title"] ?></th>
+                        <td><?php echo $_lang["editor_css_path_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="editor_css_path" value="<?php echo isset($usersettings["editor_css_path"]) ? $usersettings["editor_css_path"] : ""; ?>" /></td>
                     </tr>
                     <tr id='editorRow15' class='row3' style="display: <?php echo $modx->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
@@ -857,7 +972,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["editor_css_path_message"] ?></td>
                     </tr>
                     <tr id='rbRow1' class='row3' style="display: <?php echo $modx->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
-                        <th><?php echo $_lang["rb_base_dir_title"] ?></th>
+                        <td><?php echo $_lang["rb_base_dir_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;" name="rb_base_dir" value="<?php echo isset($usersettings["rb_base_dir"]) ? $usersettings["rb_base_dir"] : ""; ?>" /></td>
                     </tr>
                     <tr id='rbRow2' class='row3' style="display: <?php echo $modx->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
@@ -865,7 +980,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td class='comment'><?php echo $_lang["rb_base_dir_message"] ?></td>
                     </tr>
                     <tr id='rbRow4' class='row3' style="display: <?php echo $modx->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
-                        <th><?php echo $_lang["rb_base_url_title"] ?></th>
+                        <td><?php echo $_lang["rb_base_url_title"] ?></td>
                         <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;" name="rb_base_url" value="<?php echo isset($usersettings["rb_base_url"]) ? $usersettings["rb_base_url"] : ""; ?>" /></td>
                     </tr>
                     <tr id='rbRow5' class='row3' style="display: <?php echo $modx->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
@@ -881,17 +996,16 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                 }
                 ?>
             </div>
-
 			<!-- Photo -->
 			<div class="tab-page" id="tabPhoto">
 				<h2 class="tab"><?php echo $_lang["settings_photo"] ?></h2>
 				<script type="text/javascript">tpUser.addTabPage(document.getElementById("tabPhoto"));</script>
-				<table border="0" cellspacing="0" cellpadding="3" class="table table--edit table--editUser">
+				<table border="0" cellspacing="0" cellpadding="3">
 					<tr>
-						<th><?php echo $_lang["user_photo"] ?></th>
+						<td><?php echo $_lang["user_photo"] ?></td>
                         <td>
 						<input onChange="documentDirty=true;" type='text' maxlength='255' name="photo" id="photo" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>" />
-                            <button type="button"  onClick="BrowseServer('photo');" /><?php echo $_lang['insert']; ?></button>
+                            <input type="button"  onClick="BrowseServer('photo');" value="<?php echo $_lang['insert']; ?>" />
                         </td>
 					</tr>
 					<tr>
