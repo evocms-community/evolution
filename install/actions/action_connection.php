@@ -17,9 +17,18 @@ if ($installMode === 0) {
         if ($dbase) {
             $database_name = trim($dbase, '`');
             $host = explode(':', $database_server, 2);
-            if (!$conn = mysqli_connect($host[0], $database_user, $database_password,'', isset($host[1]) ? $host[1] : null))
-                $upgradeable = (isset($_POST['installmode']) && $_POST['installmode']=='new') ? 0 : 2;
-            elseif (! mysqli_select_db($conn, trim($dbase, '`')))
+            try {
+                $conn = mysqli_connect($host[0], $database_user, $database_password,'', isset($host[1]) ? $host[1] : null);
+                try {
+                    $result = mysqli_select_db($conn, trim($dbase, '`'));
+                } catch (Exception $e) {
+                    $result = false;
+                }
+            } catch (Exception $e) {
+                $conn = false;
+                $result = false;
+            }
+            if (!$conn || !$result)
                 $upgradeable = (isset($_POST['installmode']) && $_POST['installmode']=='new') ? 0 : 2;
             else
                 $upgradeable = 1;

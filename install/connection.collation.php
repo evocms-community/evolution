@@ -16,7 +16,11 @@ require_once('lang.php');
 
 if (function_exists('mysqli_connect')) {
     $h = explode(':', $host, 2);
-    $conn = mysqli_connect($h[0], $uid, $pwd,'', isset($h[1]) ? $h[1] : null);
+    try {
+        $conn = mysqli_connect($h[0], $uid, $pwd,'', isset($h[1]) ? $h[1] : null);
+    } catch (Exception $e) {
+        $conn = false;
+    }
     if (!$conn) {
         exit('can not connect');
     }

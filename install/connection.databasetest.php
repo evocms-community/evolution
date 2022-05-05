@@ -18,7 +18,12 @@ require_once 'functions.php';
 
 $output = $_lang["status_checking_database"];
 $h = explode(':', $host, 2);
-if (!$conn = mysqli_connect($h[0], $uid, $pwd,'', $h[1] ?? null)) {
+try {
+    $conn = mysqli_connect($h[0], $uid, $pwd,'', $h[1] ?? null);
+} catch (Exception $e) {
+    $conn = false;
+}
+if (!$conn) {
     $output .= '<span id="database_fail" style="color:#FF0000;">'.$_lang['status_failed'].'</span>';
 }
 else {
@@ -27,13 +32,21 @@ else {
     $tableprefix = mysqli_real_escape_string($conn, $_POST['tableprefix']);
     $database_collation = mysqli_real_escape_string($conn, $_POST['database_collation']);
     $database_connection_method = mysqli_real_escape_string($conn, $_POST['database_connection_method']);
-
-    if (!@ mysqli_select_db($conn, $database_name)) {
+    try {
+        $result = mysqli_select_db($conn, $database_name);
+    } catch (Exception $e) {
+        $result = false;
+    }
+    if (!$result) {
         // create database
         $database_charset = substr($database_collation, 0, strpos($database_collation, '_'));
         $query = "CREATE DATABASE `".$database_name."` CHARACTER SET ".$database_charset." COLLATE ".$database_collation.";";
-
-        if (! mysqli_query($conn, $query)){
+        try {
+            $result = mysqli_query($conn, $query);
+        } catch (Exception $e) {
+            $result = false;
+        }
+        if (!$result){
             $output .= '<span id="database_fail" style="color:#FF0000;">'.$_lang['status_failed_could_not_create_database'].'</span>';
         }
         else {

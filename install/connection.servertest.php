@@ -17,7 +17,12 @@ require_once("lang.php");
 $output = $_lang["status_connecting"];
 if (function_exists('mysqli_connect')) {
     $h = explode(':', $host, 2);
-    if (!$conn = @mysqli_connect($h[0], $uid, $pwd,'', isset($h[1]) ? $h[1] : null)) {
+    try {
+        $conn = mysqli_connect($h[0], $uid, $pwd,'', isset($h[1]) ? $h[1] : null);
+    } catch (Exception $e) {
+        $conn = false;
+    }
+    if (!$conn) {
         $output .= '<span id="server_fail" style="color:#FF0000;"> '.$_lang['status_failed'].'</span>';
     } else {
         $output .= '<span id="server_pass" style="color:#80c000;"> '.$_lang['status_passed_server'].'</span>';
