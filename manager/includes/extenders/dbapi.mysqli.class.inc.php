@@ -61,8 +61,12 @@ class DBAPI
         $tstart = $modx->getMicroTime();
         $safe_count = 0;
         do {
-            $this->conn = new mysqli($host[0], $uid, $pwd, $dbase, isset($host[1]) ? $host[1] : null);
-            if ($this->conn->connect_error) {
+            try {
+                $this->conn = new mysqli($host[0], $uid, $pwd, $dbase, isset($host[1]) ? $host[1] : null);
+            } catch (Exception $e) {
+                $this->conn = null;
+            }
+            if (is_null($this->conn) || $this->conn->connect_error) {
                 $this->conn = null;
                 if (isset($modx->config['send_errormail']) && $modx->config['send_errormail'] !== '0') {
                     if ($modx->config['send_errormail'] <= 2) {
