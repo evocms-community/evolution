@@ -8,10 +8,10 @@
     "routing",
     "templating"
   ],
-  "homepage": "http://evo.im/",
+  "homepage": "https://evocms.ru/",
   "license": "GPL-2.0+",
   "support": {
-    "docs": "https://docs.evo.im",
+    "docs": "https://github.com/evocms-community/docs",
     "telegram": "https://t.me/evo_cms",
     "issues": "https://github.com/evocms-community/evolution/issues/",
     "source": "https://github.com/evocms-community/evolution/"
