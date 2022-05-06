@@ -82,11 +82,12 @@ if(!empty ($id)) {
                 ->orWhereIn('document_groups.document_group', $_SESSION['mgrDocgroups']);
         });
     }
-    $content = $documentObjectQuery->withTrashed()->first()->toArray();
-    $modx->documentObject = &$content;
-    if(!$content) {
+    $content = $documentObjectQuery->withTrashed()->first();
+    if (empty($content)) {
         $modx->webAlertAndQuit($_lang["access_permission_denied"]);
     }
+    $content = $content->toArray();
+    $modx->documentObject = &$content;
     $_SESSION['itemname'] = $content['pagetitle'];
 } else {
     $content = array();
