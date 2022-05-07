@@ -1,4 +1,4 @@
-# Evolution CMS
+# Evolution CMS Community Edition
 
 ![screenshot_1](https://user-images.githubusercontent.com/523389/105744390-5a720e00-5f3d-11eb-8405-7b0f7e28688a.jpg)
 
