@@ -1,6 +1,6 @@
 # Evolution CMS Community Edition
 
-[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evolution-cms/evolution) [![GitHub release](https://img.shields.io/github/release/evolution-cms/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.4-green.svg?php=7.4) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
+[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evocms-community/evolution) [![GitHub release](https://img.shields.io/github/release/evocms-community/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.4-green.svg?php=7.4) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
 Evolution CMS requires **PHP >= 7.4**
 
