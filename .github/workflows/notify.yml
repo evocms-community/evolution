@@ -6,6 +6,7 @@ jobs:
   notify:
     name: Notify
     runs-on: ubuntu-latest
+    environment: evo
     steps:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
