@@ -17,7 +17,7 @@
 $modx_lang_attribute = 'pl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'EVO to <a href="http://evo.im/" target="_blank">PHP Application Framework i Content Management System</a> objęty licencją <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'EVO to <a href="https://evocms.ru/" target="_blank">PHP Application Framework i Content Management System</a> objęty licencją <a href="../assets/docs/license.txt">GNU GPL</a>.';
 $_lang["about_title"] = 'O Evolution';
 $_lang["access_permission_denied"] = 'Nie masz właściwych uprawnień do tego dokumentu.';
 $_lang["access_permission_parent_denied"] = 'Nie masz uprawnień do tworzenia lub przenoszenia dokumentu tutaj. Proszę wybrać inną lokację.';

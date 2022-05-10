@@ -16,7 +16,7 @@
 $modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'Evolution CMS is a <a href="http://evo.im/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="../assets/docs/license.txt">GNU GPL</a>.';
 $_lang["about_title"] = 'About Evolution CMS';
 $_lang["access_permission_denied"] = 'You do not have the correct permissions for this Resource.';
 $_lang["access_permission_parent_denied"] = 'You do not have permission to create or move a Resource here! Please choose another location.';
@@ -954,8 +954,8 @@ $_lang["siteunavailable_page_title"] = 'Site unavailable page';
 $_lang["siteunavailable_title"] = 'Site unavailable message';
 $_lang["controller_namespace"] = 'Controller Namespace';
 $_lang["controller_namespace_message"] = 'Specify the full Namespace from which it is worth taking controllers, for example: <b>EvolutionCMS\\Main\\Controllers\\</b>';
-$_lang["update_repository"] = 'Git Hub path';
-$_lang["update_repository_message"] = 'Enter Git Hub repository path for example: <b>evolution-cms/evolution</b>';
+$_lang["update_repository"] = 'GitHub repository path';
+$_lang["update_repository_message"] = 'Enter GitHub repository path for example: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Snippet code (php)';

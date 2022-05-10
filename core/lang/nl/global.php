@@ -16,7 +16,7 @@
 $modx_lang_attribute = 'nl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'EVO is een <a href="http://evo.im/" target="_blank">PHP Applicatie Framework en Content Management Systeem</a> met de licentie <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'EVO is een <a href="https://evo-cms.com/" target="_blank">PHP Applicatie Framework en Content Management Systeem</a> met de licentie <a href="../assets/docs/license.txt">GNU GPL</a>.';
 $_lang["about_title"] = 'Over Evolution';
 $_lang["access_permission_denied"] = 'U heeft niet de juiste toegangsrechten voor deze Pagina.';
 $_lang["access_permission_parent_denied"] = 'U heeft niet genoeg toegangsrechten om hier een Pagina aan te maken of te verplaatsen! Kies a.u.b. een andere locatie.';
