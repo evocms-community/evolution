@@ -1,6 +1,6 @@
-# Evolution CMS Community Edition
+# Evolution CMS - Community Edition
 
-![screenshot_1](https://user-images.githubusercontent.com/523389/105744390-5a720e00-5f3d-11eb-8405-7b0f7e28688a.jpg)
+![evocms](https://user-images.githubusercontent.com/523389/167645693-694ca1c1-fb53-45d5-aa63-e3d8c5e1cc84.jpg)
 
 [![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evocms-community/evolution) [![GitHub release](https://img.shields.io/github/release/evocms-community/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.4-green.svg?php=7.4) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
@@ -39,6 +39,7 @@ To run **Evolution CMS** using docker make **docker-compose up -d** command in y
 
 Official Website:
 https://evocms.ru/
+https://evo-cms.com/
 
 Telegram group:
 https://t.me/evo_cms
@@ -49,15 +50,13 @@ https://github.com/evocms-community/evolution/releases
 Documentation:
 https://github.com/evocms-community/docs/
 
-Previous Releases:
-https://modx.com/download/evolution/previous-releases.html
-
 Extras / Add-ons:
 https://extras.evocms.ru
 
 Documentation:
 https://github.com/evocms-community/docs
 https://evolution-docs.com
+https://docs.evo-cms.com
 
 Youtube:
 https://www.youtube.com/channel/UCS7ZUn62Qln_OhHSVaFTTig
