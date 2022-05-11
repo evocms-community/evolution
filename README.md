@@ -6,19 +6,15 @@
 
 
 ## What is Evolution CMS
-
 **Evolution CMS** is an open source Content Management System and Application Framework.
 
 ## History
-
 Initially inspired by **Etomite 0.6**, then it been **MODX Evolution 0.7 - 1.0.8** is an ongoing project written by *Raymond Irving* and a core team of contributors **MODX**, and now its **Evolution CMS** maintained by a team of contributors at the **Evolution CMS Project**.
 
 ## License
-
 **Evolution CMS** is distributed under the **GPL license** and is now run by a professional team of developers from all over the world. Visit the Forums for more information.
 
 ## Features
-
 **Evolution CMS** provides a fast, lightweight and powerful framework on which to deploy and secure your website and web applications.
 
 For example, it gives you a true system for registered web users and groups that is separate from administration users. You can grant some web users access to one page and others access to another page.
@@ -32,31 +28,17 @@ You can use the single click installer: [Evolution CMS Installer](https://github
 Evolution CMS 3.0 requires **PHP >= 7.3**
 
 ## Docker
-
 To run **Evolution CMS** using docker make **docker-compose up -d** command in your terminal. Additional configs and access parameters you can find in **docker-compose.yml** file and **docker** folder 
 
 ## References
-
-Official Website:
-https://evocms.ru/
-https://evo-cms.com/
-
-Telegram group:
-https://t.me/evo_cms
-
-Download:
-https://github.com/evocms-community/evolution/releases
-
-Documentation:
-https://github.com/evocms-community/docs/
-
-Extras / Add-ons:
-https://extras.evocms.ru
-
-Documentation:
-https://github.com/evocms-community/docs
-https://evolution-docs.com
-https://docs.evo-cms.com
-
-Youtube:
-https://www.youtube.com/channel/UCS7ZUn62Qln_OhHSVaFTTig
+| Reference  | Website |
+| ------------- | ------------- |
+| Official Website | https://evo-cms.com/ |
+| | https://evocms.ru/ |
+| Documentation | https://docs.evo-cms.com |
+| | https://github.com/evocms-community/docs |
+| | https://evolution-docs.com |
+| Downloads | https://github.com/evocms-community/evolution/releases |
+| Add-ons | https://extras.evocms.ru |
+| Telegram group | https://t.me/evo_cms |
+| Youtube| https://www.youtube.com/channel/UCS7ZUn62Qln_OhHSVaFTTig |
