@@ -146,7 +146,7 @@ if( ! function_exists('f_owc')){
 }
 
 // check PHP version
-define('PHP_MIN_VERSION', '5.4.0');
+define('PHP_MIN_VERSION', '7.4.0');
 $phpMinVersion = PHP_MIN_VERSION; // Maybe not necessary. For backward compatibility
 echo PHP_EOL . $_lang['checking_php_version'];
 // -1 if left is less, 0 if equal, +1 if left is higher
