@@ -301,6 +301,12 @@ switch ($actionToTake) {
             "id" => $id
         ));
 
+        $deleted = 0;
+        $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$parent} AND `deleted`=0"));
+        if ($parent > 0 && !$parentNotDeleted) {
+            $deleted = 1;
+        }
+
         // deny publishing if not permitted
         if (!$modx->hasPermission('publish_document')) {
             $pub_date = 0;
@@ -327,6 +333,7 @@ switch ($actionToTake) {
             "link_attributes"  => $link_attributes ,
             "isfolder"         => $isfolder ,
             "richtext"         => $richtext ,
+            "deleted"          => $deleted ,
             "published"        => $published ,
             "parent"           => $parent ,
             "template"         => $template ,
@@ -465,6 +472,14 @@ switch ($actionToTake) {
             $modx->webAlertAndQuit("Document can not be it's own parent!");
         }
 
+        $deleted = (int)$existingDocument['deleted'];
+        if ($parent != $oldparent && $parent > 0) {
+            $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$parent} AND `deleted`=0"));
+            if (!$parentNotDeleted) {
+                $deleted = 1;
+            }
+        }
+
         $parents = $modx->getParentIds($parent);
         if (in_array($id, $parents)) {
             $modx->webAlertAndQuit("Document descendant can not be it's parent!");
@@ -520,6 +535,7 @@ switch ($actionToTake) {
             . "link_attributes='{$link_attributes}', "
             . "isfolder={$isfolder}, "
             . "richtext={$richtext}, "
+            . "deleted={$deleted}, "
             . "published={$published}, "
             . "pub_date={$pub_date}, "
             . "unpub_date={$unpub_date}, "

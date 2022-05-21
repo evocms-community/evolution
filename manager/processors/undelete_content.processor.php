@@ -14,7 +14,12 @@ if($id==0) {
 /************ webber ********/
 $content=$modx->db->getRow($modx->db->select('parent, pagetitle', $modx->getFullTableName('site_content'), "id='{$id}'"));
 $pid=($content['parent']==0?$id:$content['parent']);
-
+if ($content['parent'] > 0) {
+    $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$content['parent']} AND `deleted`=0"));
+    if (!$parentNotDeleted) {
+        $modx->webAlertAndQuit($_lang["error_parent_deleted"]);
+    }
+}
 /************** webber *************/
 $sd=isset($_REQUEST['dir'])?'&dir='.$_REQUEST['dir']:'&dir=DESC';
 $sb=isset($_REQUEST['sort'])?'&sort='.$_REQUEST['sort']:'&sort=createdon';
