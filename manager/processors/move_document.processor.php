@@ -15,7 +15,12 @@ $documentID = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 if($documentID==$newParentID) $modx->webAlertAndQuit($_lang["error_movedocument1"]);
 if($documentID <= 0) $modx->webAlertAndQuit($_lang["error_movedocument2"]);
 if($newParentID < 0) $modx->webAlertAndQuit($_lang["error_movedocument2"]);
-
+if ($newParentID > 0) {
+    $rs = $modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$newParentID} AND `deleted`=0");
+    if (!$modx->db->getValue($rs)) {
+        $modx->webAlertAndQuit($_lang["error_parent_deleted"]);
+    }
+}
 $parents = $modx->getParentIds($newParentID);
 if (in_array($documentID, $parents))  $modx->webAlertAndQuit($_lang["error_movedocument2"]);
 

@@ -496,7 +496,10 @@ if (isset($action)) {
                 $menuindex = isset($_REQUEST['menuindex']) && is_scalar($_REQUEST['menuindex']) ? $_REQUEST['menuindex'] : 0;
 
                 // set parent
-                if ($id && $parent >= 0) {
+                $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$parent} AND `deleted`=0"));
+                if ($parent > 0 && !$parentNotDeleted) {
+                    $json['errors'] = $_lang["error_parent_deleted"];
+                } elseif ($id && $parent >= 0) {
 
                     // find older parent
                     $parentOld = $modx->db->getValue($modx->db->select('parent', $modx->getFullTableName('site_content'), 'id=' . $id));
