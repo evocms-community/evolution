@@ -11,26 +11,40 @@
 $style_path = 'media/style/' . $modx->config['manager_theme'] . '/images/';
 $modx->config['mgr_date_picker_path'] = 'media/calendar/datepicker.inc.php';
 if(empty($modx->config['lang_code'])) {
-	global $modx_lang_attribute;
-	$modx->config['lang_code'] = !$modx_lang_attribute ? 'en' : $modx_lang_attribute;
+    global $modx_lang_attribute;
+    $modx->config['lang_code'] = !$modx_lang_attribute ? 'en' : $modx_lang_attribute;
 }
 
-if(isset($_GET['a']) && $_GET['a'] == 2) {
-	include_once('welcome.php');
+if (isset($_GET['a']) && $_GET['a'] == 2) {
+    include_once('welcome.php');
 }
 
 // Favicon
-$_style['favicon']                  = (file_exists(MODX_BASE_PATH . 'favicon.ico') ? MODX_SITE_URL . 'favicon.ico' : 'media/style/' . $modx->config['manager_theme'] . '/images/favicon.ico');
+$_style['favicon'] = (file_exists(MODX_BASE_PATH . 'favicon.ico') ? MODX_SITE_URL . 'favicon.ico' : 'media/style/' . $modx->config['manager_theme'] . '/images/favicon.ico');
+
+// Icons
+$_style['icon_size_2x'] = ' fa-2x';
+$_style['icon_size_fix'] = ' fa-fw';
+$_style['icon_spin'] = ' fa-spin';
+$_style['icon_template'] = 'fa fa-newspaper-o';
+$_style['icon_tv'] = 'fa fa-list-alt';
+$_style['icon_chunk'] = 'fa fa-th-large';
+$_style['icon_code'] = 'fa fa-code';
+$_style['icon_plugin'] = 'fa fa-plug';
+$_style['icon_elements'] = 'fa fa-th';
+$_style['icon_edit'] = 'fa fa-edit';
+$_style['icon_circle'] = 'fa fa-circle';
+$_style['icon_refresh'] = 'fa fa-refresh';
 
 //Main Menu
-$_style['menu_search']              = '<i class="fa fa-search"></i>';
-$_style['menu_preview_site']        = '<i class="fa fa-desktop"></i>';
-$_style['menu_new_resource']        = '<i class="fa fa-plus"></i>';
-$_style['menu_system']              = '<i class="fa fa-cogs"></i>';
-$_style['menu_user']                = '<i class="fa fa-user-circle"></i>';
+$_style['menu_search'] = '<i class="fa fa-search"></i>';
+$_style['menu_preview_site'] = '<i class="fa fa-desktop"></i>';
+$_style['menu_new_resource'] = '<i class="fa fa-plus"></i>';
+$_style['menu_system'] = '<i class="fa fa-cogs"></i>';
+$_style['menu_user'] = '<i class="fa fa-user-circle"></i>';
 // full screen
-$_style['menu_expand']              = 'fa-expand';
-$_style['menu_compress']            = 'fa-compress';
+$_style['menu_expand'] = 'fa-expand';
+$_style['menu_compress'] = 'fa-compress';
 //help toggle
 $_style['icons_help']               = '<i class="fa fa-question-circle help"></i>';
 //pages
@@ -274,67 +288,67 @@ if (isset($_REQUEST['stay'])) {
 $stay = isset($_REQUEST['stay']) ? $_REQUEST['stay'] : '';
 $addnew = 0;
 $run = 0;
-switch($action) {
-	case '3':
-	case '4':
-	case '27':
-	case '72':
-		if($modx->hasPermission('new_document')) {
-			$addnew = 1;
-		}
-		break;
-	case '16':
-	case '19':
-		if($modx->hasPermission('new_template')) {
-			$addnew = 1;
-		}
-		break;
-	case '300':
-	case '301':
-		if($modx->hasPermission('new_snippet') && $modx->hasPermission('new_chunk') && $modx->hasPermission('new_plugin')) {
-			$addnew = 1;
-		}
-		break;
-	case '77':
-	case '78':
-		if($modx->hasPermission('new_chunk')) {
-			$addnew = 1;
-		}
-		break;
-	case '22':
-	case '23':
-		if($modx->hasPermission('new_snippet')) {
-			$addnew = 1;
-		}
-		break;
-	case '101':
-	case '102':
-		if($modx->hasPermission('new_plugin')) {
-			$addnew = 1;
-		}
-		break;
-	case '106':
-	case '107':
-	case '108':
-		if($modx->hasPermission('new_module')) {
-			$addnew = 1;
-		}
-		if($modx->hasPermission('exec_module')) {
-			$run = 1;
-		}
-		break;
-	case '88':
-		if($modx->hasPermission('new_web_user')) {
-			$addnew = 1;
-		}
-		break;
+switch ($action) {
+    case '3':
+    case '4':
+    case '27':
+    case '72':
+        if ($modx->hasPermission('new_document')) {
+            $addnew = 1;
+        }
+        break;
+    case '16':
+    case '19':
+        if ($modx->hasPermission('new_template')) {
+            $addnew = 1;
+        }
+        break;
+    case '300':
+    case '301':
+        if ($modx->hasPermission('new_snippet') && $modx->hasPermission('new_chunk') && $modx->hasPermission('new_plugin')) {
+            $addnew = 1;
+        }
+        break;
+    case '77':
+    case '78':
+        if ($modx->hasPermission('new_chunk')) {
+            $addnew = 1;
+        }
+        break;
+    case '22':
+    case '23':
+        if ($modx->hasPermission('new_snippet')) {
+            $addnew = 1;
+        }
+        break;
+    case '101':
+    case '102':
+        if ($modx->hasPermission('new_plugin')) {
+            $addnew = 1;
+        }
+        break;
+    case '106':
+    case '107':
+    case '108':
+        if ($modx->hasPermission('new_module')) {
+            $addnew = 1;
+        }
+        if ($modx->hasPermission('exec_module')) {
+            $run = 1;
+        }
+        break;
+    case '88':
+        if ($modx->hasPermission('new_web_user')) {
+            $addnew = 1;
+        }
+        break;
 }
 
 $disabled = ($action == '19' || $action == '300' || $action == '77' || $action == '23' || $action == '101' || $action == '4' || $action == '72' || $action == '87' || $action == '11' || $action == '107' || $action == '38') ? ' disabled' : '';
 
 $_style['actionbuttons'] = array(
-	'dynamic' => array(
-		'document' => '<div id="actions">
+    'dynamic' => array(
+        'document' => '<div id="actions">
 			<div class="btn-group">
 				<div class="btn-group">
 					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
@@ -349,7 +363,7 @@ $_style['actionbuttons'] = array(
 						<option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
 					</select>
 				</div>' .
-					($addnew ? '
+            ($addnew ? '
 					<a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
 						<i class="' . $_style["actions_duplicate"] . '"></i><span>' . $_lang['duplicate'] . '</span>
 					</a>
@@ -365,7 +379,7 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-		'user' => '<div id="actions">
+        'user' => '<div id="actions">
 			<div class="btn-group">
 				<div class="btn-group">
 					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
@@ -388,7 +402,7 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-		'element' => '<div id="actions">
+        'element' => '<div id="actions">
 			<div class="btn-group">
 				<div class="btn-group">
 					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
@@ -421,21 +435,21 @@ $_style['actionbuttons'] = array(
 				' : '') . '
 			</div>
 		</div>',
-		'newmodule' => ($addnew ? '<div id="actions">
+        'newmodule' => ($addnew ? '<div id="actions">
 			<div class="btn-group">
 				<a id="newModule" class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
 					<i class="' . $_style["actions_new"] . '"></i><span>' . $_lang['new_module'] . '</span>
 				</a>
 			</div>
 		</div>' : ''),
-		'close' => '<div id="actions">
+        'close' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.close();">
 					<i class="' . $_style["actions_close"] . '"></i><span>' . $_lang['close'] . '</span>
 				</a>
 			</div>
 		</div>',
-		'save' => '<div id="actions">
+        'save' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
 					<i class="' . $_style["actions_save"] . '"></i><span>' . $_lang['save'] . '</span>
@@ -445,7 +459,7 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-		'savedelete' => '<div id="actions">
+        'savedelete' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
 					<i class="' . $_style["actions_save"] . '"></i><span>' . $_lang['save'] . '</span>
@@ -458,14 +472,14 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-		'cancel' => '<div id="actions">
+        'cancel' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
 					<i class="' . $_style["actions_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
 				</a>
 			</div>
 		</div>',
-		'canceldelete' => '<div id="actions">
+        'canceldelete' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
 					<i class="' . $_style["actions_delete"] . '"></i><span>' . $_lang['delete'] . '</span>
@@ -475,11 +489,11 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-	),
-	'static' => array(
-		'document' => '<div id="actions">
+    ),
+    'static' => array(
+        'document' => '<div id="actions">
 			<div class="btn-group">' .
-				($addnew ? '
+            ($addnew ? '
 					<a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
 						<i class="' . $_style["icons_new_document"] . '"></i><span>' . $_lang['create_resource_here'] . '</span>
 					</a>
@@ -504,12 +518,12 @@ $_style['actionbuttons'] = array(
 				</a>
 			</div>
 		</div>',
-		'cancel' => '<div id="actions">
+        'cancel' => '<div id="actions">
 			<div class="btn-group">
 				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
 					<i class="' . $_style["actions_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
 				</a>
 			</div>
 		</div>',
-	)
+    )
 );
