@@ -63,15 +63,15 @@ if (isset($modx->pluginCache['ElementsInTree'])) {
 }
 
 $unlockTranslations = array(
-    'msg' => $_lang["unlock_element_id_warning"],
-    'type1' => $_lang["lock_element_type_1"],
-    'type2' => $_lang["lock_element_type_2"],
-    'type3' => $_lang["lock_element_type_3"],
-    'type4' => $_lang["lock_element_type_4"],
-    'type5' => $_lang["lock_element_type_5"],
-    'type6' => $_lang["lock_element_type_6"],
-    'type7' => $_lang["lock_element_type_7"],
-    'type8' => $_lang["lock_element_type_8"]
+        'msg' => $_lang["unlock_element_id_warning"],
+        'type1' => $_lang["lock_element_type_1"],
+        'type2' => $_lang["lock_element_type_2"],
+        'type3' => $_lang["lock_element_type_3"],
+        'type4' => $_lang["lock_element_type_4"],
+        'type5' => $_lang["lock_element_type_5"],
+        'type6' => $_lang["lock_element_type_6"],
+        'type7' => $_lang["lock_element_type_7"],
+        'type8' => $_lang["lock_element_type_8"]
 );
 
 foreach ($unlockTranslations as $key => $value) {
@@ -192,11 +192,15 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
           actions_pencil: '<?= addslashes($_style['actions_pencil']) ?>',
           actions_plus: '<?= addslashes($_style['actions_plus']) ?>',
           actions_reply: '<?= addslashes($_style['actions_reply']) ?>',
+          actions_refresh: '<?= addslashes($_style['actions_refresh']) ?>',
           collapse_tree: '<?= addslashes($_style['collapse_tree']) ?>',
           email: '<?= addslashes($_style['email']) ?>',
-          empty_recycle_bin: '<?= addslashes($_style['empty_recycle_bin']) ?>',
-          empty_recycle_bin_empty: '<?= addslashes($_style['empty_recycle_bin_empty']) ?>',
+          icon_trash: '<?= addslashes($_style['empty_recycle_bin']) ?>',
+          icon_trash_alt: '<?= addslashes($_style['empty_recycle_bin_empty']) ?>',
           expand_tree: '<?= addslashes($_style['expand_tree']) ?>',
+          icon_spin: '<?= addslashes($_style['icon_spin']) ?>',
+          icon_angle_left: '<?= addslashes($_style['actions_angle_left']) ?>',
+          icon_angle_right: '<?= addslashes($_style['actions_angle_right']) ?>',
           icons_external_link: '<?= addslashes($_style['icons_external_link']) ?>',
           icons_working: '<?= addslashes($_style['tree_working']) ?>',
           tree_info: '<?= addslashes($_style['tree_info']) ?>',
@@ -206,7 +210,16 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
           tree_folderopen_secure: '<?= addslashes($_style['tree_folderopen_secure']) ?>',
           tree_minusnode: '<?= addslashes($_style["tree_minusnode"]) ?>',
           tree_plusnode: '<?= addslashes($_style['tree_plusnode']) ?>',
-          tree_preview_resource: '<?= addslashes($_style['tree_preview_resource']) ?>'
+          tree_preview_resource: '<?= addslashes($_style['tree_preview_resource']) ?>',
+          icon_refresh: '<?= addslashes($_style['icon_refresh']) ?>',
+          icon_template: '<?= addslashes($_style['icon_template']) ?>',
+          icon_tv: '<?= addslashes($_style['icon_tv']) ?>',
+          icon_chunk: '<?= addslashes($_style['icon_chunk']) ?>',
+          icon_code: '<?= addslashes($_style['icon_code']) ?>',
+          icon_plugin: '<?= addslashes($_style['icon_plugin']) ?>',
+          icon_element: '<?= addslashes($_style['icon_element']) ?>',
+          icon_edit: '<?= addslashes($_style['icon_edit']) ?>',
+          icon_circle: '<?= addslashes($_style['icon_circle']) ?>',
         },
         permission: {
           assets_images: <?= $modx->hasPermission('assets_images') ? 1 : 0 ?>,
@@ -246,12 +259,12 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
         lockedElementsTranslation: <?= json_encode($unlockTranslations, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE) . "\n" ?>
       };
       <?php
-          $openedArray = isset($_SESSION['openedArray']) ? $_SESSION['openedArray'] : '';
+      $openedArray = isset($_SESSION['openedArray']) ? $_SESSION['openedArray'] : '';
       $opened = array_filter(array_map('intval', explode('|', $openedArray)));
       echo (empty($opened) ? '' : 'modx.openedArray[' . implode("] = 1;\n		modx.openedArray[", $opened) . '] = 1;') . "\n";
       ?>
     </script>
-    <script src="media/style/<?= $modx->config['manager_theme'] ?>/js/modx.min.js?v=<?= $lastInstallTime ?>"></script>
+    <script src="media/style/<?= $modx->config['manager_theme'] ?>/js/modx.js?v=<?= $lastInstallTime ?>"></script>
     <?php if ($modx->config['show_picker'] != "0") { ?>
         <script src="media/script/bootstrap/js/bootstrap.min.js?4.3.1" type="text/javascript"></script>
         <script src="media/script/spectrum/spectrum.evo.min.js" type="text/javascript"></script>
@@ -437,10 +450,10 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
             </div>
         <?php endif; ?>
         <script>
-            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                document.getElementById('mainframe').setAttribute('scrolling', 'no');
-                document.getElementsByClassName("tabframes").setAttribute("scrolling", "no");
-            }
+          if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            document.getElementById('mainframe').setAttribute('scrolling', 'no');
+            document.getElementsByClassName("tabframes").setAttribute("scrolling", "no");
+          }
         </script>
         <div id="mainloader"></div>
     </div>
@@ -450,9 +463,9 @@ $modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['rol
     <div id="floater" class="dropdown">
         <?php
         $sortParams = array(
-            'tree_sortby',
-            'tree_sortdir',
-            'tree_nodename'
+                'tree_sortby',
+                'tree_sortdir',
+                'tree_nodename'
         );
         foreach ($sortParams as $param) {
             if (isset($_REQUEST[$param])) {
