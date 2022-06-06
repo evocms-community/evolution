@@ -47,7 +47,7 @@ if (isset($_REQUEST['id']) && $_REQUEST['id'] != '' && is_numeric($_REQUEST['id'
     $content['name'] = $_REQUEST['itemname'];
 } else {
     $_SESSION['itemname'] = $_lang["new_htmlsnippet"];
-    $content['category'] = (int)$_REQUEST['catid'];
+    if (!empty($content['category'])) $content['category'] = (int)$_REQUEST['catid'];
 }
 
 if ($modx->manager->hasFormValues()) {
@@ -136,7 +136,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         <input type="hidden" name="mode" value="<?= $modx->manager->action ?>" />
 
         <h1>
-            <i class="fa fa-th-large"></i><?= ($content['name'] ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_htmlsnippet']) ?><i class="fa fa-question-circle help"></i>
+            <i class="fa fa-th-large"></i><?= isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_htmlsnippet'] ?><i class="fa fa-question-circle help"></i>
         </h1>
 
         <?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -158,7 +158,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         <label class="col-md-3 col-lg-2"><?= $_lang['htmlsnippet_name'] ?></label>
                         <div class="col-md-9 col-lg-10">
                             <div class="form-control-name clearfix">
-                                <input name="name" type="text" maxlength="100" value="<?= $modx->htmlspecialchars($content['name']) ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
+                                <input name="name" type="text" maxlength="100" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : "" ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
                                 <?php if ($modx->hasPermission('save_role')): ?>
                                     <label class="custom-control" title="<?= $_lang['lock_htmlsnippet'] . "\n" . $_lang['lock_htmlsnippet_msg'] ?>" tooltip>
                                         <input name="locked" type="checkbox" value="on"<?= ($content['locked'] == 1 || $content['locked'] == 'on' ? ' checked="checked"' : '') ?> />
@@ -175,7 +175,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     <div class="row form-row">
                         <label class="col-md-3 col-lg-2"><?= $_lang['htmlsnippet_desc'] ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <input name="description" type="text" maxlength="255" value="<?= $modx->htmlspecialchars($content['description']) ?>" class="form-control" onchange="documentDirty=true;" />
+                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $modx->htmlspecialchars($content['description']) : '' ?>" class="form-control" onchange="documentDirty=true;" />
                         </div>
                     </div>
                     <div class="row form-row">
