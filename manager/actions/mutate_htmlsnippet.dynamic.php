@@ -57,7 +57,7 @@ if ($modx->manager->hasFormValues()) {
 if (isset($_POST['which_editor'])) {
     $which_editor = $_POST['which_editor'];
 } else {
-    $which_editor = $content['editor_name'] != 'none' ? $content['editor_name'] : 'none';
+	$which_editor = isset($content['editor_name']) ? $content['editor_name'] : 'none';
 }
 
 $content = array_merge($content, $_POST);
@@ -200,7 +200,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     </div>
                     <?php if ($_SESSION['mgrRole'] == 1): ?>
                         <div class="form-row">
-                            <label><input name="disabled" type="checkbox" value="on"<?= ($content['disabled'] == 1 ? ' checked="checked"' : '') ?> /> <?= ($content['disabled'] == 1 ? "<span class='text-danger'>" . $_lang['disabled'] . "</span>" : $_lang['disabled']) ?></label>
+                            <label><input name="disabled" type="checkbox" value="on"<?= (!empty($content['disabled']) ? ' checked="checked"' : '') ?> /> <?= (!empty($content['disabled']) ? "<span class='text-danger'>" . $_lang['disabled'] . "</span>" : $_lang['disabled']) ?></label>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -224,7 +224,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 				</span>
                 </div>
                 <div class="section-editor clearfix">
-                    <textarea dir="ltr" class="phptextarea" id="post" name="post" rows="20" onChange="documentDirty=true;"><?= isset($content['post']) ? $modx->htmlspecialchars($content['post']) : $modx->htmlspecialchars($content['snippet']) ?></textarea>
+                    <textarea dir="ltr" class="phptextarea" id="post" name="post" rows="20" onChange="documentDirty=true;"><?= isset($content['post']) ? $modx->htmlspecialchars($content['post']) : (isset($content['snippet']) ? $modx->htmlspecialchars($content['snippet']) : '') ?></textarea>
                 </div>
                 <!-- HTML text editor end -->
             </div>
