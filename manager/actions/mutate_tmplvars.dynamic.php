@@ -291,7 +291,7 @@ if(is_array($evtOut)) {
 	<input type="hidden" name="params" value="<?= $modx->htmlspecialchars($content['display_params']) ?>">
 
 	<h1>
-		<i class="fa fa-list-alt"></i><?= isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_tmplvars'] ?><i class="fa fa-question-circle help"></i>
+		<i class="fa fa-list-alt"></i><?= $content['name']) = $content['name'] . '<small>(' . $content['id'] . ')</small>' ?? $_lang['new_tmplvars'] ?><i class="fa fa-question-circle help"></i>
 	</h1>
 
 	<?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -313,7 +313,7 @@ if(is_array($evtOut)) {
 					<label class="col-md-3 col-lg-2"><?= $_lang['tmplvars_name'] ?></label>
 					<div class="col-md-9 col-lg-10">
 						<div class="form-control-name clearfix">
-							<input name="name" type="text" maxlength="50" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : "" ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
+							<input name="name" type="text" maxlength="50" value="<?= $content['name'] = $modx->htmlspecialchars($content['name']) ?? "" ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
 							<?php if($modx->hasPermission('save_role')): ?>
 								<label class="custom-control" title="<?= $_lang['lock_tmplvars'] . "\n" . $_lang['lock_tmplvars_msg'] ?>" tooltip>
 									<input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
@@ -328,13 +328,13 @@ if(is_array($evtOut)) {
 				<div class="row form-row">
 					<label class="col-md-3 col-lg-2"><?= $_lang['tmplvars_caption'] ?></label>
 					<div class="col-md-9 col-lg-10">
-						<input name="caption" type="text" maxlength="80" value="<?= isset($content['caption']) ? $modx->htmlspecialchars($content['caption']) : "" ?>" class="form-control" onchange="documentDirty=true;" />
+						<input name="caption" type="text" maxlength="80" value="<?= $content['caption'] = $modx->htmlspecialchars($content['caption']) ?? "" ?>" class="form-control" onchange="documentDirty=true;" />
 					</div>
 				</div>
 				<div class="row form-row">
 					<label class="col-md-3 col-lg-2"><?= $_lang['tmplvars_description'] ?></label>
 					<div class="col-md-9 col-lg-10">
-						<input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $modx->htmlspecialchars($content['description']) : "" ?>" class="form-control" onChange="documentDirty=true;">
+						<input name="description" type="text" maxlength="255" value="<?= $content['description'] = $modx->htmlspecialchars($content['description']) ?? "" ?>" class="form-control" onChange="documentDirty=true;">
 					</div>
 				</div>
 				<div class="row form-row">
@@ -400,7 +400,7 @@ if(is_array($evtOut)) {
 						<small class="form-text text-muted"><?= $_lang['tmplvars_binding_msg'] ?></small>
 					</label>
 					<div class="col-md-9 col-lg-10">
-						<textarea name="elements" maxlength="65535" rows="4" class="form-control" onchange="documentDirty=true;"><?= isset($content['elements']) ? $modx->htmlspecialchars($content['elements']) : "" ?></textarea>
+						<textarea name="elements" maxlength="65535" rows="4" class="form-control" onchange="documentDirty=true;"><?= $content['elements'] = $modx->htmlspecialchars($content['elements']) ?? "" ?></textarea>
 					</div>
 				</div>
 				<div class="row form-row">
@@ -408,7 +408,7 @@ if(is_array($evtOut)) {
 						<small class="form-text text-muted"><?= $_lang['tmplvars_binding_msg'] ?></small>
 					</label>
 					<div class="col-md-9 col-lg-10">
-						<textarea name="default_text" class="form-control" rows="4" onchange="documentDirty=true;"><?= isset($content['default_text']) ? $modx->htmlspecialchars($content['default_text']) : "" ?></textarea>
+						<textarea name="default_text" class="form-control" rows="4" onchange="documentDirty=true;"><?= $content['default_text'] = $modx->htmlspecialchars($content['default_text']) ?? "" ?></textarea>
 					</div>
 				</div>
 				<div class="row form-row">
