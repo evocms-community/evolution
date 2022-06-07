@@ -33,6 +33,7 @@ if ($lockedEl = $modx->elementIsLocked(5, $id)) {
 // Lock plugin for other users to edit
 $modx->lockElement(5, $id);
 
+$content = array();
 if (isset($_GET['id'])) {
     $rs = $modx->db->select('*', $tbl_site_plugins, "id='{$id}'");
     $content = $modx->db->getRow($rs);
@@ -46,7 +47,7 @@ if (isset($_GET['id'])) {
     $content['properties'] = str_replace("&", "&amp;", $content['properties']);
 } else {
     $_SESSION['itemname'] = $_lang["new_plugin"];
-    $content['category'] = (int)$_REQUEST['catid'];
+    if ( !empty($_REQUEST['catid']) ) $content['category'] = (int)$_REQUEST['catid'];
 }
 
 if ($modx->manager->hasFormValues()) {
@@ -526,7 +527,7 @@ function bold($cond = false)
                     <div class="row form-row">
                         <label class="col-md-3 col-lg-2"><?= $_lang['plugin_desc'] ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <input name="description" type="text" maxlength="255" value="<?= $content['description'] ?>" class="form-control" onchange="documentDirty=true;" />
+                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $content['description'] : '' ?>" class="form-control" onchange="documentDirty=true;" />
                         </div>
                     </div>
                     <div class="row form-row">
@@ -553,7 +554,7 @@ function bold($cond = false)
                 <?php if ($modx->hasPermission('save_role')): ?>
                 <div class="form-group">
                     <div class="form-row">
-                        <label><input name="disabled" type="checkbox" value="on"<?= ($content['disabled'] == 1 ? ' checked="checked"' : '') ?> /> <?= ($content['disabled'] == 1 ? "<span class='text-danger'>" . $_lang['plugin_disabled'] . "</span>" : $_lang['plugin_disabled']) ?></label>
+                        <label><input name="disabled" type="checkbox" value="on"<?= (!empty($content['disabled']) ? ' checked="checked"' : '') ?> /> <?= (!empty($content['disabled']) ? "<span class='text-danger'>" . $_lang['plugin_disabled'] . "</span>" : $_lang['plugin_disabled']) ?></label>
                     </div>
                     <div class="form-row">
                         <label>
@@ -618,7 +619,7 @@ function bold($cond = false)
             </div>
             <!-- HTML text editor start -->
             <div class="section-editor clearfix">
-                <textarea dir="ltr" name="properties" class="phptextarea" rows="20" onChange="showParameters(this);documentDirty=true;"><?= $content['properties'] ?></textarea>
+                <textarea dir="ltr" name="properties" class="phptextarea" rows="20" onChange="showParameters(this);documentDirty=true;"><?= isset($content['properties']) ? $content['properties'] : '' ?></textarea>
             </div>
             <!-- HTML text editor end -->
         </div>
