@@ -108,7 +108,14 @@ if ($modx->config['manager_theme'] == 'default') {
     }
 }
 
-$modx->config['global_tabs'] = (int)($modx->config['global_tabs'] && ($user['role'] == 1 || $modx->hasPermission('edit_template') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_plugin')));
+$modx->config['global_tabs'] = (int) ($modx->config['global_tabs'] && ($user['role'] == 1
+                || $modx->hasPermission('edit_template')
+                || $modx->hasPermission('edit_chunk')
+                || $modx->hasPermission('edit_snippet')
+                || $modx->hasPermission('edit_plugin')
+                || $modx->hasPermission('edit_document')
+        )
+);
 
 ?>
 <!DOCTYPE html>
