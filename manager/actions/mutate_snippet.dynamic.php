@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
     $content['name'] = $_REQUEST['itemname'];
 } else {
     $_SESSION['itemname'] = $_lang["new_snippet"];
-    $content['category'] = (int)$_REQUEST['catid'];
+    if (!empty($_REQUEST['catid'])) $content['category'] = (int)$_REQUEST['catid'];
 }
 
 if ($modx->manager->hasFormValues()) {
@@ -459,7 +459,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         <label class="col-md-3 col-lg-2"><?= $_lang['snippet_name'] ?></label>
                         <div class="col-md-9 col-lg-10">
                             <div class="form-control-name clearfix">
-                                <input name="name" type="text" maxlength="100" value="<?= $modx->htmlspecialchars($content['name']) ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
+                                <input name="name" type="text" maxlength="100" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : '' ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
                                 <?php if ($modx->hasPermission('save_role')): ?>
                                     <label class="custom-control" title="<?= $_lang['lock_snippet'] . "\n" . $_lang['lock_snippet_msg'] ?>" tooltip>
                                         <input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
@@ -476,7 +476,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     <div class="row form-row">
                         <label class="col-md-3 col-lg-2"><?= $_lang['snippet_desc'] ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <input name="description" type="text" maxlength="255" value="<?= $content['description'] ?>" class="form-control" onchange="documentDirty=true;" />
+                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $content['description'] : '' ?>" class="form-control" onchange="documentDirty=true;" />
                         </div>
                     </div>
                     <div class="row form-row">
@@ -504,7 +504,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     <div class="form-group">
                         <?php if ($_SESSION['mgrRole'] == 1): ?>
                             <div class="form-row">
-                                <label><input name="disabled" type="checkbox" value="on"<?= ($content['disabled'] == 1 ? ' checked="checked"' : '') ?> /> <?= ($content['disabled'] == 1 ? "<span class='text-danger'>" . $_lang['disabled'] . "</span>" : $_lang['disabled']) ?></label>
+                                <label><input name="disabled" type="checkbox" value="on"<?= (!empty($content['disabled']) ? ' checked="checked"' : '') ?> /> <?= (!empty($content['disabled']) ? "<span class='text-danger'>" . $_lang['disabled'] . "</span>" : $_lang['disabled']) ?></label>
                             </div>
                         <?php endif; ?>
                         <div class="form-row">
@@ -521,7 +521,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 <span><?= $_lang['snippet_code'] ?></span>
             </div>
             <div class="section-editor clearfix">
-                <textarea dir="ltr" name="post" class="phptextarea" rows="20" wrap="soft" onchange="documentDirty=true;"><?= (isset($content['post']) ? trim($modx->htmlspecialchars($content['post'])) : "<?php" . "\n" . trim($modx->htmlspecialchars($content['snippet'])) . "\n") ?></textarea>
+                <textarea dir="ltr" name="post" class="phptextarea" rows="20" wrap="soft" onchange="documentDirty=true;"><?= (isset($content['post']) ? trim($modx->htmlspecialchars($content['post'])) : "<?php" . "\n" . (isset($content['snippet']) ? trim($modx->htmlspecialchars($content['snippet'])) : '') . "\n") ?></textarea>
             </div>
             <!-- PHP text editor end -->
         </div>
@@ -570,7 +570,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
             </div>
             <!-- HTML text editor start -->
             <div class="section-editor clearfix">
-                <textarea dir="ltr" name="properties" class="phptextarea" rows="20" onChange="showParameters(this);documentDirty=true;"><?= $content['properties'] ?></textarea>
+                <textarea dir="ltr" name="properties" class="phptextarea" rows="20" onChange="showParameters(this);documentDirty=true;"><?= (isset($content['properties']) ? $content['properties'] : '{}') ?></textarea>
             </div>
             <!-- HTML text editor end -->
         </div>
