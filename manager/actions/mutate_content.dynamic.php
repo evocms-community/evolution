@@ -39,6 +39,7 @@ switch($modx->manager->action) {
 }
 
 $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+$_REQUEST['id'] = $_REQUEST['id'] : 0;
 
 // Get table names (alphabetical)
 $tbl_categories = $modx->getFullTableName('categories');
@@ -132,12 +133,12 @@ if($formRestored == true) {
 }
 
 // increase menu index if this is a new document
-if(!isset ($_REQUEST['id'])) {
+if(!isset ($_REQUEST['id']) || empty($_REQUEST['id']) {
 	if(!isset ($modx->config['auto_menuindex'])) {
 		$modx->config['auto_menuindex'] = 1;
 	}
 	if($modx->config['auto_menuindex']) {
-		$pid = 0;
+		$pid = (int)$_REQUEST['pid'];
 		$rs = $modx->db->select('count(*)', $tbl_site_content, "parent='{$pid}'");
 		$content['menuindex'] = $modx->db->getValue($rs);
 	} else {
