@@ -141,7 +141,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 								<input name="templatename" type="text" maxlength="100" value="<?= (isset($content['templatename']) ? $modx->htmlspecialchars($content['templatename']) : '') ?>" class="form-control form-control-lg" onchange="documentDirty=true;">
 								<?php if($modx->hasPermission('save_role')): ?>
 									<label class="custom-control" title="<?= $_lang['lock_template'] . "\n" . $_lang['lock_template_msg'] ?>" tooltip>
-										<input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
+										<input name="locked" type="checkbox"<?= (!empty($content['locked']) ? ' checked="checked"' : '') ?> />
 										<i class="fa fa-lock"></i>
 									</label>
 								<?php endif; ?>

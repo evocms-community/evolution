@@ -82,7 +82,7 @@ function bold($cond = false)
         }, duplicate: function() {
             if (confirm('<?= $_lang['confirm_duplicate_record'] ?>') === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=105";
+                document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=105";
             }
         }, delete: function() {
             if (confirm('<?= $_lang['confirm_delete_plugin'] ?>') === true) {
@@ -482,7 +482,7 @@ function bold($cond = false)
 
 <form name="mutate" method="post" action="index.php" enctype="multipart/form-data">
     <input type="hidden" name="a" value="103">
-    <input type="hidden" name="id" value="<?= $content['id'] ?>">
+    <input type="hidden" name="id" value="<?= !empty($content['id']) ? $content['id'] : '' ?>">
     <input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
     <h1>
@@ -538,7 +538,9 @@ function bold($cond = false)
                                 <?php
                                 include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
                                 foreach (getCategories() as $n => $v) {
-                                    echo '<option value="' . $v['id'] . '"' . ($content["category"] == $v["id"] ? ' selected="selected"' : '') . '>' . $modx->htmlspecialchars($v["category"]) . "</option>";
+                                	$selected = '';
+									if ( !empty($content['category']) ) $selected = ($content["category"] == $v["id"]) ? ' selected="selected"' : '';
+                                    echo '<option value="' . $v['id'] . '"' . $selected . '>' . $modx->htmlspecialchars($v["category"]) . "</option>";
                                 }
                                 ?>
                             </select>

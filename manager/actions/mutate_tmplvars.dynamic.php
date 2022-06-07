@@ -96,7 +96,7 @@ if(is_array($evtOut)) {
 		duplicate: function() {
 			if(confirm("<?= $_lang['confirm_duplicate_record'] ?>") === true) {
 				documentDirty = false;
-				document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=304";
+				document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=304";
 			}
 		},
 		delete: function() {
@@ -283,12 +283,12 @@ if(is_array($evtOut)) {
 		echo implode("", $evtOut);
 	}
 	?>
-	<input type="hidden" name="id" value="<?= $content['id'] ?>">
+	<input type="hidden" name="id" value="<?= !empty($content['id']) ? $content['id'] : '' ?>">
 	<input type="hidden" name="a" value="302">
 	<input type="hidden" name="or" value="<?= $origin ?>">
 	<input type="hidden" name="oid" value="<?= $originId ?>">
 	<input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
-	<input type="hidden" name="params" value="<?= $modx->htmlspecialchars($content['display_params']) ?>">
+	<input type="hidden" name="params" value="<?= !empty($content['display_params']) ? $modx->htmlspecialchars($content['display_params']) : '' ?>">
 
 	<h1>
 		<i class="fa fa-list-alt"></i><?= isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_tmplvars'] ?><i class="fa fa-question-circle help"></i>
@@ -345,7 +345,9 @@ if(is_array($evtOut)) {
 							<?php
 							include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
 							foreach(getCategories() as $n => $v) {
-								echo "<option value='" . $v['id'] . "'" . ($content["category"] == $v["id"] ? " selected='selected'" : "") . ">" . $modx->htmlspecialchars($v["category"]) . "</option>";
+								$selected = '';
+								if ( !empty($content['category']) ) $selected = ($content["category"] == $v["id"]) ? " selected='selected'" : '';
+								echo "<option value='" . $v['id'] . "'" . $selected . ">" . $modx->htmlspecialchars($v["category"]) . "</option>";
 							}
 							?>
 						</select>

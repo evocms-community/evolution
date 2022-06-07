@@ -75,7 +75,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         }, duplicate: function() {
             if (confirm('<?= $_lang['confirm_duplicate_record'] ?>') === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=98";
+                document.location.href = "index.php?id=<?= isset($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=98";
             }
         }, delete: function() {
             if (confirm('<?= $_lang['confirm_delete_snippet'] ?>') === true) {
@@ -431,7 +431,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     $docBlockList = $modx->convertDocBlockIntoList($parsed);
     ?>
     <input type="hidden" name="a" value="24">
-    <input type="hidden" name="id" value="<?= $content['id'] ?>">
+    <input type="hidden" name="id" value="<?= isset($content['id']) ? $content['id'] : '' ?>">
     <input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
     <h1 class="pagetitle">
@@ -462,7 +462,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <input name="name" type="text" maxlength="100" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : '' ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
                                 <?php if ($modx->hasPermission('save_role')): ?>
                                     <label class="custom-control" title="<?= $_lang['lock_snippet'] . "\n" . $_lang['lock_snippet_msg'] ?>" tooltip>
-                                        <input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
+                                        <input name="locked" type="checkbox"<?= (!empty($content['locked']) ? ' checked="checked"' : '') ?> />
                                         <i class="fa fa-lock"></i>
                                     </label>
                                 <?php endif; ?>
@@ -487,7 +487,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <?php
                                 include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
                                 foreach (getCategories() as $n => $v) {
-                                    echo '<option value="' . $v['id'] . '"' . ($content['category'] == $v['id'] ? ' selected="selected"' : '') . '>' . $modx->htmlspecialchars($v['category']) . '</option>';
+                                	$selected = '';
+                                	if ( isset($content['category']) ) $selected = ($content['category'] == $v['id']) ? ' selected="selected"' : '';
+                                    echo '<option value="' . $v['id'] . '"' . $selected . '>' . $modx->htmlspecialchars($v['category']) . '</option>';
                                 }
                                 ?>
                             </select>
