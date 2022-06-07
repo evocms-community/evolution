@@ -137,7 +137,7 @@ if(!isset ($_REQUEST['id'])) {
 		$modx->config['auto_menuindex'] = 1;
 	}
 	if($modx->config['auto_menuindex']) {
-		$pid = (int)$_REQUEST['pid'];
+		$pid = 0;
 		$rs = $modx->db->select('count(*)', $tbl_site_content, "parent='{$pid}'");
 		$content['menuindex'] = $modx->db->getValue($rs);
 	} else {
@@ -967,6 +967,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     $i = $ii = 0;
                                     $tab = '';
                                     foreach ($tvsArray as $row) {
+                                    	$row['category_id'] = $row['category_id'] ?? 0;
                                         if ($group_tvs && $row['category_id'] != 0) {
                                             $ii = 0;
                                             if ($tab !== $row['category_id']) {
