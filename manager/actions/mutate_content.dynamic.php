@@ -1547,6 +1547,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		storeCurTemplate();
 	</script>
 <?php
+$richtexteditorIds = $richtexteditorIds ?? 0;
 if(((isset($content['richtext']) && $content['richtext'] == 1) || $modx->manager->action == '4' || $modx->manager->action == '72') && $use_editor == 1) {
 	if(is_array($richtexteditorIds)) {
 		foreach($richtexteditorIds as $editor => $elements) {
