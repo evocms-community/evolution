@@ -41,7 +41,7 @@ $pagetitle = '';
 $ressourcelist = '';
 if ($id !== null) {
 
-    $pagetitle = \EvolutionCMS\Models\SiteContent::query()->find($id)->pagetitle;
+    $pagetitle = \EvolutionCMS\Models\SiteContent::query()->find($id)->pagetitle ?? '';
 
     $mgrRole = (isset ($_SESSION['mgrRole']) && (string)$_SESSION['mgrRole'] === '1') ? '1' : '0';
     $resources = \EvolutionCMS\Models\SiteContent::query()
