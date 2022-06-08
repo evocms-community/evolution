@@ -74,8 +74,8 @@ switch ($modx->event->name)
         global $content, $_lang;
         
         // to stop empty filesources from producing an error
-        if ( !isset($content['file_binding']) ) $content['file_binding'] = '';
-        if ( !isset($content[$vals]) ) $content[$vals] = '';
+        $content['file_binding'] = $content['file_binding'] ?? '';
+        $content[$vals] = $content[$vals] ?? '';
         
         if(substr(trim($content[$vals]),0,$count) == $include.' MODX_BASE_PATH.\'assets/'.$elm_name.'/')
         {
