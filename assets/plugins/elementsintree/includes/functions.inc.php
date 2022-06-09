@@ -128,12 +128,12 @@ function createElementsList($elmTable, $action, $nameField = 'name')
             if ($preCat !== $row['category']) {
                 $output .= $insideUl ? '</div>' : '';
                 $row['catid'] = (int)$row['catid'];
-                $output .= '<div class="panel-heading"><span class="panel-title"><a class="accordion-toggle" id="toggle' . $elmTable . $row['catid'] . '" href="#collapse' . $elmTable . $row['catid'] . '" data-cattype="' . $elmTable . '" data-catid="' . $row['catid'] . '" title="Click to toggle collapse. Shift+Click to toggle all."> ' . $row['category'] . '</a></span></div><div class="panel-collapse in ' . $elmTable . '"  id="collapse' . $elmTable . $row['catid'] . '"><ul>';
+                $output .= '<div class="panel-heading"><span class="panel-title"><a class="accordion-toggle" id="toggle' . $elmTable . $row['catid'] . '" href="#collapse' . $elmTable . $row['catid'] . '" data-cattype="' . $elmTable . '" data-catid="' . $row['catid'] . '" title="Click to toggle collapse. Shift+Click to toggle all."> ' . $modx->htmlspecialchars($row['category']) . '</a></span></div><div class="panel-collapse in ' . $elmTable . '"  id="collapse' . $elmTable . $row['catid'] . '"><ul>';
                 $insideUl = 1;
             }
             $class = !empty($row['disabled']) ? ' class="disabledPlugin"' : '';
             $lockIcon = renderLockIcon($elmTable, $row['id']);
-            $output .= '<li class="eltree">' . $lockIcon . '<span' . $class . '><a href="index.php?id=' . $row['id'] . '&amp;a=' . $action . '" title="' . strip_tags($row['description']) . '" target="main" class="context-menu" data-type="' . $elmTable . '" data-id="' . $row['id'] . '"><span class="elementname">' . $row['name'] . '</span><small> (' . $row['id'] . ')</small></a>
+            $output .= '<li class="eltree">' . $lockIcon . '<span' . $class . '><a href="index.php?id=' . $row['id'] . '&amp;a=' . $action . '" title="' . strip_tags($row['description']) . '" target="main" class="context-menu" data-type="' . $elmTable . '" data-id="' . $row['id'] . '"><span class="elementname">' . $modx->htmlspecialchars($row['name']) . '</span><small> (' . $row['id'] . ')</small></a>
                 <a class="ext-ico" href="#" title="Open in new window" onclick="window.open(\'index.php?id=' . $row['id'] . '&a=' . $action . '\',\'gener\',\'width=800,height=600,top=\'+((screen.height-600)/2)+\',left=\'+((screen.width-800)/2)+\',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no\')"> <small><i class="fa fa-external-link" aria-hidden="true"></i></small></a>' . ($modx_textdir ? '&rlm;' : '') . '</span>';
             $output .= $row['locked'] ? ' <em>(' . $_lang['locked'] . ')</em>' : '';
             $output .= '</li>';
@@ -188,7 +188,7 @@ function createModulesList($action)
             ),
             sprintf(
                 '(mg.member IS NULL OR mg.member=%s) AND sm.disabled!=1 AND sm.locked!=1',
-                $modx->getLoginUserID()
+                $modx->getLoginUserID('mgr')
             ),
             'ISNULL(catname), 4,2'
         );
@@ -219,6 +219,7 @@ function createModulesList($action)
             if ($preCat !== $row['category']) {
                 $output .= $insideUl ? '</div>' : '';
                 $row['catid'] = (int)$row['catid'];
+                $row['catname'] = $modx->htmlspecialchars($row['catname']);
                 $output .= $modx->parseText(
                     '<div class="panel-heading"><span class="panel-title"><a class="accordion-toggle" id="togglesite_modules[+catid+]" href="#collapsesite_modules[+catid+]" data-cattype="site_modules" data-catid="[+catid+]" title="Click to toggle collapse. Shift+Click to toggle all."> [+catname+]</a></span></div><div class="panel-collapse in site_modules"  id="collapsesite_modules[+category+]"><ul>',
                     $row
@@ -231,7 +232,8 @@ function createModulesList($action)
             );
             $row['textdir'] = $modx_textdir ? '&rlm;' : '';
             $row['description'] = strip_tags($row['description']);
-            $row['locked'] = $row['locked'] ? ' <em>(' . $_lang['locked'] . ')</em>' : '';
+            $row['locked'] = isset($row['locked']) ? ' <em>(' . $_lang['locked'] . ')</em>' : '';
+            $row['name'] = $modx->htmlspecialchars($row['name']);
             $output .= $modx->parseText(
                 '<li class="eltree"><span><a href="index.php?id=[+id+]&amp;a=[+action+]" title="[+description+]" target="main" class="context-menu" data-type="site_modules" data-id="[+id+]"><span class="elementname">[+name+]</span><small> ([+id+])</small></a>
                 <a class="ext-ico" href="#" title="Open in new window" onclick="window.open([+window.open+])"> <small><i class="fa fa-external-link" aria-hidden="true"></i></small></a>[+textdir+]</span>[+locked+]</li>',

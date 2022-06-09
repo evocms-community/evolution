@@ -10,17 +10,17 @@ $id = (int)$_POST['id'];
 $name = $modx->db->escape(trim($_POST['name']));
 $description = $modx->db->escape($_POST['description']);
 $resourcefile = $modx->db->escape($_POST['resourcefile']);
-$enable_resource = $_POST['enable_resource'] == 'on' ? 1 : 0;
+$enable_resource = isset($_POST['enable_resource']) && $_POST['enable_resource'] == 'on' ? 1 : 0;
 $icon = $modx->db->escape($_POST['icon']);
 //$category = (int)$_POST['category'];
-$disabled = $_POST['disabled'] == 'on' ? 1 : 0;
-$wrap = $_POST['wrap'] == 'on' ? 1 : 0;
-$locked = $_POST['locked'] == 'on' ? 1 : 0;
+$disabled = isset($_POST['disabled']) && $_POST['disabled'] == 'on' ? 1 : 0;
+$wrap = isset($_POST['wrap']) && $_POST['wrap'] == 'on' ? 1 : 0;
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
 $modulecode = $modx->db->escape($_POST['post']);
 $properties = $modx->db->escape($_POST['properties']);
-$enable_sharedparams = $_POST['enable_sharedparams'] == 'on' ? 1 : 0;
+$enable_sharedparams = isset($_POST['enable_sharedparams']) && $_POST['enable_sharedparams'] == 'on' ? 1 : 0;
 $guid = $modx->db->escape($_POST['guid']);
-$parse_docblock = $_POST['parse_docblock'] == "1" ? '1' : '0';
+$parse_docblock = isset($_POST['parse_docblock']) && $_POST['parse_docblock'] == "1" ? '1' : '0';
 $currentdate = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
@@ -192,7 +192,7 @@ function saveUserGroupAccessPermissons()
     if ($newid) {
         $id = $newid;
     }
-    $usrgroups = $_POST['usrgroups'];
+    $usrgroups = $_POST['usrgroups'] ?? [];
 
     // check for permission update access
     if ($use_udperms == 1) {

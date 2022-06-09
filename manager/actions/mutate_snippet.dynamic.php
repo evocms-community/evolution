@@ -435,7 +435,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     <input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
     <h1 class="pagetitle">
-        <i class="fa fa-code"></i><?= ($content['name'] ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_snippet']) ?><i class="fa fa-question-circle help"></i>
+        <i class="fa fa-code"></i><?= ($content['name'] ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_snippet']) ?><i class="fa fa-question-circle help"></i>
     </h1>
 
     <?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -476,7 +476,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     <div class="row form-row">
                         <label class="col-md-3 col-lg-2"><?= $_lang['snippet_desc'] ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $content['description'] : '' ?>" class="form-control" onchange="documentDirty=true;" />
+                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $modx->htmlspecialchars($content['description']) : '' ?>" class="form-control" onchange="documentDirty=true;" />
                         </div>
                     </div>
                     <div class="row form-row">

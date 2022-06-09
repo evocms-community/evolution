@@ -96,7 +96,7 @@ if(is_array($evtOut)) {
 		duplicate: function() {
 			if(confirm("<?= $_lang['confirm_duplicate_record'] ?>") === true) {
 				documentDirty = false;
-				document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=304";
+				document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? (int)$_REQUEST['id'] : '' ?>&a=304";
 			}
 		},
 		delete: function() {
@@ -283,7 +283,7 @@ if(is_array($evtOut)) {
 		echo implode("", $evtOut);
 	}
 	?>
-	<input type="hidden" name="id" value="<?= !empty($content['id']) ? $content['id'] : '' ?>">
+	<input type="hidden" name="id" value="<?= !empty($content['id']) ? (int)$content['id'] : '' ?>">
 	<input type="hidden" name="a" value="302">
 	<input type="hidden" name="or" value="<?= $origin ?>">
 	<input type="hidden" name="oid" value="<?= $originId ?>">
@@ -291,7 +291,7 @@ if(is_array($evtOut)) {
 	<input type="hidden" name="params" value="<?= !empty($content['display_params']) ? $modx->htmlspecialchars($content['display_params']) : '' ?>">
 
 	<h1>
-		<i class="fa fa-list-alt"></i><?= isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_tmplvars'] ?><i class="fa fa-question-circle help"></i>
+		<i class="fa fa-list-alt"></i><?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_tmplvars'] ?><i class="fa fa-question-circle help"></i>
 	</h1>
 
 	<?= $_style['actionbuttons']['dynamic']['element'] ?>

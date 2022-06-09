@@ -352,6 +352,7 @@ function includeCss($url, $output_type = 'js'){
  */
 function prepareTabId($id){
 	//General tab by default
+	$tab = $tab ?? '';
 	if ($tab == ''){$tab = 'general';}
 
 	//If it's one of the default tabs, we need to get the capitalisation right

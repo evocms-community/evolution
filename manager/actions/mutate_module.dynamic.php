@@ -84,7 +84,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 			}
 		}
 		documentDirty = false;
-		window.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=113";
+		window.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? (int)$_REQUEST['id'] : '' ?>&a=113";
 	}
 
 	var actions = {
@@ -97,7 +97,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		duplicate: function() {
 			if(confirm("<?= $_lang['confirm_duplicate_record'] ?>") === true) {
 				documentDirty = false;
-				document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=111";
+				document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? (int)$_REQUEST['id'] : '' ?>&a=111";
 			}
 		},
 		delete: function() {
@@ -111,7 +111,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 			document.location.href = 'index.php?a=106';
 		},
 		run: function() {
-			document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=112";
+			document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? (int)$_REQUEST['id'] : '' ?>&a=112";
 		}
 	};
 
@@ -455,11 +455,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 	$internal = array();
 	?>
     <input type="hidden" name="a" value="109">
-	<input type="hidden" name="id" value="<?= !empty($content['id']) ? $content['id'] : '' ?>">
+	<input type="hidden" name="id" value="<?= !empty($content['id']) ? (int)$content['id'] : '' ?>">
 	<input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
 	<h1>
-		<i class="<?= !empty($content['icon']) ? $content['icon'] : $_style['icons_module'] ?>"></i><?= (!empty($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_module']) ?><i class="fa fa-question-circle help"></i>
+		<i class="<?= isset($content['icon']) ? $modx->htmlspecialchars($content['icon']) : $_style['icons_module'] ?>"></i><?= (!empty($content['name']) ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_module']) ?><i class="fa fa-question-circle help"></i>
 	</h1>
 
 	<?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -529,7 +529,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 						</label>
 						<div class="col-md-9 col-lg-10">
 							<div class="input-group">
-								<input type="text" maxlength="255" name="icon" value="<?= !empty($content['icon']) ? $content['icon'] : '' ?>" class="form-control" onchange="documentDirty=true;" />
+								<input type="text" maxlength="255" name="icon" value="<?= !empty($content['icon']) ? $modx->htmlspecialchars($content['icon']) : '' ?>" class="form-control" onchange="documentDirty=true;" />
 							</div>
 						</div>
 					</div>

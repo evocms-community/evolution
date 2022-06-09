@@ -173,7 +173,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					<div class="row form-row">
 						<label class="col-md-3 col-lg-2"><?= $_lang['new_category'] ?></label>
 						<div class="col-md-9 col-lg-10">
-							<input name="newcategory" type="text" maxlength="45" value="<?= isset($content['newcategory']) ? $content['newcategory'] : '' ?>" class="form-control" onchange="documentDirty=true;">
+							<input name="newcategory" type="text" maxlength="45" value="<?= isset($content['newcategory']) ? (int)$content['newcategory'] : '' ?>" class="form-control" onchange="documentDirty=true;">
 						</div>
 					</div>
 				</div>
@@ -190,7 +190,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 				<span><?= $_lang['template_code'] ?></span>
 			</div>
 			<div class="section-editor clearfix">
-				<textarea dir="ltr" name="post" class="phptextarea" rows="20" onChange="documentDirty=true;"><?= isset($content['post']) ? $modx->htmlspecialchars($content['post']) : (isset($content['content']) ? $modx->htmlspecialchars($content['content']) : '') ?></textarea>
+				<textarea dir="ltr" name="post" class="phptextarea" rows="20" onChange="documentDirty=true;"><?= isset($content['post']) && is_scalar($content['post']) ? $modx->htmlspecialchars($content['post']) : (isset($content['content']) ? $modx->htmlspecialchars($content['content']) : '') ?></textarea>
 			</div>
 			<!-- HTML text editor end -->
 
@@ -218,7 +218,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 			}
 
 			// Catch checkboxes if form not validated
-			if(isset($_POST['assignedTv'])) {
+			if(isset($_POST['assignedTv']) && is_array($_POST['assignedTv'])) {
 				$selectedTvs = array();
 				foreach($_POST['assignedTv'] as $tvid) {
 					if(isset($unselectedTvs[$tvid])) {
@@ -250,9 +250,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 				if($total > 0) {
 					$tvList .= '<ul>';
 					foreach($selectedTvs as $row) {
-						$desc = !empty($row['tvdescription']) ? '&nbsp;&nbsp;<small>(' . $row['tvdescription'] . ')</small>' : '';
+						$desc = !empty($row['tvdescription']) ? '&nbsp;&nbsp;<small>(' . $modx->htmlspecialchars($row['tvdescription']) . ')</small>' : '';
 						$locked = $row['tvlocked'] ? ' <em>(' . $_lang['locked'] . ')</em>' : "";
-						$tvList .= sprintf('<li><label><input name="assignedTv[]" value="%s" type="checkbox" checked="checked" onchange="documentDirty=true;jQuery(\'#tvsDirty\').val(\'1\');"> %s <small>(%s)</small> - %s%s</label>%s <a href="index.php?id=%s&a=301&or=%s&oid=%s">%s</a></li>', $row['tvid'], $row['tvname'], $row['tvid'], $row['tvcaption'], $desc, $locked, $row['tvid'], $modx->manager->action, $id, $_lang['edit']);
+						$tvList .= sprintf('<li><label><input name="assignedTv[]" value="%s" type="checkbox" checked="checked" onchange="documentDirty=true;jQuery(\'#tvsDirty\').val(\'1\');"> %s <small>(%s)</small> - %s%s</label>%s <a href="index.php?id=%s&a=301&or=%s&oid=%s">%s</a></li>', $row['tvid'], $modx->htmlspecialchars($row['tvname']), $row['tvid'], $modx->htmlspecialchars($row['tvcaption']), $desc, $locked, $row['tvid'], $modx->manager->action, $id, $_lang['edit']);
 					}
 					$tvList .= '</ul>';
 

@@ -486,7 +486,7 @@ function bold($cond = false)
     <input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
 
     <h1>
-        <i class="fa fa-plug"></i><?= ($content['name'] ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_plugin']) ?><i class="fa fa-question-circle help"></i>
+        <i class="fa fa-plug"></i><?= ($content['name'] ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_plugin']) ?><i class="fa fa-question-circle help"></i>
     </h1>
 
     <?= $_style['actionbuttons']['dynamic']['element'] ?>
@@ -527,7 +527,7 @@ function bold($cond = false)
                     <div class="row form-row">
                         <label class="col-md-3 col-lg-2"><?= $_lang['plugin_desc'] ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $content['description'] : '' ?>" class="form-control" onchange="documentDirty=true;" />
+                            <input name="description" type="text" maxlength="255" value="<?= isset($content['description']) ? $modx->htmlspecialchars($content['description']) : '' ?>" class="form-control" onchange="documentDirty=true;" />
                         </div>
                     </div>
                     <div class="row form-row">

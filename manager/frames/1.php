@@ -224,7 +224,7 @@ $modx->config['global_tabs'] = (int) ($modx->config['global_tabs'] && ($user['ro
           icon_chunk: '<?= addslashes($_style['icon_chunk']) ?>',
           icon_code: '<?= addslashes($_style['icon_code']) ?>',
           icon_plugin: '<?= addslashes($_style['icon_plugin']) ?>',
-          icon_element: '<?= addslashes($_style['icon_element']) ?>',
+          icon_element: '<?= addslashes($_style['icon_elements']) ?>',
           icon_edit: '<?= addslashes($_style['icon_edit']) ?>',
           icon_circle: '<?= addslashes($_style['icon_circle']) ?>',
         },

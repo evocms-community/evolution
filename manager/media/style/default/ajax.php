@@ -19,9 +19,9 @@ $modx->sid = session_id();
 $modx->loadExtension("ManagerAPI");
 
 $_lang = array();
-include_once MODX_MANAGER_PATH . '/includes/lang/english.inc.php';
+include MODX_MANAGER_PATH . '/includes/lang/english.inc.php';
 if ($modx->config['manager_language'] != 'english') {
-    include_once MODX_MANAGER_PATH . '/includes/lang/' . $modx->config['manager_language'] . '.inc.php';
+    include MODX_MANAGER_PATH . '/includes/lang/' . $modx->config['manager_language'] . '.inc.php';
 }
 include_once MODX_MANAGER_PATH . '/media/style/' . $modx->config['manager_theme'] . '/style.php';
 

@@ -4,8 +4,8 @@ if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 /********************/
-$sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
-$sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
+$sd = isset($_REQUEST['dir']) && is_scalar($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
+$sb = isset($_REQUEST['sort'])  && is_scalar($_REQUEST['dir']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
 $pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
 $add_path = $sd . $sb . $pg;
 /*******************/
@@ -39,8 +39,6 @@ switch($modx->manager->action) {
 }
 
 $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
-$_REQUEST['id'] = $_REQUEST['id'] ?? 0;
-$_REQUEST['pid'] = $_REQUEST['pid'] ?? 0;
 
 // Get table names (alphabetical)
 $tbl_categories = $modx->getFullTableName('categories');
@@ -80,7 +78,7 @@ $modx->lockElement(7, $id);
 
 // get document groups for current user
 $docgrp = '';
-if($_SESSION['mgrDocgroups']) {
+if(!empty($_SESSION['mgrDocgroups'])) {
 	$docgrp = implode(',', $_SESSION['mgrDocgroups']);
 }
 
@@ -101,7 +99,7 @@ if(!empty ($id)) {
 	$content = array();
 
 	if(isset($_REQUEST['newtemplate'])) {
-		$content['template'] = $_REQUEST['newtemplate'];
+		$content['template'] = (int)$_REQUEST['newtemplate'];
 	} else {
 		$content['template'] = getDefaultTemplate();
 	}
@@ -120,7 +118,7 @@ if(isset($_REQUEST['newtemplate'])) {
 // sottwell 02-09-2006
 if($formRestored == true) {
 	$content = array_merge($content, $_POST);
-	$content['content'] = $_POST['ta'];
+	$content['content'] = isset($_POST['ta']) && is_scalar($_POST['ta']) ? $_POST['ta'] : '';
 	if(empty ($content['pub_date'])) {
 		unset ($content['pub_date']);
 	} else {
@@ -134,12 +132,12 @@ if($formRestored == true) {
 }
 
 // increase menu index if this is a new document
-if( !isset($_REQUEST['id']) || empty($_REQUEST['id']) ) {
+if(empty($_REQUEST['id']) ) {
 	if(!isset ($modx->config['auto_menuindex'])) {
 		$modx->config['auto_menuindex'] = 1;
 	}
 	if($modx->config['auto_menuindex']) {
-		$pid = (int)$_REQUEST['pid'];
+		$pid = (int)($_REQUEST['pid'] ?? 0);
 		$rs = $modx->db->select('count(*)', $tbl_site_content, "parent='{$pid}'");
 		$content['menuindex'] = $modx->db->getValue($rs);
 	} else {
@@ -147,7 +145,7 @@ if( !isset($_REQUEST['id']) || empty($_REQUEST['id']) ) {
 	}
 }
 
-if(isset ($_POST['which_editor'])) {
+if(isset ($_POST['which_editor']) && is_scalar($_POST['which_editor'])) {
 	$modx->config['which_editor'] = $_POST['which_editor'];
 }
 
