@@ -22,6 +22,7 @@ $where = "`pagetitle` LIKE '%".$query."%' OR `alias` LIKE '%".$query."%' AND del
 $result = $modx->db->select("id,pagetitle,alias", $modx->getFullTableName('site_content'), $where, '', 10); 
 
 $a = array();
+$output = '';
 while( $row = $modx->db->getRow( $result ) ) { 
 	$output .= $row['pagetitle'] . ' (' . $row['id'] . ')|'. $row['id'] . "\n"; 
 	$a[] = array(
