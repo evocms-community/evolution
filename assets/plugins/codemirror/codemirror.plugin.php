@@ -50,7 +50,7 @@ if (!empty($_COOKIE['MODX_themeMode'])) {
  */
 $prte = (isset($_POST['which_editor']) ? $_POST['which_editor'] : '');
 $srte = ($modx->config['use_editor'] ? $modx->config['which_editor'] : 'none');
-$xrte = $content['richtext'];
+$xrte = $content['richtext'] ?? 0;
 $tvMode = false;
 $limitedHeight = false;
 /*
@@ -342,7 +342,7 @@ if(('none' == $rte) && $mode && $elements !== NULL) {
 			$setHeight = '';
 		};
 
-		$object_id = md5($evt->name . '-' . $content['id'] . '-' . $el);
+		$object_id = md5($modx->event->name . '-' . $content['id'] . '-' . $el);
 
 		$output .= "
 			<script>
