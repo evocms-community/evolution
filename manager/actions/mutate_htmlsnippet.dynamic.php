@@ -97,7 +97,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
             }, duplicate: function() {
                 if (confirm('<?= $_lang['confirm_duplicate_record'] ?>') === true) {
                     documentDirty = false;
-                    document.location.href = "index.php?id=<?= $_REQUEST['id'] ?>&a=97";
+                    document.location.href = "index.php?id=<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=97";
                 }
             }, delete: function() {
                 if (confirm('<?= $_lang['confirm_delete_htmlsnippet'] ?>') === true) {
@@ -132,7 +132,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
         ?>
         <input type="hidden" name="a" value="79" />
-        <input type="hidden" name="id" value="<?= $_REQUEST['id'] ?>" />
+        <input type="hidden" name="id" value="<?= !empty($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>" />
         <input type="hidden" name="mode" value="<?= $modx->manager->action ?>" />
 
         <h1>
@@ -161,7 +161,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <input name="name" type="text" maxlength="100" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : "" ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
                                 <?php if ($modx->hasPermission('save_role')): ?>
                                     <label class="custom-control" title="<?= $_lang['lock_htmlsnippet'] . "\n" . $_lang['lock_htmlsnippet_msg'] ?>" tooltip>
-                                        <input name="locked" type="checkbox" value="on"<?= ($content['locked'] == 1 || $content['locked'] == 'on' ? ' checked="checked"' : '') ?> />
+                                    	<?php if ( !empty($content['locked']) ) { $checked = ($content['locked'] == 'on' || $content['locked'] == 1 ) ? ' checked="checked"' : ''; } ?>
+                                        <input name="locked" type="checkbox" value="on"<?= $checked ?> />
                                         <i class="fa fa-lock"></i>
                                     </label>
                                 <?php endif; ?>
@@ -186,7 +187,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <?php
                                 include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
                                 foreach (getCategories() as $n => $v) {
-                                    echo "\t\t\t\t" . '<option value="' . $v['id'] . '"' . ($content['category'] == $v['id'] || (empty($content['category']) && $_POST['categoryid'] == $v['id']) ? ' selected="selected"' : '') . '>' . $modx->htmlspecialchars($v['category']) . "</option>\n";
+                                	$selected = '';
+                                	if ( isset($content['category']) ) {
+                                		$selected = ($content['category'] == $v['id'] || (empty($content['category']) && $_POST['categoryid'] == $v['id'])) ? ' selected="selected"' : '';
+                                	}
+                                    echo "\t\t\t\t" . '<option value="' . $v['id'] . '"' . $selected . '>' . $modx->htmlspecialchars($v['category']) . "</option>\n";
                                 }
                                 ?>
                             </select>

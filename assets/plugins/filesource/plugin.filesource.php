@@ -72,6 +72,11 @@ switch ($modx->event->name)
     case 'OnPluginFormPrerender':
     case 'OnSnipFormPrerender':
         global $content, $_lang;
+        
+        // to stop empty filesources from producing an error
+        $content['file_binding'] = $content['file_binding'] ?? '';
+        $content[$vals] = $content[$vals] ?? '';
+        
         if(substr(trim($content[$vals]),0,$count) == $include.' MODX_BASE_PATH.\'assets/'.$elm_name.'/')
         {
             $content['file_binding'] = str_replace(array(';','\''),'',trim(substr(trim($content[$vals]),$count,250)));
@@ -103,6 +108,7 @@ switch ($modx->event->name)
             else $content['file_binding'] = '';
             $_SESSION['itemname']=$content['name'];
         }
+        if ( !isset($content['name']) ) {$content['name'] = '';}
         if (preg_match('/\s' . $_lang['duplicated_el_suffix'] . '\s?\d*$/', $content['name'])) {
             $content['file_binding'] = '';
         }

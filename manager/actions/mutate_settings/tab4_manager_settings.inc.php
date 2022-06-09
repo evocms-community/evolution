@@ -105,7 +105,7 @@
         <th><?php echo $_lang["login_logo_title"] ?><br><small>[(login_logo)]</small></th>
         <td>
           <div style="float:right;"><img name="login_logo" style="max-height: 48px" src="<?php echo !empty($login_logo) ? MODX_SITE_URL . $login_logo : $_style['tx']; ?>" /></div>
-          <input name="login_logo" id="login_logo" type="text" maxlength="100" style="width: 200px;" value="<?php echo $login_logo; ?>" /><input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer('login_logo')" />
+          <input name="login_logo" id="login_logo" type="text" maxlength="100" style="width: 200px;" value="<?php echo !empty($login_logo) ? $login_logo : ''; ?>" /><input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer('login_logo')" />
           <div class="comment"><?php echo $_lang["login_logo_message"] ?></div>
         </td>
       </tr>
@@ -118,7 +118,7 @@
         <th><?php echo $_lang["login_bg_title"] ?><br><small>[(login_bg)]</small></th>
         <td>
           <div style="float:right;"><img name="login_bg" style="max-height: 48px" src="<?php echo !empty($login_bg) ? MODX_SITE_URL . $login_bg : $_style['tx']; ?>" /></div>
-          <input name="login_bg" id="login_bg" type="text" maxlength="100" style="width: 200px;" value="<?php echo $login_bg; ?>" /><input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer('login_bg')" />
+          <input name="login_bg" id="login_bg" type="text" maxlength="100" style="width: 200px;" value="<?php echo !empty($login_bg) ? $login_bg : ''; ?>" /><input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer('login_bg')" />
           <div class="comment"><?php echo $_lang["login_bg_message"] ?></div>
         </td>
       </tr>

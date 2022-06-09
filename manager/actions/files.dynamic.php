@@ -90,6 +90,12 @@ function add_dot($array)
 
 // end settings
 
+// Prevent php 8 warnings
+$_POST['mode'] = $_POST['mode'] ?? '';
+$_GET['mode'] = $_GET['mode'] ?? '';
+$_REQUEST['mode'] = $_REQUEST['mode'] ?? '';
+$_REQUEST['path'] = $_REQUEST['path'] ?? '';
+
 // get the current work directory
 if (isset($_REQUEST['path']) && !empty($_REQUEST['path'])) {
     $_REQUEST['path'] = str_replace('..', '', $_REQUEST['path']);

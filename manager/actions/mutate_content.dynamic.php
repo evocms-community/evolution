@@ -39,6 +39,8 @@ switch($modx->manager->action) {
 }
 
 $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+$_REQUEST['id'] = $_REQUEST['id'] ?? 0;
+$_REQUEST['pid'] = $_REQUEST['pid'] ?? 0;
 
 // Get table names (alphabetical)
 $tbl_categories = $modx->getFullTableName('categories');
@@ -132,7 +134,7 @@ if($formRestored == true) {
 }
 
 // increase menu index if this is a new document
-if(!isset ($_REQUEST['id'])) {
+if( !isset($_REQUEST['id']) || empty($_REQUEST['id']) ) {
 	if(!isset ($modx->config['auto_menuindex'])) {
 		$modx->config['auto_menuindex'] = 1;
 	}
@@ -577,7 +579,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		<fieldset id="create_edit">
 
 			<h1>
-				<i class="fa fa-pencil-square-o"></i><?php if(isset($_REQUEST['id'])) {
+				<i class="fa fa-pencil-square-o"></i><?php if(!empty($_REQUEST['id'])) {
 					echo html_escape(iconv_substr($content['pagetitle'], 0, 50, $modx->config['modx_charset']), $modx->config['modx_charset']) . (iconv_strlen($content['pagetitle'], $modx->config['modx_charset']) > 50 ? '...' : '') . '<small>(' . (int)$_REQUEST['id'] . ')</small>';
 				} else {
 				    if ($modx->manager->action == '4') {
@@ -799,13 +801,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 									<td valign="top">
 										<?php
 										$parentlookup = false;
-										if(isset ($_REQUEST['id'])) {
+										if(!empty ($_REQUEST['id'])) {
 											if($content['parent'] == 0) {
 												$parentname = $site_name;
 											} else {
 												$parentlookup = $content['parent'];
 											}
-										} elseif(isset ($_REQUEST['pid'])) {
+										} elseif(!empty ($_REQUEST['pid'])) {
 											if($_REQUEST['pid'] == 0) {
 												$parentname = $site_name;
 											} else {
@@ -967,6 +969,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     $i = $ii = 0;
                                     $tab = '';
                                     foreach ($tvsArray as $row) {
+                                    	$row['category_id'] = $row['category_id'] ?? 0;
                                         if ($group_tvs && $row['category_id'] != 0) {
                                             $ii = 0;
                                             if ($tab !== $row['category_id']) {
@@ -1544,6 +1547,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		storeCurTemplate();
 	</script>
 <?php
+$richtexteditorIds = $richtexteditorIds ?? 0;
 if(((isset($content['richtext']) && $content['richtext'] == 1) || $modx->manager->action == '4' || $modx->manager->action == '72') && $use_editor == 1) {
 	if(is_array($richtexteditorIds)) {
 		foreach($richtexteditorIds as $editor => $elements) {
