@@ -52,6 +52,8 @@ if($modx->manager->hasFormValues()) {
 }
 
 $content = array_merge($content, $_POST);
+$content['type'] = $content['type'] ?? '';
+$content['display'] = $content['display'] ?? '';
 
 // Add lock-element JS-Script
 $lockElementId = $id;
@@ -316,7 +318,7 @@ if(is_array($evtOut)) {
 							<input name="name" type="text" maxlength="50" value="<?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) : "" ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
 							<?php if($modx->hasPermission('save_role')): ?>
 								<label class="custom-control" title="<?= $_lang['lock_tmplvars'] . "\n" . $_lang['lock_tmplvars_msg'] ?>" tooltip>
-									<input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
+									<input name="locked" type="checkbox"<?= (isset($content['locked']) && $content['locked'] == 1 ? ' checked="checked"' : '') ?> />
 									<i class="fa fa-lock"></i>
 								</label>
 							<?php endif; ?>
@@ -476,7 +478,7 @@ if(is_array($evtOut)) {
 						$checked = true;
 					} elseif(isset($_GET['tpl']) && $_GET['tpl'] == $row['id']) {
 						$checked = true;
-					} elseif($id == 0 && is_array($_POST['template'])) {
+					} elseif($id == 0 && isset($_POST['template']) && is_array($_POST['template'])) {
 						$checked = in_array($row['id'], $_POST['template']);
 					} else {
 						$checked = $row['tmplvarid'];

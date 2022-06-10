@@ -16,7 +16,7 @@ $default_text = $modx->db->escape($_POST['default_text']);
 $rank = isset ($_POST['rank']) ? $modx->db->escape($_POST['rank']) : 0;
 $display = $modx->db->escape($_POST['display']);
 $params = $modx->db->escape($_POST['params']);
-$locked = $_POST['locked'] == 'on' ? 1 : 0;
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
 $origin = isset($_REQUEST['or']) ? (int)$_REQUEST['or'] : 76;
 $originId = isset($_REQUEST['oid']) ? (int)$_REQUEST['oid'] : null;
 $currentdate = time() + $modx->config['server_offset_time'];
@@ -200,7 +200,7 @@ function saveTemplateVarAccess()
     $modx->db->delete($tbl_site_tmplvar_templates, "tmplvarid = '{$id}'");
     if (!empty($templates)) {
         for ($i = 0; $i < count($templates); $i++) {
-            $setRank = ($getRankArray[$templates[$i]]) ? $getRankArray[$templates[$i]] : 0;
+            $setRank = isset($getRankArray[$templates[$i]]) && $getRankArray[$templates[$i]] ? $getRankArray[$templates[$i]] : 0;
             $modx->db->insert(array(
                 'tmplvarid' => $id,
                 'templateid' => $templates[$i],
