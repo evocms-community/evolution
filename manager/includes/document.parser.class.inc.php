@@ -573,7 +573,7 @@ class DocumentParser
                     $where = "user='{$id}'";
                 }
 
-                $which_browser_default = $this->configGlobal['which_browser'] ? $this->configGlobal['which_browser'] : $this->config['which_browser'];
+                $which_browser_default = isset($this->configGlobal['which_browser']) ? $this->configGlobal['which_browser'] : $this->config['which_browser'];
 
                 $result = $this->db->select('setting_name, setting_value', $from, $where);
                 while ($row = $this->db->getRow($result)) {
