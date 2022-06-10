@@ -88,7 +88,7 @@ table.sysSettings tr.noborder td {border:none;}
                 $thisCategory = $_lang['no_category'];
             }
             if($thisCategory != $currentCategory) {
-                if($closeOptGroup) {
+                if($closeOptGroup ?? false) {
                     echo "\t\t\t\t\t</optgroup>\n";
                 }
                 echo "\t\t\t\t\t<optgroup label=\"$thisCategory\">\n";

@@ -26,73 +26,38 @@ $itemsNumber = '3';
 NO NEED TO EDIT BELOW THIS LINE
 ---------------------------------------------- */
 
-// include MagPieRSS
-require_once(MODX_MANAGER_PATH . 'media/rss/rss_fetch.inc');
-/**
- * Convert relative path into absolute url
- *
- * @param string $rel
- * @param string $base
- * @return string
- */
-function rel2abs($rel, $base)
-{
-    // parse base URL  and convert to local variables: $scheme, $host,  $path
-    $tmp = parse_url($base);
-    extract($tmp);
-    if (strpos($rel, "//") === 0) {
-        return $scheme . ':' . $rel;
-    }
-    // return if already absolute URL
-    if (parse_url($rel, PHP_URL_SCHEME) != '') {
-        return $rel;
-    }
-    // queries and anchors
-    if ($rel[0] == '#' || $rel[0] == '?') {
-        return $base . $rel;
-    }
-    // remove non-directory element from path
-    $path = preg_replace('#/[^/]*$#', '', $path);
-    // destroy path if relative url points to root
-    if ($rel[0] == '/') {
-        $path = '';
-    }
-    // dirty absolute URL
-    $abs = $host . $path . "/" . $rel;
-    // replace '//' or  '/./' or '/foo/../' with '/'
-    $abs = preg_replace("/(\/\.?\/)/", "/", $abs);
-    $abs = preg_replace("/\/(?!\.\.)[^\/]+\/\.\.\//", "/", $abs);
-
-    // absolute URL is ready!
-    return $scheme . '://' . $abs;
+if (!class_exists('Laminas\Feed\Reader\Reader')) {
+    require_once(MODX_MANAGER_PATH . 'media/rss/vendor/autoload.php');
 }
-
-$feedData = array();
-
+$cache = new Laminas\Cache\Storage\Adapter\Filesystem();
+$cache->getOptions()->setCacheDir(MODX_BASE_PATH . 'assets/cache/rss/')->setTtl(60 * 60);
+Laminas\Feed\Reader\Reader::useHttpConditionalGet();
+Laminas\Feed\Reader\Reader::setCache($cache);
 // create Feed
 foreach ($urls as $section => $url) {
     $output = '';
-    $rss = @fetch_rss($url);
-    if (!$rss) {
-        $feedData[$section] = 'Failed to retrieve ' . $url;
+    try {
+        $rss = Laminas\Feed\Reader\Reader::import($url);
+        $output .= '<ul>';
+        foreach ($rss as $i => $item) {
+            if ($i == $itemsNumber) break;
+            $href = $item->getLink();
+            $title = $item->getTitle();
+            $pubdate = $item->getDateModified();
+            $pubdate = $modx->toDateFormat($pubdate->getTimestamp());
+            $description = strip_tags($item->getContent());
+            if (strlen($description) > 199) {
+                $description = substr($description, 0, 200);
+                $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
+            }
+            $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
+        }
+
+        $output .= '</ul>';
+        $feedData[$section] = $output;
+    } catch (Laminas\Feed\Reader\Exception\RuntimeException $e) {
+        // feed import failed
+        $feedData[$section] = 'Failed to retrieve ' . $url . ': ' . $e->getMessage();
         continue;
     }
-    $output .= '<ul>';
-
-    $items = array_slice($rss->items, 0, $itemsNumber);
-    foreach ($items as $item) {
-        $href = rel2abs($item['link'], 'https://github.com');
-        $title = $item['title'];
-        $pubdate = $item['pubdate'];
-        $pubdate = $modx->toDateFormat(strtotime($pubdate));
-        $description = strip_tags($item['description']);
-        if (strlen($description) > 199) {
-            $description = substr($description, 0, 200);
-            $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
-        }
-        $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
-    }
-
-    $output .= '</ul>';
-    $feedData[$section] = $output;
 }
