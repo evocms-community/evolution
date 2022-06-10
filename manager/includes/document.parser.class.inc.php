@@ -3853,8 +3853,7 @@ class DocumentParser
      * @param $sort {comma separated string} - Should be a comma-separated list of field names on which to sort. Default: 'menuindex'.
      * @param $dir {'ASC'; 'DESC'} - Sort direction, ASC and DESC is possible. Default: 'ASC'.
      * @param $limit {string} - Should be a valid SQL LIMIT clause without the 'LIMIT ' i.e. just include the numbers as a string. Default: Empty string (no limit).
-     * @param bool $checkAccess
-     * - Check document access permissions. Default: true.
+     * @param bool $checkAccess - Check document access permissions. Default: true.
      * @return {array; false} - Result array, or false.
      */
     public function getDocumentChildren($parentid = 0, $published = 1, $deleted = 0, $fields = '*', $where = '', $sort = 'menuindex', $dir = 'ASC', $limit = '', $checkAccess = true)
@@ -4709,11 +4708,12 @@ class DocumentParser
      *                      Default: rank
      * @param string $tvsortdir How to sort each element of the result array i.e. how to sort the TVs (direction)
      *                      Default: ASC
+     * @param bool $checkAccess - Check document access permissions. Default: true.
      * @return array|bool
      */
-    public function getDocumentChildrenTVars($parentid = 0, $tvidnames = array(), $published = 1, $docsort = "menuindex", $docsortdir = "ASC", $tvfields = "*", $tvsort = "rank", $tvsortdir = "ASC")
+    public function getDocumentChildrenTVars($parentid = 0, $tvidnames = array(), $published = 1, $docsort = "menuindex", $docsortdir = "ASC", $tvfields = "*", $tvsort = "rank", $tvsortdir = "ASC", $checkAccess = true)
     {
-        $docs = $this->getDocumentChildren($parentid, $published, 0, '*', '', $docsort, $docsortdir);
+        $docs = $this->getDocumentChildren($parentid, $published, 0, '*', '', $docsort, $docsortdir, '', $checkAccess);
         if (!$docs) {
             return false;
         } else {
@@ -4741,8 +4741,6 @@ class DocumentParser
             } else {
                 $query = (is_numeric($tvidnames[0]) ? "tv.id" : "tv.name") . " IN ('" . implode("','", $tvidnames) . "')";
             }
-
-            $this->getUserDocGroups();
 
             foreach ($docs as $doc) {
 
@@ -4788,12 +4786,13 @@ class DocumentParser
      * - SQL WHERE condition (use only document fields, not TV). Default: ''.
      * @param string $resultKey {string; false}
      * - Field, which values are keys into result array. Use the “false”, that result array keys just will be numbered. Default: 'id'.
+     * @param bool $checkAccess - Check document access permissions. Default: true.
      * @return array {array; false} - Result array, or false.
      * - Result array, or false.
      */
-    public function getDocumentChildrenTVarOutput($parentid = 0, $tvidnames = array(), $published = 1, $sortBy = 'menuindex', $sortDir = 'ASC', $where = '', $resultKey = 'id')
+    public function getDocumentChildrenTVarOutput($parentid = 0, $tvidnames = array(), $published = 1, $sortBy = 'menuindex', $sortDir = 'ASC', $where = '', $resultKey = 'id', $checkAccess = true)
     {
-        $docs = $this->getDocumentChildren($parentid, $published, 0, 'id', $where, $sortBy, $sortDir);
+        $docs = $this->getDocumentChildren($parentid, $published, 0, 'id', $where, $sortBy, $sortDir, '', $checkAccess);
 
         if (!$docs) {
             return false;
