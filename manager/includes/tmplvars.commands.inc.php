@@ -88,7 +88,7 @@ function ProcessTVCommand($value, $name = '', $docid = '', $src='docform', $tvsA
                     // if an inherited value is found and if there is content following the @INHERIT binding
                     // remove @INHERIT and output that following content. This content could contain other
                     // @ bindings, that are processed in the next step
-                    if ((string) $tv['value'] !== '' && !preg_match('%^@INHERIT[\s\n\r]*$%im', $tv['value'])) {
+                    if (!empty($tv) && $tv['value'] !== '' && !preg_match('%^@INHERIT[\s\n\r]*$%im', $tv['value'])) {
                         $output = trim(str_replace('@INHERIT', '', (string) $tv['value']));
                         break 2;
                     }
