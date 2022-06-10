@@ -73,22 +73,22 @@ function ProcessTVCommand($value, $name = '', $docid = '', $src='docform', $tvsA
 
             case "INHERIT" :
                 $output = $param; // Default to param value if no content from parents
-                $doc = $modx->getPageInfo($docid, 0, 'id,parent');
+                $doc = $modx->getPageInfo($docid, 0, 'id,parent', false);
 
                 while ($doc['parent'] != 0) {
                     $parent_id = $doc['parent'];
 
                     // Grab document regardless of publish status
-                    $doc = $modx->getPageInfo($parent_id, 0, 'id,parent,published');
+                    $doc = $modx->getPageInfo($parent_id, 0, 'id,parent,published', false);
                     if ($doc['parent'] != 0 && !$doc['published'])
                         continue; // hide unpublished docs if we're not at the top
 
-                    $tv = $modx->getTemplateVar($name, '*', $doc['id'], $doc['published']);
+                    $tv = $modx->getTemplateVar($name, '*', $doc['id'], $doc['published'], false);
 
                     // if an inherited value is found and if there is content following the @INHERIT binding
                     // remove @INHERIT and output that following content. This content could contain other
                     // @ bindings, that are processed in the next step
-                    if ((string) $tv['value'] !== '' && !preg_match('%^@INHERIT[\s\n\r]*$%im', $tv['value'])) {
+                    if (!empty($tv) && $tv['value'] !== '' && !preg_match('%^@INHERIT[\s\n\r]*$%im', $tv['value'])) {
                         $output = trim(str_replace('@INHERIT', '', (string) $tv['value']));
                         break 2;
                     }
