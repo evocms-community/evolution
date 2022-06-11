@@ -4,7 +4,7 @@
     <?php
     unset($_SESSION['itemname']); // clear this, because it's only set for logging purposes
 
-    if($modx->hasPermission('settings') && $modx->getConfig('settings_version') !== $modx->getVersionData('version')) {
+    if ($modx->hasPermission('settings') && $modx->getConfig('settings_version') !== $modx->getVersionData('version')) {
         // seems to be a new install - send the user to the configuration page
         exit('<script type="text/javascript">document.location.href="index.php?a=17";</script>');
     }
@@ -14,56 +14,56 @@
 
     $iconTpl = $modx->getChunk('manager#welcome\WrapIcon');
     // setup icons
-    if($modx->hasPermission('new_user') || $modx->hasPermission('edit_user')) {
-        $icon = '<i class="'. $_style['icon_user'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%user_management_title%]"> </i>[%user_management_title%]';
-        $ph['SecurityIcon'] = sprintf($iconTpl,$icon, 75);
+    if ($modx->hasPermission('new_user') || $modx->hasPermission('edit_user')) {
+        $icon = '<i class="' . $_style['icon_user'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%user_management_title%]"> </i>[%user_management_title%]';
+        $ph['SecurityIcon'] = sprintf($iconTpl, $icon, 75);
     }
-    if($modx->hasPermission('new_user') || $modx->hasPermission('edit_user')) {
-        $icon = '<i class="'. $_style['icon_web_user'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%web_user_management_title%]"> </i>[%web_user_management_title%]';
-        $ph['WebUserIcon'] = sprintf($iconTpl,$icon, 99);
+    if ($modx->hasPermission('new_user') || $modx->hasPermission('edit_user')) {
+        $icon = '<i class="' . $_style['icon_web_user'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%web_user_management_title%]"> </i>[%web_user_management_title%]';
+        $ph['WebUserIcon'] = sprintf($iconTpl, $icon, 99);
     }
-    if($modx->hasPermission('new_module') || $modx->hasPermission('edit_module')) {
-        $icon = '<i class="'. $_style['icon_modules'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%manage_modules%]"> </i>[%modules%]';
-        $ph['ModulesIcon'] = sprintf($iconTpl,$icon, 106);
+    if ($modx->hasPermission('new_module') || $modx->hasPermission('edit_module')) {
+        $icon = '<i class="' . $_style['icon_modules'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%manage_modules%]"> </i>[%modules%]';
+        $ph['ModulesIcon'] = sprintf($iconTpl, $icon, 106);
     }
-    if($modx->hasPermission('new_template') || $modx->hasPermission('edit_template') || $modx->hasPermission('new_snippet') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('new_plugin') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('manage_metatags')) {
-        $icon = '<i class="'. $_style['icon_elements'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%element_management%]"> </i>[%elements%]';
-        $ph['ResourcesIcon'] = sprintf($iconTpl,$icon, 76);
+    if ($modx->hasPermission('new_template') || $modx->hasPermission('edit_template') || $modx->hasPermission('new_snippet') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('new_plugin') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('manage_metatags')) {
+        $icon = '<i class="' . $_style['icon_elements'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%element_management%]"> </i>[%elements%]';
+        $ph['ResourcesIcon'] = sprintf($iconTpl, $icon, 76);
     }
-    if($modx->hasPermission('bk_manager')) {
-        $icon = '<i class="'. $_style['icon_database'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%bk_manager%]"> </i>[%backup%]';
-        $ph['BackupIcon'] = sprintf($iconTpl,$icon, 93);
+    if ($modx->hasPermission('bk_manager')) {
+        $icon = '<i class="' . $_style['icon_database'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%bk_manager%]"> </i>[%backup%]';
+        $ph['BackupIcon'] = sprintf($iconTpl, $icon, 93);
     }
-    if($modx->hasPermission('help')) {
-        $icon = '<i class="'. $_style['icon_question_circle'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%help%]" /> </i>[%help%]';
-        $ph['HelpIcon'] = sprintf($iconTpl,$icon, 9);
+    if ($modx->hasPermission('help')) {
+        $icon = '<i class="' . $_style['icon_question_circle'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '" alt="[%help%]" /> </i>[%help%]';
+        $ph['HelpIcon'] = sprintf($iconTpl, $icon, 9);
     }
 
-    if($modx->hasPermission('new_document')) {
-        $icon = '<i class="'. $_style['icon_document'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%add_resource%]';
-        $ph['ResourceIcon'] = sprintf($iconTpl,$icon, 4);
-        $icon = '<i class="'. $_style['icon_chain'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%add_weblink%]';
-        $ph['WeblinkIcon'] = sprintf($iconTpl,$icon, 72);
+    if ($modx->hasPermission('new_document')) {
+        $icon = '<i class="' . $_style['icon_document'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%add_resource%]';
+        $ph['ResourceIcon'] = sprintf($iconTpl, $icon, 4);
+        $icon = '<i class="' . $_style['icon_chain'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%add_weblink%]';
+        $ph['WeblinkIcon'] = sprintf($iconTpl, $icon, 72);
     }
-    if($modx->hasPermission('assets_images')) {
-        $icon = '<i class="'. $_style['icon_camera'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%images_management%]';
-        $ph['ImagesIcon'] = sprintf($iconTpl,$icon, 72);
+    if ($modx->hasPermission('assets_images')) {
+        $icon = '<i class="' . $_style['icon_camera'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%images_management%]';
+        $ph['ImagesIcon'] = sprintf($iconTpl, $icon, 72);
     }
-    if($modx->hasPermission('assets_files')) {
-        $icon = '<i class="'. $_style['icon_files'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%files_management%]';
-        $ph['FilesIcon'] = sprintf($iconTpl,$icon, 72);
+    if ($modx->hasPermission('assets_files')) {
+        $icon = '<i class="' . $_style['icon_files'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%files_management%]';
+        $ph['FilesIcon'] = sprintf($iconTpl, $icon, 72);
     }
-    if($modx->hasPermission('change_password')) {
-        $icon = '<i class="'. $_style['icon_lock'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%change_password%]';
-        $ph['PasswordIcon'] = sprintf($iconTpl,$icon, 28);
+    if ($modx->hasPermission('change_password')) {
+        $icon = '<i class="' . $_style['icon_lock'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%change_password%]';
+        $ph['PasswordIcon'] = sprintf($iconTpl, $icon, 28);
     }
-    $icon = '<i class="'. $_style['icon_logout'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%logout%]';
-    $ph['LogoutIcon'] = sprintf($iconTpl,$icon, 8);
+    $icon = '<i class="' . $_style['icon_logout'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>[%logout%]';
+    $ph['LogoutIcon'] = sprintf($iconTpl, $icon, 8);
 
     // do some config checks
-    if($modx->getConfig('warning_visibility') || $_SESSION['mgrRole'] == 1) {
+    if ($modx->getConfig('warning_visibility') || $_SESSION['mgrRole'] == 1) {
         include_once(MODX_MANAGER_PATH . 'includes/config_check.inc.php');
-        if($config_check_results != $_lang['configcheck_ok']) {
+        if ($config_check_results != $_lang['configcheck_ok']) {
             $ph['config_check_results'] = $config_check_results;
             $ph['config_display'] = 'block';
         } else {
@@ -74,8 +74,8 @@
     }
 
     // Check logout-reminder
-    if(isset($_SESSION['show_logout_reminder'])) {
-        switch($_SESSION['show_logout_reminder']['type']) {
+    if (isset($_SESSION['show_logout_reminder'])) {
+        switch ($_SESSION['show_logout_reminder']['type']) {
             case 'logout_reminder':
                 $date = $modx->toDateFormat($_SESSION['show_logout_reminder']['lastHit'], 'dateOnly');
                 $ph['logout_reminder_msg'] = str_replace('[+date+]', $date, $_lang['logout_reminder_msg']);
@@ -118,9 +118,9 @@
 </table>';
 
     $ph['UserInfo'] = $modx->parseText($tpl, array(
-        'username' => $modx->getLoginUserName(),
-        'role' => $_SESSION['mgrPermissions']['name'],
-        'lastlogin' => $modx->toDateFormat($modx->timestamp($_SESSION['mgrLastlogin'])),
+        'username'   => $modx->getLoginUserName(),
+        'role'       => $_SESSION['mgrPermissions']['name'],
+        'lastlogin'  => $modx->toDateFormat($modx->timestamp($_SESSION['mgrLastlogin'])),
         'logincount' => $_SESSION['mgrLogincount'] + 1,
     ));
 
@@ -129,7 +129,7 @@
         ->where('active_users.action', '<>', 8)
         ->orderBy('username', 'ASC')
         ->orderBy('active_users.sid', 'ASC');
-    if($activeUsers->count() < 1) {
+    if ($activeUsers->count() < 1) {
         $html = '<p>[%no_active_users_found%]</p>';
     } else {
         $now = $modx->timestamp($_SERVER['REQUEST_TIME']);
@@ -170,7 +170,7 @@
         $userList = array();
         $userCount = array();
         // Create userlist with session-count first before output
-        foreach($activeUsers->get()->toArray() as $activeUser) {
+        foreach ($activeUsers->get()->toArray() as $activeUser) {
             $userCount[$activeUser['internalKey']] = isset($userCount[$activeUser['internalKey']]) ? $userCount[$activeUser['internalKey']] + 1 : 1;
 
             $idle = $activeUser['lasthit'] < $timetocheck ? ' class="userIdle"' : '';
@@ -203,9 +203,10 @@
                 $currentaction
             );
         }
-        foreach($userList as $params) {
+        foreach ($userList as $params) {
             $params[1] = $userCount[$params[4]] > 1 ? ' class="userMultipleSessions"' : '';
-            $html .= "\n\t\t" . vsprintf('<tr%s><td><strong%s>%s</strong></td><td>%s%s</td><td>%s</td><td>%s</td><td>%s</td></tr>', $params);
+            $html .= "\n\t\t" . vsprintf('<tr%s><td><strong%s>%s</strong></td><td>%s%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
+                    $params);
         }
 
         $html .= '
@@ -228,44 +229,36 @@
     $feedData = array();
 
     // create Feed
+    $feed = new \SimplePie\SimplePie();
+    $feedCache = evolutionCMS()->getCachePath() . 'rss/';
+    \Illuminate\Support\Facades\File::ensureDirectoryExists($feedCache);
+    $feed->set_cache_location($feedCache);
     foreach ($urls as $section => $url) {
         $output = '';
-        $items = fetchCacheableRss($url, 'channel/item', function(SimpleXMLElement $entry){
-            $props = [];
-            foreach ($entry as $prop) {
-                if (mb_strtolower($prop->getName()) === 'pubdate' && ($time = @strtotime($prop->__toString())) > 0) {
-                    $props['date_timestamp'] = $time;
-                    $props['pubdate'] = $prop->__toString();
-                } else {
-                    $props[$prop->getName()] = $prop->__toString();
-                }
-            }
-
-            return $props;
-        });
+        $feed->set_feed_url($url);
+        $feed->init();
+        $items = $feed->get_items(0, $itemsNumber);
         if (empty($items)) {
             $feedData[$section] = 'Failed to retrieve ' . $url;
             continue;
         }
-        $output .= '<ul>';
-
-        $items = array_slice($items, 0, $itemsNumber);
+        $output = '<ul>';
         foreach ($items as $item) {
-            $href = rel2abs($item['link'], 'https://github.com');
-            $title = $item['title'];
-            $pubdate = $item['pubdate'];
+            $href = $item->get_link();
+            $title = $item->get_title();
+            $pubdate = $item->get_date();
             $pubdate = $modx->toDateFormat(strtotime($pubdate));
-            $description = strip_tags($item['description']);
+            $description = strip_tags($item->get_content());
             if (strlen($description) > 199) {
-                $description = substr($description, 0, 200);
-                $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
+                $description = \Illuminate\Support\Str::words($description, 15, '...');
+                $description .= '<br />Read <a href="' . $href . '" target="_blank">more</a>.';
             }
             $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
         }
-
         $output .= '</ul>';
         $feedData[$section] = $output;
     }
+
     $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'];
     $ph['modx_news_content'] = $feedData['modx_news_content'];
 
@@ -296,29 +289,29 @@
 
     // invoke event OnManagerWelcomePrerender
     $evtOut = $modx->invokeEvent('OnManagerWelcomePrerender');
-    if(is_array($evtOut)) {
+    if (is_array($evtOut)) {
         $output = implode('', $evtOut);
         $ph['OnManagerWelcomePrerender'] = $output;
     }
 
     $widgets['welcome'] = array(
         'menuindex' => '10',
-        'id' => 'welcome',
-        'cols' => 'col-lg-6',
-        'icon' => 'fa-home',
-        'title' => '[%welcome_title%]',
-        'body' => '
+        'id'        => 'welcome',
+        'cols'      => 'col-lg-6',
+        'icon'      => 'fa-home',
+        'title'     => '[%welcome_title%]',
+        'body'      => '
             <div class="wm_buttons card-body">' .
             ($modx->hasPermission("new_document") ? '
                 <span class="wm_button">
                     <a target="main" href="index.php?a=4">
-                        <i class="'. $_style['icon_document'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_document'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%add_resource%]</span>
                     </a>
                 </span>
                 <span class="wm_button">
                     <a target="main" href="index.php?a=72">
-                        <i class="'. $_style['icon_chain'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_chain'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%add_weblink%]</span>
                     </a>
                 </span>
@@ -326,7 +319,7 @@
             ($modx->hasPermission("assets_images") ? '
                 <span class="wm_button">
                     <a target="main" href="media/browser/mcpuk/browse.php?filemanager=media/browser/mcpuk/browse.php&type=images">
-                        <i class="'. $_style['icon_camera'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_camera'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%images_management%]</span>
                     </a>
                 </span>
@@ -334,7 +327,7 @@
             ($modx->hasPermission("assets_files") ? '
                 <span class="wm_button">
                     <a target="main" href="media/browser/mcpuk/browse.php?filemanager=media/browser/mcpuk/browse.php&type=files">
-                        <i class="'. $_style['icon_files'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_files'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%files_management%]</span>
                     </a>
                 </span>
@@ -342,7 +335,7 @@
             ($modx->hasPermission("bk_manager") ? '
                 <span class="wm_button">
                     <a target="main" href="index.php?a=93">
-                        <i class="'. $_style['icon_database'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_database'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%bk_manager%]</span>
                     </a>
                 </span>
@@ -350,14 +343,14 @@
             ($modx->hasPermission("change_password") ? '
                 <span class="wm_button">
                     <a target="main" href="index.php?a=28">
-                        <i class="'. $_style['icon_lock'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_lock'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%change_password%]</span>
                     </a>
                 </span>
                 ' : '') . '
                 <span class="wm_button">
                     <a target="_top" href="index.php?a=8">
-                        <i class="'. $_style['icon_logout'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
+                        <i class="' . $_style['icon_logout'] . $_style['icon_size_2x'] . $_style['icon_size_fix'] . '"></i>
                         <span>[%logout%]</span>
                     </a>
                 </span>
@@ -386,54 +379,54 @@
                 </table>
             </div>
 		',
-        'hide'=>'0'
+        'hide'      => '0'
     );
     $widgets['onlineinfo'] = array(
         'menuindex' => '20',
-        'id' => 'onlineinfo',
-        'cols' => 'col-lg-6',
-        'icon' => 'fa-user',
-        'title' => '[%onlineusers_title%]',
-        'body' => '<div class="userstable">[+OnlineInfo+]</div>',
-        'hide'=>'0'
+        'id'        => 'onlineinfo',
+        'cols'      => 'col-lg-6',
+        'icon'      => 'fa-user',
+        'title'     => '[%onlineusers_title%]',
+        'body'      => '<div class="userstable">[+OnlineInfo+]</div>',
+        'hide'      => '0'
     );
     $widgets['recentinfo'] = array(
         'menuindex' => '30',
-        'id' => 'modxrecent_widget',
-        'cols' => 'col-sm-12',
-        'icon' => 'fa-pencil-square-o',
-        'title' => '[%activity_title%]',
-        'body' => '<div class="widget-stage">[+RecentInfo+]</div>',
-        'hide'=>'0'
+        'id'        => 'modxrecent_widget',
+        'cols'      => 'col-sm-12',
+        'icon'      => 'fa-pencil-square-o',
+        'title'     => '[%activity_title%]',
+        'body'      => '<div class="widget-stage">[+RecentInfo+]</div>',
+        'hide'      => '0'
     );
     if ($modx->getConfig('rss_url_news')) {
         $widgets['news'] = array(
             'menuindex' => '40',
-            'id' => 'news',
-            'cols' => 'col-sm-6',
-            'icon' => 'fa-rss',
-            'title' => '[%modx_news_title%]',
-            'body' => '<div style="max-height:200px;overflow-y: scroll;padding: 1rem .5rem">[+modx_news_content+]</div>',
-            'hide'=>'0'
+            'id'        => 'news',
+            'cols'      => 'col-sm-6',
+            'icon'      => 'fa-rss',
+            'title'     => '[%modx_news_title%]',
+            'body'      => '<div style="max-height:200px;overflow-y: scroll;padding: 1rem .5rem">[+modx_news_content+]</div>',
+            'hide'      => '0'
         );
     }
     if ($modx->getConfig('rss_url_security')) {
         $widgets['security'] = array(
             'menuindex' => '50',
-            'id' => 'security',
-            'cols' => 'col-sm-6',
-            'icon' => 'fa-exclamation-triangle',
-            'title' => '[%security_notices_title%]',
-            'body' => '<div style="max-height:200px;overflow-y: scroll;padding: 1rem .5rem">[+modx_security_notices_content+]</div>',
-            'hide'=>'0'
+            'id'        => 'security',
+            'cols'      => 'col-sm-6',
+            'icon'      => 'fa-exclamation-triangle',
+            'title'     => '[%security_notices_title%]',
+            'body'      => '<div style="max-height:200px;overflow-y: scroll;padding: 1rem .5rem">[+modx_security_notices_content+]</div>',
+            'hide'      => '0'
         );
     }
 
     // invoke OnManagerWelcomeHome event
     $sitewidgets = $modx->invokeEvent("OnManagerWelcomeHome", array('widgets' => $widgets));
-    if(is_array($sitewidgets)) {
+    if (is_array($sitewidgets)) {
         $newwidgets = array();
-        foreach($sitewidgets as $widget){
+        foreach ($sitewidgets as $widget) {
             $newwidgets = array_merge($newwidgets, unserialize($widget));
         }
         $widgets = (count($newwidgets) > 0) ? $newwidgets : $widgets;
@@ -445,8 +438,8 @@
 
     $tpl = $modx->getChunk('manager#welcome\Widget');
     $output = '';
-    foreach($widgets as $widget) {
-        if ((bool)get_by_key($widget, 'hide', false) !== true) {
+    foreach ($widgets as $widget) {
+        if ((bool) get_by_key($widget, 'hide', false) !== true) {
             $output .= $modx->parseText($tpl, $widget);
         }
     }
