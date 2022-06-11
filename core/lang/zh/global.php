@@ -1,23 +1,22 @@
 <?php
 /**
- * MODX Manager language file
+ * EVO Manager language file
  *
  * @version 1.0.15
  * @date 2014/02/24
- * @author changkong.org rerbin@gmail.com
- * @author modx.cn leepoooo@163.com
+ * @author The EVO Project Team
  *
- * @language Simple Chinese
+ * @language English
  * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL langauges
-$modx_lang_attribute = 'zh'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = '镆铘是一个 <a href="http://modx.com/" target="_blank">PHP编写的内容管理系统</a> 遵循 <a href="../assets/docs/license.txt">GNU GPL</a>协议.';
+$_lang["about_msg"] = '镆铘是一个 <a href="https://evo-cms.com/" target="_blank">PHP编写的内容管理系统</a> 遵循 <a href="../assets/docs/license.txt">GNU GPL</a>协议.';
 $_lang["about_title"] = '关于MODX';
 $_lang["access_permission_denied"] = '你没有访问这文档的权限。';
 $_lang["access_permission_parent_denied"] = '你不允许在这里建立文档！';
@@ -29,6 +28,7 @@ $_lang["access_permissions_docs_message"] = '你可以在这里设置文档归�
 $_lang["access_permissions_group_link"] = 'Create a new group link';
 $_lang["access_permissions_introtext"] = '你可以在这里设置文档组和用户组来控制访问权的分配，要添加一个用户到用户组，你就编辑用户然后选择他归宿于那个组，要添加一个文档到一个用户组，就在你编辑文档的时候选择本文档从属哪个组就可以了。';
 $_lang["access_permissions_link_to_group"] = 'to Resource Group';
+$_lang["access_permissions_context"] = 'in context';
 $_lang["access_permissions_link_user_group"] = 'Link User Group';
 $_lang["access_permissions_links"] = '用户组和文档组的连接';
 $_lang["access_permissions_links_tab"] = '这里是我们分配用户组权限以对应到文档组的地方。 (比如编辑文档，建立子文档的权利) . 要连接一个文档组到一个用户组，选择一个组直接点\'link 连接\'就可以了。要移除他们的连接就直接点 \'移除->Remove ->\'就可以，这样连接就会立即失效。';
@@ -69,6 +69,7 @@ $_lang["allow_mgr_access"] = '管理员的界面访问';
 $_lang["allow_mgr_access_message"] = 'Select this option to enable or disable access to the manager interface. <b>NOTE: If this option is set to no then the user will be redirected to the Manager Login Startup or Site Start web page.</b>';
 $_lang["already_deleted"] = '已经被删除.';
 $_lang["attachment"] = '附件';
+$_lang["author_infos"] = 'Author information';
 $_lang["automatic_alias_message"] = 'Select \'yes\' to have the system automatically generate a URL alias based on the Resource\'s page title when saving.';
 $_lang["automatic_alias_title"] = '自动生成别名:';
 $_lang["backup"] = '备份';
@@ -85,6 +86,9 @@ $_lang["captcha_words_default"] = 'MODX,Access,Better,BitCode,Chunk,Cache,Desc,D
 $_lang["captcha_words_message"] = '你可以在这里输入一串机器码以让抗机器功能工作，用逗号（注意是英文状态下的逗号）隔开每一字符串，你最多可以输入225个字符。';
 $_lang["captcha_words_title"] = '机器机密码';
 $_lang["category_heading"] = 'Category';
+$_lang["category_manager"] = 'Category Manager';
+$_lang["category_management"] = 'Category management';
+$_lang["manage_categories"] = 'Manage Categories';
 $_lang["category_msg"] = 'View and edit all Elements grouped by category.';
 $_lang["cfg_base_path"] = 'MODX_BASE_PATH';
 $_lang["cfg_base_url"] = 'MODX_BASE_URL';
@@ -123,6 +127,8 @@ $_lang["configcheck_errorpage_unavailable"] = 'Your site\'s Error page is not av
 $_lang["configcheck_errorpage_unavailable_msg"] = 'This means that your Error page is not accessible to normal web surfers or does not exist. This can lead to a recursive looping condition and many errors in your site logs. Make sure there are no Webuser Groups assigned to the page.';
 $_lang["configcheck_errorpage_unpublished"] = 'Your site\'s Error page is not published or does not exist.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'This means that your Error page is inaccessible to the general public. Publish the page or make sure it is assigned to an existing Resource in your Site Tree in the Tools &gt; Configuration menu.';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Don\'t show this again.</em></a>';
 $_lang["configcheck_images"] = '图象目录不可写';
 $_lang["configcheck_images_msg"] = '图象目录不可写或不存在，图象管理功能将不能运行！';
@@ -134,6 +140,8 @@ $_lang["configcheck_notok"] = '一个或多个配置未通过设置: ';
 $_lang["configcheck_ok"] = '检查通过，没有错误报告';
 $_lang["configcheck_php_gdzip"] = 'GD and/or Zip PHP extensions not found';
 $_lang["configcheck_php_gdzip_msg"] = 'MODX needs the GD and Zip extension enabled for PHP. While MODX will work without them, you will not be able to take full advantage of the built-in File Manager, Image Editor or Captcha for logins.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals is set to ON in your php.ini configuration file';
 $_lang["configcheck_register_globals_msg"] = 'This configuration makes your site much more susceptible to Cross Site Scripting (XSS) attacks. You should speak to your host about what you can do to disable this setting.';
 $_lang["configcheck_title"] = '配置检查';
@@ -150,8 +158,10 @@ $_lang["configcheck_validate_referer_msg"] = 'The configuration setting <strong>
 $_lang["configcheck_warning"] = '配置警告:';
 $_lang["configcheck_what"] = '这是什么意思?';
 $_lang["confirm_block"] = '你确定阻止这用户吗？';
+$_lang["confirm_delete_category"] = 'Are you sure you want to delete this category?';
 $_lang["confirm_delete_eventlog"] = '你确认要删除事件日志？';
 $_lang["confirm_delete_file"] = '确定删除文件？\n\n这或许会让你的站点不稳定甚至不能工作，最好只删除你知道的文件！';
+$_lang["confirm_delete_group"] = 'Are you sure you want to delete this group?';
 $_lang["confirm_delete_htmlsnippet"] = '你确定要删除这个块？';
 $_lang["confirm_delete_keywords"] = '确认删除关键词？';
 $_lang["confirm_delete_module"] = '你希望删除模块吗？';
@@ -164,12 +174,16 @@ $_lang["confirm_delete_tags"] = '你确认要删除选择的META 标签?';
 $_lang["confirm_delete_template"] = '确定删除这个模板？';
 $_lang["confirm_delete_tmplvars"] = '你确定要移除这些变量和那些存储好的变量吗？';
 $_lang["confirm_delete_user"] = '确定删除用户吗？';
+$_lang["delete_yourself"] = 'You can\'t delete yourself';
+$_lang["delete_last_admin"] = 'You can\'t delete last admin user';
+$_lang["confirm_delete_permission"] = 'Are you sure you want to delete this Permission?';
 $_lang["confirm_duplicate_record"] = '确认复制记录？';
 $_lang["confirm_empty_trash"] = '您将永久的删除这些文件?\n\n继续吗？';
 $_lang["confirm_load_depends"] = '你确定在不保存所做的修改就加载依赖性管理页面吗？';
 $_lang["confirm_name_change"] = 'Changing the user name can affect other applications that are linked to the Content Manager.\n\nAre you sure you want to change this user name?';
 $_lang["confirm_publish"] = '\n\nPublishing this Resource now will remove any (un)publishing dates that may have been set. If you wish to set or keep publish or unpublish dates, please choose to \'edit\' the Resource instead.\n\nProceed?';
 $_lang["confirm_remove_locks"] = 'Users sometimes close their browser while editing Resources, Templates, Snippets or parsers, possibly leaving the item they were editing in locked state. By pressing OK you can remove ALL locks currently in place.\n\nProceed?';
+$_lang["confirm_reset_sort_order"] = 'Are you sure you want to reset the \"sort order/index\" of all listed elements to 0 ?';
 $_lang["confirm_resource_duplicate"] = '确认复制文档/文件夹\n注意：子文件/夹也会被一同复制';
 $_lang["confirm_setting_language_change"] = 'You have modified the default value and will lose the changes. Proceed?';
 $_lang["confirm_unblock"] = '你确定解除用户锁定吗？';
@@ -182,8 +196,9 @@ $_lang["create_resource_here"] = '在这里建立文档';
 $_lang["create_resource_title"] = 'Create Resource';
 $_lang["create_weblink_here"] = '在这里建立连接';
 $_lang["createdon"] = '建立日期';
+$_lang["create_new"] = 'Create new';
 $_lang["credits"] = 'Credits';
-$_lang["credits_shouts_msg"] = '<p>MODX is managed and maintained at <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>MODX is managed and maintained at <a href="https://evo-cms.com/" target="_blank">modx.com</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Add custom content types for Resources. To add a new entry, enter the content type in the text box then click the \'Add\' button.';
 $_lang["custom_contenttype_title"] = '定制内容类型:';
 $_lang["database_charset"] = 'Database Charset';
@@ -235,12 +250,15 @@ $_lang["deselect_keywords"] = '清除关键词';
 $_lang["deselect_metatags"] = '清除META标签';
 $_lang["disabled"] = '禁用的';
 $_lang["doc_data_title"] = '查看文档数据';
+$_lang["documentation"] = 'Documentation';
 $_lang["duplicate"] = '复制';
 $_lang["duplicate_alias_found"] = 'Resource \'%s\' is already using the URL alias \'%s\'. Please enter a unique URL alias.';
+$_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Select \'yes\' to allow duplicate URL aliases to be saved. <b>NOTE: This option should be used with \'Friendly URL alias path\' option set to \'Yes\' in order to avoid problems when referencing a Resource.</b>';
 $_lang["duplicate_alias_title"] = '允许复制别名:';
 $_lang["duplicate_name_found_general"] = 'There is already a %s named \'%s\'. Please enter a unique name.';
 $_lang["duplicate_name_found_module"] = 'There is already a Module named \'%s\'. Please enter a unique name.';
+$_lang["duplicated_el_suffix"] = 'Duplicate';
 $_lang["edit"] = '编辑';
 $_lang["edit_resource"] = '编辑文档';
 $_lang["edit_resource_title"] = '建立/编辑文档';
@@ -251,6 +269,7 @@ $_lang["editor_css_path_message"] = '输入编辑器的CSS文件的路径。 最
 $_lang["editor_css_path_title"] = 'CSS文件路径:';
 $_lang["element"] = '资源';
 $_lang["element_categories"] = 'Combined View';
+$_lang["element_filter_msg"] = 'Type here to filter list';
 $_lang["element_management"] = '资源管理';
 $_lang["element_name"] = '资源名';
 $_lang["element_selector_msg"] = '选择下面的资源然后按\'插入Insert\'键.';
@@ -258,6 +277,7 @@ $_lang["element_selector_title"] = '资源选择器';
 $_lang["elements"] = '资源';
 $_lang["email"] = 'Email';
 $_lang["email_sent"] = 'Email sent';
+$_lang["email_unique"] = 'Email is already in use!';
 $_lang["emailsender_message"] = '指定发送邮件的地址。';
 $_lang["emailsender_title"] = '邮件地址：';
 $_lang["emailsubject_default"] = 'Your login details';
@@ -306,6 +326,7 @@ $_lang["files_access_denied"] = '拒绝访问！';
 $_lang["files_data"] = '数据';
 $_lang["files_dir_listing"] = '目录列表:';
 $_lang["files_directories"] = '目录';
+$_lang["files_directory_is_empty"] = 'This directory is empty.';
 $_lang["files_dirwritable"] = '目录可写吗？';
 $_lang["files_editfile"] = '编辑文件';
 $_lang["files_file_type"] = '文件类型：';
@@ -314,6 +335,8 @@ $_lang["files_fileoptions"] = '选项';
 $_lang["files_files"] = '文件Files';
 $_lang["files_filesize"] = '文件大小';
 $_lang["files_filetype_notok"] = '不允许上传本类型文件!';
+$_lang["files_management"] = 'Manage Files';
+$_lang["files_management_no_permission"] = 'You do not have enough permissions to view or edit these files. Ask the administrator to grant you access to <b>%s</b>.';
 $_lang["files_modified"] = '修改Modified';
 $_lang["files_top_level"] = '顶层目录';
 $_lang["files_up_level"] = '上层目录';
@@ -349,28 +372,43 @@ $_lang["friendlyurlsuffix_message"] = '友好URLs的后缀设置. 指定 \'.html
 $_lang["friendlyurlsuffix_title"] = '友好URLS的后缀:';
 $_lang["functionnotimpl"] = '对不起！';
 $_lang["functionnotimpl_message"] = '这个功能没被执行完.';
+$_lang["further_info"] = 'Further information';
+$_lang["global_tabs"] = 'Global Tabs';
 $_lang["go"] = 'Go';
 $_lang["group_access_permissions"] = '用户组访问';
+$_lang['group_tvs'] = 'Group TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = '帮助';
-$_lang["help_msg"] = '<p>你可以在这里寻求支持 <a href="http://modx.com/" target="_blank">访问中文MODX网站</a>如果你有兴趣，.';
+$_lang["help_msg"] = '<p>你可以在这里寻求支持 <a href="https://evo-cms.com/" target="_blank">访问中文MODX网站</a>如果你有兴趣，.';
 $_lang["help_title"] = '帮助';
 $_lang["hide_tree"] = '隐藏树';
 $_lang["home"] = '主页';
+$_lang["htmlsnippet"] = 'Chunk';
+$_lang["htmlsnippets"] = 'Chunks';
 $_lang["htmlsnippet_desc"] = '描述';
 $_lang["htmlsnippet_management_msg"] = '你可以在这里选择你需要编辑的块。';
 $_lang["htmlsnippet_msg"] = '你可以在这里建立编辑块。记住，块是HTML代码组合，任何PHP代码将不会执行。';
 $_lang["htmlsnippet_name"] = '块名';
 $_lang["htmlsnippet_title"] = '建立/编辑块';
 $_lang["icon"] = '图标';
+$_lang["icon_description"] = 'CSS class value. e.g. fa&nbsp;fa-star';
 $_lang["id"] = 'ID';
 $_lang["illegal_parent_child"] = '指定父本:\n\n这个文档是你选择的文档的子文档.';
 $_lang["illegal_parent_self"] = '指定父本:\n\n选择的文档不能分配给他自己.';
+$_lang["images_management"] = 'Manage Images';
 $_lang["import_files_found"] = '<b>有 %s 文档需要输入...</b>';
 $_lang["import_params"] = '输入模块的共享参数';
 $_lang["import_params_msg"] = '你可通过从上面的下拉菜单中选择模块的名字来输入他的参数或设置. <b>注意:</b>为了模块能显示在菜单中，这个插件或切片必须是在模块的以来性列表中，并且模块的参数分享也必须激活. ';
 $_lang["import_parent_resource"] = '上级文档（父本）:';
 $_lang["update_tree"] = '重建树';
+$_lang["update_tree_description"] = '<ul>
+                   <li> - Closure table database design pattern that makes working with the document tree more convenient and fast </li>
+                     <li> - If the data in the tree is updated not through models, then there is a possibility of an incorrect linking of documents in the database </li>
+                     <li> - This operation fixes the problem when site_content is not updated through the model (save, create) and the links (Closure table) are not updated </li>
+                     <li> - It is also possible to perform this operation in CLI mode via the \'php artisan closuretable: rebuild \' command </li>
+                     </ul>';
+$_lang["update_tree_danger"] = 'If you have more than 1000 resources, it is better to perform this operation in CLI mode using the \'php artisan closuretable: rebuild command\'';
+$_lang["update_tree_time"] = 'Rebuild tree finished. Documents processed: <b>%s</b><br>Import took <b>%s</b> seconds to complete.';
 $_lang["inbox"] = 'Inbox';
 $_lang["info"] = '信息';
 $_lang["information"] = '信息';
@@ -378,6 +416,10 @@ $_lang["inline"] = '一行内';
 $_lang["insert"] = '插入';
 $_lang["maxImageWidth"] = 'Maximum image width';
 $_lang["maxImageHeight"] = 'Maximum image height';
+$_lang["clientResize"] = 'Resize images on client-side';
+$_lang["clientResize_message"] = 'If enabled then images will be resized by browser before upload to the server';
+$_lang["noThumbnailsRecreation"] = 'Create thumbnails on upload only';
+$_lang["noThumbnailsRecreation_message"] = 'File browser will create thumbnails only on upload; if there\'s no thumbnails for some images, they will not be created';
 $_lang["thumbWidth"] = 'Maximum thumbnail width';
 $_lang["thumbHeight"] = 'Maximum thumbnail height';
 $_lang["thumbsDir"] = 'Thumbnails directory location';
@@ -396,7 +438,9 @@ $_lang["keywords"] = '关键词';
 $_lang["keywords_intro"] = 'To edit a keyword, simply type in the new keyword in the text field next to the keyword you wish to change. To delete a keyword, check the \'delete\' box for that keyword. If you check the keyword\'s delete box, and also change it\'s name, it will be deleted, and the renaming of the keyword will not take place!';
 $_lang["language_message"] = '选择后台管理语言.';
 $_lang["language_title"] = '语言:';
+$_lang["last_update"] = 'Last update';
 $_lang["launch_site"] = '浏览站点';
+$_lang["license"] = 'License';
 $_lang["link_attributes"] = 'Link Attributes';
 $_lang["link_attributes_help"] = 'Enter optional attributes for a link for this page, such as target=&quot;_blank&quot; or rel=&quot;external&quot;.';
 $_lang["list_mode"] = '关闭打开列表模式 - 用来显示所有在格子中的数据.';
@@ -443,11 +487,20 @@ $_lang["manage_modules"] = '管理模块';
 $_lang["manage_plugins"] = '插件';
 $_lang["manage_snippets"] = '切片';
 $_lang["manage_templates"] = '模板';
+$_lang["manage_documents"] = 'Documents';
+$_lang["manage_permission"] = 'Permissions';
 $_lang["manager"] = '管理员';
 $_lang["manager_lockout_message"] = 'You are currently logged into the Content Manager. If you would like to close your login session please click the "Logout" button. <p />To go to your startup or home page click the "Home" button.';
 $_lang["manager_permissions"] = '管理者许可';
 $_lang["manager_theme"] = '管理者的风格文件:';
 $_lang["manager_theme_message"] = '为管理者选择一个风格文件.';
+$_lang["manager_theme_mode"] = 'Color Scheme:';
+$_lang["manager_theme_mode1"] = 'everything is light';
+$_lang["manager_theme_mode2"] = 'the header is dark';
+$_lang["manager_theme_mode3"] = 'header and sidebar are dark';
+$_lang["manager_theme_mode4"] = 'everything is dark';
+$_lang['manager_theme_mode_message'] = 'This setting is used as the "default" and can be overridden by the manager when using the theme color mode switch button in the Resource Tree: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["meta_keywords"] = 'META关键词';
 $_lang["metatag_intro"] = 'On this page you can delete, create or edit META tags. To link META tags to Resources, click on the <u>META Keywords</u> tab when editing the Resource, and select the desired META tags and keywords. To add a new tag enter the name and value and click the \'Add tag\' button. To edit the tag click on the name of the tag from within the data grid.';
 $_lang["metatag_notice"] = 'You may wish to reference the <a href="http://www.html-reference.com/META.asp" target="_blank">HTML Reference Guide</a> site for more information. This is not a complete list of possible Meta Tags.';
@@ -511,6 +564,7 @@ $_lang["new_file_permissions_message"] = 'When uploading a new file in the File 
 $_lang["new_file_permissions_title"] = 'New File Permissions';
 $_lang["new_folder_permissions_message"] = 'When creating a new directory in the File Manager, the File Manager will attempt to change the directory permissions to those entered in this setting. This may not work on some setups, such as IIS, in which case you will need to manually change the permissions.';
 $_lang["new_folder_permissions_title"] = 'New Directory Permissions';
+$_lang["new_permission"] = 'New Permission';
 $_lang["new_htmlsnippet"] = '建立新块';
 $_lang["new_keyword"] = '添加新的关键词:';
 $_lang["new_module"] = '新模块';
@@ -555,6 +609,7 @@ $_lang["onlineusers_title"] = '在线用户';
 $_lang["onlineusers_user"] = '用户';
 $_lang["onlineusers_userid"] = '用户ID';
 $_lang["optimize_table"] = '点击这里优化表格';
+$_lang["page_data_alias"] = 'Alias';
 $_lang["page_data_cacheable"] = '使用Cache';
 $_lang["page_data_cacheable_help"] = '让这个选项被选择，你将把他同时保存在CACHE中，如果你的文档包含了切片的话，请取消这个选择！';
 $_lang["page_data_cached"] = '<b>从cache中找来的资源:</b>';
@@ -595,6 +650,8 @@ $_lang["paging_showing"] = 'Showing';
 $_lang["paging_to"] = 'to';
 $_lang["paging_total"] = 'total';
 $_lang["parameter"] = '参数';
+$_lang["parse_docblock"] = 'Parse DocBlock';
+$_lang["parse_docblock_msg"] = 'Attention (!): <b>Resets</b> actual name, configuration, description and category to install-defaults by parsing the source code.';
 $_lang["password"] = '密码';
 $_lang["password_change_request"] = 'Password change request';
 $_lang["password_gen_gen"] = '让MODX生成新密码.';
@@ -607,6 +664,7 @@ $_lang["password_method_screen"] = '在屏幕上显示密码.';
 $_lang["password_msg"] = ' <b>:username</b>的新密码是 <b>:password</b><br>';
 $_lang["php_version_check"] = 'MODX兼容PHP 7.4 和更高的版本，请升级PHP版本！';
 $_lang["plugin"] = '插件';
+$_lang["plugins"] = 'Plugins';
 $_lang["plugin_code"] = '插件代码 (php)';
 $_lang["plugin_config"] = '插件配置';
 $_lang["plugin_desc"] = '描述';
@@ -618,6 +676,8 @@ $_lang["plugin_name"] = '插件名';
 $_lang["plugin_priority"] = 'Edit Plugin Execution Order by Event';
 $_lang["plugin_priority_instructions"] = 'Drag to reorder the Plugins under each Event header. The first plugin to execute should go at the top.';
 $_lang["plugin_priority_title"] = 'Plugin Execution Order';
+$_lang["purge_plugin"] = 'Purge obsolete plugins';
+$_lang["purge_plugin_confirm"] = 'Are you sure you want to purge obsolete plugins?';
 $_lang["plugin_title"] = '建立/编辑插件';
 $_lang["preview"] = '预览';
 $_lang["preview_msg"] = '这个是你最后一次改动的预览. 点击这里 <a href="javascript:;" onclick="saveRefreshPreview();">保存刷新</a>你现在的页面';
@@ -638,6 +698,7 @@ $_lang["rb_webuser_title"] = 'Web Users?';
 $_lang["recent_docs"] = '最近文档';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
+$_lang["references"] = 'References';
 $_lang["refresh_cache"] = 'Cache: 找到 <b>%s</b>文档在cache和被删除的cache里 <b>%d</b>。<p>当文档被访问者访问的时候，CACHE将被重新建立。';
 $_lang["refresh_published"] = '已经发布<b>%s</b>文档。';
 $_lang["refresh_site"] = '刷新站点';
@@ -653,11 +714,14 @@ $_lang["remove_date"] = '移动时间';
 $_lang["remove_locks"] = 'Remove Locks';
 $_lang["rename"] = '重命名';
 $_lang["reports"] = 'Reports';
+$_lang["report_issues"] = 'Report issues';
+$_lang["required_field"] = 'Field :field is required';
 $_lang["require_tagname"] = '需要一标签名';
 $_lang["require_tagvalue"] = '需要一标签值';
 $_lang["reserved_name_warning"] = 'You have used a reserved name.';
 $_lang["reset"] = '重设';
 $_lang["reset_failedlogins"] = '重设';
+$_lang["reset_sort_order"] = 'Reset sort order';
 $_lang["resource"] = '文档Document';
 $_lang["resource_alias"] = '文件别名 alias';
 $_lang["resource_alias_help"] = '你可以设置一文件的别名，这样，你的文件就可以通过如此格式来访问?\n\nhttp://yourserver/alias\n\n当然，这只有在你设置了friendly URLs后才起作用！';
@@ -705,8 +769,11 @@ $_lang["role"] = 'Role';
 $_lang["role_about"] = '查看关于页面';
 $_lang["role_access_persmissions"] = '访问许可';
 $_lang["role_actionok"] = '查看完成行为';
+$_lang["role_assets_images"] = 'Manage assets/images';
+$_lang["role_assets_files"] = 'Manage assets/files';
 $_lang["role_bk_manager"] = '使用备份管理';
 $_lang["role_cache_refresh"] = '清空站点cache';
+$_lang["role_category_manager"] = 'Use the Category Manager';
 $_lang["role_change_password"] = '改变密码';
 $_lang["role_change_resourcetype"] = '更改資源類型';
 $_lang["role_chunk_management"] = 'Chunk management';
@@ -743,12 +810,14 @@ $_lang["role_empty_trash"] = 'Permanently purge deleted Resources';
 $_lang["role_errors"] = '查看错误对话框';
 $_lang["role_eventlog_management"] = '事件日志管理';
 $_lang["role_export_static"] = 'Export Static HTML';
+$_lang["role_file_management"] = 'File Management';
 $_lang["role_file_manager"] = '使用文件管理器';
 $_lang["role_frames"] = '管理请求框架';
 $_lang["role_help"] = '查看帮助文件';
 $_lang["role_home"] = '管理主页面';
 $_lang["role_import_static"] = 'Import HTML';
 $_lang["role_logout"] = '退出管理';
+$_lang["role_list_module"] = 'List Module';
 $_lang["role_manage_metatags"] = '管理站点的META标签和关键词';
 $_lang["role_management_msg"] = '在这里你可以选择一需要编辑的角色。';
 $_lang["role_management_title"] = '角色管理';
@@ -785,10 +854,10 @@ $_lang["role_view_logs"] = '查看系统日志';
 $_lang["role_view_unpublished"] = '查看未发布文档';
 $_lang["role_web_access_persmissions"] = '网站访问许可';
 $_lang["role_web_user_management"] = '网站用户管理';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Enter the URL for the MODX News Feed.';
 $_lang["rss_url_news_title"] = 'RSS News Feed';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Enter the URL for the MODX Security Feed.';
 $_lang["rss_url_security_title"] = 'RSS Security Feed';
 $_lang["run_module"] = '运行模块';
@@ -803,8 +872,11 @@ $_lang["search_criteria_content"] = '按内容搜索';
 $_lang["search_criteria_content_msg"] = '寻找文件内容中有输入文字的文件';
 $_lang["search_criteria_id"] = '按ID号搜索';
 $_lang["search_criteria_id_msg"] = '输入文件ID号快速定位。';
+$_lang["search_criteria_top"] = 'Search in main fields';
+$_lang["search_criteria_top_msg"] = 'Pagetitle, Longtitle, Alias, ID';
 $_lang["search_criteria_template_id"] = 'Search by template ID';
 $_lang["search_criteria_template_id_msg"] = 'Find all Resources using the specified template.';
+$_lang["search_criteria_url_msg"] = 'Find Resource by exact URL.';
 $_lang["search_criteria_longtitle"] = '按长标题搜索';
 $_lang["search_criteria_longtitle_msg"] = '查询长标题里有所有输入查询字符的文档';
 $_lang["search_criteria_title"] = '按标题搜索';
@@ -830,17 +902,28 @@ $_lang["serveroffset"] = 'Server offset';
 $_lang["serveroffset_message"] = '选择你服务器所在地和你本人所在地的时间差别. 现在的服务器时间是 <b>[%s]</b>, 现在的服务器骗移时间是： <b>[%s]</b>.';
 $_lang["serveroffset_title"] = '服务器偏移时间:';
 $_lang["servertime"] = 'Server Time';
+$_lang["set_automatic"] = 'Set automatic';
+$_lang["set_default"] = 'Set default';
+$_lang["set_default_all"] = 'Set defaults';
 $_lang["settings_after_install"] = '<p>作为全新安装，你将需要控制这些设置来符合你的要求，当你完成设置后，按\'保存Save\'更新数据库数据。</p>';
 $_lang["settings_config"] = '配置';
 $_lang["settings_dependencies"] = '依赖性';
 $_lang["settings_events"] = '系统事件';
 $_lang["settings_furls"] = 'Friendly URL设置';
 $_lang["settings_general"] = '一般';
+$_lang["settings_group_tv_message"] = 'Choose if Template Variables should be grouped in sections or tabs (named by TV category) when editing a Resource';
+$_lang["settings_group_tv_options"] = 'No,Sections in General tab,Tabs in General tab,Sections in new tab,Tabs in new tab,New tabs';
 $_lang["settings_misc"] = '杂项设置';
+$_lang["settings_security"] = 'Security';
 $_lang["settings_KC"] = 'File Browser';
 $_lang["settings_page_settings"] = '页面设置';
 $_lang["settings_photo"] = '图片';
 $_lang["settings_properties"] = '属性';
+$_lang["show_fullscreen_btn_message"] = 'Show Menu toggle Fullscreen button';
+$_lang["show_newresource_btn_message"] = 'Show Menu New Resource button';
+$_lang["settings_show_picker_message"] = 'Customize manager theme and save to localstorage';
+$_lang["show_fullscreen_btn"] = 'Toggle Fullscreen button';
+$_lang["show_newresource_btn"] = 'New Resource button';
 $_lang["settings_site"] = '站点设置';
 $_lang["settings_strip_image_paths_message"] = '开启这个选项后，MODX将把图象的路径由绝对定位改为相对的定位。这个功能将方便你的站点变迁移动或域名变换等，如果你不知道它代表什么意思的话，那你就选择\'否No\'。';
 $_lang["settings_strip_image_paths_title"] = '重写图象路径？';
@@ -848,9 +931,11 @@ $_lang["settings_templvars"] = '模板变量';
 $_lang["settings_title"] = '系统配置';
 $_lang["settings_ui"] = '面板编辑器设置Interface & editor settings';
 $_lang["settings_users"] = '用户设置User settings';
+$_lang["settings_email_templates"] = 'Email & Templates';
 $_lang["show_meta"] = 'Show META Keywords tab';
 $_lang["show_meta_message"] = 'Show the deprecated META Keywords tab when editing Resources in the Manager.';
 $_lang["show_tree"] = '显示列表树';
+$_lang["show_picker"] = 'Show Color Switcher';
 $_lang["showing"] = '正在显示中';
 $_lang["signupemail_message"] = '你可以在这里设置好消息，当你的用户在这里注册的时候，MODX就会自动将此消息发送给他/她。内容中会包含他的用户名和密码。 <br /><b>注意：</b> 下面的站位符将被程序自动替代: <br /><br />[+sname+] - 你网站的名字 <br />[+saddr+] - 你网站的EMAIL地址， <br />[+surl+] - 你网站的地址，<br />[+uid+] - 用户登陆名或ID号，<br />[+pwd+] - 用户的密码， <br />[+ufn+] - 用户的全名。 <br /><br /><b>请在内容里保留 [+uid+] 和 [+pwd+],否则您的注册者将不会知道他的密码!</b>';
 $_lang["signupemail_title"] = '注册的e-mail:';
@@ -867,7 +952,12 @@ $_lang["siteunavailable_message_default"] = 'The site is currently unavailable.'
 $_lang["siteunavailable_page_message"] = '输入关闭站点后需要显示给访问者的页面ID. <b>注意必须保证你提供的ID号所属文档是的确存在的，并且已经发布，访问者有权访问!</b>';
 $_lang["siteunavailable_page_title"] = '关闭站点的页面:';
 $_lang["siteunavailable_title"] = '网站不可访问时的消息:';
+$_lang["controller_namespace"] = 'Controller Namespace';
+$_lang["controller_namespace_message"] = 'Specify the full Namespace from which it is worth taking controllers, for example: <b>EvolutionCMS\\Main\\Controllers\\</b>';
+$_lang["update_repository"] = 'GitHub repository path';
+$_lang["update_repository_message"] = 'Enter GitHub repository path for example: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = '切片';
+$_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = '切片代码 (php)';
 $_lang["snippet_desc"] = '描述';
 $_lang["snippet_execonsave"] = '保存切片后执行它.';
@@ -876,9 +966,15 @@ $_lang["snippet_msg"] = '你可以在这里添加编辑切片，记住, 切片sn
 $_lang["snippet_name"] = '切片名';
 $_lang["snippet_properties"] = '默认属性';
 $_lang["snippet_title"] = '建立编辑切片snippet';
+$_lang["sort_alphabetically"] = 'Sort alphabetically';
 $_lang["sort_asc"] = '上升';
 $_lang["sort_desc"] = '递减';
+$_lang["sort_menuindex"] = 'Sort menu index';
 $_lang["sort_tree"] = '排列树';
+$_lang['sort_updating'] = 'Updating ...';
+$_lang['sort_updated'] = 'Updated!';
+$_lang['sort_nochildren'] = 'Parent does not have any children';
+$_lang["sort_elements_msg"] = 'Drag to reorder the listed elements.';
 $_lang["source"] = '来源';
 $_lang["stay"] = '继续编辑';
 $_lang["stay_new"] = '添加另一个';
@@ -887,7 +983,8 @@ $_lang["sunday"] = '星期天';
 $_lang["sys_alert"] = '系统警报';
 $_lang["sysinfo_activity_message"] = '这个列表显示了最近有哪些文档被你的用户编辑过。';
 $_lang["sysinfo_userid"] = '用户';
-$_lang["system_email_signup"] = 'Hello [+uid+] 
+$_lang["system"] = 'System';
+$_lang["system_email_signup"] = 'Hello [+uid+]
 
 这是你的内容管理登陆细节 [+sname+] :
 
@@ -912,7 +1009,7 @@ $_lang["system_email_webreminder"] = 'Hello [+uid+]
 
 谢谢,
 网站管理员';
-$_lang["system_email_websignup"] = 'Hello [+uid+] 
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
 这是你的登陆细节 [+sname+]:
 
@@ -927,6 +1024,7 @@ $_lang["table_hoverinfo"] = 'Hover the mouse cursor over a table\'s name to see 
 $_lang["table_prefix"] = 'Table prefix';
 $_lang["tag"] = '标签';
 $_lang["template"] = '模板';
+$_lang["templates"] = 'Templates';
 $_lang["template_assignedtv_tab"] = 'Assigned Template Variables';
 $_lang["template_code"] = '模板代码 (html)';
 $_lang["template_desc"] = '描述';
@@ -935,10 +1033,12 @@ $_lang["template_management_msg"] = '选择你需要编辑的模板。';
 $_lang["template_msg"] = '你可以在这里添加编辑/模板，当你站点的CACHE没清空的时候，你是不可以看见COOKIE里的文件采取了这个新的模板，当然你可以用预览功能来看到他。';
 $_lang["template_name"] = '模板名';
 $_lang["template_no_tv"] = 'No Template Variables have been assigned to this Template yet.';
+$_lang["template_notassigned_tv"] = 'These Template Variables are available for assigning.';
 $_lang["template_reset_all"] = '设置所有的文档使用默认的模板';
 $_lang["template_reset_specific"] = '只设置 \'%s\' 页面';
 $_lang["template_assigned_blade_file"] = '对应的BLADE文件';
 $_lang["template_create_blade_file"] = '保存时创建模板文件';
+$_lang["template_selectable"] = 'Template selectable when creating or editing ressources.';
 $_lang["template_title"] = '建立编辑模板';
 $_lang["template_tv_edit"] = 'Edit the TV sort order';
 $_lang["template_tv_edit_message"] = 'Drag to reorder the Template Variables for this template.';
@@ -950,6 +1050,7 @@ $_lang["tmplvar_change_template_msg"] = '改变这个模板将让页面重新加
 $_lang["tmplvar_inuse"] = '以下文档正在使用模板变量. 要继续的话请按删除（Delete），否则请按退出（Cancel）.';
 $_lang["tmplvar_tmpl_access"] = '模板访问';
 $_lang["tmplvar_tmpl_access_msg"] = '选择允许处理和利用变量的模板';
+$_lang["tmplvar"] = 'Template Variable';
 $_lang["tmplvars"] = '模板变量';
 $_lang["tmplvars_binding_msg"] = '这个域支持@命令捆绑来的数据';
 $_lang["tmplvars_caption"] = '标题';
@@ -962,12 +1063,14 @@ $_lang["tmplvars_msg"] = '在这里你可以添加/编辑模板变量。这模�
 $_lang["tmplvars_name"] = '变量名';
 $_lang["tmplvars_novars"] = '没发现模板变量';
 $_lang["tmplvars_rank"] = '排列顺序';
+$_lang["tmplvars_rank_edit_message"] = 'Drag to reorder the Template Variables.';
 $_lang["tmplvars_reset_params"] = '重设参数';
 $_lang["tmplvars_title"] = 'Create/edit Template Variable';
 $_lang["tmplvars_type"] = '输入类型';
 $_lang["tmplvars_widget"] = '窗口部件';
 $_lang["tmplvars_widget_prop"] = '窗口部件设置';
 $_lang["to"] = 'to';
+$_lang["toggle_fullscreen"] = 'Toggle Fullscreen';
 $_lang["tools"] = 'Tools';
 $_lang["top_howmany_message"] = 'When viewing reports, how large should the \'Top ...\' lists be?';
 $_lang["top_howmany_title"] = 'Top how many';
@@ -976,6 +1079,8 @@ $_lang["track_visitors_message"] = '访问日志能让你了解你的网站利�
 $_lang["track_visitors_title"] = '访问日志';
 $_lang["tree_page_click"] = 'Page Click Behavior';
 $_lang["tree_page_click_message"] = 'The default behavior when clicking on a page in the site tree.';
+$_lang["use_breadcrumbs"] = 'Show navigation';
+$_lang["use_breadcrumbs_message"] = 'Show the navigation when creating or editing Resource in the Manager';
 $_lang["tree_show_protected"] = 'Show protected pages';
 $_lang["tree_show_protected_message"] = 'When set to "No", Protected Resources (and all their child-Resources) do not appear in the Site Tree menu. "No" is the legacy setting for MODX.';
 $_lang["truncate_table"] = '点击这里切短表格';
@@ -1013,6 +1118,7 @@ $_lang["use_alias_path_message"] = 'Enabling this option generates a virtual pat
 $_lang["use_alias_path_title"] = '使用友好别名路径:';
 $_lang["use_editor_message"] = '你希望激活富文本编辑器吗？如果你习惯写HTML，你可以在这里关闭它！特别注意这个设置将应用到所有的文件和用户！';
 $_lang["use_editor_title"] = '激活的编辑器:';
+$_lang["use_global_tabs"] = 'Use global Tabs';
 $_lang["user"] = '用户';
 $_lang["user_block"] = '阻止';
 $_lang["user_blockedafter"] = '以后阻止';
@@ -1027,6 +1133,9 @@ $_lang["user_failedlogincount"] = '失败的登陆';
 $_lang["user_fax"] = '传真';
 $_lang["user_female"] = '女';
 $_lang["user_full_name"] = '全名';
+$_lang["user_first_name"] = 'First name';
+$_lang["user_last_name"] = 'Last Name';
+$_lang["user_middle_name"] = 'Middle Name';
 $_lang["user_gender"] = '性别';
 $_lang["user_is_blocked"] = '这个用户被阻止了！';
 $_lang["user_logincount"] = '登陆次数';
@@ -1039,18 +1148,22 @@ $_lang["user_photo"] = '用户图片';
 $_lang["user_photo_message"] = '输入图象地址或上传一文件到服务器来作为用户图片。';
 $_lang["user_prevlogin"] = '最后登陆';
 $_lang["user_role"] = '用户角色';
+$_lang["no_user_role"] = 'No user role';
 $_lang["user_state"] = '省份';
 $_lang["user_title"] = '建立/编辑用户';
 $_lang["user_upload_message"] = ' If you wish to stop this User uploading any filetypes in this category, make sure that the \'Use Main Configuration Setting\' checkbox is not ticked and leave the field blank.';
 $_lang["user_use_config"] = 'Use System Configuration Setting';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Zip';
 $_lang["username"] = '用户名';
+$_lang["username_unique"] = 'User name is already in use!';
 $_lang["users"] = '用户';
 $_lang["valid_hostnames_message"] = 'Help prevent XSS exploits misusing the site_url system setting by providing a comma separated list of valid hostnames for this installation. This is important for some types of shared hosts or hosts direct accessible via an IP address. First hostname in the list is used if the HTTP_HOST does not match any valid hostname.';
 $_lang["valid_hostnames_title"] = 'Valid hostnames';
 $_lang["validate_referer_message"] = 'Validate the HTTP_REFERER headers to reduce the risk of your content editors being tricked into performing unintended actions in the manager as victims of a CSRF (Cross Site Request Forgery) attack. Some configurations may not be able to use this option if the server is not sending HTTP_REFERER headers.';
 $_lang["validate_referer_title"] = 'Validate HTTP_REFERER headers?';
 $_lang["value"] = '值';
+$_lang["version"] = 'Version';
 $_lang["view"] = 'View';
 $_lang["view_child_resources_in_container"] = 'View children';
 $_lang["view_log"] = '查看日志';
@@ -1065,6 +1178,7 @@ $_lang["web_access_permissions_user_groups"] = '网站用户组';
 $_lang["web_permissions"] = '网站许可';
 $_lang["web_user_management_msg"] = '在这里你可以选择那些你想编辑的网站用户。网站用户就是那些允许登陆到网站的用户';
 $_lang["web_user_management_title"] = '管理网站用户';
+$_lang["web_user_management_select_role"] = 'All roles';
 $_lang["web_user_title"] = '建立/编辑网站用户';
 $_lang["web_users"] = '网站用户';
 $_lang["weblink"] = '网页连接';
@@ -1072,10 +1186,12 @@ $_lang["webpwdreminder_message"] = '当用户请求重设密码的时候，系�
 $_lang["webpwdreminder_title"] = '网站提醒邮件:';
 $_lang["websignupemail_message"] = '当用户注册后，系统将给他们发一封注册信，信的内容包含了他们的注册名字和密码。你可以在这里设置给他们的邮件的内容，<br /><b>注意:</b> 下面这些站位符将在发送邮件的时候被系统替换掉: <br /><br />[+sname+] - 站点名字, <br />[+saddr+] - 您的邮件地址, <br />[+surl+] - 你站点的连接, <br />[+uid+] - 用户的登陆名和ID号, <br />[+pwd+] - 用户的密码, <br />[+ufn+] -用户的全名. <br /><br /><b>在邮件里保留 [+uid+] 和 [+pwd+], 否则发送给他们的邮件里将没有登陆名和密码，他们或许就不知道他们的密码了!</b>';
 $_lang["websignupemail_title"] = '网站注册信:';
+$_lang["allow_multiple_emails_title"] = 'Duplicate Web User email address';
+$_lang["allow_multiple_emails_message"] = 'Allows Web Users to share the same email address for situations when a member may not have their own email address or there is just one family email address.<br/>Note: Any password reminder and registration logic will need to account for this option if set to yes.';
 $_lang["wednesday"] = '星期三';
 $_lang["welcome_messages"] = '你有 <b>%d</b> 消息,  <b>%s</b>没读';
 $_lang["welcome_title"] = '欢迎来到MODX内容管理';
-$_lang["which_editor_message"] = '你可以在这里选择你要使用哪一个编辑器。你可以在<a href="http://modx.com/">MODX的中文网站</a>下载文本编辑器。';
+$_lang["which_editor_message"] = '你可以在这里选择你要使用哪一个编辑器。你可以在<a href="https://evo-cms.com/">MODX的中文网站</a>下载文本编辑器。';
 $_lang["which_editor_title"] = '选用编辑器:';
 $_lang["working"] = '工作中...';
 $_lang["wrap_lines"] = 'Wrap lines';
@@ -1103,8 +1219,13 @@ $_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
 
 $_lang["enable_bindings_title"] = 'Enable @Bindings commands';
 $_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
-
+$_lang["enable_filter_title"] = 'Enable filters';
+$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'When PHx plugin enabled, built-in filters are disabled by default';
+
+$_lang["enable_at_syntax_title"] = 'Enable &lt;@SYNTAX&gt;';
+$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) is simple and lightweight template syntax. This is designed to consider coexistence with HTML tags and content strings.';
+
 $_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
 $_lang["bkmgr_restore_msg"] = '<p>Database tables could be restored by SQL:</p>';
 $_lang["bkmgr_restore_title"] = 'Restore';
@@ -1126,6 +1247,8 @@ $_lang["files.dynamic.php1"] = 'New Text File';
 $_lang["files.dynamic.php2"] = 'This directory cannot be displayed.';
 $_lang["files.dynamic.php3"] = 'There is a problem in a file name.';
 $_lang["files.dynamic.php4"] = 'The text file was created.';
+$_lang["files.dynamic.php5"] = 'File could not be duplicated.';
+$_lang["files.dynamic.php6"] = 'File or directory could not be renamed.';
 $_lang["files_dynamic_new_folder_name"] = 'Enter new directory name:';
 $_lang["files_dynamic_new_file_name"] = 'Enter new file name:';
 $_lang["not_readable_dir"] = 'Can not read this directory.';
@@ -1154,6 +1277,7 @@ $_lang['smtp_port_title'] = 'SMTP port';
 
 $_lang["setting_resource_tree_node_name"] = 'Display Name in Resource Tree';
 $_lang["setting_resource_tree_node_name_desc"] = 'Select the Resource field to show as the Resource name in the Resource Tree. The default setting is pagetitle.';
+$_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since Evolution CMS 1.1 you can change this Display Name within Resource-Tree´s sorting option. This setting is used when Display Name in Resource Tree is set to &quot;Default&quot;.';
 
 $_lang["resource_opt_alvisibled"] = 'Use current alias in alias path';
 $_lang["resource_opt_alvisibled_help"] = 'The alias of this Resource is inserted in Friendly URL alias path';
@@ -1163,11 +1287,20 @@ $_lang["docid_incrmnt_method_0"] = 'DB auto increment';
 $_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximal ID + 1';
 
+$_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
+$_lang["disabled_at_login"] = 'Disabled at login';
+
 $_lang["cache_type_title"] = 'Document caching type';
 $_lang["cache_type_1"] = 'Cache is based only on Resource ID (standard)';
 $_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Use SEO Strict URLs';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
+$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
+$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the MODX installation directory at .htaccess to use the Friendly URL function.';
 $_lang["settings_friendlyurls_alert2"] = 'Since MODX was installed in a subdirectory, it is necessary to change the content of .htaccess.';
@@ -1186,6 +1319,7 @@ $_lang["error_no_truncate_tablename"] = "Table to truncate not found in request!
 $_lang["error_double_action"]         = "Double action (GET & POST) posted!";
 $_lang["error_no_id"]                 = "ID not passed in request!";
 $_lang["error_id_nan"]                = "ID passed in request is NaN!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_no_parent"]             = "Couldn't find parent document's name!";
 $_lang["error_many_results"]          = "Too many results returned from database!";
 $_lang["error_no_results"]            = "Not enough/ no results returned from database!";
@@ -1194,10 +1328,12 @@ $_lang["error_no_group_selected"]     = "No group selected as recipient of this 
 $_lang["error_movedocument1"]         = "Document cannot be it's own parent!";
 $_lang["error_movedocument2"]         = "Document's ID not passed in request!";
 $_lang["error_movedocument3"]         = "New parent not set in request!";
+$_lang["error_internet_connection"]   = "Server isn't available. Check your internet connection!";
 
 $_lang["login_processor_unknown_user"]       = "Incorrect username or password entered!";
 $_lang["login_processor_wrong_password"]     = "Incorrect username or password entered!";
 $_lang["login_processor_many_failed_logins"] = "Due to too many failed logins, you have been blocked!";
+$_lang["login_processor_verified"]           = "User verification required!";
 $_lang["login_processor_blocked1"]           = "You are blocked and cannot log in!";
 $_lang["login_processor_blocked2"]           = "You are blocked and cannot log in! Please try again later.";
 $_lang["login_processor_blocked3"]           = "You are blocked automatic after a specified date and you cannot log in anymore!";
@@ -1214,6 +1350,146 @@ $_lang["dp_startDay"]   = "1";
 $_lang["check_all"] = "Select all";
 $_lang["check_none"] = "Select none";
 $_lang["check_toggle"] = "Toggle selection";
+
+$_lang["version_notices"] = "Version Notices";
+
+$_lang["em_button_shift"] = " (Shift-Mouseclick to open multiple windows)";
+
+$_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
+$_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
+
+$_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
+$_lang["which_browser_default_title"]= "Default File Browser";
+$_lang["which_browser_default_msg"]= "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
+$_lang["which_browser_title"]= "File Browser";
+$_lang["which_browser_msg"]= "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
+$_lang["option_default"] = "Default";
+$_lang["position"] = "Position";
+$_lang["are_you_sure"] = "Are you sure?";
+
+$_lang['evo_downloads_title'] = "Evolution CMS Downloads";
+$_lang['help_translating_title'] = "Help translating Evolution CMS";
+$_lang['download'] = "Download";
+$_lang['downloads'] = "Downloads";
+$_lang["previous_releases"] = "Previous Releases";
+$_lang["extras"] = "Extras";
+
+$_lang["display_locks"] = "Display Locks";
+$_lang["role_display_locks"] = "Display Locks";
+$_lang["session_timeout"] = "Session Timeout";
+$_lang["session_timeout_msg"] = "Evolution CMS will ping the server as per setting &quot;Mail Check Time Period&quot;. If the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
+$_lang["unlock_element_id_warning"] = "Are you sure you want to unlock this [+element_type+] (ID [+id+])?";
+$_lang["lock_element_type_1"] = "Template";
+$_lang["lock_element_type_2"] = "Template-Variable";
+$_lang["lock_element_type_3"] = "Chunk";
+$_lang["lock_element_type_4"] = "Snippet";
+$_lang["lock_element_type_5"] = "Plugin";
+$_lang["lock_element_type_6"] = "Module";
+$_lang["lock_element_type_7"] = "Resource";
+$_lang["lock_element_type_8"] = "Role";
+$_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
+$_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
+
+$_lang["minifyphp_incache_title"] = 'Minify php code in site cache';
+$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
+
+$_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+
+$_lang["allow_eval_title"]             = "Eval php code in snippet call";
+$_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"]         = "Execute only permitted functions";
+$_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
+$_lang["allow_eval_everytime_eval"]    = "Unlimited (Use only for debugging)";
+$_lang["allow_eval_dont_eval"]         = "Do not allow all functions";
+
+$_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
+$_lang["safe_functions_at_eval_msg"]   = "Comma separated list";
+
+$_lang["multiple_sessions_msg"]   = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
+$_lang["iconv_not_available"]     = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
+
+$_lang["cm_create_new_category"] = "Create the new category";
+$_lang["cm_category_name"] = "Category name";
+$_lang["cm_category_position"] = "Category position";
+$_lang["cm_no_x_assigned"] = "No %s assigned";
+$_lang["cm_save_categorization"] = "Save categorization";
+$_lang["cm_update_categories"] = "Update categories";
+$_lang["cm_assigned_elements"] = "Assigned elements";
+$_lang["cm_edit_name"] = "Edit name";
+$_lang["cm_mark_for_deletion"] = "Mark for deletion";
+$_lang["cm_delete_now"] = "Delete immediately";
+$_lang["cm_delete_element_x_now"] = "Delete &quot;%s&quot; immediately";
+$_lang["cm_select_element_group"] = "Select an element group";
+$_lang["cm_global_messages"] = "Global Messages";
+$_lang["cm_add_new_category"] = "Add a new category";
+$_lang["cm_edit_categories"] = "Edit categories";
+$_lang["cm_sort_categories"] = "Sort categories";
+$_lang["cm_categorize_elements"] = "Categorize elements";
+$_lang["cm_translation"] = "Translation";
+$_lang["cm_translations"] = "Translations";
+$_lang["cm_categorize_x"] = "Categorize <span class=\"highlight\">%s</span>";
+$_lang["cm_unknown_error"] = "Something went wrong.";
+$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> has been assigned to category <span class=\"highlight\">%s(%s)</span>";
+$_lang["cm_no_categorization"] = "No categorization made.";
+$_lang["cm_no_changes"] = "Nothing to change, so no changes made.";
+$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changes made";
+$_lang["cm_enter_name_for_category"] = "Please enter a name for the new category.";
+$_lang["cm_category_x_exists"] = "Category <span class=\"highlight\">%s</span> already exists.";
+$_lang["cm_category_x_saved_at_position_y"] = "The new category <span class=\"highlight\">%s</span> was saved at position <span class=\"highlight\">%s</span>.";
+$_lang["cm_category_x_moved_to_position_y"] = "Category <span class=\"highlight\">%s</span> was moved to position <span class=\"highlight\">%s</span>";
+$_lang["cm_category_x_deleted"] = "Category <span class=\"highlight\">%s</span> has been deleted";
+$_lang["cm_category_x_renamed_to_y"] = "Category <span class=\"highlight\">%s</span> was renamed to <span class=\"highlight\">%s</span>";
+$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
+$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
+$_lang["cm_save_new_sorting"] = "Save new sorting";
+$_lang["cm_translate_phrases"] = "Translate phrases";
+$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
+$_lang["cm_native_phrase"] = "Native phrase";
+
+$_lang["btn_view_options"] = 'View Options';
+$_lang["view_options_msg"] = 'The display & listing of elements can be customized via &quot;View Options&quot;-button. Settings are saved and restored per Browser using HTML5´s localStorage.';
+$_lang["viewopts_title"] = 'View Options';
+$_lang["viewopts_cb_buttons"] = 'Buttons';
+$_lang["viewopts_cb_descriptions"] = 'Descriptions';
+$_lang["viewopts_cb_icons"] = 'Icons';
+$_lang["viewopts_radio_list"] = 'List';
+$_lang["viewopts_radio_inline"] = 'Inline';
+$_lang["viewopts_radio_flex"] = 'Flex';
+$_lang["viewopts_fontsize"] = 'Font-Size';
+$_lang["viewopts_cb_alltabs"] = 'All Tabs';
+
+$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['auto'] = 'Auto-detect';
+$_lang['use_emailsender'] = 'Use [(emailsender)] value';
+$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+
+$_lang['login_form_position_title'] = 'Login form postiton';
+$_lang['login_form_position_left'] = 'left';
+$_lang['login_form_position_center'] = 'center';
+$_lang['login_form_position_right'] = 'right';
+$_lang["login_form_style"] = 'Login form style:';
+$_lang["login_form_style_dark"] = 'dark';
+$_lang["login_form_style_light"] = 'light';
+$_lang['login_logo_title'] = 'Login page logo image';
+$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
+$_lang['login_bg_title'] = 'Login page background image';
+$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
+
+$_lang['manager_menu_position_title'] = 'Main menu position';
+$_lang['manager_menu_position_top'] = 'top';
+$_lang['manager_menu_position_left'] = 'left';
+
+$_lang['invalid_event_response'] = 'The %s event has ivalid output';
+
+$_lang['chunk_processor'] = 'Chunks processing class';
+$_lang['enable_mootools'] = 'Enable Mootools in manager';
+$_lang['enable_mootools_message'] = 'Load Mootools.js in manager for backward compatibility';
+
+
+$_lang["permission_title"] = 'Create / edit permission';
+$_lang["groups_permission_title"] = 'Create / edit category';
+$_lang["lang_key_desc"] = 'Key language from array $_lang';
+$_lang["key_desc"] = 'Key for checked permission';
 
 $_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
 $_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';

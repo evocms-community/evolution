@@ -2,18 +2,18 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4.5
- * @date 2018/10/31
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Russian
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'ru'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS - это <a href="http://rtfm.modx.com/evolution/1.0/getting-started/what-is-modx" target="_blank">PHP Application Framework и Content Management System</a>, распространяемая по лицензии <a href="../assets/docs/license.txt">GNU GPL</a>.';
@@ -106,7 +106,6 @@ $_lang["chunk"] = 'Чанк (HTML-элемент шаблона)';
 $_lang["chunk_code"] = 'Код чанка (HTML)';
 $_lang["chunk_multiple_id"] = 'Ошибка: Несколько чанков имеют одинаковый идентификатор.';
 $_lang["chunk_no_exist"] = 'Чанк не найден.';
-$_lang['chunk_processor'] = 'Класс обработки чанков';
 $_lang["cleaningup"] = 'Очистка...';
 $_lang["clean_uploaded_filename"] = 'Использовать транслитерацию при загрузке файлов.';
 $_lang["clean_uploaded_filename_message"] = 'Использовать настройки плагина transalias для транслитерации имен загружаемых файлов с сохранением точек и запятых.';
@@ -277,8 +276,8 @@ $_lang["element_selector_msg"] = 'Выберите элемент(ы) из сп�
 $_lang["element_selector_title"] = 'Выбор элемента';
 $_lang["elements"] = 'Элементы';
 $_lang["email"] = 'E-mail';
-$_lang["email_unique"] = 'Этот Email уже занят!';
 $_lang["email_sent"] = 'Письмо отправлено';
+$_lang["email_unique"] = 'Этот Email уже занят!';
 $_lang["emailsender_message"] = 'Укажите адрес e-mail, который будет отображен в письме подтверждения регистрации в поле \'От\'.';
 $_lang["emailsender_title"] = 'Обратный адрес e-mail:';
 $_lang["emailsubject_default"] = 'Данные для авторизации';
@@ -392,7 +391,7 @@ $_lang["htmlsnippet_msg"] = 'Здесь вы можете создать / от�
 $_lang["htmlsnippet_name"] = 'Название чанка';
 $_lang["htmlsnippet_title"] = 'Создать / редактировать чанк';
 $_lang["icon"] = 'Значок';
-$_lang["icon_description"] = "CSS класс";
+$_lang["icon_description"] = 'CSS класс';
 $_lang["id"] = 'ID';
 $_lang["illegal_parent_child"] = 'Смена родительского ресурса: \n\nресурс является дочерним к выбранному.';
 $_lang["illegal_parent_self"] = 'Смена родительского ресурса: \n\nвыбранный ресурс не может быть присвоен как родитель самому себе.';
@@ -662,7 +661,6 @@ $_lang["password_gen_specify"] = 'Я сам задам пароль:';
 $_lang["password_method"] = 'Способ уведомления о новом пароле';
 $_lang["password_method_email"] = 'Послать новый пароль по e-mail.';
 $_lang["password_method_screen"] = 'Показать новый пароль на экране.';
-$_lang["password_confirmed"] = 'Данные введённые в поля "Пароль" и "Повторите пароль" должны совпадать';
 $_lang["password_msg"] = 'Для пользователя <b>:username</b> задан новый пароль - <b>:password</b><br>';
 $_lang["php_version_check"] = 'Evolution CMS работает с PHP версии 7.4 или выше. Пожалуйста, обновите PHP';
 $_lang["plugin"] = 'Плагин';
@@ -717,9 +715,9 @@ $_lang["remove_locks"] = 'Удалить блокировки';
 $_lang["rename"] = 'Переименовать';
 $_lang["reports"] = 'Отчеты';
 $_lang["report_issues"] = 'Сообщить о проблемах';
+$_lang["required_field"] = 'Поле :field обязательно';
 $_lang["require_tagname"] = 'Название тега обязательно';
 $_lang["require_tagvalue"] = 'Значение тега обязательно';
-$_lang["required_field"] = 'Поле :field обязательно';
 $_lang["reserved_name_warning"] = 'Вы использовали зарезервированное имя.';
 $_lang["reset"] = 'Сброс';
 $_lang["reset_failedlogins"] = 'сброс';
@@ -856,10 +854,10 @@ $_lang["role_view_logs"] = 'Просмотр системного протоко
 $_lang["role_view_unpublished"] = 'Просмотр неопубликованных ресурсов';
 $_lang["role_web_access_persmissions"] = 'Права веб-доступа';
 $_lang["role_web_user_management"] = 'Пользователи';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Введите адрес (URL) RSS-ленты новостей Evolution CMS.';
 $_lang["rss_url_news_title"] = 'Лента RSS новостей';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Введите адрес (URL) RSS-ленты безопасности Evolution CMS.';
 $_lang["rss_url_security_title"] = 'Лента RSS безопасности';
 $_lang["run_module"] = 'Запуск модуля';
@@ -1274,9 +1272,7 @@ $_lang['smtp_port_title'] = 'SMTP порт';
 
 $_lang["setting_resource_tree_node_name"] = 'Название ресурса в дереве';
 $_lang["setting_resource_tree_node_name_desc"] = 'Выберите поле ресурса, которое будет использоваться в качестве названия ресурса в дереве. По умолчанию используется поле \'заголовок\'; можно использовать любое другое поле, например, \'пункт меню\', \'псевдоним\'.';
-
 $_lang["setting_resource_tree_node_name_desc_add"] = 'Внимание: Начиная с версии Evolution CMS 1.1 Вы можете изменить отображаемое имя ресурса через опцию \'Сортировать дерево\'. Этот параметр используется, если отображаемое имя в дереве ресурсов устанавливается на & &quot;По-умолчанию&quot;.';
-
 
 $_lang["resource_opt_alvisibled"] = 'Участвует в URL';
 $_lang["resource_opt_alvisibled_help"] = 'Для участия данного документа в адресной строке поставьте галку, и наоборот - снимите, если псевдоним этого документа нужно убрать из URL.';
@@ -1468,9 +1464,9 @@ $_lang['login_form_position_title'] = 'Положение формы автор�
 $_lang['login_form_position_left'] = 'Слева';
 $_lang['login_form_position_center'] = 'По центру';
 $_lang['login_form_position_right'] = 'Справа';
-$_lang['login_form_style'] = 'Стиль формы авторизации:';
-$_lang['login_form_style_dark'] = 'Тёмный';
-$_lang['login_form_style_light'] = 'Светлый';
+$_lang["login_form_style"] = 'Стиль формы авторизации:';
+$_lang["login_form_style_dark"] = 'Тёмный';
+$_lang["login_form_style_light"] = 'Светлый';
 $_lang['login_logo_title'] = 'Логотип на странице авторизации';
 $_lang['login_logo_message'] = 'Рекомендованный размер логотипа по ширине: 360px, тип .png';
 $_lang['login_bg_title'] = 'Фоновое изображение на странице авторизации';
@@ -1481,6 +1477,10 @@ $_lang['manager_menu_position_top'] = 'Сверху';
 $_lang['manager_menu_position_left'] = 'Слева';
 
 $_lang['invalid_event_response'] = 'Событие <b>%s</b> вернуло неверный результат';
+
+$_lang['chunk_processor'] = 'Класс обработки чанков';
+$_lang['enable_mootools'] = 'Enable Mootools in manager';
+$_lang['enable_mootools_message'] = 'Load Mootools.js in manager for backward compatibility';
 
 
 $_lang["permission_title"] = 'Создать / редактировать право доступа';
