@@ -2,18 +2,18 @@
 /**
  * EVO Manager language file
  *
- * @version 1.0.15
- * @date 2014/02/24
+ * @version 1.4
+ * @date 2018/11/11
  * @author The EVO Project Team
  *
- * @language English
- * @package modx
+ * @language Spanish
+ * @package evo
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+//$modx_textdir = 'rtl'; // uncomment this line for RTL langauges
+$modx_lang_attribute = 'es'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'EVO es un <a href="https://evo-cms.com/" target="_blank">Sistema de Administración de Contenido y Esquema de PHP</a> bajo licencia <a href="../assets/docs/license.txt">GNU GPL</a>.';
@@ -28,7 +28,6 @@ $_lang["access_permissions_docs_message"] = 'Aquí puedes seleccionar a qué gru
 $_lang["access_permissions_group_link"] = 'Crear un enlace de grupo nuevo';
 $_lang["access_permissions_introtext"] = 'Aquí puedes administrar los grupos de usuarios y documentos usados para los permisos de acceso. Para añadir un usuario a un grupo de usuarios, edita el usuario y selecciona los grupos a los que el usuario debe ser miembro. Para añadir un documento a un grupo de usuarios, edita el documento y selecciona los grupos a los que debe de pertenecer.';
 $_lang["access_permissions_link_to_group"] = 'al Grupo de Documentos';
-$_lang["access_permissions_context"] = 'in context';
 $_lang["access_permissions_link_user_group"] = 'Enlazar Grupo de Usuarios';
 $_lang["access_permissions_links"] = 'Enlaces de los grupos de usuarios/documentos';
 $_lang["access_permissions_links_tab"] = 'Aquí es donde especificas que grupos de usuarios tienen acceso (por ej. pueden editar o crear hijos) para los grupos de documentos. Para enlazar un grupo de documentos a un grupo de usuarios, selecciona los grupos apropiados del menú desplegable y has clic en \'Enviar\'. Para remover el enlace de cierto grupo, presiona \'Remover\'. Esto removerá el enlace inmediatamente.';
@@ -174,9 +173,6 @@ $_lang["confirm_delete_tags"] = '¿Estás segura que de desea quieres las etique
 $_lang["confirm_delete_template"] = '¿Estás seguro de que quieres borrar este template?';
 $_lang["confirm_delete_tmplvars"] = '¿Estás segura de que quieres remover esta variable y todos sus valores guardados?';
 $_lang["confirm_delete_user"] = '¿Estás seguro que de quieres borrar este usuario?';
-$_lang["delete_yourself"] = 'You can\'t delete yourself';
-$_lang["delete_last_admin"] = 'You can\'t delete last admin user';
-$_lang["confirm_delete_permission"] = 'Are you sure you want to delete this Permission?';
 $_lang["confirm_duplicate_record"] = '¿Estás seguro de que quieres duplicar este registro?';
 $_lang["confirm_empty_trash"] = 'Esto removerá permanentemente TODOS tus documentos borrados.\n\n¿Deseas continuar?';
 $_lang["confirm_load_depends"] = '¿Estás segura que de quieres cargar la pantalla del Administrar Dependencias sin guardar tus modificaciones?';
@@ -253,7 +249,6 @@ $_lang["doc_data_title"] = 'Ver datos del documento';
 $_lang["documentation"] = 'Documentation';
 $_lang["duplicate"] = 'Duplicar';
 $_lang["duplicate_alias_found"] = 'El documento \'%s\' ya está usando el alias \'%s\'. Por favor, ingresa un alias único.';
-$_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Aquí puedes seleccionar \'si\' para permitir guardar alias duplicados. <b>NOTA: Esta opción debe de ser usada con la opción \'Dirección Alias Amigable\' configurada a \'Si\' para así evitar problemas referenciando el documento.</b>';
 $_lang["duplicate_alias_title"] = 'Permitir alias duplicados:';
 $_lang["duplicate_name_found_general"] = 'Ya existe un %s nombrado \'%s\'. Favor de ingresar un nombre único.';
@@ -277,7 +272,6 @@ $_lang["element_selector_title"] = 'Selector de Elemento';
 $_lang["elements"] = 'Elementos';
 $_lang["email"] = 'Email';
 $_lang["email_sent"] = 'Correo electrónico enviado';
-$_lang["email_unique"] = 'Email is already in use!';
 $_lang["emailsender_message"] = 'Aquí puedes especificar el email usado cuando se le envíe los nombres de usuario y las contraseñas a los usuarios.';
 $_lang["emailsender_title"] = 'Dirección de correo electrónico:';
 $_lang["emailsubject_default"] = 'Tus detalles de entrada';
@@ -401,14 +395,6 @@ $_lang["import_params"] = 'Parámetros compartidos del modulo de importación';
 $_lang["import_params_msg"] = 'Puedes importar los parámetros, o configuraciones de un módulo seleccionando el nombre del módulo en el siguiente menú desplegable. <b>NOTA:</b> Para que los módulos aparezcan dentro del menú, este plugin/snippet debe ser parte del listado de dependencias del módulo y el módulo debe tener habilitado el compartir parametros. ';
 $_lang["import_parent_resource"] = 'Documento padre:';
 $_lang["update_tree"] = 'Reconstruir el árbol';
-$_lang["update_tree_description"] = '<ul>
-                   <li> - Closure table database design pattern that makes working with the document tree more convenient and fast </li>
-                     <li> - If the data in the tree is updated not through models, then there is a possibility of an incorrect linking of documents in the database </li>
-                     <li> - This operation fixes the problem when site_content is not updated through the model (save, create) and the links (Closure table) are not updated </li>
-                     <li> - It is also possible to perform this operation in CLI mode via the \'php artisan closuretable: rebuild \' command </li> 
-                     </ul>';
-$_lang["update_tree_danger"] = 'If you have more than 1000 resources, it is better to perform this operation in CLI mode using the \'php artisan closuretable: rebuild command\'';
-$_lang["update_tree_time"] = 'Rebuild tree finished. Documents processed: <b>%s</b><br>Import took <b>%s</b> seconds to complete.';
 $_lang["inbox"] = 'Bandeja de entrada';
 $_lang["info"] = 'Info';
 $_lang["information"] = 'Información';
@@ -488,7 +474,6 @@ $_lang["manage_plugins"] = 'Plugins';
 $_lang["manage_snippets"] = 'Snippets';
 $_lang["manage_templates"] = 'Templates';
 $_lang["manage_documents"] = 'Documents';
-$_lang["manage_permission"] = 'Permissions';
 $_lang["manager"] = 'Administrador';
 $_lang["manager_lockout_message"] = 'Estás actualmente dentro del Administrador de Contenido.  Si deseas cerrar tu sesión por favor haz clic en el botón de "Salir". <p />Para ir a tu página de inicio o página principal, haz clic en el botón de "Inicio".';
 $_lang["manager_permissions"] = 'Permisos del Administrador';
@@ -564,7 +549,6 @@ $_lang["new_file_permissions_message"] = 'Cuando se esté subiendo un  archivo n
 $_lang["new_file_permissions_title"] = 'Permisos del Archivo Nuevo';
 $_lang["new_folder_permissions_message"] = 'Cuando se esté creando una  carpeta nueva en el Administrador de Archivos, este intentará cambiar los permisos a los ingresados en esta configuración.  Esto puede que no funcione en algunas configuraciones, tales como en IIS, en cuyo caso necesitarás cambiar manualmente los permisos.';
 $_lang["new_folder_permissions_title"] = 'Permisos de la Carpeta Nueva';
-$_lang["new_permission"] = 'New Permission';
 $_lang["new_htmlsnippet"] = 'Chunk nuevo';
 $_lang["new_keyword"] = 'Añadir palabra clave nueva:';
 $_lang["new_module"] = 'Módulo nuevo';
@@ -715,7 +699,6 @@ $_lang["remove_locks"] = 'Remover Bloqueos';
 $_lang["rename"] = 'Renombrar';
 $_lang["reports"] = 'Reportes';
 $_lang["report_issues"] = 'Reportar problemas';
-$_lang["required_field"] = 'Field :field is required';
 $_lang["require_tagname"] = 'Un nombre de etiqueta es requerido';
 $_lang["require_tagvalue"] = 'Un valor para la etiqueta es requeridos';
 $_lang["reserved_name_warning"] = 'You have used a reserved name.';
@@ -817,7 +800,6 @@ $_lang["role_help"] = 'Ver las páginas de ayuda';
 $_lang["role_home"] = 'Solicitar página de inicio del administrador';
 $_lang["role_import_static"] = 'Importar HTML';
 $_lang["role_logout"] = 'Salir del administrador';
-$_lang["role_list_module"] = 'List Module';
 $_lang["role_manage_metatags"] = 'Administrar las etiquetas META y las Palabras clave del sitio';
 $_lang["role_management_msg"] = 'Elige el rol que deseas editar.';
 $_lang["role_management_title"] = 'Roles';
@@ -931,7 +913,6 @@ $_lang["settings_templvars"] = 'Variables de Template';
 $_lang["settings_title"] = 'Configuración de sistema';
 $_lang["settings_ui"] = 'Interfase y Características';
 $_lang["settings_users"] = 'Usuario';
-$_lang["settings_email_templates"] = 'Email & Templates';
 $_lang["show_meta"] = 'Show META Keywords tab';
 $_lang["show_meta_message"] = 'Show the deprecated META Keywords tab when editing Resources in the Manager.';
 $_lang["show_tree"] = 'Mostrar árbol';
@@ -952,10 +933,6 @@ $_lang["siteunavailable_message_default"] = 'Este sitio no está disponible en e
 $_lang["siteunavailable_page_message"] = 'Ingresa el ID del documento que quieres usar como página fuera de línea. <b>NOTA: Asegúrate de que el ID ingresado pertenece a un documento existente ¡y que ha sido publicado!</b>';
 $_lang["siteunavailable_page_title"] = 'Página de sitio no disponible:';
 $_lang["siteunavailable_title"] = 'Mensaje de sitio no disponible:';
-$_lang["controller_namespace"] = 'Controller Namespace';
-$_lang["controller_namespace_message"] = 'Specify the full Namespace from which it is worth taking controllers, for example: <b>EvolutionCMS\\Main\\Controllers\\</b>';
-$_lang["update_repository"] = 'GitHub repository path';
-$_lang["update_repository_message"] = 'Enter GitHub repository path for example: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Código de snippet (php)';
@@ -1136,9 +1113,6 @@ $_lang["user_failedlogincount"] = 'Ingresos fallidos';
 $_lang["user_fax"] = 'Fax';
 $_lang["user_female"] = 'Femenino';
 $_lang["user_full_name"] = 'Nombre completo';
-$_lang["user_first_name"] = 'First name';
-$_lang["user_last_name"] = 'Last Name';
-$_lang["user_middle_name"] = 'Middle Name';
 $_lang["user_gender"] = 'Género';
 $_lang["user_is_blocked"] = '¡Este usuario está bloqueado!';
 $_lang["user_logincount"] = 'Número de ingresos';
@@ -1151,15 +1125,12 @@ $_lang["user_photo"] = 'Foto del usuario';
 $_lang["user_photo_message"] = 'Ingresa el url de la imagen para este usuario o usa el botón de insertar para seleccionar o subir una imagen al servidor.';
 $_lang["user_prevlogin"] = 'Último ingreso';
 $_lang["user_role"] = 'Rol del usuario';
-$_lang["no_user_role"] = 'No user role';
 $_lang["user_state"] = 'Estado o Provincia';
 $_lang["user_title"] = 'Crear/Editar usuario';
 $_lang["user_upload_message"] = ' Si deseas evitar que este usuario suba cualquier tipo de archivos en esta categoría, asegúrate de que la caja de selección \'Usar Configuración Principal\' no está seleccionada y deja vacío el campo.';
 $_lang["user_use_config"] = 'Usar Configuración Principal';
-$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Código postal';
 $_lang["username"] = 'Nombre de usuario';
-$_lang["username_unique"] = 'User name is already in use!';
 $_lang["users"] = 'Seguridad';
 $_lang["valid_hostnames_message"] = 'Ayudar a prevenir ataques XSS que explota un mal uso de la configuración del sistema site_url al proporcionar una lista separada por comas de nombres de host válidos para esta instalación. Esto es importante para algunos tipos de hosts compartidos o hosts accesible a través de una dirección IP. Se usará en primer lugar el nombre de host de la lista si el HTTP_HOST no coincide con ningún nombre de host válido.';
 $_lang["valid_hostnames_title"] = 'Nombres de host válido';
@@ -1181,7 +1152,6 @@ $_lang["web_access_permissions_user_groups"] = 'Grupo de Usuarios Web:';
 $_lang["web_permissions"] = 'Permisos Web';
 $_lang["web_user_management_msg"] = 'Elige qué usuario web deseas editar. Los usuarios web son aquellos usuarios que sólo tienen permitido ingresar en el sitio web';
 $_lang["web_user_management_title"] = 'Usuarios Web';
-$_lang["web_user_management_select_role"] = 'All roles';
 $_lang["web_user_title"] = 'Crear/editar usuario web';
 $_lang["web_users"] = 'Usuarios web';
 $_lang["weblink"] = 'Enlace web';
@@ -1223,7 +1193,7 @@ $_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
 $_lang["enable_bindings_title"] = 'Enable @Bindings commands';
 $_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
 $_lang["enable_filter_title"] = 'Habilitar filtros';
-$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
+$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation 
 $_lang["enable_filter_phx_warning"] = 'Cuando está habilitada PHx plugin, incorporado en los filtros están desactivados por defecto';
 
 $_lang["enable_at_syntax_title"] = 'Habilitar &lt;@SYNTAX&gt;';
@@ -1291,9 +1261,6 @@ $_lang["docid_incrmnt_method_1"] = 'Mínimo ID perdido';
 $_lang["docid_incrmnt_method_2"] = 'Máximo ID + 1';
 
 $_lang["enable_cache_title"] = 'Document caching';
-$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
-$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
-$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
 $_lang["disabled_at_login"] = 'Deshabilitado al iniciar sesión';
 
 $_lang["cache_type_title"] = 'Tipo de caché de documentos';
@@ -1302,7 +1269,6 @@ $_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Usar URLs estrictas de SEO';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
 $_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
-$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
 $_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the EVO installation directory at .htaccess to use the Friendly URL function.';
@@ -1322,7 +1288,6 @@ $_lang["error_no_truncate_tablename"] = "Tabla a truncar no se encuentra en la p
 $_lang["error_double_action"]         = "Doble acción (GET & POST) enviadas!.";
 $_lang["error_no_id"]                 = "ID no pasada en la petición!";
 $_lang["error_id_nan"]                = "ID pasada en la petición es NaN!";
-$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_no_parent"]             = "No pudo encontrar el nombre del documento padre!";
 $_lang["error_many_results"]          = "Demasiados resultados devueltos de la base de datos!.";
 $_lang["error_no_results"]            = "Insuficientes ó sin resultados devueltos de la base de datos!.";
@@ -1336,7 +1301,6 @@ $_lang["error_internet_connection"]   = "El servidor no está disponible. ¡Comp
 $_lang["login_processor_unknown_user"]       = "Incorrecto nombre o password introducido!";
 $_lang["login_processor_wrong_password"]     = "Incorrecto nombre o password introducido!";
 $_lang["login_processor_many_failed_logins"] = "Debido a muchos inicios de sesión fallidos, usted ha sido bloqueado!";
-$_lang["login_processor_verified"]           = "User verification required!";
 $_lang["login_processor_blocked1"]           = "¡ Estás bloqueado y no puedo ingresar!";
 $_lang["login_processor_blocked2"]           = "¡ Estás bloqueado y no puedo ingresar! Inténtalo de nuevo más tarde.";
 $_lang["login_processor_blocked3"]           = "Usted está bloqueado de forma automática después de una fecha determinada y no puede ingresar!";
@@ -1487,12 +1451,6 @@ $_lang['invalid_event_response'] = 'The %s event has ivalid output';
 $_lang['chunk_processor'] = 'Clase de procesamiento de Chunks';
 $_lang['enable_mootools'] = 'Habilitar Mootools en el administrador';
 $_lang['enable_mootools_message'] = 'Cargue Mootools.js en el administrador para compatibilidad con versiones anteriores';
-
-
-$_lang["permission_title"] = 'Create / edit permission';
-$_lang["groups_permission_title"] = 'Create / edit category';
-$_lang["lang_key_desc"] = 'Key language from array $_lang';
-$_lang["key_desc"] = 'Key for checked permission';
 
 $_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
 $_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
