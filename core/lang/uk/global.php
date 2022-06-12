@@ -838,10 +838,10 @@ $_lang["role_view_logs"] = 'Перегляд системного протоко
 $_lang["role_view_unpublished"] = 'Перегляд неопублікованих ресурсів';
 $_lang["role_web_access_persmissions"] = 'Права веб-доступа';
 $_lang["role_web_user_management"] = 'Керування веб-користувачами';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Введіть адресу (URL) RSS-смужки новин EVO.';
 $_lang["rss_url_news_title"] = 'Смужка RSS новин';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Введіть адресу (URL) RSS-стрічки безпеки EVO.';
 $_lang["rss_url_security_title"] = 'Смужка RSS безпеки';
 $_lang["run_module"] = 'Запуск модуля';
@@ -1444,12 +1444,5 @@ $_lang['manager_menu_position_left'] = 'зліва';
 
 $_lang['invalid_event_response'] = 'Подія %s повернула невірний результат';
 $_lang['chunk_processor'] = 'Клас обробки чанків';
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Значение параметра задано в core/custom/config/cms/settings</strong>';
 
 return $_lang;

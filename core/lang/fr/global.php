@@ -19,7 +19,7 @@
 $modx_lang_attribute = 'fr'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'MODX est un <a href="http://modx.com/" target="_blank">Système de Gestion de Contenu et un Framework applicatif PHP</a> placé sous licence <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'MODX est un <a href="https://evo-cms.com//" target="_blank">Système de Gestion de Contenu et un Framework applicatif PHP</a> placé sous licence <a href="../assets/docs/license.txt">GNU GPL</a>.';
 $_lang["about_title"] = 'À propos de MODX';
 $_lang["access_permission_denied"] = 'Vous n\'avez pas les autorisations nécessaires pour modifier cette Ressource.';
 $_lang["access_permission_parent_denied"] = 'Vous n\'avez pas l\'autorisation de créer ou de déplacer une Ressource ici! Veuillez choisir une autre destination.';
@@ -185,7 +185,7 @@ $_lang["create_resource_title"] = 'Créer une Ressource';
 $_lang["create_weblink_here"] = 'Créer un Lien Web ici';
 $_lang["createdon"] = 'Date de création';
 $_lang["credits"] = 'Crédits';
-$_lang["credits_shouts_msg"] = '<p>MODX est développé et maintenu par <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>MODX est développé et maintenu par <a href="https://evo-cms.com//" target="_blank">modx.com</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Vous pouvez ajouter ici des types de contenu personnalisés pour vos Ressources. Pour ajouter un nouveau type, saisissez-le dans le champ, puis cliquez sur le bouton «Ajouter».';
 $_lang["custom_contenttype_title"] = 'Types de contenu personnalisés:';
 $_lang["database_charset"] = 'Jeu de caractères de la base de données';
@@ -787,10 +787,10 @@ $_lang["role_view_logs"] = 'Afficher les historiques du système';
 $_lang["role_view_unpublished"] = 'Visualiser les Ressources non publiées';
 $_lang["role_web_access_persmissions"] = 'Autorisations d\'accès web';
 $_lang["role_web_user_management"] = 'Gestion des Utilisateurs Web';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Entrez l\'URL du flux pour les actualités MODX.';
 $_lang["rss_url_news_title"] = 'Flux RSS des actualités';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Entrez l\'URL du flux pour les bulletins de sécurité MODX.';
 $_lang["rss_url_security_title"] = 'Flux RSS des bulletins de sécurité';
 $_lang["run_module"] = 'Lancer le Module';
@@ -1176,19 +1176,6 @@ $_lang["login_processor_remote_ip"]          = "Vous n'êtes pas autorisé à vo
 $_lang["login_processor_date"]               = "Vous n'êtes - pour l'instant - pas autorisé à vous connecter. Veuillez réessayer plus tard.";
 $_lang["login_processor_captcha_config"]     = "Les Captcha ne sont pas correctement configurés.";
 
-$_lang["dp_dayNames"]   = "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']";
-$_lang["dp_monthNames"] = "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']";
 $_lang["dp_startDay"]   = "1";
-
-$_lang["check_all"] = "Select all";
-$_lang["check_none"] = "Select none";
-$_lang["check_toggle"] = "Toggle selection";
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

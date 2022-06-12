@@ -17,7 +17,7 @@
 $modx_lang_attribute = 'sv'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'MODX är ett <a href="http://modx.com/" target="_blank">PHP applikationsramverk och system för innehållshantering</a> och är licensierat under <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'MODX är ett <a href="https://evo-cms.com//" target="_blank">PHP applikationsramverk och system för innehållshantering</a> och är licensierat under <a href="../assets/docs/license.txt">GNU GPL</a>.';
 $_lang["about_title"] = 'Om MODX';
 $_lang["access_permission_denied"] = 'Du har inte behörighet för denna resurs.';
 $_lang["access_permission_parent_denied"] = 'Du har inte behörighet att skapa en resurs här eller att flytta en hit! Välj en annan plats.';
@@ -183,7 +183,7 @@ $_lang["create_resource_title"] = 'Skapa resurs';
 $_lang["create_weblink_here"] = 'Skapa webblänk här';
 $_lang["createdon"] = 'Skapat datum';
 $_lang["credits"] = 'Erkännanden';
-$_lang["credits_shouts_msg"] = '<p>MODX förvaltas och underhålls på <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>MODX förvaltas och underhålls på <a href="https://evo-cms.com//" target="_blank">modx.com</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Lägg till egna innehållstyper för resurser. Skriv in innehållstypen i det övre fältet och klicka på "Lägg till" för att lägga till en ny. Markera den innehållstyp som du vill ta bort i det nedre fältet och klicka på "Ta bort".';
 $_lang["custom_contenttype_title"] = 'Egna innehållstyper';
 $_lang["database_charset"] = 'Databasens teckenuppsättning';
@@ -376,21 +376,6 @@ $_lang["info"] = 'Information';
 $_lang["information"] = 'Information';
 $_lang["inline"] = 'Inline';
 $_lang["insert"] = 'Infoga';
-$_lang["maxImageWidth"] = 'Maximum image width';
-$_lang["maxImageHeight"] = 'Maximum image height';
-$_lang["thumbWidth"] = 'Maximum thumbnail width';
-$_lang["thumbHeight"] = 'Maximum thumbnail height';
-$_lang["thumbsDir"] = 'Thumbnails directory location';
-$_lang["jpegQuality"] = 'JPEG compression';
-$_lang["denyZipDownload"] = 'Disable zip-archives downloading';
-$_lang["denyExtensionRename"] = 'Disable renaming of file extensions';
-$_lang["maxImageWidth_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
-$_lang["maxImageHeight_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
-$_lang["thumbWidth_message"] = 'Maximum thumbnail width.';
-$_lang["thumbHeight_message"] = 'Maximum thumbnail height.';
-$_lang["thumbsDir_message"] = 'The name of previews folder.';
-$_lang["jpegQuality_message"] = 'JPEG compression quality of thumbnails and resized images';
-$_lang["showHiddenFiles"] = 'Show hidden files in file browser';
 $_lang["keyword"] = 'Nyckelord';
 $_lang["keywords"] = 'Nyckelord';
 $_lang["keywords_intro"] = 'För att ändra ett nyckelord skriver du helt enkelt in det nya nyckelordet i fältet bredvid nyckelordet du vill ändra. Bocka för "Ta bort" för det nyckelord du vill ta bort. Om du bockar för "Ta bort" och dessutom ändrar nyckelordets namn, så kommer namnändringen inte att ske eftersom nyckelordet tas bort!';
@@ -785,10 +770,10 @@ $_lang["role_view_logs"] = 'Visa systemloggar';
 $_lang["role_view_unpublished"] = 'Visa opublicerade resurser';
 $_lang["role_web_access_persmissions"] = 'Rättigheter för webbåtkomst';
 $_lang["role_web_user_management"] = 'Hantera webbanvändare';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Ange URL:en för MODX nyhetsflöde.';
 $_lang["rss_url_news_title"] = 'RSS nyhetsflöde';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Ange URL:en för MODX säkerhetsflöde.';
 $_lang["rss_url_security_title"] = 'RSS säkerhetsflöde';
 $_lang["run_module"] = 'Kör modul';
@@ -803,8 +788,6 @@ $_lang["search_criteria_content"] = 'Sök efter innehåll';
 $_lang["search_criteria_content_msg"] = 'Hitta samtliga resurser med söktexten i innehållet.';
 $_lang["search_criteria_id"] = 'Sök efter ID';
 $_lang["search_criteria_id_msg"] = 'Skriv resursens ID för att snabbt lokalisera resursen.';
-$_lang["search_criteria_template_id"] = 'Search by template ID';
-$_lang["search_criteria_template_id_msg"] = 'Find all Resources using the specified template.';
 $_lang["search_criteria_longtitle"] = 'Sök efter lång titel';
 $_lang["search_criteria_longtitle_msg"] = 'Hitta alla resurser med söktexten i den långa titeln.';
 $_lang["search_criteria_title"] = 'Sök efter titel';
@@ -1090,69 +1073,16 @@ $_lang["yourinfo_title"] = 'Din information';
 $_lang["yourinfo_total_logins"] = 'Totalt antal inloggningar';
 $_lang["yourinfo_username"] = 'Du är inloggad som';
 
-$_lang["a17_error_reporting_title"] = 'Detection level of the PHP error';
-$_lang["a17_error_reporting_msg"] = 'Set the detection level of the PHP error.';
-$_lang["a17_error_reporting_opt0"] = 'Ignore all';
-$_lang["a17_error_reporting_opt1"] = 'Ignore the warning of a slight notice level(<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
-$_lang["a17_error_reporting_opt2"] = 'Detect all errors except E_NOTICE';
-$_lang["a17_error_reporting_opt99"] = 'Detect all';
-
-$_lang["pwd_hash_algo_title"] = 'Hash algorithm';
-$_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
-
-$_lang["enable_bindings_title"] = 'Enable @Bindings commands';
-$_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
-
 $_lang["enable_filter_phx_warning"] = 'När PHx plugin aktiverad, inbyggda filter är inaktiverade som standard';
-$_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
-$_lang["bkmgr_restore_msg"] = '<p>A site can be restore using an SQL file. </p>';
-$_lang["bkmgr_restore_title"] = 'Restore';
-$_lang["bkmgr_import_ok"] = 'SQL recovery was performed normally.';
-$_lang["bkmgr_snapshot_ok"] = 'The snapshot was saved normally.';
-$_lang["bkmgr_run_sql_file_label"] = 'Execute by sql file';
-$_lang["bkmgr_run_sql_direct_label"] = 'Direct execute SQL command strings';
-$_lang["bkmgr_run_sql_submit"] = 'Execute restore';
-$_lang["bkmgr_run_sql_result"] = 'Result';
-$_lang["bkmgr_snapshot_title"] = 'Snapshot save and recovery';
-$_lang["bkmgr_snapshot_msg"] = '<p>The contents of the database are saved and restored to a server.<br />Preservation place : [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
-$_lang["bkmgr_snapshot_submit"] = 'Add snapshot';
-$_lang["bkmgr_snapshot_list_title"] = 'List of snapshot';
+
 $_lang["bkmgr_restore_submit"] = 'Återgå dessa data';
 $_lang["bkmgr_restore_confirm"] = 'Är du säker på att du vill återställa backup\n[+filename+] ?';
-$_lang["bkmgr_snapshot_nothing"] = 'No snapshot';
 
-$_lang["files.dynamic.php1"] = 'create text file';
-$_lang["files.dynamic.php2"] = 'This directory cannot be displayed.';
-$_lang["files.dynamic.php3"] = 'There is a problem in a file name.';
-$_lang["files.dynamic.php4"] = 'The text file was created.';
 $_lang["files_dynamic_new_folder_name"] = 'Ange nytt katalognamn:';
 $_lang["files_dynamic_new_file_name"] = 'Ange nytt filnamn:';
-$_lang["not_readable_dir"] = 'Can not read this directory.';
-$_lang["confirm_delete_dir"] = 'Are you sure you want to delete the directory?';
-$_lang["confirm_delete_dir_recursive"] = 'Are you sure you want to delete the directory?\n\nAny children files will also be deleted.';
 
-$_lang["make_folders_title"] = 'Make end slash URL at the container';
-$_lang["make_folders_message"] = 'The slash to append to Resources set as containers when using FURLs.';
-
-$_lang["check_files_onlogin_title"] = 'Check core files on login';
-$_lang["check_files_onlogin_message"] = 'By enabling this option, important system files will be checked for modification typical of scripted website attacks. While not a foolproof guarantee, it may alert you to a compromised MODX system file and website.';
-
-$_lang["configcheck_sysfiles_mod"] = 'Important System Files have been modified.';
-$_lang["configcheck_sysfiles_mod_msg"] = 'You have enabled the setting to check important system files to detect possible website script attacks. This doesn\'t necessarily mean that your site has been compromised, however, you should review the changed files.(index.php, .htaccess, [+MGR_DIR+]/index.php, [+MGR_DIR+]/includes/config.inc.php)';
-
-$_lang['email_method_title'] = 'Sendmail method';
-$_lang['email_method_mail'] = 'mail() PHP function';
-$_lang['email_method_smtp'] = 'SMTP Server';
 $_lang['smtp_auth_title'] = 'SMTP－AUTH';
 $_lang['smtp_autotls_title'] = 'SMTPAutoTLS';
-$_lang['smtp_host_title'] = 'SMTP host';
-$_lang['smtp_secure_title'] = 'Encrypted SMTP';
-$_lang['smtp_username_title'] = 'SMTP user name';
-$_lang['smtp_password_title'] = 'SMTP password';
-$_lang['smtp_port_title'] = 'SMTP port';
-
-$_lang["setting_resource_tree_node_name"] = 'The node name of a resource tree';
-$_lang["setting_resource_tree_node_name_desc"] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias.';
 
 $_lang["resource_opt_alvisibled"] = 'Använd aktuellt alias i aliassökväg';
 $_lang["resource_opt_alvisibled_help"] = 'Denna resurs alias infogas i vänliga URL-aliassökvägar';
@@ -1161,19 +1091,6 @@ $_lang["docid_incrmnt_method_title"] = 'Uppräkningsmetod för resurs-ID';
 $_lang["docid_incrmnt_method_0"] = 'Databasens autouppräkning';
 $_lang["docid_incrmnt_method_1"] = 'Minsta lediga ID';
 $_lang["docid_incrmnt_method_2"] = 'Högsta ID + 1';
-
-$_lang["cache_type_title"] = 'Document caching type';
-$_lang["cache_type_1"] = 'Cache is based only on document id (standard)';
-$_lang["cache_type_2"] = 'Cache is based on document id and $_GET parameters';
-$_lang["seostrict_title"] = 'Use SEO Strict URLs';
-$_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content if needed';
-
-$_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file of a MODX installation directory at .htaccess to use the Friendly URL function.';
-$_lang["settings_friendlyurls_alert2"] = 'Since it has installed in a subdirectory, it is necessary to change the contents of .htaccess.';
-
-$_lang["user_street"] = 'Street';
-$_lang["user_city"] = 'City';
-$_lang["user_other"] = 'Other';
 
 $_lang["mutate_settings.dynamic.php6"] = 'Skicka mail vid fel i MODX';
 $_lang["mutate_settings.dynamic.php7"] = 'Avisera inte';
@@ -1213,12 +1130,5 @@ $_lang["dp_startDay"]   = "1";
 $_lang["check_all"] = "Välj alla";
 $_lang["check_none"] = "Välj ingen";
 $_lang["check_toggle"] = "Växla val";
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

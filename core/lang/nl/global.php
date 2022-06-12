@@ -824,10 +824,10 @@ $_lang["role_view_logs"] = 'Systeemlogboek weergeven';
 $_lang["role_view_unpublished"] = 'Bekijk niet gepubliceerde Pagina\'s';
 $_lang["role_web_access_persmissions"] = 'Webtoegangsbeheer';
 $_lang["role_web_user_management"] = 'Webgebruikersbeheer';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Voer de URL in voor de Nieuws Feed.';
 $_lang["rss_url_news_title"] = 'RSS nieuws feed';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Voer de URL in voor de beveiligingsfeed.';
 $_lang["rss_url_security_title"] = 'RSS Beveiliging Feed';
 $_lang["run_module"] = 'Module uitvoeren';
@@ -1412,12 +1412,5 @@ $_lang["viewopts_radio_inline"] = 'Inline';
 $_lang["viewopts_radio_flex"] = 'Flex';
 $_lang["viewopts_fontsize"] = 'Fontgrootte';
 $_lang["viewopts_cb_alltabs"] = 'Alle tabs';
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

@@ -856,10 +856,10 @@ $_lang["role_view_logs"] = 'Просмотр системного протоко
 $_lang["role_view_unpublished"] = 'Просмотр неопубликованных ресурсов';
 $_lang["role_web_access_persmissions"] = 'Права веб-доступа';
 $_lang["role_web_user_management"] = 'Пользователи';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Введите адрес (URL) RSS-ленты новостей Evolution CMS.';
 $_lang["rss_url_news_title"] = 'Лента RSS новостей';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Введите адрес (URL) RSS-ленты безопасности Evolution CMS.';
 $_lang["rss_url_security_title"] = 'Лента RSS безопасности';
 $_lang["run_module"] = 'Запуск модуля';
@@ -1366,7 +1366,6 @@ $_lang["option_default"] = "По умолчанию";
 $_lang["position"] = "Позиция";
 $_lang["are_you_sure"] = "Вы уверены?";
 
-$_lang['evo_downloads_title'] = "Evolution CMS Downloads";
 $_lang['help_translating_title'] = "Помочь с переводом Evolution CMS";
 $_lang['download'] = "Скачать";
 $_lang['downloads'] = "Загрузки";
@@ -1458,11 +1457,6 @@ $_lang["viewopts_radio_inline"] = 'Инлайн';
 $_lang["viewopts_radio_flex"] = 'Флекс';
 $_lang["viewopts_fontsize"] = 'Размер шрифта';
 $_lang["viewopts_cb_alltabs"] = 'Все табы';
-
-$_lang['email_sender_method'] = 'The envelope sender of the message';
-$_lang['auto'] = 'Auto-detect';
-$_lang['use_emailsender'] = 'Use [(emailsender)] value';
-$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
 
 $_lang['login_form_position_title'] = 'Положение формы авторизации';
 $_lang['login_form_position_left'] = 'Слева';

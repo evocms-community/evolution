@@ -408,7 +408,7 @@ $_lang["update_tree_description"] = '<ul>
                    <li> - ドキュメントツリーをより便利で高速にするクロージャーテーブルのデーターベースのデザインパターンです。 </li>
                      <li> - ツリー内のデータがモデルを通さずに更新された場合、データベース内のドキュメントに誤ったリンクが発生する可能性があります。 </li>
                      <li> - この操作により site_content がモデル（保存、作成）を通して更新されず、リンク（クロージャーテーブル）が更新されない場合の問題が修正されます。 </li>
-                     <li> - この操作は CLI モード（\'php artisan closuretable: rebuild \'）でも実行可能です。</li> 
+                     <li> - この操作は CLI モード（\'php artisan closuretable: rebuild \'）でも実行可能です。</li>
                      </ul>';
 $_lang["update_tree_danger"] = '1000以上のリソースがある場合、CLIモード（\'php artisan closuretable: rebuild command\'）による操作で実行する方が良いです。';
 $_lang["update_tree_time"] = 'ツリーの再構築が終了しました。ドキュメント処理: <b>%s</b><br>インポートに <b>%s</b> 秒かかりました。';
@@ -865,10 +865,10 @@ $_lang["role_view_logs"] = '管理操作ログの閲覧';
 $_lang["role_view_unpublished"] = '未公開のリソースの閲覧';
 $_lang["role_web_access_persmissions"] = 'ウェブアクセス許可';
 $_lang["role_web_user_management"] = 'ウェブユーザー管理';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = '管理画面トップの「EVO News」のフィードURL';
 $_lang["rss_url_news_title"] = 'RSS ニュースフィード';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = '管理画面トップの「セキュリティ情報」のフィードURL';
 $_lang["rss_url_security_title"] = 'RSS セキュリティ情報フィード';
 $_lang["run_module"] = 'モジュールの実行';
@@ -1446,13 +1446,7 @@ $_lang["cm_category_x_saved_at_position_y"] = "新しいカテゴリー <span cl
 $_lang["cm_category_x_moved_to_position_y"] = "カテゴリー <span class=\"highlight\">%s</span> がポジション <span class=\"highlight\">%s</span> に移動しました。";
 $_lang["cm_category_x_deleted"] = "カテゴリー <span class=\"highlight\">%s</span> が削除されました。";
 $_lang["cm_category_x_renamed_to_y"] = "カテゴリー <span class=\"highlight\">%s</span> が <span class=\"highlight\">%s</span> にリネームされました。";
-$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
-$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
 $_lang["cm_save_new_sorting"] = "新しい順番を保存する";
-$_lang["cm_translate_phrases"] = "Translate phrases";
-$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
-$_lang["cm_native_phrase"] = "Native phrase";
-
 $_lang["btn_view_options"] = '設定を表示';
 $_lang["view_options_msg"] = 'エレメントの表示と一覧表示は「表示オプション」ボタンでカスタマイズできます。設定はHTML5のローカルストレージを使用してブラウザごとに保存および復元されます。';
 $_lang["viewopts_title"] = '設定を表示';
@@ -1502,7 +1496,5 @@ $_lang["role_no_tv"] = 'このロールにはテンプレート変数がまだ�
 $_lang["role_notassigned_tv"] = '割り当て可能なテンプレート変数です。';
 $_lang["role_tv_msg"] = '以下のテンプレート変数にこのロールが割り当てられました。';
 $_lang["tmplvar_roles_access_msg"] = 'このテンプレート変数へアクセス/処理を許可されているロールを選択';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

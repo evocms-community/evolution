@@ -834,10 +834,10 @@ $_lang["role_view_logs"] = 'Systemlogs anzeigen';
 $_lang["role_view_unpublished"] = 'Zeige unveröffentlichte Ressourcen';
 $_lang["role_web_access_persmissions"] = 'Web-Benutzer-Zugriffskontrolle';
 $_lang["role_web_user_management"] = 'Web-Benutzerverwaltung';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'URL des EVO-News-Feeds eintragen.';
 $_lang["rss_url_news_title"] = 'RSS-News-Feed';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'URL des EVO-News-Feeds eintragen.';
 $_lang["rss_url_security_title"] = 'RSS-Security-Feed';
 $_lang["run_module"] = 'Modul starten';
@@ -1442,12 +1442,5 @@ $_lang['manager_menu_position_title'] = 'Position des Hauptmenüs';
 $_lang['manager_menu_position_top'] = 'Oben';
 $_lang['manager_menu_position_left'] = 'links';
 $_lang['invalid_event_response'] = 'Der Event "%s" verursachte eine invalide Ausgabe.';
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

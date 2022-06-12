@@ -16,7 +16,7 @@
 $modx_lang_attribute = 'cs'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'MODX je <a href="http://modx.com/" target="_blank">PHP Application Framework and Content Management System</a> licencovaný pod <a href="http://www.gnu.cz/article/32/">GNU GPL</a>.';
+$_lang["about_msg"] = 'MODX je <a href="https://evo-cms.com//" target="_blank">PHP Application Framework and Content Management System</a> licencovaný pod <a href="http://www.gnu.cz/article/32/">GNU GPL</a>.';
 $_lang["about_title"] = 'O MODX';
 $_lang["access_permission_denied"] = 'Nemáte potřebná oprávnění pro tento dokument.';
 $_lang["access_permission_parent_denied"] = 'Nemáte oprávnění pro vytvoření nebo přesun dokumentu na toto místo! Vyberte jiné umístění.';
@@ -182,7 +182,7 @@ $_lang["create_resource_title"] = 'Vytvořit dokument';
 $_lang["create_weblink_here"] = 'Zde vytvořit link';
 $_lang["createdon"] = 'Vytvořeno dne:';
 $_lang["credits"] = 'Poděkování';
-$_lang["credits_shouts_msg"] = '<p>MODX je spravován a udržován na <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>MODX je spravován a udržován na <a href="https://evo-cms.com//" target="_blank">modx.com</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Tady můžete přidat uživatelské typy obsahu užité ve vašich dokumentech. Pro přidání nového vstupu, zadejte typ obsahu v textovém poli, potom klikněte na tlačítko \'Přidat\'.';
 $_lang["custom_contenttype_title"] = 'Uživatelské typy obsahu:';
 $_lang["database_charset"] = 'Znaková sada databáze';
@@ -375,21 +375,6 @@ $_lang["info"] = 'Informace';
 $_lang["information"] = 'Informace';
 $_lang["inline"] = 'V řadě';
 $_lang["insert"] = 'Vložit';
-$_lang["maxImageWidth"] = 'Maximum image width';
-$_lang["maxImageHeight"] = 'Maximum image height';
-$_lang["thumbWidth"] = 'Maximum thumbnail width';
-$_lang["thumbHeight"] = 'Maximum thumbnail height';
-$_lang["thumbsDir"] = 'Thumbnails directory location';
-$_lang["jpegQuality"] = 'JPEG compression';
-$_lang["denyZipDownload"] = 'Disable zip-archives downloading';
-$_lang["denyExtensionRename"] = 'Disable renaming of file extensions';
-$_lang["maxImageWidth_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
-$_lang["maxImageHeight_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
-$_lang["thumbWidth_message"] = 'Maximum thumbnail width.';
-$_lang["thumbHeight_message"] = 'Maximum thumbnail height.';
-$_lang["thumbsDir_message"] = 'The name of previews folder.';
-$_lang["jpegQuality_message"] = 'JPEG compression quality of thumbnails and resized images';
-$_lang["showHiddenFiles"] = 'Show hidden files in file browser';
 $_lang["keyword"] = 'Klíčové slovo';
 $_lang["keywords"] = 'Klíčová slova';
 $_lang["keywords_intro"] = 'Pro úpravu klíčového slova, jednoduše napište do textového pole vedle původního slova nové klíčové slovo. Pro smazání klíčového slova, označte \'vymazávací\' box před klíčovým slovem. Jestliže označíte vymazávací pole a také změníte jeho název, klíčové slovo bude smazáno a přejmenování klíčového slova nebude uskutečněno!';
@@ -788,10 +773,10 @@ $_lang["role_view_logs"] = 'Zobrazit systémové výpisy';
 $_lang["role_view_unpublished"] = 'Zobrazit nepublikované dokumenty';
 $_lang["role_web_access_persmissions"] = 'Webová přístupová práva';
 $_lang["role_web_user_management"] = 'Správa návštěvníků';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Zadejte URL adresu pro načítání MODX RSS novinek.';
 $_lang["rss_url_news_title"] = 'RSS novinky';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Zadejte URL adresu pro načítání MODX bezpečnostních zpráv.';
 $_lang["rss_url_security_title"] = 'RSS bezpečnostní zprávy';
 $_lang["run_module"] = 'Spustit modul';
@@ -806,8 +791,6 @@ $_lang["search_criteria_content"] = 'Hledat v obsahu';
 $_lang["search_criteria_content_msg"] = 'Najít všechny dokumenty obsahující zadaný text.';
 $_lang["search_criteria_id"] = 'Hledat podle ID';
 $_lang["search_criteria_id_msg"] = 'Zadajte ID dokumentu rychlého vyhledávání.';
-$_lang["search_criteria_template_id"] = 'Search by template ID';
-$_lang["search_criteria_template_id_msg"] = 'Find all Resources using the specified template.';
 $_lang["search_criteria_longtitle"] = 'Hledat podle dlouhého názvu';
 $_lang["search_criteria_longtitle_msg"] = 'Najít všechny dokumenty s vloženým textem v dlouhém názvu.';
 $_lang["search_criteria_title"] = 'Hledat podle názvu';
@@ -1049,8 +1032,6 @@ $_lang["user_use_config"] = 'Užít hlavní konfigurační nastavení';
 $_lang["user_zip"] = 'PSČ';
 $_lang["username"] = 'Uživatel';
 $_lang["users"] = 'Zabezpečení';
-$_lang["valid_hostnames_message"] = 'Help prevent XSS exploits misusing the site_url system setting by providing a comma separated list of valid hostnames for this installation. This is important for some types of shared hosts or hosts direct accessible via an IP address. First hostname in the list is used if the HTTP_HOST does not match any valid hostname.';
-$_lang["valid_hostnames_title"] = 'Valid hostnames';
 $_lang["validate_referer_message"] = 'Ověření hlaviček HTTP_REFERER z důvodů snížení nebezpečí, že by Váš editor mohl způsobit neúmyslé postupy ve správci jako oběť CSRF (Cross Site Request Forgery) útoku. Některé nastavení nemusí být použitelné pokud servr neposílá HTTP_REFERER hlavičky.';
 $_lang["validate_referer_title"] = 'Ověřit hlavičky HTTP_REFERER';
 $_lang["value"] = 'Hodnota';
@@ -1092,137 +1073,13 @@ $_lang["yourinfo_role"] = 'Vaše oprávnění je:';
 $_lang["yourinfo_title"] = 'Vaše informace';
 $_lang["yourinfo_total_logins"] = 'Celkový počet přihlášení:';
 $_lang["yourinfo_username"] = 'Jste přihlášen jako:';
-
-$_lang["a17_error_reporting_title"] = 'Detection level of the PHP error';
-$_lang["a17_error_reporting_msg"] = 'Set the detection level of the PHP error.';
-$_lang["a17_error_reporting_opt0"] = 'Ignore all';
-$_lang["a17_error_reporting_opt1"] = 'Ignore the warning of a slight notice level(<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
-$_lang["a17_error_reporting_opt2"] = 'Detect all errors except E_NOTICE and E_USER_DEPRECATED';
-$_lang["a17_error_reporting_opt99"] = 'Detect all except E_USER_DEPRECATED';
-$_lang["a17_error_reporting_opt199"] = 'Detect all';
-
-$_lang["pwd_hash_algo_title"] = 'Hash algorithm';
-$_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
-
-$_lang["enable_bindings_title"] = 'Enable @Bindings commands';
-$_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
-
 $_lang["enable_filter_phx_warning"] = 'Pokud je povoleno PHX plugin, vestavěné filtry jsou ve výchozím nastavení zakázány';
-$_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
-$_lang["bkmgr_restore_msg"] = '<p>A site can be restore using an SQL file. </p>';
-$_lang["bkmgr_restore_title"] = 'Restore';
-$_lang["bkmgr_import_ok"] = 'SQL recovery was performed normally.';
-$_lang["bkmgr_snapshot_ok"] = 'The snapshot was saved normally.';
-$_lang["bkmgr_run_sql_file_label"] = 'Execute by sql file';
-$_lang["bkmgr_run_sql_direct_label"] = 'Direct execute SQL command strings';
-$_lang["bkmgr_run_sql_submit"] = 'Execute restore';
-$_lang["bkmgr_run_sql_result"] = 'Result';
-$_lang["bkmgr_snapshot_title"] = 'Snapshot save and recovery';
-$_lang["bkmgr_snapshot_msg"] = '<p>The contents of the database are saved and restored to a server.<br />Preservation place : [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
-$_lang["bkmgr_snapshot_submit"] = 'Add snapshot';
-$_lang["bkmgr_snapshot_list_title"] = 'List of snapshot';
+
 $_lang["bkmgr_restore_submit"] = 'Vrátit tato data';
 $_lang["bkmgr_restore_confirm"] = 'Jste si jisti, že chcete vrátit zálohu\n[+filename+] ?';
-$_lang["bkmgr_snapshot_nothing"] = 'No snapshot';
 
-$_lang["files.dynamic.php1"] = 'create text file';
-$_lang["files.dynamic.php2"] = 'This directory cannot be displayed.';
-$_lang["files.dynamic.php3"] = 'There is a problem in a file name.';
-$_lang["files.dynamic.php4"] = 'The text file was created.';
-$_lang["files_dynamic_new_folder_name"] = 'Enter new directory name:';
-$_lang["files_dynamic_new_file_name"] = 'Enter new file name:';
-$_lang["not_readable_dir"] = 'Can not read this directory.';
-$_lang["confirm_delete_dir"] = 'Are you sure you want to delete the directory?';
-$_lang["confirm_delete_dir_recursive"] = 'Are you sure you want to delete the directory?\n\nAny children files will also be deleted.';
-
-$_lang["make_folders_title"] = 'Make end slash URL at the container';
-$_lang["make_folders_message"] = 'The slash to append to Resources set as containers when using FURLs.';
-
-$_lang["check_files_onlogin_title"] = 'Check core files on login';
-$_lang["check_files_onlogin_message"] = 'By enabling this option, important system files will be checked for modification typical of scripted website attacks. While not a foolproof guarantee, it may alert you to a compromised MODX system file and website.';
-
-$_lang["configcheck_sysfiles_mod"] = 'Important System Files have been modified.';
-$_lang["configcheck_sysfiles_mod_msg"] = 'You have enabled the setting to check important system files to detect possible website script attacks. This doesn\'t necessarily mean that your site has been compromised, however, you should review the changed files.(index.php, .htaccess, [+MGR_DIR+]/index.php, [+MGR_DIR+]/includes/config.inc.php)';
-
-$_lang['email_method_title'] = 'Sendmail method';
-$_lang['email_method_mail'] = 'mail() PHP function';
-$_lang['email_method_smtp'] = 'SMTP Server';
 $_lang['smtp_auth_title'] = 'SMTP－AUTH';
 $_lang['smtp_autotls_title'] = 'SMTPAutoTLS';
-$_lang['smtp_host_title'] = 'SMTP host';
-$_lang['smtp_secure_title'] = 'Encrypted SMTP';
-$_lang['smtp_username_title'] = 'SMTP user name';
-$_lang['smtp_password_title'] = 'SMTP password';
-$_lang['smtp_port_title'] = 'SMTP port';
 
-$_lang["setting_resource_tree_node_name"] = 'The node name of a resource tree';
-$_lang["setting_resource_tree_node_name_desc"] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias.';
-
-$_lang["resource_opt_alvisibled"] = 'Use current alias in alias path';
-$_lang["resource_opt_alvisibled_help"] = 'The alias of this Resource is inserted in Friendly URL alias path';
-$_lang['resource_opt_is_published'] = 'Publikovat';
-$_lang["docid_incrmnt_method_title"] = 'Increment Resource ID method';
-$_lang["docid_incrmnt_method_0"] = 'DB auto increment';
-$_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
-$_lang["docid_incrmnt_method_2"] = 'Maximal ID + 1';
-
-$_lang["cache_type_title"] = 'Document caching type';
-$_lang["cache_type_1"] = 'Cache is based only on document id (standard)';
-$_lang["cache_type_2"] = 'Cache is based on document id and $_GET parameters';
-$_lang["seostrict_title"] = 'Use SEO Strict URLs';
-$_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content if needed';
-
-$_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file of a MODX installation directory at .htaccess to use the Friendly URL function.';
-$_lang["settings_friendlyurls_alert2"] = 'Since it has installed in a subdirectory, it is necessary to change the contents of .htaccess.';
-
-$_lang["user_street"] = 'Street';
-$_lang["user_city"] = 'City';
-$_lang["user_other"] = 'Other';
-
-$_lang["mutate_settings.dynamic.php6"] = 'Send mail on MODX errors';
-$_lang["mutate_settings.dynamic.php7"] = 'not notify';
-$_lang["mutate_settings.dynamic.php8"] = 'A mail with the error source will be sent to [(emailsender)] ([+emailsender+]) if a MODX error occurs. The details of the error could be seen in the MODX system events log.';
-
-$_lang["error_no_privileges"]         = "You don't have enough privileges for this action!";
-$_lang["error_no_optimise_tablename"] = "Table to optimise not found in request!";
-$_lang["error_no_truncate_tablename"] = "Table to truncate not found in request!";
-$_lang["error_double_action"]         = "Double action (GET & POST) posted!";
-$_lang["error_no_id"]                 = "ID not passed in request!";
-$_lang["error_id_nan"]                = "ID passed in request is NaN!";
-$_lang["error_no_parent"]             = "Couldn't find parent document's name!";
-$_lang["error_many_results"]          = "Too many results returned from database!";
-$_lang["error_no_results"]            = "Not enough/ no results returned from database!";
-$_lang["error_no_user_selected"]      = "No user selected as recipient of this message!";
-$_lang["error_no_group_selected"]     = "No group selected as recipient of this message!";
-$_lang["error_movedocument1"]         = "Document cannot be it's own parent!";
-$_lang["error_movedocument2"]         = "Document's ID not passed in request!";
-$_lang["error_movedocument3"]         = "New parent not set in request!";
-
-$_lang["login_processor_unknown_user"]       = "Incorrect username or password entered!";
-$_lang["login_processor_wrong_password"]     = "Incorrect username or password entered!";
-$_lang["login_processor_many_failed_logins"] = "Due to too many failed logins, you have been blocked!";
-$_lang["login_processor_blocked1"]           = "You are blocked and cannot log in!";
-$_lang["login_processor_blocked2"]           = "You are blocked and cannot log in! Please try again later.";
-$_lang["login_processor_blocked3"]           = "You are blocked automatic after a specified date and you cannot log in anymore!";
-$_lang["login_processor_bad_code"]           = "The security code you entered didn't validate! Please try to login again!";
-$_lang["login_processor_remotehost_ip"]      = "Your hostname doesn't point back to your IP!";
-$_lang["login_processor_remote_ip"]          = "You are not allowed to login from this location.";
-$_lang["login_processor_date"]               = "You are not allowed to login at this time. Please try again later.";
-$_lang["login_processor_captcha_config"]     = "Captcha is not configured properly.";
-
-$_lang["dp_dayNames"]   = "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']";
-$_lang["dp_monthNames"] = "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']";
-$_lang["dp_startDay"]   = "1";
-
-$_lang["check_all"] = "Select all";
-$_lang["check_none"] = "Select none";
-$_lang["check_toggle"] = "Toggle selection";
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

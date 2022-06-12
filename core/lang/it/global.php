@@ -836,10 +836,10 @@ $_lang["role_view_logs"] = 'Visualizza i log di sistema';
 $_lang["role_view_unpublished"] = 'Vedi le Risorse non pubblicate';
 $_lang["role_web_access_persmissions"] = 'Permessi di accesso Web';
 $_lang["role_web_user_management"] = 'Gestione utente web';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = '<b>Inserire l\'URL per il Feed RSS Novità EVO.</b>';
 $_lang["rss_url_news_title"] = 'Feed RSS Novità EVO:';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Inserire l\'URL per il Feed RSS Avvisi di Protezione EVO.';
 $_lang["rss_url_security_title"] = 'Feed RSS Avvisi di Protezione EVO:';
 $_lang["run_module"] = 'Esegui Modulo';
@@ -1461,12 +1461,5 @@ $_lang['invalid_event_response'] = 'L\'evento %s ha un output errato';
 $_lang['chunk_processor'] = 'Classe di elaborazione dei chunk';
 $_lang['enable_mootools'] = 'Abilita Mootools nel manager';
 $_lang['enable_mootools_message'] = 'Carica  nel manager la libreria Mootools.js per la retrocompatibilità';
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;

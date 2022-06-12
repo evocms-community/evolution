@@ -837,10 +837,10 @@ $_lang["role_view_logs"] = 'Przeglądanie dziennika menadżera';
 $_lang["role_view_unpublished"] = 'Pokaż nieopublikowane dokumenty';
 $_lang["role_web_access_persmissions"] = 'Uprawnienia dostępu web';
 $_lang["role_web_user_management"] = 'Zarządzanie użytkownikami web';
-$_lang["rss_url_news_default"] = 'http://feeds.feedburner.com/evocms-release-news';
+$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
 $_lang["rss_url_news_message"] = 'Wprowadź URL źródła wiadomości EVO.';
 $_lang["rss_url_news_title"] = 'Żródło RSS wiadomości';
-$_lang["rss_url_security_default"] = 'http://feeds.feedburner.com/evocms-security-news';
+$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
 $_lang["rss_url_security_message"] = 'Wprowadź URL powiadomień bezpieczeństwa EVO.';
 $_lang["rss_url_security_title"] = 'Źródło RSS bezpieczeństwa';
 $_lang["run_module"] = 'Uruchom moduł';
@@ -965,7 +965,7 @@ $_lang["sysinfo_userid"] = 'Użytkownik';
 $_lang["system"] = 'System';
 $_lang["system_email_signup"] = '<!doctype html>
 <html>
-Witaj [+uid+] 
+Witaj [+uid+]
 
 Poniżej znajdziesz dane logowania do systemu zarządzania treścią serwisu [+sname+]:
 
@@ -1447,12 +1447,5 @@ $_lang['manager_menu_position_title'] = 'Położenie głównej nawigacji';
 $_lang['manager_menu_position_top'] = 'Góra';
 $_lang['manager_menu_position_left'] = 'Lewa';
 $_lang['invalid_event_response'] = 'Zdarzenie %s ma nieprawidłowy wynik';
-
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
-
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;
