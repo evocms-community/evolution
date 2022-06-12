@@ -26,38 +26,39 @@ $itemsNumber = '3';
 NO NEED TO EDIT BELOW THIS LINE
 ---------------------------------------------- */
 
-if (!class_exists('Laminas\Feed\Reader\Reader')) {
+if (!class_exists('SimplePie\SimplePie')) {
     require_once(MODX_MANAGER_PATH . 'media/rss/vendor/autoload.php');
 }
-$cache = new Laminas\Cache\Storage\Adapter\Filesystem();
-$cache->getOptions()->setCacheDir(MODX_BASE_PATH . 'assets/cache/rss/')->setTtl(60 * 60);
-Laminas\Feed\Reader\Reader::useHttpConditionalGet();
-Laminas\Feed\Reader\Reader::setCache($cache);
+$feed = new SimplePie\SimplePie();
+$feedCache = MODX_BASE_PATH . 'assets/cache/rss';
+if (!is_dir($feedCache)) {
+    @mkdir($feedCache);
+}
+$feed->set_cache_location($feedCache);
 // create Feed
 foreach ($urls as $section => $url) {
     $output = '';
-    try {
-        $rss = Laminas\Feed\Reader\Reader::import($url);
-        $output .= '<ul>';
-        foreach ($rss as $i => $item) {
-            if ($i == $itemsNumber) break;
-            $href = $item->getLink();
-            $title = $item->getTitle();
-            $pubdate = $item->getDateModified();
-            $pubdate = $modx->toDateFormat($pubdate->getTimestamp());
-            $description = strip_tags($item->getContent());
-            if (strlen($description) > 199) {
-                $description = substr($description, 0, 200);
-                $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
-            }
-            $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
-        }
-
-        $output .= '</ul>';
-        $feedData[$section] = $output;
-    } catch (Laminas\Feed\Reader\Exception\RuntimeException $e) {
-        // feed import failed
-        $feedData[$section] = 'Failed to retrieve ' . $url . ': ' . $e->getMessage();
+    $feed->set_feed_url($url);
+    $feed->init();
+    $items = $feed->get_items(0, $itemsNumber);
+    if (empty($items)) {
+        $feedData[$section] = 'Failed to retrieve ' . $url;
         continue;
     }
+    $output .= '<ul>';
+    foreach ($items as $item) {
+        $href = $item->get_link();
+        $title = $item->get_title();
+        $pubdate = $item->get_date();
+        $pubdate = $modx->toDateFormat(strtotime($pubdate));
+        $description = strip_tags($item->get_content());
+        if (strlen($description) > 199) {
+            $description = substr($description, 0, 200);
+            $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
+        }
+        $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
+    }
+
+    $output .= '</ul>';
+    $feedData[$section] = $output;
 }

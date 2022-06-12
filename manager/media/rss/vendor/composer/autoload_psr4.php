@@ -6,19 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
-    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
-    'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
-    'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
-    'Laminas\\Validator\\' => array($vendorDir . '/laminas/laminas-validator/src'),
-    'Laminas\\Uri\\' => array($vendorDir . '/laminas/laminas-uri/src'),
-    'Laminas\\Stdlib\\' => array($vendorDir . '/laminas/laminas-stdlib/src'),
-    'Laminas\\ServiceManager\\' => array($vendorDir . '/laminas/laminas-servicemanager/src'),
-    'Laminas\\Loader\\' => array($vendorDir . '/laminas/laminas-loader/src'),
-    'Laminas\\Http\\' => array($vendorDir . '/laminas/laminas-http/src'),
-    'Laminas\\Feed\\' => array($vendorDir . '/laminas/laminas-feed/src'),
-    'Laminas\\EventManager\\' => array($vendorDir . '/laminas/laminas-eventmanager/src'),
-    'Laminas\\Escaper\\' => array($vendorDir . '/laminas/laminas-escaper/src'),
-    'Laminas\\Cache\\Storage\\Adapter\\' => array($vendorDir . '/laminas/laminas-cache-storage-adapter-filesystem/src'),
-    'Laminas\\Cache\\' => array($vendorDir . '/laminas/laminas-cache/src'),
+    'SimplePie\\' => array($vendorDir . '/simplepie/simplepie/src'),
 );

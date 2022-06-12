@@ -1,7 +1,5 @@
 {
     "require": {
-        "laminas/laminas-feed": "^2.17",
-        "laminas/laminas-cache-storage-adapter-filesystem": "^2.0",
-        "laminas/laminas-http": "^2.15"
+        "simplepie/simplepie": "^1.6"
     }
 }
