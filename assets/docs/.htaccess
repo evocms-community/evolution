@@ -1,9 +1,0 @@
-IndexIgnore */*
-<Files "changelog.txt">
-    Order Allow,Deny
-    Deny from all
-</Files>
-<Files *.php>
-    Order Deny,Allow
-    Deny from all
-</Files>
