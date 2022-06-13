@@ -11,7 +11,7 @@ require_once(dirname(__FILE__) . '/protect.inc.php');
 $action = preg_replace('/[^A-Za-z0-9_\-\.\/]/', '', $_POST['action']);
 $lang = preg_replace('/[^A-Za-z0-9_\s\+\-\.\/]/', '', $_POST['lang']);
 $key = preg_replace('/[^A-Za-z0-9_\-\.\/]/', '', $_POST['key']);
-$value = preg_replace('/[^A-Za-z0-9_\-\.\/]/', '', $_POST['value']);
+$value = preg_replace('/[^A-Za-z0-9_\-\.\/]/', '', $_POST['value'] ?? '');
 
 $action = $modx->db->escape($action);
 $lang = $modx->db->escape($lang);

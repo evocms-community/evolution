@@ -62,7 +62,7 @@ table.sysSettings tr.noborder td {border:none;}
       </select>
     </th>
     <td> <textarea name="site_unavailable_message" id="site_unavailable_message_textarea" style="width:100%; height: 120px;"><?php echo $site_unavailable_message_view; ?></textarea>
-        <input type="hidden" name="siteunavailable_message_default" id="siteunavailable_message_default_hidden" value="<?php echo addslashes($_lang['siteunavailable_message_default']);?>" />
+        <input type="hidden" name="siteunavailable_message_default" id="siteunavailable_message_default_hidden" value="<?php echo $manager_language;?>" />
   <div class="comment"><?php echo $_lang['siteunavailable_message'];?></div>
     </td>
   </tr>
