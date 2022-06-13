@@ -424,7 +424,7 @@ usort($widgets, function ($a, $b) {
 $tpl = getTplWidget();
 $output = '';
 foreach($widgets as $widget) {
-    if ($widget['hide'] != '1'){
+    if (!isset($widget['hide']) || $widget['hide'] != '1'){
         $output .= $modx->parseText($tpl, $widget);
     }
 }

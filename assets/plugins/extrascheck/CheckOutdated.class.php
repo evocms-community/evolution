@@ -471,6 +471,6 @@ class CheckOutdated
         $content = "/<$tag>(.*?)<\/$tag>/";
         preg_match($content, $string, $text);
 
-        return $text[1];
+        return $text[1] ?? '0';
     }
 }

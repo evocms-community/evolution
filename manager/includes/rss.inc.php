@@ -32,7 +32,7 @@ if (!class_exists('SimplePie\SimplePie')) {
 $feed = new SimplePie\SimplePie();
 $feedCache = MODX_BASE_PATH . 'assets/cache/rss';
 if (!is_dir($feedCache)) {
-    @mkdir($feedCache);
+    @mkdir($feedCache, intval($modx->getConfig('new_folder_permissions'), 8), true);
 }
 $feed->set_cache_location($feedCache);
 // create Feed

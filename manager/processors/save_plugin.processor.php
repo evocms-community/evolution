@@ -9,13 +9,13 @@ if (!$modx->hasPermission('save_plugin')) {
 $id = (int)$_POST['id'];
 $name = $modx->db->escape(trim($_POST['name']));
 $description = $modx->db->escape($_POST['description']);
-$locked = $_POST['locked'] == 'on' ? '1' : '0';
+$locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? '1' : '0';
 $plugincode = $modx->db->escape($_POST['post']);
 $properties = $modx->db->escape($_POST['properties']);
-$disabled = $_POST['disabled'] == 'on' ? '1' : '0';
+$disabled = isset($_POST['disabled']) && $_POST['disabled'] == 'on' ? '1' : '0';
 $moduleguid = $modx->db->escape($_POST['moduleguid']);
-$sysevents = !empty($_POST['sysevents']) ? $_POST['sysevents'] : array();
-$parse_docblock = $_POST['parse_docblock'] == '1' ? '1' : '0';
+$sysevents = !empty($_POST['sysevents']) && is_array($_POST['sysevents']) ? $_POST['sysevents'] : array();
+$parse_docblock = isset($_POST['parse_docblock']) && $_POST['parse_docblock']  == '1' ? '1' : '0';
 $currentdate = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
@@ -178,6 +178,7 @@ function saveEventListeners($id, $sysevents, $mode)
     $formEventList = array();
     foreach ($sysevents as $evtId) {
         if(!preg_match('@^[1-9][0-9]*$@',$evtId)) $evtId = getEventIdByName($evtId);
+        if ($evtId === false) continue;
         if ($mode == '101') {
             $rs = $modx->db->select('max(priority) as priority', '[+prefix+]site_plugin_events', "evtid='{$evtId}'");
         } else {
@@ -216,7 +217,7 @@ function saveEventListeners($id, $sysevents, $mode)
 
 /**
  * @param string $name
- * @return string|int
+ * @return string|int|bool
  */
 function getEventIdByName($name)
 {
@@ -230,6 +231,6 @@ function getEventIdByName($name)
         $eventIds[$row['name']] = $row['id'];
     }
 
-    return $eventIds[$name];
+    return $eventIds[$name] ?? false;
 }
 
