@@ -513,7 +513,7 @@ function bold($cond = false)
                                 <input name="name" type="text" maxlength="100" value="<?= $modx->htmlspecialchars($content['name']) ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
                                 <?php if ($modx->hasPermission('save_role')): ?>
                                 <label class="custom-control" title="<?= $_lang['lock_plugin'] . "\n" . $_lang['lock_plugin_msg'] ?>" tooltip>
-                                    <input name="locked" type="checkbox" value="on"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
+                                    <input name="locked" type="checkbox" value="on"<?= (isset($content['locked']) && $content['locked'] == 1 ? ' checked="checked"' : '') ?> />
                                     <i class="fa fa-lock"></i>
                                 </label>
                                 <?php endif; ?>
