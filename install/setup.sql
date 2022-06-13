@@ -1074,6 +1074,7 @@ INSERT IGNORE INTO `{PREFIX}system_eventnames`
 ('OnWebAuthentication','3',''),
 ('OnBeforeManagerLogin','2',''),
 ('OnManagerAuthentication','2',''),
+('OnLoadSettings','1','System Settings'),
 ('OnSiteSettingsRender','1','System Settings'),
 ('OnFriendlyURLSettingsRender','1','System Settings'),
 ('OnUserSettingsRender','1','System Settings'),
