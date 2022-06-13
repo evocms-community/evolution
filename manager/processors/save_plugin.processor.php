@@ -40,7 +40,7 @@ if ($parse_docblock) {
     $moduleguid = isset($parsed['guid']) ? $parsed['guid'] : $moduleguid;
 
     $description = isset($parsed['description']) ? $parsed['description'] : $description;
-    $version = isset($parsed['version']) ? '<b>' . $parsed['version'] . '</b> ' : '';
+    $version = isset($parsed['version']) ? '<strong>' . $parsed['version'] . '</strong> ' : '';
     if ($version) {
         $description = $version . trim(preg_replace('/(<b>.+?)+(<\/b>)/i', '', $description));
     }
