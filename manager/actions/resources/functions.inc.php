@@ -63,7 +63,7 @@ function createResourceList($resourceTable, $resources) {
 		// Add panel-heading / category-collapse to output
 		$panelGroup .= parsePh($tpl['panelHeading'], array(
 			'tab' => $resourceTable,
-			'category' => $categories[$catid]['name'],
+			'category' => $modx->htmlspecialchars($categories[$catid]['name']),
 			'categoryid' => $catid != '' ? ' <small>(' . $catid . ')</small>' : '',
 			'catid' => $catid,
 		));
@@ -124,7 +124,7 @@ function createCombinedView($resources) {
 		// Add panel-heading / button
 		$panelGroup .= parsePh($tpl['panelHeading'], array(
 			'tab' => 'categories_list',
-			'category' => $categories[$catid],
+			'category' => $modx->htmlspecialchars($categories[$catid]),
 			'categoryid' => $catid != '' ? ' <small>(' . $catid . ')</small>' : '',
 			'catid' => $catid,
 		));
