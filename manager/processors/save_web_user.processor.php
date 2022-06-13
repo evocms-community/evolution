@@ -19,7 +19,7 @@ foreach ($input as $k => $v) {
 }
 
 $id = (int)$input['id'];
-$oldusername = $input['oldusername'];
+$oldusername = $input['oldusername'] ?? '';
 $newusername = !empty ($input['newusername']) ? trim($input['newusername']) : "New User";
 $esc_newusername = $modx->db->escape($newusername);
 $fullname = $input['fullname'];
@@ -48,7 +48,7 @@ $failedlogincount = !empty($input['failedlogincount']) ? $input['failedlogincoun
 $blocked = !empty($input['blocked']) ? $input['blocked'] : 0;
 $blockeduntil = !empty($input['blockeduntil']) ? $modx->toTimeStamp($input['blockeduntil']) : 0;
 $blockedafter = !empty($input['blockedafter']) ? $modx->toTimeStamp($input['blockedafter']) : 0;
-$user_groups = $input['user_groups'];
+$user_groups = isset($input['user_groups']) && is_array($input['user_groups']) ? $input['user_groups'] : [];
 
 // verify password
 if ($passwordgenmethod == "spec" && $input['specifiedpassword'] != $input['confirmpassword']) {
@@ -70,7 +70,7 @@ switch ($input['mode']) {
         }
 
         // check if the email address already exist
-        if ($modx->config['allow_multiple_emails'] != 1) {
+        if ($modx->getConfig('allow_multiple_emails') != 1) {
             $rs = $modx->db->select('count(id)', $tbl_web_user_attributes, "email='{$esc_email}' AND id!='{$id}'");
             $limit = $modx->db->getValue($rs);
             if ($limit > 0) {
@@ -419,7 +419,7 @@ function saveUserSettings($id)
     $modx->db->delete($tbl_web_user_settings, "webuser='{$id}'");
 
     foreach ($settings as $n) {
-        $vl = $_POST[$n];
+        $vl = $_POST[$n] ?? '';
         if (is_array($vl)) {
             $vl = implode(",", $vl);
         }

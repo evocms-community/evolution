@@ -486,7 +486,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 								<input name="name" type="text" maxlength="100" value="<?= !empty($content['name']) ? $modx->htmlspecialchars($content['name']) : '' ?>" class="form-control form-control-lg" onchange="documentDirty=true;" />
 								<?php if($modx->hasPermission('save_role')): ?>
 									<label class="custom-control" title="<?= $_lang['lock_module'] . "\n" . $_lang['lock_module_msg'] ?>" tooltip>
-										<input name="locked" type="checkbox"<?= ($content['locked'] == 1 ? ' checked="checked"' : '') ?> />
+										<input name="locked" type="checkbox"<?= (isset($content['locked']) && $content['locked'] == 1 ? ' checked="checked"' : '') ?> />
 										<i class="fa fa-lock"></i>
 									</label>
 								<?php endif; ?>
@@ -542,7 +542,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 				</div>
 				<div class="form-group">
 					<div class="form-row">
-						<label for="disabled"><input name="disabled" id="disabled" type="checkbox" value="on"<?= ($content['disabled'] == 1 ? ' checked="checked"' : '') ?> />
+						<label for="disabled"><input name="disabled" id="disabled" type="checkbox" value="on"<?= (isset($content['disabled']) && $content['disabled'] == 1 ? ' checked="checked"' : '') ?> />
 							<?= (!empty($content['disabled']) ? '<span class="text-danger">' . $_lang['module_disabled'] . '</span>' : $_lang['module_disabled']) ?></label>
 					</div>
 					<div class="form-row">
@@ -592,7 +592,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					</div>
 					<div class="row form-row">
 						<label class="col-md-3 col-lg-2" for="enable_sharedparams">
-							<input name="enable_sharedparams" id="enable_sharedparams" type="checkbox"<?= ($content['enable_sharedparams'] == 1 ? ' checked="checked"' : '') ?> onclick="documentDirty=true;" /> <?= $_lang['enable_sharedparams'] ?></label>
+							<input name="enable_sharedparams" id="enable_sharedparams" type="checkbox"<?= (isset($content['enable_sharedparams']) && $content['enable_sharedparams'] == 1 ? ' checked="checked"' : '') ?> onclick="documentDirty=true;" /> <?= $_lang['enable_sharedparams'] ?></label>
 						<div class="col-md-9 col-lg-10">
 							<small class="form-text text-muted"><?= $_lang['enable_sharedparams_msg'] ?></small>
 						</div>

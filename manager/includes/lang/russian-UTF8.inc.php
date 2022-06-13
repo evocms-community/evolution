@@ -1263,9 +1263,6 @@ $_lang["bkmgr_restore_confirm"] = 'Вы уверены, что хотите во
 $_lang["bkmgr_snapshot_nothing"] = 'Нет резервных копий';
 
 $_lang["files.dynamic.php1"] = 'Создать файл';
-$_lang["files.dynamic.php2"] = 'files.dynamic.php2';
-$_lang["files.dynamic.php3"] = 'files.dynamic.php3';
-$_lang["files.dynamic.php4"] = 'files.dynamic.php4';
 $_lang["files.dynamic.php5"] = 'Файл не может быть дублирован.';
 $_lang["files.dynamic.php6"] = 'Файл или директория не могут быть переименованы.';
 $_lang["files_dynamic_new_folder_name"] = 'Укажите новое имя для папки:';

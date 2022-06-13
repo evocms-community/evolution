@@ -322,7 +322,9 @@ class tinymce4bridge extends modxRTEbridge
                     $key .= (!empty($key) ? ',' : '') . $prefix . $el;
                 }
                 $sortElArr[$theme] = $key;
-                $sortOptArr[$key] = $this->tvOptions[$el];
+                if (isset($this->tvOptions[$el])) {
+                    $sortOptArr[$key] = $this->tvOptions[$el];
+                }
             }
             $this->pluginParams['elements'] = $sortElArr;
             $this->tvOptions = $sortOptArr;
