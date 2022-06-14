@@ -49,11 +49,11 @@ $theme_mode = isset($_COOKIE['MODX_themeMode']) ? $_COOKIE['MODX_themeMode'] : '
 $theme_modes = array('', 'lightness', 'light', 'dark', 'darkness');
 if (!empty($theme_modes[$theme_mode])) {
     $body_class .= ' ' . $theme_modes[$_COOKIE['MODX_themeMode']];
-} elseif (!empty($theme_modes[$modx->config['manager_theme_mode']])) {
-    $body_class .= ' ' . $theme_modes[$modx->config['manager_theme_mode']];
+} elseif (!empty($theme_modes[$modx->config['manager_theme_mode'] ?? 3])) {
+    $body_class .= ' ' . $theme_modes[$modx->config['manager_theme_mode'] ?? 3];
 }
 
-$navbar_position = $modx->config['manager_menu_position'];
+$navbar_position = $modx->config['manager_menu_position'] ?? 'top';
 if ($navbar_position == 'left') {
     $body_class .= ' navbar-left navbar-left-icon-and-text';
 }
@@ -108,7 +108,7 @@ if ($modx->config['manager_theme'] == 'default') {
     }
 }
 
-$modx->config['global_tabs'] = (int) ($modx->config['global_tabs'] && ($user['role'] == 1
+$modx->config['global_tabs'] = (int) (isset($modx->config['global_tabs']) && $modx->config['global_tabs'] && ($user['role'] == 1
                 || $modx->hasPermission('edit_template')
                 || $modx->hasPermission('edit_chunk')
                 || $modx->hasPermission('edit_snippet')
@@ -116,7 +116,7 @@ $modx->config['global_tabs'] = (int) ($modx->config['global_tabs'] && ($user['ro
                 || $modx->hasPermission('edit_document')
         )
 );
-
+$which_browser = $which_browser ?? 'mcpuk';
 ?>
 <!DOCTYPE html>
 <html <?= (isset($modx_textdir) && $modx_textdir ? 'dir="rtl" lang="' : 'lang="') . $mxla . '" xml:lang="' . $mxla . '"' ?>>
@@ -163,8 +163,8 @@ $modx->config['global_tabs'] = (int) ($modx->config['global_tabs'] && ($user['ro
           site_start: <?= (int)$modx->config['site_start'] ?>,
           tree_page_click: <?=(!empty($modx->config['tree_page_click']) ? (int)$modx->config['tree_page_click'] : 27) ?>,
           theme: "<?= html_escape($modx->config['manager_theme'], $modx->config['modx_charset']) ?>",
-          theme_mode: "<?= html_escape($modx->config['manager_theme_mode'], $modx->config['modx_charset']) ?>",
-          which_browser: '<?= (isset($user['which_browser']) ? $user['which_browser'] : '') ?>',
+          theme_mode: "<?= html_escape($modx->config['manager_theme_mode'] ?? 3, $modx->config['modx_charset']) ?>",
+          which_browser: '<?= (isset($user['which_browser']) ? $user['which_browser'] : 'mcpuk') ?>',
           layout: <?= (int)$manager_layout ?>,
           textdir: '<?= (isset($modx_textdir) ? $modx_textdir : '') ?>',
           global_tabs: <?= $modx->config['global_tabs'] ?>
