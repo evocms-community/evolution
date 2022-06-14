@@ -1,14 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Marc Hinse
- * @author Bogdan Günther
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
  * @language German
- * @package modx
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -36,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX konnte die Konfigurationsdatei nicht er
 $_lang["cant_write_config_file_note"] = 'Sobald dieser Vorgang beendet ist, können Sie sich im MODX-Manager anmelden unter http://ihredomain.de/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Checkbox-Auswahlmöglichkeiten:';
 $_lang["checking_if_cache_exist"] = 'Überprüfe ob die Ordner <span class="mono">/assets/cache</span> und <span class="mono">/assets/cache/rss</span> existieren: ';
+$_lang["checking_iconv"] = 'Prüfen, ob die Erweiterung iconv verfügbar ist: ';
+$_lang["checking_iconv_note"] = 'Es ist wichtig, die Erweiterung iconv zu installieren/aktivieren. Wenden Sie sich bitte an Ihren Provider, wenn Sie nicht wissen, wie Sie iconv aktivieren können.';
 $_lang["checking_if_cache_file_writable"] = 'Überprüfe ob die Datei <span class="mono">/assets/cache/siteCache.idx.php</span> beschreibbar ist: ';
 $_lang["checking_if_cache_file2_writable"] = 'Überprüfe ob die Datei <span class="mono">assets/cache/sitePublishing.idx.php</span> beschreibbar ist: ';
 $_lang["checking_if_cache_writable"] = 'Überprüfe ob die Ordner <span class="mono">/assets/cache</span> und <span class="mono">/assets/cache/rss</span> beschreibbar sind: ';
@@ -46,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Überprüfe ob die Ordner <span class="mon
 $_lang["checking_if_images_writable"] = 'Überprüfe ob die Ordner <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span>, <span class="mono">/assets/.thumbs</span> beschreibbar sind: ';
 $_lang["checking_mysql_strict_mode"] = 'Überprüfe MySQL Strict-Mode: ';
 $_lang["checking_mysql_version"] = 'Überprüfe MySQL-Version: ';
+$_lang["checking_pgsql_version"] = 'Überprüfen der PostgreSQL-Version:';
 $_lang["checking_php_version"] = 'Überprüfe PHP-Version: ';
 $_lang["checking_registerglobals"] = 'Überprüfe ob PHP register_globals ausgeschaltet sind: ';
 $_lang["checking_registerglobals_note"] = 'Diese Konfiguration macht Ihre Website angreifbarer für Cross Site Scripting (XSS) Attacken. Sie sollten mit Ihrem Provider sprechen, ob diese Einstellung geändert werden kann. Es gibt normalerweise drei Möglichkeiten: Ändern der globalen php.ini, Hinzufügen von Regeln zu der .htaccess-Datei im Root-Verzeichnis der MODX-Installation oder durch Hinzufügen einer angepassten php.ini in jedem Verzeichnis Ihrer MODX-Installation. Sie können MODX trotzdem installieren, aber Sie müssen sich den möglichen Sicherheitsrisiken bewusst sein.';
@@ -59,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Verbindungsmethode:';
 $_lang["connection_screen_database_connection_information"] = 'Datenbankinformationen';
 $_lang["connection_screen_database_connection_note"] = 'Bitte geben Sie den Namen der Datenbank an, die Sie für MODX nutzen wollen. Falls die Datenbank nicht existiert, wird MODX versuchen sie zu erstellen. Dies kann fehlschlagen, falls Sie nicht die nötigen Rechte besitzen. Bei vielen Web-Hosting-Angeboten sind die Datenbanken bereits eingerichtet oder können in der Administrationsoberfläche des Web-Hosting-Angebots erstellt werden. Notieren Sie diesen Namen und geben Sie ihn hier ein.';
 $_lang["connection_screen_database_host"] = 'Datenbank-Host:';
+$_lang["connection_screen_database_type"] = 'Datenbank-Typ:';
 $_lang["connection_screen_database_info"] = 'Datenbank-Information';
 $_lang["connection_screen_database_login"] = 'Datenbank-Login-Name:';
 $_lang["connection_screen_database_name"] = 'Datenbank-Name:';
@@ -121,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Installation';
 $_lang["modx_requires_php"] = ', und MODx benötigt PHP [+min_version+] oder höher';
 $_lang["mysql_5051"] = 'Warnung: MySQL-Server-Version ist 5.0.51!';
 $_lang["mysql_5051_warning"] = 'MySQL-Server-Version ist 5.0.51 hat bekannte Bugs. Es wird empfohlen ein Update auf eine neuere Version durchzuführen, bevor Sie fortfahren.';
+$_lang["mysql_old_version"] = 'Wenn Sie eine ältere Version als 5.7.6 verwenden, wird die Engine MyISAM sein, in der neuesten Version wird die Engine InnoDB verwendet. <br>Wir empfehlen Ihnen, Ihr MySQL zu aktualisieren';
+$_lang["mysql_version_is"] = ' Ihre MySQL-Version ist: ';
 $_lang["mysql_version_is"] = ' Ihre MySQL-Version ist: ';
 $_lang["no"] = 'Nein';
 $_lang["none"] = 'Keine';

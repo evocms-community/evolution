@@ -7,16 +7,16 @@
  * @author The EVO Project Team
  *
  * @language German
- * @package modx
+ * @package evo
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'de'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'EVO ist ein <a href="https://evo-cms.com/" target="_blank">PHP Application Framework und Content Management System</a> lizensiert unter der <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = '<a href="https://evo-cms.com/" target="_blank">Evolution CMS</a> ist ein PHP Application Framework und Content Management System, das unter der <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a> lizenziert ist.';
 $_lang["about_title"] = 'Über Evolution';
 $_lang["access_permission_denied"] = 'Sie haben nicht die notwendige Zugriffsberechtigung für diese Ressource.';
 $_lang["access_permission_parent_denied"] = 'Sie haben nicht die notwendige Zugriffsberechtigung, um eine Ressource an dieser Stelle zu erstellen oder hierher zu verschieben.';
@@ -28,6 +28,7 @@ $_lang["access_permissions_docs_message"] = 'Wählen Sie aus welchen Ressourcen-
 $_lang["access_permissions_group_link"] = 'Einen neuen Gruppen-Link erstellen';
 $_lang["access_permissions_introtext"] = 'Hier können Sie Benutzer- und Ressourcen-Gruppen für die Zugriffsberechtigung bearbeiten. Um einen Benutzer einer Benutzergruppe zuzuordnen, bearbeiten Sie den Benutzer und wählen die zugehörige(n) Gruppe(n). Um eine Ressource einer Benutzergruppe zuzuordnen, bearbeiten Sie die Ressource und wählen die zugehörige(n) Gruppe(n).';
 $_lang["access_permissions_link_to_group"] = 'zur Ressourcen-Gruppe';
+$_lang["access_permissions_context"] = 'in Zusammenhang';
 $_lang["access_permissions_link_user_group"] = 'Benutzergruppe verlinken';
 $_lang["access_permissions_links"] = 'Benutzer- / Ressourcen-Gruppen-Links';
 $_lang["access_permissions_links_tab"] = 'Hier legen Sie fest welche Benutzergruppen auf die Ressourcen-Gruppen Zugriffsrechte haben (z.B. Ressourcen bearbeiten oder anlegen). Um eine Ressourcen-Gruppe mit einer Benutzergruppe zu verknüpfen, wählen Sie die entsprechende Gruppe aus dem Dropdown-Menü und klicken anschließend auf „Absenden“. Um einen Link für eine bestimmte Gruppe zu entfernen, klicken Sie auf „Entfernen“. Die Verknüpfung wird sofort gelöscht.';
@@ -173,6 +174,9 @@ $_lang["confirm_delete_tags"] = 'Sind Sie sicher, dass Sie die ausgewählten Met
 $_lang["confirm_delete_template"] = 'Sind Sie sicher, dass Sie dieses Template löschen möchten?';
 $_lang["confirm_delete_tmplvars"] = 'Sind Sie sicher, dass Sie diese Template-Variable inklusive der gespeicherten Inhalte löschen möchten?';
 $_lang["confirm_delete_user"] = 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?';
+$_lang["delete_yourself"] = 'Sie können sich nicht selbst löschen';
+$_lang["delete_last_admin"] = 'Sie können den letzten Admin-Benutzer nicht löschen';
+$_lang["confirm_delete_permission"] = 'Sind Sie sicher, dass Sie diese Berechtigung löschen möchten?';
 $_lang["confirm_duplicate_record"] = 'Sind Sie sicher, dass Sie diesen Eintrag duplizieren möchten?';
 $_lang["confirm_empty_trash"] = 'Beim leeren des Mülleimers werden alle gelöschten Ressourcen dauerhaft entfernt.\n\nFortfahren?';
 $_lang["confirm_load_depends"] = 'Sind Sie sicher, dass Sie das „Abhängigkeiten-verwalten“-Fenster öffnen wollen ohne Ihre Anpassungen zu sichern?';
@@ -249,6 +253,7 @@ $_lang["doc_data_title"] = 'Daten der Ressource anzeigen';
 $_lang["documentation"] = 'Dokumentation';
 $_lang["duplicate"] = 'Duplizieren';
 $_lang["duplicate_alias_found"] = 'Die Ressource „%s“ verwendet bereits den Alias „%s“. Bitte geben Sie einen eindeutigen Alias ein.';
+$_lang["duplicate_template_alias_found"] = 'Die Vorlage \'%s\' verwendet bereits den URL-Alias \'%s\'. Bitte geben Sie einen eindeutigen Alias ein.';
 $_lang["duplicate_alias_message"] = 'Wählen Sie „ja“, um zweideutige Alias-Namen zu erlauben. <b>Hinweis:</b> Diese Option sollte zusammen mit der Option „Benutzerfreundliche URLs“ verwendet werden, um etwaige Probleme bei der Ressourcen-Referenzierung zu vermeiden.';
 $_lang["duplicate_alias_title"] = 'Doppelte Aliase zulassen';
 $_lang["duplicate_name_found_general"] = 'Es existiert bereits ein %s mit dem Namen „%s“. Bitte geben Sie einen eindeutigen Namen ein.';
@@ -272,6 +277,7 @@ $_lang["element_selector_title"] = 'Elemente-Auswahl';
 $_lang["elements"] = 'Elemente';
 $_lang["email"] = 'E-Mail';
 $_lang["email_sent"] = 'E-Mail erfolgreich gesendet.';
+$_lang["email_unique"] = 'E-Mail wird bereits genutzt!';
 $_lang["emailsender_message"] = 'Dies ist die Emailadresse des Administrators, und wird zum Beispiel als Senderadresse für Formulare oder Empfänger für System-Benachrichtigungen benutzt.';
 $_lang["emailsender_title"] = 'E-Mail-Adresse';
 $_lang["emailsubject_default"] = 'Ihre Anmeldedaten';
@@ -395,6 +401,14 @@ $_lang["import_params"] = 'Importieren von gemeinsamen Parametern';
 $_lang["import_params_msg"] = 'Sie können die Parameter und Einstellungen mittels obiger Auswahlliste importieren. <b>Hinweis:</b> Damit Module in dieser Liste erscheinen, muss das jeweilige Plugin/Snippet in der Abhängigkeitsliste des Moduls stehen und das Modul muss die Option „Gemeinsame Parameter“ aktiviert haben. ';
 $_lang["import_parent_resource"] = 'Container:';
 $_lang["update_tree"] = 'Baue den Baum wieder auf';
+$_lang["update_tree_description"] = ' <ul>
+<li>- Entwurfsmuster für eine geschlossene Tabelle, das die Arbeit mit dem Dokumentenbaum bequemer und schneller macht </li>
+<li>- Wenn die Daten im Baum nicht über Modelle aktualisiert werden, besteht die Möglichkeit einer falschen Verknüpfung von Dokumenten in der Datenbank</li> 
+<li>- Diese Operation behebt das Problem, wenn site_content nicht über das Modell aktualisiert wird (speichern, erstellen) und die Verknüpfungen (Closure-Tabelle) nicht aktualisiert werden. </li>
+<li>- Dieser Vorgang kann auch im CLI-Modus mit dem Befehl "php artisan closuretable: rebuild" durchgeführt werden.</li> 
+</ul>';
+$_lang["update_tree_danger"] = 'Wenn Sie mehr als 1000 Ressourcen haben, ist es besser, diesen Vorgang im CLI-Modus mit dem Befehl \'php artisan closuretable: rebuild\' durchzuführen.';
+$_lang["update_tree_time"] = 'Neuaufbau des Baums abgeschlossen. Dokumente verarbeitet: <b>%s</b><br>Der Import hat <b>%s</b>Sekunden gedauert.';
 $_lang["inbox"] = 'Inbox';
 $_lang["info"] = 'Info';
 $_lang["information"] = 'Information';
@@ -474,6 +488,7 @@ $_lang["manage_plugins"] = 'Plugins';
 $_lang["manage_snippets"] = 'Snippets';
 $_lang["manage_templates"] = 'Template-Verwaltung';
 $_lang["manage_documents"] = 'Dokumente';
+$_lang["manage_permission"] = 'Berechtigungen';
 $_lang["manager"] = 'Manager';
 $_lang["manager_lockout_message"] = '<p>Sie sind gegenwärtig im MODX-Manager angemeldet. Wenn Sie Ihre Login-Session beenden wollen, klicken Sie bitte den Abmelden-Button.</p><p>Um zu Ihrer Start- oder Home-Seite zu gelangen, klicken Sie bitte den Start-Button.';
 $_lang["manager_permissions"] = 'Manager-Zugriffberechtigungen';
@@ -484,6 +499,8 @@ $_lang["manager_theme_mode1"] = 'Helles Farbschema';
 $_lang["manager_theme_mode2"] = 'Header dunkel';
 $_lang["manager_theme_mode3"] = 'Header und Seitenleiste dunkel';
 $_lang["manager_theme_mode4"] = 'Dunkles Farbschema';
+$_lang['manager_theme_mode_message'] = 'Diese Einstellung wird als "Standard" verwendet und kann vom Manager mit Hilfe der Schaltfläche zum Umschalten des Themenfarbmodus im Ressourcenbaum überschrieben werden: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["meta_keywords"] = 'Meta-Angaben';
 $_lang["metatag_intro"] = 'In diesem Bereich verwalten Sie Meta-Angaben, die Ihren Ressourcenn beim Bearbeiten zugewiesen werden können.';
 $_lang["metatag_notice"] = 'Im HTML-Nachschlagewerk <a href="http://de.selfhtml.org/html/kopfdaten/meta.htm" target="_blank">SELFHTML</a> finden Sie eine Zusammenstellung geläufiger Meta-Angaben, sowie Hinweise zu deren Anwendung.';
@@ -547,6 +564,7 @@ $_lang["new_file_permissions_message"] = 'Wenn Sie eine neue Datei mit dem Datei
 $_lang["new_file_permissions_title"] = 'Neue Dateirechte';
 $_lang["new_folder_permissions_message"] = 'Wenn Sie eine neues Verzeichnis mit dem Datei-Manager erstellen, wird versucht die Verzeichnisrechte wie hier angegeben zu setzen. In manchen Installationen (zum Beispiel in Microsofts IIS), ist dies nicht möglich. In diesem Fall Dann müssen Sie die Rechte der Datei manuell setzen.';
 $_lang["new_folder_permissions_title"] = 'Neue Verzeichnis-Zugriffsrechte';
+$_lang["new_permission"] = 'Neue Berechtigung';
 $_lang["new_htmlsnippet"] = 'Neues Chunk';
 $_lang["new_keyword"] = 'Neues Schlüsselwort:';
 $_lang["new_module"] = 'Neues Modul ';
@@ -697,6 +715,7 @@ $_lang["remove_locks"] = 'Sperren entfernen';
 $_lang["rename"] = 'Umbenennen';
 $_lang["reports"] = 'Berichte';
 $_lang["report_issues"] = 'Probleme melden';
+$_lang["required_field"] = 'Feld: Feld ist erforderlich';
 $_lang["require_tagname"] = 'Ein Tag-Name ist zwingend erforderlich';
 $_lang["require_tagvalue"] = 'Ein Tag-Wert ist zwingend erforderlich';
 $_lang["reserved_name_warning"] = 'Sie benutzen einen vorreservierten Namen.';
@@ -798,6 +817,7 @@ $_lang["role_help"] = 'Anzeigen der Hilfeseiten';
 $_lang["role_home"] = 'Manager Startseite ermitteln';
 $_lang["role_import_static"] = 'HTML importieren';
 $_lang["role_logout"] = 'Abmeldung aus dem MODX-Manager';
+$_lang["role_list_module"] = 'Modul Liste';
 $_lang["role_manage_metatags"] = 'Meta-Tags und Schlüsselwörter verwalten';
 $_lang["role_management_msg"] = 'Hier können Sie eine Rolle zum Bearbeiten wählen.';
 $_lang["role_management_title"] = 'Rollen';
@@ -911,6 +931,7 @@ $_lang["settings_templvars"] = 'Template-Variablen';
 $_lang["settings_title"] = 'MODX-Konfiguration';
 $_lang["settings_ui"] = 'Benutzeroberfläche';
 $_lang["settings_users"] = 'Benutzer';
+$_lang["settings_email_templates"] = 'Email & Templates';
 $_lang["show_meta"] = 'META Keywords Tab anzeigen';
 $_lang["show_meta_message"] = 'Den (in Zukunft nicht mehr unterstützten) META Keywords Tab beim Ressource bearbeiten anzeigen.';
 $_lang["show_tree"] = 'Baum anzeigen';
@@ -931,6 +952,10 @@ $_lang["siteunavailable_message_default"] = 'Diese Seite ist derzeit nicht verf�
 $_lang["siteunavailable_page_message"] = 'Geben Sie die Ressource-ID der Ressource ein, die beim Status „Offline“ angezeigt werden soll. <b>Hinweis:</b> Stellen Sie sicher, das diese Ressource vorhanden und veröffentlicht ist!';
 $_lang["siteunavailable_page_title"] = 'Offline-Seite';
 $_lang["siteunavailable_title"] = 'Seite nicht erreichbar';
+$_lang["controller_namespace"] = 'Controller Namensraum';
+$_lang["controller_namespace_message"] = 'Geben Sie den vollständigen Namensraum an, aus dem es sich lohnt, Controller zu nehmen, zum Beispiel: <b>EvolutionCMS\\Main\\\Controllers\\</b>';
+$_lang["update_repository"] = 'GitHub Repository-Pfad';
+$_lang["update_repository_message"] = 'Geben Sie den Pfad zum GitHub-Repository ein, zum Beispiel: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Snippet-Code (PHP)';
@@ -1111,6 +1136,9 @@ $_lang["user_failedlogincount"] = 'Fehlgeschlagene Anmeldungen';
 $_lang["user_fax"] = 'Fax';
 $_lang["user_female"] = 'weiblich';
 $_lang["user_full_name"] = 'Name';
+$_lang["user_first_name"] = 'Vorname';
+$_lang["user_last_name"] = 'Nachname';
+$_lang["user_middle_name"] = 'Zweiter Vorname';
 $_lang["user_gender"] = 'Geschlecht';
 $_lang["user_is_blocked"] = 'Dieser Benutzer ist deaktiviert!';
 $_lang["user_logincount"] = 'Anzahl der Logins';
@@ -1123,12 +1151,15 @@ $_lang["user_photo"] = 'Benutzerfoto';
 $_lang["user_photo_message"] = 'Geben Sie wahlweise eine URL an oder einen lokalen Pfad für Datei-Upload an.';
 $_lang["user_prevlogin"] = 'Letzte Anmeldung';
 $_lang["user_role"] = 'Benutzerrolle';
+$_lang["no_user_role"] = 'Keine Benutzerrolle';
 $_lang["user_state"] = 'Region';
 $_lang["user_title"] = 'Manager-Benutzer erstellen/bearbeiten';
 $_lang["user_upload_message"] = 'Wenn Sie diesem Benutzer das Hochladen jeglicher Dateitypen untersagen wollen, stellen Sie sicher, dass die „Einstellungen der Systemkonfiguration benutzen“-Checkbox nicht ausgewählt ist und lassen Sie das Feld leer.';
 $_lang["user_use_config"] = 'Einstellungen der Systemkonfiguration benutzen';
+$_lang["user_verification"] = 'Benutzer ist verifiziert';
 $_lang["user_zip"] = 'PLZ';
 $_lang["username"] = 'Benutzername';
+$_lang["username_unique"] = 'Benutzername ist bereits in Benutzung!';
 $_lang["users"] = 'Benutzer';
 $_lang["valid_hostnames_message"] = 'Verhindern Sie den Missbrauch der site_url Systemeinstellung für eine XSS-Attacke (Cross Site Scripting), indem sie eine durch Kommata getrennte Liste von gültigen Hostnamen für diese Installation angeben. Diese Attacken sind bei bestimmten Shared Host Konfiguationen und bei direkt über eine IP zugänglichen Hosts möglich. Es wird der erste Hostname in der Liste verwendet, wenn der HTTP_HOST keinem gültigen Hostnamen entspricht.';
 $_lang["valid_hostnames_title"] = 'Gültige Hostnamen';
@@ -1150,6 +1181,7 @@ $_lang["web_access_permissions_user_groups"] = 'Web-Benutzergruppen';
 $_lang["web_permissions"] = 'Web-Berechtigungen';
 $_lang["web_user_management_msg"] = 'Hier können Sie auswählen, welche Web-Benutzer Sie bearbeiten möchten. Web-Benutzer können sich nur an der Website anmelden, nicht jedoch im MODX-Manager.';
 $_lang["web_user_management_title"] = 'Web-Benutzer';
+$_lang["web_user_management_select_role"] = 'Alle Rollen';
 $_lang["web_user_title"] = 'Web-Benutzer erstellen/bearbeiten';
 $_lang["web_users"] = 'Web-Benutzer';
 $_lang["weblink"] = 'Web-Link';
@@ -1183,6 +1215,7 @@ $_lang["a17_error_reporting_opt0"] = 'Alle PHP-Warnungen/Fehler ignorieren';
 $_lang["a17_error_reporting_opt1"] = 'Geringfügige PHP-Warnungen ignorieren (<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
 $_lang["a17_error_reporting_opt2"] = 'Alle PHP-Warnungen/Fehler außer E_NOTICE erkennen';
 $_lang["a17_error_reporting_opt99"] = 'Alle PHP-Warnungen/Fehler erkennen';
+$_lang["a17_error_reporting_opt199"] = 'Alle erkennen';
 
 $_lang["pwd_hash_algo_title"] = 'Hash Algorithmus';
 $_lang["pwd_hash_algo_message"] = 'Algorithmus für den Passwort-Hash.';
@@ -1191,8 +1224,6 @@ $_lang["enable_bindings_title"] = '@Bindings aktivieren';
 $_lang["enable_bindings_message"] = 'Verhindert die Ausführung von PHP-Code innerhalb von @Bindings in Template-Variablen. Nützlich, wenn Sie Manager-Benutzer haben, die keinen PHP-Code einsetzen dürfen, aber Template-Variablen bearbeiten und erstellen dürfen. Die Ausgabe einer Template-Variable mit @Binding lautet in diesem Fall „@Bindings disabled“.';
 $_lang["enable_filter_title"] = 'Filter/Modifier aktivieren';
 $_lang["enable_filter_message"] = 'Filter ermöglichen es, Inhalte von MODX-Tags / TVs innerhalb Ihrer Templates dynamisch zu manipulieren, analog zu PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Mehr Informationen</a>'; // todo: change link to documentation
-$_lang["enable_filter_phx_warning"] = 'Bei aktiviertem PHx-Plugin sind die nativen MODX-Filter standardmäßig deaktiviert.';
-
 $_lang["enable_filter_phx_warning"] = 'Bei aktiviertem PHx-Plugin sind die nativen MODX-Filter standardmäßig deaktiviert.';
 
 $_lang["enable_at_syntax_title"] = '&lt;@SYNTAX&gt; aktivieren';
@@ -1260,6 +1291,9 @@ $_lang["docid_incrmnt_method_1"] = 'Kleinste fehlende ID';
 $_lang["docid_incrmnt_method_2"] = 'Größte ID + 1';
 
 $_lang["enable_cache_title"] = 'Ressourcen-Cache';
+$_lang["disable_chunk_cache_title"] = 'Chunk-Caching deaktivieren';
+$_lang["disable_snippet_cache_title"] = 'Snippet-Caching deaktivieren';
+$_lang["disable_plugins_cache_title"] = 'Plugin-Caching deaktivieren';
 $_lang["disabled_at_login"] = 'Deaktiviert wenn eingeloggt';
 
 $_lang["cache_type_title"] = 'Ressourcen-Cache';
@@ -1268,6 +1302,7 @@ $_lang["cache_type_2"] = 'Der Cache basiert auf Ressoucen-ID and $_GET Parameter
 $_lang["seostrict_title"] = 'SEO strikte URLs benutzen';
 $_lang["seostrict_message"] = 'Erzwingt die Benutzung von strikten URLs um doppelten Inhalt zu vermeiden.';
 $_lang["aliaslistingfolder_title"] = 'AliasListing aktivieren';
+$_lang["full_aliaslisting_title"] = 'AliasListing für alle Ressourcen deaktivieren';
 $_lang["aliaslistingfolder_message"] = 'Reduziert den Speicherverbrauch bei einer großen Anzahl von Ressourcen (+10.000)';
 
 $_lang["settings_friendlyurls_alert"] = 'Wenn Sie benutzerfreundliche URLs aktivieren wollen, ist es notwendig, die „ht.access“ Datei im Webroot der EVO Installation in „.htaccess“ umzubenennen.';
@@ -1287,6 +1322,7 @@ $_lang["error_no_truncate_tablename"] = "Die zu leerende Tabelle wurde nicht gef
 $_lang["error_double_action"]         = "Doppelte Aktion (GET & POST) angeben!";
 $_lang["error_no_id"]                 = "Es wurde keine Ressourcen ID in der Abfrage angegeben!";
 $_lang["error_id_nan"]                = "Die übergebene ID ist nicht numerisch!";
+$_lang["error_parent_deleted"]        = "Fehlgeschlagen, weil die übergeordnete Ressource gelöscht ist!";
 $_lang["error_no_parent"]             = "Konnte den Namen der Eltern-Ressource nicht finden!";
 $_lang["error_many_results"]          = "Es wurden zu viele Ergebnisse aus der Datenbank zurückgegeben!";
 $_lang["error_no_results"]            = "Es wurden zu wenige/keine Ergebnisse aus der Datenbank zurückgegeben!";
@@ -1300,6 +1336,7 @@ $_lang["error_internet_connection"]   = "Server nicht verfügbar. Bitte prüfen 
 $_lang["login_processor_unknown_user"]       = "Benutzername oder Passwort falsch eingegeben!";
 $_lang["login_processor_wrong_password"]     = "Benutzername oder Passwort falsch eingegeben!";
 $_lang["login_processor_many_failed_logins"] = "Aufgrund von zu vielen fehlerhaften Anmeldeversuchen wurden Sie gesperrt!";
+$_lang["login_processor_verified"]           = "Benutzerverifizierung erforderlich!";
 $_lang["login_processor_blocked1"]           = "Sie wurden gesperrt und können sich nicht anmelden!";
 $_lang["login_processor_blocked2"]           = "Sie wurden gesperrt und können sich nicht anmelden! Probieren Sie es später noch einmal!";
 $_lang["login_processor_blocked3"]           = "Sie wurden automatisch zu einem bestimmten Datum gesperrt und können sich nicht mehr anmelden!";
@@ -1433,6 +1470,9 @@ $_lang['login_form_position_title'] = 'Position des Login-Formulars';
 $_lang['login_form_position_left'] = 'links';
 $_lang['login_form_position_center'] = 'zentriert';
 $_lang['login_form_position_right'] = 'rechts';
+$_lang["login_form_style"] = 'Stil des Anmeldeformulars:';
+$_lang["login_form_style_dark"] = 'dunkel';
+$_lang["login_form_style_light"] = 'hell';
 $_lang['login_logo_title'] = 'Logo im Login-Formular';
 $_lang['login_logo_message'] = 'Empfehlung für Logos: 360px breit, PNG-Format';
 $_lang['login_bg_title'] = 'Hintergrundbild der Login-Seite';
@@ -1441,6 +1481,21 @@ $_lang['login_bg_message'] = 'Empfehlung für Hintergrundbilder: 1920px breit';
 $_lang['manager_menu_position_title'] = 'Position des Hauptmenüs';
 $_lang['manager_menu_position_top'] = 'Oben';
 $_lang['manager_menu_position_left'] = 'links';
+
 $_lang['invalid_event_response'] = 'Der Event "%s" verursachte eine invalide Ausgabe.';
+
+$_lang['chunk_processor'] = 'Chunks Verarbeitungsklasse';
+
+$_lang["permission_title"] = 'Berechtigung erstellen/bearbeiten';
+$_lang["groups_permission_title"] = 'Kategorie erstellen/bearbeiten';
+$_lang["lang_key_desc"] = 'Key language from array $_lang';
+$_lang["key_desc"] = 'Schlüssel für geprüfte Berechtigung';
+
+$_lang["role_no_tv"] = 'Dieser Rolle sind noch keine Variablen zugewiesen worden.';
+$_lang["role_notassigned_tv"] = 'Diese Variablen sind für die Zuweisung verfügbar.';
+$_lang["role_tv_msg"] = 'Die dieser Rolle zugewiesenen Variablen sind unten aufgeführt.';
+$_lang["tmplvar_roles_access_msg"] = 'Wählen Sie die Rollen aus, die auf diese Vorlagenvariable zugreifen und sie bearbeiten dürfen.';
+
+$_lang["setting_from_file"] = '<strong class="text-danger">Der Parameterwert ist in core/custom/confic/cms/settings definiert.</strong>';
 
 return $_lang;

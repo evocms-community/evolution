@@ -6,7 +6,7 @@
  * @date 2014/02/24
  *
  * @language Dutch
- * @package modx
+ * @package evo
  * @subpackage manager
  *
  * Array keys refer to the ID number that is saved in the database

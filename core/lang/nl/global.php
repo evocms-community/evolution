@@ -2,21 +2,21 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4
- * @date 2017/12/13
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
  * @language Dutch
  * @package evo
  * @subpackage manager
  *
- * Please commit your language changes on Transifex (https://www.transifex.com/evolutioncms/evolution/) or on GitHub (https://github.com/evolution-cms/evolution).
+ * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'nl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'EVO is een <a href="https://evo-cms.com/" target="_blank">PHP Applicatie Framework en Content Management Systeem</a> met de licentie <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'Evolution CMS is een <a href="https://evo-cms.com/" target="_blank">PHP Application Framework en Content Management System</a> gelicenseerd onder <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'Over Evolution';
 $_lang["access_permission_denied"] = 'U heeft niet de juiste toegangsrechten voor deze Pagina.';
 $_lang["access_permission_parent_denied"] = 'U heeft niet genoeg toegangsrechten om hier een Pagina aan te maken of te verplaatsen! Kies a.u.b. een andere locatie.';
@@ -28,6 +28,7 @@ $_lang["access_permissions_docs_message"] = 'Geef aan tot welke Paginagroepen de
 $_lang["access_permissions_group_link"] = 'Maak een nieuwe groep koppeling';
 $_lang["access_permissions_introtext"] = 'Dit is de beheermodule van Gebruikers- en Paginagroepen die worden gebruikt in het toegangsbeheer. Om een Gebruiker toe te voegen aan een groep, volstaat het deze te bewerken en de groepen te kiezen waartoe deze moet behoren. Om een Pagina toe te wijzen aan een Gebruikersgroep, kiest u tijdens het bewerken van de Pagina voor de groepen waartoe de Pagina moet behoren.';
 $_lang["access_permissions_link_to_group"] = 'aan Paginagroep';
+$_lang["access_permissions_context"] = 'in context';
 $_lang["access_permissions_link_user_group"] = 'Koppel Gebruikersgroep';
 $_lang["access_permissions_links"] = 'Gebruikersgroep of Paginagroep koppelingen';
 $_lang["access_permissions_links_tab"] = 'Geef aan welke Gebruikersgroepen toegang hebben tot bepaalde Paginagroepen (m.a.w. welke groepen Subpagina\'s kunnen maken of bewerken). Om een Pagina toe te wijzen aan een groep kiest u de Pagina uit de lijst en klikt u daarna op \'Verzenden\'. Om een Pagina uit een groep te halen klikt u op \'Verwijder\'.';
@@ -173,6 +174,9 @@ $_lang["confirm_delete_tags"] = 'Weet u zeker dat u de geselecteerde \'META tags
 $_lang["confirm_delete_template"] = 'Weet u zeker dat u deze Template wilt verwijderen?';
 $_lang["confirm_delete_tmplvars"] = 'Weet u zeker dat u deze Template Variabele en alle opgeslagen waarden wilt verwijderen?';
 $_lang["confirm_delete_user"] = 'Weet u zeker dat u deze Gebruiker wilt verwijderen?';
+$_lang["delete_yourself"] = 'Je kunt jezelf niet verwijderen';
+$_lang["delete_last_admin"] = 'U kunt de laatste Admin gebruiker niet verwijderen';
+$_lang["confirm_delete_permission"] = 'Weet u zeker dat u deze toestemming wilt verwijderen?';
 $_lang["confirm_duplicate_record"] = 'Weet u zeker dat u deze regel wilt dupliceren?';
 $_lang["confirm_empty_trash"] = 'Als u de prullenbak leegmaakt worden alle gemarkeerde Pagina\'s permanent verwijderd!\n\nDoorgaan?';
 $_lang["confirm_load_depends"] = 'Weet u zeker dat u dit scherm wilt verlaten? De afhankelijkheden van deze Module gaan daarbij verloren!';
@@ -249,6 +253,7 @@ $_lang["doc_data_title"] = 'Paginadata weergeven';
 $_lang["documentation"] = 'Documentatie';
 $_lang["duplicate"] = 'Dupliceren';
 $_lang["duplicate_alias_found"] = 'Pagina \'%s\' heeft de alias \'%s\' al in gebruik. Kies een unieke alias voor deze Pagina.';
+$_lang["duplicate_template_alias_found"] = 'Template \'%s\' is gebruikt al de URL alias \'%s\'. Voer een unieke alias in.';
 $_lang["duplicate_alias_message"] = 'Kies \'Ja\' om dubbele aliassen toe te staan wanneer een Pagina wordt opgeslagen. <b>NB: Deze optie kan niet worden gebruikt in combinatie met \'Zoekmachine vriendelijke URL\'s\'.</b>';
 $_lang["duplicate_alias_title"] = 'Dubbele aliassen toestaan';
 $_lang["duplicate_name_found_general"] = 'Er is al een %s genaamd \'%s\'. Geef a.u.b. een unieke naam op.';
@@ -272,6 +277,7 @@ $_lang["element_selector_title"] = 'Selecteer een Element';
 $_lang["elements"] = 'Elementen';
 $_lang["email"] = 'E-mail adres';
 $_lang["email_sent"] = 'E-mail verzonden';
+$_lang["email_unique"] = 'E-mail is al in gebruik!';
 $_lang["emailsender_message"] = 'Het e-mailadres van de beheerder van deze site. Dit e-mailadres zal worden gebruikt voor systeem notificaties ed.';
 $_lang["emailsender_title"] = 'E-mail adres';
 $_lang["emailsubject_default"] = 'Uw inloggegevens';
@@ -395,6 +401,14 @@ $_lang["import_params"] = 'Gedeelde Module parameters importeren';
 $_lang["import_params_msg"] = 'De parameters en instellingen van een Module kunnen worden ge&iuml;mporteerd door de naam van de Module te selecteren uit het bovenstaande menu. <b>NB:</b> Modules verschijnen in het menu wanneer de Module is ingesteld voor het \'delen van parameters\' en wanneer bij de Module is opgegeven dat de Module afhankelijk is van deze Snippet/Plug-in.';
 $_lang["import_parent_resource"] = 'Hoofdpagina:';
 $_lang["update_tree"] = 'Herbouw de boom';
+$_lang["update_tree_description"] = '<ul>
+                   <li> - Closure table database design pattern maakt het werken met de boomstructuur handiger en sneller </li>
+                     <li> - Als de gegevens in de boomstructuur niet via modellen worden bijgewerkt, bestaat de kans op een onjuiste koppeling van documenten in de database </li>
+                     <li> - Deze bewerking lost het probleem op wanneer site_content niet wordt bijgewerkt via het model (opslaan, maken) en de links (afsluitingstabel) niet worden bijgewerkt </li>
+                     <li> - Het is ook mogelijk om deze bewerking in CLI-modus uit te voeren via de opdracht \'php artisan closuretable: rebuild\' </li>
+                     </ul>';
+$_lang["update_tree_danger"] = 'Als je meer dan 1000 bronnen hebt, is het beter om deze operatie uit te voeren in CLI-modus met behulp van de \'php artisan closuretable: rebuild commando\'';
+$_lang["update_tree_time"] = 'Rebuild tree voltooid. Documenten verwerkt: <b>%s</b><br>Import nam <b>%s</b> seconden in beslag.';
 $_lang["inbox"] = 'Inbox';
 $_lang["info"] = 'Info';
 $_lang["information"] = 'Informatie';
@@ -402,6 +416,10 @@ $_lang["inline"] = 'Ge&iuml;ntegreerd';
 $_lang["insert"] = 'Invoegen';
 $_lang["maxImageWidth"] = 'Maximum afbeelding breedte';
 $_lang["maxImageHeight"] = 'Maximum afbeelding hoogte';
+$_lang["clientResize"] = 'Formaat van afbeeldingen bijwerken \'on client-side\'';
+$_lang["clientResize_message"] = 'Indien ingeschakeld, worden afbeeldingen door de browser verkleind voordat ze naar de server worden geupload';
+$_lang["noThumbnailsRecreation"] = 'Genereer thumbnails alleen bij uploaden';
+$_lang["noThumbnailsRecreation_message"] = 'De bestandsbrowser maakt alleen thumbnails bij het uploaden; als er voor sommige afbeeldingen geen thumbnails zijn, worden ze niet gemaakt';
 $_lang["thumbWidth"] = 'Maximum thumbnail breedte';
 $_lang["thumbHeight"] = 'Maximum thumbnail hoogte';
 $_lang["thumbsDir"] = 'Thumbnail locatie';
@@ -470,11 +488,19 @@ $_lang["manage_plugins"] = 'Plug-ins';
 $_lang["manage_snippets"] = 'Snippets';
 $_lang["manage_templates"] = 'Templates';
 $_lang["manage_documents"] = 'Documenten';
+$_lang["manage_permission"] = 'Toegangsbeheer';
 $_lang["manager"] = 'Content Management Systeem';
 $_lang["manager_lockout_message"] = 'U bent momenteel aangemeld bij het Content Management Systeem. Als u uw sessie wilt sluiten, klik dan a.u.b. op de knop "Afmelden". <p />Wilt u naar uw start- of homepage klik dan op de knop "Start".';
 $_lang["manager_permissions"] = 'Toegangsbeheer';
 $_lang["manager_theme"] = 'Manager thema';
 $_lang["manager_theme_message"] = 'Selecteer een thema voor het Content Management Systeem.';
+$_lang["manager_theme_mode"] = 'Kleurenschema';
+$_lang["manager_theme_mode1"] = 'Manager kleurschema in lichte kleuren';
+$_lang["manager_theme_mode2"] = 'Topmenu balk is in donkere kleuren';
+$_lang["manager_theme_mode3"] = 'Topmenu balk en boomstructuur zijn in donkere kleuren';
+$_lang["manager_theme_mode4"] = 'Manager kleurschema in donkere kleuren';
+$_lang['manager_theme_mode_message'] = 'Deze instelling wordt gebruikt als de "standaard" en kan worden overschreven door de manager bij gebruik van de thema kleurmodus omschakel knop in de boomstructuur: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Kleurschema omzetten';
 $_lang["meta_keywords"] = 'META keywords';
 $_lang["metatag_intro"] = 'Op deze Pagina kunt u \'META tags\' toevoegen, verwijderen en bewerken. De \'META tags\' kunt u aan Pagina\'s toevoegen op de <u>META keywords</u> tab bij het bewerken van een Pagina. Vul een naam en een waarde in voor een nieuwe tag en klik op de \'Tag toevoegen\' knop om een nieuwe \'tag\' toe te voegen. Klik op de naam van een \'tag\' om deze te bewerken.';
 $_lang["metatag_notice"] = 'Misschien wilt u een <a href="http://www.html-reference.com/META.asp" target="_blank">HTML Reference Guide</a> raadplegen voor meer informatie. Dit is geen complete lijst van mogelijke Meta Tags.';
@@ -538,6 +564,7 @@ $_lang["new_file_permissions_message"] = 'Bij het uploaden van een nieuw bestand
 $_lang["new_file_permissions_title"] = 'Nieuwe bestandsrechten';
 $_lang["new_folder_permissions_message"] = 'Als u een nieuwe Map aanmaakt in het Bestandsbeheer, zal het Bestandsbeheer proberen de Maprechten aan te passen volgens de instellingen die hier zijn opgegeven. Het kan zijn dat dit niet met alle installaties werkt, zoals met IIS, in welk geval u de rechten handmatig moet instellen.';
 $_lang["new_folder_permissions_title"] = 'Nieuwe map rechten';
+$_lang["new_permission"] = 'Nieuwe toegangsrechten';
 $_lang["new_htmlsnippet"] = 'Nieuwe Chunk toevoegen';
 $_lang["new_keyword"] = 'Voeg een keyword toe:';
 $_lang["new_module"] = 'Nieuwe Module toevoegen';
@@ -650,6 +677,7 @@ $_lang["plugin_priority"] = 'Wijzig Plug-in event volgorde';
 $_lang["plugin_priority_instructions"] = 'Om de volgorde van de Plug-ins te veranderen versleep onder elke gebeurtenis (event) de titel. De eerste Plug-in die uitgevoerd dient te worden dient bovenaan te staan.';
 $_lang["plugin_priority_title"] = 'Plug-in uitvoer volgorde';
 $_lang["purge_plugin"] = 'Verwijder verouderde Plug-ins';
+$_lang["purge_plugin_confirm"] = 'Weet u zeker dat u verouderde plug-ins wilt verwijderen?';
 $_lang["plugin_title"] = 'Aanmaken/bewerken Plug-in';
 $_lang["preview"] = 'Voorbeeld';
 $_lang["preview_msg"] = 'Dit is een voorbeeld van uw laatst opgeslagen wijzigingen. Klik hier om uw huidige wijzigingen <a href="javascript:;" onclick="saveRefreshPreview();">op te slaan en te vernieuwen</a>.';
@@ -687,6 +715,7 @@ $_lang["remove_locks"] = 'Blokkeringen opheffen';
 $_lang["rename"] = 'Hernoem';
 $_lang["reports"] = 'Rapportage';
 $_lang["report_issues"] = 'Problemen rapporteren';
+$_lang["required_field"] = 'Veld :veld is verplicht';
 $_lang["require_tagname"] = 'Een naam voor de \'tag\' is vereist.';
 $_lang["require_tagvalue"] = 'Een waarde voor de \'tag\' is vereist.';
 $_lang["reserved_name_warning"] = 'U heeft een gereserveerde naam gebruikt.';
@@ -788,6 +817,7 @@ $_lang["role_help"] = 'Help Pagina\'s weergeven';
 $_lang["role_home"] = 'Verzoek om Content Management Systeem Intropagina';
 $_lang["role_import_static"] = 'Importeer HTML';
 $_lang["role_logout"] = 'Afmelden uit de beheerder';
+$_lang["role_list_module"] = 'Module lijst';
 $_lang["role_manage_metatags"] = 'Beheer \'META tags\' en keywords';
 $_lang["role_management_msg"] = 'Hier kunt u kiezen welke Rol u wenst te wijzigen.';
 $_lang["role_management_title"] = 'Rollen';
@@ -901,6 +931,7 @@ $_lang["settings_templvars"] = 'Template Variabelen';
 $_lang["settings_title"] = 'Systeem configuratie';
 $_lang["settings_ui"] = 'Interface & mogelijkheden';
 $_lang["settings_users"] = 'Gebruiker';
+$_lang["settings_email_templates"] = 'E-mail & Templates';
 $_lang["show_meta"] = 'Toon META Keywords tab';
 $_lang["show_meta_message"] = 'Toon de verouderde META Keywords tab wanneer Pagina\'s worden aangepast in the Manager.';
 $_lang["show_tree"] = 'Website boomstructuur weergeven';
@@ -921,6 +952,10 @@ $_lang["siteunavailable_message_default"] = 'Deze website is momenteel niet besc
 $_lang["siteunavailable_page_message"] = 'Geef de ID van de Pagina dat wordt weergegeven wanneer de website niet beschikbaar (offline) is. <b>NB: Let erop dat de ID bestaat en dat de Pagina gepubliceerd is!</b>';
 $_lang["siteunavailable_page_title"] = 'Website niet beschikbaar pagina';
 $_lang["siteunavailable_title"] = 'Website niet beschikbaar bericht';
+$_lang["controller_namespace"] = 'Controller Namespace';
+$_lang["controller_namespace_message"] = 'Specificeer de volledige Namespace waarvan het bijvoorbeeld de moeite waard is om controllers te gebruiken, bijvoorbeeld: <b>EvolutionCMS\\Main\\Controllers\\</b>';
+$_lang["update_repository"] = 'GitHub repository path';
+$_lang["update_repository_message"] = 'Voer GitHub repository path in, bijvoorbeeld: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Snippet code (php)';
@@ -1101,6 +1136,9 @@ $_lang["user_failedlogincount"] = 'Aantal mislukte aanmeldpogingen';
 $_lang["user_fax"] = 'Fax';
 $_lang["user_female"] = 'Vrouw';
 $_lang["user_full_name"] = 'Volledige naam';
+$_lang["user_first_name"] = 'Voornaam';
+$_lang["user_last_name"] = 'Achternaam';
+$_lang["user_middle_name"] = 'Middennaam';
 $_lang["user_gender"] = 'Geslacht';
 $_lang["user_is_blocked"] = 'Deze Gebruiker is geblokkeerd!';
 $_lang["user_logincount"] = 'Aantal keren aangemeld';
@@ -1113,12 +1151,15 @@ $_lang["user_photo"] = 'Pasfoto';
 $_lang["user_photo_message"] = 'Voer een url voor de foto van deze Gebruiker in of gebruik de \'Invoegen\' knop om een foto te selecteren of te uploaden.';
 $_lang["user_prevlogin"] = 'Laatste keer aangemeld';
 $_lang["user_role"] = 'Rol';
+$_lang["no_user_role"] = 'Geen gebruikersrol';
 $_lang["user_state"] = 'Provincie';
 $_lang["user_title"] = 'Manager gebruiker creëren/bewerken';
 $_lang["user_upload_message"] = 'Als u wilt voorkomen dat deze Gebruiker bestanden in deze categorie kan uploaden, Zorg dan dat \'Gebruik Systeem Configuratie Instellingen\' niet is aangevinkt en laat het veld leeg.';
 $_lang["user_use_config"] = 'Gebruik Systeem Configuratie Instellingen';
+$_lang["user_verification"] = 'Gebruiker is geverifieerd';
 $_lang["user_zip"] = 'Postcode';
 $_lang["username"] = 'Gebruikersnaam';
+$_lang["username_unique"] = 'Gebruikersnaam is al in gebruik!';
 $_lang["users"] = 'Gebruikers';
 $_lang["valid_hostnames_message"] = 'Help XSS exploits misbruik te voorkomen met de systeem instelling site_url  door een komma gescheiden lijst van geldige hostnamen voor deze installatie te gebruiken. Dit is belangrijk voor bepaalde typen gedeelde hosts of hosts rechtstreeks via een IP-adres te benaderen. De eerste hostnaam in de lijst wordt gebruikt als de HTTP_HOST wanneer deze niet overeenkomt met een geldige hostnaam.';
 $_lang["valid_hostnames_title"] = 'Geldige hostnamen';
@@ -1140,6 +1181,7 @@ $_lang["web_access_permissions_user_groups"] = 'Webgebruikers groepen';
 $_lang["web_permissions"] = 'Toegangsbeheer (web)';
 $_lang["web_user_management_msg"] = 'Hier kunt u kiezen welke Webgebruiker u wilt bewerken. Webgebruikers zijn Gebruikers die alleen op de website kunnen aanmelden (en dus niet op het Content Management Systeem)';
 $_lang["web_user_management_title"] = 'Webgebruikers';
+$_lang["web_user_management_select_role"] = 'Alle rollen';
 $_lang["web_user_title"] = 'Aanmaken/bewerken Webgebruiker';
 $_lang["web_users"] = 'Webgebruikers';
 $_lang["weblink"] = 'Weblink';
@@ -1147,6 +1189,8 @@ $_lang["webpwdreminder_message"] = 'Hier kunt u de boodschap instellen die naar 
 $_lang["webpwdreminder_title"] = 'Herinnering e-mailadres';
 $_lang["websignupemail_message"] = 'Hier kunt u de boodschap instellen die naar uw gebruikers verstuurd wordt wanneer u voor hen een web account heeft aangemaakt en Evolution een e-mail laat sturen met hun gebruikersnaam en wachtwoord. <br /><br />De volgende codes worden door Evolution vervangen als het bericht verstuurd wordt: <br /><br /> [+sname+] - naam van uw website, <br />[+saddr+] - e-mail adres van uw website, <br />[+surl+] - adres van de website, <br />[+uid+] - aanmeld naam of id, <br />[+pwd+] - wachtwoord, <br />[+ufn+] - volledige naam. <br /><br /><b>Laat de [+uid+] en [+pwd+] codes in de e-mail staan, omdat de gebruikersnaam en het wachtwoord anders niet in de e-mail komen te staan en uw gebruikers daardoor hun aanmeld gegevens niet ontvangen!</b>';
 $_lang["websignupemail_title"] = 'Bevestiging e-mail bij aanmelding:<br />(Webgebruiker)';
+$_lang["allow_multiple_emails_title"] = 'Dupliceer e-mailadres van webgebruiker';
+$_lang["allow_multiple_emails_message"] = 'Hiermee kunnen internetgebruikers hetzelfde e-mailadres delen voor situaties waarin een lid mogelijk geen eigen e-mailadres heeft of er slechts één familie-e-mailadres is.<br/>Notitie: Elke wachtwoordherinnering en registratielogica moet rekening houden met deze optie als deze is ingesteld op ja.';
 $_lang["wednesday"] = 'Woensdag';
 $_lang["welcome_messages"] = 'In uw inbox staan <b>%d</b> bericht(en), waarvan <b>%s</b> ongelezen.';
 $_lang["welcome_title"] = 'Welkom bij uw Evolution CMS Content Manager';
@@ -1180,8 +1224,6 @@ $_lang["enable_bindings_title"] = '@Bindings commando\'s aanzetten';
 $_lang["enable_bindings_message"] = 'Voorkom het uitvoeren van PHP-functies via TV @Bindings. Handig wanneer u Manager gebruikers heeft die niet PHP-code kunnen creëren, maar wel in staat zijn om TV\'s te maken of te bewerken. Het tonen van een TV met een @Binding zal worden uitgeschakeld.';
 $_lang["enable_filter_title"] = 'Filters aanzetten';
 $_lang["enable_filter_message"] = 'Filters kunt u manipuleren van de manier waarop gegevens worden gepresenteerd of geparsed in een tag. Ze laten u waarden wijzigen vanuit uw Template. Dit is gelijk aan PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Meer info</a>'; // todo: change link to documentation
-$_lang["enable_filter_phx_warning"] = 'Wanneer de PHx plugin is ingeschakeld staan de ingebouwde filters standaard uitgeschakeld';
-
 $_lang["enable_filter_phx_warning"] = 'Wanneer de PHx plugin is ingeschakeld staan de ingebouwde filters standaard uitgeschakeld';
 
 $_lang["enable_at_syntax_title"] = '&lt;@SYNTAX&gt; aanzetten';
@@ -1249,6 +1291,9 @@ $_lang["docid_incrmnt_method_1"] = 'Minimaal aantal gemiste ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximaal ID+1';
 
 $_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Chunk caching uitzetten';
+$_lang["disable_snippet_cache_title"] = 'Snippet caching uitzetten';
+$_lang["disable_plugins_cache_title"] = 'Plugin caching uitzetten';
 $_lang["disabled_at_login"] = 'Uitgeschakeld bij inloggen';
 
 $_lang["cache_type_title"] = 'Document cache type';
@@ -1257,6 +1302,7 @@ $_lang["cache_type_2"] = 'Cache is gebaseerd op document id en $_GET parameters'
 $_lang["seostrict_title"] = 'Gebruik SEO Strict URLs';
 $_lang["seostrict_message"] = 'Gebruik van strikte URL\'s om dubbele inhoud te voorkomen (wanneer dit plaatsvindt)';
 $_lang["aliaslistingfolder_title"] = 'Gebruik AliasListing alleen bij mappen';
+$_lang["full_aliaslisting_title"] = 'AliasListing uitschakelen voor alle pagina\'s';
 $_lang["aliaslistingfolder_message"] = 'Vermindert het geheugengebruik wanneer de site veel pagina\'s heeft';
 
 $_lang["settings_friendlyurls_alert"] = 'Het is noodzakelijk om het ht.access bestand in de EVO-installatiemap naar .htaccess te hernoemen voor het gebruik van de Friendly URL-functie.';
@@ -1276,6 +1322,7 @@ $_lang["error_no_truncate_tablename"] = "Tabel voor truncate niet gevonden!";
 $_lang["error_double_action"]         = "Dubbele actie (GET & POST) geplaatst!";
 $_lang["error_no_id"]                 = "Document ID niet doorgegeven in aanvraag!";
 $_lang["error_id_nan"]                = "Doorgegeven ID is NaN!";
+$_lang["error_parent_deleted"]        = "Mislukt omdat bovenliggende resource is verwijderd!";
 $_lang["error_no_parent"]             = "Kon naam bovenliggende document niet vinden!";
 $_lang["error_many_results"]          = "Te veel resultaten uit de database!";
 $_lang["error_no_results"]            = "Te weinig / geen resultaten terug van database!";
@@ -1289,6 +1336,7 @@ $_lang["error_internet_connection"]   = "Server is niet beschikbaar. Controleer 
 $_lang["login_processor_unknown_user"]       = "Onjuiste gebruikersnaam of wachtwoord ingevoerd!";
 $_lang["login_processor_wrong_password"]     = "Onjuiste gebruikersnaam of wachtwoord ingevoerd!";
 $_lang["login_processor_many_failed_logins"] = "Wegens te veel mislukte aanmeldingen ben je geblokkeerd!";
+$_lang["login_processor_verified"]           = "Gebruikersverificatie vereist!";
 $_lang["login_processor_blocked1"]           = "U bent geblokkeerd en kan niet inloggen!";
 $_lang["login_processor_blocked2"]           = "U bent geblokkeerd en kan niet inloggen! Probeer het later opnieuw.";
 $_lang["login_processor_blocked3"]           = "U wordt automatisch geblokkeerd na een bepaalde datum en kunt niet meer inloggen!";
@@ -1412,5 +1460,42 @@ $_lang["viewopts_radio_inline"] = 'Inline';
 $_lang["viewopts_radio_flex"] = 'Flex';
 $_lang["viewopts_fontsize"] = 'Fontgrootte';
 $_lang["viewopts_cb_alltabs"] = 'Alle tabs';
+
+$_lang['email_sender_method'] = 'De afzender van het bericht';
+$_lang['auto'] = 'Automatische detectie';
+$_lang['use_emailsender'] = 'Gebruik [(emailsender)] inhoud';
+$_lang['email_sender_method_message'] = 'De afzender van het bericht. Dit wordt meestal door de ontvanger omgezet in een Return-Path-header en is het adres waarnaar bounces worden verzonden. Automatische detectie werkt in de meeste gevallen.';
+
+$_lang['login_form_position_title'] = 'Positie inlogformulier';
+$_lang['login_form_position_left'] = 'links';
+$_lang['login_form_position_center'] = 'midden';
+$_lang['login_form_position_right'] = 'rechts';
+$_lang["login_form_style"] = 'Login formulier kleurthema:';
+$_lang["login_form_style_dark"] = 'donker';
+$_lang["login_form_style_light"] = 'licht';
+$_lang['login_logo_title'] = 'Logo afbeelding inlogpagina';
+$_lang['login_logo_message'] = 'Aanbevolen login logo breedte 360px en .png extensie (transparant)';
+$_lang['login_bg_title'] = 'Achtergrondafbeelding inlogpagina';
+$_lang['login_bg_message'] = 'Aanbevolen inlogpagina achtergrond afbeelding breedte 1920px';
+
+$_lang['manager_menu_position_title'] = 'Hoofdmenu positie';
+$_lang['manager_menu_position_top'] = 'boven';
+$_lang['manager_menu_position_left'] = 'links';
+
+$_lang['invalid_event_response'] = 'Het %s event heeft ongeldige uitvoer';
+
+$_lang['chunk_processor'] = 'Chunks processing class';
+
+$_lang["permission_title"] = 'Toestemming aanmaken / bewerken';
+$_lang["groups_permission_title"] = 'Categorie aanmaken / bewerken';
+$_lang["lang_key_desc"] = 'Toegangstaal van array $_lang';
+$_lang["key_desc"] = 'Toegangstaal voor gecontroleerde toestemming';
+
+$_lang["role_no_tv"] = 'Er zijn nog geen variabelen toegewezen aan deze rol.';
+$_lang["role_notassigned_tv"] = 'Deze variabelen zijn beschikbaar om toe te wijzen.';
+$_lang["role_tv_msg"] = 'De variabelen die aan deze rol zijn toegewezen, worden hieronder vermeld.';
+$_lang["tmplvar_roles_access_msg"] = 'Selecteer de rollen die deze Template variabele mogen openen / verwerken';
+
+$_lang["setting_from_file"] = '<strong class="text-danger">Parameter waarde wordt defined in core/custom/confic/cms/settings</strong>';
 
 return $_lang;
