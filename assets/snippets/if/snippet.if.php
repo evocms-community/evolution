@@ -17,15 +17,16 @@
  */
 if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
 
-$s = isset($separator) ? $separator: ':';
-$math = isset($math) ? $math : 'off';
-$lp = 0;
-$opers=explode($s,$is);
-$subject=$opers[0];
-$eq=true;
-$and=false;
-$or = false;
-$else = isset($else) ? $else : '';
+$s 			= isset($separator) 	? $separator		: ':';
+$is			= $is 					?? '';
+$math 		= isset($math) 			? $math 			: 'off';
+$lp 		= 0;
+$opers		= explode($s,$is);
+$subject	= $opers[0];
+$eq			= true;
+$and		= false;
+$or 		= false;
+$else 		= isset($else) 			? $else 			: '';
 // Prepare custom conditions
 $customConditions = array();
 if(!empty($custom)) {
