@@ -10,6 +10,7 @@ require_once(MGR.'/includes/version.inc.php');
 $installPath = MODX_BASE_PATH .'assets/cache/store/install';
 
 $moduleName = "MODX";
+include MODX_MANAGER_PATH . 'includes/version.inc.php';
 $moduleVersion = $modx_branch.' '.$modx_version;
 $moduleRelease = $modx_release_date;
 $moduleSQLBaseFile = "setup.sql";
@@ -41,7 +42,7 @@ if(is_dir($templatePath) && is_readable($templatePath)) {
                 "$templatePath/{$params['filename']}",
                 $params['modx_category'],
                 $params['lock_template'],
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
         }
     }
@@ -70,7 +71,7 @@ if(is_dir($tvPath) && is_readable($tvPath)) {
                 $params['template_assignments'], /* comma-separated list of template names */
                 $params['modx_category'],
                 $params['lock_tv'],  /* value should be 1 or 0 */
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
         }
     }
@@ -94,7 +95,7 @@ if(is_dir($chunkPath) && is_readable($chunkPath)) {
                 "$chunkPath/{$params['filename']}",
                 $params['modx_category'],
                 array_key_exists('overwrite', $params) ? $params['overwrite'] : 'true',
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
         }
     }
@@ -121,7 +122,7 @@ if(is_dir($snippetPath) && is_readable($snippetPath)) {
                 "$snippetPath/{$params['filename']}",
                 $params['properties'] ?? '',
                 $params['modx_category'],
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
         }
     }
@@ -145,11 +146,11 @@ if(is_dir($pluginPath) && is_readable($pluginPath)) {
                 "$pluginPath/{$params['filename']}",
                 $params['properties'] ?? '',
                 $params['events'],
-                $params['guid'],
+                $params['guid'] ?? '',
                 $params['modx_category'],
-                $params['legacy_names'],
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false,
-                (int)$params['disabled']
+                $params['legacy_names'] ?? '',
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : [],
+                (int)($params['disabled'] ?? 0)
             );
         }
     }
@@ -175,7 +176,7 @@ if(is_dir($modulePath) && is_readable($modulePath)) {
                 $params['guid'],
                 (int)$params['shareparams'],
                 $params['modx_category'],
-                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
         }
     }
