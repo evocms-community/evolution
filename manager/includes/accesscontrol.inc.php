@@ -97,11 +97,11 @@ if (!isset($_SESSION['mgrValidated'])) {
     } else {
         $modx->setPlaceholder('login_bg', MODX_MANAGER_URL . 'media/style/' . $modx->config['manager_theme'] . '/images/login/default/login-background.jpg');
     }
-  
+
     // set form position css class
-    $modx->setPlaceholder('login_form_position_class', 'loginbox-' . $modx->config['login_form_position']);
-    
-    switch ($modx->config['manager_theme_mode']) {
+    $modx->setPlaceholder('login_form_position_class', 'loginbox-' . ($modx->config['login_form_position'] ?? 'left'));
+
+    switch ($modx->config['manager_theme_mode'] ?? 3) {
       case '1':
         $modx->setPlaceholder('manager_theme_style', 'lightness');
         break;
@@ -116,7 +116,7 @@ if (!isset($_SESSION['mgrValidated'])) {
         break;
 	}
     // set form style css class
-    $modx->setPlaceholder('login_form_style_class', 'loginbox-' . $modx->config['login_form_style']);
+    $modx->setPlaceholder('login_form_style_class', 'loginbox-' . ($modx->config['login_form_style'] ?? 'dark'));
 
     // andrazk 20070416 - notify user of install/update
     if (isset($_GET['installGoingOn'])) {

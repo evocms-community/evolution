@@ -1951,7 +1951,7 @@ class DocumentParser
         // When reached here, no fatal error occured so the lock should be removed.
         /*if(is_file($lock_file_path)) unlink($lock_file_path);*/
 
-        if ((0 < $this->config['error_reporting']) && $msg && isset($php_errormsg)) {
+        if ((0 < ($this->config['error_reporting'] ?? 1)) && $msg && isset($php_errormsg)) {
             $error_info = error_get_last();
             if ($this->detectError($error_info['type'])) {
                 $msg = ($msg === false) ? 'ob_get_contents() error' : $msg;
@@ -3278,7 +3278,7 @@ class DocumentParser
     public function hasPermission($pm)
     {
         $state = 0;
-        $pms = $_SESSION['mgrPermissions'];
+        $pms = $_SESSION['mgrPermissions'] ?? [];
         if ($pms) {
             $state = ((isset($pms[$pm]) ? (bool) $pms[$pm] : false) === true);
         }
@@ -6678,7 +6678,7 @@ class DocumentParser
         $out = false;
         if ($alias !== '') {
             $table = $this->getFullTableName('site_content');
-            $query = $this->db->query("SELECT 
+            $query = $this->db->query("SELECT
                 `sc`.`id` AS `hidden_id`,
                 `children`.`id` AS `child_id`,
                 children.alias AS `child_alias`,
