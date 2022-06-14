@@ -18,6 +18,7 @@
 if(!defined('MODX_BASE_PATH')) die('What are you doing? Get out of here!');
 
 $output = '';
+$has_filebinding = '';
 
 /**
  * Подготовка информации перед рендером формы редактирования сниппета
