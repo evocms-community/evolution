@@ -117,21 +117,26 @@ if (!$modx->hasPermission('messages')) {
         $array_row_paging = $p->getPagingRowArray();
 
         // Display the result as you like...
+        $pager = '';
         $pager .= $_lang['showing'] . " " . $array_paging['lower'];
         $pager .= " " . $_lang['to'] . " " . $array_paging['upper'];
         $pager .= " (" . $array_paging['total'] . " " . $_lang['total'] . ")";
-        $pager .= "<br />" . $array_paging['previous_link'] . "&lt;&lt;" . (isset($array_paging['previous_link']) ? "</a> " : " ");
+        if (isset($array_paging['previous_link'])) {
+            $pager .= "<br />" . $array_paging['previous_link'] . "&lt;&lt;" . "</a> ";
+        }
         for ($i = 0; $i < sizeof($array_row_paging); $i++) {
             $pager .= $array_row_paging[$i] . "&nbsp;";
         }
-        $pager .= $array_paging['next_link'] . "&gt;&gt;" . (isset($array_paging['next_link']) ? "</a>" : "");
+        if (isset($array_paging['next_link'])) {
+            $pager .= $array_paging['next_link'] . "&gt;&gt;" . "</a>";
+        }
 
         // The above exemple print somethings like:
         // Results 1 to 20 of 597  <<< 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 >>>
         // Of course you can now play with array_row_paging in order to print
         // only the results you would like...
 
-        $rs = $modx->db->select('*', $modx->getFullTableName('user_messages'), "recipient=" . $modx->getLoginUserID() . "", 'postdate DESC', "{$int_cur_position}, {$int_num_result}");
+        $rs = $modx->db->select('*', $modx->getFullTableName('user_messages'), "recipient=" . $modx->getLoginUserID('mgr') . "", 'postdate DESC', "{$int_cur_position}, {$int_num_result}");
         $limit = $modx->db->getRecordCount($rs);
         if ($limit < 1) {
             echo $_lang['messages_no_messages'];
@@ -166,8 +171,8 @@ if (!$modx->hasPermission('messages')) {
                             ?>
                             <tr>
                                 <td><?= $message['messageread'] == 0 ? '<i class="fa fa-envelope"></i>' : "" ?></td>
-                                <td class="<?= $messagestyle ?>" style="cursor: pointer;" onClick="window.location.href='index.php?a=10&id=<?= $message['id'] ?>&m=r';"><?= $message['subject'] ?></td>
-                                <td><?= $sendername ?></td>
+                                <td class="<?= $messagestyle ?>" style="cursor: pointer;" onClick="window.location.href='index.php?a=10&id=<?= $message['id'] ?>&m=r';"><?= $modx->htmlspecialchars($message['subject']) ?></td>
+                                <td><?= $modx->htmlspecialchars($sendername) ?></td>
                                 <td><?= $message['private'] == 0 ? $_lang['no'] : $_lang['yes'] ?></td>
                                 <td><?= $modx->toDateFormat($message['postdate'] + $server_offset_time) ?></td>
                             </tr>
@@ -188,13 +193,13 @@ if (!$modx->hasPermission('messages')) {
     <div class="container container-body">
         <p><b><?= $_lang['messages_compose'] ?></b></p>
         <?php
-        if (($_REQUEST['m'] == 'rp' || $_REQUEST['m'] == 'f') && isset($_REQUEST['id'])) {
-            $rs = $modx->db->select('*', $modx->getFullTableName('user_messages'), "id='" . $_REQUEST['id'] . "'");
+        if (isset($_REQUEST['m']) && ($_REQUEST['m'] == 'rp' || $_REQUEST['m'] == 'f') && isset($_REQUEST['id'])) {
+            $rs = $modx->db->select('*', $modx->getFullTableName('user_messages'), "id='" . (int)$_REQUEST['id'] . "'");
             $message = $modx->db->getRow($rs);
             if (!$message) {
                 echo "Wrong number of messages returned!";
             } else {
-                if ($message['recipient'] != $modx->getLoginUserID()) {
+                if ($message['recipient'] != $modx->getLoginUserID('mgr')) {
                     echo $_lang['messages_not_allowed_to_read'];
                 } else {
                     // output message!
@@ -206,10 +211,10 @@ if (!$modx->hasPermission('messages')) {
                         $rs2 = $modx->db->select('username', $modx->getFullTableName('manager_users'), "id='{$sender}'");
                         $sendername = $modx->db->getValue($rs2);
                     }
-                    $subjecttext = $_REQUEST['m'] == 'rp' ? "Re: " : "Fwd: ";
+                    $subjecttext = isset($_REQUEST['m']) && $_REQUEST['m'] == 'rp' ? "Re: " : "Fwd: ";
                     $subjecttext .= $message['subject'];
                     $messagetext = "\n\n\n-----\n" . $_lang['messages_from'] . ": $sendername\n" . $_lang['messages_sent'] . ": " . $modx->toDateFormat($message['postdate'] + $server_offset_time) . "\n" . $_lang['messages_subject'] . ": " . $message['subject'] . "\n\n" . $message['message'];
-                    if ($_REQUEST['m'] == 'rp') {
+                    if (isset($_REQUEST['m']) && $_REQUEST['m'] == 'rp') {
                         $recipientindex = $message['sender'];
                     }
                 }
@@ -254,7 +259,7 @@ if (!$modx->hasPermission('messages')) {
                         <?php
                         while ($row = $modx->db->getRow($rs)) {
                             ?>
-                            <option value="<?= $row['id'] ?>"><?= $row['username'] ?></option>
+                            <option value="<?= $row['id'] ?>"><?= $modx->htmlspecialchars($row['username']) ?></option>
                             <?php
                         }
                         ?>
@@ -269,7 +274,7 @@ if (!$modx->hasPermission('messages')) {
                         <?php
                         while ($row = $modx->db->getRow($rs)) {
                             ?>
-                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                            <option value="<?= $row['id'] ?>"><?= $modx->htmlspecialchars($row['name']) ?></option>
                             <?php
                         }
                         ?>
@@ -281,11 +286,11 @@ if (!$modx->hasPermission('messages')) {
                 <b><?= $_lang['messages_message'] ?>:</b>
                 <div class="row form-row">
                     <div class="col-xs-12"><?= $_lang['messages_subject'] ?>:</div>
-                    <div class="col-xs-12"><input name="messagesubject" type=text class="form-control" maxlength="60" value="<?= $subjecttext ?>" /></div>
+                    <div class="col-xs-12"><input name="messagesubject" type=text class="form-control" maxlength="60" value="<?= $modx->htmlspecialchars($subjecttext ?? '') ?>" /></div>
                 </div>
                 <div class="row form-row">
                     <div class="col-xs-12"><?= $_lang['messages_message'] ?>:</div>
-                    <div class="col-xs-12"><textarea name="messagebody" rows="10" onLoad="this.focus();" class="form-control"><?= $messagetext ?></textarea></div>
+                    <div class="col-xs-12"><textarea name="messagebody" rows="10" onLoad="this.focus();" class="form-control"><?= $modx->htmlspecialchars($messagetext ?? '') ?></textarea></div>
                 </div>
             </div>
             <a href="javascript:;" class="btn btn-success" onclick="documentDirty=false; document.messagefrm.submit();"><i class="<?= $_style["actions_save"] ?>"></i> <?= $_lang['messages_send'] ?></a>
