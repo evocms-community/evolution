@@ -27,7 +27,7 @@ class ManagerTheme implements ManagerThemeInterface
     protected $theme;
     protected $namespace = 'manager';
     protected $lang = 'en';
-    protected $langName = 'english';
+    protected $langName = 'en';
     protected $textDir;
     protected $lexicon = [];
     protected $charset = 'UTF-8';
