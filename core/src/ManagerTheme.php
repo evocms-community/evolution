@@ -27,7 +27,7 @@ class ManagerTheme implements ManagerThemeInterface
     protected $theme;
     protected $namespace = 'manager';
     protected $lang = 'en';
-    protected $langName = 'en';
+    protected $langName = 'english';
     protected $textDir;
     protected $lexicon = [];
     protected $charset = 'UTF-8';
@@ -203,7 +203,7 @@ class ManagerTheme implements ManagerThemeInterface
         }
     }
 
-    protected function loadLang($lang = 'en')
+    protected function loadLang($lang = 'english')
     {
         $_lang = array();
         $modx_lang_attribute = $this->getLang();
@@ -214,13 +214,13 @@ class ManagerTheme implements ManagerThemeInterface
 
         // now include_once different language file as english
         if (!isset($lang) || !file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
-            $lang = 'en'; // if not set, get the english language file.
+            $lang = 'english'; // if not set, get the english language file.
         }
 
         // $length_eng_lang = count($_lang);
         //// Not used for now, required for difference-check with other languages than english (i.e. inside installer)
 
-        if ($lang !== 'en' && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
+        if ($lang !== 'english' && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
             include EVO_CORE_PATH . 'lang/' . $lang . '/global.php';
         }
 
@@ -236,7 +236,7 @@ class ManagerTheme implements ManagerThemeInterface
         }
         $this->lexicon = $_lang;
         $this->langName = $lang;
-        $this->lang = $lang;
+        $this->lang = $modx_lang_attribute;
         app()->setLocale($lang);
         $this->setTextDir($modx_textdir);
         $this->setCharset($modx_manager_charset);
@@ -253,7 +253,7 @@ class ManagerTheme implements ManagerThemeInterface
 
     public function getLang(): string
     {
-        return $this->core->getConfig('manager_language');
+        return $this->lang;
     }
 
     public function getLangName()
