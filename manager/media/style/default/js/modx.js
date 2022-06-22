@@ -1540,7 +1540,7 @@
         this.timer = null;
         this.olduid = '';
         this.closeactions = [6, 61, 62, 63, 94];
-        this.saveAndCloseActions = [75, 76, 86, 99, 106];
+        this.saveAndCloseActions = [75, 86, 99, 106];
         this.reload = typeof a.reload !== 'undefined' ? a.reload : 1;
         this.action = modx.getActionFromUrl(a.url);
         this.getTab = modx.main.getQueryVariable('tab', a.url);
@@ -1615,7 +1615,8 @@
           if (!/<i/.test(this.title)) {
             this.icon = '<i class="' + modx.setTypeIcon(this.action) + '"></i>';
           }
-          this.tab.innerHTML = '<span class="tab-title" title="' + this.title.replace(/<\/?[^>]+>/g, '') + '">' + this.icon + this.title + '</span><span class="tab-close">×</span>';
+          this.txt = modx.title(this.title);
+          this.tab.innerHTML = '<span class="tab-title" title="' + this.txt + '">' + this.icon + this.title + '</span><span class="tab-close">×</span>';
           this.row.appendChild(this.tab);
           this.tab.onclick = function(e) {
             s.select.call(s, e, this);
@@ -1660,10 +1661,14 @@
             } else if (this.olduid !== this.uid && d.getElementById('evo-tab-' + this.uid)) {
               this.close(e);
               d.getElementById('evo-tab-' + this.uid).show();
+              if (parseInt(modx.main.getQueryVariable('r', this.url)) === 2) {
+                w.main.location.href = this.url;
+              }
             } else {
               this.title = w.main.document.body.querySelectorAll('h1')[0] && w.main.document.body.querySelectorAll('h1')[0].innerHTML || this.title;
+              this.txt = modx.title(this.title);
               if (this.title && this.uid !== 'home') {
-                this.tab.innerHTML = '<span class="tab-title" title="' + this.title.replace(/<\/?[^>]+>/g, '') + '">' + this.title + '</span><span class="tab-close">×</span>';
+                this.tab.innerHTML = '<span class="tab-title" title="' + this.txt + '">' + this.title + '</span><span class="tab-close">×</span>';
               }
               this.page.id = 'evo-tab-page-' + this.uid;
               this.tab.id = 'evo-tab-' + this.uid;
@@ -1693,6 +1698,7 @@
           }
           this.page.classList.add('show');
           this.tab.classList.add('selected');
+          modx.title(this.txt);
           modx.tabs.selected = this.tab;
           w.main = this.page.firstElementChild.contentWindow;
           if (this.getTab && this.action === 76 && !~w.main.frameElement.contentDocument.location.href.indexOf(this.url)) {
@@ -2099,6 +2105,10 @@
         content: m,
         wrap: 'body'
       });
+    },
+    title: function(t) {
+      t = t && t.replace(/<\/?[^>]+>/g, ' ').replace(/[\n\t\r]/g, '').trim() || '';
+      return d.title = (t && t + ' - ') + this.config.manager_title;
     },
     getWindowDimension: function() {
       var a = 0,
