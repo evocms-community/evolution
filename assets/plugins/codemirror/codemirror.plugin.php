@@ -98,13 +98,13 @@ switch($modx->Event->name) {
 		}
 		break;
 	case 'OnDocFormRender'     :
-		if($content['type'] == 'reference') {
+		if(isset($content['type']) && $content['type'] == 'reference') {
 			return;
 		}
 		$textarea_name = 'ta';
-		$object_name = $content['pagetitle'];
+		$object_name = $content['pagetitle'] ?? '';
 		$xrte = (('htmlmixed' == $mode) ? $xrte : 0);
-		$rte = ($prte ? $prte : ($content['id'] ? ($xrte ? $srte : 'none') : $srte));
+		$rte = ($prte ? $prte : (!empty($content['id']) ? ($xrte ? $srte : 'none') : $srte));
 		$contentType = $content['contentType'];
 		/*
 		* Switch contentType for doc
@@ -168,7 +168,7 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
     <script src="{$_CM_URL}cm/mode/{$lang}-compressed.js"></script>
     {$emmet}{$search}
 	<script src="{$_CM_URL}cm/addon-compressed.js"></script>
-	    
+
     <script type="text/javascript">
         // Add mode MODX for syntax highlighting. Dfsed on $mode
         CodeMirror.defineMode("MODx-{$mode}", function(config, parserConfig) {
@@ -238,7 +238,7 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
                         stream.match("@file", true, true) ||
                         stream.match("@code", true, true)
                     ) {
-                        return "modxBinding";                   
+                        return "modxBinding";
                     }
                     if (stream.match("!]")) {
                         return "modxSnippetNoCache";

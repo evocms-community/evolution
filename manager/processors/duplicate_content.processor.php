@@ -139,6 +139,8 @@ function duplicateDocument($docid, $parent=null, $_toplevel=0) {
 			duplicateDocument($row['id'], $newparent, $_toplevel);
 
 	// return the new doc id
+    $modx->clearCache('full');
+    
 	return $newparent;
 }
 
