@@ -65,7 +65,7 @@ function renderFormElement($field_type, $field_id, $default_text = '', $field_el
 				$field_html .= '<select id="tv' . $field_id . '" name="tv' . $field_id . '" size="1" onchange="documentDirty=true;">';
 				$index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform', $tvsArray));
                 foreach($index_list as $item => $itemvalue) {
-					list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
+					list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
 					if(strlen($itemvalue) == 0) {
 						$itemvalue = $item;
 					}
@@ -77,7 +77,7 @@ function renderFormElement($field_type, $field_id, $default_text = '', $field_el
 				$field_html .= '<select id="tv' . $field_id . '" name="tv' . $field_id . '" onchange="documentDirty=true;" size="8">';
 				$index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform', $tvsArray));
                 foreach($index_list as $item => $itemvalue) {
-					list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
+                    list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
 					if(strlen($itemvalue) == 0) {
 						$itemvalue = $item;
 					}
@@ -90,7 +90,7 @@ function renderFormElement($field_type, $field_id, $default_text = '', $field_el
 				$field_html .= '<select id="tv' . $field_id . '" name="tv' . $field_id . '[]" multiple="multiple" onchange="documentDirty=true;" size="8">';
 				$index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform', $tvsArray));
                 foreach($index_list as $item => $itemvalue) {
-					list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
+                    list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
 					if(strlen($itemvalue) == 0) {
 						$itemvalue = $item;
 					}
@@ -152,7 +152,7 @@ function renderFormElement($field_type, $field_id, $default_text = '', $field_el
 				$index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform', $tvsArray));
 				static $i = 0;
                 foreach($index_list as $item => $itemvalue) {
-					list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
+                    list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
 					if(strlen($itemvalue) == 0) {
 						$itemvalue = $item;
 					}
@@ -181,7 +181,7 @@ function renderFormElement($field_type, $field_id, $default_text = '', $field_el
 									sOptions += ',top=' + iTop ;
 
 									var oWindow = window.open( url, 'FCKBrowseWindow', sOptions ) ;
-								}			
+								}
 								function BrowseServer(ctrl) {
 									lastImageCtrl = ctrl;
 									var w = screen.width * 0.5;
