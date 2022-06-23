@@ -134,7 +134,7 @@ switch ($_POST['mode']) {
             $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
             header($header);
         } else {
-            $header = 'Location: index.php?a=76&r=2';
+            $header = 'Location: index.php?a=76&tab=4&r=2';
             header($header);
         }
         break;
@@ -190,7 +190,7 @@ switch ($_POST['mode']) {
             header($header);
         } else {
             $modx->unlockElement(5, $id);
-            $header = 'Location: index.php?a=76&r=2';
+            $header = 'Location: index.php?a=76&tab=4&r=2';
             header($header);
         }
         break;
