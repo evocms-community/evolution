@@ -442,39 +442,34 @@
                         'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                     ])
 
-                    @if($modx->hasPermission('save_role'))
-                        @if($_SESSION['mgrRole'] === 1)
-                            <div class="form-row">
-                                <label for="disabled">
-                                    @include('manager::form.inputElement', [
-                                        'type' => 'checkbox',
-                                        'name' => 'disabled',
-                                        'value' => 'on',
-                                        'checked' => ($data->disabled === 1)
-                                    ])
-                                    @if($data->disabled == 1)
-                                        <span class="text-danger">{{ ManagerTheme::getLexicon('disabled') }}</span>
-                                    @else
-                                        {{ ManagerTheme::getLexicon('disabled') }}
-                                    @endif
-                                </label>
-                            </div>
-                        @endif
-
                         <div class="form-row">
-                            <label>
+                            <label for="disabled">
                                 @include('manager::form.inputElement', [
                                     'type' => 'checkbox',
-                                    'name' => 'parse_docblock',
-                                    'value' => 1,
-                                    'checked' => ($action == 23)
+                                    'name' => 'disabled',
+                                    'value' => 'on',
+                                    'checked' => ($data->disabled === 1)
                                 ])
-                                {{ ManagerTheme::getLexicon('parse_docblock') }}
+                                @if($data->disabled == 1)
+                                    <span class="text-danger">{{ ManagerTheme::getLexicon('disabled') }}</span>
+                                @else
+                                    {{ ManagerTheme::getLexicon('disabled') }}
+                                @endif
                             </label>
-                            <small class="form-text text-muted">{!! ManagerTheme::getLexicon('parse_docblock_msg') !!}</small>
                         </div>
 
-                    @endif
+                    <div class="form-row">
+                        <label>
+                            @include('manager::form.inputElement', [
+                                'type' => 'checkbox',
+                                'name' => 'parse_docblock',
+                                'value' => 1,
+                                'checked' => ($action == 23)
+                            ])
+                            {{ ManagerTheme::getLexicon('parse_docblock') }}
+                        </label>
+                        <small class="form-text text-muted">{!! ManagerTheme::getLexicon('parse_docblock_msg') !!}</small>
+                    </div>
                 </div>
 
                 <!-- PHP text editor start -->
