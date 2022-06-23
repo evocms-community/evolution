@@ -34,5 +34,5 @@ $modx->invokeEvent("OnChunkFormDelete",
 $modx->clearCache('full');
 
 // finished emptying cache - redirect
-$header="Location: index.php?a=76&r=2";
+$header="Location: index.php?a=76&r=2&tab=2";
 header($header);
