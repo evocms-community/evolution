@@ -1,0 +1,21 @@
+name: telegram message
+on:
+  release:
+    types: [published]
+jobs:
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    environment: evo
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          disable_web_page_preview: true
+          format: markdown
+          message: |
+            🎉🎉🎉 Новый релиз: ${{ github.event.release.name }} 🎉🎉🎉
+
+            [Подробнее](https://github.com/evocms-community/evolution/releases/tag/${{ github.ref_name }})
