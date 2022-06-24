@@ -5,7 +5,7 @@
  * first repository for Evolution CMS
  * 
  * @category	module
- * @version 	0.1.3
+ * @version 	0.1.4
  * @internal	@properties
  * @internal	@guid store435243542tf542t5t	
  * @internal	@shareparams 1

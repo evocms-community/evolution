@@ -87,7 +87,7 @@ abstract class Plugin
      * @param array $ids
      * @param $folder
      */
-    public function clearFolders($ids = array(), $folder)
+    public function clearFolders(array $ids, $folder)
     {
         foreach ($ids as $id) {
             $this->fs->rmDir($folder . $id . '/');

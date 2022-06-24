@@ -43,6 +43,9 @@ class ReCaptchaWrapper implements CaptchaInterface
     public function getPlaceholder()
     {
         $siteKey = \APIhelpers::getkey($this->cfg, 'siteKey');
+        $reCAPTCHAversion = \APIhelpers::getkey($this->cfg, 'reCAPTCHAversion', "2");
+		$classButton = \APIhelpers::getkey($this->cfg, 'classButton', "g-recaptcha");
+		$textButton = \APIhelpers::getkey($this->cfg, 'textButton', "Submit");
         $type = \APIhelpers::getkey($this->cfg, 'type', 'image');
         $size = \APIhelpers::getkey($this->cfg, 'size', 'normal');
         $tabindex = \APIhelpers::getkey($this->cfg, 'tabindex', 0);
@@ -54,7 +57,15 @@ class ReCaptchaWrapper implements CaptchaInterface
         $expcallback = \APIhelpers::getkey($this->cfg, 'expired_callback', '');
         $out = '';
         if (!empty($siteKey)) {
-            $out = "<div {$id} class=\"g-recaptcha\" data-sitekey=\"{$siteKey}\" data-type=\"{$type}\" data-tabindex=\"{$tabindex}\" data-size=\"{$size}\" data-theme=\"{$theme}\" data-callback=\"{$callback}\" data-expired-callback=\"{$expcallback}\" data-badge=\"{$badge}\"></div>";
+            switch($reCAPTCHAversion) {
+				case "3":
+                    $callback = \APIhelpers::getkey($this->cfg, 'callback', 'onSubmit');
+					$out = "<button class=\"{$classButton}\" data-sitekey=\"{$siteKey}\" data-callback=\"{$callback}\" data-action='submit'>{$textButton}</button>";
+					break;
+				default:
+					$out = "<div {$id} class=\"g-recaptcha\" data-sitekey=\"{$siteKey}\" data-type=\"{$type}\" data-tabindex=\"{$tabindex}\" data-size=\"{$size}\" data-theme=\"{$theme}\" data-callback=\"{$callback}\" data-expired-callback=\"{$expcallback}\" data-badge=\"{$badge}\"></div>";
+					break;
+			}
         }
 
         return $out;

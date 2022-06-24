@@ -137,8 +137,8 @@ class ModxCaptcha
                 $im_text,
                 $data['size'],
                 $data['angle'],
-                $text_x,
-                $text_y,
+                (int)$text_x,
+                (int)$text_y,
                 $text_color,
                 $text_font,
                 $chars[$index]);

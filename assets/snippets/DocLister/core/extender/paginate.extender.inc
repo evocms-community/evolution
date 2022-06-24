@@ -266,7 +266,7 @@ class paginate_DL_Extender extends extDocLister
     public function getUrl($requestName = '')
     {
         $url = $this->DocLister->getUrl();
-        $params = parse_url($url, PHP_URL_QUERY);
+        $params = parse_url($url, PHP_URL_QUERY) ?? '';
         parse_str(html_entity_decode($params), $params);
         if ($requestName == '') {
             switch ($this->DocLister->getCFGDef('paginate', '')) {

@@ -95,7 +95,7 @@ if (!class_exists('\\DLTemplate')) {
          */
         public function setTemplatePath($path, $supRoot = false)
         {
-            $path = trim($path);
+            $path = trim($path ?? '');
             if ($supRoot === false) {
                 $path = $this->cleanPath($path);
             }
@@ -137,7 +137,7 @@ if (!class_exists('\\DLTemplate')) {
          */
         public function setTemplateExtension($ext)
         {
-            $ext = $this->cleanPath(trim($ext, ". \t\n\r\0\x0B"));
+            $ext = $this->cleanPath(trim($ext ?? '', ". \t\n\r\0\x0B"));
 
             if (!empty($ext)) {
                 $this->templateExtension = $ext;

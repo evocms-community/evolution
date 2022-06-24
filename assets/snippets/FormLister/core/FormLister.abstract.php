@@ -275,6 +275,18 @@ abstract class Core
                     }
                     break;
                 }
+                //Значения из $_GET
+                case 'get':
+                {
+                    if (!empty($_source[1])) {
+                        $keys = explode(',', $_source[1]);
+                        $fields = $this->getDefaultsSourceValues($_GET, $keys);
+                        if (isset($_source[2])) {
+                            $prefix = $_source[2];
+                        }
+                    }
+                    break;
+                }
                 //Массив значений указывается в параметре сессии
                 case 'session':
                     if (!empty($_source[1])) {

@@ -5,7 +5,7 @@
  * Save snippet and plugins to file
  *
  * @category    plugin
- * @version     0.1
+ * @version     0.1.1
  * @author		By Carw, and Bumkaka
  * @internal    @properties 
  * @internal    @events OnSnipFormRender,OnBeforeSnipFormSave,OnSnipFormPrerender,OnPluginFormPrerender,OnPluginFormRender,OnBeforePluginFormSave

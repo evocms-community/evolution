@@ -431,7 +431,7 @@ class DLphx
                         $output = nl2br($output);
                         break;
                     case "date":
-                        $output = strftime($modifier_value[$i], (int)$output);
+                        $output = date($modifier_value[$i], (int)$output);
                         break;
                     case "set":
                         $c = $i + 1;
@@ -566,8 +566,8 @@ class DLphx
     {
         if ($this->debug) {
             $this->debugLog = true;
-            $this->console[] = (count($this->console) + 1 - $this->curPass) . " [" . strftime(
-                "%H:%M:%S",
+            $this->console[] = (count($this->console) + 1 - $this->curPass) . " [" . date(
+                "H:i:S",
                 time()
             ) . "] " . $this->LogClean($string);
         }
@@ -582,8 +582,8 @@ class DLphx
     {
         if ($this->debug) {
             $this->debugLog = true;
-            $this->console[] = (count($this->console) + 1 - $this->curPass) . " [" . strftime(
-                "%H:%M:%S",
+            $this->console[] = (count($this->console) + 1 - $this->curPass) . " [" . date(
+                "H:i:S",
                 time()
             ) . "] " . "  |--- Returns: <div style='margin: 10px;'>" . $this->LogClean($string) . "</div>";
         }

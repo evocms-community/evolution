@@ -5,7 +5,7 @@
  * Customize the EVO Manager to offer bespoke admin functions for end users or manipulate the display of document fields in the manager.
  *
  * @category plugin
- * @version 0.6.3
+ * @version 0.6.4
  * @license http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal @properties &remove_deprecated_tv_types_pref=Remove deprecated TV types;list;yes,no;yes &config_chunk=Configuration Chunk;text;mm_rules
  * @internal @events OnDocFormRender,OnDocFormPrerender,OnBeforeDocFormSave,OnDocFormSave,OnDocDuplicate,OnPluginFormRender,OnTVFormRender

@@ -142,9 +142,9 @@ class onetableDocLister extends DocLister
                         $_date = is_numeric($item[$date]) && $item[$date] == (int)$item[$date] ? $item[$date] : strtotime($item[$date]);
                         if ($_date !== false) {
                             $_date = $_date + $this->modx->config['server_offset_time'];
-                            $dateFormat = $this->getCFGDef('dateFormat', '%d.%b.%y %H:%M');
+                            $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
                             if ($dateFormat) {
-                                $item['date'] = strftime($dateFormat, $_date);
+                                $item['date'] = date($dateFormat, $_date);
                             }
                         }
                     }
@@ -223,9 +223,9 @@ class onetableDocLister extends DocLister
                         $_date = is_numeric($row[$date]) && $row[$date] == (int)$row[$date] ? $row[$date] : strtotime($row[$date]);
                         if ($_date !== false) {
                             $_date = $_date + $this->modx->config['server_offset_time'];
-                            $dateFormat = $this->getCFGDef('dateFormat', '%d.%b.%y %H:%M');
+                            $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
                             if ($dateFormat) {
-                                $row['date'] = strftime($dateFormat, $_date);
+                                $row['date'] = date($dateFormat, $_date);
                             }
                         }
                     }

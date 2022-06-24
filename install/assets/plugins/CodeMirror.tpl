@@ -5,7 +5,7 @@
  * JavaScript library that can be used to create a relatively pleasant editor interface based on CodeMirror 5.33 (released on 21-12-2017)
  *
  * @category    plugin
- * @version     1.5
+ * @version     1.5.1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @package     evo
  * @internal    @events OnDocFormRender,OnChunkFormRender,OnModFormRender,OnPluginFormRender,OnSnipFormRender,OnTempFormRender,OnRichTextEditorInit

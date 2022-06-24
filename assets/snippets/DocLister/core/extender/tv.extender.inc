@@ -275,8 +275,8 @@ class tv_DL_Extender extends extDocLister
                 $TVnames = array();
             }
             $matches = explode(",", $match[1]);
-            $sortType = explode(",", $this->DocLister->getCFGDef('tvSortType'));
-            $withDefault = explode(",", $this->DocLister->getCFGDef('tvSortWithDefault'));
+            $sortType = explode(",", $this->DocLister->getCFGDef('tvSortType', ''));
+            $withDefault = explode(",", $this->DocLister->getCFGDef('tvSortWithDefault', ''));
             foreach ($matches as $i => &$item) {
                 $item = explode(" ", trim($item), 2);
                 if (isset($TVnames[$item[0]])) {

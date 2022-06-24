@@ -5,7 +5,7 @@
  * Quickly perform bulk updates to the Documents in your site including templates, publishing details, and permissions
  * 
  * @category	module
- * @version 	1.1
+ * @version 	1.1.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@guid docman435243542tf542t5t	
