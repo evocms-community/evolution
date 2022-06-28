@@ -9,11 +9,10 @@
     "templating"
   ],
   "homepage": "https://evocms.ru/",
-  "license": "GPL-2.0+",
+  "license": "GPL-3.0",
   "support": {
     "docs": "https://github.com/evocms-community/docs",
     "telegram": "https://t.me/evo_cms",
-    "email": "maxx@gunsclub.org",
     "issues": "https://github.com/evocms-community/evolution/issues/",
     "source": "https://github.com/evocms-community/evolution/"
   },
@@ -21,9 +20,13 @@
     "vendor-dir": "vendor"
   },
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-gd": "*",
+    "ext-xml": "*",
+    "ext-zip": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": true
