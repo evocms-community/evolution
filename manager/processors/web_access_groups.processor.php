@@ -2,7 +2,7 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if (!$modx->hasPermission('web_access_permissions')) {
+if (!$modx->hasPermission('manage_groups')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
@@ -15,7 +15,7 @@ $operation = $_REQUEST['operation'];
 
 switch ($operation) {
     case "add_user_group" :
-        $newgroup = $_REQUEST['newusergroup'];
+        $newgroup = $_REQUEST['newusergroup'] ?? '';
         if (empty($newgroup)) {
             $modx->webAlertAndQuit("No group name specified.");
         } else {
@@ -28,7 +28,7 @@ switch ($operation) {
         }
         break;
     case "add_document_group" :
-        $newgroup = $_REQUEST['newdocgroup'];
+        $newgroup = $_REQUEST['newdocgroup'] ?? '';
         if (empty($newgroup)) {
             $modx->webAlertAndQuit("No group name specified.");
         } else {
@@ -43,7 +43,7 @@ switch ($operation) {
         break;
     case "delete_user_group" :
         $updategroupaccess = true;
-        $usergroup = (int)$_REQUEST['usergroup'];
+        $usergroup = (int)($_REQUEST['usergroup'] ?? '');
         if (empty($usergroup)) {
             $modx->webAlertAndQuit("No user group id specified for deletion.");
         } else {
@@ -55,7 +55,7 @@ switch ($operation) {
         }
         break;
     case "delete_document_group" :
-        $group = (int)$_REQUEST['documentgroup'];
+        $group = (int)($_REQUEST['documentgroup'] ?? '');
         if (empty($group)) {
             $modx->webAlertAndQuit("No document group id specified for deletion.");
         } else {
@@ -67,7 +67,7 @@ switch ($operation) {
         }
         break;
     case "rename_user_group" :
-        $newgroupname = $_REQUEST['newgroupname'];
+        $newgroupname = $_REQUEST['newgroupname'] ?? '';
         if (empty($newgroupname)) {
             $modx->webAlertAndQuit("No group name specified.");
         }
@@ -78,11 +78,11 @@ switch ($operation) {
         \EvolutionCMS\Models\MembergroupName::where('id', $groupid)->update(['name' => $newgroupname]);
         break;
     case "rename_document_group" :
-        $newgroupname = $_REQUEST['newgroupname'];
+        $newgroupname = $_REQUEST['newgroupname'] ?? '';
         if (empty($newgroupname)) {
             $modx->webAlertAndQuit("No group name specified.");
         }
-        $groupid = (int)$_REQUEST['groupid'];
+        $groupid = (int)($_REQUEST['groupid'] ?? '');
         if (empty($groupid)) {
             $modx->webAlertAndQuit("No document group id specified for rename.");
         }
@@ -101,7 +101,7 @@ switch ($operation) {
         break;
     case "remove_document_group_from_user_group" :
         $updategroupaccess = true;
-        $coupling = (int)$_REQUEST['coupling'];
+        $coupling = (int)($_REQUEST['coupling'] ?? 0);
         $context = (int)($_REQUEST['context'] ?? 0) == 0 ? 0 : 1;
         \EvolutionCMS\Models\MembergroupAccess::where('id', $coupling)->delete();
         break;
