@@ -1,36 +1,33 @@
 <?php
 /**
- * MODX Manager language file
+ * EVO Manager language file
  *
  * @version 1.0.15
  * @date 2014/02/24
- * @author eastbind
- * @author MEGU
- * @author yamamoto
- * @author masco
+ * @author The EVO Project Team
  *
- * @language Japanese
+ * @language English
  * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL langauges
+//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
 $modx_lang_attribute = 'ja'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = '<p>Evolution CMSは <a href="http://evo.im/" target="_blank">PHP アプリケーション フレームワーク・コンテンツ管理システム</a>です。GPL に基づいて使用が許諾されます。</p>';
+$_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'Evolution について';
 $_lang["access_permission_denied"] = 'このリソースにアクセスする権限がありません。';
 $_lang["access_permission_parent_denied"] = 'ここにリソースを作成する権限がありません。';
 $_lang["access_permissions"] = '所属グループ';
 $_lang["access_permissions_add_resource_group"] = 'リソースグループを作成';
 $_lang["access_permissions_add_user_group"] = 'ユーザーグループを作成';
-$_lang["access_permissions_docs_collision"] = 'ウェブユーザーグループとマネージャーユーザーグループの設定に問題があるため、このリソースは公開されます。詳細については管理者へお問い合わせください。';
 $_lang["access_permissions_docs_message"] = 'このリソースを所属させたい<a href="index.php?a=40">リソースグループ</a>を選択してください。グループで制限する必要がなければ「グループ制限なし」にチェックを入れます。または<a href="index.php?a=17">「グローバル設定」</a>の「セキュリティ」で「グループ管理機能を使用する」を「いいえ」にします。';
 $_lang["access_permissions_group_link"] = 'グループリンクを新規作成';
 $_lang["access_permissions_introtext"] = 'ここでユーザーグループまたはリソースグループを作ると、ユーザ編集画面またはリソース編集画面で所属グループを選択できるようになります。グループ機能を利用するためには、ユーザーグループとリソースグループを必ず関連付ける必要があります。また、個別のユーザー及びリソースをそれぞれ直接関連付けることはできません。※グローバル設定の「グループ管理機能を使用する(セキュリティタブ)」を「いいえ」にすると、この画面の設定は無効になります。';
 $_lang["access_permissions_link_to_group"] = 'リソースグループ';
+$_lang["access_permissions_context"] = 'in context';
 $_lang["access_permissions_link_user_group"] = 'ユーザーグループ';
 $_lang["access_permissions_links"] = 'グループリンク';
 $_lang["access_permissions_links_tab"] = 'リソースグループとユーザーグループを関連付けます(※グループ管理機能を使う場合は必須です)。';
@@ -108,7 +105,6 @@ $_lang["chunk"] = 'チャンク';
 $_lang["chunk_code"] = 'チャンク コード (html)';
 $_lang["chunk_multiple_id"] = 'エラー: 複数のチャンクが一つのユニークIDを利用しています。';
 $_lang["chunk_no_exist"] = 'チャンクが存在しません。';
-$_lang['chunk_processor'] = 'チャンクを処理するクラス';
 $_lang["cleaningup"] = 'クリーンアップ処理中';
 $_lang["clean_uploaded_filename"] = 'アップロードファイルの名前の扱い';
 $_lang["clean_uploaded_filename_message"] = 'アップロードするファイルのファイル名を、transaliasルールを用いて正規化します。';
@@ -279,8 +275,8 @@ $_lang["element_selector_msg"] = '下のリストからエレメントを選択�
 $_lang["element_selector_title"] = 'エレメントセレクタ';
 $_lang["elements"] = 'エレメント';
 $_lang["email"] = 'メールアドレス';
-$_lang["email_unique"] = 'このメールアドレスはすでに使用されています!';
 $_lang["email_sent"] = 'パスワード再発行メールを送信しました。';
+$_lang["email_unique"] = 'このメールアドレスはすでに使用されています!';
 $_lang["emailsender_message"] = 'このサイトからメールを送信する場合の「送信元メールアドレス」を指定してください。<br />コンフィグ変数：[(emailsender)]';
 $_lang["emailsender_title"] = '送信者メールアドレス';
 $_lang["emailsubject_default"] = 'サイトからのお知らせ';
@@ -706,8 +702,8 @@ $_lang["rb_webuser_title"] = 'ウェブユーザーの<br />ファイルブラ�
 $_lang["recent_docs"] = '最近のリソース';
 $_lang["recommend_setting_change_title"] = '設定を確認してください。';
 $_lang["recommend_setting_change_description"] = 'リファラチェック設定が無効になっているため、意図しない管理画面操作による<a href="http://www.google.com/search?hl=ja&q=csrf" target="_blank">CSRF攻撃 (Cross Site Request Forgery attack)</a>を受ける恐れがあります。グローバル設定をご確認ください。ただしこの設定により管理画面にアクセスできなくなる可能性があります。その場合はパソコン側のセキュリティソフトの設定をチェックするか、他のパソコンからのアクセスを試してみてください。';
-$_lang["refresh_cache"] = 'キャッシュディレクトリに <strong>%s</strong>個のページキャッシュが見つかりました。<strong>%d</strong>個のページキャッシュが削除されました。<p>ページがリクエストされた時点で、新しいページキャッシュが生成されます。';
 $_lang["references"] = '参照';
+$_lang["refresh_cache"] = 'キャッシュディレクトリに <strong>%s</strong>個のページキャッシュが見つかりました。<strong>%d</strong>個のページキャッシュが削除されました。<p>ページがリクエストされた時点で、新しいページキャッシュが生成されます。';
 $_lang["refresh_published"] = '<strong>%s</strong>件のリソースが公開されました。';
 $_lang["refresh_site"] = 'サイトをリフレッシュ';
 $_lang["refresh_title"] = 'サイトをリフレッシュ';
@@ -723,6 +719,7 @@ $_lang["remove_locks"] = 'ロックを解除';
 $_lang["rename"] = 'リネーム';
 $_lang["reports"] = 'レポート';
 $_lang["report_issues"] = '問題の報告';
+$_lang["required_field"] = 'Field :field is required';
 $_lang["require_tagname"] = 'タグ名が必要です。';
 $_lang["require_tagvalue"] = 'タグの値が必要です';
 $_lang["reserved_name_warning"] = '「%s」はシステムで予約されているため変数名として使えません。';
@@ -778,7 +775,11 @@ $_lang["resources_in_container"] = '個のサブリソースがあります。';
 $_lang["resources_in_container_no"] = 'サブリソースはありません。';
 $_lang["role"] = 'ロール';
 $_lang["role_about"] = '「EVOについて」ページの表示';
-$_lang["role_access_persmissions"] = '所属グループ';
+$_lang["manager_access_permissions"] = 'Manager access permission';
+$_lang["manage_groups"] = 'Manage document and user groups';
+$_lang["manage_document_permissions"] = 'Manage document permissions';
+$_lang["manage_module_permissions"] = 'Manage module permissions';
+$_lang["manage_tv_permissions"] = 'Manage TV permissions';
 $_lang["role_actionok"] = '処理完了ページの表示';
 $_lang["role_assets_images"] = 'assets/imagesの管理';
 $_lang["role_assets_files"] = 'assets/filesの管理';
@@ -1167,6 +1168,7 @@ $_lang["user_use_config"] = 'グローバル設定を使用';
 $_lang["user_verification"] = '認証済みのユーザー';
 $_lang["user_zip"] = '郵便番号';
 $_lang["username"] = 'ログイン名';
+$_lang["username_unique"] = 'User name is already in use!';
 $_lang["users"] = '権限管理';
 $_lang["valid_hostnames_message"] = 'このインストールに有効なホストネームの一覧をコンマ（,）区切りで書いておくことで、「site_url」の設定を誤って使用することによるXSS exploitの予防を助けます。共有ホストの形式やIPアドレスを経由して直接アクセス可能なホストに重要です。HTTP_HOSTが有効なホストネームにマッチしない場合、リストにある最初のホストネームが使用されます。';
 $_lang["valid_hostnames_title"] = '有効なホストネーム';
@@ -1188,6 +1190,7 @@ $_lang["web_access_permissions_user_groups"] = 'ウェブユーザーグルー�
 $_lang["web_permissions"] = 'グループ管理';
 $_lang["web_user_management_msg"] = '会員制サイトを運用する場合、ここでユーザを作成・管理します。グループ管理(ウェブ)の設定を併用し、アクセス対象を設定してください。グループ管理機能を用いずログイン状態のみ提供するシンプルな運用も可能です。<br />※ここで管理するアカウントは管理画面にアクセスする権限は持ちません。';
 $_lang["web_user_management_title"] = 'ユーザー管理';
+$_lang["web_user_management_select_role"] = 'All roles';
 $_lang["web_user_title"] = 'ウェブユーザーの作成･編集';
 $_lang["web_users"] = 'ユーザー管理';
 $_lang["weblink"] = 'ウェブリンク';
@@ -1328,6 +1331,7 @@ $_lang["error_no_truncate_tablename"] = "削除するテーブルがリクエス
 $_lang["error_double_action"]         = "二重のアクション（GET と POST）が送信されました。";
 $_lang["error_no_id"]                 = "IDがリクエストにわたされませんでした。";
 $_lang["error_id_nan"]                = "リクエストでわたされたIDはNaNです。";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_no_parent"]             = "親のリソース名を見つけられませんでした。";
 $_lang["error_many_results"]          = "データベースからの返り値が多過ぎます。内部処理に問題があります。";
 $_lang["error_no_results"]            = "データベースからの結果が足りない/ありません。";
@@ -1341,6 +1345,7 @@ $_lang["error_internet_connection"]   = "サーバーが利用不可能です。
 $_lang["login_processor_unknown_user"]       = "ログイン名またはパスワードが間違っています。";
 $_lang["login_processor_wrong_password"]     = "ログイン名またはパスワードが間違っています。";
 $_lang["login_processor_many_failed_logins"] = "ログインを数回失敗したため、一時的にアクセスが制限されています。";
+$_lang["login_processor_verified"]           = "User verification required!";
 $_lang["login_processor_blocked1"]           = "ログインをブロックされています。";
 $_lang["login_processor_blocked2"]           = "ログインをブロックされています。しばらくたってから再び試してください。";
 $_lang["login_processor_blocked3"]           = "指定された日以降は自動的にブロックされ、ログインできなくなります。";
@@ -1446,7 +1451,13 @@ $_lang["cm_category_x_saved_at_position_y"] = "新しいカテゴリー <span cl
 $_lang["cm_category_x_moved_to_position_y"] = "カテゴリー <span class=\"highlight\">%s</span> がポジション <span class=\"highlight\">%s</span> に移動しました。";
 $_lang["cm_category_x_deleted"] = "カテゴリー <span class=\"highlight\">%s</span> が削除されました。";
 $_lang["cm_category_x_renamed_to_y"] = "カテゴリー <span class=\"highlight\">%s</span> が <span class=\"highlight\">%s</span> にリネームされました。";
+$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
+$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
 $_lang["cm_save_new_sorting"] = "新しい順番を保存する";
+$_lang["cm_translate_phrases"] = "Translate phrases";
+$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
+$_lang["cm_native_phrase"] = "Native phrase";
+
 $_lang["btn_view_options"] = '設定を表示';
 $_lang["view_options_msg"] = 'エレメントの表示と一覧表示は「表示オプション」ボタンでカスタマイズできます。設定はHTML5のローカルストレージを使用してブラウザごとに保存および復元されます。';
 $_lang["viewopts_title"] = '設定を表示';
@@ -1483,9 +1494,6 @@ $_lang['manager_menu_position_left'] = '左部';
 $_lang['invalid_event_response'] = 'この %s の出力は無効です';
 
 $_lang['chunk_processor'] = 'チャンクを処理するクラス';
-$_lang['enable_mootools'] = '管理画面内で Mootools を有効にする';
-$_lang['enable_mootools_message'] = '下位互換のために管理画面内で Mootools.js を読み込む';
-
 
 $_lang["permission_title"] = 'パーミッションの作成 / 編集';
 $_lang["groups_permission_title"] = 'カテゴリーの作成 / 編集';
@@ -1496,5 +1504,9 @@ $_lang["role_no_tv"] = 'このロールにはテンプレート変数がまだ�
 $_lang["role_notassigned_tv"] = '割り当て可能なテンプレート変数です。';
 $_lang["role_tv_msg"] = '以下のテンプレート変数にこのロールが割り当てられました。';
 $_lang["tmplvar_roles_access_msg"] = 'このテンプレート変数へアクセス/処理を許可されているロールを選択';
+
+$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
+$_lang['disable'] = 'Disable';
+$_lang['enable'] = 'Enable';
 
 return $_lang;

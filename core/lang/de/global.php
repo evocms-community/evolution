@@ -6,8 +6,8 @@
  * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language German
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -23,7 +23,6 @@ $_lang["access_permission_parent_denied"] = 'Sie haben nicht die notwendige Zugr
 $_lang["access_permissions"] = 'Zugriffsberechtigung';
 $_lang["access_permissions_add_resource_group"] = 'Eine neue Ressourcen-Gruppe erstellen';
 $_lang["access_permissions_add_user_group"] = 'Eine neue Benutzergruppe erstellen';
-$_lang["access_permissions_docs_collision"] = 'Durch einen Konflikt zwischen Web-Benutzergruppen und Manager-Benutzergruppen für diese Rolle, ist diese Ressource öffentlich zugänglich. Kontaktieren Sie Ihren Seiten-Administrator für weitere Hilfe.';
 $_lang["access_permissions_docs_message"] = 'Wählen Sie aus welchen Ressourcen-Gruppe diese Ressource zugeordnet ist';
 $_lang["access_permissions_group_link"] = 'Einen neuen Gruppen-Link erstellen';
 $_lang["access_permissions_introtext"] = 'Hier können Sie Benutzer- und Ressourcen-Gruppen für die Zugriffsberechtigung bearbeiten. Um einen Benutzer einer Benutzergruppe zuzuordnen, bearbeiten Sie den Benutzer und wählen die zugehörige(n) Gruppe(n). Um eine Ressource einer Benutzergruppe zuzuordnen, bearbeiten Sie die Ressource und wählen die zugehörige(n) Gruppe(n).';
@@ -403,9 +402,9 @@ $_lang["import_parent_resource"] = 'Container:';
 $_lang["update_tree"] = 'Baue den Baum wieder auf';
 $_lang["update_tree_description"] = ' <ul>
 <li>- Entwurfsmuster für eine geschlossene Tabelle, das die Arbeit mit dem Dokumentenbaum bequemer und schneller macht </li>
-<li>- Wenn die Daten im Baum nicht über Modelle aktualisiert werden, besteht die Möglichkeit einer falschen Verknüpfung von Dokumenten in der Datenbank</li>
+<li>- Wenn die Daten im Baum nicht über Modelle aktualisiert werden, besteht die Möglichkeit einer falschen Verknüpfung von Dokumenten in der Datenbank</li> 
 <li>- Diese Operation behebt das Problem, wenn site_content nicht über das Modell aktualisiert wird (speichern, erstellen) und die Verknüpfungen (Closure-Tabelle) nicht aktualisiert werden. </li>
-<li>- Dieser Vorgang kann auch im CLI-Modus mit dem Befehl "php artisan closuretable: rebuild" durchgeführt werden.</li>
+<li>- Dieser Vorgang kann auch im CLI-Modus mit dem Befehl "php artisan closuretable: rebuild" durchgeführt werden.</li> 
 </ul>';
 $_lang["update_tree_danger"] = 'Wenn Sie mehr als 1000 Ressourcen haben, ist es besser, diesen Vorgang im CLI-Modus mit dem Befehl \'php artisan closuretable: rebuild\' durchzuführen.';
 $_lang["update_tree_time"] = 'Neuaufbau des Baums abgeschlossen. Dokumente verarbeitet: <b>%s</b><br>Der Import hat <b>%s</b>Sekunden gedauert.';
@@ -767,7 +766,11 @@ $_lang["resources_in_container"] = 'Ressourcen in diesem Container.';
 $_lang["resources_in_container_no"] = 'Dieser Container enthält keine Unter-Ressourcen.';
 $_lang["role"] = 'Rolle';
 $_lang["role_about"] = 'Anzeige der „Über“-Seite';
-$_lang["role_access_persmissions"] = 'Zugriffsberechtigungen';
+$_lang["manager_access_permissions"] = 'Manager access permission';
+$_lang["manage_groups"] = 'Manage document and user groups';
+$_lang["manage_document_permissions"] = 'Manage document permissions';
+$_lang["manage_module_permissions"] = 'Manage module permissions';
+$_lang["manage_tv_permissions"] = 'Manage TV permissions';
 $_lang["role_actionok"] = 'Ausgeführte Aktionen anzeigen';
 $_lang["role_assets_images"] = 'assets/images verwalten';
 $_lang["role_assets_files"] = 'assets/files verwalten';
@@ -1497,5 +1500,7 @@ $_lang["role_tv_msg"] = 'Die dieser Rolle zugewiesenen Variablen sind unten aufg
 $_lang["tmplvar_roles_access_msg"] = 'Wählen Sie die Rollen aus, die auf diese Vorlagenvariable zugreifen und sie bearbeiten dürfen.';
 
 $_lang["setting_from_file"] = '<strong class="text-danger">Der Parameterwert ist in core/custom/confic/cms/settings definiert.</strong>';
+$_lang['disable'] = 'Disable';
+$_lang['enable'] = 'Enable';
 
 return $_lang;

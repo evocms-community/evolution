@@ -2,32 +2,32 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4
- * @date 2018/11/11
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Spanish
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL langauges
+//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
 $modx_lang_attribute = 'es'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'EVO es un <a href="https://evo-cms.com/" target="_blank">Sistema de Administración de Contenido y Esquema de PHP</a> bajo licencia <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'Acerca de Evolution';
 $_lang["access_permission_denied"] = 'No tienes los permisos correctos para este documento.';
 $_lang["access_permission_parent_denied"] = '¡No tienes permiso para crear o mover un documento aquí! Por favor elije otro lugar.';
 $_lang["access_permissions"] = 'Permisos de acceso';
 $_lang["access_permissions_add_resource_group"] = 'Crear un grupo de documentos nuevo';
 $_lang["access_permissions_add_user_group"] = 'Crear un grupo de usuarios nuevo';
-$_lang["access_permissions_docs_collision"] = 'Debido a que existe un conflicto entre los Grupos de Usuarios Web y los Grupos de Usuarios del Admin para tu Rol, este documento será público.  Contacta a un admin del sitio para obtener más ayuda.';
 $_lang["access_permissions_docs_message"] = 'Aquí puedes seleccionar a qué grupos de documentos pertenece este documento';
 $_lang["access_permissions_group_link"] = 'Crear un enlace de grupo nuevo';
 $_lang["access_permissions_introtext"] = 'Aquí puedes administrar los grupos de usuarios y documentos usados para los permisos de acceso. Para añadir un usuario a un grupo de usuarios, edita el usuario y selecciona los grupos a los que el usuario debe ser miembro. Para añadir un documento a un grupo de usuarios, edita el documento y selecciona los grupos a los que debe de pertenecer.';
 $_lang["access_permissions_link_to_group"] = 'al Grupo de Documentos';
+$_lang["access_permissions_context"] = 'in context';
 $_lang["access_permissions_link_user_group"] = 'Enlazar Grupo de Usuarios';
 $_lang["access_permissions_links"] = 'Enlaces de los grupos de usuarios/documentos';
 $_lang["access_permissions_links_tab"] = 'Aquí es donde especificas que grupos de usuarios tienen acceso (por ej. pueden editar o crear hijos) para los grupos de documentos. Para enlazar un grupo de documentos a un grupo de usuarios, selecciona los grupos apropiados del menú desplegable y has clic en \'Enviar\'. Para remover el enlace de cierto grupo, presiona \'Remover\'. Esto removerá el enlace inmediatamente.';
@@ -106,6 +106,8 @@ $_lang["chunk_code"] = 'Código de Chunk (html)';
 $_lang["chunk_multiple_id"] = 'Error: Varios Chunks comparten la misma ID única.';
 $_lang["chunk_no_exist"] = 'El Chunk no existe.';
 $_lang["cleaningup"] = 'Limpiando';
+$_lang["clean_uploaded_filename"] = 'Use Transliteration for File Uploads';
+$_lang["clean_uploaded_filename_message"] = 'Use the default or transalias settings for the file name to clean special characters from uploaded file names, preserving dot-characters (periods)';
 $_lang["clear_log"] = 'Limpiar Bitácora';
 $_lang["click_to_context"] = 'Haz clic para acceder al menú contextual';
 $_lang["click_to_edit_title"] = 'Haz clic aquí para editar este registro';
@@ -124,6 +126,9 @@ $_lang["configcheck_errorpage_unavailable"] = 'La página de error de tu sitio n
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Esto significa que tu página de Error no es accesible para navegantes normales de internet o que no existe. Esto puede provocar un estado de circulo cerrado y varios errores en la bitácora de tu sitio. Asegúrate de que nohaya grupos de usuarios asignados a la página.';
 $_lang["configcheck_errorpage_unpublished"] = 'La página de Error de tu sitio no está publicada o no existe.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Esto significa que tu página de Error no es accesible para el público en general. Publica la página o asegúrate de que esté asignada a un documento existente en el árbol de tu sitio en el menú Herramientas &gt; Configuración.';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
+$_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Don\'t show this again.</em></a>';
 $_lang["configcheck_images"] = 'El directorio de imágenes no es escribible';
 $_lang["configcheck_images_msg"] = 'El directorio de imágenes no es escribible, o no existe. Esto significa que las funciones del Admin de Imágenes en el editor no funcionará.';
 $_lang["configcheck_installer"] = 'El instalador todavía está presente';
@@ -132,13 +137,23 @@ $_lang["configcheck_lang_difference"] = 'Número incorrecto de entradas en el ar
 $_lang["configcheck_lang_difference_msg"] = 'El idioma actualmente seleccionado tiene un número diferente de entradas que el idioma prefijado.  Mientras no es necesariamente un problema, esto puede significar que el archivo de idioma necesita ser actualizado.';
 $_lang["configcheck_notok"] = 'Uno o más detalles de configuración no están bien: ';
 $_lang["configcheck_ok"] = 'El chequeo pasó OK - sin advertencias que reportar.';
+$_lang["configcheck_php_gdzip"] = 'GD and/or Zip PHP extensions not found';
+$_lang["configcheck_php_gdzip_msg"] = 'Evolution CMS needs the GD and Zip extension enabled for PHP. While Evolution CMS will work without them, you will not be able to take full advantage of the built-in File Manager, Image Editor or Captcha for logins.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals está configurado como ON en tu archivo de configuración php.ini';
 $_lang["configcheck_register_globals_msg"] = 'Esta configuración hace tu sitio mucho más propenso a sufrir ataques Cross Site Scripting (XSS). Deberías hablar con tu proveedor de hospedaje acerca de qué puede hacer para deshabilitar esta configuración.';
 $_lang["configcheck_title"] = 'Chequeo de configuración';
+$_lang["configcheck_templateswitcher_present"] = 'TemplateSwitcher Plugin detected';
+$_lang["configcheck_templateswitcher_present_delete"] = '<a href="javascript:deleteTemplateSwitcher();">Delete TemplateSwitcher</a>';
+$_lang["configcheck_templateswitcher_present_disable"] = '<a href="javascript:disableTemplateSwitcher();">Disable TemplateSwitcher</a>';
+$_lang["configcheck_templateswitcher_present_msg"] = 'The TemplateSwitcher plugin has been found to cause caching and performance problems, and should be used only the functionality is required in your site.';
 $_lang["configcheck_unauthorizedpage_unavailable"] = 'Tu página de acceso no autorizado no está publicada o no existe.';
 $_lang["configcheck_unauthorizedpage_unavailable_msg"] = 'Esto significa que tu página de acceso no autorizado no es accesible para navegantes normales de internet o que no existe.  Esto puede provocar un estado de círculo cerrado y varios errores en la bitácora de tu sitio.  Asegúrate de que no haya grupos de usuarios web asignados a la página.';
 $_lang["configcheck_unauthorizedpage_unpublished"] = 'La página de acceso no autorizado definida en la configuración del sitio no está publicada.';
 $_lang["configcheck_unauthorizedpage_unpublished_msg"] = 'Esto significa que tu página de acceso no autorizado no es accesible para el público en general. Publica la página o asegúrate de que esté asignada a un documento existente en el árbol de tu sitio en en menu Herramientas &gt; Configuración.';
+$_lang["configcheck_validate_referer"] = 'Security Warning: HTTP Header Validation';
+$_lang["configcheck_validate_referer_msg"] = 'The configuration setting <strong>Validate HTTP_REFERER headers?</strong> is Off. We recommend turning it On. <a href="index.php?a=17">Go to Configuration options</a>';
 $_lang["configcheck_warning"] = 'Advertencia de configuración:';
 $_lang["configcheck_what"] = '¿Qué significa esto?';
 $_lang["confirm_block"] = '¿Estás seguro de que quieres bloquear a este usuario?';
@@ -158,12 +173,16 @@ $_lang["confirm_delete_tags"] = '¿Estás segura que de desea quieres las etique
 $_lang["confirm_delete_template"] = '¿Estás seguro de que quieres borrar este template?';
 $_lang["confirm_delete_tmplvars"] = '¿Estás segura de que quieres remover esta variable y todos sus valores guardados?';
 $_lang["confirm_delete_user"] = '¿Estás seguro que de quieres borrar este usuario?';
+$_lang["delete_yourself"] = 'You can\'t delete yourself';
+$_lang["delete_last_admin"] = 'You can\'t delete last admin user';
+$_lang["confirm_delete_permission"] = 'Are you sure you want to delete this Permission?';
 $_lang["confirm_duplicate_record"] = '¿Estás seguro de que quieres duplicar este registro?';
 $_lang["confirm_empty_trash"] = 'Esto removerá permanentemente TODOS tus documentos borrados.\n\n¿Deseas continuar?';
 $_lang["confirm_load_depends"] = '¿Estás segura que de quieres cargar la pantalla del Administrar Dependencias sin guardar tus modificaciones?';
 $_lang["confirm_name_change"] = 'Cambiar el nombre de usuario puede afectar otras aplicaciones que estén relacionadas con el Administrador de Contenidos.\n\n¿Estás seguro de que quieres cambiar este nombre de usuario?';
 $_lang["confirm_publish"] = '\n\nLa publicación de este documento removerá cualquier fecha de (des)publicación que haya sido configurada. Si deseas configurar o mantener las fechas de publicación o (des)publicación, por favor selecciona \'editar\' el documento en vez de publicar.\n\n¿Continuar publicación?';
 $_lang["confirm_remove_locks"] = 'Los usuarios a veces cierran sus navegadores mientras editan documentos, templates, snippets, o parsers, posiblemente dejando el artículo que estaban editando en estado cerrado. Al presionar OK puedes remover TODOS los estados cerrados que están configurados actualmente.\n\n¿Continuar?';
+$_lang["confirm_reset_sort_order"] = 'Are you sure you want to reset the \"sort order/index\" of all listed elements to 0 ?';
 $_lang["confirm_resource_duplicate"] = '¿Estás segura de que quieres duplicar este documento? Cualquier artículo que contenga también será duplicado.';
 $_lang["confirm_setting_language_change"] = 'Has modificado el valor prefijado y perderás los cambios. ¿Proceder?';
 $_lang["confirm_unblock"] = '¿Estás seguro de que quieres desbloquear este usuario?';
@@ -203,6 +222,9 @@ $_lang["date"] = 'Fecha';
 $_lang["datechanged"] = 'Fecha de cambio';
 $_lang["datepicker_offset"] = 'Offset del Selector de Fecha: ';
 $_lang["datepicker_offset_message"] = 'El número de años a mostrar en el pasado en el Selector de Fecha.';
+$_lang["datetime_format"] = 'Date format';
+$_lang["datetime_format_message"] = 'The format for dates in the Manager.';
+$_lang["default"] = 'Default:';
 $_lang["defaultcache_message"] = 'Selecciona \'Si\' para hacer todos los documentos nuevos cacheables en forma prefijada.';
 $_lang["defaultcache_title"] = 'Cacheable prefijado';
 $_lang["defaultmenuindex_message"] = 'Selecciona \'Si\' para activar el incremento automático del indexado de menu en forma prefijada.';
@@ -230,6 +252,7 @@ $_lang["doc_data_title"] = 'Ver datos del documento';
 $_lang["documentation"] = 'Documentation';
 $_lang["duplicate"] = 'Duplicar';
 $_lang["duplicate_alias_found"] = 'El documento \'%s\' ya está usando el alias \'%s\'. Por favor, ingresa un alias único.';
+$_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Aquí puedes seleccionar \'si\' para permitir guardar alias duplicados. <b>NOTA: Esta opción debe de ser usada con la opción \'Dirección Alias Amigable\' configurada a \'Si\' para así evitar problemas referenciando el documento.</b>';
 $_lang["duplicate_alias_title"] = 'Permitir alias duplicados:';
 $_lang["duplicate_name_found_general"] = 'Ya existe un %s nombrado \'%s\'. Favor de ingresar un nombre único.';
@@ -253,6 +276,7 @@ $_lang["element_selector_title"] = 'Selector de Elemento';
 $_lang["elements"] = 'Elementos';
 $_lang["email"] = 'Email';
 $_lang["email_sent"] = 'Correo electrónico enviado';
+$_lang["email_unique"] = 'Email is already in use!';
 $_lang["emailsender_message"] = 'Aquí puedes especificar el email usado cuando se le envíe los nombres de usuario y las contraseñas a los usuarios.';
 $_lang["emailsender_title"] = 'Dirección de correo electrónico:';
 $_lang["emailsubject_default"] = 'Tus detalles de entrada';
@@ -301,6 +325,7 @@ $_lang["files_access_denied"] = '¡Acceso denegado!';
 $_lang["files_data"] = 'Datos';
 $_lang["files_dir_listing"] = 'Listando del directorio para:';
 $_lang["files_directories"] = 'Directorios';
+$_lang["files_directory_is_empty"] = 'This directory is empty.';
 $_lang["files_dirwritable"] = '¿Directorio escribible?';
 $_lang["files_editfile"] = 'Editar archivo';
 $_lang["files_file_type"] = 'Tipo de archivo: ';
@@ -346,14 +371,19 @@ $_lang["friendlyurlsuffix_message"] = 'Aquí puedes especificar el sufijo para l
 $_lang["friendlyurlsuffix_title"] = 'Sufijo para URLs amigables:';
 $_lang["functionnotimpl"] = '¡Lo sentimos!';
 $_lang["functionnotimpl_message"] = 'Esta función no ha sido implementada todavía.';
+$_lang["further_info"] = 'Further information';
+$_lang["global_tabs"] = 'Global Tabs';
 $_lang["go"] = 'Ir';
 $_lang["group_access_permissions"] = 'Acceso de grupo de usuarios';
+$_lang['group_tvs'] = 'Group TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Ayuda';
 $_lang["help_msg"] = '<p>Puede obtener soporte gratuito de la comunidad <a href="http://forums.modx.com" target="_blank">visitando los foros de EVO</a>.  También hay un cumulo creciente de <a href="http://evolution-docs.com" target="_blank">Documentación y Guías EVO</a> que tocan virtualmente todos los aspectos de EVO.</p><p>Estamos planeando ofrecer servicios de soporte comercial para EVO. Por favor, <a href="mailto:hello@modx.com?subject=MODX Commercial Support Inquiry">envíenos un mensaje si está interesado</a>.';
 $_lang["help_title"] = 'Ayuda';
 $_lang["hide_tree"] = 'Ocultar árbol';
 $_lang["home"] = 'Cuadro de Mando';
+$_lang["htmlsnippet"] = 'Chunk';
+$_lang["htmlsnippets"] = 'Chunks';
 $_lang["htmlsnippet_desc"] = 'Descripción';
 $_lang["htmlsnippet_management_msg"] = 'Aquí puedes seleccionar qué chunk deseas editar.';
 $_lang["htmlsnippet_msg"] = 'Aquí puedes añadir/editar chunks.  Recuerda, los chunks son código HTML \'plano\', por lo que cualquier código PHP no será procesado.';
@@ -370,6 +400,14 @@ $_lang["import_params"] = 'Parámetros compartidos del modulo de importación';
 $_lang["import_params_msg"] = 'Puedes importar los parámetros, o configuraciones de un módulo seleccionando el nombre del módulo en el siguiente menú desplegable. <b>NOTA:</b> Para que los módulos aparezcan dentro del menú, este plugin/snippet debe ser parte del listado de dependencias del módulo y el módulo debe tener habilitado el compartir parametros. ';
 $_lang["import_parent_resource"] = 'Documento padre:';
 $_lang["update_tree"] = 'Reconstruir el árbol';
+$_lang["update_tree_description"] = '<ul>
+                   <li> - Closure table database design pattern that makes working with the document tree more convenient and fast </li>
+                     <li> - If the data in the tree is updated not through models, then there is a possibility of an incorrect linking of documents in the database </li>
+                     <li> - This operation fixes the problem when site_content is not updated through the model (save, create) and the links (Closure table) are not updated </li>
+                     <li> - It is also possible to perform this operation in CLI mode via the \'php artisan closuretable: rebuild \' command </li>
+                     </ul>';
+$_lang["update_tree_danger"] = 'If you have more than 1000 resources, it is better to perform this operation in CLI mode using the \'php artisan closuretable: rebuild command\'';
+$_lang["update_tree_time"] = 'Rebuild tree finished. Documents processed: <b>%s</b><br>Import took <b>%s</b> seconds to complete.';
 $_lang["inbox"] = 'Bandeja de entrada';
 $_lang["info"] = 'Info';
 $_lang["information"] = 'Información';
@@ -377,13 +415,22 @@ $_lang["inline"] = 'En linea';
 $_lang["insert"] = 'Insertar';
 $_lang["maxImageWidth"] = 'Ancho máximo de la imagen';
 $_lang["maxImageHeight"] = 'Altura máxima de la imagen';
+$_lang["clientResize"] = 'Resize images on client-side';
+$_lang["clientResize_message"] = 'If enabled then images will be resized by browser before upload to the server';
+$_lang["noThumbnailsRecreation"] = 'Create thumbnails on upload only';
+$_lang["noThumbnailsRecreation_message"] = 'File browser will create thumbnails only on upload; if there\'s no thumbnails for some images, they will not be created';
 $_lang["thumbWidth"] = 'Ancho máximo de la miniatura';
 $_lang["thumbHeight"] = 'Altura máxima de la miniatura';
+$_lang["thumbsDir"] = 'Thumbnails directory location';
 $_lang["jpegQuality"] = 'Compresión JPEG';
+$_lang["denyZipDownload"] = 'Disable zip-archives downloading';
 $_lang["denyExtensionRename"] = 'Deshabilitar el cambio de nombre de las extensiones de archivo';
+$_lang["maxImageWidth_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
+$_lang["maxImageHeight_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
 $_lang["thumbWidth_message"] = 'Ancho máximo de la miniatura.';
 $_lang["thumbHeight_message"] = 'Altura máxima de la miniatura.';
 $_lang["thumbsDir_message"] = 'El nombre del directorio de miniaturas.';
+$_lang["jpegQuality_message"] = 'JPEG compression quality of thumbnails and resized images';
 $_lang["showHiddenFiles"] = 'Mostrar archivos ocultos en el buscador de archivos';
 $_lang["keyword"] = 'Palabra clave';
 $_lang["keywords"] = 'Palabras clave';
@@ -440,6 +487,7 @@ $_lang["manage_plugins"] = 'Plugins';
 $_lang["manage_snippets"] = 'Snippets';
 $_lang["manage_templates"] = 'Templates';
 $_lang["manage_documents"] = 'Documents';
+$_lang["manage_permission"] = 'Permissions';
 $_lang["manager"] = 'Administrador';
 $_lang["manager_lockout_message"] = 'Estás actualmente dentro del Administrador de Contenido.  Si deseas cerrar tu sesión por favor haz clic en el botón de "Salir". <p />Para ir a tu página de inicio o página principal, haz clic en el botón de "Inicio".';
 $_lang["manager_permissions"] = 'Permisos del Administrador';
@@ -450,6 +498,8 @@ $_lang["manager_theme_mode1"] = 'todo es claro';
 $_lang["manager_theme_mode2"] = 'el encabezado es oscuro';
 $_lang["manager_theme_mode3"] = 'el encabezado y la barra lateral son oscuros';
 $_lang["manager_theme_mode4"] = 'todo esta oscuro';
+$_lang['manager_theme_mode_message'] = 'This setting is used as the "default" and can be overridden by the manager when using the theme color mode switch button in the Resource Tree: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["meta_keywords"] = 'Palabras Clave META';
 $_lang["metatag_intro"] = 'En esta página puedes borrar, crear o editar Etiquetas META (METAtags).  Para enlazar etiquetas META a documentos haz clic en la pestaña <u>Palabras Clave META</u> cuando edites el documento y selecciona las etiquetas META y las Palabras Clave deseadas.  Para añadir una etiqueta nueva ingresa el nombre y valor y haz clic en el botón \'Agregar etiqueta\'.  Para editar la etiqueta haz clic en el nombre de la etiqueta dentro de la cuadrícula de datos.';
 $_lang["metatag_notice"] = 'Quizá quieras ver la <a href="http://www.html-reference.com/META.asp" target="_blank">Guía de Referencia HTML</a> para más información.  Esta no es una lista completa de posibles etiquetas Meta.</a>';
@@ -513,6 +563,7 @@ $_lang["new_file_permissions_message"] = 'Cuando se esté subiendo un  archivo n
 $_lang["new_file_permissions_title"] = 'Permisos del Archivo Nuevo';
 $_lang["new_folder_permissions_message"] = 'Cuando se esté creando una  carpeta nueva en el Administrador de Archivos, este intentará cambiar los permisos a los ingresados en esta configuración.  Esto puede que no funcione en algunas configuraciones, tales como en IIS, en cuyo caso necesitarás cambiar manualmente los permisos.';
 $_lang["new_folder_permissions_title"] = 'Permisos de la Carpeta Nueva';
+$_lang["new_permission"] = 'New Permission';
 $_lang["new_htmlsnippet"] = 'Chunk nuevo';
 $_lang["new_keyword"] = 'Añadir palabra clave nueva:';
 $_lang["new_module"] = 'Módulo nuevo';
@@ -598,6 +649,8 @@ $_lang["paging_showing"] = 'Mostrando';
 $_lang["paging_to"] = 'a';
 $_lang["paging_total"] = 'total';
 $_lang["parameter"] = 'Parámetro';
+$_lang["parse_docblock"] = 'Parse DocBlock';
+$_lang["parse_docblock_msg"] = 'Attention (!): <b>Resets</b> actual name, configuration, description and category to install-defaults by parsing the source code.';
 $_lang["password"] = 'Contraseña';
 $_lang["password_change_request"] = 'Solicitud de cambio de contraseña';
 $_lang["password_gen_gen"] = 'Deja que EVO genere una contraseña.';
@@ -623,6 +676,7 @@ $_lang["plugin_priority"] = 'Editar el orden de Ejecución de Plugins por Evento
 $_lang["plugin_priority_instructions"] = 'Arrastra para re-ordenar los Plugins bajo cada encabezado de Eventos.  El primer plugin en ejecutarse deberá ir hasta arriba.';
 $_lang["plugin_priority_title"] = 'Orden de Ejecución de Plugins';
 $_lang["purge_plugin"] = 'Purge obsolete plugins';
+$_lang["purge_plugin_confirm"] = 'Are you sure you want to purge obsolete plugins?';
 $_lang["plugin_title"] = 'Crear/editar Plugin';
 $_lang["preview"] = 'Previsualizar';
 $_lang["preview_msg"] = 'Esta es una previsualización de tus últimos cambios guardados.  Haz clic aquí para <a href="javascript:;" onclick="saveRefreshPreview();">Guardar y Recargar</a> tus cambios actuales';
@@ -641,6 +695,8 @@ $_lang["rb_title"] = 'Habilitar el Navegador de Archivos:';
 $_lang["rb_webuser_message"] = '¿Quieres permitir a un usuario web la habilidad de usar el Navegador de Archivos? <b>ADVERTENCIA:</b> Permitiendo a los usuarios web el uso del navegador de archivos expone los archivos disponibles a los usuarios administrativos.  Sólo usa esta opción para usuarios web confiables.';
 $_lang["rb_webuser_title"] = '¿Usuarios Web?';
 $_lang["recent_docs"] = 'Documentos recientes';
+$_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
+$_lang["recommend_setting_change_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["references"] = 'Referencias';
 $_lang["refresh_cache"] = 'Cache: Se encontraron <b>%s</b> archivos en el directorio cache y se borraron <b>%d</b> archivos cacheados.<p>Los nuevos archivos cacheados serán creados cuando las páginas sean solicitadas.';
 $_lang["refresh_published"] = '<b>%s</b> documentos fueron publicados.';
@@ -648,6 +704,9 @@ $_lang["refresh_site"] = 'Limpiar cache';
 $_lang["refresh_title"] = 'Recargar sitio';
 $_lang["refresh_tree"] = 'Recargar árbol';
 $_lang["refresh_unpublished"] = '<b>%s</b> documentos fueron despublicados.';
+$_lang["release_date"] = 'Release date';
+$_lang["remember_last_tab"] = 'Remember tabs';
+$_lang["remember_last_tab_message"] = 'Tabbed Manager pages load with the last tab viewed instead of defaulting to the first tab';
 $_lang["remember_username"] = 'Recordarme';
 $_lang["remove"] = 'Remover';
 $_lang["remove_date"] = 'Remover fecha';
@@ -655,6 +714,7 @@ $_lang["remove_locks"] = 'Remover Bloqueos';
 $_lang["rename"] = 'Renombrar';
 $_lang["reports"] = 'Reportes';
 $_lang["report_issues"] = 'Reportar problemas';
+$_lang["required_field"] = 'Field :field is required';
 $_lang["require_tagname"] = 'Un nombre de etiqueta es requerido';
 $_lang["require_tagvalue"] = 'Un valor para la etiqueta es requeridos';
 $_lang["reserved_name_warning"] = 'You have used a reserved name.';
@@ -706,7 +766,11 @@ $_lang["resources_in_container"] = 'documentos en este contenedor';
 $_lang["resources_in_container_no"] = 'Este contenedor no tiene documentos-hijos.';
 $_lang["role"] = 'Rol';
 $_lang["role_about"] = 'Ver la página Nosotros';
-$_lang["role_access_persmissions"] = 'Permisos de acceso';
+$_lang["manager_access_permissions"] = 'Manager access permission';
+$_lang["manage_groups"] = 'Manage document and user groups';
+$_lang["manage_document_permissions"] = 'Manage document permissions';
+$_lang["manage_module_permissions"] = 'Manage module permissions';
+$_lang["manage_tv_permissions"] = 'Manage TV permissions';
 $_lang["role_actionok"] = 'Ver la pantalla de acción completada';
 $_lang["role_assets_images"] = 'Manage assets/images';
 $_lang["role_assets_files"] = 'Manage assets/files';
@@ -756,6 +820,7 @@ $_lang["role_help"] = 'Ver las páginas de ayuda';
 $_lang["role_home"] = 'Solicitar página de inicio del administrador';
 $_lang["role_import_static"] = 'Importar HTML';
 $_lang["role_logout"] = 'Salir del administrador';
+$_lang["role_list_module"] = 'List Module';
 $_lang["role_manage_metatags"] = 'Administrar las etiquetas META y las Palabras clave del sitio';
 $_lang["role_management_msg"] = 'Elige el rol que deseas editar.';
 $_lang["role_management_title"] = 'Roles';
@@ -768,6 +833,8 @@ $_lang["role_new_user"] = 'Crear usuarios nuevos';
 $_lang["role_new_web_user"] = 'Crear usuarios web nuevos';
 $_lang["role_plugin_management"] = 'Administración de Plugins';
 $_lang["role_publish_doc"] = 'Publicar documentos';
+$_lang["role_remove_locks"] = 'Remove Locks';
+$_lang["role_role_management"] = 'Roles';
 $_lang["role_run_module"] = 'Correr módulo';
 $_lang["role_save_chunk"] = 'Guardar chunks';
 $_lang["role_save_doc"] = 'Guardar documentos';
@@ -838,6 +905,9 @@ $_lang["serveroffset"] = 'Offset del servidor';
 $_lang["serveroffset_message"] = 'Selecciona el número de horas de diferencia entre donde te encuentras y donde está el servidor.  La hora  actual del servidor es <b>[%s]</b>, la hora actual del servidor usando el offset guardado actual es <b>[%s]</b>.';
 $_lang["serveroffset_title"] = 'Hora offset del servidor:';
 $_lang["servertime"] = 'Hora del servidor';
+$_lang["set_automatic"] = 'Set automatic';
+$_lang["set_default"] = 'Set default';
+$_lang["set_default_all"] = 'Set defaults';
 $_lang["settings_after_install"] = 'Como esta es una nueva instalación, te requiere que controles estas configuraciones, y cambies cualquiera que desees.  Después de que hayas controlado la configuración, presiona \'Guardar\' para actualizar la base de datos de configuración.<br /><br />';
 $_lang["settings_config"] = 'Configuración';
 $_lang["settings_dependencies"] = 'Dependencias';
@@ -852,6 +922,11 @@ $_lang["settings_KC"] = 'File Browser';
 $_lang["settings_page_settings"] = 'Configuración de Página';
 $_lang["settings_photo"] = 'Foto';
 $_lang["settings_properties"] = 'Propiedades';
+$_lang["show_fullscreen_btn_message"] = 'Show Menu toggle Fullscreen button';
+$_lang["show_newresource_btn_message"] = 'Show Menu New Resource button';
+$_lang["settings_show_picker_message"] = 'Customize manager theme and save to localstorage';
+$_lang["show_fullscreen_btn"] = 'Toggle Fullscreen button';
+$_lang["show_newresource_btn"] = 'New Resource button';
 $_lang["settings_site"] = 'Sitio';
 $_lang["settings_strip_image_paths_message"] = 'Si esto está configurado \'No\', EVO escribirá las fuentes del navegador de archivos (imágenes, archivos, flash, etc.) como URLs absolutas.  Las URLs relativas son de ayuda si deseas mover tu instalación de EVO, p.ej. de un servidor de trabajo a uno de producción.  Si no tienes idea de qué significa esto, será mejor lo dejes seleccionado en \'Si\'.';
 $_lang["settings_strip_image_paths_title"] = '¿Re-escribir las direcciones del navegador?';
@@ -859,7 +934,11 @@ $_lang["settings_templvars"] = 'Variables de Template';
 $_lang["settings_title"] = 'Configuración de sistema';
 $_lang["settings_ui"] = 'Interfase y Características';
 $_lang["settings_users"] = 'Usuario';
+$_lang["settings_email_templates"] = 'Email & Templates';
+$_lang["show_meta"] = 'Show META Keywords tab';
+$_lang["show_meta_message"] = 'Show the deprecated META Keywords tab when editing Resources in the Manager.';
 $_lang["show_tree"] = 'Mostrar árbol';
+$_lang["show_picker"] = 'Show Color Switcher';
 $_lang["showing"] = 'Mostrando';
 $_lang["signupemail_message"] = 'Configurar el mensaje de email enviado a los usuarios cuando se les cree una cuenta  incluyendo su nombre de usuario y su contraseña. <br /><b>Nota:</b> Los siguiente placeholders son remplazados por el Administrador de Contenido cuando el mensaje es enviado: <br /><br />[+sname+] - Nombre de tu sitio web, <br />[+saddr+] - La dirección electrónica de tu sitio web, <br />[+surl+] - La dirección url de tu sitio, <br />[+uid+] - El nombre o id del usuario, <br />[+pwd+] - La contraseña del usuario, <br />[+ufn+] - El nombre completo del usuario. <br /><br /><b>Deja el [+uid+] y [+pwd+] en el email, o el nombre de usuario y la contraseña no serán enviados en el email ¡y tus usuarios no los conocerán!</b>';
 $_lang["signupemail_title"] = 'Correo electrónico de inicio de sesión:';
@@ -876,6 +955,10 @@ $_lang["siteunavailable_message_default"] = 'Este sitio no está disponible en e
 $_lang["siteunavailable_page_message"] = 'Ingresa el ID del documento que quieres usar como página fuera de línea. <b>NOTA: Asegúrate de que el ID ingresado pertenece a un documento existente ¡y que ha sido publicado!</b>';
 $_lang["siteunavailable_page_title"] = 'Página de sitio no disponible:';
 $_lang["siteunavailable_title"] = 'Mensaje de sitio no disponible:';
+$_lang["controller_namespace"] = 'Controller Namespace';
+$_lang["controller_namespace_message"] = 'Specify the full Namespace from which it is worth taking controllers, for example: <b>EvolutionCMS\\Main\\Controllers\\</b>';
+$_lang["update_repository"] = 'GitHub repository path';
+$_lang["update_repository_message"] = 'Enter GitHub repository path for example: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Código de snippet (php)';
@@ -1056,6 +1139,9 @@ $_lang["user_failedlogincount"] = 'Ingresos fallidos';
 $_lang["user_fax"] = 'Fax';
 $_lang["user_female"] = 'Femenino';
 $_lang["user_full_name"] = 'Nombre completo';
+$_lang["user_first_name"] = 'First name';
+$_lang["user_last_name"] = 'Last Name';
+$_lang["user_middle_name"] = 'Middle Name';
 $_lang["user_gender"] = 'Género';
 $_lang["user_is_blocked"] = '¡Este usuario está bloqueado!';
 $_lang["user_logincount"] = 'Número de ingresos';
@@ -1068,12 +1154,15 @@ $_lang["user_photo"] = 'Foto del usuario';
 $_lang["user_photo_message"] = 'Ingresa el url de la imagen para este usuario o usa el botón de insertar para seleccionar o subir una imagen al servidor.';
 $_lang["user_prevlogin"] = 'Último ingreso';
 $_lang["user_role"] = 'Rol del usuario';
+$_lang["no_user_role"] = 'No user role';
 $_lang["user_state"] = 'Estado o Provincia';
 $_lang["user_title"] = 'Crear/Editar usuario';
 $_lang["user_upload_message"] = ' Si deseas evitar que este usuario suba cualquier tipo de archivos en esta categoría, asegúrate de que la caja de selección \'Usar Configuración Principal\' no está seleccionada y deja vacío el campo.';
 $_lang["user_use_config"] = 'Usar Configuración Principal';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Código postal';
 $_lang["username"] = 'Nombre de usuario';
+$_lang["username_unique"] = 'User name is already in use!';
 $_lang["users"] = 'Seguridad';
 $_lang["valid_hostnames_message"] = 'Ayudar a prevenir ataques XSS que explota un mal uso de la configuración del sistema site_url al proporcionar una lista separada por comas de nombres de host válidos para esta instalación. Esto es importante para algunos tipos de hosts compartidos o hosts accesible a través de una dirección IP. Se usará en primer lugar el nombre de host de la lista si el HTTP_HOST no coincide con ningún nombre de host válido.';
 $_lang["valid_hostnames_title"] = 'Nombres de host válido';
@@ -1095,6 +1184,7 @@ $_lang["web_access_permissions_user_groups"] = 'Grupo de Usuarios Web:';
 $_lang["web_permissions"] = 'Permisos Web';
 $_lang["web_user_management_msg"] = 'Elige qué usuario web deseas editar. Los usuarios web son aquellos usuarios que sólo tienen permitido ingresar en el sitio web';
 $_lang["web_user_management_title"] = 'Usuarios Web';
+$_lang["web_user_management_select_role"] = 'All roles';
 $_lang["web_user_title"] = 'Crear/editar usuario web';
 $_lang["web_users"] = 'Usuarios web';
 $_lang["weblink"] = 'Enlace web';
@@ -1123,17 +1213,41 @@ $_lang["yourinfo_total_logins"] = 'Número total de ingresos:';
 $_lang["yourinfo_username"] = 'Estás ingresado como:';
 
 $_lang["a17_error_reporting_title"] = 'Nivel de detección de errores de PHP';
+$_lang["a17_error_reporting_msg"] = 'Set the detection level of the PHP errors.';
 $_lang["a17_error_reporting_opt0"] = 'Ignora todo';
+$_lang["a17_error_reporting_opt1"] = 'Ignore warnings of a slight notice level (<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
+$_lang["a17_error_reporting_opt2"] = 'Detect all errors except E_NOTICE and E_USER_DEPRECATED';
+$_lang["a17_error_reporting_opt99"] = 'Detect all except E_USER_DEPRECATED';
+$_lang["a17_error_reporting_opt199"] = 'Detect all';
+
+$_lang["pwd_hash_algo_title"] = 'Hash algorithm';
+$_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
+
+$_lang["enable_bindings_title"] = 'Enable @Bindings commands';
+$_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
 $_lang["enable_filter_title"] = 'Habilitar filtros';
 $_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Cuando está habilitada PHx plugin, incorporado en los filtros están desactivados por defecto';
 
 $_lang["enable_at_syntax_title"] = 'Habilitar &lt;@SYNTAX&gt;';
+$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) is simple and lightweight template syntax. This is designed to consider coexistence with HTML tags and content strings.';
+
+$_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
+$_lang["bkmgr_restore_msg"] = '<p>Database tables could be restored by SQL:</p>';
 $_lang["bkmgr_restore_title"] = 'Restaurar';
+$_lang["bkmgr_import_ok"] = 'SQL recovery was performed normally.';
+$_lang["bkmgr_snapshot_ok"] = 'The snapshot was saved normally.';
+$_lang["bkmgr_run_sql_file_label"] = 'Execute by SQL file';
+$_lang["bkmgr_run_sql_direct_label"] = 'Direct execute SQL commands';
 $_lang["bkmgr_run_sql_submit"] = 'Ejecutar restaurar';
 $_lang["bkmgr_run_sql_result"] = 'Resultado';
+$_lang["bkmgr_snapshot_title"] = 'Snapshot save and recovery';
+$_lang["bkmgr_snapshot_msg"] = '<p>The contents of the database are saved in and restored from a server directory.<br />Location: [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
+$_lang["bkmgr_snapshot_submit"] = 'Add Snapshot';
+$_lang["bkmgr_snapshot_list_title"] = 'List of snapshots';
 $_lang["bkmgr_restore_submit"] = 'Revertir estos datos';
 $_lang["bkmgr_restore_confirm"] = 'Está seguro de que desea restaurar la copia de seguridad?\n[+filename+] ?';
+$_lang["bkmgr_snapshot_nothing"] = 'No snapshots available';
 
 $_lang["files.dynamic.php1"] = 'Nuevo archivo de texto';
 $_lang["files.dynamic.php2"] = 'Este directorio no se puede mostrar.';
@@ -1145,13 +1259,31 @@ $_lang["files_dynamic_new_folder_name"] = 'Introduzca nuevo nombre de directorio
 $_lang["files_dynamic_new_file_name"] = 'Introduzca nuevo nombre de archivo:';
 $_lang["not_readable_dir"] = 'No se puede leer este directorio.';
 $_lang["confirm_delete_dir"] = '¿Estás seguro de que quieres borrar el directorio?';
-$_lang["check_files_onlogin_title"] = 'Compruebe los archivos principales al iniciar sesión';
-$_lang["configcheck_sysfiles_mod"] = 'Se han modificado archivos importantes del sistema.';
+$_lang["confirm_delete_dir_recursive"] = 'Are you sure you want to delete this directory?\n\nAll files inside this directory will also be deleted.';
 
+$_lang["make_folders_title"] = 'End Container URL with Slash';
+$_lang["make_folders_message"] = 'Append trailing slash to Resources that are set as containers when using Friendly URLs.';
+
+$_lang["check_files_onlogin_title"] = 'Compruebe los archivos principales al iniciar sesión';
+$_lang["check_files_onlogin_message"] = 'By enabling this option, important system files will be checked for modification typical of scripted website attacks. While not a foolproof guarantee, it may alert you to a compromised Evolution CMS file and website.';
+
+$_lang["configcheck_sysfiles_mod"] = 'Se han modificado archivos importantes del sistema.';
+$_lang["configcheck_sysfiles_mod_msg"] = 'You have configured Evolution CMS to check important system files for possible website script attacks. This warning does not necessarily mean your site has been compromised, however, you should review the watched files in your installation (set in System configuration -> User -> Check core files on login). If you find your files unaltered or changes were made by site administrators, go to System Configuration and click to re-save settings to dismiss this message. Changes in the following files have been found:';
+
+$_lang['email_method_title'] = 'Sendmail method';
+$_lang['email_method_mail'] = 'PHP mail() function';
+$_lang['email_method_smtp'] = 'SMTP Server';
 $_lang['smtp_auth_title'] = 'SMTP-AUTH';
 $_lang['smtp_autotls_title'] = 'SMTPAutoTLS';
+$_lang['smtp_host_title'] = 'SMTP host';
 $_lang['smtp_secure_title'] = 'Cifrado SMTP';
+$_lang['smtp_username_title'] = 'SMTP username';
+$_lang['smtp_password_title'] = 'SMTP password';
 $_lang['smtp_port_title'] = 'Puerto SMTP';
+
+$_lang["setting_resource_tree_node_name"] = 'Display Name in Resource Tree';
+$_lang["setting_resource_tree_node_name_desc"] = 'Select the Resource field to show as the Resource name in the Resource Tree. The default setting is pagetitle.';
+$_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since Evolution CMS 1.1 you can change this Display Name within Resource-Tree´s sorting option. This setting is used when Display Name in Resource Tree is set to &quot;Default&quot;.';
 
 $_lang["resource_opt_alvisibled"] = 'Utilizar alias actual en ruta de alias';
 $_lang["resource_opt_alvisibled_help"] = 'El alias de este Recurso se insertará en la ruta de alias de URL amigable';
@@ -1161,10 +1293,23 @@ $_lang["docid_incrmnt_method_0"] = 'DB auto incremental';
 $_lang["docid_incrmnt_method_1"] = 'Mínimo ID perdido';
 $_lang["docid_incrmnt_method_2"] = 'Máximo ID + 1';
 
+$_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
 $_lang["disabled_at_login"] = 'Deshabilitado al iniciar sesión';
 
 $_lang["cache_type_title"] = 'Tipo de caché de documentos';
+$_lang["cache_type_1"] = 'Cache is based only on Resource ID (standard)';
+$_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Usar URLs estrictas de SEO';
+$_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
+$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
+$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
+
+$_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the Evolution CMS installation directory at .htaccess to use the Friendly URL function.';
+$_lang["settings_friendlyurls_alert2"] = 'Since Evolution CMS was installed in a subdirectory, it is necessary to change the content of .htaccess.';
 
 $_lang["user_street"] = 'Calle';
 $_lang["user_city"] = 'Ciudad';
@@ -1180,6 +1325,7 @@ $_lang["error_no_truncate_tablename"] = "Tabla a truncar no se encuentra en la p
 $_lang["error_double_action"]         = "Doble acción (GET & POST) enviadas!.";
 $_lang["error_no_id"]                 = "ID no pasada en la petición!";
 $_lang["error_id_nan"]                = "ID pasada en la petición es NaN!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_no_parent"]             = "No pudo encontrar el nombre del documento padre!";
 $_lang["error_many_results"]          = "Demasiados resultados devueltos de la base de datos!.";
 $_lang["error_no_results"]            = "Insuficientes ó sin resultados devueltos de la base de datos!.";
@@ -1193,6 +1339,7 @@ $_lang["error_internet_connection"]   = "El servidor no está disponible. ¡Comp
 $_lang["login_processor_unknown_user"]       = "Incorrecto nombre o password introducido!";
 $_lang["login_processor_wrong_password"]     = "Incorrecto nombre o password introducido!";
 $_lang["login_processor_many_failed_logins"] = "Debido a muchos inicios de sesión fallidos, usted ha sido bloqueado!";
+$_lang["login_processor_verified"]           = "User verification required!";
 $_lang["login_processor_blocked1"]           = "¡ Estás bloqueado y no puedo ingresar!";
 $_lang["login_processor_blocked2"]           = "¡ Estás bloqueado y no puedo ingresar! Inténtalo de nuevo más tarde.";
 $_lang["login_processor_blocked3"]           = "Usted está bloqueado de forma automática después de una fecha determinada y no puede ingresar!";
@@ -1214,22 +1361,58 @@ $_lang["version_notices"] = "Avisos de la versión";
 
 $_lang["em_button_shift"] = " (Shift-Mouseclick to open multiple windows)";
 
+$_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
+$_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
+
+$_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
 $_lang["which_browser_default_title"]= "Explorador de archivos predeterminado";
+$_lang["which_browser_default_msg"]= "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
 $_lang["which_browser_title"]= "Explorador de archivos";
+$_lang["which_browser_msg"]= "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
 $_lang["option_default"] = "Predeterminado";
 $_lang["position"] = "Posición";
 $_lang["are_you_sure"] = "¿Estás seguro?";
+
+$_lang['evo_downloads_title'] = "Evolution CMS Downloads";
 $_lang['help_translating_title'] = "Ayuda a traducir Evolution";
 $_lang['download'] = "Descargar";
 $_lang['downloads'] = "Descargas";
 $_lang["previous_releases"] = "Lanzamientos Anteriores";
 $_lang["extras"] = "Extras";
 
-$_lang["minifyphp_incache_title"] = 'Minimizar el código php en el caché del sitio';
+$_lang["display_locks"] = "Display Locks";
+$_lang["role_display_locks"] = "Display Locks";
+$_lang["session_timeout"] = "Session Timeout";
+$_lang["session_timeout_msg"] = "Evolution CMS will ping the server as per setting &quot;Mail Check Time Period&quot;. If the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
+$_lang["unlock_element_id_warning"] = "Are you sure you want to unlock this [+element_type+] (ID [+id+])?";
+$_lang["lock_element_type_1"] = "Template";
+$_lang["lock_element_type_2"] = "Template-Variable";
+$_lang["lock_element_type_3"] = "Chunk";
+$_lang["lock_element_type_4"] = "Snippet";
+$_lang["lock_element_type_5"] = "Plugin";
+$_lang["lock_element_type_6"] = "Module";
+$_lang["lock_element_type_7"] = "Resource";
+$_lang["lock_element_type_8"] = "Role";
+$_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
+$_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
 
+$_lang["minifyphp_incache_title"] = 'Minimizar el código php en el caché del sitio';
+$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
+
+$_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+
+$_lang["allow_eval_title"]             = "Eval php code in snippet call";
+$_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"]         = "Execute only permitted functions";
+$_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
+$_lang["allow_eval_everytime_eval"]    = "Unlimited (Use only for debugging)";
 $_lang["allow_eval_dont_eval"]         = "No permitir todas las funciones.";
 
+$_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
 $_lang["safe_functions_at_eval_msg"]   = "Lista separada por comas";
+
+$_lang["multiple_sessions_msg"]   = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
+$_lang["iconv_not_available"]     = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
 
 $_lang["cm_create_new_category"] = "Crear la nueva categoría";
 $_lang["cm_category_name"] = "Nombre de la categoría";
@@ -1252,15 +1435,40 @@ $_lang["cm_translation"] = "Traducción";
 $_lang["cm_translations"] = "Traducciones";
 $_lang["cm_categorize_x"] = "Categorize <span class=\"highlight\">%s</span>";
 $_lang["cm_unknown_error"] = "Algo salió mal.";
+$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> has been assigned to category <span class=\"highlight\">%s(%s)</span>";
+$_lang["cm_no_categorization"] = "No categorization made.";
+$_lang["cm_no_changes"] = "Nothing to change, so no changes made.";
+$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changes made";
 $_lang["cm_enter_name_for_category"] = "Por favor ingrese un nombre para la nueva categoría.";
+$_lang["cm_category_x_exists"] = "Category <span class=\"highlight\">%s</span> already exists.";
+$_lang["cm_category_x_saved_at_position_y"] = "The new category <span class=\"highlight\">%s</span> was saved at position <span class=\"highlight\">%s</span>.";
+$_lang["cm_category_x_moved_to_position_y"] = "Category <span class=\"highlight\">%s</span> was moved to position <span class=\"highlight\">%s</span>";
+$_lang["cm_category_x_deleted"] = "Category <span class=\"highlight\">%s</span> has been deleted";
+$_lang["cm_category_x_renamed_to_y"] = "Category <span class=\"highlight\">%s</span> was renamed to <span class=\"highlight\">%s</span>";
+$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
+$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
 $_lang["cm_save_new_sorting"] = "Guardar nueva orden";
+$_lang["cm_translate_phrases"] = "Translate phrases";
+$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
+$_lang["cm_native_phrase"] = "Native phrase";
+
 $_lang["btn_view_options"] = 'Ver opciones';
+$_lang["view_options_msg"] = 'The display & listing of elements can be customized via &quot;View Options&quot;-button. Settings are saved and restored per Browser using HTML5´s localStorage.';
+$_lang["viewopts_title"] = 'View Options';
+$_lang["viewopts_cb_buttons"] = 'Buttons';
+$_lang["viewopts_cb_descriptions"] = 'Descriptions';
 $_lang["viewopts_cb_icons"] = 'Iconos';
 $_lang["viewopts_radio_list"] = 'Listado';
 $_lang["viewopts_radio_inline"] = 'En línea';
 $_lang["viewopts_radio_flex"] = 'Flexionar';
 $_lang["viewopts_fontsize"] = 'Tamaño de fuente';
 $_lang["viewopts_cb_alltabs"] = 'Todas las pestañas';
+
+$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['auto'] = 'Auto-detect';
+$_lang['use_emailsender'] = 'Use [(emailsender)] value';
+$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+
 $_lang['login_form_position_title'] = 'Posición de formulario de inicio de sesión';
 $_lang['login_form_position_left'] = 'izquierda';
 $_lang['login_form_position_center'] = 'centro';
@@ -1269,13 +1477,30 @@ $_lang["login_form_style"] = 'Estilo de formulario de inicio de sesión:';
 $_lang["login_form_style_dark"] = 'oscuro';
 $_lang["login_form_style_light"] = 'claro';
 $_lang['login_logo_title'] = 'Imagen de logo de la página de inicio ';
+$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
+$_lang['login_bg_title'] = 'Login page background image';
+$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
 
 $_lang['manager_menu_position_title'] = 'Posición del menú principal';
 $_lang['manager_menu_position_top'] = 'parte superior';
 $_lang['manager_menu_position_left'] = 'izquierda';
 
+$_lang['invalid_event_response'] = 'The %s event has ivalid output';
+
 $_lang['chunk_processor'] = 'Clase de procesamiento de Chunks';
-$_lang['enable_mootools'] = 'Habilitar Mootools en el administrador';
-$_lang['enable_mootools_message'] = 'Cargue Mootools.js en el administrador para compatibilidad con versiones anteriores';
+
+$_lang["permission_title"] = 'Create / edit permission';
+$_lang["groups_permission_title"] = 'Create / edit category';
+$_lang["lang_key_desc"] = 'Key language from array $_lang';
+$_lang["key_desc"] = 'Key for checked permission';
+
+$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
+$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
+$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
+$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
+
+$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
+$_lang['disable'] = 'Disable';
+$_lang['enable'] = 'Enable';
 
 return $_lang;

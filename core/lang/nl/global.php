@@ -6,8 +6,8 @@
  * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Dutch
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -23,7 +23,6 @@ $_lang["access_permission_parent_denied"] = 'U heeft niet genoeg toegangsrechten
 $_lang["access_permissions"] = 'Toegangsrechten';
 $_lang["access_permissions_add_resource_group"] = 'Maak een nieuwe Paginagroep';
 $_lang["access_permissions_add_user_group"] = 'Maak een nieuwe Gebruikersgroep';
-$_lang["access_permissions_docs_collision"] = 'Omdat de Webgebruikersgroepen en Gebruikersgroepen conflicteren voor uw Rol, zal deze Pagina onbeveiligd zijn. Neem contact op met uw website beheerder voor meer hulp.';
 $_lang["access_permissions_docs_message"] = 'Geef aan tot welke Paginagroepen deze Pagina behoort';
 $_lang["access_permissions_group_link"] = 'Maak een nieuwe groep koppeling';
 $_lang["access_permissions_introtext"] = 'Dit is de beheermodule van Gebruikers- en Paginagroepen die worden gebruikt in het toegangsbeheer. Om een Gebruiker toe te voegen aan een groep, volstaat het deze te bewerken en de groepen te kiezen waartoe deze moet behoren. Om een Pagina toe te wijzen aan een Gebruikersgroep, kiest u tijdens het bewerken van de Pagina voor de groepen waartoe de Pagina moet behoren.';
@@ -767,7 +766,11 @@ $_lang["resources_in_container"] = 'Pagina\'s in deze Map';
 $_lang["resources_in_container_no"] = 'Deze Map bevat geen Subpagina\'s.';
 $_lang["role"] = 'Rol';
 $_lang["role_about"] = 'Infopagina weergeven';
-$_lang["role_access_persmissions"] = 'Toegangsrechten';
+$_lang["manager_access_permissions"] = 'Manager access permission';
+$_lang["manage_groups"] = 'Manage document and user groups';
+$_lang["manage_document_permissions"] = 'Manage document permissions';
+$_lang["manage_module_permissions"] = 'Manage module permissions';
+$_lang["manage_tv_permissions"] = 'Manage TV permissions';
 $_lang["role_actionok"] = '\'Bewerking is voltooid\'-scherm weergeven';
 $_lang["role_assets_images"] = 'Beheer afbeeldingen';
 $_lang["role_assets_files"] = 'Beheer bestanden';
@@ -1497,5 +1500,7 @@ $_lang["role_tv_msg"] = 'De variabelen die aan deze rol zijn toegewezen, worden 
 $_lang["tmplvar_roles_access_msg"] = 'Selecteer de rollen die deze Template variabele mogen openen / verwerken';
 
 $_lang["setting_from_file"] = '<strong class="text-danger">Parameter waarde wordt defined in core/custom/confic/cms/settings</strong>';
+$_lang['disable'] = 'Uitschakelen';
+$_lang['enable'] = 'Inschakelen';
 
 return $_lang;
