@@ -387,16 +387,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         <?php endif; ?>
 
         <!-- access permission -->
+        <?php if ($modx->getConfig('use_udperms') && $modx->hasAnyPermissions(['manage_groups', 'manage_module_permissions'])): ?>
         <div class="tab-page" id="tabPermissions">
             <h2 class="tab"><?= $_lang['access_permissions'] ?></h2>
             <script type="text/javascript">tp.addTabPage(document.getElementById("tabPermissions"));</script>
             <div class="container container-body">
-                <?php if ($modx->getConfig('use_udperms')) : ?>
                     <?php
                     // fetch user access permissions for the module
                     $groupsarray = \EvolutionCMS\Models\SiteModuleAccess::query()->where('module', $id)->pluck('usergroup')->toArray();
-
-                    if ($modx->hasPermission('access_permissions')) {
                         ?>
                         <!-- User Group Access Permissions -->
                         <script type="text/javascript">
@@ -421,34 +419,24 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         </script>
                         <p><?= $_lang['module_group_access_msg'] ?></p>
                         <?php
-                    }
                     $chks = '';
                     $membergroupNames = \EvolutionCMS\Models\MembergroupName::query()->select('name', 'id')->get();
                     $notPublic = false;
                     foreach ($membergroupNames->toArray() as $row) {
                         $groupsarray = is_numeric($id) && $id > 0 ? $groupsarray : array();
                         $checked = in_array($row['id'], $groupsarray);
-                        if ($modx->hasPermission('access_permissions')) {
-                            if ($checked) {
-                                $notPublic = true;
-                            }
-                            $chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . $row['name'] . "</label><br />\n";
-                        } else {
-                            if ($checked) {
-                                $chks = '<input type="hidden" name="usrgroups[]"  value="' . $row['id'] . '" />' . "\n" . $chks;
-                            }
+                        if ($checked) {
+                            $notPublic = true;
                         }
+                        $chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . $row['name'] . "</label><br />\n";
                     }
-                    if ($modx->hasPermission('access_permissions')) {
+                    $chks = '<label><input type="checkbox" name="chkallgroups"' . (!$notPublic ? ' checked="checked"' : '') . ' onclick="makePublic(true)" /><span class="warning"> ' . $_lang['all_usr_groups'] . '</span></label><br />' . "\n" . $chks;
 
-                        $chks = '<label><input type="checkbox" name="chkallgroups"' . (!$notPublic ? ' checked="checked"' : '') . ' onclick="makePublic(true)" /><span class="warning"> ' . $_lang['all_usr_groups'] . '</span></label><br />' . "\n" . $chks;
-                    }
                     echo $chks;
                     ?>
-                <?php endif; ?>
             </div>
         </div>
-
+        <?php endif; ?>
         <!-- docBlock Info -->
         <div class="tab-page" id="tabDocBlock">
             <h2 class="tab"><?= $_lang['information'] ?></h2>
