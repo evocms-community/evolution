@@ -87,6 +87,7 @@ class DBAPI
         } while (!$this->conn && $safe_count < 3);
         if ($this->conn instanceof mysqli) {
             $this->conn->query("{$connection_method} {$charset}");
+            $this->conn->query("set sql_big_selects=1");
             $tend = $modx->getMicroTime();
             $totaltime = $tend - $tstart;
             if ($modx->dumpSQL) {
