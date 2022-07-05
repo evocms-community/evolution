@@ -967,6 +967,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                                     $i = $ii = 0;
                                     $tab = '';
+                                    $split = 0;
                                     foreach ($tvsArray as $row) {
                                     	$row['category_id'] = $row['category_id'] ?? 0;
                                         if ($group_tvs && $row['category_id'] != 0) {
