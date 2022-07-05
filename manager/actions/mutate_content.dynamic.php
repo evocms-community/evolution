@@ -595,7 +595,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 			<?php
 			// breadcrumbs
 			if($modx->config['use_breadcrumbs']) {
-				$temp = array();
+				$out = '';
+                $temp = array();
 				$title = isset($content['pagetitle']) ? $content['pagetitle'] : $_lang['create_resource_title'];
 
 				if(isset($_REQUEST['id']) && $content['parent'] != 0) {
@@ -983,7 +984,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     </table>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
                                 <div class="tab-header">' . $row['category'] . '</div>
                                 <div class="tab-body tmplvars">
@@ -995,7 +996,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
                                 <h2 class="tab">' . $row['category'] . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
-                                
+
                                 <div class="tab-body tmplvars">
                                     <table>';
                                                     } else {
@@ -1003,11 +1004,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     </table>
                                 </div>
                             </div>
-                            
+
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
                                 <h2 class="tab">' . $row['category'] . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
-                                
+
                                 <div class="tab-body tmplvars">
                                     <table>';
                                                     }
@@ -1022,11 +1023,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                         $templateVariablesOutput .= '
                                     </table>
                                 </div>
-                                
+
                                 <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
                                     <h2 class="tab">' . $row['category'] . '</h2>
                                     <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
-                                    
+
                                     <table>';
                                                     }
                                                 }
