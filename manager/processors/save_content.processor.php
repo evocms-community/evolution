@@ -1,5 +1,5 @@
 <?php
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_document')) {
@@ -14,33 +14,32 @@ $pagetitle = $modx->db->escape($_POST['pagetitle']);
 $description = $modx->db->escape($_POST['description']);
 $alias = $modx->db->escape($_POST['alias']);
 $link_attributes = $modx->db->escape($_POST['link_attributes']);
-$isfolder = (int)$_POST['isfolder'];
-$richtext = (int)$_POST['richtext'];
-$published = (int)$_POST['published'];
-$parent = $_POST['parent'] != '' ? (int)$_POST['parent'] : 0;
-$template = (int)$_POST['template'];
-$menuindex = !empty($_POST['menuindex']) ? (int)$_POST['menuindex'] : 0;
-$searchable = (int)$_POST['searchable'];
-$cacheable = (int)$_POST['cacheable'];
-$syncsite = (int)$_POST['syncsite'];
+$isfolder = (int) $_POST['isfolder'];
+$richtext = (int) $_POST['richtext'];
+$published = (int) $_POST['published'];
+$parent = $_POST['parent'] != '' ? (int) $_POST['parent'] : 0;
+$template = (int) $_POST['template'];
+$menuindex = !empty($_POST['menuindex']) ? (int) $_POST['menuindex'] : 0;
+$searchable = (int) $_POST['searchable'];
+$cacheable = (int) $_POST['cacheable'];
+$syncsite = (int) $_POST['syncsite'];
 $pub_date = $_POST['pub_date'];
 $unpub_date = $_POST['unpub_date'];
-$document_groups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on') ? array() : $_POST['docgroups'];
+$document_groups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on') ? [] : $_POST['docgroups'];
 $type = $modx->db->escape($_POST['type']);
 $contentType = $modx->db->escape($_POST['contentType']);
-$contentdispo = (int)$_POST['content_dispo'];
+$contentdispo = (int) $_POST['content_dispo'];
 $longtitle = $modx->db->escape($_POST['longtitle']);
-$donthit = (int)$_POST['donthit'];
+$donthit = (int) $_POST['donthit'];
 $menutitle = $modx->db->escape($_POST['menutitle']);
-$hidemenu = (int)$_POST['hidemenu'];
-$aliasvisible = (int)$_POST['alias_visible'];
+$hidemenu = (int) $_POST['hidemenu'];
+$aliasvisible = (int) $_POST['alias_visible'];
 
 /************* webber ********/
-$sd=isset($_POST['dir']) && strtolower($_POST['dir']) === 'asc' ? '&dir=ASC' : '&dir=DESC';
-$sb=isset($_POST['sort'])?'&sort='.html_escape($_POST['sort'], $modx->config['modx_charset']):'&sort=pub_date';
-$pg=isset($_POST['page'])?'&page='.(int)$_POST['page']:'';
-$add_path=$sd.$sb.$pg;
-
+$sd = isset($_POST['dir']) && strtolower($_POST['dir']) === 'asc' ? '&dir=ASC' : '&dir=DESC';
+$sb = isset($_POST['sort']) ? '&sort=' . html_escape($_POST['sort'], $modx->config['modx_charset']) : '&sort=pub_date';
+$pg = isset($_POST['page']) ? '&page=' . (int) $_POST['page'] : '';
+$add_path = $sd . $sb . $pg;
 
 
 $no_esc_pagetitle = $_POST['pagetitle'];
@@ -53,15 +52,15 @@ if (trim($no_esc_pagetitle) == "") {
 }
 
 // get table names
-$tbl_document_groups            = $modx->getFullTableName('document_groups');
-$tbl_documentgroup_names        = $modx->getFullTableName('documentgroup_names');
-$tbl_member_groups              = $modx->getFullTableName('member_groups');
-$tbl_membergroup_access         = $modx->getFullTableName('membergroup_access');
-$tbl_site_content               = $modx->getFullTableName('site_content');
-$tbl_site_tmplvar_access        = $modx->getFullTableName('site_tmplvar_access');
+$tbl_document_groups = $modx->getFullTableName('document_groups');
+$tbl_documentgroup_names = $modx->getFullTableName('documentgroup_names');
+$tbl_member_groups = $modx->getFullTableName('member_groups');
+$tbl_membergroup_access = $modx->getFullTableName('membergroup_access');
+$tbl_site_content = $modx->getFullTableName('site_content');
+$tbl_site_tmplvar_access = $modx->getFullTableName('site_tmplvar_access');
 $tbl_site_tmplvar_contentvalues = $modx->getFullTableName('site_tmplvar_contentvalues');
-$tbl_site_tmplvar_templates     = $modx->getFullTableName('site_tmplvar_templates');
-$tbl_site_tmplvars              = $modx->getFullTableName('site_tmplvars');
+$tbl_site_tmplvar_templates = $modx->getFullTableName('site_tmplvar_templates');
+$tbl_site_tmplvars = $modx->getFullTableName('site_tmplvars');
 
 $actionToTake = "new";
 if ($_POST['mode'] == '73' || $_POST['mode'] == '27') {
@@ -73,22 +72,26 @@ if ($friendly_urls) {
     // auto assign alias
     if (!$alias && $automatic_alias) {
         $alias = strtolower($modx->stripAlias(trim($pagetitle)));
-        if(!$allow_duplicate_alias) {
-            if ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content, "id<>'$id' AND alias='$alias'")) != 0) {
+        if (!$allow_duplicate_alias) {
+            if ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content,
+                    "id<>'$id' AND alias='$alias'")) != 0) {
                 $cnt = 1;
                 $tempAlias = $alias;
-                while ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content, "id<>'$id' AND alias='$tempAlias'")) != 0) {
+                while ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content,
+                        "id<>'$id' AND alias='$tempAlias'")) != 0) {
                     $tempAlias = $alias;
                     $tempAlias .= $cnt;
                     $cnt++;
                 }
                 $alias = $tempAlias;
             }
-        }else{
-            if ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content, "id<>'$id' AND parent=$parent AND alias='$alias'")) != 0) {
+        } else {
+            if ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content,
+                    "id<>'$id' AND parent=$parent AND alias='$alias'")) != 0) {
                 $cnt = 1;
                 $tempAlias = $alias;
-                while ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content, "id<>'$id' AND parent=$parent AND alias='$tempAlias'")) != 0) {
+                while ($modx->db->getValue($modx->db->select('COUNT(id)', $tbl_site_content,
+                        "id<>'$id' AND parent=$parent AND alias='$tempAlias'")) != 0) {
                     $tempAlias = $alias;
                     $tempAlias .= $cnt;
                     $cnt++;
@@ -96,37 +99,38 @@ if ($friendly_urls) {
                 $alias = $tempAlias;
             }
         }
-    }
-
-    // check for duplicate alias name if not allowed
+    } // check for duplicate alias name if not allowed
     elseif ($alias && !$allow_duplicate_alias) {
         $alias = $modx->stripAlias($alias);
         if ($use_alias_path) {
             // only check for duplicates on the same level if alias_path is on
-            $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content, "id<>'$id' AND alias='$alias' AND parent=$parent", '', 1));
+            $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content,
+                "id<>'$id' AND alias='$alias' AND parent=$parent", '', 1));
         } else {
-            $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content, "id<>'$id' AND alias='$alias'", '', 1));
+            $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content, "id<>'$id' AND alias='$alias'", '',
+                1));
         }
         if ($docid > 0) {
             if ($actionToTake == 'edit') {
                 $modx->manager->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias),
+                    "index.php?a=27&id={$id}");
             } else {
                 $modx->manager->saveFormValues(4);
                 $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias), "index.php?a=4");
             }
         }
-    }
-
-    // strip alias of special characters
+    } // strip alias of special characters
     elseif ($alias) {
         $alias = $modx->stripAlias($alias);
         //webber
-        $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content, "id<>'$id' AND alias='$alias' AND parent=$parent", '', 1));
+        $docid = $modx->db->getValue($modx->db->select('id', $tbl_site_content,
+            "id<>'$id' AND alias='$alias' AND parent=$parent", '', 1));
         if ($docid > 0) {
             if ($actionToTake == 'edit') {
                 $modx->manager->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias),
+                    "index.php?a=27&id={$id}");
             } else {
                 $modx->manager->saveFormValues(4);
                 $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid, $alias), "index.php?a=4");
@@ -134,8 +138,7 @@ if ($friendly_urls) {
         }
         //end webber
     }
-}
-elseif ($alias) {
+} elseif ($alias) {
     $alias = $modx->stripAlias($alias);
 }
 
@@ -149,8 +152,7 @@ if (empty ($pub_date)) {
 
     if ($pub_date < $currentdate) {
         $published = 1;
-    }
-    elseif ($pub_date > $currentdate) {
+    } elseif ($pub_date > $currentdate) {
         $published = 0;
     }
 }
@@ -165,20 +167,21 @@ if (empty ($unpub_date)) {
 }
 
 // get document groups for current user
-$tmplvars = array ();
+$tmplvars = [];
 $docgrp = '';
 if ($_SESSION['mgrDocgroups']) {
     $docgrp = implode(",", $_SESSION['mgrDocgroups']);
 }
 
 // ensure that user has not made this document inaccessible to themselves
-if($_SESSION['mgrRole'] != 1 && is_array($document_groups)) {
+if ($_SESSION['mgrRole'] != 1 && is_array($document_groups)) {
     $document_group_list = implode(',', $document_groups);
-    $document_group_list = implode(',', array_filter(explode(',',$document_group_list), 'is_numeric'));
-    if(!empty($document_group_list)) {
-        $rs = $modx->db->select('COUNT(mg.id)', "{$tbl_membergroup_access} AS mga, {$tbl_member_groups} AS mg", "mga.membergroup = mg.user_group AND mga.documentgroup IN({$document_group_list}) AND mg.member = {$_SESSION['mgrInternalKey']}");
+    $document_group_list = implode(',', array_filter(explode(',', $document_group_list), 'is_numeric'));
+    if (!empty($document_group_list)) {
+        $rs = $modx->db->select('COUNT(mg.id)', "{$tbl_membergroup_access} AS mga, {$tbl_member_groups} AS mg",
+            "mga.membergroup = mg.user_group AND mga.documentgroup IN({$document_group_list}) AND mg.member = {$_SESSION['mgrInternalKey']}");
         $count = $modx->db->getValue($rs);
-        if($count == 0) {
+        if ($count == 0) {
             if ($actionToTake == 'edit') {
                 $modx->manager->saveFormValues(27);
                 $modx->webAlertAndQuit(sprintf($_lang["resource_permissions_error"]), "index.php?a=27&id={$id}");
@@ -198,46 +201,46 @@ $rs = $modx->db->select(
         LEFT JOIN {$tbl_site_tmplvar_access} AS tva ON tva.tmplvarid=tv.id",
     "tvtpl.templateid = '{$template}' AND (1='{$_SESSION['mgrRole']}' OR ISNULL(tva.documentgroup)" . ((!$docgrp) ? "" : " OR tva.documentgroup IN ($docgrp)") . ")",
     "tv.rank"
-    );
+);
 while ($row = $modx->db->getRow($rs)) {
     $tmplvar = '';
     switch ($row['type']) {
         case 'url':
             $tmplvar = $_POST["tv" . $row['id']] ?? '';
             if (isset($_POST["tv" . $row['id'] . '_prefix']) && $_POST["tv" . $row['id'] . '_prefix'] != '--') {
-                $tmplvar = str_replace(array (
+                $tmplvar = str_replace([
                     "feed://",
                     "ftp://",
                     "http://",
                     "https://",
                     "mailto:"
-                ), "", $tmplvar);
+                ], "", $tmplvar);
                 $tmplvar = $_POST["tv" . $row['id'] . '_prefix'] . $tmplvar;
             }
-        break;
+            break;
         case 'file':
             $tmplvar = $_POST["tv" . $row['id']] ?? '';
-        break;
+            break;
         default:
             if (isset($_POST["tv" . $row['id']]) && is_array($_POST["tv" . $row['id']])) {
                 // handles checkboxes & multiple selects elements
-                $feature_insert = array ();
+                $feature_insert = [];
                 $lst = $_POST["tv" . $row['id']];
-                foreach($lst as $featureValue => $feature_item) {
+                foreach ($lst as $featureValue => $feature_item) {
                     $feature_insert[count($feature_insert)] = $feature_item;
                 }
                 $tmplvar = implode("||", $feature_insert);
             } else {
                 $tmplvar = $_POST["tv" . $row['id']] ?? '';
             }
-        break;
+            break;
     }
     // save value if it was modified
     if ($tmplvar != '' && $tmplvar != $row['default_text']) {
-        $tmplvars[$row['id']] = array (
+        $tmplvars[$row['id']] = [
             $row['id'],
             $tmplvar
-        );
+        ];
     } else {
         // Mark the variable for deletion
         $tmplvars[$row['name']] = $row['id'];
@@ -257,7 +260,7 @@ if ($actionToTake != "new") {
 // check to see if the user is allowed to save the document in the place he wants to save it in
 if ($use_udperms == 1) {
     if ($existingDocument['parent'] != $parent) {
-        include_once MODX_MANAGER_PATH ."processors/user_documents_permissions.class.php";
+        include_once MODX_MANAGER_PATH . "processors/user_documents_permissions.class.php";
         $udperms = new udperms();
         $udperms->user = $modx->getLoginUserID();
         $udperms->document = $parent;
@@ -266,10 +269,12 @@ if ($use_udperms == 1) {
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
                 $modx->manager->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias),
+                    "index.php?a=27&id={$id}");
             } else {
                 $modx->manager->saveFormValues(4);
-                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias), "index.php?a=4");
+                $modx->webAlertAndQuit(sprintf($_lang['access_permission_parent_denied'], $docid, $alias),
+                    "index.php?a=4");
             }
         }
     }
@@ -689,36 +694,34 @@ switch ($actionToTake) {
             // empty cache
             $modx->clearCache('full');
         }
-    /*
-            if ($_POST['refresh_preview'] == '1')
-                $header = "Location: ".MODX_SITE_URL."index.php?id=$id&z=manprev";
-            else {
-                if ($_POST['stay'] != '2' && $id > 0) {
-                    $modx->unlockElement(7, $id);
-                }
-                if ($_POST['stay'] != '') {
-                    $id = $_REQUEST['id'];
-                    if ($type == "reference") {
-                        // weblink
-                        $a = ($_POST['stay'] == '2') ? "27&id=$id" : "72&pid=$parent";
-                    } else {
-                        // document
-                        $a = ($_POST['stay'] == '2') ? "27&id=$id" : "4&pid=$parent";
-                    }
-                    $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'].$add_path;
+        if ($_POST['refresh_preview'] == '1') {
+            $header = "Location: " . MODX_SITE_URL . "index.php?id=$id&z=manprev";
+        } else {
+            if ($_POST['stay'] != '2' && $id > 0) {
+                $modx->unlockElement(7, $id);
+            }
+            if ($_POST['stay'] != '') {
+                $id = $_REQUEST['id'];
+                if ($type == "reference") {
+                    // weblink
+                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "72&pid=$parent";
                 } else {
-                    $header = "Location: index.php?a=3&id=$id&r=1".$add_path;
+                    // document
+                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "4&pid=$parent";
                 }
-            }
-            if (headers_sent()) {
-                $header = str_replace('Location: ','',$header);
-                echo "<script>document.location.href='$header';</script>\n";
+                $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'] . $add_path;
             } else {
-                header($header);
+                $header = "Location: index.php?a=3&id=$id&r=1" . $add_path;
             }
-            break;
-        default :
-            $modx->webAlertAndQuit("No operation set in request.");
-    }
-    */
+        }
+        if (headers_sent()) {
+            $header = str_replace('Location: ', '', $header);
+            echo "<script>document.location.href='$header';</script>\n";
+        } else {
+            header($header);
+        }
+        break;
+    default :
+        $modx->webAlertAndQuit("No operation set in request.");
 }
+
