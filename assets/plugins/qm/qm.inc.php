@@ -87,7 +87,7 @@ class Qm {
             case 'OnDocFormSave':
 
                 // Saving process for Qm only
-                if(intval($_REQUEST['quickmanager']) == 1) {
+                if(isset($_REQUEST['quickmanager']) && intval($_REQUEST['quickmanager']) == 1) {
 
                     $id = $e->params['id'];
                     $key = $id;
@@ -1030,7 +1030,7 @@ class Qm {
             // Where to logout
             case 'OnManagerLogout':
                 // Only if cancel editing the document and QuickManager is in use
-                if ($_REQUEST['quickmanager'] == 'logout') {
+                if (isset($_REQUEST['quickmanager']) && $_REQUEST['quickmanager'] == 'logout') {
                     // Redirect to document id
                     if ($this->logout != 'manager') {
                         $this->modx->sendRedirect($this->modx->makeUrl($_REQUEST['logoutid']), 0, 'REDIRECT_HEADER', 'HTTP/1.1 301 Moved Permanently');

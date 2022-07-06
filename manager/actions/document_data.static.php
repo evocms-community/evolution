@@ -61,6 +61,12 @@ $templatename = $modx->db->getValue($rs);
 
 // Set the item name for logger
 $_SESSION['itemname'] = $content['pagetitle'];
+
+$sd = isset($_REQUEST['dir']) ? '&amp;dir=' . $_REQUEST['dir'] : '&amp;dir=DESC';
+$sb = isset($_REQUEST['sort']) ? '&amp;sort=' . $_REQUEST['sort'] : '&amp;sort=createdon';
+$pg = isset($_REQUEST['page']) ? '&amp;page=' . (int) $_REQUEST['page'] : '';
+$add_path = $sd . $sb . $pg;
+
 ?>
 	<script type="text/javascript">
 		var actions = {
@@ -303,11 +309,6 @@ $_SESSION['itemname'] = $content['pagetitle'];
                         '1%'
                 );
                 $modx->table->setColumnWidths($tbWidth);
-
-                $sd = isset($_REQUEST['dir']) ? '&amp;dir=' . $_REQUEST['dir'] : '&amp;dir=DESC';
-                $sb = isset($_REQUEST['sort']) ? '&amp;sort=' . $_REQUEST['sort'] : '&amp;sort=createdon';
-                $pg = isset($_REQUEST['page']) ? '&amp;page=' . (int) $_REQUEST['page'] : '';
-                $add_path = $sd . $sb . $pg;
 
                 $icons = array(
                         'text/html' => $_style['tree_page_html'],

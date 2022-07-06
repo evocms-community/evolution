@@ -203,8 +203,8 @@ while ($row = $modx->db->getRow($rs)) {
     $tmplvar = '';
     switch ($row['type']) {
         case 'url':
-            $tmplvar = $_POST["tv" . $row['id']];
-            if ($_POST["tv" . $row['id'] . '_prefix'] != '--') {
+            $tmplvar = $_POST["tv" . $row['id']] ?? '';
+            if (isset($_POST["tv" . $row['id'] . '_prefix']) && $_POST["tv" . $row['id'] . '_prefix'] != '--') {
                 $tmplvar = str_replace(array (
                     "feed://",
                     "ftp://",
@@ -216,10 +216,10 @@ while ($row = $modx->db->getRow($rs)) {
             }
         break;
         case 'file':
-            $tmplvar = $_POST["tv" . $row['id']];
+            $tmplvar = $_POST["tv" . $row['id']] ?? '';
         break;
         default:
-            if (is_array($_POST["tv" . $row['id']])) {
+            if (isset($_POST["tv" . $row['id']]) && is_array($_POST["tv" . $row['id']])) {
                 // handles checkboxes & multiple selects elements
                 $feature_insert = array ();
                 $lst = $_POST["tv" . $row['id']];
@@ -228,12 +228,12 @@ while ($row = $modx->db->getRow($rs)) {
                 }
                 $tmplvar = implode("||", $feature_insert);
             } else {
-                $tmplvar = $_POST["tv" . $row['id']];
+                $tmplvar = $_POST["tv" . $row['id']] ?? '';
             }
         break;
     }
     // save value if it was modified
-    if (strlen($tmplvar) > 0 && $tmplvar != $row['default_text']) {
+    if (!empty($tmplvar) && $tmplvar != $row['default_text']) {
         $tmplvars[$row['id']] = array (
             $row['id'],
             $tmplvar
@@ -279,8 +279,7 @@ switch ($actionToTake) {
     case 'new' :
 
         // invoke OnBeforeDocFormSave event
-        switch($modx->config['docid_incrmnt_method'])
-        {
+        switch ($modx->config['docid_incrmnt_method']) {
             case '1':
                 $from = "{$tbl_site_content} AS T0 LEFT JOIN {$tbl_site_content} AS T1 ON T0.id + 1 = T1.id";
                 $where = "T1.id IS NULL";
@@ -288,21 +287,22 @@ switch ($actionToTake) {
                 $id = $modx->db->getValue($rs);
                 break;
             case '2':
-                $rs = $modx->db->select('MAX(id)+1',$tbl_site_content);
+                $rs = $modx->db->select('MAX(id)+1', $tbl_site_content);
                 $id = $modx->db->getValue($rs);
-            break;
+                break;
 
             default:
                 $id = '';
         }
 
-        $modx->invokeEvent("OnBeforeDocFormSave", array (
+        $modx->invokeEvent("OnBeforeDocFormSave", [
             "mode" => "new",
-            "id" => $id
-        ));
+            "id"   => $id
+        ]);
 
         $deleted = 0;
-        $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$parent} AND `deleted`=0"));
+        $parentNotDeleted = $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'),
+            "`id`={$parent} AND `deleted`=0"));
         if ($parent > 0 && !$parentNotDeleted) {
             $deleted = 1;
         }
@@ -317,56 +317,56 @@ switch ($actionToTake) {
         $publishedon = ($published ? $currentdate : 0);
         $publishedby = ($published ? $modx->getLoginUserID() : 0);
 
-        if ((!empty($pub_date))&&($published)){
-            $publishedon=$pub_date;
+        if ((!empty($pub_date)) && ($published)) {
+            $publishedon = $pub_date;
         }
 
-        $dbInsert = array
-        (
-            "introtext"        => $introtext ,
-            "content"          => $content ,
-            "pagetitle"        => $pagetitle ,
-            "longtitle"        => $longtitle ,
-            "type"             => $type ,
-            "description"      => $description ,
-            "alias"            => $alias ,
-            "link_attributes"  => $link_attributes ,
-            "isfolder"         => $isfolder ,
-            "richtext"         => $richtext ,
-            "deleted"          => $deleted ,
-            "published"        => $published ,
-            "parent"           => $parent ,
-            "template"         => $template ,
-            "menuindex"        => $menuindex ,
-            "searchable"       => $searchable ,
-            "cacheable"        => $cacheable ,
-            "createdby"        => $modx->getLoginUserID() ,
-            "createdon"        => $currentdate ,
-            "editedby"         => $modx->getLoginUserID() ,
-            "editedon"         => $currentdate ,
-            "publishedby"      => $publishedby ,
-            "publishedon"      => $publishedon ,
-            "pub_date"         => $pub_date ,
-            "unpub_date"       => $unpub_date ,
-            "contentType"      => $contentType ,
-            "content_dispo"    => $contentdispo ,
-            "donthit"          => $donthit ,
-            "menutitle"        => $menutitle ,
-            "hidemenu"         => $hidemenu ,
-            "alias_visible"    => $aliasvisible
-        );
+        $dbInsert = [
+            "introtext"       => $introtext,
+            "content"         => $content,
+            "pagetitle"       => $pagetitle,
+            "longtitle"       => $longtitle,
+            "type"            => $type,
+            "description"     => $description,
+            "alias"           => $alias,
+            "link_attributes" => $link_attributes,
+            "isfolder"        => $isfolder,
+            "richtext"        => $richtext,
+            "deleted"         => $deleted,
+            "published"       => $published,
+            "parent"          => $parent,
+            "template"        => $template,
+            "menuindex"       => $menuindex,
+            "searchable"      => $searchable,
+            "cacheable"       => $cacheable,
+            "createdby"       => $modx->getLoginUserID(),
+            "createdon"       => $currentdate,
+            "editedby"        => $modx->getLoginUserID(),
+            "editedon"        => $currentdate,
+            "publishedby"     => $publishedby,
+            "publishedon"     => $publishedon,
+            "pub_date"        => $pub_date,
+            "unpub_date"      => $unpub_date,
+            "contentType"     => $contentType,
+            "content_dispo"   => $contentdispo,
+            "donthit"         => $donthit,
+            "menutitle"       => $menutitle,
+            "hidemenu"        => $hidemenu,
+            "alias_visible"   => $aliasvisible
+        ];
 
-        if ($id != '')
+        if ($id != '') {
             $dbInsert["id"] = $id;
+        }
 
-        $key = $modx->db->insert( $dbInsert, $tbl_site_content);
+        $key = $modx->db->insert($dbInsert, $tbl_site_content);
 
-        $tvChanges = array();
+        $tvChanges = [];
         foreach ($tmplvars as $field => $value) {
             if (is_array($value)) {
                 $tvId = $value[0];
                 $tvVal = $value[1];
-                $tvChanges[] = array('tmplvarid' => $tvId, 'contentid' => $key, 'value' => $modx->db->escape($tvVal));
+                $tvChanges[] = ['tmplvarid' => $tvId, 'contentid' => $key, 'value' => $modx->db->escape($tvVal)];
             }
         }
         if (!empty($tvChanges)) {
@@ -377,26 +377,28 @@ switch ($actionToTake) {
 
         // document access permissions
         if ($use_udperms == 1 && is_array($document_groups)) {
-            $new_groups = array();
+            $new_groups = [];
             foreach ($document_groups as $value_pair) {
                 // first, split the pair (this is a new document, so ignore the second value
-                list($group) = explode(',', $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
-                $new_groups[] = '('.(int)$group.','.$key.')';
+                [$group] = explode(',',
+                    $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
+                $new_groups[] = '(' . (int) $group . ',' . $key . ')';
             }
             $saved = true;
             if (!empty($new_groups)) {
-                $modx->db->query("INSERT INTO {$tbl_document_groups} (document_group, document) VALUES ".implode(',', $new_groups));
+                $modx->db->query("INSERT INTO {$tbl_document_groups} (document_group, document) VALUES " . implode(',',
+                        $new_groups));
             }
         } else {
             $isManager = $modx->hasPermission('access_permissions');
-            $isWeb     = $modx->hasPermission('web_access_permissions');
-            if($use_udperms && !($isManager || $isWeb) && $parent != 0) {
+            $isWeb = $modx->hasPermission('web_access_permissions');
+            if ($use_udperms && !($isManager || $isWeb) && $parent != 0) {
                 // inherit document access permissions
                 $modx->db->insert(
-                    array(
-                        'document_group' =>'',
-                        'document'       =>''
-                        ), $tbl_document_groups, // Insert into
+                    [
+                        'document_group' => '',
+                        'document'       => ''
+                    ], $tbl_document_groups, // Insert into
                     "document_group, {$key}", $tbl_document_groups, "document = '{$parent}'"); // Copy from
             }
         }
@@ -404,15 +406,15 @@ switch ($actionToTake) {
 
         // update parent folder status
         if ($parent != 0) {
-            $fields = array('isfolder' => 1);
+            $fields = ['isfolder' => 1];
             $modx->db->update($fields, $tbl_site_content, "id='{$_REQUEST['parent']}'");
         }
 
         // invoke OnDocFormSave event
-        $modx->invokeEvent("OnDocFormSave", array (
+        $modx->invokeEvent("OnDocFormSave", [
             "mode" => "new",
-            "id" => $key
-        ));
+            "id"   => $key
+        ]);
 
         // secure web documents - flag as private
         include MODX_MANAGER_PATH . "includes/secure_web_documents.inc.php";
@@ -433,18 +435,20 @@ switch ($actionToTake) {
         // redirect/stay options
         if ($_POST['stay'] != '') {
             // weblink
-            if ($_POST['mode'] == "72")
+            if ($_POST['mode'] == "72") {
                 $a = ($_POST['stay'] == '2') ? "27&id=$key" : "72&pid=$parent";
+            }
             // document
-            if ($_POST['mode'] == "4")
+            if ($_POST['mode'] == "4") {
                 $a = ($_POST['stay'] == '2') ? "27&id=$key" : "4&pid=$parent";
+            }
             $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'];
         } else {
             $header = "Location: index.php?a=3&id=$key&r=1";
         }
 
         if (headers_sent()) {
-            $header = str_replace('Location: ','',$header);
+            $header = str_replace('Location: ', '', $header);
             echo "<script>document.location.href='$header';</script>\n";
         } else {
             header($header);
@@ -472,9 +476,10 @@ switch ($actionToTake) {
             $modx->webAlertAndQuit("Document can not be it's own parent!");
         }
 
-        $deleted = (int)$existingDocument['deleted'];
+        $deleted = (int) $existingDocument['deleted'];
         if ($parent != $oldparent && $parent > 0) {
-            $parentNotDeleted =  $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'), "`id`={$parent} AND `deleted`=0"));
+            $parentNotDeleted = $modx->db->getValue($modx->db->select('id', $modx->getFullTableName('site_content'),
+                "`id`={$parent} AND `deleted`=0"));
             if (!$parentNotDeleted) {
                 $deleted = 1;
             }
@@ -506,10 +511,10 @@ switch ($actionToTake) {
         if (!$was_published && $published) {
             $publishedon = $currentdate;
             $publishedby = $modx->getLoginUserID();
-            }elseif ((!empty($pub_date)&& $pub_date<=$currentdate && $published)) {
+        } elseif ((!empty($pub_date) && $pub_date <= $currentdate && $published)) {
             $publishedon = $pub_date;
             $publishedby = $modx->getLoginUserID();
-               }elseif ($was_published && !$published) {
+        } elseif ($was_published && !$published) {
             $publishedon = 0;
             $publishedby = 0;
         } else {
@@ -518,10 +523,10 @@ switch ($actionToTake) {
         }
 
         // invoke OnBeforeDocFormSave event
-        $modx->invokeEvent("OnBeforeDocFormSave", array (
+        $modx->invokeEvent("OnBeforeDocFormSave", [
             "mode" => "upd",
-            "id" => $id
-        ));
+            "id"   => $id
+        ]);
 
         // update the document
         $modx->db->update(
@@ -558,29 +563,34 @@ switch ($actionToTake) {
 
         // update template variables
         $rs = $modx->db->select('id, tmplvarid', $tbl_site_tmplvar_contentvalues, "contentid='{$id}'");
-        $tvIds = array ();
+        $tvIds = [];
         while ($row = $modx->db->getRow($rs)) {
             $tvIds[$row['tmplvarid']] = $row['id'];
         }
-        $tvDeletions = array();
-        $tvChanges = array();
+        $tvDeletions = [];
+        $tvChanges = [];
         foreach ($tmplvars as $field => $value) {
             if (!is_array($value)) {
-                if (isset($tvIds[$value])) $tvDeletions[] = $tvIds[$value];
+                if (isset($tvIds[$value])) {
+                    $tvDeletions[] = $tvIds[$value];
+                }
             } else {
                 $tvId = $value[0];
                 $tvVal = $value[1];
 
                 if (isset($tvIds[$tvId])) {
-                    $tvChanges[] = array(array('tmplvarid' => $tvId, 'contentid' => $id, 'value' => $modx->db->escape($tvVal)), array('id' => $tvIds[$tvId]));
+                    $tvChanges[] = [
+                        ['tmplvarid' => $tvId, 'contentid' => $id, 'value' => $modx->db->escape($tvVal)],
+                        ['id' => $tvIds[$tvId]]
+                    ];
                 } else {
-                    $tvAdded[] = array('tmplvarid' => $tvId, 'contentid' => $id, 'value' => $modx->db->escape($tvVal));
+                    $tvAdded[] = ['tmplvarid' => $tvId, 'contentid' => $id, 'value' => $modx->db->escape($tvVal)];
                 }
             }
         }
 
         if (!empty($tvDeletions)) {
-            $modx->db->delete($tbl_site_tmplvar_contentvalues, 'id IN('.implode(',', $tvDeletions).')');
+            $modx->db->delete($tbl_site_tmplvar_contentvalues, 'id IN(' . implode(',', $tvDeletions) . ')');
         }
 
         if (!empty($tvAdded)) {
@@ -597,40 +607,44 @@ switch ($actionToTake) {
 
         // set document permissions
         if ($use_udperms == 1 && is_array($document_groups)) {
-            $new_groups = array();
+            $new_groups = [];
             // process the new input
             foreach ($document_groups as $value_pair) {
-                list($group, $link_id) = explode(',', $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
+                [$group, $link_id] = explode(',',
+                    $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
                 $new_groups[$group] = $link_id;
             }
 
             // grab the current set of permissions on this document the user can access
             $isManager = $modx->hasPermission('access_permissions');
-            $isWeb     = $modx->hasPermission('web_access_permissions');
+            $isWeb = $modx->hasPermission('web_access_permissions');
             $rs = $modx->db->select(
                 'groups_document.id, groups_document.document_group',
                 "{$tbl_document_groups} AS groups_document
                     LEFT JOIN {$tbl_documentgroup_names} AS dgn ON dgn.id = groups_document.document_group",
-                "((1=".(int)$isManager." AND dgn.private_memgroup) OR (1=".(int)$isWeb." AND dgn.private_webgroup)) AND groups_document.document = '{$id}'"
-                );
-            $old_groups = array();
-            while ($row = $modx->db->getRow($rs)) $old_groups[$row['document_group']] = $row['id'];
+                "((1=" . (int) $isManager . " AND dgn.private_memgroup) OR (1=" . (int) $isWeb . " AND dgn.private_webgroup)) AND groups_document.document = '{$id}'"
+            );
+            $old_groups = [];
+            while ($row = $modx->db->getRow($rs)) {
+                $old_groups[$row['document_group']] = $row['id'];
+            }
 
             // update the permissions in the database
-            $insertions = $deletions = array();
+            $insertions = $deletions = [];
             foreach ($new_groups as $group => $link_id) {
                 if (array_key_exists($group, $old_groups)) {
                     unset($old_groups[$group]);
                     continue;
                 } elseif ($link_id == 'new') {
-                    $insertions[] = '('.(int)$group.','.$id.')';
+                    $insertions[] = '(' . (int) $group . ',' . $id . ')';
                 }
             }
             if (!empty($insertions)) {
-                $modx->db->query("INSERT INTO {$tbl_document_groups} (document_group, document) VALUES ".implode(',', $insertions));
+                $modx->db->query("INSERT INTO {$tbl_document_groups} (document_group, document) VALUES " . implode(',',
+                        $insertions));
             }
             if (!empty($old_groups)) {
-                $modx->db->delete($tbl_document_groups, "id IN (".implode(',', $old_groups).")");
+                $modx->db->delete($tbl_document_groups, "id IN (" . implode(',', $old_groups) . ")");
             }
             // necessary to remove all permissions as document is public
             if ((isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on')) {
@@ -640,7 +654,7 @@ switch ($actionToTake) {
 
         // do the parent stuff
         if ($parent != 0) {
-            $fields = array('isfolder' => 1);
+            $fields = ['isfolder' => 1];
             $modx->db->update($fields, $tbl_site_content, "id='{$_REQUEST['parent']}'");
         }
 
@@ -649,16 +663,16 @@ switch ($actionToTake) {
         $limit = $modx->db->getValue($rs);
 
         if ($limit == 0) {
-            $fields = array('isfolder' => 0);
+            $fields = ['isfolder' => 0];
             $modx->db->update($fields, $tbl_site_content, "id='{$oldparent}'");
         }
 
 
         // invoke OnDocFormSave event
-        $modx->invokeEvent("OnDocFormSave", array (
+        $modx->invokeEvent("OnDocFormSave", [
             "mode" => "upd",
-            "id" => $id
-        ));
+            "id"   => $id
+        ]);
 
         // secure web documents - flag as private
         include MODX_MANAGER_PATH . "includes/secure_web_documents.inc.php";
@@ -675,34 +689,36 @@ switch ($actionToTake) {
             // empty cache
             $modx->clearCache('full');
         }
-
-        if ($_POST['refresh_preview'] == '1')
-            $header = "Location: ".MODX_SITE_URL."index.php?id=$id&z=manprev";
-        else {
-            if ($_POST['stay'] != '2' && $id > 0) {
-                $modx->unlockElement(7, $id);
-            }
-            if ($_POST['stay'] != '') {
-                $id = $_REQUEST['id'];
-                if ($type == "reference") {
-                    // weblink
-                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "72&pid=$parent";
-                } else {
-                    // document
-                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "4&pid=$parent";
+    /*
+            if ($_POST['refresh_preview'] == '1')
+                $header = "Location: ".MODX_SITE_URL."index.php?id=$id&z=manprev";
+            else {
+                if ($_POST['stay'] != '2' && $id > 0) {
+                    $modx->unlockElement(7, $id);
                 }
-                $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'].$add_path;
-            } else {
-                $header = "Location: index.php?a=3&id=$id&r=1".$add_path;
+                if ($_POST['stay'] != '') {
+                    $id = $_REQUEST['id'];
+                    if ($type == "reference") {
+                        // weblink
+                        $a = ($_POST['stay'] == '2') ? "27&id=$id" : "72&pid=$parent";
+                    } else {
+                        // document
+                        $a = ($_POST['stay'] == '2') ? "27&id=$id" : "4&pid=$parent";
+                    }
+                    $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'].$add_path;
+                } else {
+                    $header = "Location: index.php?a=3&id=$id&r=1".$add_path;
+                }
             }
-        }
-        if (headers_sent()) {
-            $header = str_replace('Location: ','',$header);
-            echo "<script>document.location.href='$header';</script>\n";
-        } else {
-            header($header);
-        }
-        break;
-    default :
-        $modx->webAlertAndQuit("No operation set in request.");
+            if (headers_sent()) {
+                $header = str_replace('Location: ','',$header);
+                echo "<script>document.location.href='$header';</script>\n";
+            } else {
+                header($header);
+            }
+            break;
+        default :
+            $modx->webAlertAndQuit("No operation set in request.");
+    }
+    */
 }
