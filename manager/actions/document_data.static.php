@@ -382,7 +382,7 @@ if($numRecords > 0) {
 				</table>
 			</div>
 		</div><!-- end tab-page -->
-
+        <?php if($content['isfolder']): ?>
 		<!-- View Children -->
 		<div class="tab-page" id="tabChildren">
 			<h2 class="tab"><?= $_lang['view_child_resources_in_container'] ?></h2>
@@ -404,30 +404,7 @@ if($numRecords > 0) {
 				</div>
 			</div>
 		</div><!-- end tab-page -->
-
-		<?php if($modx->config['cache_type'] != 2) { ?>
-			<!-- Page Source -->
-			<div class="tab-page" id="tabSource">
-				<h2 class="tab"><?= $_lang['page_data_source'] ?></h2>
-				<script type="text/javascript">docSettings.addTabPage(document.getElementById("tabSource"));</script>
-				<?php
-				$buffer = "";
-				$filename = $modx->config['base_path'] . "assets/cache/docid_" . $id . ".pageCache.php";
-				$handle = @fopen($filename, "r");
-				if(!$handle) {
-					$buffer = '<div class="container container-body">' . $_lang['page_data_notcached'] . '</div>';
-				} else {
-					while(!feof($handle)) {
-						$buffer .= fgets($handle, 4096);
-					}
-					fclose($handle);
-					$buffer = '<div class="navbar navbar-editor">' . $_lang['page_data_cached'] . '</div><div class="section-editor clearfix"><textarea rows="20" wrap="soft">' . $modx->htmlspecialchars($buffer) . "</textarea></div>\n";
-				}
-				echo $buffer;
-				?>
-			</div><!-- end tab-page -->
-		<?php } ?>
-
+        <?php endif; ?>
 	</div><!-- end documentPane -->
 
 <?php
