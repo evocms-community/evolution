@@ -233,7 +233,7 @@ while ($row = $modx->db->getRow($rs)) {
         break;
     }
     // save value if it was modified
-    if (!empty($tmplvar) && $tmplvar != $row['default_text']) {
+    if ($tmplvar != '' && $tmplvar != $row['default_text']) {
         $tmplvars[$row['id']] = array (
             $row['id'],
             $tmplvar
