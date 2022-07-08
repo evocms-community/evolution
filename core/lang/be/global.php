@@ -17,7 +17,7 @@
 $modx_lang_attribute = 'be'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'Evolution CMS - гэта <a href="https://evo-cms.com/" target="_blank">PHP-прыкладная структура і сістэма кіравання кантэнтам</a>, якая дзейнічае пад ліцэнзіяй <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.</a>'; //Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.
+$_lang["about_msg"] = 'Evolution CMS - гэта <a href="https://evo-cms.com/" target="_blank">PHP-прылажэнне і сістэма кіравання кантэнтам</a>, якая дзейнічае пад ліцэнзіяй <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.</a>'; //Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.
 $_lang["about_title"] = 'Аб Evolution CMS'; //About Evolution CMS
 $_lang["access_permission_denied"] = 'У вас няма належных правоў для гэтага рэсурсу.'; //You do not have the correct permissions for this Resource.
 $_lang["access_permission_parent_denied"] = 'У вас няма дазволу ствараць або перамяшчаць сюды рэсурс! Выберыце іншае месца.'; //You do not have permission to create or move a Resource here! Please choose another location.
