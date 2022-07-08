@@ -720,7 +720,7 @@ abstract class DocLister
     public function getCFGDef($name, $def = null)
     {
         $out = $this->config->getCFGDef($name, $def);
-        if ($name == 'dateFormat' && !empty($out) && is_scalar($out) && strpos($out, '/%/') !== false) {
+        if ($name == 'dateFormat' && !empty($out) && is_scalar($out) && strpos($out, '%') !== false) {
             $replace = [
                 '%d' => 'd', '%a' => 'D', '%e' => 'j', '%A' => 'l', '%u' => 'N', '%w' => 'w', '%j' => 'z',
                 '%V' => 'W',
