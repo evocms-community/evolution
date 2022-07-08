@@ -54,7 +54,7 @@ $_lang["checking_registerglobals_note"] = 'Гэтая канфігурацыя �
 $_lang["checking_sessions"] = 'Праверка правільнасці наладкі сеансаў:'; //Checking if sessions are properly configured: 
 $_lang["checking_table_prefix"] = 'Праверка прэфікса табліцы `'; //Checking table prefix `
 $_lang["choose_language"] = 'Выберыце мову'; //Choose language
-$_lang["chunks"] = 'Кавалачкі'; //Chunks
+$_lang["chunks"] = 'Чанкі'; //Chunks
 $_lang["config_permissions_note"] = 'Для новых усталяванняў Linux/Unix стварыце пусты файл з імем <span class="mono">config.inc.php</span> у каталогу <span class="mono">/[+MGR_DIR+]/includes/</span> з правамі доступу да файла 0666.'; //For new Linux/Unix installs, please create a blank file named <span class="mono">config.inc.php</span> in the <span class="mono">/[+MGR_DIR+]/includes/</span> directory with file permissions set to 0666.
 $_lang["connection_screen_collation"] = 'Супастаўленне:'; //Collation:
 $_lang["connection_screen_connection_method"] = 'Спосаб падлучэння:'; //Connection method:
@@ -165,7 +165,7 @@ $_lang["setup_database_creation_failed_note2"] = 'Праграме ўстано�
 $_lang["setup_database_selection"] = 'Выбар базы дадзеных `'; //Selecting database `
 $_lang["setup_database_selection_failed"] = 'Не атрымалася выбраць базу даных...'; //Database selection failed...
 $_lang["setup_database_selection_failed_note"] = 'База дадзеных не існуе. Праграма ўстаноўкі паспрабуе яго стварыць.'; //The database does not exist. Setup will attempt to create it.
-$_lang["snippets"] = 'Фрагменты'; //Snippets
+$_lang["snippets"] = 'Сніпеты'; //Snippets
 $_lang["some_tables_not_updated"] = 'Некаторыя табліцы не былі абноўлены. Гэта можа быць звязана з папярэднімі мадыфікацыямі.'; //Some tables were not updated. This might be due to previous modifications.
 $_lang["status_checking_database"] = 'Праверка базы дадзеных:'; //Checking database: 
 $_lang["status_connecting"] = 'Падключэнне да хоста:'; // Connection to host: 
