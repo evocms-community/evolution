@@ -6,7 +6,7 @@
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Dutch
+ * @language English
  * @package evo
  * @subpackage installer
  *
@@ -95,7 +95,7 @@ $_lang["errors"] = 'fouten';
 $_lang["failed"] = 'MISLUKT!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Help!';
-$_lang["help_link"] = 'https://evo.im/forums.html';
+$_lang["help_link"] = 'https://forum.evo.im';
 $_lang["help_title"] = 'Installatiehulp in de EVO forums';
 $_lang["iagree_box"] = 'Ik ga akkoord met <a href="../assets/docs/license.txt" target="_blank">de EVO licensentie</a>. Voor vertalingen van de GPL versie 2 licensetie bezoek de <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">GNU Operating System website</a>.';
 $_lang["install"] = 'Installeer';
@@ -197,9 +197,9 @@ $_lang["unable_install_plugin"] = 'Niet in staat uw plugin te installeren.';
 $_lang["unable_install_snippet"] = 'Niet in staat uw snippet te installeren.';
 $_lang["unable_install_template"] = 'Niet in staat uw template te installeren.';
 $_lang["upgrade_note"] = '<strong>Opmerking:</strong> Voor het bekijken van uw website moet u zich aanmelden bij de manager met een beheerdersaccount en uw systeemconfiguratie instellingen opslaan.';
-$_lang["upgraded"] = 'Upgraded';
+$_lang["upgraded"] = 'Geupdate';
 $_lang["validate_referer_title"] = 'Valideren HTTP_REFERER headers?';
-$_lang["visit_forum"] = ', bezoek de <a href="http://forums.modx.com/" target="_blank">EVO Forums</a>.';
+$_lang["visit_forum"] = ', bezoek het <a href="http://forums.modx.com/" target="_blank">EVO Forum</a>.';
 $_lang["warning"] = 'WAARSCHUWING!';
 $_lang["welcome_message_start"] = 'Kies hieronder het type installatie:';
 $_lang["welcome_message_text"] = 'Dit programma zal u door de rest van de installatie begeleiden.';
