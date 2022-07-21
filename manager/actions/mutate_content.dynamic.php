@@ -789,7 +789,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 										<i class="<?= $_style["icons_tooltip"] ?>" data-tooltip="<?= $_lang['resource_opt_show_menu_help'] ?>"></i>
 									</td>
 									<td>
-										<input name="hidemenucheck" type="checkbox" class="checkbox" <?= (isset($content['hidemenu']) && $content['hidemenu'] != 1 ? 'checked="checked"' : '') ?> onclick="changestate(document.mutate.hidemenu);" /><input type="hidden" name="hidemenu" class="hidden" value="<?= (isset($content['hidemenu']) && $content['hidemenu'] == 1 ? 1 : 0) ?>" />
+										<input name="hidemenucheck" type="checkbox" class="checkbox" <?= (!isset($content['hidemenu']) || $content['hidemenu'] != 1 ? 'checked="checked"' : '') ?> onclick="changestate(document.mutate.hidemenu);" /><input type="hidden" name="hidemenu" class="hidden" value="<?= (isset($content['hidemenu']) && $content['hidemenu'] == 1 ? 1 : 0) ?>" />
 									</td>
 								</tr>
 								<tr>
