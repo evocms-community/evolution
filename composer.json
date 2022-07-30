@@ -8,8 +8,8 @@
         "routing",
         "templating"
     ],
-    "homepage": "http://evo.im/",
-    "license": "GPL-2.0+",
+    "homepage": "https://evo-cms.com/",
+    "license": "GPL-3.0+",
     "support": {
         "telegram": "https://t.me/evo_cms",
         "issues": "https://github.com/evocms-community/evolution/issues/",
