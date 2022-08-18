@@ -489,6 +489,10 @@ class DocumentParser
             $this->config['friendly_url_suffix'] = '';
         }
 
+        if (!isset($this->config['which_browser'])) {
+            $this->config['which_browser'] = 'mcpuk';
+        }
+
         if (!isset($this->config['enable_at_syntax'])) {
             $this->config['enable_at_syntax'] = 1;
         } // @TODO: This line is temporary, should be remove in next version
