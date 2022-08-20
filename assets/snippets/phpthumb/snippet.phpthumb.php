@@ -39,7 +39,7 @@ if (!file_exists(MODX_BASE_PATH . $cacheFolder . '/.htaccess') &&
     $cacheFolder !== $defaultCacheFolder &&
     strpos($cacheFolder, $defaultCacheFolder) === 0
 ) {
-    file_put_contents(MODX_BASE_PATH . $cacheFolder . '/.htaccess', "order deny,allow\nallow from all\n");
+    file_put_contents(MODX_BASE_PATH . $cacheFolder . '/.htaccess', "<ifModule mod_authz_core.c>\nRequire all granted\n</ifModule>\n<ifModule !mod_authz_core.c>\n    order deny,allow\nallow from all\n/ifModule>\n");
 }
 
 $path_parts = pathinfo($input);

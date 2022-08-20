@@ -1,2 +1,7 @@
-order deny,allow
-allow from all
+<ifModule mod_authz_core.c>
+    Require all granted
+</ifModule>
+<ifModule !mod_authz_core.c>
+    order deny,allow
+    allow from all
+</ifModule>
