@@ -1,5 +1,10 @@
 IndexIgnore */*
 <Files *.php>
-    Order Deny,Allow
-    Deny from all
+    <ifModule mod_authz_core.c>
+        Require all denied
+    </ifModule>
+    <ifModule !mod_authz_core.c>
+        order deny,allow
+        deny from all
+    </ifModule>
 </Files>

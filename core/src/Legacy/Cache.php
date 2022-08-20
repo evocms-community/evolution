@@ -392,7 +392,7 @@ class Cache
         }
 
         if (!is_file($this->cachePath . '/.htaccess')) {
-            file_put_contents($this->cachePath . '/.htaccess', "order deny,allow\ndeny from all\n");
+            file_put_contents($this->cachePath . '/.htaccess', "<ifModule mod_authz_core.c>\nRequire all denied\n</ifModule>\n<ifModule !mod_authz_core.c>\norder deny,allow\ndeny from all\n</ifModule>\n");
         }
 
         // invoke OnCacheUpdate event
