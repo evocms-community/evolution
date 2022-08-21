@@ -15,6 +15,7 @@ namespace Composer\IO;
 use Composer\Question\StrictConfirmationQuestion;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,7 +43,7 @@ class ConsoleIO extends BaseIO
 
     /** @var float */
     private $startTime;
-    /** @var array<int, int> */
+    /** @var array<IOInterface::*, OutputInterface::VERBOSITY_*> */
     private $verbosityMap;
 
     /**
@@ -57,18 +58,16 @@ class ConsoleIO extends BaseIO
         $this->input = $input;
         $this->output = $output;
         $this->helperSet = $helperSet;
-        $this->verbosityMap = array(
+        $this->verbosityMap = [
             self::QUIET => OutputInterface::VERBOSITY_QUIET,
             self::NORMAL => OutputInterface::VERBOSITY_NORMAL,
             self::VERBOSE => OutputInterface::VERBOSITY_VERBOSE,
             self::VERY_VERBOSE => OutputInterface::VERBOSITY_VERY_VERBOSE,
             self::DEBUG => OutputInterface::VERBOSITY_DEBUG,
-        );
+        ];
     }
 
     /**
-     * @param float $startTime
-     *
      * @return void
      */
     public function enableDebugging(float $startTime)
@@ -150,12 +149,6 @@ class ConsoleIO extends BaseIO
 
     /**
      * @param string[]|string $messages
-     * @param bool                 $newline
-     * @param bool                 $stderr
-     * @param int                  $verbosity
-     * @param bool                 $raw
-     *
-     * @return void
      */
     private function doWrite($messages, bool $newline, bool $stderr, int $verbosity, bool $raw = false): void
     {
@@ -165,17 +158,13 @@ class ConsoleIO extends BaseIO
         }
 
         if ($raw) {
-            if ($sfVerbosity === OutputInterface::OUTPUT_NORMAL) {
-                $sfVerbosity = OutputInterface::OUTPUT_RAW;
-            } else {
-                $sfVerbosity |= OutputInterface::OUTPUT_RAW;
-            }
+            $sfVerbosity |= OutputInterface::OUTPUT_RAW;
         }
 
         if (null !== $this->startTime) {
             $memoryUsage = memory_get_usage() / 1024 / 1024;
             $timeSpent = microtime(true) - $this->startTime;
-            $messages = array_map(function ($message) use ($memoryUsage, $timeSpent): string {
+            $messages = array_map(static function ($message) use ($memoryUsage, $timeSpent): string {
                 return sprintf('[%.1fMiB/%.2fs] %s', $memoryUsage, $timeSpent, $message);
             }, (array) $messages);
         }
@@ -209,12 +198,6 @@ class ConsoleIO extends BaseIO
 
     /**
      * @param string[]|string $messages
-     * @param bool         $newline
-     * @param int|null     $size
-     * @param bool         $stderr
-     * @param int          $verbosity
-     *
-     * @return void
      */
     private function doOverwrite($messages, bool $newline, ?int $size, bool $stderr, int $verbosity): void
     {
@@ -255,7 +238,6 @@ class ConsoleIO extends BaseIO
     }
 
     /**
-     * @param  int         $max
      * @return ProgressBar
      */
     public function getProgressBar(int $max = 0)
@@ -332,7 +314,7 @@ class ConsoleIO extends BaseIO
             return (string) array_search($result, $choices, true);
         }
 
-        $results = array();
+        $results = [];
         foreach ($choices as $index => $choice) {
             if (in_array($choice, $result, true)) {
                 $results[] = (string) $index;
@@ -342,9 +324,11 @@ class ConsoleIO extends BaseIO
         return $results;
     }
 
-    /**
-     * @return OutputInterface
-     */
+    public function getTable(): Table
+    {
+        return new Table($this->output);
+    }
+
     private function getErrorOutput(): OutputInterface
     {
         if ($this->output instanceof ConsoleOutputInterface) {

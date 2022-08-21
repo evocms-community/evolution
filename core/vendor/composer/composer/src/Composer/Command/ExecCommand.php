@@ -13,9 +13,9 @@
 namespace Composer\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Composer\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Composer\Console\Input\InputArgument;
 
 /**
  * @author Davey Shafik <me@daveyshafik.com>
@@ -29,16 +29,18 @@ class ExecCommand extends BaseCommand
     {
         $this
             ->setName('exec')
-            ->setDescription('Executes a vendored binary/script.')
-            ->setDefinition(array(
+            ->setDescription('Executes a vendored binary/script')
+            ->setDefinition([
                 new InputOption('list', 'l', InputOption::VALUE_NONE),
-                new InputArgument('binary', InputArgument::OPTIONAL, 'The binary to run, e.g. phpunit'),
+                new InputArgument('binary', InputArgument::OPTIONAL, 'The binary to run, e.g. phpunit', null, function () {
+                    return $this->getBinaries(false);
+                }),
                 new InputArgument(
                     'args',
                     InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                     'Arguments to pass to the binary. Use <info>--</info> to separate from composer arguments'
                 ),
-            ))
+            ])
             ->setHelp(
                 <<<EOT
 Executes a vendored binary/script.
@@ -52,14 +54,11 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composer = $this->requireComposer();
-        $binDir = $composer->getConfig()->get('bin-dir');
         if ($input->getOption('list') || null === $input->getArgument('binary')) {
-            $bins = glob($binDir . '/*');
-            $bins = array_merge($bins, array_map(function ($e) {
-                return "$e (local)";
-            }, $composer->getPackage()->getBinaries()));
+            $bins = $this->getBinaries(true);
+            if ([] === $bins) {
+                $binDir = $composer->getConfig()->get('bin-dir');
 
-            if (!$bins) {
                 throw new \RuntimeException("No binaries found in composer.json or in bin-dir ($binDir)");
             }
 
@@ -70,13 +69,6 @@ EOT
             );
 
             foreach ($bins as $bin) {
-                // skip .bat copies
-                if (isset($previousBin) && $bin === $previousBin.'.bat') {
-                    continue;
-                }
-
-                $previousBin = $bin;
-                $bin = basename($bin);
                 $this->getIO()->write(
                     <<<EOT
 <info>- $bin</info>
@@ -104,5 +96,34 @@ EOT
         }
 
         return $dispatcher->dispatchScript('__exec_command', true, $input->getArgument('args'));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getBinaries(bool $forDisplay): array
+    {
+        $composer = $this->requireComposer();
+        $binDir = $composer->getConfig()->get('bin-dir');
+        $bins = glob($binDir . '/*');
+        $localBins = $composer->getPackage()->getBinaries();
+        if ($forDisplay) {
+            $localBins = array_map(static function ($e) {
+                return "$e (local)";
+            }, $localBins);
+        }
+
+        $binaries = [];
+        foreach (array_merge($bins, $localBins) as $bin) {
+            // skip .bat copies
+            if (isset($previousBin) && $bin === $previousBin.'.bat') {
+                continue;
+            }
+
+            $previousBin = $bin;
+            $binaries[] = basename($bin);
+        }
+
+        return $binaries;
     }
 }

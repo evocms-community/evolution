@@ -24,8 +24,6 @@ class Rule2Literals extends Rule
     protected $literal2;
 
     /**
-     * @param int $literal1
-     * @param int $literal2
      * @param Rule::RULE_* $reason A RULE_* constant
      * @param mixed $reasonData
      *
@@ -44,10 +42,12 @@ class Rule2Literals extends Rule
         }
     }
 
-    /** @return int[] */
+    /**
+     * @return list<int>
+     */
     public function getLiterals(): array
     {
-        return array($this->literal1, $this->literal2);
+        return [$this->literal1, $this->literal2];
     }
 
     /**
@@ -82,7 +82,7 @@ class Rule2Literals extends Rule
         }
 
         $literals = $rule->getLiterals();
-        if (2 != \count($literals)) {
+        if (2 !== \count($literals)) {
             return false;
         }
 
@@ -105,8 +105,6 @@ class Rule2Literals extends Rule
 
     /**
      * Formats a rule as a string of the format (Literal1|Literal2|...)
-     *
-     * @return string
      */
     public function __toString(): string
     {

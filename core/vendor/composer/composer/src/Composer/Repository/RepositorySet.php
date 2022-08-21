@@ -17,17 +17,24 @@ use Composer\DependencyResolver\Pool;
 use Composer\DependencyResolver\PoolBuilder;
 use Composer\DependencyResolver\Request;
 use Composer\EventDispatcher\EventDispatcher;
+use Composer\Advisory\SecurityAdvisory;
+use Composer\Advisory\PartialSecurityAdvisory;
 use Composer\IO\IOInterface;
 use Composer\IO\NullIO;
 use Composer\Package\BasePackage;
 use Composer\Package\AliasPackage;
 use Composer\Package\CompleteAliasPackage;
 use Composer\Package\CompletePackage;
+use Composer\Package\PackageInterface;
+use Composer\Semver\Constraint\Constraint;
 use Composer\Semver\Constraint\ConstraintInterface;
 use Composer\Package\Version\StabilityFilter;
+use Composer\Semver\Constraint\MatchAllConstraint;
 
 /**
  * @author Nils Adermann <naderman@naderman.de>
+ *
+ * @see RepositoryUtils for ways to work with single repos
  */
 class RepositorySet
 {
@@ -53,7 +60,7 @@ class RepositorySet
     private $rootReferences;
 
     /** @var RepositoryInterface[] */
-    private $repositories = array();
+    private $repositories = [];
 
     /**
      * @var int[] array of stability => BasePackage::STABILITY_* value
@@ -73,6 +80,11 @@ class RepositorySet
      */
     private $rootRequires;
 
+    /**
+     * @var array<string, ConstraintInterface>
+     */
+    private $temporaryConstraints;
+
     /** @var bool */
     private $locked = false;
     /** @var bool */
@@ -83,7 +95,6 @@ class RepositorySet
      * passing minimumStability is all you need to worry about. The rest is for advanced pool creation including
      * aliases, pinned references and other special cases.
      *
-     * @param string $minimumStability
      * @param int[]  $stabilityFlags   an array of package name => BasePackage::STABILITY_* value
      * @phpstan-param array<string, BasePackage::STABILITY_*> $stabilityFlags
      * @param array[] $rootAliases
@@ -92,13 +103,14 @@ class RepositorySet
      * @phpstan-param array<string, string> $rootReferences
      * @param ConstraintInterface[] $rootRequires an array of package name => constraint from the root package
      * @phpstan-param array<string, ConstraintInterface> $rootRequires
+     * @param array<string, ConstraintInterface> $temporaryConstraints Runtime temporary constraints that will be used to filter packages
      */
-    public function __construct(string $minimumStability = 'stable', array $stabilityFlags = array(), array $rootAliases = array(), array $rootReferences = array(), array $rootRequires = array())
+    public function __construct(string $minimumStability = 'stable', array $stabilityFlags = [], array $rootAliases = [], array $rootReferences = [], array $rootRequires = [], array $temporaryConstraints = [])
     {
         $this->rootAliases = self::getRootAliasesPerPackage($rootAliases);
         $this->rootReferences = $rootReferences;
 
-        $this->acceptableStabilities = array();
+        $this->acceptableStabilities = [];
         foreach (BasePackage::$stabilities as $stability => $value) {
             if ($value <= BasePackage::$stabilities[$minimumStability]) {
                 $this->acceptableStabilities[$stability] = $value;
@@ -111,13 +123,10 @@ class RepositorySet
                 unset($this->rootRequires[$name]);
             }
         }
+
+        $this->temporaryConstraints = $temporaryConstraints;
     }
 
-    /**
-     * @param bool $allow
-     *
-     * @return void
-     */
     public function allowInstalledRepositories(bool $allow = true): void
     {
         $this->allowInstalledRepositories = $allow;
@@ -133,14 +142,20 @@ class RepositorySet
     }
 
     /**
+     * @return array<string, ConstraintInterface> Runtime temporary constraints that will be used to filter packages
+     */
+    public function getTemporaryConstraints(): array
+    {
+        return $this->temporaryConstraints;
+    }
+
+    /**
      * Adds a repository to this repository set
      *
      * The first repos added have a higher priority. As soon as a package is found in any
      * repository the search for that package ends, and following repos will not be consulted.
      *
      * @param RepositoryInterface $repo A package repository
-     *
-     * @return void
      */
     public function addRepository(RepositoryInterface $repo): void
     {
@@ -151,7 +166,7 @@ class RepositorySet
         if ($repo instanceof CompositeRepository) {
             $repos = $repo->getRepositories();
         } else {
-            $repos = array($repo);
+            $repos = [$repo];
         }
 
         foreach ($repos as $repo) {
@@ -164,24 +179,22 @@ class RepositorySet
      *
      * Returned in the order of repositories, matching priority
      *
-     * @param  string                   $name
-     * @param  ConstraintInterface|null $constraint
      * @param  int                      $flags      any of the ALLOW_* constants from this class to tweak what is returned
      * @return BasePackage[]
      */
-    public function findPackages(string $name, ConstraintInterface $constraint = null, int $flags = 0): array
+    public function findPackages(string $name, ?ConstraintInterface $constraint = null, int $flags = 0): array
     {
         $ignoreStability = ($flags & self::ALLOW_UNACCEPTABLE_STABILITIES) !== 0;
         $loadFromAllRepos = ($flags & self::ALLOW_SHADOWED_REPOSITORIES) !== 0;
 
-        $packages = array();
+        $packages = [];
         if ($loadFromAllRepos) {
             foreach ($this->repositories as $repository) {
-                $packages[] = $repository->findPackages($name, $constraint) ?: array();
+                $packages[] = $repository->findPackages($name, $constraint) ?: [];
             }
         } else {
             foreach ($this->repositories as $repository) {
-                $result = $repository->loadPackages(array($name => $constraint), $ignoreStability ? BasePackage::$stabilities : $this->acceptableStabilities, $ignoreStability ? array() : $this->stabilityFlags);
+                $result = $repository->loadPackages([$name => $constraint], $ignoreStability ? BasePackage::$stabilities : $this->acceptableStabilities, $ignoreStability ? [] : $this->stabilityFlags);
 
                 $packages[] = $result['packages'];
                 foreach ($result['namesFound'] as $nameFound) {
@@ -193,14 +206,14 @@ class RepositorySet
             }
         }
 
-        $candidates = $packages ? call_user_func_array('array_merge', $packages) : array();
+        $candidates = $packages ? array_merge(...$packages) : [];
 
         // when using loadPackages above (!$loadFromAllRepos) the repos already filter for stability so no need to do it again
         if ($ignoreStability || !$loadFromAllRepos) {
             return $candidates;
         }
 
-        $result = array();
+        $result = [];
         foreach ($candidates as $candidate) {
             if ($this->isPackageAcceptable($candidate->getNames(), $candidate->getStability())) {
                 $result[] = $candidate;
@@ -211,14 +224,63 @@ class RepositorySet
     }
 
     /**
-     * @param  string   $packageName
-     *
+     * @param string[] $packageNames
+     * @return ($allowPartialAdvisories is true ? array<string, array<PartialSecurityAdvisory|SecurityAdvisory>> : array<string, array<SecurityAdvisory>>)
+     */
+    public function getSecurityAdvisories(array $packageNames, bool $allowPartialAdvisories = false): array
+    {
+        $map = [];
+        foreach ($packageNames as $name) {
+            $map[$name] = new MatchAllConstraint();
+        }
+
+        return $this->getSecurityAdvisoriesForConstraints($map, $allowPartialAdvisories);
+    }
+
+    /**
+     * @param PackageInterface[] $packages
+     * @return ($allowPartialAdvisories is true ? array<string, array<PartialSecurityAdvisory|SecurityAdvisory>> : array<string, array<SecurityAdvisory>>)
+     */
+    public function getMatchingSecurityAdvisories(array $packages, bool $allowPartialAdvisories = false): array
+    {
+        $map = [];
+        foreach ($packages as $package) {
+            $map[$package->getName()] = new Constraint('=', $package->getVersion());
+        }
+
+        return $this->getSecurityAdvisoriesForConstraints($map, $allowPartialAdvisories);
+    }
+
+    /**
+     * @param array<string, ConstraintInterface> $packageConstraintMap
+     * @return ($allowPartialAdvisories is true ? array<string, array<PartialSecurityAdvisory|SecurityAdvisory>> : array<string, array<SecurityAdvisory>>)
+     */
+    private function getSecurityAdvisoriesForConstraints(array $packageConstraintMap, bool $allowPartialAdvisories): array
+    {
+        $advisories = [];
+        foreach ($this->repositories as $repository) {
+            if (!$repository instanceof AdvisoryProviderInterface || !$repository->hasSecurityAdvisories()) {
+                continue;
+            }
+
+            $result = $repository->getSecurityAdvisories($packageConstraintMap, $allowPartialAdvisories);
+            foreach ($result['namesFound'] as $nameFound) {
+                unset($packageConstraintMap[$nameFound]);
+            }
+
+            $advisories = array_merge($advisories, $result['advisories']);
+        }
+
+        return $advisories;
+    }
+
+    /**
      * @return array[] an array with the provider name as key and value of array('name' => '...', 'description' => '...', 'type' => '...')
      * @phpstan-return array<string, array{name: string, description: string, type: string}>
      */
     public function getProviders(string $packageName): array
     {
-        $providers = array();
+        $providers = [];
         foreach ($this->repositories as $repository) {
             if ($repoProviders = $repository->getProviders($packageName)) {
                 $providers = array_merge($providers, $repoProviders);
@@ -233,7 +295,6 @@ class RepositorySet
      *
      * @param  string[] $names
      * @param  string   $stability one of 'stable', 'RC', 'beta', 'alpha' or 'dev'
-     * @return bool
      */
     public function isPackageAcceptable(array $names, string $stability): bool
     {
@@ -242,12 +303,10 @@ class RepositorySet
 
     /**
      * Create a pool for dependency resolution from the packages in this repository set.
-     *
-     * @return Pool
      */
-    public function createPool(Request $request, IOInterface $io, EventDispatcher $eventDispatcher = null, PoolOptimizer $poolOptimizer = null): Pool
+    public function createPool(Request $request, IOInterface $io, ?EventDispatcher $eventDispatcher = null, ?PoolOptimizer $poolOptimizer = null): Pool
     {
-        $poolBuilder = new PoolBuilder($this->acceptableStabilities, $this->stabilityFlags, $this->rootAliases, $this->rootReferences, $io, $eventDispatcher, $poolOptimizer);
+        $poolBuilder = new PoolBuilder($this->acceptableStabilities, $this->stabilityFlags, $this->rootAliases, $this->rootReferences, $io, $eventDispatcher, $poolOptimizer, $this->temporaryConstraints);
 
         foreach ($this->repositories as $repo) {
             if (($repo instanceof InstalledRepositoryInterface || $repo instanceof InstalledRepository) && !$this->allowInstalledRepositories) {
@@ -262,8 +321,6 @@ class RepositorySet
 
     /**
      * Create a pool for dependency resolution from the packages in this repository set.
-     *
-     * @return Pool
      */
     public function createPoolWithAllPackages(): Pool
     {
@@ -275,7 +332,7 @@ class RepositorySet
 
         $this->locked = true;
 
-        $packages = array();
+        $packages = [];
         foreach ($this->repositories as $repository) {
             foreach ($repository->getPackages() as $package) {
                 $packages[] = $package;
@@ -299,23 +356,16 @@ class RepositorySet
         return new Pool($packages);
     }
 
-    /**
-     * @param string $packageName
-     *
-     * @return Pool
-     */
-    public function createPoolForPackage(string $packageName, LockArrayRepository $lockedRepo = null): Pool
+    public function createPoolForPackage(string $packageName, ?LockArrayRepository $lockedRepo = null): Pool
     {
         // TODO unify this with above in some simpler version without "request"?
-        return $this->createPoolForPackages(array($packageName), $lockedRepo);
+        return $this->createPoolForPackages([$packageName], $lockedRepo);
     }
 
     /**
      * @param string[] $packageNames
-     *
-     * @return Pool
      */
-    public function createPoolForPackages(array $packageNames, LockArrayRepository $lockedRepo = null): Pool
+    public function createPoolForPackages(array $packageNames, ?LockArrayRepository $lockedRepo = null): Pool
     {
         $request = new Request($lockedRepo);
 
@@ -338,13 +388,13 @@ class RepositorySet
      */
     private static function getRootAliasesPerPackage(array $aliases): array
     {
-        $normalizedAliases = array();
+        $normalizedAliases = [];
 
         foreach ($aliases as $alias) {
-            $normalizedAliases[$alias['package']][$alias['version']] = array(
+            $normalizedAliases[$alias['package']][$alias['version']] = [
                 'alias' => $alias['alias'],
                 'alias_normalized' => $alias['alias_normalized'],
-            );
+            ];
         }
 
         return $normalizedAliases;

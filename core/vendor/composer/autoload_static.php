@@ -84,6 +84,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
             'Symfony\\Component\\ErrorHandler\\' => 31,
             'Symfony\\Component\\Console\\' => 26,
             'SimplePie\\' => 10,
+            'Seld\\Signal\\' => 12,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
         ),
@@ -101,6 +102,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
             'Psr\\Container\\' => 14,
             'Predis\\' => 7,
             'PhpOption\\' => 10,
+            'Pathologic\\EvolutionCMS\\MODxAPI\\' => 32,
+            'Pathologic\\EvolutionCMS\\DoctrineCache\\' => 38,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
@@ -180,6 +183,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
             'Composer\\Semver\\' => 16,
             'Composer\\Pcre\\' => 14,
             'Composer\\MetadataMinifier\\' => 26,
+            'Composer\\ClassMapGenerator\\' => 27,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
             'Carbon\\' => 7,
@@ -303,6 +307,10 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         array (
             0 => __DIR__ . '/..' . '/simplepie/simplepie/src',
         ),
+        'Seld\\Signal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/signal-handler/src',
+        ),
         'Seld\\PharUtils\\' => 
         array (
             0 => __DIR__ . '/..' . '/seld/phar-utils/src',
@@ -347,6 +355,14 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Pathologic\\EvolutionCMS\\MODxAPI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pathologic/modxapi/src',
+        ),
+        'Pathologic\\EvolutionCMS\\DoctrineCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pathologic/doctrine-cache-bridge/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
@@ -394,8 +410,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
-            1 => __DIR__ . '/..' . '/illuminate/collections',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
+            1 => __DIR__ . '/..' . '/illuminate/macroable',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -558,6 +574,10 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         array (
             0 => __DIR__ . '/..' . '/composer/metadata-minifier/src',
         ),
+        'Composer\\ClassMapGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/class-map-generator/src',
+        ),
         'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
@@ -663,18 +683,29 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
+        'Composer\\Advisory\\Auditor' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/Auditor.php',
+        'Composer\\Advisory\\PartialSecurityAdvisory' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/PartialSecurityAdvisory.php',
+        'Composer\\Advisory\\SecurityAdvisory' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/SecurityAdvisory.php',
         'Composer\\Autoload\\AutoloadGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/AutoloadGenerator.php',
         'Composer\\Autoload\\ClassLoader' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassLoader.php',
         'Composer\\Autoload\\ClassMapGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassMapGenerator.php',
         'Composer\\Autoload\\PhpFileCleaner' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/PhpFileCleaner.php',
         'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Composer\\Cache' => __DIR__ . '/..' . '/composer/composer/src/Composer/Cache.php',
+        'Composer\\ClassMapGenerator\\ClassMap' => __DIR__ . '/..' . '/composer/class-map-generator/src/ClassMap.php',
+        'Composer\\ClassMapGenerator\\ClassMapGenerator' => __DIR__ . '/..' . '/composer/class-map-generator/src/ClassMapGenerator.php',
+        'Composer\\ClassMapGenerator\\FileList' => __DIR__ . '/..' . '/composer/class-map-generator/src/FileList.php',
+        'Composer\\ClassMapGenerator\\PhpFileCleaner' => __DIR__ . '/..' . '/composer/class-map-generator/src/PhpFileCleaner.php',
+        'Composer\\ClassMapGenerator\\PhpFileParser' => __DIR__ . '/..' . '/composer/class-map-generator/src/PhpFileParser.php',
         'Composer\\Command\\AboutCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/AboutCommand.php',
         'Composer\\Command\\ArchiveCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/ArchiveCommand.php',
+        'Composer\\Command\\AuditCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/AuditCommand.php',
         'Composer\\Command\\BaseCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/BaseCommand.php',
         'Composer\\Command\\BaseDependencyCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/BaseDependencyCommand.php',
+        'Composer\\Command\\BumpCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/BumpCommand.php',
         'Composer\\Command\\CheckPlatformReqsCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/CheckPlatformReqsCommand.php',
         'Composer\\Command\\ClearCacheCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/ClearCacheCommand.php',
+        'Composer\\Command\\CompletionTrait' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/CompletionTrait.php',
         'Composer\\Command\\ConfigCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/ConfigCommand.php',
         'Composer\\Command\\CreateProjectCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/CreateProjectCommand.php',
         'Composer\\Command\\DependsCommand' => __DIR__ . '/..' . '/composer/composer/src/Composer/Command/DependsCommand.php',
@@ -710,6 +741,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Console\\Application' => __DIR__ . '/..' . '/composer/composer/src/Composer/Console/Application.php',
         'Composer\\Console\\GithubActionError' => __DIR__ . '/..' . '/composer/composer/src/Composer/Console/GithubActionError.php',
         'Composer\\Console\\HtmlOutputFormatter' => __DIR__ . '/..' . '/composer/composer/src/Composer/Console/HtmlOutputFormatter.php',
+        'Composer\\Console\\Input\\InputArgument' => __DIR__ . '/..' . '/composer/composer/src/Composer/Console/Input/InputArgument.php',
+        'Composer\\Console\\Input\\InputOption' => __DIR__ . '/..' . '/composer/composer/src/Composer/Console/Input/InputOption.php',
         'Composer\\DependencyResolver\\Decisions' => __DIR__ . '/..' . '/composer/composer/src/Composer/DependencyResolver/Decisions.php',
         'Composer\\DependencyResolver\\DefaultPolicy' => __DIR__ . '/..' . '/composer/composer/src/Composer/DependencyResolver/DefaultPolicy.php',
         'Composer\\DependencyResolver\\GenericRule' => __DIR__ . '/..' . '/composer/composer/src/Composer/DependencyResolver/GenericRule.php',
@@ -803,6 +836,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Json\\JsonValidationException' => __DIR__ . '/..' . '/composer/composer/src/Composer/Json/JsonValidationException.php',
         'Composer\\MetadataMinifier\\MetadataMinifier' => __DIR__ . '/..' . '/composer/metadata-minifier/src/MetadataMinifier.php',
         'Composer\\PHPStan\\ConfigReturnTypeExtension' => __DIR__ . '/..' . '/composer/composer/src/Composer/PHPStan/ConfigReturnTypeExtension.php',
+        'Composer\\PHPStan\\RuleReasonDataReturnTypeExtension' => __DIR__ . '/..' . '/composer/composer/src/Composer/PHPStan/RuleReasonDataReturnTypeExtension.php',
         'Composer\\Package\\AliasPackage' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/AliasPackage.php',
         'Composer\\Package\\Archiver\\ArchivableFilesFilter' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Archiver/ArchivableFilesFilter.php',
         'Composer\\Package\\Archiver\\ArchivableFilesFinder' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Archiver/ArchivableFilesFinder.php',
@@ -833,6 +867,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Package\\RootPackage' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/RootPackage.php',
         'Composer\\Package\\RootPackageInterface' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/RootPackageInterface.php',
         'Composer\\Package\\Version\\StabilityFilter' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/StabilityFilter.php',
+        'Composer\\Package\\Version\\VersionBumper' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/VersionBumper.php',
         'Composer\\Package\\Version\\VersionGuesser' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/VersionGuesser.php',
         'Composer\\Package\\Version\\VersionParser' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/VersionParser.php',
         'Composer\\Package\\Version\\VersionSelector' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/VersionSelector.php',
@@ -852,6 +887,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Plugin\\Capability\\CommandProvider' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/Capability/CommandProvider.php',
         'Composer\\Plugin\\Capable' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/Capable.php',
         'Composer\\Plugin\\CommandEvent' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/CommandEvent.php',
+        'Composer\\Plugin\\PluginBlockedException' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PluginBlockedException.php',
         'Composer\\Plugin\\PluginEvents' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PluginEvents.php',
         'Composer\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PluginInterface.php',
         'Composer\\Plugin\\PluginManager' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PluginManager.php',
@@ -860,8 +896,10 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Plugin\\PreFileDownloadEvent' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PreFileDownloadEvent.php',
         'Composer\\Plugin\\PrePoolCreateEvent' => __DIR__ . '/..' . '/composer/composer/src/Composer/Plugin/PrePoolCreateEvent.php',
         'Composer\\Question\\StrictConfirmationQuestion' => __DIR__ . '/..' . '/composer/composer/src/Composer/Question/StrictConfirmationQuestion.php',
+        'Composer\\Repository\\AdvisoryProviderInterface' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/AdvisoryProviderInterface.php',
         'Composer\\Repository\\ArrayRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/ArrayRepository.php',
         'Composer\\Repository\\ArtifactRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/ArtifactRepository.php',
+        'Composer\\Repository\\CanonicalPackagesTrait' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/CanonicalPackagesTrait.php',
         'Composer\\Repository\\ComposerRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/ComposerRepository.php',
         'Composer\\Repository\\CompositeRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/CompositeRepository.php',
         'Composer\\Repository\\ConfigurableRepositoryInterface' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/ConfigurableRepositoryInterface.php',
@@ -882,6 +920,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Repository\\RepositoryManager' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/RepositoryManager.php',
         'Composer\\Repository\\RepositorySecurityException' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/RepositorySecurityException.php',
         'Composer\\Repository\\RepositorySet' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/RepositorySet.php',
+        'Composer\\Repository\\RepositoryUtils' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/RepositoryUtils.php',
         'Composer\\Repository\\RootPackageRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/RootPackageRepository.php',
         'Composer\\Repository\\VcsRepository' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/VcsRepository.php',
         'Composer\\Repository\\Vcs\\FossilDriver' => __DIR__ . '/..' . '/composer/composer/src/Composer/Repository/Vcs/FossilDriver.php',
@@ -2630,6 +2669,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Monolog\\Formatter\\FluentdFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/FluentdFormatter.php',
         'Monolog\\Formatter\\FormatterInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/FormatterInterface.php',
         'Monolog\\Formatter\\GelfMessageFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/GelfMessageFormatter.php',
+        'Monolog\\Formatter\\GoogleCloudLoggingFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/GoogleCloudLoggingFormatter.php',
         'Monolog\\Formatter\\HtmlFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/HtmlFormatter.php',
         'Monolog\\Formatter\\JsonFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/JsonFormatter.php',
         'Monolog\\Formatter\\LineFormatter' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Formatter/LineFormatter.php',
@@ -2741,6 +2781,15 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
         'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
         'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
+        'Pathologic\\EvolutionCMS\\DoctrineCache\\CacheBridge' => __DIR__ . '/..' . '/pathologic/doctrine-cache-bridge/src/CacheBridge.php',
+        'Pathologic\\EvolutionCMS\\DoctrineCache\\ServiceProvider' => __DIR__ . '/..' . '/pathologic/doctrine-cache-bridge/src/ServiceProvider.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\APIhelpers' => __DIR__ . '/..' . '/pathologic/modxapi/src/APIhelpers.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\MODxAPI' => __DIR__ . '/..' . '/pathologic/modxapi/src/MODxAPI.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\Traits\\ContentTV' => __DIR__ . '/..' . '/pathologic/modxapi/src/Traits/ContentTV.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\Traits\\RoleTV' => __DIR__ . '/..' . '/pathologic/modxapi/src/Traits/RoleTV.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\autoTable' => __DIR__ . '/..' . '/pathologic/modxapi/src/autoTable.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\modResource' => __DIR__ . '/..' . '/pathologic/modxapi/src/modResource.php',
+        'Pathologic\\EvolutionCMS\\MODxAPI\\modUsers' => __DIR__ . '/..' . '/pathologic/modxapi/src/modUsers.php',
         'PhpOption\\LazyOption' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/LazyOption.php',
         'PhpOption\\None' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/None.php',
         'PhpOption\\Option' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/Option.php',
@@ -3072,6 +3121,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Seld\\JsonLint\\Undefined' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/Undefined.php',
         'Seld\\PharUtils\\Linter' => __DIR__ . '/..' . '/seld/phar-utils/src/Linter.php',
         'Seld\\PharUtils\\Timestamps' => __DIR__ . '/..' . '/seld/phar-utils/src/Timestamps.php',
+        'Seld\\Signal\\SignalHandler' => __DIR__ . '/..' . '/seld/signal-handler/src/SignalHandler.php',
         'SimplePie' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie.php',
         'SimplePie\\Author' => __DIR__ . '/..' . '/simplepie/simplepie/src/Author.php',
         'SimplePie\\Cache' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache.php',

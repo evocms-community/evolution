@@ -17,11 +17,11 @@ namespace Composer\DependencyResolver;
  */
 class GenericRule extends Rule
 {
-    /** @var int[] */
+    /** @var list<int> */
     protected $literals;
 
     /**
-     * @param int[] $literals
+     * @param list<int> $literals
      */
     public function __construct(array $literals, $reason, $reasonData)
     {
@@ -34,7 +34,7 @@ class GenericRule extends Rule
     }
 
     /**
-     * @return int[]
+     * @return list<int>
      */
     public function getLiterals(): array
     {
@@ -64,9 +64,6 @@ class GenericRule extends Rule
         return $this->literals === $rule->getLiterals();
     }
 
-    /**
-     * @return bool
-     */
     public function isAssertion(): bool
     {
         return 1 === \count($this->literals);
@@ -74,15 +71,13 @@ class GenericRule extends Rule
 
     /**
      * Formats a rule as a string of the format (Literal1|Literal2|...)
-     *
-     * @return string
      */
     public function __toString(): string
     {
         $result = $this->isDisabled() ? 'disabled(' : '(';
 
         foreach ($this->literals as $i => $literal) {
-            if ($i != 0) {
+            if ($i !== 0) {
                 $result .= '|';
             }
             $result .= $literal;

@@ -30,21 +30,16 @@ class BufferIO extends ConsoleIO
     /** @var StreamOutput */
     protected $output;
 
-    /**
-     * @param string                        $input
-     * @param int                           $verbosity
-     * @param OutputFormatterInterface|null $formatter
-     */
-    public function __construct(string $input = '', int $verbosity = StreamOutput::VERBOSITY_NORMAL, OutputFormatterInterface $formatter = null)
+    public function __construct(string $input = '', int $verbosity = StreamOutput::VERBOSITY_NORMAL, ?OutputFormatterInterface $formatter = null)
     {
         $input = new StringInput($input);
         $input->setInteractive(false);
 
         $output = new StreamOutput(fopen('php://memory', 'rw'), $verbosity, $formatter ? $formatter->isDecorated() : false, $formatter);
 
-        parent::__construct($input, $output, new HelperSet(array(
+        parent::__construct($input, $output, new HelperSet([
             new QuestionHelper(),
-        )));
+        ]));
     }
 
     /**
@@ -56,7 +51,7 @@ class BufferIO extends ConsoleIO
 
         $output = stream_get_contents($this->output->getStream());
 
-        $output = Preg::replaceCallback("{(?<=^|\n|\x08)(.+?)(\x08+)}", function ($matches): string {
+        $output = Preg::replaceCallback("{(?<=^|\n|\x08)(.+?)(\x08+)}", static function ($matches): string {
             $pre = strip_tags($matches[1]);
 
             if (strlen($pre) === strlen($matches[2])) {
@@ -74,8 +69,6 @@ class BufferIO extends ConsoleIO
      * @param string[] $inputs
      *
      * @see createStream
-     *
-     * @return void
      */
     public function setUserInputs(array $inputs): void
     {

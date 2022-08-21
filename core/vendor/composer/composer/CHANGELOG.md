@@ -1,3 +1,54 @@
+### [2.4.1] 2022-08-20
+
+  * Added a `COMPOSER_NO_AUDIT` env var to easily apply the new --no-audit flag in CI (#10998)
+  * Fixed `show` command showing packages in two sections, this was only meant for the `outdated` command (#11000)
+  * Fixed local git repos being copied to cache unnecessarily (#11001)
+  * Fixed git cache invalidation issue when a git tag gets created after the cache has loaded a given reference (#11004)
+
+### [2.4.0] 2022-08-16
+
+  * Added `json` format output to the new `audit` command (#10965)
+  * Added `json` format output to the `check-platform-reqs` command (#10979)
+  * Added GitLab 15+ token refresh support (#10988)
+  * Fixed `COMPOSER_NO_DEV` so it also works with `require` and `remove`'s `--update-no-dev` (#10995)
+  * Fixed various bash completion issues
+
+### [2.4.0-RC1] 2022-07-21
+
+  * Added bash completions for Composer commands, package names, etc (see [how to setup](https://getcomposer.org/doc/03-cli.md#bash-completions)) (#10320)
+  * Added `bump` command to bump requirements to the currently installed version (#10829)
+  * Added `audit` command to check for known security vulnerabilities in installed packages (#10798, #10898)
+  * Added automatic auditing of security vulnerabilities after `update` is done, can be overridden with `--no-audit` (#10798, #10898)
+  * Added `--audit` to `install` command to also do an audit (#10798, #10898)
+  * Added `r` alias to `require` command (#10953)
+  * Added `composer/class-map-generator` dependency to replace `Composer\Autoload\ClassMapGenerator` which is now deprecated (#10885)
+  * Added `--locked` to `depends`/`prohibits` commands (#10834)
+  * Added `--strict-psr` flag to `dump-autoload` command to fail the process if PSR violations were detected, useful for CI (#10886)
+  * Added `COMPOSER_PREFER_STABLE` and `COMPOSER_PREFER_LOWEST` env vars to turn on `--prefer-stable`/`--prefer-lowest` on `update` and `require` command, useful for CI (#10919)
+  * Added support for temporary update constraints on all packages (now also including non-root dependencies) (#10773)
+  * Added `--major-only` flag to the `outdated` command to show only packages with major version updates (#10827)
+  * Added sections for direct and transitive deps in `outdated` command output (#10779)
+  * Added ability for cache GC to clean up `vcs` and `repo` caches (#10826)
+  * Added `--gc` flag to `clear-cache` to only trigger a garbage collection instead of clearing everything (#10826)
+  * Added signal (SIGINT, SIGTERM, SIGHUP) handling to ensure we wait for the child process to exit before Composer exits to avoid dropping output (#10958)
+  * Added prompt suggesting using `--dev` when requiring packages with `dev`/`testing`/`static analysis` keywords present (#10960)
+  * Added warning in `require`, `init` and `create-project` commands when the latest version of a package cannot be used due to platform requirements (#10896)
+
+### [2.3.10] 2022-07-13
+
+  * Fixed plugins from CWD/vendor being loaded in some cases like create-project or validate even though the target directory is outside of CWD (#10935)
+  * Fixed support for legacy (Composer 1.x, e.g. hirak/prestissimo) plugins which will not warn/error anymore if not in allow-plugins, as they are anyway not loaded (#10928)
+  * Fixed pre-install check for allowed plugins not taking --no-plugins into account (#10925)
+  * Fixed support for disable_functions containing disk_free_space (#10936)
+  * Fixed RootPackageRepository usages to always clone the root package to avoid interoperability issues with plugins (#10940)
+
+### [2.3.9] 2022-07-05
+
+  * Fixed non-interactive behavior of allow-plugins to throw instead of continue with a warning to avoid broken installs (#10920)
+  * Fixed allow-plugins BC mode to ensure old lock files created pre-2.2 can be installed with only a warning but plugins fully loaded (#10920)
+  * Fixed deprecation notice (#10921)
+  * Fixed type errors (#10924)
+
 ### [2.3.8] 2022-07-01
 
   * Fixed support for `cache-read-only` where the filesystem is not writable (#10906)
@@ -103,6 +154,20 @@
   * Added support for psr/log 3.x (#10454)
   * Fixed symlink creation in linux VM guest filesystems to be recognized by Windows (#10592)
   * Performance improvement in pool optimization step (#10585)
+
+### [2.2.17] 2022-07-13
+
+  * Fixed plugins from CWD/vendor being loaded in some cases like create-project or validate even though the target directory is outside of CWD (#10935)
+  * Fixed support for legacy (Composer 1.x, e.g. hirak/prestissimo) plugins which will not warn/error anymore if not in allow-plugins, as they are anyway not loaded (#10928)
+  * Fixed pre-install check for allowed plugins not taking --no-plugins into account (#10925)
+  * Fixed support for disable_functions containing disk_free_space (#10936)
+  * Fixed RootPackageRepository usages to always clone the root package to avoid interoperability issues with plugins (#10940)
+
+### [2.2.16] 2022-07-05
+
+  * Fixed non-interactive behavior of allow-plugins to throw instead of continue with a warning to avoid broken installs (#10920)
+  * Fixed allow-plugins BC mode to ensure old lock files created pre-2.2 can be installed with only a warning but plugins fully loaded (#10920)
+  * Fixed deprecation notice (#10921)
 
 ### [2.2.15] 2022-07-01
 
@@ -1561,6 +1626,11 @@
 
   * Initial release
 
+[2.4.1]: https://github.com/composer/composer/compare/2.4.0...2.4.1
+[2.4.0]: https://github.com/composer/composer/compare/2.4.0-RC1...2.4.0
+[2.4.0-RC1]: https://github.com/composer/composer/compare/2.3.10...2.4.0-RC1
+[2.3.10]: https://github.com/composer/composer/compare/2.3.9...2.3.10
+[2.3.9]: https://github.com/composer/composer/compare/2.3.8...2.3.9
 [2.3.8]: https://github.com/composer/composer/compare/2.3.7...2.3.8
 [2.3.7]: https://github.com/composer/composer/compare/2.3.6...2.3.7
 [2.3.6]: https://github.com/composer/composer/compare/2.3.5...2.3.6
@@ -1572,6 +1642,8 @@
 [2.3.0]: https://github.com/composer/composer/compare/2.3.0-RC2...2.3.0
 [2.3.0-RC2]: https://github.com/composer/composer/compare/2.3.0-RC1...2.3.0-RC2
 [2.3.0-RC1]: https://github.com/composer/composer/compare/2.2.9...2.3.0-RC1
+[2.2.17]: https://github.com/composer/composer/compare/2.2.16...2.2.17
+[2.2.16]: https://github.com/composer/composer/compare/2.2.15...2.2.16
 [2.2.15]: https://github.com/composer/composer/compare/2.2.14...2.2.15
 [2.2.14]: https://github.com/composer/composer/compare/2.2.13...2.2.14
 [2.2.13]: https://github.com/composer/composer/compare/2.2.12...2.2.13

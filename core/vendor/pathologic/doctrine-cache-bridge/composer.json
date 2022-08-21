@@ -1,0 +1,27 @@
+{
+  "name": "pathologic/doctrine-cache-bridge",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pathologic",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Pathologic\\EvolutionCMS\\DoctrineCache\\": "src/"
+    }
+  },
+  "require":{
+    "doctrine/cache": "^2.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Pathologic\\EvolutionCMS\\DoctrineCache\\ServiceProvider"
+      ]
+    }
+  }
+}
