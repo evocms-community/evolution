@@ -37,6 +37,16 @@ if ($e->name == 'OnWebLogin' && isset($userObj)) {
         $userObj->setAutoLoginCookie($cookieName, $cookieLifetime);
     }
 }
+//Updating session_id in cookie, if user is login and just saved
+if ($e->name == 'OnWebSaveUser' && isset($userObj)) {
+    if( (int)$modx->getLoginUserID('web') == (int)$id && isset($_COOKIE[$cookieName]) ) { //checking, if current logined user was saved
+        $cookieParts = explode("|", $_COOKIE[$cookieName], 4);
+        if(isset($cookieParts[2]) && ($userObj->get('sessionid') != $cookieParts[2])) { //checking, if session ids in cookie and in user object became not equals
+            $userObj->setAutoLoginCookie($cookieName, $cookieLifetime);
+        }
+    }
+}
+
 if ($e->name == 'OnWebPageInit' || $e->name == 'OnPageNotFound') {
     $model = isset($params['model']) && class_exists($params['model']) ? $params['model'] : '\\modUsers';
     $user = new $model($modx);
@@ -64,3 +74,4 @@ if ($e->name == 'OnWebPageInit' || $e->name == 'OnPageNotFound') {
         $user->AutoLogin($cookieLifetime, $cookieName, true);
     }
 }
+

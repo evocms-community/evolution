@@ -1,4 +1,7 @@
 ## History
+### 1.19.3
+* [Fix] Работа автологина при редактировании профиля (UserHelper)
+
 ### 1.19.2
 * [Fix] Ошибка в PHP 8.1 (modxCaptcha).
 * [Enhancement] Recaptcha v.3 (ReCaptcha).
