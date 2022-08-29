@@ -162,6 +162,7 @@ if ($warningspresent==1) {
 if(!isset($modx->config['send_errormail'])) $modx->config['send_errormail']='3';
 $config_check_results = "<h3>".$_lang['configcheck_notok']."</h3>";
 
+$_SESSION['mgrConfigCheck'] = false;
 for ($i=0;$i<count($warnings);$i++) {
     switch ($warnings[$i][0]) {
         case $_lang['configcheck_configinc'];
