@@ -561,6 +561,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 		$dir = isset($_REQUEST['dir']) ? $_REQUEST['dir'] : '';
 		$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'createdon';
 		$page = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] : '';
+                $out = '';
 		/*************************/
 
 		?>
