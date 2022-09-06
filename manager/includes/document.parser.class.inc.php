@@ -4624,17 +4624,12 @@ class DocumentParser
             case 'mm/dd/YYYY':
                 $dateFormat = 'm/d/Y';
                 break;
-            /*
-            case 'dd-mmm-YYYY':
-                $dateFormat = '%e-%b-%Y';
-                break;
-            */
         }
 
         if (empty($mode)) {
-            $strTime = date_format(date_create('@' . $timestamp), $dateFormat . " H:i:s");
+            $strTime = date($dateFormat . " H:i:s", $timestamp);
         } elseif ($mode == 'dateOnly') {
-            $strTime = date_format(date_create('@' . $timestamp), $dateFormat);
+            $strTime = date($dateFormat, $timestamp);
         } elseif ($mode == 'formatOnly') {
             $strTime = $dateFormat;
         }
