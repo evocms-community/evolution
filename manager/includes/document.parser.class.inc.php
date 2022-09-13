@@ -4037,11 +4037,15 @@ class DocumentParser
         }
 
         $doc = $this->getDocumentObject('id', $docid);
-        if (is_array($doc[$field])) {
-            $tvs = $this->getTemplateVarOutput($field, $docid, 1);
-            $content = $tvs[$field];
-        } else {
-            $content = $doc[$field];
+
+        $content = '';
+        if (isset($doc[$field])) {
+            if (is_array($doc[$field])) {
+                $tvs = $this->getTemplateVarOutput($field, $docid, 1);
+                $content = $tvs[$field];
+            } else {
+                $content = $doc[$field];
+            }
         }
 
         $this->tmpCache[__FUNCTION__][$cacheKey] = $content;
