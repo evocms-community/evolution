@@ -75,10 +75,10 @@ $usernamedata = [
 if($modx->getManagerApi()->action == '88') {
 	// get user attributes
 	$userdatatmp = \EvolutionCMS\Models\UserAttribute::query()->where('internalKey', $user)->first();
+    if(!$userdatatmp) {
+        $modx->webAlertAndQuit("No user returned!");
+    }
     $userdatatmp = $userdatatmp->makeVisible('role')->toArray();
-	if(!$userdatatmp) {
-		$modx->webAlertAndQuit("No user returned!");
-	}
 	$userdata = array_merge($userdata, $userdatatmp);
 	unset($userdatatmp);
 
