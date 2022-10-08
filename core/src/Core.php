@@ -3235,20 +3235,22 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      * Returns 1 if user has the currect permission
      *
      * @param string $pm Permission name
-     * @return int Why not bool?
+     * @return bool
      */
     public function hasPermission($pm, $context = '')
     {
+        if (is_cli()) return true;
         if (empty($context)) {
             $context = $this->getContext();
         }
-        $state = 0;
+        if (isset($_SESSION[$context . 'Role']) && $_SESSION[$context . 'Role'] == 1) return true;
+        $state = false;
         $pms = get_by_key($_SESSION, $context . 'Permissions', [], 'is_array');
         if ($pms) {
-            $state = (isset($pms[$pm]) && (bool)$pms[$pm] === true);
+            $state = isset($pms[$pm]) && (bool)$pms[$pm] === true;
         }
 
-        return (int)$state;
+        return $state;
     }
 
     /**

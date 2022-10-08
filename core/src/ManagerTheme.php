@@ -538,7 +538,7 @@ class ManagerTheme implements ManagerThemeInterface
     public function hasManagerAccess()
     {
         // check if user is allowed to access manager interface
-        return $this->getCore()->hasPermission('access_permissions', 'mgr') === 1;
+        return $this->getCore()->hasPermission('access_permissions', 'mgr');
     }
 
     public function getManagerStartupPageId()
