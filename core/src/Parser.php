@@ -100,7 +100,7 @@ class Parser
      */
     public function setTemplatePath ($path, $supRoot = false)
     {
-        $path = trim($path);
+        $path = trim($path ?? '');
         if ($supRoot === false) {
             $path = $this->cleanPath($path);
         }
@@ -142,7 +142,7 @@ class Parser
      */
     public function setTemplateExtension ($ext)
     {
-        $ext = $this->cleanPath(trim($ext, ". \t\n\r\0\x0B"));
+        $ext = $this->cleanPath(trim($ext ?? '', ". \t\n\r\0\x0B"));
 
         if (!empty($ext)) {
             $this->templateExtension = $ext;
