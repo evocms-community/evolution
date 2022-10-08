@@ -1,5 +1,15 @@
 ## Changelog
 
+## v2.0.2 (2022-09-06)
+
+- Fixed PHP 8.2 deprecation notice: Use of "static" in callables
+
+## v2.0.1 (2022-09-04)
+
+- Added retry interval to `RedisCluster` with a default of `10ms`
+- Avoid PHP 8.2 warning in `Connection\Parameters`
+- Fixed Sentinel reconnect issue in long-running PHP processes
+
 ## v2.0.0 (2022-06-08)
 
 - Dropped support for PHP 7.1 and older

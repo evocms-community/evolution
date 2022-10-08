@@ -1858,6 +1858,7 @@ return array(
     'Illuminate\\Support\\Testing\\Fakes\\PendingChainFake' => $vendorDir . '/illuminate/support/Testing/Fakes/PendingChainFake.php',
     'Illuminate\\Support\\Testing\\Fakes\\PendingMailFake' => $vendorDir . '/illuminate/support/Testing/Fakes/PendingMailFake.php',
     'Illuminate\\Support\\Testing\\Fakes\\QueueFake' => $vendorDir . '/illuminate/support/Testing/Fakes/QueueFake.php',
+    'Illuminate\\Support\\Timebox' => $vendorDir . '/illuminate/support/Timebox.php',
     'Illuminate\\Support\\Traits\\CapsuleManagerTrait' => $vendorDir . '/illuminate/support/Traits/CapsuleManagerTrait.php',
     'Illuminate\\Support\\Traits\\Conditionable' => $vendorDir . '/illuminate/support/Traits/Conditionable.php',
     'Illuminate\\Support\\Traits\\EnumeratesValues' => $vendorDir . '/illuminate/collections/Traits/EnumeratesValues.php',

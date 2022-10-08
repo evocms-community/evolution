@@ -410,8 +410,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
-            1 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            1 => __DIR__ . '/..' . '/illuminate/collections',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -2455,6 +2455,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Illuminate\\Support\\Testing\\Fakes\\PendingChainFake' => __DIR__ . '/..' . '/illuminate/support/Testing/Fakes/PendingChainFake.php',
         'Illuminate\\Support\\Testing\\Fakes\\PendingMailFake' => __DIR__ . '/..' . '/illuminate/support/Testing/Fakes/PendingMailFake.php',
         'Illuminate\\Support\\Testing\\Fakes\\QueueFake' => __DIR__ . '/..' . '/illuminate/support/Testing/Fakes/QueueFake.php',
+        'Illuminate\\Support\\Timebox' => __DIR__ . '/..' . '/illuminate/support/Timebox.php',
         'Illuminate\\Support\\Traits\\CapsuleManagerTrait' => __DIR__ . '/..' . '/illuminate/support/Traits/CapsuleManagerTrait.php',
         'Illuminate\\Support\\Traits\\Conditionable' => __DIR__ . '/..' . '/illuminate/support/Traits/Conditionable.php',
         'Illuminate\\Support\\Traits\\EnumeratesValues' => __DIR__ . '/..' . '/illuminate/collections/Traits/EnumeratesValues.php',
