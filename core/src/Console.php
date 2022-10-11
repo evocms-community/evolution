@@ -1,16 +1,21 @@
-<?php namespace EvolutionCMS;
+<?php
+
+namespace EvolutionCMS;
 
 use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Events;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Console\Events;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Input\InputDefinition;
 
 class Console extends Artisan
 {
     /**
-     * {@inheritDoc}
+     * @param Container $laravel
+     * @param Dispatcher $events
+     * @param $version
      */
     public function __construct(Container $laravel, Dispatcher $events, $version)
     {
@@ -28,19 +33,20 @@ class Console extends Artisan
     }
 
     /**
-     * @{inheritDoc}
+     * @return InputDefinition
      */
-    protected function getDefaultInputDefinition()
+    protected function getDefaultInputDefinition(): InputDefinition
     {
         return SymfonyApplication::getDefaultInputDefinition();
     }
 
+    /**
+     * @return void
+     */
     private function SetRequestForConsole()
     {
         $uri = evo()->getConfig('site_url');
-
         $components = parse_url($uri);
-
         $server = $_SERVER;
 
         if (isset($components['path'])) {
@@ -50,8 +56,9 @@ class Console extends Artisan
             ]);
         }
 
-        evo()->instance('request', Request::create(
-            $uri, 'GET', [], [], [], $server
-        ));
+        evo()->instance(
+            'request',
+            Request::create($uri, 'GET', [], [], [], $server)
+        );
     }
 }

@@ -1,7 +1,16 @@
-<?php namespace EvolutionCMS\Facades;
+<?php
+
+namespace EvolutionCMS\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Symfony\Component\Console\Input\InputDefinition;
 
+/**
+ * @method static InputDefinition getDefaultInputDefinition()
+ * @method static void SetRequestForConsole()
+ *
+ * @see \EvolutionCMS\Console
+ */
 class Console extends Facade
 {
     /**
@@ -9,7 +18,7 @@ class Console extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'Console';
     }
