@@ -99,7 +99,12 @@
 #mainMenu .nav > li > a .icon.photo {
     width: 2rem;
 }
-#mainMenu .nav > li > a .icon .fa {
+#mainMenu .nav > li > a .icon .fa,
+#mainMenu .nav > li > a .icon .fab,
+#mainMenu .nav > li > a .icon .fad,
+#mainMenu .nav > li > a .icon .fal,
+#mainMenu .nav > li > a .icon .far,
+#mainMenu .nav > li > a .icon .fas {
     font-size: 1.2rem;
     line-height: 2.1rem;
 }
@@ -114,7 +119,12 @@
     font-size: 0.875rem;
     vertical-align: top;
 }
-#mainMenu #nav > li > a > .fa {
+#mainMenu #nav > li > a > .fa,
+#mainMenu #nav > li > a > .fab,
+#mainMenu #nav > li > a > .fad,
+#mainMenu #nav > li > a > .fal,
+#mainMenu #nav > li > a > .far,
+#mainMenu #nav > li > a > .fas {
     display: none;
 }
 #mainMenu #nav #bars {
@@ -124,7 +134,12 @@
 #mainMenu #nav #bars a {
     padding: 0;
 }
-#mainMenu #nav #bars .fa {
+#mainMenu #nav #bars .fa,
+#mainMenu #nav #bars .fab,
+#mainMenu #nav #bars .fad,
+#mainMenu #nav #bars .fal,
+#mainMenu #nav #bars .far,
+#mainMenu #nav #bars .fas {
     display: inline-block;
     min-width: 0.25rem;
     width: 1.5rem;
@@ -134,10 +149,20 @@
     -webkit-transition-duration: 0.15s;
     transition-duration: 0.15s;
 }
-.sidebar-closed #mainMenu #nav #bars .fa {
+.sidebar-closed #mainMenu #nav #bars .fa,
+.sidebar-closed #mainMenu #nav #bars .fab,
+.sidebar-closed #mainMenu #nav #bars .fad,
+.sidebar-closed #mainMenu #nav #bars .fal,
+.sidebar-closed #mainMenu #nav #bars .far,
+.sidebar-closed #mainMenu #nav #bars .fas {
     width: 0.25rem;
 }
-#mainMenu #system > a > .fa {
+#mainMenu #system > a > .fa,
+#mainMenu #system > a > .fab,
+#mainMenu #system > a > .fad,
+#mainMenu #system > a > .fal,
+#mainMenu #system > a > .far,
+#mainMenu #system > a > .fas {
     font-size: 1.1rem;
 }
 #mainMenu .nav .caret,
@@ -283,7 +308,12 @@
 #mainMenu .nav li.item-group > *:first-child {
     width: 100%;
 }
-#mainMenu .nav li.item-group > *:not(:first-child) .fa {
+#mainMenu .nav li.item-group > *:not(:first-child) .fa,
+#mainMenu .nav li.item-group > *:not(:first-child) .fab,
+#mainMenu .nav li.item-group > *:not(:first-child) .fad,
+#mainMenu .nav li.item-group > *:not(:first-child) .fal,
+#mainMenu .nav li.item-group > *:not(:first-child) .far,
+#mainMenu .nav li.item-group > *:not(:first-child) .fas {
     margin-right: 0;
 }
 /* statusbar */
@@ -296,15 +326,18 @@
     white-space: nowrap;
     float: left;
 }
-#statusbar .fa {
+#statusbar .fa,
+#statusbar .fab,
+#statusbar .fad,
+#statusbar .fal,
+#statusbar .far,
+#statusbar .fas {
     font-size: 0.875rem;
+    margin-right: 0.375rem;
 }
 #statusbar #buildText,
 #statusbar #workText {
     display: none;
-}
-#statusbar .fa {
-    margin-right: 0.375rem;
 }
 #statusbar .fa-warning {
     color: #f44336;
@@ -554,10 +587,20 @@
     #mainMenu #nav > li > a {
         padding: 0 1.25rem;
     }
-    #mainMenu #nav > li > a > .fa {
+    #mainMenu #nav > li > a > .fa,
+    #mainMenu #nav > li > a > .fab,
+    #mainMenu #nav > li > a > .fad,
+    #mainMenu #nav > li > a > .fal,
+    #mainMenu #nav > li > a > .far,
+    #mainMenu #nav > li > a > .fas {
         display: none;
     }
-    #mainMenu .nav > li > a .icon .fa {
+    #mainMenu .nav > li > a .icon .fa,
+    #mainMenu .nav > li > a .icon .fab,
+    #mainMenu .nav > li > a .icon .fad,
+    #mainMenu .nav > li > a .icon .fal,
+    #mainMenu .nav > li > a .icon .far,
+    #mainMenu .nav > li > a .icon .fas {
         line-height: 2.5rem;
         font-size: 1.5rem;
     }
@@ -611,10 +654,20 @@
     #mainMenu .nav > li > a > .username {
         font-size: 0.75rem;
     }
-    #mainMenu #nav > li > a > .fa {
+    #mainMenu #nav > li > a > .fa,
+    #mainMenu #nav > li > a > .fab,
+    #mainMenu #nav > li > a > .fad,
+    #mainMenu #nav > li > a > .fal,
+    #mainMenu #nav > li > a > .far,
+    #mainMenu #nav > li > a > .fas {
         display: inline-block;
     }
-    #mainMenu .nav > li > a > .fa {
+    #mainMenu .nav > li > a > .fa,
+    #mainMenu .nav > li > a > .fab,
+    #mainMenu .nav > li > a > .fad,
+    #mainMenu .nav > li > a > .fal,
+    #mainMenu .nav > li > a > .far,
+    #mainMenu .nav > li > a > .fas {
         display: inline-block;
         width: 1.3em;
         margin-right: 0 !important;
@@ -822,15 +875,50 @@
     .navbar-left #mainMenu #settings > li > a {
         padding: 0.5rem 0;
     }
-    .navbar-left #mainMenu #nav > li > a > .fa {
+    .navbar-left #mainMenu #nav > li > a > .fa,
+    .navbar-left #mainMenu #nav > li > a > .fab,
+    .navbar-left #mainMenu #nav > li > a > .fad,
+    .navbar-left #mainMenu #nav > li > a > .fal,
+    .navbar-left #mainMenu #nav > li > a > .far,
+    .navbar-left #mainMenu #nav > li > a > .fas {
         display: inline-block;
     }
     .navbar-left #mainMenu #nav > li > a > .fa,
+    .navbar-left #mainMenu #nav > li > a > .fab,
+    .navbar-left #mainMenu #nav > li > a > .fad,
+    .navbar-left #mainMenu #nav > li > a > .fal,
+    .navbar-left #mainMenu #nav > li > a > .far,
+    .navbar-left #mainMenu #nav > li > a > .fas,
     .navbar-left #mainMenu #searchform .fa,
+    .navbar-left #mainMenu #searchform .fab,
+    .navbar-left #mainMenu #searchform .fad,
+    .navbar-left #mainMenu #searchform .fal,
+    .navbar-left #mainMenu #searchform .far,
+    .navbar-left #mainMenu #searchform .fas,
     .navbar-left #mainMenu #preview .fa,
+    .navbar-left #mainMenu #preview .fab,
+    .navbar-left #mainMenu #preview .fad,
+    .navbar-left #mainMenu #preview .fal,
+    .navbar-left #mainMenu #preview .far,
+    .navbar-left #mainMenu #preview .fas,
     .navbar-left #mainMenu #nav > li > .fa,
+    .navbar-left #mainMenu #nav > li > .fab,
+    .navbar-left #mainMenu #nav > li > .fad,
+    .navbar-left #mainMenu #nav > li > .fal,
+    .navbar-left #mainMenu #nav > li > .far,
+    .navbar-left #mainMenu #nav > li > .fas,
     .navbar-left #mainMenu #nav > li > a > .fa,
-    .navbar-left #mainMenu #system > a > .fa {
+    .navbar-left #mainMenu #nav > li > a > .fab,
+    .navbar-left #mainMenu #nav > li > a > .fad,
+    .navbar-left #mainMenu #nav > li > a > .fal,
+    .navbar-left #mainMenu #nav > li > a > .far,
+    .navbar-left #mainMenu #nav > li > a > .fas,
+    .navbar-left #mainMenu #system > a > .fa,
+    .navbar-left #mainMenu #system > a > .fab,
+    .navbar-left #mainMenu #system > a > .fad,
+    .navbar-left #mainMenu #system > a > .fal,
+    .navbar-left #mainMenu #system > a > .far,
+    .navbar-left #mainMenu #system > a > .fas {
         font-size: 0.875rem;
     }
     .navbar-left #mainMenu .nav > li > ul,
@@ -971,11 +1059,41 @@
         margin-left: 0;
     }
     .navbar-left #mainMenu #nav > li > a > .fa,
+    .navbar-left #mainMenu #nav > li > a > .fab,
+    .navbar-left #mainMenu #nav > li > a > .fad,
+    .navbar-left #mainMenu #nav > li > a > .fal,
+    .navbar-left #mainMenu #nav > li > a > .far,
+    .navbar-left #mainMenu #nav > li > a > .fas,
     .navbar-left #mainMenu #searchform .fa,
+    .navbar-left #mainMenu #searchform .fab,
+    .navbar-left #mainMenu #searchform .fad,
+    .navbar-left #mainMenu #searchform .fal,
+    .navbar-left #mainMenu #searchform .far,
+    .navbar-left #mainMenu #searchform .fas,
     .navbar-left #mainMenu #preview .fa,
+    .navbar-left #mainMenu #preview .fab,
+    .navbar-left #mainMenu #preview .fad,
+    .navbar-left #mainMenu #preview .fal,
+    .navbar-left #mainMenu #preview .far,
+    .navbar-left #mainMenu #preview .fas,
     .navbar-left #mainMenu #nav > li > .fa,
+    .navbar-left #mainMenu #nav > li > .fab,
+    .navbar-left #mainMenu #nav > li > .fad,
+    .navbar-left #mainMenu #nav > li > .fal,
+    .navbar-left #mainMenu #nav > li > .far,
+    .navbar-left #mainMenu #nav > li > .fas,
     .navbar-left #mainMenu #nav > li > a > .fa,
-    .navbar-left #mainMenu #system > a > .fa {
+    .navbar-left #mainMenu #nav > li > a > .fab,
+    .navbar-left #mainMenu #nav > li > a > .fad,
+    .navbar-left #mainMenu #nav > li > a > .fal,
+    .navbar-left #mainMenu #nav > li > a > .far,
+    .navbar-left #mainMenu #nav > li > a > .fas,
+    .navbar-left #mainMenu #system > a > .fa,
+    .navbar-left #mainMenu #system > a > .fab,
+    .navbar-left #mainMenu #system > a > .fad,
+    .navbar-left #mainMenu #system > a > .fal,
+    .navbar-left #mainMenu #system > a > .far,
+    .navbar-left #mainMenu #system > a > .fas {
         font-size: 1.125rem;
     }
     .navbar-left #mainMenu .menu-item-text,
