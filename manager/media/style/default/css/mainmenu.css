@@ -103,7 +103,12 @@
     font-size: 1.2rem;
     line-height: 2.1rem;
 }
-#mainMenu .nav > li .fa {
+#mainMenu .nav > li .fa,
+#mainMenu .nav > li .fab,
+#mainMenu .nav > li .fad,
+#mainMenu .nav > li .fal,
+#mainMenu .nav > li .far,
+#mainMenu .nav > li .fas {
     min-width: 1em;
     line-height: 2.2rem;
     font-size: 0.875rem;
@@ -216,7 +221,12 @@
 #mainMenu .nav > li > ul > li.dropdown-back > span * {
     pointer-events: none;
 }
-#mainMenu .nav > li > ul > li .fa {
+#mainMenu .nav > li > ul > li .fa,
+#mainMenu .nav > li > ul > li .fab,
+#mainMenu .nav > li > ul > li .fad,
+#mainMenu .nav > li > ul > li .fal,
+#mainMenu .nav > li > ul > li .far,
+#mainMenu .nav > li > ul > li .fas {
     width: 1.3em;
     margin-right: 0.5em;
     font-size: 0.875rem;
@@ -520,6 +530,11 @@
     #mainMenu .nav > li > a,
     #mainMenu .nav .label_searchid,
     #mainMenu .nav > li .fa,
+    #mainMenu .nav > li .fab,
+    #mainMenu .nav > li .fad,
+    #mainMenu .nav > li .fal,
+    #mainMenu .nav > li .far,
+    #mainMenu .nav > li .fas,
     #mainMenu .nav > li > a .icon {
         line-height: 2.5rem;
     }
@@ -528,7 +543,12 @@
         height: 2.1rem;
         margin-top: 0.2rem;
     }
-    #mainMenu .nav > li .fa {
+    #mainMenu .nav > li .fa,
+    #mainMenu .nav > li .fab,
+    #mainMenu .nav > li .fad,
+    #mainMenu .nav > li .fal,
+    #mainMenu .nav > li .far,
+    #mainMenu .nav > li .fas {
         font-size: 0.875rem;
     }
     #mainMenu #nav > li > a {
