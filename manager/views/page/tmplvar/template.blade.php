@@ -14,10 +14,10 @@
             - {!! $item->description !!}
         @endif
         @if(!empty($item->locked))
-            <em>({{ ManagerTheme::getLexicon('locked') }})</em>
+            <em>(@lang('global.locked'))</em>
         @endif
         @if($item->getKey() == get_by_key($modx->config, 'default_template'))
-            <em>({{ ManagerTheme::getLexicon('defaulttemplate_title') }})</em>
+            <em>(@lang('global.defaulttemplate_title'))</em>
         @endif
     </label>
 </li>

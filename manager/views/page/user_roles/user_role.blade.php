@@ -1,11 +1,8 @@
-@php
-    use EvolutionCMS\Facades\ManagerTheme
-@endphp
 @extends('manager::template.page')
 @section('content')
     <form name="userform" method="post" action="index.php" enctype="multipart/form-data">
         <input type="hidden" name="a" value="36">
-        <input type="hidden" name="mode" value="<?= $modx->getManagerApi()->action ?>">
+        <input type="hidden" name="mode" value="<?= app()->getManagerApi()->action ?>">
         <input type="hidden" name="id" value="<?= isset($_GET['id']) ? (int) $_GET['id'] : '' ?>">
 
         <h1>
@@ -13,7 +10,7 @@
             @isset($role->name)
                 <span>{{ $role->name }}</span><small>({{ $role->id }})</small>
             @else
-                <span>{{ ManagerTheme::getLexicon('role_title') }}</span>
+                <span>{{ __('global.role_title') }}</span>
             @endisset
         </h1>
 
@@ -26,7 +23,7 @@
             </script>
 
             <div class="tab-page" id="roleMain">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('role') }}</h2>
+                <h2 class="tab">{{ __('global.role') }}</h2>
 
                 <script>
                   tp.addTabPage(document.getElementById('roleMain'))
@@ -35,7 +32,7 @@
                 <div class="container container-body">
                     <div class="form-group">
                         <div class="row form-row">
-                            <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('role_name') }}:</div>
+                            <div class="col-md-3 col-lg-2">{{ __('global.role_name') }}:</div>
                             <div class="col-md-9 col-lg-10">
                                 <input class="form-control form-control-lg"
                                        name="name"
@@ -46,7 +43,7 @@
                             </div>
                         </div>
                         <div class="row form-row">
-                            <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('resource_description') }}:</div>
+                            <div class="col-md-3 col-lg-2">{{ __('global.resource_description') }}:</div>
                             <div class="col-md-9 col-lg-10">
                                 <input name="description"
                                        type="text"
@@ -61,7 +58,7 @@
             </div>
 
             <div class="tab-page" id="rolePermissions">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('manage_permission') }}</h2>
+                <h2 class="tab">{{ __('global.manage_permission') }}</h2>
 
                 <script>
                   tp.addTabPage(document.getElementById('rolePermissions'))
@@ -73,7 +70,7 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
 
-                                    <h3>{{ ManagerTheme::getLexicon($group->lang_key, $group->name) }}</h3>
+                                    <h3>{{ __('global.' . $group->lang_key) }}</h3>
                                     @foreach($group->permissions as $permission)
                                         <label class="d-block" for="{{ $permission->key }}_check">
                                             @include('manager::form.inputElementRole', [
@@ -85,9 +82,8 @@
                                                 'disabled' => $permission->disabled,
                                                 'class' => 'click'
                                             ])
-                                            {{ ManagerTheme::getLexicon($permission->lang_key, $permission->name) }}
+                                            {{ __('global.' . $permission->lang_key) }}
                                         </label>
-
                                     @endforeach
 
                                 </div>
@@ -104,13 +100,13 @@
         </div>
 
         <div class="tab-page" id="tabAssignedTVs">
-            <h2 class="tab">{{ ManagerTheme::getLexicon('template_assignedtv_tab') }}</h2>
+            <h2 class="tab">{{ __('global.template_assignedtv_tab') }}</h2>
             <script>tp.addTabPage(document.getElementById('tabAssignedTVs'))</script>
             <input type="hidden" name="tvsDirty" id="tvsDirty" value="0">
 
             <div class="container container-body">
                 @if($role->tvs->count() > 0)
-                    <p>{{ ManagerTheme::getLexicon('role_tv_msg') }}</p>
+                    <p>{{ __('global.role_tv_msg') }}</p>
                 @endif
 
                 @if($role->tvs->count() > 0)
@@ -123,16 +119,16 @@
                         @endforeach
                     </ul>
                 @else
-                    {{ ManagerTheme::getLexicon('role_no_tv') }}
+                    {{ __('global.role_no_tv') }}
                 @endif
 
                 @if($tvOutCategory->count() || $categoriesWithTv->count())
                     <hr>
-                    <p>{{ ManagerTheme::getLexicon('role_notassigned_tv') }}</p>
+                    <p>{{ __('global.role_notassigned_tv') }}</p>
                 @endif
 
                 @if($tvOutCategory->count() > 0)
-                    @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => ManagerTheme::getLexicon('tmplvars')])
+                    @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => __('global.tmplvars')])
                         <ul>
                             @foreach($tvOutCategory as $item)
                                 @include('manager::page.template.tv', compact('item', 'tvSelected'))
@@ -160,7 +156,7 @@
 @endsection
 
 @push('scripts.bot')
-    <script type="text/javascript">
+    <script>
       function changestate (element) {
         documentDirty = true
         if (parseInt(element.value) === 1) {
@@ -177,7 +173,7 @@
           document.userform.save.click()
         },
         delete: function () {
-          if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_role') }}") === true) {
+          if (confirm("{{ __('global.confirm_delete_role') }}") === true) {
             document.location.href = 'index.php?id=' + document.userform.id.value + '&a=35&action=delete'
           }
         },

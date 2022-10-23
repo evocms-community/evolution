@@ -9,20 +9,20 @@
             'attributes' => 'onchange="documentDirty=true; document.getElementById(\'tvsDirty\').value = 1;"'
         ])
         {{ $item->name }}
-        <small>({{ $item->getKey() }})</small>
-        - {!! $item->caption !!}
+        <small>({{ $item->getKey() }})</small> - {!! $item->caption !!}
     </label>
     @if(!empty($item->locked))
-        <em>({{ ManagerTheme::getLexicon('locked') }})</em>
+        <em>(@lang('global.locked'))</em>
     @endif
     @if(!empty($item->isAlreadyEdit))
         <?php $rowLock = $item->alreadyEditInfo; ?>
-        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
+        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], __('global.lock_element_type_2')], __('global.lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
             <i class="{{ $_style['icon_eye'] }}"></i>
         </span>
     @else
         <a href="{{ $item->makeUrl('actions.edit') }}&or={{ $action ?? 0 }}&oid={{ $item->getKey() }}">
-            <i class="{{ $_style['icon_edit'] }}"></i> {{ ManagerTheme::getLexicon('edit') }}
+            <i class="{{ $_style['icon_edit'] }}"></i>
+            @lang('global.edit')
         </a>
     @endif
 </li>
