@@ -1,7 +1,16 @@
-<?php namespace EvolutionCMS\Facades;
+<?php
+
+namespace EvolutionCMS\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static getBladeDocumentContent()
+ * @method static mixed getTemplateCodeFromDB($templateID)
+ * @method static string setPsrClassNames(string $templateAlias)
+ *
+ * @see \EvolutionCMS\TemplateProcessor
+ */
 class TemplateProcessor extends Facade
 {
     /**
@@ -9,7 +18,7 @@ class TemplateProcessor extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'TemplateProcessor';
     }

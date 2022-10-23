@@ -1,16 +1,21 @@
-<?php namespace EvolutionCMS\Services;
+<?php
 
-use EvolutionCMS\Exceptions\ServiceActionException;
-use \EvolutionCMS\Models\User;
+namespace EvolutionCMS\Services;
 
+use EvolutionCMS\Models\User;
 
 class AuthServices
 {
-    public $user;
+    /**
+     * @var User|null
+     */
+    public ?User $user = null;
 
     public function __construct()
     {
-        $this->user = User::find(EvolutionCMS()->getLoginUserID());
+        $this->user = User::query()
+            ->find(EvolutionCMS()->getLoginUserID());
+
         if (!is_null($this->user)) {
             $this->user->email = $this->user->attributes->email;
             $this->user->phone = $this->user->attributes->phone;
@@ -24,7 +29,7 @@ class AuthServices
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         return !is_null($this->user);
     }
@@ -34,7 +39,7 @@ class AuthServices
      *
      * @return bool
      */
-    public function hasUser()
+    public function hasUser(): bool
     {
         return !is_null($this->user);
     }
@@ -44,7 +49,7 @@ class AuthServices
      *
      * @return bool
      */
-    public function guest()
+    public function guest(): bool
     {
         return !$this->check();
     }
@@ -52,13 +57,11 @@ class AuthServices
     /**
      * Determine if the current user is a guest.
      *
-     * @return bool
+     * @return int|null
      */
-    public function id()
+    public function id(): ?int
     {
-        if ($this->user) {
-            return $this->user->getKey();
-        }
+        return $this->user ? $this->user->getKey() : null;
     }
 
     /**
@@ -66,7 +69,7 @@ class AuthServices
      *
      * @return User
      */
-    public function user()
+    public function user(): User
     {
         return $this->user;
     }
@@ -78,7 +81,7 @@ class AuthServices
      */
     public function logout()
     {
-        \UserManager::logout();
+        UserManager::logout();
     }
 
     /**
@@ -86,12 +89,17 @@ class AuthServices
      *
      * @return bool
      */
-    public function viaRemember()
+    public function viaRemember(): bool
     {
         return isset($_COOKIE['modx_remember_manager']);
     }
 
-    public function attempt($checked = [])
+    /**
+     * @param array $checked
+     *
+     * @return bool
+     */
+    public function attempt(array $checked = []): bool
     {
         foreach ($checked as $key => $value) {
             if (isset($this->user->{$key})) {
@@ -112,33 +120,59 @@ class AuthServices
                 $hashType = EvolutionCMS()->getManagerApi()->getHashType($this->user->password);
 
                 if ($hashType == 'phpass') {
-                    $matchPassword = login($this->user->username, $value, $this->user->password);
+                    $matchPassword = login(
+                        $this->user->username,
+                        $value,
+                        $this->user->password
+                    );
                 } elseif ($hashType == 'md5') {
-                    $matchPassword = loginMD5($this->user->getKey(), $value, $this->user->password, $this->user->username);
+                    $matchPassword = loginMD5(
+                        $this->user->getKey(),
+                        $value,
+                        $this->user->password,
+                        $this->user->username
+                    );
                 } elseif ($hashType == 'v1') {
-                    $matchPassword = loginV1($this->user->getKey(), $value, $this->user->password, $this->user->username);
-                } else {
-                    $matchPassword = false;
+                    $matchPassword = loginV1(
+                        $this->user->getKey(),
+                        $value,
+                        $this->user->password,
+                        $this->user->username
+                    );
                 }
-
 
                 if ($matchPassword) {
                     unset($checked[$key]);
                 }
             }
         }
-        if (count($checked) > 0) return false;
-        else return true;
+
+        return !count($checked) > 0;
     }
 
-    public function login($user, $remember = false)
+    /**
+     * @param $user
+     * @param bool $remember
+     *
+     * @return User
+     */
+    public function login($user, bool $remember = false): User
     {
         return $this->loginUsingId($user->getKey(), $remember);
     }
 
-    public function loginUsingId($userId, $remember = false)
+    /**
+     * @param $userId
+     * @param bool $remember
+     *
+     * @return User
+     */
+    public function loginUsingId($userId, bool $remember = false): User
     {
-        return UserManager::loginById(['id' => $userId, 'rememberme' => $remember]);
+        return UserManager::loginById([
+            'id' => $userId,
+            'rememberme' => $remember
+        ]);
     }
 
 }
