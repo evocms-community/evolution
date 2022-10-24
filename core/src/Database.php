@@ -764,23 +764,35 @@ class Database extends Manager
 
     public function begin()
     {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
         
-        return true;
+            return true;
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 
     public function commit()
     {
-        DB::commit();
-        
-        return true;
+        try {
+            DB::commit();
+
+            return true;
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 
     public function rollback()
     {
-        DB::rollBack();
+        try {
+            DB::rollBack();
         
-        return true;
+            return true;
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 
     public function optimize($table_name)
