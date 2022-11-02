@@ -2530,6 +2530,7 @@ class DocumentParser
             $suff = $this->config['friendly_url_suffix'];
             $documentSource = preg_replace_callback($in, function ($m) use ($aliases, $isfolder, $isfriendly, $pref, $suff) {
                 global $modx;
+                if ( empty($aliases[$m[1]]) && empty($isfolder[$m[1]]) ) $m[1] = $modx->getConfig('error_page');
                 $thealias = $aliases[$m[1]];
                 $thefolder = $isfolder[$m[1]];
                 if ($isfriendly && isset($thealias)) {
