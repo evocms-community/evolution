@@ -2529,16 +2529,15 @@ class DocumentParser
             $pref = $this->config['friendly_url_prefix'];
             $suff = $this->config['friendly_url_suffix'];
             $documentSource = preg_replace_callback($in, function ($m) use ($aliases, $isfolder, $isfriendly, $pref, $suff) {
-                global $modx;
-                if ( empty($aliases[$m[1]]) && empty($isfolder[$m[1]]) ) $m[1] = $modx->getConfig('error_page');
+                if ( empty($aliases[$m[1]]) && empty($isfolder[$m[1]]) ) $m[1] = $this->getConfig('error_page');
                 $thealias = $aliases[$m[1]];
                 $thefolder = $isfolder[$m[1]];
                 if ($isfriendly && isset($thealias)) {
                     //found friendly url
-                    $out = ($modx->config['seostrict'] == '1' ? $modx->toAlias($modx->makeFriendlyURL($pref, $suff, $thealias, $thefolder, $m[1])) : $modx->makeFriendlyURL($pref, $suff, $thealias, $thefolder, $m[1]));
+                    $out = ($this->getConfig('seostrict') == '1' ? $this->toAlias($this->makeFriendlyURL($pref, $suff, $thealias, $thefolder, $m[1])) : $this->makeFriendlyURL($pref, $suff, $thealias, $thefolder, $m[1]));
                 } else {
                     //not found friendly url
-                    $out = $modx->makeFriendlyURL($pref, $suff, $m[1]);
+                    $out = $this->makeFriendlyURL($pref, $suff, $m[1]);
                 }
                 return $out;
             }, $documentSource);
