@@ -6,7 +6,7 @@
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language German
+ * @language English
  * @package evo
  * @subpackage installer
  *

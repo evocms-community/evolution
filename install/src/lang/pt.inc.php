@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
  * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
  * @language English
- * @package modx
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX não pode escrever o arquivo de configu
 $_lang["cant_write_config_file_note"] = 'Assim que isto for feito, você pode acessar o MODX Admin por apontar seu navegador para NomeDoSeuSite.com/manager/.';
 $_lang["checkbox_select_options"] = 'Selecionar:';
 $_lang["checking_if_cache_exist"] = 'Checando se o diretórios <span class=\"mono\">assets/cache</span> e <span class="mono">/assets/cache/rss</span> existir: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Checando se o arquivo <span class=\"mono\">assets/cache/siteCache.idx.php</span> está liberado pra escrita: ';
 $_lang["checking_if_cache_file2_writable"] = 'Checando se o arquivo <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> está liberado pra escrita: ';
 $_lang["checking_if_cache_writable"] = 'Checando se o diretórios <span class=\"mono\">assets/cache</span> e <span class="mono">/assets/cache/rss</span> está liberado para escrita: ';
@@ -45,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Checando se o diretórios <span class=\"mo
 $_lang["checking_if_images_writable"] = 'Checando se o diretórios <span class=\"mono\">assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> e <span class="mono">/assets/.thumbs</span> está liberado pra escrita: ';
 $_lang["checking_mysql_strict_mode"] = 'Checking MySQL for strict sql_mode: ';
 $_lang["checking_mysql_version"] = 'Checking MySQL version: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Checando versão do PHP: ';
 $_lang["checking_registerglobals"] = 'Checando se Register_Globals está desligado: ';
 $_lang["checking_registerglobals_note"] = 'Este script faz com que seu site seja muito mais propenso à ataques de Cross Site Scripting (XSS). Você deveria entrar em contato com seu Host para mudar esta configuração, geralmente há três modos de desabilitar: modificando o arquivo global php.ini, adicionando regras para um arquivo .htaccess na raiz da pasta da instalação do MODX, ou adicionando um php.ini sobre cada arquivo em cada pasta de sua instação (e tem um muitos deles). Ou você poderá instalar o MODX, mas considere-se avisado.';
@@ -58,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Connection method:';
 $_lang["connection_screen_database_connection_information"] = 'Informação da Base de Dados.';
 $_lang["connection_screen_database_connection_note"] = 'Entre com o nome da base de dados que você criou para o MODX. Se você ainda não criou uma base de dados, a instalação irá tentar criar uma base para você. Isto pode falhar dependendo das configurações MySQL das permissões de usuário de seu domínio/instalação.';
 $_lang["connection_screen_database_host"] = 'Servidor da Base de Dados:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Informação da Base de Dados.';
 $_lang["connection_screen_database_login"] = 'Login da Base de Dados:';
 $_lang["connection_screen_database_name"] = 'Nome da Base de Dados:';
@@ -120,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Instalação';
 $_lang["modx_requires_php"] = ', e o MODX requer PHP [+min_version+] ou mais recente';
 $_lang["mysql_5051"] = 'Aviso : Versão do MySQL no servidor é 5.0.51';
 $_lang["mysql_5051_warning"] = 'There are known issues with MySQL 5.0.51. It is recommended that you upgrade before continuing.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' Your MySQL version is: ';
 $_lang["mysql_version_is"] = ' Your MySQL version is: ';
 $_lang["no"] = 'Não';
 $_lang["none"] = 'Nenhum';
@@ -132,11 +138,14 @@ $_lang["please_correct_error"] = '. Por favor, corriga o erro';
 $_lang["please_correct_errors"] = '. Por favor, corriga os erros';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Validação de Pré Instalação';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Remova o diretório e arquivos de instalação do site <br />&nbsp;(É necessário permissões para apagar arquivos).';
 $_lang["remove_install_folder_manual"] = 'Por favor, lembre-se de remover o diretório &quot;<b>install</b>&quot; antes de entrar no Gerenciador de Conteúdo.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Tentar Novamente';
 $_lang["running_database_updates"] = 'Rodando atualizações na Base de Dados: ';
 $_lang["sample_web_site"] = 'Web Site Exemplo';

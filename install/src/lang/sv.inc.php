@@ -1,14 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Pontus Ågren (Pont)
- * @author Thomas Djärv (Beryl)
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Svenska
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -36,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX kunde inte skriva konfigurationsfilen. 
 $_lang["cant_write_config_file_note"] = 'När det är klart kan du logga in i MODX administrationsdel genom att ange adressen DinWebbplats.se/[+MGR_DIR+]/ i din webbläsare.';
 $_lang["checkbox_select_options"] = 'Välj flera element:';
 $_lang["checking_if_cache_exist"] = 'Kontrollerar att katalogerna <span class="mono">/assets/cache</span> och <span class="mono">/assets/cache/rss</span> existerar: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Kontrollerar att filen <span class="mono">/assets/cache/siteCache.idx.php</span> är skrivbar: ';
 $_lang["checking_if_cache_file2_writable"] = 'Kontrollerar att filen <span class="mono">/assets/cache/sitePublishing.idx.php</span> är skrivbar: ';
 $_lang["checking_if_cache_writable"] = 'Kontrollerar att katalogerna <span class="mono">/assets/cache</span> och <span class="mono">/assets/cache/rss</span> är skrivbara: ';
@@ -46,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Kontrollerar att katalogerna <span class="
 $_lang["checking_if_images_writable"] = 'Kontrollerar att katalogerna <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> och <span class="mono">/assets/.thumbs</span> är skrivbara: ';
 $_lang["checking_mysql_strict_mode"] = 'Kontrollerar MySQL för strikt sql_mode: ';
 $_lang["checking_mysql_version"] = 'Kontrollerar MySQL-versionen: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Kontrollerar PHP-version: ';
 $_lang["checking_registerglobals"] = 'Kontrollerar att Register_Globals är inaktiverad: ';
 $_lang["checking_registerglobals_note"] = 'Denna konfiguration gör din webbplats betydligt mer sårbar för attacker med webbkodsinjektion (Cross Site Scripting - XSS). Du bör kontakta din webbhost om att inaktivera denna inställning. Vanligen går det till på ett av följande tre sätt: modifiering av den globala php.ini-filen, tillägg av regler i en .htaccess-fil i roten på din MODX-installation eller genom att lägga till en anpassad php.ini-fil (som åsidosätter den globala filen) i alla kataloger i din installation (och det finns massor av dom). Du kan fortfarande installera MODX, men ta den här varningen på allvar.';
@@ -59,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Anslutningsmetod:';
 $_lang["connection_screen_database_connection_information"] = 'Databasuppgifter';
 $_lang["connection_screen_database_connection_note"] = 'Ange namnet på den databas som ska användas eller som du vill skapa för denna MODX-installation. Om det inte finns någon databas kommer installationsprogrammet att försöka skapa en. Det här kan misslyckas beroende på hur MySQLs åtkomsträttigheter är konfigurerade.';
 $_lang["connection_screen_database_host"] = 'Databasens värd:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Databasinformation';
 $_lang["connection_screen_database_login"] = 'Databasens inloggningsnamn:';
 $_lang["connection_screen_database_name"] = 'Databasnamn:';
@@ -121,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Installation';
 $_lang["modx_requires_php"] = ', och MODX kräver PHP [+min_version+] eller senare.';
 $_lang["mysql_5051"] = ' MySQL-serverns version är 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Det finns kända problem med MySQL 5.0.51. Du rekommenderas att uppgradera innan du fortsätter.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' Din MySQL-version är: ';
 $_lang["mysql_version_is"] = ' Din MySQL-version är: ';
 $_lang["no"] = 'Nej';
 $_lang["none"] = 'Inga';
@@ -133,11 +138,14 @@ $_lang["please_correct_error"] = '. Korrigera felet';
 $_lang["please_correct_errors"] = '. Korrigera felen';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Kontroller innan installation';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Rekommenderad inställningsändring';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Inställningsändring: <em>Validera HTTP_REFERER-headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Din webbplats är inte konfigurerad för att validera HTTP_REFERER på inkommande förfrågningar till hanteraren. Vi rekommenderar starkt att du aktiverar den inställningen för att minska risken för CSRF-attacker (Cross Site Request Forgery).';
 $_lang["remove_install_folder_auto"] = 'Ta bort installationskatalogen och -filerna från min webbplats.<br />&nbsp;(Den här operationen kräver att raderingsrättigheter är angivna för installationskatalogen)';
 $_lang["remove_install_folder_manual"] = 'Kom ihåg att ta bort katalogen &quot;<b>install</b>&quot; innan du loggar in i innehållshanteraren.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Försök igen';
 $_lang["running_database_updates"] = 'Kör uppdateringar för databasen: ';
 $_lang["sample_web_site"] = 'Demo-webbplats';

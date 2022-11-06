@@ -1,14 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Mohsen Zare (MotSmart), MotSmart@Gmail.com, www.modxcms.ir
- * @author AliAqua
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Persian
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -36,6 +35,8 @@ $_lang["cant_write_config_file"] = 'مد ایکس نتوانست فایل پیک
 $_lang["cant_write_config_file_note"] = 'هنگامی که نصب با موفقیت یه اتمام رسید شما می توانید به قسمت مدیریت سایت خود به آدرس YourSiteName.com/[+MGR_DIR+]/ بروید.';
 $_lang["checkbox_select_options"] = 'موارد را انتخاب کنید:';
 $_lang["checking_if_cache_exist"] = 'مرور اینکه آیا <span class=\"mono\">assets/cache</span> موجود است: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'مرور اینکه آیا فایل <span class=\"mono\">assets/cache/siteCache.idx.php</span> قابل نوشتن است: ';
 $_lang["checking_if_cache_file2_writable"] = 'ررو اینکه آیا فایل <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> قابل نوشتن است: ';
 $_lang["checking_if_cache_writable"] = 'مرور اینکه آیا <span class=\"mono\">assets/cache</span> قابل نوشتن است: ';
@@ -46,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'مرور اینکه آیا <span class=\"m
 $_lang["checking_if_images_writable"] = 'مرور اینکه آیا <span class=\"mono\">assets/images</span> قابل نوشتن است: ';
 $_lang["checking_mysql_strict_mode"] = 'مرور MySQL برای strict mode: ';
 $_lang["checking_mysql_version"] = 'مرور نسخه ی MySQL شما: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'بازبینی نسخه PHP : ';
 $_lang["checking_registerglobals"] = 'بازخوانی اینکه Register_Globals خاموش است: ';
 $_lang["checking_registerglobals_note"] = 'این تنظیمات سایت شما رو در مقابل حملات (XSS) نقوذ پذیر کرده. شما بایستی از طریق هاستینگ خود این تنظیمات را غیر فعال کنید,  به طور معمول از سه طریق امکان پذیر است: از طریق اعمال تغییر در فایل php.ini, ویرایش قوانین و دستورات در فایل .htaccess روت و پرونده نصب مادایکس و یا اضافه کردن دستور اضافه در فایل جدید خود تحت نام php.ini که داخل همه ی پرونده های نصب شده مادایکس خود قرار می دهیدو. شما همچنان قادر به نصب مادایکس هستید, به هر حال ما به شما تذکرات لازم را دادیم!';
@@ -59,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Connection method:';
 $_lang["connection_screen_database_connection_information"] = 'اطلاعات پایگاه داده';
 $_lang["connection_screen_database_connection_note"] = 'لطفا نام کاربری پایگاه داده ای را که برای مدایکس ساخته اید بدهید.اگر پایگاه داده ای وجود نداشت برنامه شما را برای ایجاد پایگاه داده مطلع می کند. ممکن است به دلیل تنظیمات پایگاه داده این عمل با مشکل روبرو شود.';
 $_lang["connection_screen_database_host"] = 'نوع میزبانی پایگاه داده:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Database Information';
 $_lang["connection_screen_database_login"] = 'نام کاربری:';
 $_lang["connection_screen_database_name"] = 'نام پایگاه داده:';
@@ -121,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; برنامه نصب';
 $_lang["modx_requires_php"] = ', است, و مادایکس به نسخه ی PHP [+min_version+] و یا بالاتر نیاز دار';
 $_lang["mysql_5051"] = ' نسخه MySQL سرور 5.0.51 می باشد!';
 $_lang["mysql_5051_warning"] = 'مشکلاتی با نسخه MySQL 5.0.51 کشف شده. پیشنهاد می کنیم نسخه MySQL خود را ارتقا دهید.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' نسخه MySQL شما: ';
 $_lang["mysql_version_is"] = ' نسخه MySQL شما: ';
 $_lang["no"] = 'خیر';
 $_lang["none"] = 'هیچکدام';
@@ -133,11 +138,14 @@ $_lang["please_correct_error"] = '. لطفا خطا موحود را درست ک�
 $_lang["please_correct_errors"] = '. لطفا خطا های موجود را درست کنید.';
 $_lang["plugins"] = 'پلاگینها';
 $_lang["preinstall_validation"] = 'بازبینی قبل از نصب »';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = ' پوشه و فایلهای نصب را از وبگاه پاک کن <br />&nbsp;(این کار مستلزم دارا بودن سطح حذف پوشه ی نصب(install) است). ';
 $_lang["remove_install_folder_manual"] = 'لطفا به خاطر بسیپارید که پوشه ی &quot;<b>نصب یا install</b>&quot; را پیش از ورود به وبگاه حذف کنید.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'دوباره';
 $_lang["running_database_updates"] = 'به روز رسانی پایگاه داده:';
 $_lang["sample_web_site"] = 'محتویات پیشفرض وبگاه';

@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Bjørn Erik Sandbakk (Sylvaticus)
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Norsk
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX kunne ikke skrive konfigurasjonsfilen. 
 $_lang["cant_write_config_file_note"] = 'N&aring;r det er klart kan du logge inn i MODX administrasjonskontoen ved &aring; g&aring; til adressen DittDomene.xx/[+MGR_DIR+]/ i din nettleser.';
 $_lang["checkbox_select_options"] = 'Alternativ for kryssbokser:';
 $_lang["checking_if_cache_exist"] = 'Kontrollerer at katalogen <span class="mono">assets/cache</span> eksisterer: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Kontrollerer at filen <span class="mono">assets/cache/siteCache.idx.php</span> er skrivbar: ';
 $_lang["checking_if_cache_file2_writable"] = 'Kontrollerer at filen <span class="mono">assets/cache/sitePublishing.idx.php</span> er skrivbar: ';
 $_lang["checking_if_cache_writable"] = 'Kontrollerer at katalogen <span class="mono">assets/cache</span> er skrivbar: ';
@@ -45,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Kontrollerer at katalogen <span class="mon
 $_lang["checking_if_images_writable"] = 'Kontrollerer at katalogen <span class="mono">assets/images</span>, <span class="mono">/assets/media</span>, <span class="mono">/assets/backup</span>, <span class="mono">/assets/.thumbs</span> er skrivbar: ';
 $_lang["checking_mysql_strict_mode"] = 'Sjekker MySQL for strict mode: ';
 $_lang["checking_mysql_version"] = 'Sjekker MySQL versjon: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Kontrollerer PHP-versjon: ';
 $_lang["checking_registerglobals"] = 'Kontrollerar att Register_Globals är inaktiverad: ';
 $_lang["checking_registerglobals_note"] = 'Denne konfigurasjonen gj&oslash;r din nettside betydelig mer s&aring;rbar for webkodeinjeksjon (Cross Site Scripting - XSS). Du b&oslash;r kontakte din webhost og be om &aring; f&aring; inaktivert denne instillingen. Vanligvis lar det seg gj&oslash;re p&aring; tre f&oslash;lgende m&aring;ter: modifisering av den globale php.ini-filen, tillegg av regler i en .htaccess-fil i roten p&aring; din MODX-installasjon eller gjennom &aring; legge til en tilpasset php.ini-fil (som tilsidesetter den globale filen) i alla kataloger i din installasjon (og det finns masser av dem). Du kan fremdeles installere MODX, men ta denne advarselen p&aring; alvor.';
@@ -58,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Tilkoblingsmetode:';
 $_lang["connection_screen_database_connection_information"] = 'Databaseopplysninger';
 $_lang["connection_screen_database_connection_note"] = 'Angi navnet p&aring; databasen som ble opprettet for MODX. Om det ikke finnes en database fra f&oslash;r, kommer installasjonsprogrammet til &aring; pr&oslash;ve &aring; opprette en for deg. Dette kan mislykkes avhengig av MySQL-konfigurasjonen eller databasens tilgangsrettigheter for ditt domene/installasjon.';
 $_lang["connection_screen_database_host"] = 'Databasevert:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Databaseopplysninger';
 $_lang["connection_screen_database_login"] = 'Databasens inloggingsnavn:';
 $_lang["connection_screen_database_name"] = 'Databasenavn:';
@@ -120,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Installasjon';
 $_lang["modx_requires_php"] = ', og MODX krever PHP [+min_version+] eller senere.';
 $_lang["mysql_5051"] = ' MySQL server versjon er 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Det er kjente problemer med MySQL 5.0.51. Det anbefales at du oppgraderer f&oslash;r du fortsetter.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' Din MySQL versjon er: ';
 $_lang["mysql_version_is"] = ' Din MySQL versjon er: ';
 $_lang["no"] = 'Nei';
 $_lang["none"] = 'Ingen';
@@ -132,11 +138,14 @@ $_lang["please_correct_error"] = '. Korrigér feilen';
 $_lang["please_correct_errors"] = '. Korrigér feilen';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Kontroller f&oslash;r installasjon';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Ta bort installasjonskatalogen og -filene fra mitt nettsted<br />&nbsp;(Denne operasjonen krever at sletterettigheter er satt for installasjonskatalogen).';
 $_lang["remove_install_folder_manual"] = 'Husk &aring; ta bort katalogen &quot;<b>install</b>&quot; f&oslash;r du logger inn i inneholdsh&aring;ndtereren.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Fors&oslash;k igjen';
 $_lang["running_database_updates"] = 'Kj&oslash;r oppdateringer for databasen: ';
 $_lang["sample_web_site"] = 'Pr&oslash;ve-data';

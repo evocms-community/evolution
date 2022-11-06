@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author MEGU, yamamoto, TxO, masco
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Japanese
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -47,6 +47,7 @@ $_lang["checking_if_images_exist"] = '<span class="mono">/assets/images</span>,<
 $_lang["checking_if_images_writable"] = '<span class="mono">/assets/images</span>,<span class="mono">/assets/files</span>,<span class="mono">/assets/backup</span>,<span class="mono">/assets/.thumbs</span>ディレクトリの書き込み属性(707などに設定): ';
 $_lang["checking_mysql_strict_mode"] = 'Checking MySQL for strict sql_mode: ';
 $_lang["checking_mysql_version"] = 'MySQLのバージョン: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'PHPのバージョンチェック: ';
 $_lang["checking_registerglobals"] = 'Register_Globalsの設定: ';
 $_lang["checking_registerglobals_note"] = 'Register_Globalsがオンになっていると、サイトはXSS攻撃の対象としてさらされるため非常に危険です。特に必要がなければオフにしてください。.htaccessに「php_flag register_globals off」と記述を加えることでオフに設定できます。';
@@ -60,6 +61,7 @@ $_lang["connection_screen_connection_method"] = '接続時の文字セットの�
 $_lang["connection_screen_database_connection_information"] = 'データベース設定';
 $_lang["connection_screen_database_connection_note"] = 'データベース名を入力してください。データベース作成権限がある場合は、ここで指定した名前でデータベースが作成されます。<br />文字セットの扱いは「SET CHARACTER SET」、接続照合順序は「utf8_general_ci」をおすすめします。<br />※MySQL4.1未満ではこれらのエンコード設定を無視して日本語を扱います。';
 $_lang["connection_screen_database_host"] = 'データベースホスト名:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'データベース設定';
 $_lang["connection_screen_database_login"] = 'データベース接続ログイン名:';
 $_lang["connection_screen_database_name"] = 'データベース名:';
@@ -122,6 +124,8 @@ $_lang["modx_install"] = 'EVO &raquo; インストール';
 $_lang["modx_requires_php"] = 'EVOの動作にはPHP [+min_version+]以上が必要です。';
 $_lang["mysql_5051"] = ' MySQLサーバーのバージョンは 5.0.51!';
 $_lang["mysql_5051_warning"] = 'MySQL 5.0.51には不具合が確認されています。MySQLのアップデートをおすすめします。';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' バージョン ';
 $_lang["mysql_version_is"] = ' バージョン ';
 $_lang["no"] = 'いいえ';
 $_lang["none"] = '全ての選択を解除';
@@ -134,8 +138,8 @@ $_lang["please_correct_error"] = 'があります。';
 $_lang["please_correct_errors"] = 'があります。';
 $_lang["plugins"] = 'プラグイン';
 $_lang["preinstall_validation"] = 'インストール前の状態確認';
-$_lang['recommend_collation'] = 'utf8mb4_general_ci';
-$_lang['recommend_collations_order'] = 'utf8mb4_general_ci,utf8_general_ci,utf8mb4_bin,utf8_bin';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_general_ci,utf8_general_ci,utf8mb4_bin,utf8_bin';
 $_lang["recommend_setting_change_title"] = '推奨設定の変更';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = '設定変更: <strong>HTTP_REFERERヘッダを検証しますか？</strong>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'あなたのサイトは管理画面に入ってくるリクエストのHTTP_REFERERを検証するように設定されていません。この設定を有効にして、CSRF（Cross Site Request Forgery）攻撃のリスクを減らすことを強くお勧めします。';

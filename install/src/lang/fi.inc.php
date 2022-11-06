@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Anssi Rajakallio, Kari Söderholm
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Finnish
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX ei voinut kirjoittaa asetukset tiedosto
 $_lang["cant_write_config_file_note"] = 'Kun tämä on tehty, voit kirjautua MODX hallintaan osoitteessa sinunosoite.fi/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Valitse valintaruuduista:';
 $_lang["checking_if_cache_exist"] = 'Tarkistetaan onko kansiot <span class="mono">/assets/cache</span> ja <span class="mono">/assets/cache/rss</span> olemassa: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Tarkistetaan voiko tiedostoon <span class="mono">/assets/cache/siteCache.idx.php</span> kirjoittaa: ';
 $_lang["checking_if_cache_file2_writable"] = 'Tarkistetaan voiko tiedostoon <span class="mono">/assets/cache/sitePublishing.idx.php</span> kirjoittaa: ';
 $_lang["checking_if_cache_writable"] = 'Tarkistetaan voiko kansioihin <span class="mono">/assets/cache</span> ja <span class="mono">/assets/cache/rss</span> luoda uusia tiedostoja: ';
@@ -45,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Tarkistetaan onko kansiot <span class="mon
 $_lang["checking_if_images_writable"] = 'Tarkistetaan voidaanko kansioihin <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> ja <span class="mono">/assets/.thumbs</span> luoda uusia tiedostoja: ';
 $_lang["checking_mysql_strict_mode"] = 'Tarkistetaan MySQL palvelimen "strict sql_mode" asetus: ';
 $_lang["checking_mysql_version"] = 'Tarkistetaan MySQL pavelimen versio: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Tarkistetaan PHP:n versio: ';
 $_lang["checking_registerglobals"] = 'Tarkistetaan onko PHP:n Register_Globals asetus pois: ';
 $_lang["checking_registerglobals_note"] = 'Tämä asetus tekee sivustostasi alttiimman XSS hyökkäyksille (Cross Site Scripting). Sinun tulisi kehottaa palveluntarjoajaasi kytkemään tämä asetus pois käytöstä. Useimmiten tämän asetuksen voi kytkeä pois muokkaamalla palvelimen php.ini tiedostoa. Jos se ei ole mahdollista, voit koittaa kytkeä sen pois .htaccess tiedostossa, joka sijaitsee MODX asennuksen juuri kansiossa. Jos tämäkään ei ole mahdollista, voit viimeisenä vaihtoehtona koittaa asettaa jokaiseen MODX asennuksen sisällä olevaan kansioon muokatun php.ini tiedoston, joka yliajaa asetukset palvelimen jaetusta php.ini tiedostosta, mutta kansioita MODX asennuksessa on tosin huomattava määrä. Voit kuitenkin asentaa MODX järjestelmän tästä asetuksesta huolimatta, mutta sinua on varoitettu.';
@@ -58,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Yhteystyyppi:';
 $_lang["connection_screen_database_connection_information"] = 'Tietokannan yhteysasetukset';
 $_lang["connection_screen_database_connection_note"] = 'Ole hyvä ja syötä tietokannan nimi, jota MODX:n tulee käyttää. Jos tietokantaa ei ole vielä luotu, asennusohjelma yrittää luodan sen. Tämä voi epäonnistua riippuen MySQL asetuksista ja/tai tietokannan käyttäjän käyttöoikeuksista.';
 $_lang["connection_screen_database_host"] = 'Tietokantapalvelimen osoite:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Tietokannan tiedot';
 $_lang["connection_screen_database_login"] = 'Käyttäjänimi:';
 $_lang["connection_screen_database_name"] = 'Tietokannan nimi:';
@@ -120,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Asennus';
 $_lang["modx_requires_php"] = ', ja MODX vaatii PHP:stä version [+min_version+] tai uudemman';
 $_lang["mysql_5051"] = ' MySQL palvelimen versio on 5.0.51!';
 $_lang["mysql_5051_warning"] = 'MySQL 5.0.51 versiolla on havaittu järjestelmän toiminnassa ongelmia. On suositeltavaa, että päivität MySQL version uudempaan ennen asennuksen jatkamista.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' Sinun MySQL palvelimen versio on: ';
 $_lang["mysql_version_is"] = ' Sinun MySQL palvelimen versio on: ';
 $_lang["no"] = 'Ei';
 $_lang["none"] = 'Ei mitään';
@@ -132,11 +138,14 @@ $_lang["please_correct_error"] = '. Ole hyvä ja korjaa seuraava virhe';
 $_lang["please_correct_errors"] = '. Ole hyvä ja korjaa seuraavat virheet';
 $_lang["plugins"] = 'Liitännäiset';
 $_lang["preinstall_validation"] = 'Ennen asennusta suoritettava tarkastus';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Suositeltava asetusten muutos';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Asetuksen muutos: <em>Validoi HTTP_REFERER otsikkotieto?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Sivustolla ei ole käytössä ylläpidon HTTP_REFERER tunnisteiden tarkistusta. On suositeltavaa ottaa tarkistus käyttöön CSFR-verkkohyökkäysten (Cross Site Request Forgery) estämiseksi.';
 $_lang["remove_install_folder_auto"] = 'Poista asennuskansio, sekä asennustiedostot sivutilastani<br />&nbsp;(Tämä toiminto vaatii, että kansioon /install on tiedostojen sekä ko. kansion poisto-oikeudet).';
 $_lang["remove_install_folder_manual"] = 'Muista poistaa &quot;<b>install</b>&quot; kansio ennen kuin kirjaudut järjestelmään.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Yritä uudelleen';
 $_lang["running_database_updates"] = 'Suoritetaan tietokannan päivityksiä: ';
 $_lang["sample_web_site"] = 'Demo sivusto';
