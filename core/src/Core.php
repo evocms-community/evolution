@@ -4356,7 +4356,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
             if (!empty($this->placeholders)) {
                 $arrPlaceholderCheckAfterSnippet = $this->placeholders;
-                $arrPlaceholderFromSnippet = array_diff($arrPlaceholderCheckAfterSnippet, $arrPlaceholderCheck);
+                $arrPlaceholderFromSnippet = array_udiff($arrPlaceholderCheckAfterSnippet, $arrPlaceholderCheck, function($a, $b){
+                    return strcmp(json_encode($a), json_encode($b));
+                });
 
                 if ($cacheTime != 0) {
                     Cache::put($cacheKey . '_placeholders', $arrPlaceholderFromSnippet, $cacheTime);
