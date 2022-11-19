@@ -167,10 +167,38 @@ class user_DL_Extender extends extDocLister
             }
             if (!empty($out)) {
                 $this->getUserGroups($out);
+                $type = $this->DocLister->getCFGDef('usertype', 'web');
+                if ($type === 'users') {
+                    $this->getUserTvs($out);
+                }
             }
         }
 
         return $out;
+    }
+
+    /**
+     * @param array $data
+     */
+    private function getUserTvs(&$data)
+    {
+        $users = array_keys($data);
+        $tvlist = $this->DocLister->getCFGDef('userTvList', '');
+        if ($users && $tvlist) {
+            $tvExt = $this->DocLister->getExtender('utv', true);
+            $tvExt->getAllTV_Name();
+            $tv = $tvExt->getTVList($users, $tvlist);
+            if (!is_array($tv)) {
+                $tv = array();
+            }
+            foreach ($tv as $userID => $TVitem) {
+                if (isset($data[$userID]) && is_array($data[$userID])) {
+                    $data[$userID] = array_merge($data[$userID], $TVitem);
+                } else {
+                    unset($data[$userID]);
+                }
+            }
+        }
     }
 
     /**

@@ -60,6 +60,15 @@ class onetableDocLister extends DocLister
         $type = $this->getCFGDef('idType', 'parents');
         $this->_docs = ($type == 'parents') ? $this->getChildrenList() : $this->getDocList();
 
+        /**
+         * @var $extUser user_DL_Extender
+         */
+        if ($extUser = $this->getExtender('user')) {
+            $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
+            foreach ($this->_docs as &$item)
+                $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
+        }
+
         return $this->_docs;
     }
 
@@ -101,13 +110,6 @@ class onetableDocLister extends DocLister
                 $out = $this->parseChunk($noneTPL, $sysPlh);
             } else {
                 /**
-                 * @var $extUser user_DL_Extender
-                 */
-                if ($extUser = $this->getExtender('user')) {
-                    $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
-                }
-
-                /**
                  * @var $extSummary summary_DL_Extender
                  */
                 $extSummary = $this->getExtender('summary');
@@ -119,10 +121,7 @@ class onetableDocLister extends DocLister
                 $this->skippedDocs = 0;
                 foreach ($this->_docs as $item) {
                     $this->renderTPL = $tpl;
-                    if ($extUser) {
-                        $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
-                    }
-
+                    
                     $item[$this->getCFGDef("sysKey", "dl") . '.summary'] = $extSummary ? $this->getSummary(
                         $item,
                         $extSummary

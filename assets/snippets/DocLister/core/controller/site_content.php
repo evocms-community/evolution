@@ -98,6 +98,14 @@ class site_contentDocLister extends DocLister
                 }
             }
         }
+        /**
+         * @var $extUser user_DL_Extender
+         */
+        if ($extUser = $this->getExtender('user')) {
+            $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
+            foreach ($this->_docs as &$item)
+                $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
+        }
         if (1 == $this->getCFGDef('tree', '0')) {
             $this->treeBuild('id', 'parent');
         }
@@ -123,13 +131,6 @@ class site_contentDocLister extends DocLister
             $sysPlh = $this->renameKeyArr($this->_plh, $this->getCFGDef("sysKey", "dl"));
             if (count($this->_docs) > 0) {
                 /**
-                 * @var $extUser user_DL_Extender
-                 */
-                if ($extUser = $this->getExtender('user')) {
-                    $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
-                }
-
-                /**
                  * @var $extSummary summary_DL_Extender
                  */
                 $extSummary = $this->getExtender('summary');
@@ -142,10 +143,6 @@ class site_contentDocLister extends DocLister
                 $this->skippedDocs = 0;
                 foreach ($this->_docs as $item) {
                     $this->renderTPL = $tpl;
-                    if ($extUser) {
-                        $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
-                    }
-
                     $item['summary'] = $extSummary ? $this->getSummary($item, $extSummary, 'introtext', 'content') : '';
 
                     $item = array_merge(
