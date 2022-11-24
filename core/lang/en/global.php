@@ -1304,9 +1304,12 @@ $_lang["cache_type_1"] = 'Cache is based only on Resource ID (standard)';
 $_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Use SEO Strict URLs';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
-$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
-$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
-$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the Evolution CMS installation directory at .htaccess to use the Friendly URL function.';
 $_lang["settings_friendlyurls_alert2"] = 'Since Evolution CMS was installed in a subdirectory, it is necessary to change the content of .htaccess.';
@@ -1319,39 +1322,39 @@ $_lang["mutate_settings.dynamic.php6"] = 'Send mail on Evolution CMS errors';
 $_lang["mutate_settings.dynamic.php7"] = 'not notify';
 $_lang["mutate_settings.dynamic.php8"] = 'A mail with the error source will be sent to [(emailsender)] ([+emailsender+]) if a Evolution CMS error occurs. The details of the error could be seen in the Evolution CMS events log.';
 
-$_lang["error_no_privileges"]         = "You don't have enough privileges for this action!";
+$_lang["error_no_privileges"] = "You don't have enough privileges for this action!";
 $_lang["error_no_optimise_tablename"] = "Table to optimise not found in request!";
 $_lang["error_no_truncate_tablename"] = "Table to truncate not found in request!";
-$_lang["error_double_action"]         = "Double action (GET & POST) posted!";
-$_lang["error_no_id"]                 = "ID not passed in request!";
-$_lang["error_id_nan"]                = "ID passed in request is NaN!";
-$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
-$_lang["error_no_parent"]             = "Couldn't find parent document's name!";
-$_lang["error_many_results"]          = "Too many results returned from database!";
-$_lang["error_no_results"]            = "Not enough/ no results returned from database!";
-$_lang["error_no_user_selected"]      = "No user selected as recipient of this message!";
-$_lang["error_no_group_selected"]     = "No group selected as recipient of this message!";
-$_lang["error_movedocument1"]         = "Document cannot be it's own parent!";
-$_lang["error_movedocument2"]         = "Document's ID not passed in request!";
-$_lang["error_movedocument3"]         = "New parent not set in request!";
-$_lang["error_internet_connection"]   = "Server isn't available. Check your internet connection!";
+$_lang["error_double_action"] = "Double action (GET & POST) posted!";
+$_lang["error_no_id"] = "ID not passed in request!";
+$_lang["error_id_nan"] = "ID passed in request is NaN!";
+$_lang["error_parent_deleted"] = "Failed because resource parent is deleted!";
+$_lang["error_no_parent"] = "Couldn't find parent document's name!";
+$_lang["error_many_results"] = "Too many results returned from database!";
+$_lang["error_no_results"] = "Not enough/ no results returned from database!";
+$_lang["error_no_user_selected"] = "No user selected as recipient of this message!";
+$_lang["error_no_group_selected"] = "No group selected as recipient of this message!";
+$_lang["error_movedocument1"] = "Document cannot be it's own parent!";
+$_lang["error_movedocument2"] = "Document's ID not passed in request!";
+$_lang["error_movedocument3"] = "New parent not set in request!";
+$_lang["error_internet_connection"] = "Server isn't available. Check your internet connection!";
 
-$_lang["login_processor_unknown_user"]       = "Incorrect username or password entered!";
-$_lang["login_processor_wrong_password"]     = "Incorrect username or password entered!";
+$_lang["login_processor_unknown_user"] = "Incorrect username or password entered!";
+$_lang["login_processor_wrong_password"] = "Incorrect username or password entered!";
 $_lang["login_processor_many_failed_logins"] = "Due to too many failed logins, you have been blocked!";
-$_lang["login_processor_verified"]           = "User verification required!";
-$_lang["login_processor_blocked1"]           = "You are blocked and cannot log in!";
-$_lang["login_processor_blocked2"]           = "You are blocked and cannot log in! Please try again later.";
-$_lang["login_processor_blocked3"]           = "You are blocked automatic after a specified date and you cannot log in anymore!";
-$_lang["login_processor_bad_code"]           = "The security code you entered didn't validate! Please try to login again!";
-$_lang["login_processor_remotehost_ip"]      = "Your hostname doesn't point back to your IP!";
-$_lang["login_processor_remote_ip"]          = "You are not allowed to login from this location.";
-$_lang["login_processor_date"]               = "You are not allowed to login at this time. Please try again later.";
-$_lang["login_processor_captcha_config"]     = "Captcha is not configured properly.";
+$_lang["login_processor_verified"] = "User verification required!";
+$_lang["login_processor_blocked1"] = "You are blocked and cannot log in!";
+$_lang["login_processor_blocked2"] = "You are blocked and cannot log in! Please try again later.";
+$_lang["login_processor_blocked3"] = "You are blocked automatic after a specified date and you cannot log in anymore!";
+$_lang["login_processor_bad_code"] = "The security code you entered didn't validate! Please try to login again!";
+$_lang["login_processor_remotehost_ip"] = "Your hostname doesn't point back to your IP!";
+$_lang["login_processor_remote_ip"] = "You are not allowed to login from this location.";
+$_lang["login_processor_date"] = "You are not allowed to login at this time. Please try again later.";
+$_lang["login_processor_captcha_config"] = "Captcha is not configured properly.";
 
-$_lang["dp_dayNames"]   = "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']";
+$_lang["dp_dayNames"] = "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']";
 $_lang["dp_monthNames"] = "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']";
-$_lang["dp_startDay"]   = "1";
+$_lang["dp_startDay"] = "1";
 
 $_lang["check_all"] = "Select all";
 $_lang["check_none"] = "Select none";
@@ -1365,10 +1368,10 @@ $_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
 $_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
 
 $_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
-$_lang["which_browser_default_title"]= "Default File Browser";
-$_lang["which_browser_default_msg"]= "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
-$_lang["which_browser_title"]= "File Browser";
-$_lang["which_browser_msg"]= "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
+$_lang["which_browser_default_title"] = "Default File Browser";
+$_lang["which_browser_default_msg"] = "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
+$_lang["which_browser_title"] = "File Browser";
+$_lang["which_browser_msg"] = "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
 $_lang["option_default"] = "Default";
 $_lang["position"] = "Position";
 $_lang["are_you_sure"] = "Are you sure?";
@@ -1401,18 +1404,18 @@ $_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) an
 
 $_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
 
-$_lang["allow_eval_title"]             = "Eval php code in snippet call";
-$_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
-$_lang["allow_eval_with_scan"]         = "Execute only permitted functions";
+$_lang["allow_eval_title"] = "Eval php code in snippet call";
+$_lang["allow_eval_msg"] = "For developer : Please use \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"] = "Execute only permitted functions";
 $_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
-$_lang["allow_eval_everytime_eval"]    = "Unlimited (Use only for debugging)";
-$_lang["allow_eval_dont_eval"]         = "Do not allow all functions";
+$_lang["allow_eval_everytime_eval"] = "Unlimited (Use only for debugging)";
+$_lang["allow_eval_dont_eval"] = "Do not allow all functions";
 
 $_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
-$_lang["safe_functions_at_eval_msg"]   = "Comma separated list";
+$_lang["safe_functions_at_eval_msg"] = "Comma separated list";
 
-$_lang["multiple_sessions_msg"]   = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
-$_lang["iconv_not_available"]     = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
+$_lang["multiple_sessions_msg"] = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
+$_lang["iconv_not_available"] = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
 
 $_lang["cm_create_new_category"] = "Create the new category";
 $_lang["cm_category_name"] = "Category name";

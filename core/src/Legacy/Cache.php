@@ -83,11 +83,17 @@ class Cache
      * @return string
      */
     public function getParents($id, $path = '')
-    { // modx:returns child's parent
+    {
+        // modx:returns child's parent
         if (empty($this->aliases)) {
-            $parents = Models\SiteContent::select('id', 'alias', 'parent', 'alias_visible')->where('deleted', 0)->get();
+            $parents = Models\SiteContent::select('id', 'alias', 'parent', 'alias_visible')
+                ->where('deleted', 0)
+                ->get();
             foreach ($parents->toArray() as $row) {
-                if ($row['alias'] == '') $row['alias'] = $row['id'];
+                if ($row['alias'] == '') {
+                    $row['alias'] = $row['id'];
+                }
+
                 $this->aliases[$row['id']] = $row['alias'];
                 $this->parents[$row['id']] = $row['parent'];
                 $this->aliasVisible[$row['id']] = $row['alias_visible'];
@@ -175,7 +181,6 @@ class Cache
             $cacheRefreshTime = $cacheRefreshTimeFromDB;
         }
 
-
         // write the file
         $content = '<?php' . "\n";
         $content .= '$recent_update=\'' . $this->request_time . '\';' . "\n";
@@ -256,29 +261,36 @@ class Cache
                 $content .= '$this->config[\'enable_filter\']=\'0\';';
             }
         }
-        if (!isset($config['full_aliaslisting']) || $config['full_aliaslisting'] != 1) {
-            $resources = Models\SiteContent::query()->select('site_content.id', 'site_content.alias', 'site_content.parent', 'site_content.isfolder', 'site_content.alias_visible')
+
+        // enabled = 1, disabled = 0, only folders = 2
+        if (!isset($config['alias_listing']) || $config['alias_listing'] != 0) {
+            // WRITE Aliases to cache file
+            $resources = Models\SiteContent::query()
+                ->select('site_content.id', 'site_content.alias', 'site_content.parent', 'site_content.isfolder', 'site_content.alias_visible')
                 ->where('site_content.deleted', 0)
                 ->orderBy('site_content.parent', 'ASC')
                 ->orderBy('site_content.menuindex', 'ASC');
 
-            if (isset($config['aliaslistingfolder']) && $config['aliaslistingfolder'] == 1) {
+            if ($config['alias_listing'] == 2) {
+                // only folders
                 $resources = $resources->where(function ($query) {
+                    // orig: folders only with alias_visible
                     $query->where('site_content.isfolder', 1)
-                        ->orWhere('site_content.alias_visible', 1);
+                        ->where('site_content.alias_visible', 1);
+                    // test: folders only
+                    //$query->where('site_content.isfolder', 1);
                 });
-
             }
 
-            $use_alias_path = ($config['friendly_urls'] && $config['use_alias_path']) ? 1 : 0;
             $tmpPath = '';
-            $content .= '$this->aliasListing=array();';
             $content .= '$a=&$this->aliasListing;';
             $content .= '$d=&$this->documentListing;';
             $content .= '$m=&$this->documentMap;';
             foreach ($resources->get()->toArray() as $doc) {
-                if ($doc['alias'] == '') $doc['alias'] = $doc['id'];
-                if ($use_alias_path) {
+                if ($doc['alias'] == '') {
+                    $doc['alias'] = $doc['id'];
+                }
+                if ($config['friendly_urls'] && $config['use_alias_path']) {
                     $tmpPath = $this->getParents($doc['parent']);
                     $alias = (strlen($tmpPath) > 0 ? "$tmpPath/" : '') . $doc['alias'];
                     $key = $alias;
@@ -287,21 +299,27 @@ class Cache
                 }
 
                 $doc['path'] = $tmpPath;
+                // alias listing
                 $content .= '$a[' . $doc['id'] . ']=array(\'id\'=>' . $doc['id'] . ',\'alias\'=>\'' . $doc['alias'] . '\',\'path\'=>\'' . $doc['path'] . '\',\'parent\'=>' . $doc['parent'] . ',\'isfolder\'=>' . $doc['isfolder'] . ',\'alias_visible\'=>' . $doc['alias_visible'] . ');';
+                // document listing
                 $content .= '$d[\'' . $key . '\']=' . $doc['id'] . ';';
+                // document map
                 $content .= '$m[]=array(' . $doc['parent'] . '=>' . $doc['id'] . ');';
             }
 
             // get content types
             $contentTypes = Models\SiteContent::query()
                 ->select('id', 'contentType')
-                ->where('contentType', '!=', 'text/html')->get();
+                ->where('contentType', '!=', 'text/html')
+                ->get();
 
             $content .= '$c=&$this->contentTypes;';
             foreach ($contentTypes->toArray() as $doc) {
+                // content type
                 $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
             }
         }
+
         if (!isset($config['disable_chunk_cache']) || $config['disable_chunk_cache'] != 1) {
             // WRITE Chunks to cache file
             $chunks = Models\SiteHtmlsnippet::all();
@@ -313,8 +331,10 @@ class Cache
 
         if (!isset($config['disable_snippet_cache']) || $config['disable_snippet_cache'] != 1) {
             // WRITE snippets to cache file
-            $snippets = Models\SiteSnippet::query()->select('site_snippets.*', 'site_modules.properties as sharedproperties')
-                ->leftJoin('site_modules', 'site_snippets.moduleguid', '=', 'site_modules.guid')->get();
+            $snippets = Models\SiteSnippet::query()
+                ->select('site_snippets.*', 'site_modules.properties as sharedproperties')
+                ->leftJoin('site_modules', 'site_snippets.moduleguid', '=', 'site_modules.guid')
+                ->get();
             $content .= '$s=&$this->snippetCache;';
             foreach ($snippets->toArray() as $row) {
                 if ($row['disabled']) {
@@ -337,9 +357,11 @@ class Cache
 
         if (!isset($config['disable_plugins_cache']) || $config['disable_plugins_cache'] != 1) {
             // WRITE plugins to cache file
-            $plugins = Models\SitePlugin::query()->select('site_plugins.*', 'site_modules.properties as sharedproperties')
+            $plugins = Models\SitePlugin::query()
+                ->select('site_plugins.*', 'site_modules.properties as sharedproperties')
                 ->leftJoin('site_modules', 'site_plugins.moduleguid', '=', 'site_modules.guid')
-                ->where('site_plugins.disabled', 0)->get();
+                ->where('site_plugins.disabled', 0)
+                ->get();
             $content .= '$p=&$this->pluginCache;';
             foreach ($plugins->toArray() as $row) {
                 $value = trim($row['plugincode']);
@@ -358,25 +380,28 @@ class Cache
             }
         }
 
-        // WRITE system event triggers
-        $systemEvents = Models\SystemEventname::query()->select('system_eventnames.name as evtname', 'site_plugin_events.pluginid', 'site_plugins.name as pname')
-            ->leftJoin('site_plugin_events', 'system_eventnames.id', '=', 'site_plugin_events.evtid')
-            ->leftJoin('site_plugins', 'site_plugin_events.pluginid', '=', 'site_plugins.id')
-            ->where('site_plugins.disabled', 0)
-            ->orderBy('system_eventnames.name', 'ASC')
-            ->orderBy('site_plugin_events.priority', 'ASC')->get();
-        $content .= '$e=&$this->pluginEvent;';
-        $events = array();
-        foreach ($systemEvents->toArray() as $row) {
-            if (!isset($events[$row['evtname']])) {
-                $events[$row['evtname']] = array();
+        if (true) { // system events
+            // WRITE system event triggers
+            $systemEvents = Models\SystemEventname::query()
+                ->select('system_eventnames.name as evtname', 'site_plugin_events.pluginid', 'site_plugins.name as pname')
+                ->leftJoin('site_plugin_events', 'system_eventnames.id', '=', 'site_plugin_events.evtid')
+                ->leftJoin('site_plugins', 'site_plugin_events.pluginid', '=', 'site_plugins.id')
+                ->where('site_plugins.disabled', 0)
+                ->orderBy('system_eventnames.name', 'ASC')
+                ->orderBy('site_plugin_events.priority', 'ASC')
+                ->get();
+            $content .= '$e=&$this->pluginEvent;';
+            $events = array();
+            foreach ($systemEvents->toArray() as $row) {
+                if (!isset($events[$row['evtname']])) {
+                    $events[$row['evtname']] = array();
+                }
+                $events[$row['evtname']][] = $row['pname'];
             }
-            $events[$row['evtname']][] = $row['pname'];
-        }
-        foreach ($events as $evtname => $pluginnames) {
-            $events[$evtname] = $pluginnames;
-            $content .= '$e[\'' . $evtname . '\']=array(\'' . implode('\',\'',
-                    $this->escapeSingleQuotes($pluginnames)) . '\');';
+            foreach ($events as $evtname => $pluginnames) {
+                $events[$evtname] = $pluginnames;
+                $content .= '$e[\'' . $evtname . '\']=array(\'' . implode('\',\'', $this->escapeSingleQuotes($pluginnames)) . '\');';
+            }
         }
 
         $content .= "\n";
@@ -407,6 +432,7 @@ class Cache
      *
      * @see http://php.net/manual/en/tokenizer.examples.php
      */
+    // phpcs:ignore
     public function php_strip_whitespace($source)
     {
 
@@ -436,28 +462,27 @@ class Cache
             list($type, $text) = $token;
 
             switch ($type) {
-                case T_COMMENT    :
+                case T_COMMENT:
                 case T_DOC_COMMENT:
                     break;
-                case T_WHITESPACE :
+                case T_WHITESPACE:
                     if ($prev_token != T_END_HEREDOC) {
                         $_ = trim($_);
                     }
                     $lastChar = substr($_, -1);
-                    if (!in_array($lastChar, $chars)) {// ,320,327,288,284,289
-                        if (!in_array($prev_token,
-                            array(T_FOREACH, T_WHILE, T_FOR, T_BOOLEAN_AND, T_BOOLEAN_OR, T_DOUBLE_ARROW))) {
+                    if (!in_array($lastChar, $chars)) { // ,320,327,288,284,289
+                        if (!in_array($prev_token, array(T_FOREACH, T_WHILE, T_FOR, T_BOOLEAN_AND, T_BOOLEAN_OR, T_DOUBLE_ARROW))) {
                             $_ .= ' ';
                         }
                     }
                     break;
-                case T_IS_EQUAL :
-                case T_IS_IDENTICAL :
-                case T_IS_NOT_EQUAL :
-                case T_DOUBLE_ARROW :
-                case T_BOOLEAN_AND :
-                case T_BOOLEAN_OR :
-                case T_START_HEREDOC :
+                case T_IS_EQUAL:
+                case T_IS_IDENTICAL:
+                case T_IS_NOT_EQUAL:
+                case T_DOUBLE_ARROW:
+                case T_BOOLEAN_AND:
+                case T_BOOLEAN_OR:
+                case T_START_HEREDOC:
                     if ($prev_token != T_START_HEREDOC) {
                         $_ = trim($_);
                     }
@@ -469,8 +494,11 @@ class Cache
                     $_ .= $text;
             }
         }
-        $source = preg_replace(array('@^<\?php@i', '|\s+|', '|<!--|', '|-->|', '|-->\s+<!--|'),
-            array('', ' ', "\n" . '<!--', '-->' . "\n", '-->' . "\n" . '<!--'), $_);
+        $source = preg_replace(
+            array('@^<\?php@i', '|\s+|', '|<!--|', '|-->|', '|-->\s+<!--|'),
+            array('', ' ', "\n" . '<!--', '-->' . "\n", '-->' . "\n" . '<!--'),
+            $_
+        );
         $source = trim($source);
 
         return $source;
