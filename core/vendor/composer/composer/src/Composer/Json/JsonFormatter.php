@@ -32,11 +32,8 @@ class JsonFormatter
      *
      * Originally licensed under MIT by Dave Perrett <mail@recursive-design.com>
      *
-     *
-     * @param  string $json
      * @param  bool   $unescapeUnicode Un escape unicode
      * @param  bool   $unescapeSlashes Un escape slashes
-     * @return string
      */
     public static function format(string $json, bool $unescapeUnicode, bool $unescapeSlashes): string
     {
@@ -70,7 +67,7 @@ class JsonFormatter
 
                 if ($unescapeUnicode && function_exists('mb_convert_encoding')) {
                     // https://stackoverflow.com/questions/2934563/how-to-decode-unicode-escape-sequences-like-u00ed-to-proper-utf-8-encoded-cha
-                    $buffer = Preg::replaceCallback('/(\\\\+)u([0-9a-f]{4})/i', function ($match) {
+                    $buffer = Preg::replaceCallback('/(\\\\+)u([0-9a-f]{4})/i', static function ($match) {
                         $l = strlen($match[1]);
 
                         if ($l % 2) {
@@ -108,9 +105,7 @@ class JsonFormatter
                     // If this character is the end of an element,
                     // output a new line and indent the next line
                     $result .= $newLine;
-                    for ($j = 0; $j < $pos; $j++) {
-                        $result .= $indentStr;
-                    }
+                    $result .= str_repeat($indentStr, $pos);
                 } else {
                     // Collapse empty {} and []
                     $result = rtrim($result);
@@ -128,9 +123,7 @@ class JsonFormatter
                     $pos++;
                 }
 
-                for ($j = 0; $j < $pos; $j++) {
-                    $result .= $indentStr;
-                }
+                $result .= str_repeat($indentStr, $pos);
             }
         }
 

@@ -34,7 +34,6 @@ class ErrorHandler
      *
      * @static
      * @throws \ErrorException
-     * @return bool
      */
     public static function handle(int $level, string $message, string $file, int $line): bool
     {
@@ -58,7 +57,7 @@ class ErrorHandler
             self::$io->writeError('<warning>Deprecation Notice: '.$message.' in '.$file.':'.$line.'</warning>');
             if (self::$io->isVerbose()) {
                 self::$io->writeError('<warning>Stack trace:</warning>');
-                self::$io->writeError(array_filter(array_map(function ($a): ?string {
+                self::$io->writeError(array_filter(array_map(static function ($a): ?string {
                     if (isset($a['line'], $a['file'])) {
                         return '<warning> '.$a['file'].':'.$a['line'].'</warning>';
                     }
@@ -73,14 +72,10 @@ class ErrorHandler
 
     /**
      * Register error handler.
-     *
-     * @param IOInterface|null $io
-     *
-     * @return void
      */
-    public static function register(IOInterface $io = null): void
+    public static function register(?IOInterface $io = null): void
     {
-        set_error_handler(array(__CLASS__, 'handle'));
+        set_error_handler([__CLASS__, 'handle']);
         error_reporting(E_ALL | E_STRICT);
         self::$io = $io;
     }

@@ -50,8 +50,6 @@ class StrictConfirmationQuestion extends Question
 
     /**
      * Returns the default answer normalizer.
-     *
-     * @return callable
      */
     private function getDefaultNormalizer(): callable
     {
@@ -59,7 +57,7 @@ class StrictConfirmationQuestion extends Question
         $trueRegex = $this->trueAnswerRegex;
         $falseRegex = $this->falseAnswerRegex;
 
-        return function ($answer) use ($default, $trueRegex, $falseRegex) {
+        return static function ($answer) use ($default, $trueRegex, $falseRegex) {
             if (is_bool($answer)) {
                 return $answer;
             }
@@ -81,12 +79,10 @@ class StrictConfirmationQuestion extends Question
 
     /**
      * Returns the default answer validator.
-     *
-     * @return callable
      */
     private function getDefaultValidator(): callable
     {
-        return function ($answer): bool {
+        return static function ($answer): bool {
             if (!is_bool($answer)) {
                 throw new InvalidArgumentException('Please answer yes, y, no, or n.');
             }

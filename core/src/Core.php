@@ -19,7 +19,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use IntlDateFormatter;
 use PHPMailer\PHPMailer\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -3198,20 +3197,28 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      * Returns 1 if user has the currect permission
      *
      * @param string $pm Permission name
-     * @return int Why not bool?
+     * @return bool
      */
     public function hasPermission($pm, $context = '')
     {
+        if (is_cli()) {
+            return true;
+        }
+
         if (empty($context)) {
             $context = $this->getContext();
         }
-        $state = 0;
-        $pms = get_by_key($_SESSION, $context . 'Permissions', [], 'is_array');
-        if ($pms) {
-            $state = (isset($pms[$pm]) && (bool) $pms[$pm] === true);
+        if (isset($_SESSION[$context . 'Role']) && $_SESSION[$context . 'Role'] == 1) {
+            return true;
         }
 
-        return (int) $state;
+        $state = false;
+        $pms = get_by_key($_SESSION, $context . 'Permissions', [], 'is_array');
+        if ($pms) {
+            $state = isset($pms[$pm]) && (bool) $pms[$pm] === true;
+        }
+
+        return $state;
     }
 
     /**
@@ -3338,7 +3345,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         } else {
             $timeout = $this->getConfig('session_timeout') * 60;
         }
-        // session.js pings every 10min, updateMail() in mainMenu pings every minute, so 2min is minimum
+        // session.js pings every 10min, so 2min is minimum
         $validSessionTimeLimit = $this->time - $timeout;
         ActiveUserSession::where('lasthit', '<', (int) $validSessionTimeLimit)->delete();
 
@@ -4314,7 +4321,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
             if (!empty($this->placeholders)) {
                 $arrPlaceholderCheckAfterSnippet = $this->placeholders;
-                $arrPlaceholderFromSnippet = array_diff($arrPlaceholderCheckAfterSnippet, $arrPlaceholderCheck);
+                $arrPlaceholderFromSnippet = array_udiff($arrPlaceholderCheckAfterSnippet, $arrPlaceholderCheck, function ($a, $b) {
+                    return strcmp(json_encode($a), json_encode($b));
+                });
 
                 if ($cacheTime != 0) {
                     Cache::put($cacheKey . '_placeholders', $arrPlaceholderFromSnippet, $cacheTime);
@@ -4520,69 +4529,24 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         $timestamp = (int) $timestamp;
 
-        switch ($this->getConfig('datetime_format')) {
+        switch ($this->config['datetime_format']) {
             case 'YYYY/mm/dd':
-                $dateFormat = '%Y/%m/%d';
+                $dateFormat = 'Y/m/d';
                 break;
             case 'dd-mm-YYYY':
-                $dateFormat = '%d-%m-%Y';
+                $dateFormat = 'd-m-Y';
                 break;
             case 'mm/dd/YYYY':
-                $dateFormat = '%m/%d/%Y';
+                $dateFormat = 'm/d/Y';
                 break;
         }
 
-        if (extension_loaded('intl')) {
-            // https://www.php.net/manual/en/class.intldateformatter.php
-            // https://www.php.net/manual/en/datetime.createfromformat.php
-            $dateFormat = str_replace(
-                ['%Y', '%m', '%d', '%I', '%H', '%M', '%S', '%p'],
-                ['Y', 'MM', 'dd', 'h', 'HH', 'mm', 'ss', 'a'],
-                $dateFormat
-            );
-            if (empty($mode)) {
-                $formatter = new IntlDateFormatter(
-                    $this->getConfig('manager_language'),
-                    IntlDateFormatter::FULL,
-                    IntlDateFormatter::FULL,
-                    null,
-                    null,
-                    $dateFormat . " HH:mm:ss"
-                );
-                $strTime = $formatter->format($timestamp);
-            } elseif ($mode === 'dateOnly') {
-                $formatter = new IntlDateFormatter(
-                    $this->getConfig('manager_language'),
-                    IntlDateFormatter::FULL,
-                    IntlDateFormatter::NONE,
-                    null,
-                    null,
-                    $dateFormat
-                );
-                $strTime = $formatter->format($timestamp);
-            } elseif ($mode === 'timeOnly') {
-                $formatter = new IntlDateFormatter(
-                    $this->getConfig('manager_language'),
-                    IntlDateFormatter::NONE,
-                    IntlDateFormatter::MEDIUM,
-                    null,
-                    null,
-                    "HH:mm:ss"
-                );
-                $strTime = $formatter->format($timestamp);
-            } elseif ($mode === 'formatOnly') {
-                $strTime = $dateFormat;
-            }
-        } else {
-            if (empty($mode)) {
-                $strTime = strftime($dateFormat . " %H:%M:%S", $timestamp);
-            } elseif ($mode === 'dateOnly') {
-                $strTime = strftime($dateFormat, $timestamp);
-            } elseif ($mode === 'formatOnly') {
-                $strTime = $dateFormat;
-            } elseif ($mode === 'timeOnly') {
-                $strTime = $dateFormat;
-            }
+        if (empty($mode)) {
+            $strTime = date($dateFormat . " H:i:s", $timestamp);
+        } elseif ($mode == 'dateOnly') {
+            $strTime = date($dateFormat, $timestamp);
+        } elseif ($mode == 'formatOnly') {
+            $strTime = $dateFormat;
         }
 
         return $strTime;

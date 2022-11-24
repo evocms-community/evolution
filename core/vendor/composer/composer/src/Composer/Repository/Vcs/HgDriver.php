@@ -71,7 +71,7 @@ class HgDriver extends VcsDriver
                 $fs->removeDirectory($this->repoDir);
 
                 $repoDir = $this->repoDir;
-                $command = function ($url) use ($repoDir): string {
+                $command = static function ($url) use ($repoDir): string {
                     return sprintf('hg clone --noupdate -- %s %s', ProcessExecutor::escape($url), ProcessExecutor::escape($repoDir));
                 };
 
@@ -89,7 +89,7 @@ class HgDriver extends VcsDriver
     public function getRootIdentifier(): string
     {
         if (null === $this->rootIdentifier) {
-            $this->process->execute(sprintf('hg tip --template "{node}"'), $output, $this->repoDir);
+            $this->process->execute('hg tip --template "{node}"', $output, $this->repoDir);
             $output = $this->process->splitLines($output);
             $this->rootIdentifier = $output[0];
         }
@@ -110,7 +110,7 @@ class HgDriver extends VcsDriver
      */
     public function getSource(string $identifier): array
     {
-        return array('type' => 'hg', 'url' => $this->getUrl(), 'reference' => $identifier);
+        return ['type' => 'hg', 'url' => $this->getUrl(), 'reference' => $identifier];
     }
 
     /**
@@ -163,7 +163,7 @@ class HgDriver extends VcsDriver
     public function getTags(): array
     {
         if (null === $this->tags) {
-            $tags = array();
+            $tags = [];
 
             $this->process->execute('hg tags', $output, $this->repoDir);
             foreach ($this->process->splitLines($output) as $tag) {
@@ -185,8 +185,8 @@ class HgDriver extends VcsDriver
     public function getBranches(): array
     {
         if (null === $this->branches) {
-            $branches = array();
-            $bookmarks = array();
+            $branches = [];
+            $bookmarks = [];
 
             $this->process->execute('hg branches', $output, $this->repoDir);
             foreach ($this->process->splitLines($output) as $branch) {

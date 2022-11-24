@@ -17,6 +17,7 @@ use Composer\Util\Filesystem;
 use Composer\Util\Platform;
 use Composer\Util\Silencer;
 use LogicException;
+use Seld\Signal\SignalHandler;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -80,6 +81,9 @@ class Application extends BaseApplication
      */
     private $initialWorkingDirectory;
 
+    /** @var SignalHandler */
+    private $signalHandler;
+
     public function __construct()
     {
         static $shutdownRegistered = false;
@@ -93,17 +97,18 @@ class Application extends BaseApplication
             date_default_timezone_set(Silencer::call('date_default_timezone_get'));
         }
 
-        if (!$shutdownRegistered) {
-            if (function_exists('pcntl_async_signals') && function_exists('pcntl_signal')) {
-                pcntl_async_signals(true);
-                pcntl_signal(SIGINT, function ($sig): void {
-                    exit(130);
-                });
-            }
+        $this->io = new NullIO();
 
+        $this->signalHandler = SignalHandler::create([SignalHandler::SIGINT, SignalHandler::SIGTERM, SignalHandler::SIGHUP], function (string $signal, SignalHandler $handler) {
+            $this->io->writeError('Received '.$signal.', aborting', true, IOInterface::DEBUG);
+
+            $handler->exitWithLastSignal();
+        });
+
+        if (!$shutdownRegistered) {
             $shutdownRegistered = true;
 
-            register_shutdown_function(function (): void {
+            register_shutdown_function(static function (): void {
                 $lastError = error_get_last();
 
                 if ($lastError && $lastError['message'] &&
@@ -114,14 +119,17 @@ class Application extends BaseApplication
             });
         }
 
-        $this->io = new NullIO();
-
         $this->initialWorkingDirectory = getcwd();
 
         parent::__construct('Composer', Composer::getVersion());
     }
 
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    public function __destruct()
+    {
+        $this->signalHandler->unregister();
+    }
+
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         if (null === $output) {
             $output = Factory::createOutput();
@@ -140,9 +148,9 @@ class Application extends BaseApplication
             $input->setInteractive(false);
         }
 
-        $io = $this->io = new ConsoleIO($input, $output, new HelperSet(array(
+        $io = $this->io = new ConsoleIO($input, $output, new HelperSet([
             new QuestionHelper(),
-        )));
+        ]));
 
         // Register error handler again to pass it the IO instance
         ErrorHandler::register($io);
@@ -175,7 +183,7 @@ class Application extends BaseApplication
         }
 
         // prompt user for dir change if no composer.json is present in current dir
-        if ($io->isInteractive() && null === $newWorkDir && !in_array($commandName, array('', 'list', 'init', 'about', 'help', 'diagnose', 'self-update', 'global', 'create-project', 'outdated'), true) && !file_exists(Factory::getComposerFile()) && ($useParentDirIfNoJsonAvailable = $this->getUseParentDirConfigValue()) !== false) {
+        if ($io->isInteractive() && null === $newWorkDir && !in_array($commandName, ['', 'list', 'init', 'about', 'help', 'diagnose', 'self-update', 'global', 'create-project', 'outdated'], true) && !file_exists(Factory::getComposerFile()) && ($useParentDirIfNoJsonAvailable = $this->getUseParentDirConfigValue()) !== false) {
             $dir = dirname(Platform::getCwd(true));
             $home = realpath(Platform::getEnv('HOME') ?: Platform::getEnv('USERPROFILE') ?: '/');
 
@@ -197,17 +205,54 @@ class Application extends BaseApplication
             }
         }
 
+        $needsSudoCheck = !Platform::isWindows()
+            && function_exists('exec')
+            && !Platform::getEnv('COMPOSER_ALLOW_SUPERUSER')
+            && (ini_get('open_basedir') || !file_exists('/.dockerenv'));
+        $isNonAllowedRoot = false;
+
+        // Clobber sudo credentials if COMPOSER_ALLOW_SUPERUSER is not set before loading plugins
+        if ($needsSudoCheck) {
+            $isNonAllowedRoot = function_exists('posix_getuid') && posix_getuid() === 0;
+
+            if ($isNonAllowedRoot) {
+                if ($uid = (int) Platform::getEnv('SUDO_UID')) {
+                    // Silently clobber any sudo credentials on the invoking user to avoid privilege escalations later on
+                    // ref. https://github.com/composer/composer/issues/5119
+                    Silencer::call('exec', "sudo -u \\#{$uid} sudo -K > /dev/null 2>&1");
+                }
+            }
+
+            // Silently clobber any remaining sudo leases on the current user as well to avoid privilege escalations
+            Silencer::call('exec', 'sudo -K > /dev/null 2>&1');
+        }
+
         // avoid loading plugins/initializing the Composer instance earlier than necessary if no plugin command is needed
         // if showing the version, we never need plugin commands
-        $mayNeedPluginCommand = false === $input->hasParameterOption(array('--version', '-V'))
+        $mayNeedPluginCommand = false === $input->hasParameterOption(['--version', '-V'])
             && (
                 // not a composer command, so try loading plugin ones
                 false === $commandName
                 // list command requires plugin commands to show them
-                || in_array($commandName, array('', 'list', 'help'), true)
+                || in_array($commandName, ['', 'list', 'help'], true)
             );
 
         if ($mayNeedPluginCommand && !$this->disablePluginsByDefault && !$this->hasPluginCommands) {
+            // at this point plugins are needed, so if we are running as root and it is not allowed we need to prompt
+            // if interactive, and abort otherwise
+            if ($isNonAllowedRoot) {
+                $io->writeError('<warning>Do not run Composer as root/super user! See https://getcomposer.org/root for details</warning>');
+
+                if ($io->isInteractive() && $io->askConfirmation('<info>Continue as root/super user</info> [<comment>yes</comment>]? ')) {
+                    // avoid a second prompt later
+                    $isNonAllowedRoot = false;
+                } else {
+                    $io->writeError('<warning>Aborting as no plugin should be loaded if running as super user is not explicitly allowed</warning>');
+
+                    return 1;
+                }
+            }
+
             try {
                 foreach ($this->getPluginCommands() as $command) {
                     if ($this->has($command->getName())) {
@@ -235,6 +280,10 @@ class Application extends BaseApplication
             }
 
             $this->hasPluginCommands = true;
+        }
+
+        if ($isNonAllowedRoot && !$io->isInteractive()) {
+            $this->disablePluginsByDefault = true;
         }
 
         // determine command name to be executed incl plugin commands, and check if it's a proxy command
@@ -269,36 +318,22 @@ class Application extends BaseApplication
                 $io->writeError(sprintf('<warning>Warning: This development build of Composer is over 60 days old. It is recommended to update it by running "%s self-update" to get the latest version.</warning>', $_SERVER['PHP_SELF']));
             }
 
-            if (
-                !Platform::isWindows()
-                && function_exists('exec')
-                && !Platform::getEnv('COMPOSER_ALLOW_SUPERUSER')
-                && (ini_get('open_basedir') || !file_exists('/.dockerenv'))
-            ) {
-                if (function_exists('posix_getuid') && posix_getuid() === 0) {
-                    if ($commandName !== 'self-update' && $commandName !== 'selfupdate') {
-                        $io->writeError('<warning>Do not run Composer as root/super user! See https://getcomposer.org/root for details</warning>');
+            if ($isNonAllowedRoot) {
+                if ($commandName !== 'self-update' && $commandName !== 'selfupdate' && $commandName !== '_complete') {
+                    $io->writeError('<warning>Do not run Composer as root/super user! See https://getcomposer.org/root for details</warning>');
 
-                        if ($io->isInteractive()) {
-                            if (!$io->askConfirmation('<info>Continue as root/super user</info> [<comment>yes</comment>]? ')) {
-                                return 1;
-                            }
+                    if ($io->isInteractive()) {
+                        if (!$io->askConfirmation('<info>Continue as root/super user</info> [<comment>yes</comment>]? ')) {
+                            return 1;
                         }
                     }
-                    if ($uid = (int) Platform::getEnv('SUDO_UID')) {
-                        // Silently clobber any sudo credentials on the invoking user to avoid privilege escalations later on
-                        // ref. https://github.com/composer/composer/issues/5119
-                        Silencer::call('exec', "sudo -u \\#{$uid} sudo -K > /dev/null 2>&1");
-                    }
                 }
-                // Silently clobber any remaining sudo leases on the current user as well to avoid privilege escalations
-                Silencer::call('exec', 'sudo -K > /dev/null 2>&1');
             }
 
             // Check system temp folder for usability as it can cause weird runtime issues otherwise
-            Silencer::call(function () use ($io): void {
+            Silencer::call(static function () use ($io): void {
                 $tempfile = sys_get_temp_dir() . '/temp-' . md5(microtime());
-                if (!(file_put_contents($tempfile, __FILE__) && (file_get_contents($tempfile) == __FILE__) && unlink($tempfile) && !file_exists($tempfile))) {
+                if (!(file_put_contents($tempfile, __FILE__) && (file_get_contents($tempfile) === __FILE__) && unlink($tempfile) && !file_exists($tempfile))) {
                     $io->writeError(sprintf('<error>PHP temp directory (%s) does not exist or is not writable to Composer. Set sys_temp_dir in your php.ini</error>', sys_get_temp_dir()));
                 }
             });
@@ -381,14 +416,13 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param  InputInterface    $input
      * @throws \RuntimeException
      * @return ?string
      */
     private function getNewWorkingDir(InputInterface $input): ?string
     {
         /** @var string|null $workingDir */
-        $workingDir = $input->getParameterOption(array('--working-dir', '-d'), null, true);
+        $workingDir = $input->getParameterOption(['--working-dir', '-d'], null, true);
         if (null !== $workingDir && !is_dir($workingDir)) {
             throw new \RuntimeException('Invalid working directory specified, '.$workingDir.' does not exist.');
         }
@@ -396,9 +430,6 @@ class Application extends BaseApplication
         return $workingDir;
     }
 
-    /**
-     * @return void
-     */
     private function hintCommonErrors(\Throwable $exception, OutputInterface $output): void
     {
         $io = $this->getIO();
@@ -410,7 +441,7 @@ class Application extends BaseApplication
         Silencer::suppress();
         try {
             $composer = $this->getComposer(false, true);
-            if ($composer) {
+            if (null !== $composer && function_exists('disk_free_space')) {
                 $config = $composer->getConfig();
 
                 $minSpaceFree = 1024 * 1024;
@@ -449,9 +480,6 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param  bool                    $required
-     * @param  bool|null               $disablePlugins
-     * @param  bool|null               $disableScripts
      * @throws JsonValidationException
      * @throws \InvalidArgumentException
      * @return ?Composer If $required is true then the return value is guaranteed
@@ -467,7 +495,7 @@ class Application extends BaseApplication
 
         if (null === $this->composer) {
             try {
-                $this->composer = Factory::create($this->io, null, $disablePlugins, $disableScripts);
+                $this->composer = Factory::create(Platform::isInputCompletionProcess() ? new NullIO() : $this->io, null, $disablePlugins, $disableScripts);
             } catch (\InvalidArgumentException $e) {
                 if ($required) {
                     $this->io->writeError($e->getMessage());
@@ -488,8 +516,6 @@ class Application extends BaseApplication
 
     /**
      * Removes the cached composer instance
-     *
-     * @return void
      */
     public function resetComposer(): void
     {
@@ -499,9 +525,6 @@ class Application extends BaseApplication
         }
     }
 
-    /**
-     * @return IOInterface
-     */
     public function getIO(): IOInterface
     {
         return $this->io;
@@ -518,7 +541,7 @@ class Application extends BaseApplication
      */
     protected function getDefaultCommands(): array
     {
-        $commands = array_merge(parent::getDefaultCommands(), array(
+        $commands = array_merge(parent::getDefaultCommands(), [
             new Command\AboutCommand(),
             new Command\ConfigCommand(),
             new Command\DependsCommand(),
@@ -529,6 +552,7 @@ class Application extends BaseApplication
             new Command\UpdateCommand(),
             new Command\SearchCommand(),
             new Command\ValidateCommand(),
+            new Command\AuditCommand(),
             new Command\ShowCommand(),
             new Command\SuggestsCommand(),
             new Command\RequireCommand(),
@@ -547,7 +571,8 @@ class Application extends BaseApplication
             new Command\CheckPlatformReqsCommand(),
             new Command\FundCommand(),
             new Command\ReinstallCommand(),
-        ));
+            new Command\BumpCommand(),
+        ]);
 
         if (strpos(__FILE__, 'phar:') === 0 || '1' === Platform::getEnv('COMPOSER_TESTS_ARE_RUNNING')) {
             $commands[] = new Command\SelfUpdateCommand();
@@ -589,7 +614,7 @@ class Application extends BaseApplication
      */
     private function getPluginCommands(): array
     {
-        $commands = array();
+        $commands = [];
 
         $composer = $this->getComposer(false, false);
         if (null === $composer) {
@@ -598,7 +623,7 @@ class Application extends BaseApplication
 
         if (null !== $composer) {
             $pm = $composer->getPluginManager();
-            foreach ($pm->getPluginCapabilities('Composer\Plugin\Capability\CommandProvider', array('composer' => $composer, 'io' => $this->io)) as $capability) {
+            foreach ($pm->getPluginCapabilities('Composer\Plugin\Capability\CommandProvider', ['composer' => $composer, 'io' => $this->io]) as $capability) {
                 $newCommands = $capability->getCommands();
                 if (!is_array($newCommands)) {
                     throw new \UnexpectedValueException('Plugin capability '.get_class($capability).' failed to return an array from getCommands');

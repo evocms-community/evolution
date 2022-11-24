@@ -24,22 +24,24 @@
     "require": {
         "php": "^7.2.5 || ^8.0",
         "composer/ca-bundle": "^1.0",
+        "composer/class-map-generator": "^1.0",
         "composer/metadata-minifier": "^1.0",
         "composer/semver": "^3.0",
-        "composer/spdx-licenses": "^1.2",
+        "composer/spdx-licenses": "^1.5.7",
         "composer/xdebug-handler": "^2.0.2 || ^3.0.3",
         "justinrainbow/json-schema": "^5.2.11",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "seld/jsonlint": "^1.4",
         "seld/phar-utils": "^1.2",
-        "symfony/console": "^5.4.7 || ^6.0.7",
+        "symfony/console": "^5.4.11 || ^6.0.11",
         "symfony/filesystem": "^5.4 || ^6.0",
         "symfony/finder": "^5.4 || ^6.0",
         "symfony/process": "^5.4 || ^6.0",
         "react/promise": "^2.8",
         "composer/pcre": "^2 || ^3",
         "symfony/polyfill-php73": "^1.24",
-        "symfony/polyfill-php80": "^1.24"
+        "symfony/polyfill-php80": "^1.24",
+        "seld/signal-handler": "^2.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^6.0",
@@ -47,7 +49,7 @@
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^1",
         "phpstan/phpstan-strict-rules": "^1",
-        "phpstan/phpstan-symfony": "^1.1"
+        "phpstan/phpstan-symfony": "^1.2.10"
     },
     "suggest": {
         "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
@@ -62,7 +64,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3-dev"
+            "dev-main": "2.4-dev"
         },
         "phpstan": {
             "includes": [

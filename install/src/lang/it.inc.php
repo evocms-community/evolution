@@ -2,11 +2,11 @@
 /**
  * EVO Installer language file
  *
- * @author Nicola
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Italian
+ * @language English
  * @package evo
  * @subpackage installer
  *
@@ -47,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Controllo se esistono le directories <span
 $_lang["checking_if_images_writable"] = 'Controllo i permessi di scrittura delle directories <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> and <span class="mono">/assets/.thumbs</span> directories are writable: ';
 $_lang["checking_mysql_strict_mode"] = 'Controllo la modalit&agrave; strict sql_mode di MySQL: ';
 $_lang["checking_mysql_version"] = 'Controllo la versione di MySQL: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Controllo la versione di PHP: ';
 $_lang["checking_registerglobals"] = 'Controllo se Register_Globals &eacute; disattivato: ';
 $_lang["checking_registerglobals_note"] = 'Con questa configurazione il vostro sito potrebbe essere vittima di attacchi Cross Site Scripting (XSS). Per disabilitare Register_Globals ci sono diverse alternative: modificare il file php.ini globale, modificare il file .htaccess nella root della vostra installazione EVO, oppure aggiungere dei files php.ini in ogni directory della vostra installazione EVO (ma ci sono molte directories). Potete continuare con l\'installazione, ma non dite che non vi abbiamo avvertito.';
@@ -60,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Tipo di connessione:';
 $_lang["connection_screen_database_connection_information"] = 'Informazioni sul Database';
 $_lang["connection_screen_database_connection_note"] = 'Inserite il nome del database da usare o che volete creare per questa installazione EVO. Se il database non esiste, il programma di installazione prover&agrave; a crearlo. Questa operazione potrebbe non riuscire in funzione della vostra configurazione di MySQL.';
 $_lang["connection_screen_database_host"] = 'Server del Database:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Informazioni sul Database';
 $_lang["connection_screen_database_login"] = 'Nome utente del Database:';
 $_lang["connection_screen_database_name"] = 'Nome del Database:';
@@ -122,6 +124,8 @@ $_lang["modx_install"] = 'EVO &raquo; Installazione';
 $_lang["modx_requires_php"] = ', e EVO richiede PHP [+min_version+] o successivo';
 $_lang["mysql_5051"] = ' la versione di MySQL &eacute; 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Ci sono dei problemi noti con MySQL 5.0.51. Vi consigliamo di aggiornarlo prima di continuare.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' La vostra versione di MySQL &eacute;: ';
 $_lang["mysql_version_is"] = ' La vostra versione di MySQL &eacute;: ';
 $_lang["no"] = 'No';
 $_lang["none"] = 'Nessuno';

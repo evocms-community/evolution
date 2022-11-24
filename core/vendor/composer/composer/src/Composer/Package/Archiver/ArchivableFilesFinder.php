@@ -47,17 +47,17 @@ class ArchivableFilesFinder extends \FilterIterator
         $sources = $fs->normalizePath(realpath($sources));
 
         if ($ignoreFilters) {
-            $filters = array();
+            $filters = [];
         } else {
-            $filters = array(
+            $filters = [
                 new GitExcludeFilter($sources),
                 new ComposerExcludeFilter($sources, $excludes),
-            );
+            ];
         }
 
         $this->finder = new Finder();
 
-        $filter = function (\SplFileInfo $file) use ($sources, $filters, $fs): bool {
+        $filter = static function (\SplFileInfo $file) use ($sources, $filters, $fs): bool {
             if ($file->isLink() && ($file->getRealPath() === false || strpos($file->getRealPath(), $sources) !== 0)) {
                 return false;
             }

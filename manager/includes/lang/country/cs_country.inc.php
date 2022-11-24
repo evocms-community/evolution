@@ -13,8 +13,8 @@
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-$_country_lang["1"] = 'Afghanistan'; // Afghanistan
-$_country_lang["2"] = 'Albania'; // Albania
+$_country_lang["1"] = 'Afghánistán'; // Afghanistan
+$_country_lang["2"] = 'Albánie'; // Albania
 $_country_lang["3"] = 'Algeria'; // Algeria
 $_country_lang["4"] = 'American Samoa'; // American Samoa
 $_country_lang["5"] = 'Andorra'; // Andorra

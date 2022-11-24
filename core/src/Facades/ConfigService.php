@@ -1,7 +1,15 @@
-<?php namespace EvolutionCMS\Facades;
+<?php
+
+namespace EvolutionCMS\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static bool|float|int|mixed|string|null get(string $config = '', $default = null)
+ * @method static void set($name, $value)
+ *
+ * @see \EvolutionCMS\Services\ConfigService
+ */
 class ConfigService extends Facade
 {
     /**
@@ -9,7 +17,7 @@ class ConfigService extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'ConfigService';
     }

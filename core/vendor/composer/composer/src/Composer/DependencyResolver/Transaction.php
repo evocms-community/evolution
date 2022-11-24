@@ -44,7 +44,7 @@ class Transaction
     /**
      * @var array<string, PackageInterface[]>
      */
-    protected $resultPackagesByName = array();
+    protected $resultPackagesByName = [];
 
     /**
      * @param PackageInterface[] $presentPackages
@@ -67,14 +67,13 @@ class Transaction
 
     /**
      * @param PackageInterface[] $resultPackages
-     * @return void
      */
     private function setResultPackageMaps(array $resultPackages): void
     {
-        $packageSort = function (PackageInterface $a, PackageInterface $b): int {
+        $packageSort = static function (PackageInterface $a, PackageInterface $b): int {
             // sort alias packages by the same name behind their non alias version
-            if ($a->getName() == $b->getName()) {
-                if ($a instanceof AliasPackage != $b instanceof AliasPackage) {
+            if ($a->getName() === $b->getName()) {
+                if ($a instanceof AliasPackage !== $b instanceof AliasPackage) {
                     return $a instanceof AliasPackage ? -1 : 1;
                 }
                 // if names are the same, compare version, e.g. to sort aliases reliably, actual order does not matter
@@ -84,7 +83,7 @@ class Transaction
             return strcmp($b->getName(), $a->getName());
         };
 
-        $this->resultPackageMap = array();
+        $this->resultPackageMap = [];
         foreach ($resultPackages as $package) {
             $this->resultPackageMap[spl_object_hash($package)] = $package;
             foreach ($package->getNames() as $name) {
@@ -103,12 +102,12 @@ class Transaction
      */
     protected function calculateOperations(): array
     {
-        $operations = array();
+        $operations = [];
 
-        $presentPackageMap = array();
-        $removeMap = array();
-        $presentAliasMap = array();
-        $removeAliasMap = array();
+        $presentPackageMap = [];
+        $removeMap = [];
+        $presentAliasMap = [];
+        $removeAliasMap = [];
         foreach ($this->presentPackages as $package) {
             if ($package instanceof AliasPackage) {
                 $presentAliasMap[$package->getName().'::'.$package->getVersion()] = $package;
@@ -121,8 +120,8 @@ class Transaction
 
         $stack = $this->getRootPackages();
 
-        $visited = array();
-        $processed = array();
+        $visited = [];
+        $processed = [];
 
         while (!empty($stack)) {
             $package = array_pop($stack);
@@ -162,7 +161,7 @@ class Transaction
 
                         // do we need to update?
                         // TODO different for lock?
-                        if ($package->getVersion() != $presentPackageMap[$package->getName()]->getVersion() ||
+                        if ($package->getVersion() !== $presentPackageMap[$package->getName()]->getVersion() ||
                             $package->getDistReference() !== $presentPackageMap[$package->getName()]->getDistReference() ||
                             $package->getSourceReference() !== $presentPackageMap[$package->getName()]->getSourceReference()
                         ) {
@@ -247,7 +246,7 @@ class Transaction
     protected function getProvidersInResult(Link $link): array
     {
         if (!isset($this->resultPackagesByName[$link->getTarget()])) {
-            return array();
+            return [];
         }
 
         return $this->resultPackagesByName[$link->getTarget()];
@@ -268,12 +267,12 @@ class Transaction
      */
     private function movePluginsToFront(array $operations): array
     {
-        $dlModifyingPluginsNoDeps = array();
-        $dlModifyingPluginsWithDeps = array();
-        $dlModifyingPluginRequires = array();
-        $pluginsNoDeps = array();
-        $pluginsWithDeps = array();
-        $pluginRequires = array();
+        $dlModifyingPluginsNoDeps = [];
+        $dlModifyingPluginsWithDeps = [];
+        $dlModifyingPluginRequires = [];
+        $pluginsNoDeps = [];
+        $pluginsWithDeps = [];
+        $pluginRequires = [];
 
         foreach (array_reverse($operations, true) as $idx => $op) {
             if ($op instanceof Operation\InstallOperation) {
@@ -289,7 +288,7 @@ class Transaction
             // is this a downloads modifying plugin or a dependency of one?
             if ($isDownloadsModifyingPlugin || count(array_intersect($package->getNames(), $dlModifyingPluginRequires))) {
                 // get the package's requires, but filter out any platform requirements
-                $requires = array_filter(array_keys($package->getRequires()), function ($req): bool {
+                $requires = array_filter(array_keys($package->getRequires()), static function ($req): bool {
                     return !PlatformRepository::isPlatformPackage($req);
                 });
 
@@ -314,7 +313,7 @@ class Transaction
             // is this a plugin or a dependency of a plugin?
             if ($isPlugin || count(array_intersect($package->getNames(), $pluginRequires))) {
                 // get the package's requires, but filter out any platform requirements
-                $requires = array_filter(array_keys($package->getRequires()), function ($req): bool {
+                $requires = array_filter(array_keys($package->getRequires()), static function ($req): bool {
                     return !PlatformRepository::isPlatformPackage($req);
                 });
 
@@ -345,7 +344,7 @@ class Transaction
      */
     private function moveUninstallsToFront(array $operations): array
     {
-        $uninstOps = array();
+        $uninstOps = [];
         foreach ($operations as $idx => $op) {
             if ($op instanceof Operation\UninstallOperation || $op instanceof Operation\MarkAliasUninstalledOperation) {
                 $uninstOps[] = $op;

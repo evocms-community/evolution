@@ -25,7 +25,7 @@ namespace Composer\DependencyResolver;
 class RuleWatchGraph
 {
     /** @var array<int, RuleWatchChain> */
-    protected $watchChains = array();
+    protected $watchChains = [];
 
     /**
      * Inserts a rule node into the appropriate chains within the graph
@@ -38,7 +38,6 @@ class RuleWatchGraph
      * watch changes in any literals.
      *
      * @param RuleWatchNode $node The rule node to be inserted into the graph
-     * @return void
      */
     public function insert(RuleWatchNode $node): void
     {
@@ -47,7 +46,7 @@ class RuleWatchGraph
         }
 
         if (!$node->getRule() instanceof MultiConflictRule) {
-            foreach (array($node->watch1, $node->watch2) as $literal) {
+            foreach ([$node->watch1, $node->watch2] as $literal) {
                 if (!isset($this->watchChains[$literal])) {
                     $this->watchChains[$literal] = new RuleWatchChain;
                 }
@@ -110,13 +109,13 @@ class RuleWatchGraph
                 if (!$node->getRule()->isDisabled() && !$decisions->satisfy($otherWatch)) {
                     $ruleLiterals = $node->getRule()->getLiterals();
 
-                    $alternativeLiterals = array_filter($ruleLiterals, function ($ruleLiteral) use ($literal, $otherWatch, $decisions): bool {
+                    $alternativeLiterals = array_filter($ruleLiterals, static function ($ruleLiteral) use ($literal, $otherWatch, $decisions): bool {
                         return $literal !== $ruleLiteral &&
                             $otherWatch !== $ruleLiteral &&
                             !$decisions->conflict($ruleLiteral);
                     });
 
-                    if ($alternativeLiterals) {
+                    if (\count($alternativeLiterals) > 0) {
                         reset($alternativeLiterals);
                         $this->moveWatch($literal, current($alternativeLiterals), $node);
                         continue;
@@ -154,7 +153,6 @@ class RuleWatchGraph
      * @param int           $fromLiteral A literal the node used to watch
      * @param int           $toLiteral   A literal the node should watch now
      * @param RuleWatchNode $node        The rule node to be moved
-     * @return void
      */
     protected function moveWatch(int $fromLiteral, int $toLiteral, RuleWatchNode $node): void
     {

@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author MODX Team
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Bulgarian
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX не успя да запише кон�
 $_lang["cant_write_config_file_note"] = 'След като инсталацията завърши, можете да се логнете в Мениджъра на MODX, като напишете в браузера си YourSiteName.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Опции:';
 $_lang["checking_if_cache_exist"] = 'Проверка дали съществува директорията <span class=\"mono\">assets/cache</span> : ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Проверка дали може да се пише във файла <span class=\"mono\">assets/cache/siteCache.idx.php</span> : ';
 $_lang["checking_if_cache_file2_writable"] = 'Проверка дали може да се пише във файла <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> : ';
 $_lang["checking_if_cache_writable"] = 'Проверка дали в директорията <span class=\"mono\">assets/cache</span> може да се пише: ';
@@ -45,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Проверка дали съществу
 $_lang["checking_if_images_writable"] = 'Проверка дали в директорията <span class=\"mono\">assets/images</span> може да се пише: ';
 $_lang["checking_mysql_strict_mode"] = 'Проверка дали MySQL е в strict mode: ';
 $_lang["checking_mysql_version"] = 'Проверка на версията на MySQL: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Проверка на PHP версията: ';
 $_lang["checking_registerglobals"] = 'Проверка дали Register_Globals са изключени: ';
 $_lang["checking_registerglobals_note"] = 'Тази конфигурация прави сайта ви много по-уязвим към Cross Site Scripting (XSS) атаки. Трябва да говорите с вашия доставчик за забраняване на тази настройка, което става обикновено по един от трите начина: модифициране на основния php.ini файл, добавяне на правила в .htaccess файла в основната директория (root) на вашата MODX инсталация, или добавяне на собствен php.ini във всяка директория на вашата инсталация, за да препокрие основния файл. Въпреки, това ще можете да инсталирате MODX, но се считайте за предупредени.';
@@ -58,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Начин на свързва�
 $_lang["connection_screen_database_connection_information"] = 'Информация за БД';
 $_lang["connection_screen_database_connection_note"] = 'Моля, въведете името на БД, създадена за MODX. В случай, че няма такава БД, инсталаторът ще се опита да я създаде. Създаването може да е неуспешно, тъй като зависи от конфигурацията на MySQL или правата за достъп до БД на потребителя.';
 $_lang["connection_screen_database_host"] = 'Хостване на БД:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Информация за БД';
 $_lang["connection_screen_database_login"] = 'Име за връзка към БД:';
 $_lang["connection_screen_database_name"] = 'Име на БД:';
@@ -120,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Инсталиране';
 $_lang["modx_requires_php"] = ', и MODX върви на PHP [+min_version+] или по-висока';
 $_lang["mysql_5051"] = ' MySQL версията на сървъра е 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Има известни спорни въпроси с MySQL 5.0.51. Препоръчително е да обновите преди да продължите.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' MySQL версията ви е: ';
 $_lang["mysql_version_is"] = ' MySQL версията ви е: ';
 $_lang["no"] = 'Не';
 $_lang["none"] = 'Никой';
@@ -132,11 +138,14 @@ $_lang["please_correct_error"] = '. Моля, коригирайте грешк�
 $_lang["please_correct_errors"] = '. Моля, коригирайте грешките';
 $_lang["plugins"] = 'Плъгини';
 $_lang["preinstall_validation"] = 'Потвърждаване на инсталацията';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Изтрий директория install и файловете, които се намират в нея <br />&nbsp;(Тази операция изисква да бъдат гарантирани права за изтриване върху директорията install).';
 $_lang["remove_install_folder_manual"] = 'Моля, запомнете да изтриете  директорията &quot;<b>install</b>&quot; преди да се логнете в Мениджъра.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Опитай отново';
 $_lang["running_database_updates"] = 'Обновяване на БД: ';
 $_lang["sample_web_site"] = 'Примерен Уеб Сайт';

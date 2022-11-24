@@ -61,7 +61,7 @@ class HelperProcessor
             $cacheFolder !== $defaultCacheFolder &&
             strpos($cacheFolder, $defaultCacheFolder) === 0
         ) {
-            file_put_contents(MODX_BASE_PATH . $cacheFolder . '/.htaccess', "order deny,allow\nallow from all\n");
+            file_put_contents(MODX_BASE_PATH . $cacheFolder . '/.htaccess', "<ifModule mod_authz_core.c>\nRequire all granted\n</ifModule>\n<ifModule !mod_authz_core.c>\norder deny,allow\nallow from all\n</ifModule>\n");
         }
 
         $path_parts = pathinfo($input);
@@ -116,7 +116,7 @@ class HelperProcessor
             }
         }
 
-        if (isset($webp) && class_exists('\WebPConvert\WebPConvert')) {
+        if (isset($webp) && $webp && class_exists('\WebPConvert\WebPConvert')) {
             if( isset( $_SERVER['HTTP_ACCEPT'] ) && strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false && pathinfo($outputFilename, PATHINFO_EXTENSION) != 'gif') {
                 if (file_exists($outputFilename . '.webp')) {
                     $fNameSuf .= '.webp';

@@ -42,10 +42,16 @@ To resolve the conflict when we merge these two branches:
 Before committing, make sure the resulting `composer.json` and `composer.lock` files are valid.
 To do this, run the following commands:
 
-```sh
+```shell
 php composer.phar validate
 php composer.phar install [--dry-run]
 ```
+
+## Automating merge conflict resolving with git
+
+Some improvement _could_ be made to git's conflict resolving by using a custom git merge driver.
+
+An example of this can be found at [balbuf's composer git merge driver](https://github.com/balbuf/composer-git-merge-driver).
 
 ## Important considerations
 

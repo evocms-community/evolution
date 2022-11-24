@@ -1,0 +1,19 @@
+{
+  "name": "pathologic/modxapi",
+  "description": "MODxAPI for Evolution CMS",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pathologic",
+      "email": "m@xim.name"
+    }
+  ],
+  "require": {
+    "pathologic/doctrine-cache-bridge": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pathologic\\EvolutionCMS\\MODxAPI\\": "src/"
+    }
+  }
+}

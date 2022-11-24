@@ -1,14 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Henrik Nielsen
- * @author Mads Vestmar
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Danish
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -36,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX kunne ikke gemme konfigurationsfilen. D
 $_lang["cant_write_config_file_note"] = 'Når dette er gjort, kan du logge ind i MODX på adressen http://Ditdomænenavn.dk/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Valgmuligheder:';
 $_lang["checking_if_cache_exist"] = 'Kontrollerer om <span class="mono">/assets/cache</span> og <span class="mono">/assets/cache/rss</span> mapperne er oprettet: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Kontrollerer om <span class="mono">/assets/cache/siteCache.idx.php</span> filen er skrivbar: ';
 $_lang["checking_if_cache_file2_writable"] = 'Kontrollerer om <span class="mono">/assets/cache/sitePublishing.idx.php</span> filen er skrivbar: ';
 $_lang["checking_if_cache_writable"] = 'Kontrollerer om  <span class="mono">/assets/cache</span> og <span class="mono">/assets/cache/rss</span> mapperne er skrivbare: ';
@@ -46,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Kontrollerer om <span class="mono">/assets
 $_lang["checking_if_images_writable"] = 'Kontrollerer om <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> og <span class="mono">/assets/.thumbs</span> mapperne er skrivbare: ';
 $_lang["checking_mysql_strict_mode"] = 'Kontrollerer om MySQL håndterer strict sql_mode: ';
 $_lang["checking_mysql_version"] = 'Kontrollerer MySQL versionen: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Kontrollerer PHP versionen: ';
 $_lang["checking_registerglobals"] = 'Kontrollerer om Register_Globals er slået fra: ';
 $_lang["checking_registerglobals_note"] = 'Denne konfiguration medfører at dit website kan blive mere udsat for Cross Site Scripting (XSS) angreb end normalt. Du bør bede dit hosting firma om at ændre denne indstilling. Normalt kan det gøres på een af følgende måder: Ændrer den globale php.ini fil, tilføje regler til en .htaccess fil i websitets rod, eller oprette specielle php.ini filer i alle mapperne i denne installation  - og dem er der mange af! Du kan stadigvæk installere MODX, men nu er du blevet advaret!';
@@ -59,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Connection\'s metode:';
 $_lang["connection_screen_database_connection_information"] = 'Database information';
 $_lang["connection_screen_database_connection_note"] = 'Indtast navnet på databasen der skal bruges, eller som der skal oprettes til denne MODX installation. Hvis der ikke er oprettet en database, vil installationen forsøge at oprette den. Dette kan dog ikke altid gennemføres pga. brugerrettighederne i den pågældende database.';
 $_lang["connection_screen_database_host"] = 'Database host:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Database Information';
 $_lang["connection_screen_database_login"] = 'Database brugernavn:';
 $_lang["connection_screen_database_name"] = 'Database navn:';
@@ -121,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Installation';
 $_lang["modx_requires_php"] = ', og MODX kræver PHP [+min_version+] eller nyere';
 $_lang["mysql_5051"] = ' MySQL server versionen er 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Der er adskillige problemer med MySQL 5.0.51. Og det anbefales at du opgradere MySQL, inden du fortsætter installationen.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = ' Din MySQL version er: ';
 $_lang["mysql_version_is"] = ' Din MySQL version er: ';
 $_lang["no"] = 'Nej';
 $_lang["none"] = 'Ingen';
@@ -133,11 +138,14 @@ $_lang["please_correct_error"] = '. Ret venligst fejlen';
 $_lang["please_correct_errors"] = '. Ret venligst fejlene';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Præ-installation kontrol';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Anbefalet konfigurationsændring';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Konfigurationsændring: <em>Validere HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Dit website er ikke konfigureret til at validere indgående HTTP_REFERER forespørgelser til administrationsmodulet. Det anbefales på det kraftigeste at aktivere denne indstilling, for at nedsætte risici for CSRF (Cross Site Request Forgery) angreb.';
 $_lang["remove_install_folder_auto"] = 'Fjern installationsmappen samt filer i denne fra websitet<br />&nbsp;(Dette kræver at der er tildelt rettigheder til at slette på denne mappe).';
 $_lang["remove_install_folder_manual"] = 'Husk at slette &quot;<b>install</b>&quot; mappen inden du logger ind i MODX CMS\'et.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Prøv igen';
 $_lang["running_database_updates"] = 'Gennemfører opdatering af databasen: ';
 $_lang["sample_web_site"] = 'Demo website';

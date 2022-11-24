@@ -1,15 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Grégory Pakosz (guardian)
- * @author Coroico
- * @author Jean-Christophe Brebion (Fairytree)
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language French
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -37,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX n\'a pas pu écrire le fichier de confi
 $_lang["cant_write_config_file_note"] = 'Une fois l\'opération effectuée, vous pouvez vous connecter à l\'interface d\'administration de MODX en utilisant l\'adresse  VotreSite.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Cochez pour sélectionner les options:';
 $_lang["checking_if_cache_exist"] = 'Vérification de l\'existence du répertoire <span class=\"mono\">assets/cache</span>: ';
+$_lang["checking_iconv"] = 'Vérifie si l’extension <span class="mono">iconv</span> est disponible : ';
+$_lang["checking_iconv_note"] = 'Il est important d’installer/d’activer l’extension iconv. Rapprochez-vous de votre hébergeur si vous ne savez pas comment l’activer.';
 $_lang["checking_if_cache_file_writable"] = 'Vérification des droits en écriture du fichier <span class=\"mono\">assets/cache/siteCache.idx.php</span>: ';
 $_lang["checking_if_cache_file2_writable"] = 'Vérification des droits en écriture du fichier <span class=\"mono\">assets/cache/sitePublishing.idx.php</span>: ';
 $_lang["checking_if_cache_writable"] = 'Vérification des droits en écriture du répertoire <span class=\"mono\">assets/cache</span>: ';
@@ -47,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Vérification de l\'existence du répertoi
 $_lang["checking_if_images_writable"] = 'Vérification des droits en écriture des répertoires <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> et <span class="mono">/assets/.thumbs</span>: ';
 $_lang["checking_mysql_strict_mode"] = 'Vérification du mode strict MySQL: ';
 $_lang["checking_mysql_version"] = 'Vérification de la version MySQL: ';
+$_lang["checking_pgsql_version"] = 'Vérification de la version de PostgeSQL : ';
 $_lang["checking_php_version"] = 'Vérification de la version PHP: ';
 $_lang["checking_registerglobals"] = 'Vérification que Register_Globals est sur off: ';
 $_lang["checking_registerglobals_note"] = 'Cette configuration rend votre site vulnérable aux attaques <a href="http://www.commentcamarche.net/attaques/cross-site-scripting.php3">XCSS</a> (Cross Site Scripting). Consultez votre hébergeur sur la marche à suivre pour désactiver ce réglage, en général par l\'une de ces trois solutions: modifier le fichier php.ini global, ajouter des règles dans le fichier .htaccess à la racine de votre installation MODX, ou ajouter un fichier php.ini personnalisé pour neutraliser l\'ensemble des fichiers dans chacun des répertoires de votre installation (et il y en a beaucoup). Vous pouvez continuez l\installation de MODX, mais considérez vous comme averti.';
@@ -60,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Méthode de connexion:';
 $_lang["connection_screen_database_connection_information"] = 'Informations base de données';
 $_lang["connection_screen_database_connection_note"] = 'Veuillez saisir le nom de la base de données créée pour MODX. Si la base est inexistante, le programme d\'installation tentera de la créer pour vous. Cette opération est susceptible d\'échouer en fonction des autorisations de l\'utilisateur MySQL.';
 $_lang["connection_screen_database_host"] = 'Serveur hébergeant la base:';
+$_lang["connection_screen_database_type"] = 'Type de base de données :';
 $_lang["connection_screen_database_info"] = 'Informations de la base de données';
 $_lang["connection_screen_database_login"] = 'Identifiant utilisateur de la base:';
 $_lang["connection_screen_database_name"] = 'Nom de la Base:';
@@ -122,6 +124,8 @@ $_lang["modx_install"] = 'MODX &raquo; Installation';
 $_lang["modx_requires_php"] = ', alors que MODX requiert PHP [+min_version+] ou supérieure';
 $_lang["mysql_5051"] = ' la version serveur de MySQL est 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Il existe plusieurs problèmes avec la version MySQL 5.0.51. Il est recommandé de mettre à jour votre version de MySQL avant de continuer.';
+$_lang["mysql_old_version"] = 'Lorsque vous utilisez une version plus ancienne que 5.7.6 le moteur sera MyISAM dans sa version la plus récente, utilisez le moteur InnoDB.<br>Nous vous recommandons de mettre à jour votre MySQL.';
+$_lang["mysql_version_is"] = ' Votre version de MySQL est: ';
 $_lang["mysql_version_is"] = ' Votre version de MySQL est: ';
 $_lang["no"] = 'No';
 $_lang["none"] = 'Aucun';
@@ -134,11 +138,14 @@ $_lang["please_correct_error"] = '. Veuillez corriger l\'erreur';
 $_lang["please_correct_errors"] = '. Veuillez corriger les erreurs';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Validation de la phase de pré-installation';
+$_lang["recommend_collation"] = 'utf8mb4_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Modification des paramètres de configuration recommendée';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Modification des paramètres de configuration: <em>Autorisation des entêtes HTTP_REFERER?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Votre site n\'est pas configuré pour autoriser l\'entête HTTP_REFERER des requêtes entrantes dans le Manager. Nous recommandons fortement l\'autorisation de ce paramètre pour réduire le risque d\'attaque CSRF (Cross Site Request Forgery).';
 $_lang["remove_install_folder_auto"] = 'Effacer automatiquement le répertoire «install» de mon site <br />&nbsp;(Cette opération nécessite des droits d\'accès en effacement sur le répertoire «install»).';
 $_lang["remove_install_folder_manual"] = 'Veuillez effacer le répertoire &quot;<b>install</b>&quot; avant de vous connecter au Gestionnaire de Contenu.';
+$_lang["resetting_database"] = 'Réinitialisation de la base de données pour le site démo :';
 $_lang["retry"] = 'Réessayer';
 $_lang["running_database_updates"] = 'Mise à jour de la base de données: ';
 $_lang["sample_web_site"] = 'Exemple de site web';

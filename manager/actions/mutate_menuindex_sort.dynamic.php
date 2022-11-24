@@ -40,12 +40,16 @@ $disabled = 'true';
 $pagetitle = '';
 $ressourcelist = '';
 if ($id !== null) {
-    try {
-        $doc = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->findOrFail($id);
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    if ($id !== 0) {
+        try {
+            $doc = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+        }
+        $pagetitle = $doc->pagetitle;
+    } else {
+        $pagetitle = $modx->getConfig('site_name');
     }
-    $pagetitle = $doc->pagetitle;
 
     $mgrRole = (isset ($_SESSION['mgrRole']) && (string) $_SESSION['mgrRole'] === '1') ? '1' : '0';
     $resources = \EvolutionCMS\Models\SiteContent::query()

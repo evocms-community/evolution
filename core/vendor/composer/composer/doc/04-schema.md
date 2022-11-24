@@ -119,6 +119,10 @@ Examples:
 - redis
 - templating
 
+> **Note**: Some special keywords trigger `composer require` without the
+> `--dev` option to prompt users if they would like to add these packages to
+> `require-dev` instead of `require`. These are: `dev`, `testing`, `static analysis`.
+
 Optional.
 
 ### homepage
@@ -178,8 +182,8 @@ An Example for disjunctive licenses:
 ```json
 {
     "license": [
-       "LGPL-2.1-only",
-       "GPL-3.0-or-later"
+        "LGPL-2.1-only",
+        "GPL-3.0-or-later"
     ]
 }
 ```
@@ -381,8 +385,8 @@ Example:
 
 ```json
 {
-    "require" : {
-        "php" : ">=7.4",
+    "require": {
+        "php": ">=7.4",
         "ext-mbstring": "*"
     }
 }
@@ -646,6 +650,17 @@ Example:
 }
 ```
 
+Files autoload rules are included whenever `vendor/autoload.php` is included, right after
+the autoloader is registered. The order of inclusion depends on package dependencies so that
+if package A depends on B, files in package B will be included first to ensure package B is fully
+initialized and ready to be used when files from package A are included.
+
+If two packages have the same amount of dependents or no dependencies, the order is alphabetical.
+
+Files from the root package are always loaded last, and you cannot use files autoloading
+yourself to override functions from your dependencies. If you want to achieve that we recommend
+you include your own functions *before* including Composer's `vendor/autoload.php`.
+
 #### Exclude files from classmaps
 
 If you want to exclude some files or folders from the classmap you can use the `exclude-from-classmap` property.
@@ -846,16 +861,16 @@ override packages from it.
 Using JSON object notation is also possible. However, JSON key/value pairs
 are to be considered unordered so consistent behaviour cannot be guaranteed.
 
- ```json
+```json
 {
     "repositories": {
-         "foo": {
-             "type": "composer",
-             "url": "http://packages.foo.com"
-         }
+        "foo": {
+            "type": "composer",
+            "url": "http://packages.foo.com"
+        }
     }
 }
- ```
+```
 
 ### config <span>([root-only](04-schema.md#root-package))</span>
 
@@ -942,7 +957,7 @@ It can be boolean or a package name/URL pointing to a recommended alternative.
 Examples:
 
 Use `"abandoned": true` to indicate this package is abandoned.
-Use `"abandoned": "monolog/monolog"` to indicate this package is abandoned, and that 
+Use `"abandoned": "monolog/monolog"` to indicate this package is abandoned, and that
 the recommended alternative is `monolog/monolog`.
 
 Defaults to false.

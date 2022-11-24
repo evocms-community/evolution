@@ -58,11 +58,12 @@
     "dmitry-suffi/redis-session-handler": "*",
     "rosell-dk/webp-convert": "*",
     "predis/predis": "*",
-    "james-heinrich/phpthumb": "1.*",
+    "james-heinrich/phpthumb": "1.7.17",
     "evocms-services/user-manager": "1.*",
     "evocms-services/document-manager": "1.*",
     "evolution-cms/salo": "1.*",
-    "simplepie/simplepie": "1.*"
+    "simplepie/simplepie": "1.*",
+    "pathologic/modxapi": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"

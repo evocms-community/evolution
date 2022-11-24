@@ -25,8 +25,6 @@ class GitExcludeFilter extends BaseExcludeFilter
 {
     /**
      * Parses .gitattributes if it exists
-     *
-     * @param string $sourcePath
      */
     public function __construct(string $sourcePath)
     {
@@ -37,7 +35,7 @@ class GitExcludeFilter extends BaseExcludeFilter
                 $this->excludePatterns,
                 $this->parseLines(
                     file($sourcePath.'/.gitattributes'),
-                    array($this, 'parseGitAttributesLine')
+                    [$this, 'parseGitAttributesLine']
                 )
             );
         }
@@ -54,11 +52,11 @@ class GitExcludeFilter extends BaseExcludeFilter
     {
         $parts = Preg::split('#\s+#', $line);
 
-        if (count($parts) == 2 && $parts[1] === 'export-ignore') {
+        if (count($parts) === 2 && $parts[1] === 'export-ignore') {
             return $this->generatePattern($parts[0]);
         }
 
-        if (count($parts) == 2 && $parts[1] === '-export-ignore') {
+        if (count($parts) === 2 && $parts[1] === '-export-ignore') {
             return $this->generatePattern('!'.$parts[0]);
         }
 

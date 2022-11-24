@@ -209,7 +209,7 @@ if (! function_exists('csrf_token')) {
     function csrf_token()
     {
         if (isset($_SESSION)) {
-            if (!$_SESSION['_token']) {
+            if (empty($_SESSION['_token'])) {
                 $_SESSION['_token'] = Str::random(40);
             }
             return $_SESSION['_token'];

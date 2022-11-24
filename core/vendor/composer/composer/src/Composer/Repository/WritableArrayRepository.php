@@ -12,7 +12,6 @@
 
 namespace Composer\Repository;
 
-use Composer\Package\AliasPackage;
 use Composer\Installer\InstallationManager;
 
 /**
@@ -22,10 +21,12 @@ use Composer\Installer\InstallationManager;
  */
 class WritableArrayRepository extends ArrayRepository implements WritableRepositoryInterface
 {
+    use CanonicalPackagesTrait;
+
     /**
      * @var string[]
      */
-    protected $devPackageNames = array();
+    protected $devPackageNames = [];
 
     /** @var bool|null */
     private $devMode = null;
@@ -68,34 +69,5 @@ class WritableArrayRepository extends ArrayRepository implements WritableReposit
     public function reload()
     {
         $this->devMode = null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCanonicalPackages()
-    {
-        $packages = $this->getPackages();
-
-        // get at most one package of each name, preferring non-aliased ones
-        $packagesByName = array();
-        foreach ($packages as $package) {
-            if (!isset($packagesByName[$package->getName()]) || $packagesByName[$package->getName()] instanceof AliasPackage) {
-                $packagesByName[$package->getName()] = $package;
-            }
-        }
-
-        $canonicalPackages = array();
-
-        // unfold aliased packages
-        foreach ($packagesByName as $package) {
-            while ($package instanceof AliasPackage) {
-                $package = $package->getAliasOf();
-            }
-
-            $canonicalPackages[] = $package;
-        }
-
-        return $canonicalPackages;
     }
 }

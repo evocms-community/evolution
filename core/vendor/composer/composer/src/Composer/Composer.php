@@ -51,9 +51,9 @@ class Composer extends PartialComposer
      *
      * @see getVersion()
      */
-    public const VERSION = '2.3.8';
+    public const VERSION = '2.4.2';
     public const BRANCH_ALIAS_VERSION = '';
-    public const RELEASE_DATE = '2022-07-01 12:10:47';
+    public const RELEASE_DATE = '2022-09-14 16:11:15';
     public const SOURCE_VERSION = '';
 
     /**
@@ -67,9 +67,6 @@ class Composer extends PartialComposer
      */
     public const RUNTIME_API_VERSION = '2.2.2';
 
-    /**
-     * @return string
-     */
     public static function getVersion(): string
     {
         // no replacement done, this must be a source checkout

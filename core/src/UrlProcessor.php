@@ -544,8 +544,8 @@ class UrlProcessor
     public function makeUrl(int $id, string $alias = '', string $args = '', string $scheme = ''): string
     {
         $virtualDir = $this->core->getConfig('virtual_dir');
-        $f_url_prefix = $this->core->getConfig('friendly_url_prefix');
-        $f_url_suffix = $this->core->getConfig('friendly_url_suffix');
+        $f_url_prefix = $this->core->getConfig('friendly_url_prefix', '');
+        $f_url_suffix = $this->core->getConfig('friendly_url_suffix', '');
 
         if ($args !== '') {
             // add ? or & to $args if missing

@@ -30,22 +30,16 @@ abstract class ArchiveDownloader extends FileDownloader
     /**
      * @var array<string, true>
      */
-    protected $cleanupExecuted = array();
+    protected $cleanupExecuted = [];
 
-    /**
-     * @return PromiseInterface
-     */
-    public function prepare(string $type, PackageInterface $package, string $path, PackageInterface $prevPackage = null): PromiseInterface
+    public function prepare(string $type, PackageInterface $package, string $path, ?PackageInterface $prevPackage = null): PromiseInterface
     {
         unset($this->cleanupExecuted[$package->getName()]);
 
         return parent::prepare($type, $package, $path, $prevPackage);
     }
 
-    /**
-     * @return PromiseInterface
-     */
-    public function cleanup(string $type, PackageInterface $package, string $path, PackageInterface $prevPackage = null): PromiseInterface
+    public function cleanup(string $type, PackageInterface $package, string $path, ?PackageInterface $prevPackage = null): PromiseInterface
     {
         $this->cleanupExecuted[$package->getName()] = true;
 
@@ -54,10 +48,6 @@ abstract class ArchiveDownloader extends FileDownloader
 
     /**
      * @inheritDoc
-     *
-     * @param bool $output
-     *
-     * @return PromiseInterface
      *
      * @throws \RuntimeException
      * @throws \UnexpectedValueException
@@ -103,7 +93,10 @@ abstract class ArchiveDownloader extends FileDownloader
                 $filesystem->removeDirectory($path);
             }
             $this->removeCleanupPath($package, $temporaryDir);
-            $this->removeCleanupPath($package, realpath($path));
+            $realpath = realpath($path);
+            if ($realpath !== false) {
+                $this->removeCleanupPath($package, $realpath);
+            }
         };
 
         try {
@@ -124,7 +117,7 @@ abstract class ArchiveDownloader extends FileDownloader
              * @param  string         $dir Directory
              * @return \SplFileInfo[]
              */
-            $getFolderContent = function ($dir): array {
+            $getFolderContent = static function ($dir): array {
                 $finder = Finder::create()
                     ->ignoreVCS(false)
                     ->ignoreDotFiles(false)
@@ -146,7 +139,7 @@ abstract class ArchiveDownloader extends FileDownloader
              * @param  string $to   Directory
              * @return void
              */
-            $renameRecursively = function ($from, $to) use ($filesystem, $getFolderContent, $package, &$renameRecursively) {
+            $renameRecursively = static function ($from, $to) use ($filesystem, $getFolderContent, $package, &$renameRecursively) {
                 $contentDir = $getFolderContent($from);
 
                 // move files back out of the temp dir
@@ -203,7 +196,7 @@ abstract class ArchiveDownloader extends FileDownloader
                 $this->removeCleanupPath($package, $temporaryDir);
                 $this->removeCleanupPath($package, $path);
             });
-        }, function ($e) use ($cleanup) {
+        }, static function ($e) use ($cleanup) {
             $cleanup();
 
             throw $e;

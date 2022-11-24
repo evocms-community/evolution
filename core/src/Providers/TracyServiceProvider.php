@@ -76,22 +76,22 @@ class TracyServiceProvider extends ServiceProvider
 
             switch ($flag){
                 case 'manager':
-                    if($this->app->isLoggedIn('mgr')){
+                    if(is_cli() || $this->app->isLoggedIn('mgr')) {
                         $newFlag = true;
                     }
                     break;
                 case 'admin':
-                    if($this->app->isLoggedIn('mgr') && $_SESSION['mgrRole'] == 1){
+                    if(is_cli() || ($this->app->isLoggedIn('mgr') && $_SESSION['mgrRole'] == 1)) {
                         $newFlag = true;
                     }
                     break;
                 case 'adminfrontonly':
-                    if ($this->app->isLoggedIn('mgr') && $_SESSION['mgrRole'] == 1 && ($_SERVER['SCRIPT_NAME'] != '/manager/index.php' &&  $_SERVER['SCRIPT_NAME'] !='/manager/media/browser/mcpuk/browse.php')) {
+                    if (!is_cli() && $this->app->isLoggedIn('mgr') && $_SESSION['mgrRole'] == 1 && ($_SERVER['SCRIPT_NAME'] != '/manager/index.php' &&  $_SERVER['SCRIPT_NAME'] !='/manager/media/browser/mcpuk/browse.php')) {
                         $newFlag = true;
                     }
                     break;
                 case 'managerfrontonly':
-                    if ($this->app->isLoggedIn('mgr')  && ($_SERVER['SCRIPT_NAME'] != '/manager/index.php' &&  $_SERVER['SCRIPT_NAME'] !='/manager/media/browser/mcpuk/browse.php')) {
+                    if (!is_cli() && $this->app->isLoggedIn('mgr')  && ($_SERVER['SCRIPT_NAME'] != '/manager/index.php' &&  $_SERVER['SCRIPT_NAME'] !='/manager/media/browser/mcpuk/browse.php')) {
                         $newFlag = true;
                     }
                     break;

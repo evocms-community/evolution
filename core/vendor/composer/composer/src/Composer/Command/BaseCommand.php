@@ -15,6 +15,8 @@ namespace Composer\Command;
 use Composer\Composer;
 use Composer\Config;
 use Composer\Console\Application;
+use Composer\Console\Input\InputArgument;
+use Composer\Console\Input\InputOption;
 use Composer\Factory;
 use Composer\Filter\PlatformRequirementFilter\PlatformRequirementFilterFactory;
 use Composer\Filter\PlatformRequirementFilter\PlatformRequirementFilterInterface;
@@ -23,7 +25,10 @@ use Composer\IO\NullIO;
 use Composer\Plugin\PreCommandRunEvent;
 use Composer\Package\Version\VersionParser;
 use Composer\Plugin\PluginEvents;
+use Composer\Advisory\Auditor;
 use Composer\Util\Platform;
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -88,7 +93,7 @@ abstract class BaseCommand extends Command
      * @param bool|null $disableScripts If null, reads --no-scripts as default
      * @throws \RuntimeException
      */
-    public function requireComposer(bool $disablePlugins = null, bool $disableScripts = null): Composer
+    public function requireComposer(?bool $disablePlugins = null, ?bool $disableScripts = null): Composer
     {
         if (null === $this->composer) {
             $application = parent::getApplication();
@@ -114,7 +119,7 @@ abstract class BaseCommand extends Command
      * @param bool|null $disablePlugins If null, reads --no-plugins as default
      * @param bool|null $disableScripts If null, reads --no-scripts as default
      */
-    public function tryComposer(bool $disablePlugins = null, bool $disableScripts = null): ?Composer
+    public function tryComposer(?bool $disablePlugins = null, ?bool $disableScripts = null): ?Composer
     {
         if (null === $this->composer) {
             $application = parent::getApplication();
@@ -183,6 +188,32 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * @inheritdoc
+     *
+     * Backport suggested values definition from symfony/console 6.1+
+     *
+     * TODO drop when PHP 8.1 / symfony 6.1+ can be required
+     */
+    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+    {
+        $definition = $this->getDefinition();
+        $name = (string) $input->getCompletionName();
+        if (CompletionInput::TYPE_OPTION_VALUE === $input->getCompletionType()
+            && $definition->hasOption($name)
+            && ($option = $definition->getOption($name)) instanceof InputOption
+        ) {
+            $option->complete($input, $suggestions);
+        } elseif (CompletionInput::TYPE_ARGUMENT_VALUE === $input->getCompletionType()
+            && $definition->hasArgument($name)
+            && ($argument = $definition->getArgument($name)) instanceof InputArgument
+        ) {
+            $argument->complete($input, $suggestions);
+        } else {
+            parent::complete($input, $suggestions);
+        }
+    }
+
+    /**
      * @inheritDoc
      *
      * @return void
@@ -208,18 +239,28 @@ abstract class BaseCommand extends Command
             $composer->getEventDispatcher()->dispatch($preCommandRunEvent->getName(), $preCommandRunEvent);
         }
 
-        if (true === $input->hasParameterOption(array('--no-ansi')) && $input->hasOption('no-progress')) {
+        if (true === $input->hasParameterOption(['--no-ansi']) && $input->hasOption('no-progress')) {
             $input->setOption('no-progress', true);
         }
 
-        if (true === $input->hasOption('no-dev')) {
-            if (!$input->getOption('no-dev') && true == Platform::getEnv('COMPOSER_NO_DEV')) {
-                $input->setOption('no-dev', true);
+        $envOptions = [
+            'COMPOSER_NO_AUDIT' => ['no-audit'],
+            'COMPOSER_NO_DEV' => ['no-dev', 'update-no-dev'],
+            'COMPOSER_PREFER_STABLE' => ['prefer-stable'],
+            'COMPOSER_PREFER_LOWEST' => ['prefer-lowest'],
+        ];
+        foreach ($envOptions as $envName => $optionNames) {
+            foreach ($optionNames as $optionName) {
+                if (true === $input->hasOption($optionName)) {
+                    if (false === $input->getOption($optionName) && (bool) Platform::getEnv($envName)) {
+                        $input->setOption($optionName, true);
+                    }
+                }
             }
         }
 
         if (true === $input->hasOption('ignore-platform-reqs')) {
-            if (!$input->getOption('ignore-platform-reqs') && true == Platform::getEnv('COMPOSER_IGNORE_PLATFORM_REQS')) {
+            if (!$input->getOption('ignore-platform-reqs') && (bool) Platform::getEnv('COMPOSER_IGNORE_PLATFORM_REQS')) {
                 $input->setOption('ignore-platform-reqs', true);
 
                 $io->writeError('<warning>COMPOSER_IGNORE_PLATFORM_REQS is set. You may experience unexpected errors.</warning>');
@@ -240,8 +281,6 @@ abstract class BaseCommand extends Command
 
     /**
      * Returns preferSource and preferDist values based on the configuration.
-     *
-     * @param bool           $keepVcsRequiresPreferSource
      *
      * @return bool[] An array composed of the preferSource and preferDist values
      */
@@ -295,7 +334,7 @@ abstract class BaseCommand extends Command
             $preferDist = $input->getOption('prefer-dist');
         }
 
-        return array($preferSource, $preferDist);
+        return [$preferSource, $preferDist];
     }
 
     protected function getPlatformRequirementFilter(InputInterface $input): PlatformRequirementFilterInterface
@@ -323,7 +362,7 @@ abstract class BaseCommand extends Command
      */
     protected function formatRequirements(array $requirements)
     {
-        $requires = array();
+        $requires = [];
         $requirements = $this->normalizeRequirements($requirements);
         foreach ($requirements as $requirement) {
             if (!isset($requirement['version'])) {
@@ -374,5 +413,24 @@ abstract class BaseCommand extends Command
         }
 
         return $width;
+    }
+
+    /**
+     * @internal
+     * @param 'format'|'audit-format' $optName
+     * @return Auditor::FORMAT_*
+     */
+    protected function getAuditFormat(InputInterface $input, string $optName = 'audit-format'): string
+    {
+        if (!$input->hasOption($optName)) {
+            throw new \LogicException('This should not be called on a Command which has no '.$optName.' option defined.');
+        }
+
+        $val = $input->getOption($optName);
+        if (!in_array($val, Auditor::FORMATS, true)) {
+            throw new \InvalidArgumentException('--'.$optName.' must be one of '.implode(', ', Auditor::FORMATS).'.');
+        }
+
+        return $val;
     }
 }

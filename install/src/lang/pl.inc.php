@@ -2,11 +2,11 @@
 /**
  * EVO Installer language file
  *
- * @version 1.5.1
- * @date 2018/10/31
- * @author EVO Project Team
+ * @author davaeron
+ * @version 1.5.0
+ * @date 2018/02/23
  *
- * @language Polish
+ * @language English
  * @package evo
  * @subpackage installer
  *
@@ -47,6 +47,7 @@ $_lang["checking_if_images_exist"] = 'Sprawdzanie, czy istnieją foldery <span c
 $_lang["checking_if_images_writable"] = 'Sprawdzanie, czy foldery  <span class="mono">/assets/images</span>, <span class="mono">/assets/files</span>,  <span class="mono">/assets/backup</span> and <span class="mono">/assets/.thumbs</span> są zapisywalne: ';
 $_lang["checking_mysql_strict_mode"] = 'Sprawdzanie trybu "strict sql_mode" dla MySQL: ';
 $_lang["checking_mysql_version"] = 'Sprawdzanie wersji MySQL: ';
+$_lang["checking_pgsql_version"] = 'Checking PostgeSQL version: ';
 $_lang["checking_php_version"] = 'Sprawdzanie wersji PHP: ';
 $_lang["checking_registerglobals"] = 'Sprawdzanie, czy zmienne globalne (Register_Globals) są wyłączone: ';
 $_lang["checking_registerglobals_note"] = 'Taka konfiguracja powoduje, że Twoja strona jest znacznie bardziej podatna na ataki typu Cross Site Scripting (XSS). Powinieneś wyłączyć tę opcję na serwerze. Są trzy podstawowe sposoby, aby to zrobić: można zmodyfikować główny plik php.ini, dodać regułę w pliku .htaccess znajdującym się w głównym folderze EVO lub dodać własny plik php.ini w każdym z folderów EVO (a jest ich sporo) z ustawieniami nadpisującymi ustawienia globalne. W dalszym ciągu możesz zainstalować EVO - pamiętaj jednak, że zostałeś ostrzeżony.';
@@ -60,6 +61,7 @@ $_lang["connection_screen_connection_method"] = 'Metoda połączenia: ';
 $_lang["connection_screen_database_connection_information"] = 'Informacje o bazie danych';
 $_lang["connection_screen_database_connection_note"] = 'Wybierz nazwę bazy danych, którą chcesz użyć dla tej instalacji EVO. Jeśli baza danych nie istnieje, instalator podejmie próbę utworzenia jej. Utworzenie nowej bazy danych może się nie powieść, jeśli użytkownik MySQL nie ma wystarczających uprawnień.';
 $_lang["connection_screen_database_host"] = 'Host bazy danych:';
+$_lang["connection_screen_database_type"] = 'Database type:';
 $_lang["connection_screen_database_info"] = 'Informacje o bazie danych';
 $_lang["connection_screen_database_login"] = 'Nazwa użytkownika bazy: ';
 $_lang["connection_screen_database_name"] = 'Nazwa bazy: ';
@@ -122,6 +124,8 @@ $_lang["modx_install"] = 'EVO &raquo; Instalacja';
 $_lang["modx_requires_php"] = ', i EVO wymagają PHP [+min_version+] lub nowszego';
 $_lang["mysql_5051"] = ' MySQL w wersji 5.0.51!';
 $_lang["mysql_5051_warning"] = 'Wersja 5.0.51 MySQL posiada wiele dobrze znanych błędów, które mogą przyczynić się do nieprawidłowego działania EVO. Zalecamy uaktualnienie MySQL przed kontynuowaniem instalacji.';
+$_lang["mysql_old_version"] = 'When you use version oldest then 5.7.6 engine will be MyISAM in newest version use engine InnoDB.<br> We recommend that you update your MySQL';
+$_lang["mysql_version_is"] = 'Wersja MySQL: ';
 $_lang["mysql_version_is"] = 'Wersja MySQL: ';
 $_lang["no"] = 'Nie';
 $_lang["none"] = 'Żadne';
