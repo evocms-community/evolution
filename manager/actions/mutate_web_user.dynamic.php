@@ -24,17 +24,8 @@ switch($modx->getManagerApi()->action) {
 
 $user = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 
+// @TODO check lock
 
-// check to see the snippet editor isn't locked
-$username = \EvolutionCMS\Models\ActiveUser::query()->where('action', 12)
-    ->where('id', $user)
-    ->where('internalKey', '!=', $modx->getLoginUserID('mgr'))
-    ->first();
-if(!is_null($username)) {
-    $username = $username->username;
-	$modx->webAlertAndQuit(sprintf($_lang["lock_msg"], $username, "web user"));
-}
-// end check for lock
 $userdata = [
     'fullname' => '',
     'middle_name' => '',

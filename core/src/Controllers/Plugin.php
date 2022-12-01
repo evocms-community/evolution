@@ -23,20 +23,6 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(102, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            $out = sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         switch ($this->getIndex()) {

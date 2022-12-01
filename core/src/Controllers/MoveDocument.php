@@ -12,14 +12,6 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('save_document');

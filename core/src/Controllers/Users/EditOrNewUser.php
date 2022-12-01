@@ -13,14 +13,6 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('save_user');

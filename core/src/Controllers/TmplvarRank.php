@@ -17,11 +17,6 @@ class TmplvarRank extends AbstractController implements ManagerTheme\PageControl
         return false;
     }
 
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
     public function process(): bool
     {
         $this->parameters = [

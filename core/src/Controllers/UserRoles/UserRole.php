@@ -12,18 +12,11 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
 {
     protected $view = 'page.user_roles.user_role';
 
+    protected int $elementType = 8;
     /**
      * @var Models\UserRole|null
      */
     private ?Models\UserRole $object;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
 
     /**
      * {@inheritdoc}

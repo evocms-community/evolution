@@ -39,14 +39,6 @@ class Actions extends AbstractController implements ManagerTheme\PageControllerI
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;

@@ -22,20 +22,6 @@ class Template extends AbstractController implements ManagerTheme\PageController
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(16, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            return sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         if($this->getIndex() == 16) {

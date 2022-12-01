@@ -10,14 +10,6 @@ class EventLogDetails extends AbstractController implements ManagerTheme\PageCon
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('view_eventlog');

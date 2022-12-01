@@ -30,14 +30,6 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;

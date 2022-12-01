@@ -22,14 +22,6 @@ class RefreshSite extends AbstractController implements ManagerTheme\PageControl
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;

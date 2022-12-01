@@ -147,21 +147,6 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     /**
      * {@inheritdoc}
      */
-    public function canView(): bool
-    {
-        if ($this->getIndex() == 300) {
-            return $this->managerTheme->getCore()->hasPermission('new_template');
-        }
-        if ($this->getIndex() == 301) {
-            return $this->managerTheme->getCore()->hasPermission('edit_template');
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function process(): bool
     {
         $this->object = $this->parameterData();

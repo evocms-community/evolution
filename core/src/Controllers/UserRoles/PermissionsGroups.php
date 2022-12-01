@@ -14,7 +14,7 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
      */
     public function checkLocked(): ?string
     {
-        return null;
+        return false;
     }
 
     /**

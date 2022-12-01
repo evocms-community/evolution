@@ -60,7 +60,10 @@ abstract class AbstractController implements ControllerInterface
     /**
      * {@inheritdoc}
      */
-    abstract public function checkLocked(): ?string;
+    public function checkLocked(): bool
+    {
+        return isset($this->elementType) && !empty($this->managerTheme->getCore()->elementIsLocked($this->elementType, $this->getElementId()));
+    }
 
     /**
      * {@inheritdoc}
