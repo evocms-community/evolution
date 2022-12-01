@@ -110,6 +110,11 @@ abstract class AbstractController implements ControllerInterface
         return $this->index;
     }
 
+    public function getElementType()
+    {
+        return $this->elementType ?? 0;
+    }
+
     /**
      * {@inheritdoc}
      */
