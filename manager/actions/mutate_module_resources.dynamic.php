@@ -12,12 +12,14 @@ $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 // initialize page view state - the $_PAGE object
 $modx->getManagerApi()->initPageViewState();
 
-// check to see the  editor isn't locked
-$userActivity = \EvolutionCMS\Models\ActiveUser::query()->where('action', 108)->where('internalKey', '!=', $modx->getLoginUserID('mgr'))->first();
-if (!is_null($userActivity)) {
-    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $userActivity->username, 'module'));
+// check to see the module editor isn't locked
+if ($lockedEl = $modx->elementIsLocked(6, $id)) {
+    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['module']));
 }
 // end check for lock
+
+// Lock snippet for other users to edit
+$modx->lockElement(6, $id);
 
 // take action
 switch ($_REQUEST['op']) {
