@@ -8,6 +8,8 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
 {
     protected $view = 'page.chunk';
 
+    protected int $elementType = 3;
+
     protected $events = [
         'OnChunkFormPrerender',
         'OnChunkFormRender',
@@ -53,9 +55,12 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
      */
     public function process() : bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+
         $this->object = $this->parameterData();
         $this->parameters = [
             'data'          => $this->object,
+            'elementType' => $this->elementType,
             'categories'    => $this->parameterCategories(),
             'which_editor'  => $this->which_editor,
             'action'        => $this->getIndex(),

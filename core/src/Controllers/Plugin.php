@@ -8,6 +8,8 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
 {
     protected $view = 'page.plugin';
 
+    protected int $elementType = 5;
+
     protected $events = [
         'OnPluginFormPrerender',
         'OnPluginFormRender'
@@ -58,10 +60,13 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
      */
     public function process() : bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+
         $this->object = $this->parameterData();
 
         $this->parameters = [
             'data' => $this->object,
+            'elementType' => $this->elementType,
             'categories' => $this->parameterCategories(),
             'action' => $this->getIndex(),
             'importParams' => $this->parameterImportParams(),
