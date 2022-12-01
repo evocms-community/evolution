@@ -427,7 +427,7 @@ class ManagerTheme implements ManagerThemeInterface
             $controller->setIndex($action);
             if (!$controller->canView()) {
                 $this->alertAndQuit('error_no_privileges');
-            } elseif (($out = $controller->checkLocked()) !== null) {
+            } elseif (($out = $controller->checkLocked()) === true) {
                 $this->alertAndQuit($out, false);
             } elseif ($controller->process()) {
                 $out = $controller->render();
