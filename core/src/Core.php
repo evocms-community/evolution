@@ -4583,7 +4583,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         } elseif ($mode == 'formatOnly') {
             $strTime = $dateFormat;
         }
-        
+
         return $strTime;
     }
 
@@ -5038,6 +5038,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function getLoginUserID($context = '')
     {
+        if (is_cli() && defined('EVO_CLI_USER')) {
+            return EVO_CLI_USER;
+        }
         $out = false;
         if (empty($context)) {
             $context = $this->getContext();
