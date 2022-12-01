@@ -362,17 +362,12 @@ class SiteContent extends Eloquent\Model
         return trim($this->content) === '' && $this->template === 0;
     }
 
-    public static function getLockedElements()
-    {
-        return evolutionCMS()->getLockedElements(7);
-    }
-
     /**
      * @return bool
      */
     public function getIsAlreadyEditAttribute(): bool
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(7));
     }
 
     /**
@@ -380,7 +375,7 @@ class SiteContent extends Eloquent\Model
      */
     public function getAlreadyEditInfoAttribute(): ?array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(7)[$this->getKey()] : null;
     }
 
     /**

@@ -106,11 +106,11 @@ class SiteHtmlsnippet extends Eloquent\Model
 
     public function getIsAlreadyEditAttribute()
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(3));
     }
 
     public function getAlreadyEditInfoAttribute() :? array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(3)[$this->getKey()] : null;
     }
 }

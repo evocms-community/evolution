@@ -132,11 +132,11 @@ class SiteModule extends Eloquent\Model
 
     public function getIsAlreadyEditAttribute()
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(6));
     }
 
     public function getAlreadyEditInfoAttribute() :? array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(6)[$this->getKey()] : null;
     }
 }

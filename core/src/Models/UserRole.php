@@ -131,11 +131,11 @@ class UserRole extends Eloquent\Model
 
     public function getIsAlreadyEditAttribute()
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(8));
     }
 
     public function getAlreadyEditInfoAttribute() :? array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(8)[$this->getKey()] : null;
     }
 }
