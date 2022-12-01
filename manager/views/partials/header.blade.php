@@ -45,6 +45,33 @@
         evo.config.which_browser = '{{ $modx->getConfig('which_browser') }}';
     </script>
     <script src="media/script/main.js"></script>
+
+    @if(!empty($elementType))
+    <script>
+      // Trigger unlock when leaving window
+      var form_save = false;
+
+      window.addEventListener('unload', unlockThisElement, false);
+
+      function unlockThisElement()
+      {
+        var stay = document.getElementById('stay');
+        // Trigger unlock
+        if ((stay && stay.value !== '2') || !form_save) {
+          var url = '<?php echo MODX_MANAGER_URL; ?>?a=67&type={{ $elementType }}&id={{ $data->getKey() }}&o=' + Math.random();
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(url)
+          } else {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, false);
+            xhr.send()
+          }
+          if (top.mainMenu) top.mainMenu.reloadtree()
+        }
+      }
+    </script>
+    @endif
+
     @if (get_by_key($_REQUEST, 'r', '', 'is_numeric'))
         <script>doRefresh({{ $_REQUEST['r'] }});</script>
     @endif
