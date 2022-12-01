@@ -92,12 +92,19 @@ switch ($operation) {
         $updategroupaccess = true;
         $usergroup = (int)($_REQUEST['usergroup'] ?? 0);
         $docgroup = (int)($_REQUEST['docgroup'] ?? 0);
-        $context = (int)($_REQUEST['context'] ?? 0) == 0 ? 0 : 1;
-        if (\EvolutionCMS\Models\MembergroupAccess::where('membergroup', $usergroup)->where('documentgroup', $docgroup)->where('context', $context)->count() <= 0) {
-            \EvolutionCMS\Models\MembergroupAccess::create(array('membergroup' => $usergroup, 'documentgroup' => $docgroup, 'context' => $context));
-        } else {
-            //alert user that coupling already exists?
+        $contexts = isset($_REQUEST['context']) && is_array($_REQUEST['context']) ? $_REQUEST['context'] : [];
+        foreach ($contexts as $context) {
+            $context = $context == 1 ? 1 : 0;
+            if (\EvolutionCMS\Models\MembergroupAccess::where('membergroup', $usergroup)->where('documentgroup',
+                    $docgroup)->where('context', $context)->count() <= 0) {
+                    \EvolutionCMS\Models\MembergroupAccess::create([
+                        'membergroup'   => $usergroup,
+                        'documentgroup' => $docgroup,
+                        'context'       => $context
+                ]);
+            }
         }
+
         break;
     case "remove_document_group_from_user_group" :
         $updategroupaccess = true;
