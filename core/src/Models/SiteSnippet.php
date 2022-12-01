@@ -43,6 +43,7 @@ use EvolutionCMS\Traits;
 class SiteSnippet extends Eloquent\Model
 {
     use Traits\Models\ManagerActions,
+        Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
 	const CREATED_AT = 'createdon';
@@ -108,17 +109,6 @@ class SiteSnippet extends Eloquent\Model
     public function getUpdatedAtAttribute()
     {
         return $this->convertTimestamp($this->editedon);
-    }
-
-    public function scopeLockedView(Eloquent\Builder $builder)
-    {
-        return evolutionCMS()->getLoginUserID('mgr') !== 1 ?
-            $builder->where('locked', '=', 0) : $builder;
-    }
-
-    public static function getLockedElements()
-    {
-        return evolutionCMS()->getLockedElements(4);
     }
 
     public function getIsAlreadyEditAttribute()

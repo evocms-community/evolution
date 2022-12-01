@@ -42,6 +42,7 @@ use EvolutionCMS\Traits;
 class SiteModule extends Eloquent\Model
 {
     use Traits\Models\ManagerActions,
+        Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
 	const CREATED_AT = 'createdon';
@@ -117,12 +118,6 @@ class SiteModule extends Eloquent\Model
         return $this->convertTimestamp($this->editedon);
     }
 
-    public function scopeLockedView(Eloquent\Builder $builder)
-    {
-        return evolutionCMS()->getLoginUserID('mgr') !== 1 ?
-            $builder->where('locked', '=', 0) : $builder;
-    }
-
     public function scopeWithoutProtected(Eloquent\Builder $builder)
     {
         if ($_SESSION['mgrRole'] != 1 && evolutionCMS()->getConfig('use_udperms')) {
@@ -133,11 +128,6 @@ class SiteModule extends Eloquent\Model
         }
 
         return $builder;
-    }
-
-    public static function getLockedElements()
-    {
-        return evolutionCMS()->getLockedElements(6);
     }
 
     public function getIsAlreadyEditAttribute()
