@@ -245,7 +245,7 @@ $_style['actionbuttons'] = array(
 				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
 					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
 				</a>
-				<a id="Button4" class="btn btn-secondary" href="javascript:;" onclick="actions.view();">
+				<a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.view();">
 					<i class="' . $_style["icon_eye"] . '"></i><span>' . $_lang['preview'] . '</span>
 				</a>
 			</div>
