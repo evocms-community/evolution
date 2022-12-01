@@ -11,6 +11,8 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 {
     protected $view = 'page.tmplvar';
 
+    protected int $elementType = 2;
+
     protected $standartTypes = [
         'text'             => 'Text',
         'textarea'         => 'Textarea',
@@ -133,15 +135,16 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
+    public function canView(): bool
     {
-        $out = Models\ActiveUser::locked(301, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            return sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
+        if ($this->getIndex() == 300) {
+            return $this->managerTheme->getCore()->hasPermission('new_template');
+        }
+        if ($this->getIndex() == 301) {
+            return $this->managerTheme->getCore()->hasPermission('edit_template');
         }
 
-        return $out;
+        return false;
     }
 
     /**
