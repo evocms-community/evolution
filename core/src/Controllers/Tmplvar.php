@@ -152,6 +152,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
      */
     public function process(): bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
         $this->object = $this->parameterData();
         $this->parameters = [
             'data'              => $this->object,
