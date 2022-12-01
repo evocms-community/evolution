@@ -35,21 +35,4 @@ class ActiveUser extends Eloquent\Model
         'action',
         'id'
     ];
-
-    public function scopeLocked(Eloquent\Builder $builder, $action, $id = null, $userId = null)
-    {
-        if ($userId === null) {
-            $userId = evolutionCMS()->getLoginUserID();
-        }
-
-        $builder = $builder->where('action', '=', (int)$action)
-            ->where('internalKey', '!=', $userId)
-            ->orderBy('lasthit', 'DESC');
-
-        if ($id !== null) {
-            $builder = $builder->where('id', '=', $id);
-        }
-
-        return $builder;
-    }
 }
