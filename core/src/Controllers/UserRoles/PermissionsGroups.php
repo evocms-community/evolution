@@ -12,14 +12,6 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('edit_role');
