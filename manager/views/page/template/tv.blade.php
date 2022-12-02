@@ -9,7 +9,7 @@
             'attributes' => 'onchange="documentDirty=true; document.getElementById(\'tvsDirty\').value = 1;"'
         ])
         {{ $item->name }}
-        <small>({{ $item->getKey() }})</small> - {!! $item->caption !!}
+        <small>({{ $item->getKey() }})</small> - {{ $item->caption }}
     </label>
     @if(!empty($item->locked))
         <em>(@lang('global.locked'))</em>

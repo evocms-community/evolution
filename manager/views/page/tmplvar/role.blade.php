@@ -11,7 +11,7 @@
         {{ $item->name }}
         <small>({{ $item->getKey() }})</small>
         @if(!empty($item->description))
-            - {!! $item->description !!}
+            - <span class="elements_descr">{{ $item->description }}</span>
         @endif
     </label>
 </li>

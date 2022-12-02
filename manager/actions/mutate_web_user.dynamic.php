@@ -366,7 +366,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                         $selectedtext = $row['id'] == $userdata['role'] ? "selected='selected'" : '';
                                     }
                                     ?>
-                                    <option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo $row['name']; ?></option>
+                                    <option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo e($row['name']); ?></option>
                                     <?php
                                 }
                                 ?>
@@ -513,7 +513,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                     if ($i === 0) {
                                         $templateVariablesOutput .= '
                             <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
-                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-header">' . e($row['category']) . '</div>
                                 <div class="tab-body tmplvars">
                                     <table>' . "\n";
                                     } else {
@@ -523,7 +523,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             </div>
 
                             <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
-                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-header">' . e($row['category']) . '</div>
                                 <div class="tab-body tmplvars">
                                     <table>';
                                     }
@@ -531,7 +531,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                     if ($i === 0) {
                                         $templateVariablesOutput .= '
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <h2 class="tab">' . e($row['category']) . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                 <div class="tab-body tmplvars">
@@ -543,7 +543,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             </div>
 
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <h2 class="tab">' . e($row['category']) . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                 <div class="tab-body tmplvars">
@@ -553,7 +553,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                     if ($i === 0) {
                                         $templateVariablesOutput .= '
                                 <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                    <h2 class="tab">' . $row['category'] . '</h2>
+                                    <h2 class="tab">' . e($row['category']) . '</h2>
                                     <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
                                     <table>';
                                     } else {
@@ -562,7 +562,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                 </div>
 
                                 <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                    <h2 class="tab">' . $row['category'] . '</h2>
+                                    <h2 class="tab">' . e($row['category']) . '</h2>
                                     <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                     <table>';
@@ -611,13 +611,13 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             $tvPBV = $row['value'];
                         }
 
-                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . $row['description'] . '</span>' : '';
+                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . e($row['description']) . '</span>' : '';
                         $tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT') ? '<br /><span class="comment inherited">(' . $_lang['tmplvars_inherited'] . ')</span>' : '';
-                        $tvName = '<br/><small class="protectedNode">[*' . $row['name'] . '*]</small>';
+                        $tvName = '<br/><small class="protectedNode">[*' . e($row['name']) . '*]</small>';
 
                         $templateVariablesTmp .= '
                                         <tr>
-                                            <td><span class="warning">' . $row['caption'] . $tvName . '</span>' . $tvDescription . $tvInherited . '</td>
+                                            <td><span class="warning">' . e($row['caption']) . $tvName . '</span>' . $tvDescription . $tvInherited . '</td>
                                             <td><div style="position:relative;' . ($row['type'] == 'date' ? '' : '') . '">' .
                             renderFormElement(
                                 $row['type'],
@@ -1049,7 +1049,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 				<?php
 				$webgroupnames = \EvolutionCMS\Models\MembergroupName::query()->orderBy('name')->get();
 				foreach ($webgroupnames->toArray() as $row) {
-					echo '<label><input type="checkbox" name="user_groups[]" value="' . $row['id'] . '"' . (in_array($row['id'], $groupsarray) ? ' checked="checked"' : '') . ' />' . $row['name'] . '</label><br />';
+					echo '<label><input type="checkbox" name="user_groups[]" value="' . $row['id'] . '"' . (in_array($row['id'], $groupsarray) ? ' checked="checked"' : '') . ' />' . e($row['name']) . '</label><br />';
 				}
 				}
 				?>

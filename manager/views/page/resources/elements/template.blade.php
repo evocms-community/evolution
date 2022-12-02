@@ -21,7 +21,7 @@
                         <small>({{ $item->id }})</small>
                         <span class="elements_descr">
                             {{ $item->caption }}
-                            {!! $item->description !!}
+                            {!! str_replace(['&lt;strong&gt;', '&lt;/strong&gt;'], ['<strong>', '</strong>'], e($item->description)) !!}
                         </span>
                     </a>
                     @if(ManagerTheme::getTextDir() !== 'ltr')

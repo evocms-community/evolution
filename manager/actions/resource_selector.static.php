@@ -43,7 +43,7 @@ switch ($rt) {
 
     case "tpl":
         $title = $_lang["template"];
-        $ds = \EvolutionCMS\Models\SiteTemplate::query()->select('id', 'templatename as name', 'description')->orderBy('name');
+        $ds = \EvolutionCMS\Models\SiteTemplate::query()->select('id', 'templatename', 'description')->orderBy('templatename');
         break;
 
     case("tv"):
@@ -70,7 +70,7 @@ switch ($rt) {
 
 if(isset($query) && $query != ''){
     $ds = $ds->where(function ($q) use ($query) {
-        $q->where('name', 'LIKE', '%' . $query . '%')
+        $q->where($rt == 'tpl' ? 'templatename' : 'name', 'LIKE', '%' . $query . '%')
             ->orWhere('description', 'LIKE', '%' . $query . '%');
     });
 }
@@ -197,9 +197,9 @@ include_once MODX_MANAGER_PATH . "includes/header.inc.php";
                     $grd->itemClass = "tableItem";
                     $grd->altItemClass = "tableAltItem";
                     $grd->columns = $_lang["name"] . " ," . $_lang["description"];
-                    $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') . "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+value+]";
+                    $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') . "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+e.value+]||template:[+e.value+]";
                     $grd->colWidths = "45%";
-                    $grd->fields = "name,description";
+                    $grd->fields = $rt == 'tpl' ? 'templatename,description' : 'name,description';
                     if ($_REQUEST['listmode'] == '1') {
                         $grd->pageSize = 0;
                     }

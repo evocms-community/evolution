@@ -21,7 +21,7 @@
                         <small>({{ $item->id }})</small>
                         <span class="elements_descr">
                             {{ $item->caption }}
-                            {!! $item->description !!}
+                            {{ $item->description }}
                         </span>
                     </a>
                     @if(ManagerTheme::getTextDir() !== 'ltr')
