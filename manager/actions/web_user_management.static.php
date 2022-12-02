@@ -38,7 +38,7 @@ echo $cm->render();
 $role_options = '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . ManagerTheme::getLexicon('no_user_role') . '</option>';
 $roles = \EvolutionCMS\Models\UserRole::query()->select('id', 'name')->get()->toArray();
 foreach ($roles as $row) {
-    $role_options .= '<option value="'.$row['id'].'" '.($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '').'>'.$row['name'].'</option>';
+    $role_options .= '<option value="'.$row['id'].'" '.($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '').'>'.e($row['name']).'</option>';
 }
 
 // prepare data
@@ -122,10 +122,10 @@ if ($numRecords > 0) {
 
         $listDocs[] = [
             'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] . ',event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' . $_style[empty($el['name']) ? 'icon_no_user_role' : 'icon_web_user'] . '"></i></a>',
-            'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' . ManagerTheme::getLexicon('click_to_edit_title') . '">' . $el['username'] . '</a>',
-            'user_full_name' => $el['fullname'],
-            'email' => $el['email'],
-            'role' => $el['name'] ?: ManagerTheme::getLexicon('no_user_role'),
+            'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' . ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',
+            'user_full_name' => e($el['fullname']),
+            'email' => e($el['email']),
+            'role' => e($el['name'] ?: ManagerTheme::getLexicon('no_user_role')),
             'user_prevlogin' => $el['thislogin'] ? $modx->toDateFormat($el['thislogin']) : '-',
             'user_logincount' => $el['logincount'],
             'user_block' => $el['blocked'] ? ManagerTheme::getLexicon('yes').' <i class="fa fa-question-circle help" data-toggle="tooltip" data-placement="top" title="'.$blocked_title.'"></i>' : '-',
