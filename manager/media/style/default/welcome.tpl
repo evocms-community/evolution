@@ -1,6 +1,12 @@
 [[@OnManagerWelcomePrerender]]
 
 <div class="container container-body">
+	<!-- site available -->
+	<div id="site_status" style="display: [+show_site_status+]">
+		<div class="widget-wrapper alert alert-warning">
+			[+site_status_msg+]
+		</div>
+	</div>
 
 	<!-- logout reminder -->
 	<div id="logout_reminder" style="display:[+show_logout_reminder+]">
