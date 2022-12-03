@@ -579,8 +579,8 @@ if (isset($action)) {
 
                     // find older parent
                     $parentOld = (int)SiteContent::withTrashed()->find($id)->parent;
-                    $eventOut = $modx->invokeEvent('onBeforeMoveDocument', [
-                        'id_document' => $id,
+                    $eventOut = $modx->invokeEvent('OnBeforeMoveDocument', [
+                        'id' => $id,
                         'old_parent' => $parentOld,
                         'new_parent' => $parent,
                     ]);
@@ -656,8 +656,8 @@ if (isset($action)) {
                             if (empty($json['errors'])) {
                                 $json['success'] = $_lang["actioncomplete"];
 
-                                $modx->invokeEvent('onAfterMoveDocument', [
-                                    'id_document' => $id,
+                                $modx->invokeEvent('OnAfterMoveDocument', [
+                                    'id' => $id,
                                     'old_parent' => $parentOld,
                                     'new_parent' => $parent,
                                 ]);
