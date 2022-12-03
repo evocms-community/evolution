@@ -245,7 +245,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 <form name="userform" method="post" action="index.php">
 	<?php
 	// invoke OnWUsrFormPrerender event
-	$evtOut = $modx->invokeEvent("OnWUsrFormPrerender", array("id" => $user));
+	$evtOut = $modx->invokeEvent("OnUserFormPrerender", array("id" => $user));
 	if(is_array($evtOut)) {
 		echo implode("", $evtOut);
 	}
@@ -1056,7 +1056,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 			</div>
 			<?php
 			// invoke OnWUsrFormRender event
-			$evtOut = $modx->invokeEvent("OnWUsrFormRender", array(
+			$evtOut = $modx->invokeEvent("OnUserFormRender", array(
 				"id" => $user
 			));
 			if(is_array($evtOut)) {
