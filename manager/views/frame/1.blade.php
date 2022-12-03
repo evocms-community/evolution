@@ -241,7 +241,11 @@
                             @endif
                             <li id="preview">
                                 <a href="../" target="_blank" title="{{ ManagerTheme::getLexicon('preview') }}">
-                                    <i class="{{ $_style['icon_desktop'] }}"></i>
+                                    <i class="{{ $_style['icon_desktop'] }} position-relative">
+                                        @if(!$modx->getConfig('site_status'))
+                                            <i class="fa fa-exclamation-triangle site-status" title="{{ $modx->getConfig('site_unavailable_message') }}"></i>
+                                        @endif
+                                    </i>
                                 </a>
                             </li>
                             <li id="account" class="dropdown account">
