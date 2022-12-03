@@ -309,8 +309,6 @@ $resourceArray = [
     "menuindex"        => $menuindex ,
     "searchable"       => $searchable ,
     "cacheable"        => $cacheable ,
-    "editedby"         => $modx->getLoginUserID('mgr') ,
-    "editedon"         => $currentdate ,
     "pub_date"         => $pub_date ,
     "unpub_date"       => $unpub_date ,
     "contentType"      => $contentType ,
@@ -323,8 +321,6 @@ $resourceArray = [
 
 switch ($actionToTake) {
         case 'new' :
-            $resourceArray['createdby'] = $modx->getLoginUserID('mgr');
-            $resourceArray['createdon'] = $currentdate;
             // invoke OnBeforeDocFormSave event
             switch($modx->config['docid_incrmnt_method'])
             {
@@ -347,8 +343,9 @@ switch ($actionToTake) {
             }
 
         $modx->invokeEvent("OnBeforeDocFormSave", array (
-            "mode" => "new",
-            "id" => $id
+            'mode' => 'new',
+            'id'   => $id,
+            'doc'  => &$resourceArray
         ));
 
         $parentDeleted = $parentId > 0 && empty(\EvolutionCMS\Models\SiteContent::find($parentId));
@@ -451,8 +448,9 @@ switch ($actionToTake) {
 
         // invoke OnDocFormSave event
         $modx->invokeEvent("OnDocFormSave", array (
-            "mode" => "new",
-            "id" => $key
+            'mode' => 'new',
+            'id'   => $key,
+            'doc'  => $resourceArray
         ));
 
         // secure web documents - flag as private
@@ -499,7 +497,7 @@ switch ($actionToTake) {
                 $modx->getManagerApi()->saveFormValues(27);
                 $modx->webAlertAndQuit("Document is linked to site_start variable and cannot be unpublished!");
             }
-            $today = $modx->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
+            $today = $modx->timestamp();
             if ($id == $modx->getConfig('site_start') && ($pub_date > $today || $unpub_date != "0")) {
                 $modx->getManagerApi()->saveFormValues(27);
                 $modx->webAlertAndQuit("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
@@ -551,8 +549,9 @@ switch ($actionToTake) {
 
             // invoke OnBeforeDocFormSave event
             $modx->invokeEvent("OnBeforeDocFormSave", array (
-                "mode" => "upd",
-                "id" => $id
+                'mode' => 'upd',
+                'id'   => $id,
+                'doc'  => &$resourceArray
             ));
             $parentDeleted = $parentId > 0 && empty(\EvolutionCMS\Models\SiteContent::find($parentId));
             if ($parentDeleted) {
@@ -664,8 +663,9 @@ switch ($actionToTake) {
 
             // invoke OnDocFormSave event
             $modx->invokeEvent("OnDocFormSave", array (
-                "mode" => "upd",
-                "id" => $id
+                'mode' => 'upd',
+                'id'   => $id,
+                'doc'  => $resourceArray
             ));
 
             // secure web documents - flag as private
