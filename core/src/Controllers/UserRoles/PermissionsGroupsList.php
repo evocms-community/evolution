@@ -25,14 +25,6 @@ class PermissionsGroupsList extends AbstractResources implements TabControllerIn
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('edit_user');

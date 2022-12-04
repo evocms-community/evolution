@@ -560,7 +560,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function isLoggedIn($context = 'mgr')
     {
-        $_ = 'mgrValidated';
+        $context = $context == 'mgr' ? 'mgr' : 'web';
+        $_ = $context . 'Validated';
 
         return is_cli() || (isset($_SESSION[$_]) && !empty($_SESSION[$_]));
     }
@@ -596,7 +597,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return true;
         }
 
-        if ($this->isLoggedin()) {
+        if ($this->isLoggedin('mgr') && $this->hasPermission('access_permissions', 'mgr')) {
             return true;
         } // site online
         // site offline but launched via the manager
@@ -5007,6 +5008,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function getLoginUserID($context = '')
     {
+        if (is_cli() && defined('EVO_CLI_USER')) {
+            return EVO_CLI_USER;
+        }
         $out = false;
         if (empty($context)) {
             $context = $this->getContext();

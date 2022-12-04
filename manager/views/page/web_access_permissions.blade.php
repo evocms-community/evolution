@@ -173,11 +173,11 @@
                                 @endforeach
                             </select>
                             {{ ManagerTheme::getLexicon('access_permissions_context') }}
-                            <select name="context">
-                                <option value="0">mgr</option>
-                                <option value="1">web</option>
-                            </select>
-                            <input class="btn btn-success" type="submit" value="{{ ManagerTheme::getLexicon('submit') }}">
+
+                            <label for="context_mgr"><input id="context_mgr" type="checkbox" value="0" name="context[]"/> mgr </label>
+                            <label for="context_web"><input id="context_web" type="checkbox" value="1" name="context[]" /> web </label>
+
+                            <br><input class="btn btn-success" type="submit" value="{{ ManagerTheme::getLexicon('submit') }}">
                         </form>
                     </div>
                     <hr>

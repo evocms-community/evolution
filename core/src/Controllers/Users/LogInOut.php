@@ -13,14 +13,6 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;

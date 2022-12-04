@@ -55,15 +55,4 @@ class RoleList extends AbstractResources implements TabControllerInterface
             ]
         );
     }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-
 }

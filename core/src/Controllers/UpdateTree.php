@@ -18,14 +18,6 @@ class UpdateTree extends AbstractController implements ManagerTheme\PageControll
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;

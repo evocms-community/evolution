@@ -20,11 +20,6 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             ->hasPermission('view_document');
     }
 
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
     public function process(): bool
     {
         if (isset($_REQUEST['searchid'])) {

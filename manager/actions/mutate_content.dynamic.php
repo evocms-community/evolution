@@ -948,7 +948,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                     if ($i === 0) {
                                                         $templateVariablesOutput .= '
                             <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
-                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-header">' . e($row['category']) . '</div>
                                 <div class="tab-body tmplvars">
                                     <table>' . "\n";
                                                     } else {
@@ -958,7 +958,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </div>
 
                             <div class="tab-section" id="tabTV_' . $row['category_id'] . '">
-                                <div class="tab-header">' . $row['category'] . '</div>
+                                <div class="tab-header">' . e($row['category']) . '</div>
                                 <div class="tab-body tmplvars">
                                     <table>';
                                                     }
@@ -966,7 +966,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                     if ($i === 0) {
                                                         $templateVariablesOutput .= '
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <h2 class="tab">' . e($row['category']) . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                 <div class="tab-body tmplvars">
@@ -978,7 +978,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </div>
 
                             <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                <h2 class="tab">' . $row['category'] . '</h2>
+                                <h2 class="tab">' . e($row['category']) . '</h2>
                                 <script type="text/javascript">tpTemplateVariables.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                 <div class="tab-body tmplvars">
@@ -997,7 +997,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </div>
 
                                 <div id="tabTV_' . $row['category_id'] . '" class="tab-page tmplvars">
-                                    <h2 class="tab">' . $row['category'] . '</h2>
+                                    <h2 class="tab">' . e($row['category']) . '</h2>
                                     <script type="text/javascript">tpSettings.addTabPage(document.getElementById(\'tabTV_' . $row['category_id'] . '\'));</script>
 
                                     <table>';
@@ -1046,13 +1046,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                             $tvPBV = $row['value'];
                                         }
 
-                                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . $row['description'] . '</span>' : '';
+                                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . e($row['description']) . '</span>' : '';
                                         $tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT') ? '<br /><span class="comment inherited">(' . $_lang['tmplvars_inherited'] . ')</span>' : '';
-                                        $tvName = $modx->hasPermission('edit_template') ? '<br/><small class="protectedNode">[*' . $row['name'] . '*]</small>' : '';
+                                        $tvName = $modx->hasPermission('edit_template') ? '<br/><small class="protectedNode">[*' . e($row['name']) . '*]</small>' : '';
 
                                         $templateVariablesTmp .= '
                                         <tr>
-                                            <td><span class="warning">' . $row['caption'] . $tvName . '</span>' . $tvDescription . $tvInherited . '</td>
+                                            <td><span class="warning">' . e($row['caption']) . $tvName . '</span>' . $tvDescription . $tvInherited . '</td>
                                             <td><div style="position:relative;' . ($row['type'] == 'date' ? '' : '') . '">' .
                                                 renderFormElement(
                                                     $row['type'],
@@ -1440,7 +1440,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             // Make the <input> HTML
                             $inputHTML = '<input ' . implode(' ', $inputString) . ' />';
 
-                            $permissions[] = "\t\t" . '<li>' . $inputHTML . '<label for="' . $inputId . '">' . $row['name'] . '</label></li>';
+                            $permissions[] = "\t\t" . '<li>' . $inputHTML . '<label for="' . $inputId . '">' . e($row['name']) . '</label></li>';
                         }
                         if(count($userGroups) === 0 && !$modx->hasPermission('manage_groups')) {
                             $permissions = [];

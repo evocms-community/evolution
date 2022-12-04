@@ -30,14 +30,6 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return true;
@@ -603,7 +595,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                     $this->sitemenu['module' . $row['id']] = [
                         'module' . $row['id'],
                         'modules',
-                        ($row['icon'] != '' ? '<i class="' . $row['icon'] . '"></i>' : '<i class="' . $this->managerTheme->getStyle('icon_module') . '"></i>') . e($row['name']),
+                        ($row['icon'] != '' ? '<i class="' . e($row['icon']) . '"></i>' : '<i class="' . $this->managerTheme->getStyle('icon_module') . '"></i>') . e($row['name']),
                         'index.php?a=112&id=' . $row['id'],
                         e($row['name']),
                         '',

@@ -9,6 +9,8 @@ class Template extends AbstractController implements ManagerTheme\PageController
 {
     protected $view = 'page.template';
 
+    protected int $elementType = 1;
+
     protected $events = [
         'OnTempFormPrerender',
         'OnTempFormRender'
@@ -16,20 +18,6 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
     /** @var Models\SiteTemplate|null */
     private $object;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(16, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            return sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
 
     /**
      * {@inheritdoc}
@@ -50,9 +38,12 @@ class Template extends AbstractController implements ManagerTheme\PageController
      */
     public function process() : bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+
         $this->object = $this->parameterData();
         $this->parameters = [
             'data' => $this->object,
+            'elementType' => $this->elementType,
             'categories'       => $this->parameterCategories(),
             'tvSelected'       => $this->parameterTvSelected(),
             'categoriesWithTv' => $this->parameterCategoriesWithTv(

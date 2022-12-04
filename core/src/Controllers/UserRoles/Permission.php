@@ -11,14 +11,6 @@ class Permission extends AbstractController implements ManagerTheme\PageControll
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('edit_role');

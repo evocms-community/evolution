@@ -359,11 +359,11 @@ class DataGrid implements DataGridInterface
 
             case "template":
                 // replace [+value+] first
-                $value = str_replace("[+value+]", $value, $type_format);
+                $value = str_replace(["[+value+]", "[+e.value+]"], [$value, str_replace(['&lt;strong&gt;', '&lt;/strong&gt;'], ['<strong>', '</strong>'], e($value))], $type_format);
                 // replace other [+fields+]
                 if (strpos($value, "[+") !== false) {
                     foreach ($row as $k => $v) {
-                        $value = str_replace("[+$k+]", $v ?? '', $value);
+                        $value = str_replace(["[+$k+]", "[+e.$k+]"], [($v ?? ''),  e($v ?? '')], $value);
                     }
                 }
                 break;

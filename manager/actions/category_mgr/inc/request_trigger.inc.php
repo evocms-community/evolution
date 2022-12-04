@@ -67,9 +67,9 @@ if( isset( $_POST[$cm->get('request_key')]['categorize']['submit'] ) )
             $cm->addMessage(
                 sprintf(
                     $cm->txt('cm_x_assigned_to_category_y'),
-                    $data['element_name'],
+                    e($data['element_name']),
                     $element_id,
-                    $data['category_name'],
+                    e($data['category_name']),
                     $data['category_id']
                 ),
                 'categorize'
@@ -112,7 +112,7 @@ if( isset( $_POST[$cm->get('request_key')]['add']['submit'] ) )
 
     if( $cm->isCategoryExists( $category ) )
     {
-       $cm->addMessage( sprintf( $cm->txt('cm_category_x_exists'), $category ), 'add' );
+       $cm->addMessage( sprintf( $cm->txt('cm_category_x_exists'), e($category) ), 'add' );
        return;
     }
 
@@ -121,7 +121,7 @@ if( isset( $_POST[$cm->get('request_key')]['add']['submit'] ) )
         $cm->addMessage(
             sprintf(
                 $cm->txt( 'cm_category_x_saved_at_position_y' ),
-                $category,
+                e($category),
                 $rank
             ),
             'add'
@@ -153,7 +153,7 @@ if( isset( $_POST[$cm->get('request_key')]['sort']['submit'] ) )
             $cm->addMessage(
                 sprintf(
                     $cm->txt('cm_category_x_moved_to_position_y'),
-                    $data['category'],
+                    e($data['category']),
                     $data['rank']
                 ),
                 'sort'
@@ -195,7 +195,7 @@ if( isset( $_POST[$cm->get('request_key')]['edit']['submit'] ) )
                 $cm->addMessage(
                     sprintf(
                         $cm->txt('cm_category_x_deleted'),
-                        urldecode( $_data['origin'] )
+                        e(urldecode( $_data['origin'] ))
                     ),
                     'edit'
                 );
@@ -214,8 +214,8 @@ if( isset( $_POST[$cm->get('request_key')]['edit']['submit'] ) )
             $cm->addMessage(
                 sprintf(
                     $cm->txt('cm_category_x_renamed_to_y'),
-                    urldecode( $_data['origin'] ),
-                    $data['category']
+                    e(urldecode( $_data['origin'] )),
+                    e($data['category'])
                 ),
                 'edit'
             );
@@ -242,7 +242,7 @@ if( isset( $_GET[$cm->get('request_key')]['delete'] )
         $cm->addMessage(
             sprintf(
                 $cm->txt('cm_category_x_deleted'),
-                urldecode( $_GET[$cm->get('request_key')]['category'] )
+                e(urldecode( $_GET[$cm->get('request_key')]['category'] ))
             ),
             'edit'
         );

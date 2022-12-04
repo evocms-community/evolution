@@ -51,6 +51,10 @@ if (!defined('EVO_STORAGE_PATH')) {
     define('EVO_STORAGE_PATH', env('EVO_STORAGE_PATH', EVO_CORE_PATH . 'storage/'));
 }
 
+if (!defined('EVO_CLI_USER')) {
+    define('EVO_CLI_USER', env('EVO_CLI_USER', 1));
+}
+
 if (!defined('MODX_BASE_PATH') || !defined('MODX_BASE_URL')) {
     // automatically assign base_path and base_url
     $script_name = str_replace(

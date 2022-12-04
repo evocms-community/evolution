@@ -14,9 +14,9 @@ interface ControllerInterface
 
     /**
      * check to see the edit settings page isn't locked
-     * @return null|string
+     * @return bool
      */
-    public function checkLocked() : ?string;
+    public function checkLocked() : bool;
 
     public function getParameters(array $params = []) : array;
 

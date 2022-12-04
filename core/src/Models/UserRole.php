@@ -91,7 +91,8 @@ use EvolutionCMS\Traits;
  */
 class UserRole extends Eloquent\Model
 {
-    use Traits\Models\ManagerActions;
+    use Traits\Models\ManagerActions,
+        Traits\Models\LockedElements;
 
 	public $timestamps = false;
 
@@ -128,18 +129,13 @@ class UserRole extends Eloquent\Model
             ->orderBy('pivot_rank', 'ASC');
     }
 
-    public static function getLockedElements()
-    {
-        return evolutionCMS()->getLockedElements(8);
-    }
-
     public function getIsAlreadyEditAttribute()
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(8));
     }
 
     public function getAlreadyEditInfoAttribute() :? array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(8)[$this->getKey()] : null;
     }
 }

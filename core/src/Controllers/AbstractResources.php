@@ -20,9 +20,9 @@ abstract class AbstractResources extends AbstractController
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
+    public function checkLocked(): bool
     {
-        return null;
+        return false;
     }
 
     public function getParameters(array $params = []): array

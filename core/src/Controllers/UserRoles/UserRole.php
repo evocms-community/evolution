@@ -12,18 +12,11 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
 {
     protected $view = 'page.user_roles.user_role';
 
+    protected int $elementType = 8;
     /**
      * @var Models\UserRole|null
      */
     private ?Models\UserRole $object;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
 
     /**
      * {@inheritdoc}
@@ -69,6 +62,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
     {
         $id = $this->getElementId();
         $mode = $this->getIndex();
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
 
         if (!$this->managerTheme->getCore()->hasPermission('save_role')) {
             $this->managerTheme->alertAndQuit('error_no_privileges');

@@ -10,19 +10,6 @@ class EventLog extends AbstractController implements ManagerTheme\PageController
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(114)->first();
-        if ($out !== null) {
-            $out = sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('view_eventlog');

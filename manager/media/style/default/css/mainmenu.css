@@ -308,6 +308,13 @@
 #mainMenu .nav li.item-group > *:first-child {
     width: 100%;
 }
+#mainMenu .nav .fa.site-status {
+    position: absolute;
+    color: #ffc107;
+    font-size: .75rem;
+    left: 50%;
+    top: .25rem;
+}
 #mainMenu .nav li.item-group > *:not(:first-child) .fa,
 #mainMenu .nav li.item-group > *:not(:first-child) .fab,
 #mainMenu .nav li.item-group > *:not(:first-child) .fad,

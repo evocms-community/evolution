@@ -8,6 +8,8 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
 {
     protected $view = 'page.snippet';
 
+    protected int $elementType = 4;
+
     protected $events = [
         'OnSnipFormPrerender',
         'OnSnipFormRender'
@@ -15,20 +17,6 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
 
     /** @var Models\SiteSnippet|null */
     private $object;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(22, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            $out = sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
 
     /**
      * {@inheritdoc}
@@ -56,16 +44,19 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
      */
     public function process(): bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+
         $this->object = $this->parameterData();
 
         $this->parameters = [
             'data' => $this->object,
+            'elementType' => $this->elementType,
             'categories' => $this->parameterCategories(),
             'action' => $this->getIndex(),
             'importParams' => $this->parameterImportParams(),
             'docBlockList' => $this->parameterDocBlockList(),
             'events' => $this->parameterEvents(),
-            'actionButtons' => $this->parameterActionButtons()
+            'actionButtons' => $this->parameterActionButtons(),
         ];
 
         return true;

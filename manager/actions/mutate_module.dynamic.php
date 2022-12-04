@@ -139,7 +139,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     <input type="hidden" name="mode" value="<?= $modx->getManagerApi()->action ?>">
 
     <h1>
-        <i class="<?= ((isset($content['icon']) && $content['icon'] != '') ? $content['icon'] : $_style['icon_module']) ?>"></i><?= (isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_module']) ?>
+        <i class="<?= ((isset($content['icon']) && $content['icon'] != '') ? e($content['icon']) : $_style['icon_module']) ?>"></i><?= (isset($content['name']) ? e($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_module']) ?>
         <i class="<?= $_style['icon_question_circle'] ?> help"></i>
     </h1>
 
@@ -220,7 +220,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         <div class="col-md-9 col-lg-10">
                             <div class="input-group">
                                 <input type="text" maxlength="255" name="icon"
-                                       value="<?= (isset($content['icon']) ? $content['icon'] : "") ?>"
+                                       value="<?= (isset($content['icon']) ? e($content['icon']) : "") ?>"
                                        class="form-control" onchange="documentDirty=true;"/>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             <span title="<?= $_lang['enable_resource'] ?>"><?= $_lang["element"] ?></span></label>
                         <div class="col-md-9 col-lg-10">
                             <input name="resourcefile" type="text" maxlength="255"
-                                   value="<?= (isset($content['resourcefile']) ? $content['resourcefile'] : "") ?>"
+                                   value="<?= (isset($content['resourcefile']) ? e($content['resourcefile']) : "") ?>"
                                    class="form-control" onchange="documentDirty=true;"/>
                         </div>
                     </div>
@@ -428,7 +428,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         if ($checked) {
                             $notPublic = true;
                         }
-                        $chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . $row['name'] . "</label><br />\n";
+                        $chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . e($row['name']) . "</label><br />\n";
                     }
                     $chks = '<label><input type="checkbox" name="chkallgroups"' . (!$notPublic ? ' checked="checked"' : '') . ' onclick="makePublic(true)" /><span class="warning"> ' . $_lang['all_usr_groups'] . '</span></label><br />' . "\n" . $chks;
 

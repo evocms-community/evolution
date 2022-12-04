@@ -12,14 +12,6 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('save_document');
@@ -64,8 +56,8 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
             $this->checkNewParentPermission($newParentID);
         }
 
-        $evtOut = $this->managerTheme->getCore()->invokeEvent('onBeforeMoveDocument', [
-            'id_document' => $document->getKey(),
+        $evtOut = $this->managerTheme->getCore()->invokeEvent('OnBeforeMoveDocument', [
+            'id' => $document->getKey(),
             'old_parent' => $document->parent,
             'new_parent' => $newParentID
         ]);
@@ -103,8 +95,8 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         // Set the item name for logger
         $_SESSION['itemname'] = $document->pagetitle;
 
-        $this->managerTheme->getCore()->invokeEvent('onAfterMoveDocument', [
-            'id_document' => $document->getKey(),
+        $this->managerTheme->getCore()->invokeEvent('OnAfterMoveDocument', [
+            'id' => $document->getKey(),
             'old_parent'  => $document->parent,
             'new_parent'  => $newParentID
         ]);

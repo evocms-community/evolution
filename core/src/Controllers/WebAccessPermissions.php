@@ -10,14 +10,6 @@ class WebAccessPermissions extends AbstractController implements ManagerTheme\Pa
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('manage_groups');

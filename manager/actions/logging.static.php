@@ -29,7 +29,7 @@ $logs = \EvolutionCMS\Models\ManagerLog::query()->select('internalKey', 'usernam
                             $logs_user = record_sort(array_unique_multi($logs, 'internalKey'), 'username');
                             foreach ($logs_user as $row) {
                                 $selectedtext = $row['internalKey'] == get_by_key($_REQUEST, 'searchuser') ? ' selected="selected"' : '';
-                                echo "\t\t" . '<option value="' . $row['internalKey'] . '"' . $selectedtext . '>' . $row['username'] . "</option>\n";
+                                echo "\t\t" . '<option value="' . $row['internalKey'] . '"' . $selectedtext . '>' .e($row['username']) . "</option>\n";
                             }
                             ?>
                         </select>
@@ -81,7 +81,7 @@ $logs = \EvolutionCMS\Models\ManagerLog::query()->select('internalKey', 'usernam
                             $logs_names = record_sort(array_unique_multi($logs, 'itemname'), 'itemname');
                             foreach ($logs_names as $row) {
                                 $selectedtext = $row['itemname'] == get_by_key($_REQUEST, 'itemname') ? ' selected="selected"' : '';
-                                echo "\t\t" . '<option value="' . $row['itemname'] . '"' . $selectedtext . '>' . $row['itemname'] . "</option>\n";
+                                echo "\t\t" . '<option value="' . e($row['itemname']) . '"' . $selectedtext . '>' . e($row['itemname']) . "</option>\n";
                             }
                             ?>
                         </select>
@@ -150,6 +150,7 @@ $logs = \EvolutionCMS\Models\ManagerLog::query()->select('internalKey', 'usernam
 if (isset($_REQUEST['log_submit'])) {
     $logs = \EvolutionCMS\Models\ManagerLog::query()->orderBy('timestamp', 'DESC')->orderBy('id', 'DESC');
     // get the selections the user made.
+
     $sqladd = array();
     if (get_by_key($_REQUEST, 'searchuser') != 0) {
         $logs = $logs->where('internalKey', (int)get_by_key($_REQUEST, 'searchuser'));
@@ -157,7 +158,7 @@ if (isset($_REQUEST['log_submit'])) {
     if (get_by_key($_REQUEST, 'action') != 0) {
         $logs = $logs->where('action', (int)get_by_key($_REQUEST, 'action'));
     }
-    if (get_by_key($_REQUEST, 'itemid') != 0 || get_by_key($_REQUEST, 'itemid') == "-") {
+    if (get_by_key($_REQUEST, 'itemid') != 0 && get_by_key($_REQUEST, 'itemid') != "-" && get_by_key($_REQUEST, 'itemid') != "") {
         $logs = $logs->where('itemid', get_by_key($_REQUEST, 'itemid'));
     }
     if (get_by_key($_REQUEST, 'itemname') != '0') {
@@ -175,7 +176,6 @@ if (isset($_REQUEST['log_submit'])) {
     if ($_REQUEST['dateto'] != "") {
         $logs = $logs->where('timestamp', '<', $modx->toTimeStamp($_REQUEST['dateto']));
     }
-
     // If current position is not set, set it to zero
     if (!isset($_REQUEST['int_cur_position']) || $_REQUEST['int_cur_position'] == 0) {
         $int_cur_position = 0;
@@ -261,21 +261,21 @@ if ($limit < 1) {
                     if (!preg_match("/^[0-9]+$/", $logentry['itemid'])) {
                         $item = '<div style="text-align:center;">-</div>';
                     } elseif ($logentry['action'] == 3 || $logentry['action'] == 27 || $logentry['action'] == 5) {
-                        $item = '<a href="index.php?a=3&amp;id=' . $logentry['itemid'] . '">' . $logentry['itemname'] . '</a>';
+                        $item = '<a href="index.php?a=3&amp;id=' . $logentry['itemid'] . '">' . e($logentry['itemname']) . '</a>';
                     } else {
-                        $item = $logentry['itemname'];
+                        $item = e($logentry['itemname']);
                     }
                     //index.php?a=13&searchuser=' . $logentry['internalKey'] . '&action=' . $logentry['action'] . '&itemname=' . $logentry['itemname'] . '&log_submit=true'
                     $user_drill = 'index.php?a=13&searchuser=' . $logentry['internalKey'] . '&itemname=0&log_submit=true';
                     ?>
                     <tr>
-                        <td><?= '<a href="' . $user_drill . '">' . $logentry['username'] . '</a>' ?></td>
-                        <td class="text-nowrap"><?= '[' . $logentry['action'] . '] ' . $logentry['message'] ?></td>
+                        <td><?= '<a href="' . $user_drill . '">' . e($logentry['username']) . '</a>' ?></td>
+                        <td class="text-nowrap"><?= '[' . $logentry['action'] . '] ' . e($logentry['message']) ?></td>
                         <td class="text-xs-right"><?= $logentry['itemid'] ?></td>
                         <td><?= $item ?></td>
                         <td class="text-nowrap"><?= $modx->toDateFormat($logentry['timestamp'] + $modx->getConfig('server_offset_time')) ?></td>
                         <td class="text-nowrap"><?= $logentry['ip'] ?></td>
-                        <td class="text-nowrap"><?= $logentry['useragent'] ?></td>
+                        <td class="text-nowrap"><?= e($logentry['useragent']) ?></td>
                     </tr>
                     <?php
                     $i++;

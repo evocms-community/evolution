@@ -10,19 +10,6 @@ class SiteSchedule extends AbstractController implements ManagerTheme\PageContro
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(70)->first();
-        if ($out !== null) {
-            $out = sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('view_eventlog');

@@ -31,7 +31,7 @@
                         <td>
                             <input type="hidden" name="<?php echo $view->get('request_key'); ?>[edit][data][<?php echo $category['id'] ?>][rank]" value="<?php echo $category['rank']; ?>" />
                             <input type="hidden" name="<?php echo $view->get('request_key'); ?>[edit][data][<?php echo $category['id'] ?>][origin]" value="<?php echo urlencode($category['category']); ?>" />
-                            <input type="text" name="<?php echo $view->get('request_key'); ?>[edit][data][<?php echo $category['id'] ?>][category]" value="<?php echo htmlspecialchars($category['category']); ?>" />
+                            <input type="text" name="<?php echo $view->get('request_key'); ?>[edit][data][<?php echo $category['id'] ?>][category]" value="<?php echo e($category['category']); ?>" />
                         </td>
                         <td class="text-xs-center">
                             <input type="checkbox" name="<?php echo $view->get('request_key'); ?>[edit][data][<?php echo $category['id'] ?>][delete]" value="1" />

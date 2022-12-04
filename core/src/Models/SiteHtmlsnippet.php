@@ -37,6 +37,7 @@ use EvolutionCMS\Traits;
 class SiteHtmlsnippet extends Eloquent\Model
 {
     use Traits\Models\ManagerActions,
+        Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
 	const CREATED_AT = 'createdon';
@@ -103,24 +104,13 @@ class SiteHtmlsnippet extends Eloquent\Model
         return $this->convertTimestamp($this->editedon);
     }
 
-    public function scopeLockedView(Eloquent\Builder $builder)
-    {
-        return evolutionCMS()->getLoginUserID('mgr') !== 1 ?
-            $builder->where('locked', '=', 0) : $builder;
-    }
-
-    public static function getLockedElements()
-    {
-        return evolutionCMS()->getLockedElements(3);
-    }
-
     public function getIsAlreadyEditAttribute()
     {
-        return array_key_exists($this->getKey(), self::getLockedElements());
+        return array_key_exists($this->getKey(), self::getLockedElements(3));
     }
 
     public function getAlreadyEditInfoAttribute() :? array
     {
-        return $this->isAlreadyEdit ? self::getLockedElements()[$this->getKey()] : null;
+        return $this->isAlreadyEdit ? self::getLockedElements(3)[$this->getKey()] : null;
     }
 }

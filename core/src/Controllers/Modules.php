@@ -34,14 +34,6 @@ class Modules extends AbstractController implements ManagerTheme\PageControllerI
     }
 
     /**
-     * @return string|null
-     */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
      * @return bool
      */
     public function process(): bool

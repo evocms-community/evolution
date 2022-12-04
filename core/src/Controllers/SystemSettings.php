@@ -42,20 +42,6 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(17)
-            ->first();
-        if ($out !== null) {
-            return sprintf($this->managerTheme->getLexicon('lock_settings_msg'), $out->username);
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParameters(array $params = []): array
     {
         return [

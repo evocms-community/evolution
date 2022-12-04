@@ -12,14 +12,6 @@ class Help extends AbstractController implements ManagerTheme\PageControllerInte
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         if ($_SESSION['mgrRole'] != 1) {

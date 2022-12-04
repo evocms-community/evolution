@@ -11,7 +11,7 @@
         {{ $item->name }}
         <small>({{ $item->getKey() }})</small>
         @if(!empty($item->description))
-            - {!! $item->description !!}
+            - <span class="elements_descr">{!! str_replace(['&lt;strong&gt;', '&lt;/strong&gt;'], ['<strong>', '</strong>'], e($item->description)) !!}</span>
         @endif
         @if(!empty($item->locked))
             <em>(@lang('global.locked'))</em>

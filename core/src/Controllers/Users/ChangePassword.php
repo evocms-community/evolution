@@ -13,14 +13,6 @@ class ChangePassword extends AbstractController implements ManagerTheme\PageCont
     /**
      * {@inheritdoc}
      */
-    public function checkLocked(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function canView(): bool
     {
         return $this->managerTheme->getCore()->hasPermission('save_password');

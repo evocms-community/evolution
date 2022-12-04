@@ -8,6 +8,8 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
 {
     protected $view = 'page.plugin';
 
+    protected int $elementType = 5;
+
     protected $events = [
         'OnPluginFormPrerender',
         'OnPluginFormRender'
@@ -17,20 +19,6 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     private $object;
 
     protected $internal;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkLocked(): ?string
-    {
-        $out = Models\ActiveUser::locked(102, $this->getElementId())
-            ->first();
-        if ($out !== null) {
-            $out = sprintf($this->managerTheme->getLexicon('error_no_privileges'), $out->username);
-        }
-
-        return $out;
-    }
 
     /**
      * {@inheritdoc}
@@ -58,10 +46,13 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
      */
     public function process() : bool
     {
+        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+
         $this->object = $this->parameterData();
 
         $this->parameters = [
             'data' => $this->object,
+            'elementType' => $this->elementType,
             'categories' => $this->parameterCategories(),
             'action' => $this->getIndex(),
             'importParams' => $this->parameterImportParams(),
