@@ -136,7 +136,6 @@
                            ->leftJoin('users', function($join)
                         {
                             $join->on('users.id', '=', 'event_log.user');
-                            $join->on('event_log.usertype', '=', \DB::raw(1));
                         })->orderBy('createdon', 'DESC');
 
                         if($sqlQuery!=''){

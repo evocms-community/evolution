@@ -21,7 +21,7 @@ switch ($operation) {
         } else {
             $id = \EvolutionCMS\Models\MembergroupName::query()->insertGetId(['name' => $newgroup]);
             // invoke OnWebCreateGroup event
-            $modx->invokeEvent('OnWebCreateGroup', array(
+            $modx->invokeEvent('OnCreateUserGroup', array(
                 'groupid' => $id,
                 'groupname' => $newgroup,
             ));
