@@ -1,11 +1,11 @@
 <?php namespace EvolutionCMS\Models;
 
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Extensions\Collection;
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
-use EvolutionCMS\Extensions\Collection;
 
 /**
  * EvolutionCMS\Models\SiteContent
@@ -81,8 +81,8 @@ use EvolutionCMS\Extensions\Collection;
 class SiteContent extends Eloquent\Model
 {
     use Traits\Models\SoftDeletes,
-        Traits\Models\ManagerActions,
-        Traits\Models\TimeMutator;
+    Traits\Models\ManagerActions,
+    Traits\Models\TimeMutator;
 
     protected $table = 'site_content';
 
@@ -292,13 +292,13 @@ class SiteContent extends Eloquent\Model
         'privatemgr',
         'content_dispo',
         'hidemenu',
-        'alias_visible'
+        'alias_visible',
     ];
 
     protected $managerActionsMap = [
         'id' => [
-            'actions.info' => 3
-        ]
+            'actions.info' => 3,
+        ],
     ];
 
     /**
@@ -484,7 +484,6 @@ class SiteContent extends Eloquent\Model
         return $this->belongsTo(SiteTemplate::class, 'template', 'id')->withDefault();
     }
 
-
     public function newFromBuilder($attributes = [], $connection = null)
     {
         $instance = parent::newFromBuilder($attributes);
@@ -582,7 +581,7 @@ class SiteContent extends Eloquent\Model
 
         $position = $this->getPositionColumn();
         $this->previousPosition = isset($this->original[$position]) ? $this->original[$position] : null;
-        $this->attributes[$position] = max(0, (int)$value);
+        $this->attributes[$position] = max(0, (int) $value);
     }
 
     /**
@@ -614,7 +613,6 @@ class SiteContent extends Eloquent\Model
     {
         return $this->getTable() . '.' . $this->getRealDepthColumn();
     }
-
 
     /**
      * Indicates whether the model is a parent.
@@ -749,7 +747,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasAncestors()
     {
-        return (bool)$this->countAncestors();
+        return (bool) $this->countAncestors();
     }
 
     /**
@@ -855,7 +853,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasDescendants()
     {
-        return (bool)$this->countDescendants();
+        return (bool) $this->countDescendants();
     }
 
     /**
@@ -887,7 +885,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasChildren()
     {
-        return (bool)$this->countChildren();
+        return (bool) $this->countChildren();
     }
 
     /**
@@ -1188,7 +1186,7 @@ class SiteContent extends Eloquent\Model
         $child = $this->getChildAt($position, [
             $this->getKeyName(),
             $this->getParentIdColumn(),
-            $this->getPositionColumn()
+            $this->getPositionColumn(),
         ]);
 
         if ($child === null) {
@@ -1327,7 +1325,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasSiblings()
     {
-        return (bool)$this->countSiblings();
+        return (bool) $this->countSiblings();
     }
 
     /**
@@ -1595,7 +1593,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasPrevSiblings()
     {
-        return (bool)$this->countPrevSiblings();
+        return (bool) $this->countPrevSiblings();
     }
 
     /**
@@ -1700,7 +1698,7 @@ class SiteContent extends Eloquent\Model
      */
     public function hasNextSiblings()
     {
-        return (bool)$this->countNextSiblings();
+        return (bool) $this->countNextSiblings();
     }
 
     /**
@@ -2066,7 +2064,7 @@ class SiteContent extends Eloquent\Model
     public function scopeWithoutProtected($query)
     {
         $query->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id');
-        $query->where(function($query){
+        $query->where(function ($query) {
             $docgrp = EvolutionCMS()->getUserDocGroups();
             if (EvolutionCMS()->isFrontend()) {
                 $query->where('privateweb', 0);
@@ -2085,11 +2083,11 @@ class SiteContent extends Eloquent\Model
     public function scopeWithTVs($query, $tvList = array(), $sep = ':', $tree = false)
     {
         $main_table = 'site_content';
-        if($tree){
+        if ($tree) {
             $main_table = 't2';
         }
         if (!empty($tvList)) {
-            $query->addSelect($main_table.'.*');
+            $query->addSelect($main_table . '.*');
             $tvList = array_unique($tvList);
             $tvListWithDefaults = [];
             foreach ($tvList as $v) {
@@ -2099,7 +2097,7 @@ class SiteContent extends Eloquent\Model
             $tvs = SiteTmplvar::whereIn('name', array_keys($tvListWithDefaults))->get()->pluck('id', 'name')->toArray();
             foreach ($tvs as $tvname => $tvid) {
                 $query = $query->leftJoin('site_tmplvar_contentvalues as tv_' . $tvname, function ($join) use ($main_table, $tvid, $tvname) {
-                    $join->on($main_table.'.id', '=', 'tv_' . $tvname . '.contentid')->where('tv_' . $tvname . '.tmplvarid', '=', $tvid);
+                    $join->on($main_table . '.id', '=', 'tv_' . $tvname . '.contentid')->where('tv_' . $tvname . '.tmplvarid', '=', $tvid);
                 });
                 $query = $query->addSelect('tv_' . $tvname . '.value as ' . $tvname);
                 $query = $query->groupBy('tv_' . $tvname . '.value');
@@ -2110,7 +2108,7 @@ class SiteContent extends Eloquent\Model
 
                 }
             }
-            $query->groupBy($main_table.'.id');
+            $query->groupBy($main_table . '.id');
         }
         return $query;
     }
@@ -2120,7 +2118,10 @@ class SiteContent extends Eloquent\Model
         $prefix = EvolutionCMS()->getDatabase()->getConfig('prefix');
         $filters = explode($outerSep, trim($filters));
         foreach ($filters as $filter) {
-            if (empty($filter)) break;
+            if (empty($filter)) {
+                break;
+            }
+
             $parts = explode($innerSep, $filter, 5);
             $type = $parts[0];
             $tvname = $parts[1];
@@ -2177,7 +2178,10 @@ class SiteContent extends Eloquent\Model
         $prefix = EvolutionCMS()->getDatabase()->getConfig('prefix');
         $orderBy = explode(',', trim($orderBy));
         foreach ($orderBy as $parts) {
-            if (empty(trim($parts))) return;
+            if (empty(trim($parts))) {
+                return;
+            }
+
             $part = array_map('trim', explode(' ', trim($parts), 3));
             $tvname = $part[0];
             $sortDir = !empty($part[1]) ? $part[1] : 'desc';
@@ -2216,11 +2220,11 @@ class SiteContent extends Eloquent\Model
     public function scopeGetRootTree($query, $depth = 0)
     {
         return $query->select('t2.*')
-            ->leftJoin('site_content_closure', function($join) use ($depth) {
+            ->leftJoin('site_content_closure', function ($join) use ($depth) {
                 $join->on('site_content.id', '=', 'site_content_closure.ancestor');
                 $join->on('site_content_closure.depth', '<', \DB::raw($depth));
             })
-            ->join('site_content as t2', 't2.id', '=', 'site_content_closure.descendant' )
+            ->join('site_content as t2', 't2.id', '=', 'site_content_closure.descendant')
             ->where('site_content.parent', 0);
     }
 
@@ -2239,7 +2243,7 @@ class SiteContent extends Eloquent\Model
             $tvIds = $tvs->pluck('name', 'id')->toArray();
             $tvValues = SiteTmplvarContentvalue::whereIn('contentid', $ids)->whereIn('tmplvarid', array_keys($tvIds))->get()->toArray();
             foreach ($tvValues as $tv) {
-                if (empty($tv['value']) && !empty($tvNames[$tvIds [$tv['tmplvarid']]])) {
+                if (empty($tv['value']) && !empty($tvNames[$tvIds[$tv['tmplvarid']]])) {
                     $tv['value'] = $tvNames[$tvIds[$tv['tmplvarid']]];
                 }
                 unset($tv['id']);
@@ -2248,7 +2252,7 @@ class SiteContent extends Eloquent\Model
             foreach ($ids as $docid) {
                 foreach ($tvIds as $tvid => $tvname) {
                     if (empty($docsTV[$docid][$tvid])) {
-                        $docsTV[$docid][$tvid] = array('tmplvarid' => $tvid, 'contentid' => $docid, 'value' => $tvNames[$tvIds [$tvid]]);
+                        $docsTV[$docid][$tvid] = array('tmplvarid' => $tvid, 'contentid' => $docid, 'value' => $tvNames[$tvIds[$tvid]]);
                     }
                 }
             }

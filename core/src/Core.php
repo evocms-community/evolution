@@ -801,8 +801,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if (IN_PARSER_MODE == "true") {
             $type = !empty($this->contentTypes[$this->documentIdentifier]) ? $this->contentTypes[$this->documentIdentifier] : "text/html";
             header('Content-Type: ' . $type . '; charset=' . $this->getConfig('modx_charset'));
-            //            if (($this->documentIdentifier == $this->config['error_page']) || $redirect_error)
-            //                header('HTTP/1.0 404 Not Found');
+            // if (($this->documentIdentifier == $this->config['error_page']) || $redirect_error)
+            //   header('HTTP/1.0 404 Not Found');
             if (!$this->checkPreview() && $this->documentObject['content_dispo'] == 1) {
                 if ($this->documentObject['alias']) {
                     $name = $this->documentObject['alias'];
@@ -2752,7 +2752,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                     $this->documentIdentifier = UrlProcessor::getFacadeRoot()->documentListing[$alias];
                 } else {
                     $doc = SiteContent::select('id')
-                        ->where('deleted', 0)
                         ->where('alias', $this->documentIdentifier)
                         ->first();
 
@@ -2768,12 +2767,13 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                     $this->documentIdentifier = UrlProcessor::getFacadeRoot()->documentListing[$this->documentIdentifier];
                 } else {
                     $doc = SiteContent::select('id')
-                        ->where('deleted', 0)
                         ->where('alias', $this->documentIdentifier)
                         ->first();
+
                     if (is_null($doc)) {
                         $this->sendErrorPage();
                     }
+
                     $this->documentIdentifier = $doc->getKey();
                 }
             }
@@ -3009,7 +3009,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         while ($id && $height--) {
             $aliasListing = get_by_key(UrlProcessor::getFacadeRoot()->aliasListing, $id, [], 'is_array');
             $tmp = get_by_key($aliasListing, 'parent');
-            $cerrent_id = $id;
+
+            $current_id = $id;
+
             if ($this->getConfig('alias_listing') == 2) {
                 $id = $tmp ?? (int) Models\SiteContent::findOrNew($id)->parent;
             } else {
@@ -3019,7 +3021,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             if ((int) $id === 0) {
                 break;
             }
-            $parents[$cerrent_id] = (int) $id;
+            $parents[$current_id] = (int) $id;
         }
 
         return $parents;
@@ -4097,7 +4099,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $pageInfo = SiteContent::query()->select($fields)
             ->where('site_content.id', $pageid);
         if ($active == 1) {
-            $pageInfo = $pageInfo->where('site_content.published', 1)->where('site_content.deleted', 0);
+            $pageInfo = $pageInfo
+                ->where('site_content.published', 1)
+                ->where('site_content.deleted', 0);
         }
         if ($checkAccess) {
             $pageInfo->withoutProtected();

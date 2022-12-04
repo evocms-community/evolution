@@ -113,7 +113,7 @@ class UrlProcessor
                     case 2: // only folders -> generate for resources
                         $this->generateAliasListingResource($match['1'], $aliases, $isFolder);
                         break;
-                    case 0: // disabled -> generate for all
+                    case 0: // disabled -> generate for all types
                     default:
                         $this->generateAliasListingAll($match['1'], $aliases, $isFolder);
                 }
@@ -170,10 +170,15 @@ class UrlProcessor
         foreach ($data as $row) {
             if ((bool) $this->core->getConfig('use_alias_path') && $row->parent > 0) {
                 $parent = $row->parent;
-                $path = $aliases[$parent];
+
+                if (isset($aliases[$parent])) {
+                    $path = $aliases[$parent];
+                } else {
+                    $path = (new Legacy\Cache)->getParents($parent);
+                }
 
                 while (isset($this->aliasListing[$parent]) && (int) $this->aliasListing[$parent]['alias_visible'] === 0) {
-                    $path = $this->aliasListing[$parent]['path'];
+                    $path = $this->aliasListing[$parent]['path'] ?? '';
                     $parent = $this->aliasListing[$parent]['parent'];
                 }
 
@@ -199,14 +204,15 @@ class UrlProcessor
         foreach ($data as $row) {
             if ((bool) $this->core->getConfig('use_alias_path') && $row->parent > 0) {
                 $parent = $row->parent;
-                $path = $aliases[$parent];
 
-                if (!isset($aliases[$parent])) {
+                if (isset($aliases[$parent])) {
+                    $path = $aliases[$parent];
+                } else {
                     $path = (new Legacy\Cache)->getParents($parent);
                 }
 
-                while (isset($this->aliasListing[$parent]) && (int) $this->aliasListing[$parent]['alias_visible'] === 0) {
-                    $path = $this->aliasListing[$parent]['path'];
+                if (isset($this->aliasListing[$parent]) && (int) $this->aliasListing[$parent]['alias_visible'] === 0) {
+                    $path = $this->aliasListing[$parent]['path'] ?? '';
                     $parent = $this->aliasListing[$parent]['parent'];
                 }
 
@@ -398,7 +404,9 @@ class UrlProcessor
         }
 
         /** @var Models\SiteContent|null $query */
-        $query = Models\SiteContent::where('id', '=', (int) $id)->first();
+        $query = Models\SiteContent::where('id', '=', (int) $id)
+            ->first();
+
         if ($query === null) {
             return null;
         }
@@ -423,7 +431,7 @@ class UrlProcessor
         $tmp = $this->getAliasListing($query->parent);
 
         if (!$tmp['alias_visible']) {
-            $this->aliasListing[$id]['path'] = $tmp['path'];
+            $this->aliasListing[$id]['path'] = $tmp['path'] ?? '';
             return $this->aliasListing[$id];
         }
 
@@ -432,6 +440,7 @@ class UrlProcessor
         } else {
             $this->aliasListing[$id]['path'] = $tmp['alias'];
         }
+
         return $this->aliasListing[$id];
     }
 

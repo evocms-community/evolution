@@ -30,8 +30,7 @@ class Cache
      */
     public function __construct()
     {
-        $modx = evolutionCMS();
-        $this->request_time = $_SERVER['REQUEST_TIME'] + $modx->getConfig('server_offset_time');
+        $this->request_time = $_SERVER['REQUEST_TIME'] + evolutionCMS()->getConfig('server_offset_time');
     }
 
     /**
@@ -85,10 +84,12 @@ class Cache
     public function getParents($id, $path = '')
     {
         // modx:returns child's parent
-        if (empty($this->aliases)) {
+        if (empty($this->aliases[$id])) {
             $parents = Models\SiteContent::select('id', 'alias', 'parent', 'alias_visible')
                 ->where('deleted', 0)
+                ->where('id', $id)
                 ->get();
+
             foreach ($parents->toArray() as $row) {
                 if ($row['alias'] == '') {
                     $row['alias'] = $row['id'];
@@ -204,8 +205,6 @@ class Cache
      */
     public function getCacheRefreshTime()
     {
-        $modx = evolutionCMS();
-
         // update publish time file
         $timesArr = array();
 
@@ -267,38 +266,35 @@ class Cache
             // WRITE Aliases to cache file
             $resources = Models\SiteContent::query()
                 ->select('site_content.id', 'site_content.alias', 'site_content.parent', 'site_content.isfolder', 'site_content.alias_visible')
-                ->where('site_content.deleted', 0)
-                ->orderBy('site_content.parent', 'ASC')
-                ->orderBy('site_content.menuindex', 'ASC');
+                ->where('site_content.deleted', 0);
 
             if ($config['alias_listing'] == 2) {
                 // only folders
                 $resources = $resources->where(function ($query) {
-                    // orig: folders only with alias_visible
-                    $query->where('site_content.isfolder', 1)
-                        ->where('site_content.alias_visible', 1);
-                    // test: folders only
-                    //$query->where('site_content.isfolder', 1);
+                    $query
+                        ->where('site_content.isfolder', 1);
                 });
             }
 
-            $tmpPath = '';
             $content .= '$a=&$this->aliasListing;';
             $content .= '$d=&$this->documentListing;';
             $content .= '$m=&$this->documentMap;';
             foreach ($resources->get()->toArray() as $doc) {
+                $tmpPath = '';
+
                 if ($doc['alias'] == '') {
                     $doc['alias'] = $doc['id'];
                 }
                 if ($config['friendly_urls'] && $config['use_alias_path']) {
                     $tmpPath = $this->getParents($doc['parent']);
-                    $alias = (strlen($tmpPath) > 0 ? "$tmpPath/" : '') . $doc['alias'];
+                    $alias = (strlen($tmpPath) > 0 ? $tmpPath . '/' : '') . $doc['alias'];
                     $key = $alias;
                 } else {
                     $key = $doc['alias'];
                 }
 
                 $doc['path'] = $tmpPath;
+
                 // alias listing
                 $content .= '$a[' . $doc['id'] . ']=array(\'id\'=>' . $doc['id'] . ',\'alias\'=>\'' . $doc['alias'] . '\',\'path\'=>\'' . $doc['path'] . '\',\'parent\'=>' . $doc['parent'] . ',\'isfolder\'=>' . $doc['isfolder'] . ',\'alias_visible\'=>' . $doc['alias_visible'] . ');';
                 // document listing
