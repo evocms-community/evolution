@@ -4,7 +4,7 @@ $installMode = isset($_POST['installmode']) ? (int)$_POST['installmode'] : 0;
 switch($installMode){
     case 0:
     case 2:
-        $database_collation = isset($_POST['database_collation']) ? $_POST['database_collation'] : 'utf8mb4_general_ci';
+        $database_collation = $_POST['database_collation'] ?? 'utf8mb4_general_ci';
         $database_charset = substr($database_collation, 0, strpos($database_collation, '_'));
         $_POST['database_connection_charset'] = $database_charset;
         $_SESSION['databaseloginpassword'] = $_POST['databaseloginpassword'];
@@ -14,9 +14,10 @@ switch($installMode){
         $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
         $database_collation = $db_config['collation'];
         $database_connection_charset = $db_config['charset'];
-        if (@ $conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'], '', isset
-        ($db_config['port']) ? $db_config['port'] : null)) {
-            if (@ mysqli_query($conn, 'USE ' . $db_config['database'])) {
+        if (@ $conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'], '',
+            $db_config['port'] ?? null
+        )) {
+            if (@ mysqli_query($conn, 'USE `' . $db_config['database'] . '`')) {
                 if (!$rs = mysqli_query($conn, "show session variables like 'collation_database'")) {
                     $rs = mysqli_query($conn, "show session variables like 'collation_server'");
                 }
@@ -28,11 +29,11 @@ switch($installMode){
         if (empty ($database_collation)) $database_collation = 'utf8mb4_general_ci';
 
         $database_charset = substr($database_collation, 0, strpos($database_collation, '_'));
-        if (!isset ($database_connection_charset) || empty ($database_connection_charset)) {
+        if (empty ($database_connection_charset)) {
             $database_connection_charset = $database_charset;
         }
 
-        if (!isset ($database_connection_method) || empty ($database_connection_method)) {
+        if (empty ($database_connection_method)) {
             $database_connection_method = 'SET CHARACTER SET';
             if (function_exists('mysqli_set_charset')) mysqli_set_charset($conn, $database_connection_charset);
         }
