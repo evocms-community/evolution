@@ -83,7 +83,7 @@ class synccache
         $modx = evolutionCMS();
         if (empty($this->aliases)) {
             $f = "id, IF(alias='', id, alias) AS alias, parent, alias_visible";
-            $rs = $modx->db->select($f, '[+prefix+]site_content', 'deleted=0');
+            $rs = $modx->db->select($f, '[+prefix+]site_content', 'deleted=0 and isfolder=1');
             while ($row = $modx->db->getRow($rs)) {
                 $docid = $row['id'];
                 $this->aliases[$docid] = $row['alias'];
