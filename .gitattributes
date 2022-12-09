@@ -1,4 +1,4 @@
 /.gitattributes export-ignore
 /.tx export-ignore
 /README.md export-ignore
-/.github export-ignore
+/.github/ export-ignore
