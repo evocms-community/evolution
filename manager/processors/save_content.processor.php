@@ -217,6 +217,7 @@ if($_SESSION['mgrRole']!= 1){
 }
 $tvs = $tvs->get();
 foreach ($tvs->toArray() as $row) {
+    if(!isset($_POST["tv" . $row['id']])) continue;
     $tmplvar = '';
     switch ($row['type']) {
         case 'url':
@@ -250,7 +251,7 @@ foreach ($tvs->toArray() as $row) {
         break;
     }
     // save value if it was modified
-    if (!empty($tmplvar) && $tmplvar != $row['default_text']) {
+    if ($tmplvar !== '' && $tmplvar !== $row['default_text']) {
         $tmplvars[$row['id']] = array (
             $row['id'],
             $tmplvar
