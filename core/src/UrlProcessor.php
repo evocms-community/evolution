@@ -99,6 +99,7 @@ class UrlProcessor
     public function rewriteUrls($input)
     {
         // rewrite the urls
+        $input = (string)$input;
         if ($this->core->getConfig('friendly_urls')) {
             $aliases = $this->getAliases();
             $isFolder = $this->getIsFolders();
@@ -120,6 +121,7 @@ class UrlProcessor
 
     protected function replaceUrl($input, array $aliases, array $isFolder): string
     {
+        $input = (string)$input;
         $isFriendly = $this->core->getConfig('friendly_alias_urls');
         $pref = $this->core->getConfig('friendly_url_prefix');
         $suffix = $this->core->getConfig('friendly_url_suffix');
