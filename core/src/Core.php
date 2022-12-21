@@ -2623,6 +2623,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function parseDocumentSource($source)
     {
+        $source = (string)$source;
         // set the number of times we are to parse the document source
         $this->minParserPasses = !$this->minParserPasses ? 2 : $this->minParserPasses;
         $this->maxParserPasses = !$this->maxParserPasses ? 10 : $this->maxParserPasses;
