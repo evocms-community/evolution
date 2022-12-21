@@ -208,6 +208,7 @@ class Parser
      */
     public function getChunk ($name)
     {
+        $name = (string)$name;
         $tpl = '';
         $ext = null;
         $this->bladeEnabled = substr($name, 0, 3) == '@B_';//(0 === strpos($name, '@B_'));
@@ -432,6 +433,7 @@ class Parser
      */
     public function parseChunk ($name, $data = array(), $parseDocumentSource = false, $disablePHx = false)
     {
+        $name = (string)$name;
         $out = $this->getChunk($name);
         $twig = strpos($name, '@T_') === 0 && $this->twigEnabled;
         $blade = strpos($name, '@B_') === 0 && $this->bladeEnabled;
@@ -553,6 +555,7 @@ class Parser
      */
     public function parseDocumentSource ($out, $modx = null)
     {
+        $out = (string)$out;
         if (!is_object($modx)) {
             $modx = $this->modx;
         }
