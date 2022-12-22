@@ -332,7 +332,7 @@ class Parser
     public function getBaseChunk ($name)
     {
         if (empty($name)) {
-            return null;
+            return '';
         }
 
         if (array_key_exists($name, $this->modx->chunkCache)) {
@@ -343,7 +343,7 @@ class Parser
                 ->where('disabled', '=', 0)
                 ->get();
 
-            $tpl = ($chunk->count() === 1) ? $chunk->first()->snippet : null;
+            $tpl = ($chunk->count() === 1) ? $chunk->first()->snippet : '';
             $this->modx->chunkCache[$name] = $tpl;
         }
 
