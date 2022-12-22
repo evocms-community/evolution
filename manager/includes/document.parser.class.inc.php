@@ -4256,7 +4256,7 @@ class DocumentParser
                     if ($this->config['aliaslistingfolder'] == 1  || (isset($this->config['full_aliaslisting']) && $this->config['full_aliaslisting'] == 1)) {
                         $al = $this->getAliasListing($id);
                     } else {
-                        empty($aliasListing[$id]) ? $al = $this->aliasListing[$this->config['error_page']] : $al = $this->aliasListing[$id];
+                        $al = $this->aliasListing[$id];
                     }
 
                     if ($al['isfolder'] === 1 && $this->config['make_folders'] === '1') {
