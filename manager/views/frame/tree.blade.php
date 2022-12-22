@@ -53,7 +53,6 @@ if(is_array($evtOut)) {
         if(is_array($evtOut)) {
             echo implode("\n", $evtOut);
         }
-        $siteName = $modx->getPhpCompat()->entities($modx->getConfig('site_name'));
         ?>
 
         <div id="node0" class="rootNode"><a class="node" onclick="modx.tree.treeAction(event, 0)" data-id="0" data-title-esc="{{ $siteName }}"><span class="icon"><i class="{{ $_style['icon_sitemap'] }}"></i></span><span class="title">{{ $siteName }}</span></a>
