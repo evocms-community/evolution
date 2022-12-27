@@ -130,7 +130,7 @@ $logs = $modx->db->makeArray($rs);
                             $logs_names = record_sort(array_unique_multi($logs, 'itemname'), 'itemname');
                             foreach ($logs_names as $row) {
                                 $selectedtext = $row['itemname'] == $_REQUEST['itemname'] ? ' selected="selected"' : '';
-                                echo "\t\t" . '<option value="' . $row['itemname'] . '"' . $selectedtext . '>' . $row['itemname'] . "</option>\n";
+                                echo "\t\t" . '<option value="' . $modx->htmlspecialchars($row['itemname']) . '"' . $selectedtext . '>' . $modx->htmlspecialchars($row['itemname']) . "</option>\n";
                             }
                             ?>
                         </select>
@@ -193,8 +193,8 @@ if (isset($_REQUEST['log_submit'])) {
     if ($_REQUEST['action'] != 0) {
         $sqladd[] = "action=" . (int)$_REQUEST['action'];
     }
-    if ($_REQUEST['itemid'] != 0 || $_REQUEST['itemid'] == "-") {
-        $sqladd[] = "itemid='" . $_REQUEST['itemid'] . "'";
+    if ($_REQUEST['itemid'] != 0 && $_REQUEST['itemid'] == "-") {
+        $sqladd[] = "itemid='" . (int)$_REQUEST['itemid'] . "'";
     }
     if ($_REQUEST['itemname'] != '0') {
         $sqladd[] = "itemname='" . $modx->db->escape($_REQUEST['itemname']) . "'";
@@ -296,21 +296,21 @@ if ($limit < 1) {
                     if (!preg_match("/^[0-9]+$/", $logentry['itemid'])) {
                         $item = '<div style="text-align:center;">-</div>';
                     } elseif ($logentry['action'] == 3 || $logentry['action'] == 27 || $logentry['action'] == 5) {
-                        $item = '<a href="index.php?a=3&amp;id=' . $logentry['itemid'] . '">' . $logentry['itemname'] . '</a>';
+                        $item = '<a href="index.php?a=3&amp;id=' . $logentry['itemid'] . '">' . $modx->htmlspecialchars($logentry['itemname']) . '</a>';
                     } else {
-                        $item = $logentry['itemname'];
+                        $item = $modx->htmlspecialchars($logentry['itemname']);
                     }
                     //index.php?a=13&searchuser=' . $logentry['internalKey'] . '&action=' . $logentry['action'] . '&itemname=' . $logentry['itemname'] . '&log_submit=true'
                     $user_drill = 'index.php?a=13&searchuser=' . $logentry['internalKey'] . '&itemname=0&log_submit=true';
                     ?>
                     <tr>
-                        <td><?= '<a href="' . $user_drill . '">' . $logentry['username'] . '</a>' ?></td>
+                        <td><?= '<a href="' . $user_drill . '">' . $modx->htmlspecialchars($logentry['username']) . '</a>' ?></td>
                         <td class="text-nowrap"><?= '[' . $logentry['action'] . '] ' . $logentry['message'] ?></td>
                         <td class="text-xs-right"><?= $logentry['itemid'] ?></td>
                         <td><?= $item ?></td>
                         <td class="text-nowrap"><?= $modx->toDateFormat($logentry['timestamp'] + $server_offset_time) ?></td>
                         <td class="text-nowrap"><?= $logentry['ip'] ?></td>
-                        <td class="text-nowrap"><?= $logentry['useragent'] ?></td>
+                        <td class="text-nowrap"><?= $modx->htmlspecialchars($logentry['useragent']) ?></td>
                     </tr>
                     <?php
                     $i++;
