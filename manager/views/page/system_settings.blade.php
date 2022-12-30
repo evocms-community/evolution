@@ -2,18 +2,18 @@
 @section('content')
     @push('scripts.top')
         <script>
-          var displayStyle = '{{ $displayStyle }}';
-          var lang_chg = '{{ ManagerTheme::getLexicon('confirm_setting_language_change') }}';
-          var actions = {
-            save: function() {
-              documentDirty = false;
-              document.settings.submit();
-            },
-            cancel: function() {
-              documentDirty = false;
-              document.location.href = 'index.php?a=2';
-            }
-          };
+            var displayStyle = '{{ $displayStyle }}';
+            var lang_chg = '{{ ManagerTheme::getLexicon('confirm_setting_language_change') }}';
+            var actions = {
+                save: function() {
+                    documentDirty = false;
+                    document.settings.submit();
+                },
+                cancel: function() {
+                    documentDirty = false;
+                    document.location.href = 'index.php?a=2';
+                }
+            };
         </script>
         <script src="media/script/mutate_settings.js"></script>
     @endpush
@@ -28,14 +28,16 @@
 
         @include('manager::partials.actionButtons', $actionButtons)
 
-        @if(!get_by_key($modx->config, 'settings_version') || get_by_key($modx->config, 'settings_version') !== $modx->getVersionData('version'))
+        @if (!get_by_key($modx->config, 'settings_version') ||
+            get_by_key($modx->config, 'settings_version') !== $modx->getVersionData('version'))
             <div class="container">
                 <p class="alert alert-warning">{!! ManagerTheme::getLexicon('settings_after_install') !!}</p>
             </div>
         @endif
         <div class="tab-pane" id="settingsPane">
             <script>
-              tpSettings = new WebFXTabPane(document.getElementById('settingsPane'), {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }});
+                tpSettings = new WebFXTabPane(document.getElementById('settingsPane'),
+                    {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }});
             </script>
             @include('manager::page.system_settings.general')
             @include('manager::page.system_settings.friendly_urls')
@@ -48,73 +50,83 @@
     </form>
     @push('scripts.bot')
         <script>
-          (function($) {
-            $('input:radio').change(function() {
-              documentDirty = true;
-            });
-            $('#furlRowOn').change(function() {
-              $('.furlRow').fadeIn();
-            });
-            $('#furlRowOff').change(function() {
-              $('.furlRow').fadeOut();
-            });
-            $('#udPermsOn').change(function() {
-              $('.udPerms').slideDown();
-            });
-            $('#udPermsOff').change(function() {
-              $('.udPerms').slideUp();
-            });
-            $('#editorRowOn').change(function() {
-              $('.editorRow').slideDown();
-            });
-            $('#editorRowOff').change(function() {
-              $('.editorRow').slideUp();
-            });
-            $('#rbRowOn').change(function() {
-              $('.rbRow').fadeIn();
-            });
-            $('#rbRowOff').change(function() {
-              $('.rbRow').fadeOut();
-            });
-            $('#useSmtp').change(function() {
-              $('.smtpRow').fadeIn();
-            });
-            $('#useMail').change(function() {
-              $('.smtpRow').fadeOut();
-            });
-            $('#captchaOn').change(function() {
-              $('.captchaRow').fadeIn();
-            });
-            $('#captchaOff').change(function() {
-              $('.captchaRow').fadeOut();
-            });
-          })(jQuery);
+            (function($) {
+                $('input:radio').change(function() {
+                    documentDirty = true;
+                });
+                $('#furlRowOn').change(function() {
+                    $('.furlRow').fadeIn();
+                });
+                $('#furlRowOff').change(function() {
+                    $('.furlRow').fadeOut();
+                });
+
+                $('#furlAliasPathRowOn').change(function() {
+                    $('.furlAliasPathRow').fadeIn();
+                });
+                $('#furlAliasPathRowOff').change(function() {
+                    $('.furlAliasPathRow').fadeOut();
+                });
+
+
+                $('#udPermsOn').change(function() {
+                    $('.udPerms').slideDown();
+                });
+                $('#udPermsOff').change(function() {
+                    $('.udPerms').slideUp();
+                });
+                $('#editorRowOn').change(function() {
+                    $('.editorRow').slideDown();
+                });
+                $('#editorRowOff').change(function() {
+                    $('.editorRow').slideUp();
+                });
+                $('#rbRowOn').change(function() {
+                    $('.rbRow').fadeIn();
+                });
+                $('#rbRowOff').change(function() {
+                    $('.rbRow').fadeOut();
+                });
+                $('#useSmtp').change(function() {
+                    $('.smtpRow').fadeIn();
+                });
+                $('#useMail').change(function() {
+                    $('.smtpRow').fadeOut();
+                });
+                $('#captchaOn').change(function() {
+                    $('.captchaRow').fadeIn();
+                });
+                $('#captchaOff').change(function() {
+                    $('.captchaRow').fadeOut();
+                });
+            })(jQuery);
         </script>
 
         <script>
-          function setChangesChunkProcessor(item)
-          {
-            item = item || document.querySelector('[name="chunk_processor"]:checked');
-            document.querySelectorAll('[name="enable_at_syntax"], [name="enable_filter"]').forEach(function(el) {
-              if (item.checked && item.value === 'DLTemplate') {
-                el.checked = !!el.value;
-                el.disabled = true;
-              } else {
-                el.disabled = false;
-              }
+            function setChangesChunkProcessor(item) {
+                item = item || document.querySelector('[name="chunk_processor"]:checked');
+                document.querySelectorAll('[name="enable_at_syntax"], [name="enable_filter"]').forEach(function(el) {
+                    if (item.checked && item.value === 'DLTemplate') {
+                        el.checked = !!el.value;
+                        el.disabled = true;
+                    } else {
+                        el.disabled = false;
+                    }
+                });
+            }
+
+            setChangesChunkProcessor();
+
+            document.querySelectorAll('[name="chunk_processor"]').forEach(function(item) {
+                item.addEventListener('change', function() {
+                    setChangesChunkProcessor(item);
+                }, false);
             });
-          }
-
-          setChangesChunkProcessor();
-
-          document.querySelectorAll('[name="chunk_processor"]').forEach(function(item) {
-            item.addEventListener('change', function() {
-              setChangesChunkProcessor(item);
-            }, false);
-          });
         </script>
-        @if(is_numeric(get_by_key($_GET, 'tab')))
-            <script>tpSettings.setSelectedIndex({{ $_GET['tab'] }});</script>
+        @if (is_numeric(get_by_key($_GET, 'tab')))
+            <script>
+                tpSettings.setSelectedIndex({{ $_GET['tab'] }});
+            </script>
         @endif
     @endpush
 @endsection

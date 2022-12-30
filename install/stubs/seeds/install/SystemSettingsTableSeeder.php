@@ -14,7 +14,6 @@ class SystemSettingsTableSeeder extends Seeder
      */
     public function run()
     {
-
         \DB::table('system_settings')->delete();
 
         \DB::table('system_settings')->insert([
@@ -72,6 +71,10 @@ class SystemSettingsTableSeeder extends Seeder
             ],
             [
                 'setting_name' => 'use_alias_path',
+                'setting_value' => '1',
+            ],
+            [
+                'setting_name' => 'alias_listing',
                 'setting_value' => '1',
             ],
             [
