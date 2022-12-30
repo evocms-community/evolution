@@ -27,7 +27,7 @@ trait Settings
         'make_folders' => 'bool',
         'friendly_urls' => 'bool',
         'xhtml_urls' => 'bool',
-        'aliaslistingfolder' => 'bool',
+        'alias_listing' => 'int',
         'friendly_alias_urls' => 'bool',
         'enable_cache' => 'float',
         'enable_at_syntax' => 'bool',
@@ -67,7 +67,7 @@ trait Settings
         'search_default' => 'bool',
         'cache_default' => 'bool',
         'auto_menuindex' => 'bool',
-        'track_visitors' => 'bool'
+        'track_visitors' => 'bool',
     ];
 
     /**
@@ -156,7 +156,7 @@ trait Settings
         );
     }
 
-    public function getFactorySettings() : array
+    public function getFactorySettings(): array
     {
         $out = include EVO_CORE_PATH . 'factory/settings.php';
         return \is_array($out) ? $out : [];
@@ -205,7 +205,7 @@ trait Settings
      *
      * @return array
      */
-    protected function configCompatibility() : array
+    protected function configCompatibility(): array
     {
         return array_merge($this->config, ['view' => $this['config']->get('view')]);
     }

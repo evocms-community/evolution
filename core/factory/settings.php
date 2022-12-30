@@ -21,7 +21,7 @@ return [
     'use_alias_path' => '1',
     'make_folders' => '0',
     'seostrict' => '0',
-    'aliaslistingfolder' => '0',
+    'alias_listing' => 1,
     'check_files_onlogin' => "index.php\n.htaccess\nmanager/index.php\n/core/config/database/connections/default.php",
     'use_captcha' => 0,
     'pwd_hash_algo' => 0,
