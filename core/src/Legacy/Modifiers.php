@@ -3,7 +3,6 @@
 use EvolutionCMS\Interfaces\ModifiersInterface;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Support\DataGrid;
-use IntlDateFormatter;
 
 class Modifiers implements ModifiersInterface
 {
@@ -849,34 +848,15 @@ class Modifiers implements ModifiersInterface
                 if (!preg_match('@^[0-9]+$@', $value)) {
                     $value = strtotime($value);
                 }
-                if (strpos($opt, '%') !== false) {
-                    return strftime($opt, 0 + $value);
-                } else {
-                    if (extension_loaded('intl')) {
-                        // https://www.php.net/manual/en/class.intldateformatter.php
-                        // https://www.php.net/manual/en/datetime.createfromformat.php
-                        $formatter = new IntlDateFormatter(
-                            evolutionCMS()->getConfig('manager_language'),
-                            IntlDateFormatter::MEDIUM,
-                            IntlDateFormatter::MEDIUM,
-                            null,
-                            null,
-                            $opt
-                        );
-                        return $formatter->format(0 + $value);
-                    } else {
-                        return date($opt, 0 + $value);
-                    }
-                }
+                return date($opt, 0 + $value);
             case 'time':
                 if (empty($opt)) {
-                    $opt = '%H:%M';
+                    $opt = 'H:i';
                 }
                 if (!preg_match('@^[0-9]+$@', $value)) {
                     $value = strtotime($value);
                 }
-
-                return strftime($opt, 0 + $value);
+                return date($opt, 0 + $value);
             case 'strtotime':
                 return strtotime($value);
             #####  mathematical function

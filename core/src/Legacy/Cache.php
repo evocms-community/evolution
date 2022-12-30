@@ -84,13 +84,11 @@ class Cache
     public function getParents($id, $path = '')
     {
         // modx:returns child's parent
-        if (empty($this->aliases[$id])) {
-            $parents = Models\SiteContent::select('id', 'alias', 'parent', 'alias_visible')
-                ->where('deleted', 0)
-                ->where('id', $id)
-                ->get();
+        if (empty($this->aliases)) {
+            $db = evolutionCMS()->getDatabase();
+            $q = $db->query("SELECT `id`, `alias`, `parent`, `alias_visible` FROM {$db->getFullTableName('site_content')} WHERE `deleted` = 0 AND `isfolder` = 1");
 
-            foreach ($parents->toArray() as $row) {
+            while ($row = $db->getRow($q)) {
                 if ($row['alias'] == '') {
                     $row['alias'] = $row['id'];
                 }
@@ -264,22 +262,17 @@ class Cache
         // enabled = 1, disabled = 0, only folders = 2
         if (!isset($config['alias_listing']) || $config['alias_listing'] != 0) {
             // WRITE Aliases to cache file
-            $resources = Models\SiteContent::query()
-                ->select('site_content.id', 'site_content.alias', 'site_content.parent', 'site_content.isfolder', 'site_content.alias_visible')
-                ->where('site_content.deleted', 0);
+            $db = $modx->getDatabase();
+            $sql = "SELECT `id`, `alias`, `parent`, `isfolder`, `alias_visible` FROM {$db->getFullTableName('site_content')} WHERE `deleted` = 0";
 
             if ($config['alias_listing'] == 2) {
-                // only folders
-                $resources = $resources->where(function ($query) {
-                    $query
-                        ->where('site_content.isfolder', 1);
-                });
+                $sql .= ' AND `isfolder` = 1';
             }
-
+            $q = $db->query($sql);
             $content .= '$a=&$this->aliasListing;';
             $content .= '$d=&$this->documentListing;';
             $content .= '$m=&$this->documentMap;';
-            foreach ($resources->get()->toArray() as $doc) {
+            while ($doc = $db->getRow($q)) {
                 $tmpPath = '';
 
                 if ($doc['alias'] == '') {

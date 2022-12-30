@@ -163,7 +163,8 @@ class UrlProcessor
             return;
         }
 
-        $data = Models\SiteContent::whereIn('id', $ids)
+        $data = Models\SiteContent::select(['id', 'parent', 'alias', 'isfolder', 'alias_visible'])
+            ->whereIn('id', $ids)
             ->where('isfolder', '=', 0)
             ->get();
 
@@ -198,7 +199,8 @@ class UrlProcessor
             return;
         }
 
-        $data = Models\SiteContent::whereIn('id', $ids)
+        $data = Models\SiteContent::select(['id', 'parent', 'alias', 'isfolder', 'alias_visible'])
+            ->whereIn('id', $ids)
             ->get();
 
         foreach ($data as $row) {
