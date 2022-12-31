@@ -3715,6 +3715,16 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     }
 
     /**
+     * Returns true if manager is running in safe mode
+     *
+     * @return boolean
+     */
+    public function isSafemode()
+    {
+        return defined('SAFE_MODE') && SAFE_MODE && $this->isBackend();
+    }
+
+    /**
      * Returns true if we are currently in the manager backend
      *
      * @return boolean
@@ -5490,6 +5500,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function invokeEvent($evtName, $extParams = array())
     {
+        if($this->isSafemode()) return;
+
         $results = null;
 
         if (!$evtName) {
@@ -6118,7 +6130,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         return $usrSettings;
     }
 
-    public function recoverySiteCache()
+    public function resolverecoverySiteCache()
     {
         $siteCacheDir = $this->bootstrapPath();
         $siteCachePath = $this->getSiteCacheFilePath();

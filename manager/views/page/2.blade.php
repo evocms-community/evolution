@@ -73,6 +73,13 @@
         $ph['config_display'] = 'none';
     }
 
+    if($modx->isSafemode()) {
+        $ph['show_safe_mode'] = 'block';
+        $ph['safe_mode_msg'] = __('global.safe_mode_warning');
+    } else {
+        $ph['show_safe_mode'] = 'none';
+    }
+
     if (!$modx->getConfig('site_status') && $modx->hasPermission('settings')) {
         $ph['show_site_status'] = 'block';
         $ph['site_status_msg'] = $modx->getConfig('site_unavailable_message') . ' ' . __('global.update_settings_from_language') . ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
