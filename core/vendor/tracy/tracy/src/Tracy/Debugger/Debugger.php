@@ -17,7 +17,7 @@ use ErrorException;
  */
 class Debugger
 {
-	public const VERSION = '2.9.4';
+	public const VERSION = '2.9.5';
 
 	/** server modes for Debugger::enable() */
 	public const
@@ -347,7 +347,8 @@ class Debugger
 		string $file,
 		int $line,
 		?array $context = null
-	): bool {
+	): bool
+	{
 		$error = error_get_last();
 		if (($error['type'] ?? null) === E_COMPILE_WARNING) {
 			error_clear_last();
@@ -364,13 +365,13 @@ class Debugger
 					? $context['e']
 					: null;
 				$e = new ErrorException($message, 0, $severity, $file, $line, $previous);
-				$e->context = $context;
+				@$e->context = $context; // dynamic properties are deprecated since PHP 8.2
 				self::exceptionHandler($e);
 				exit(255);
 			}
 
 			$e = new ErrorException($message, 0, $severity, $file, $line);
-			$e->context = $context;
+			@$e->context = $context; // dynamic properties are deprecated since PHP 8.2
 			throw $e;
 
 		} elseif (

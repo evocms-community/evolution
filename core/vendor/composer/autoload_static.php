@@ -25,6 +25,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'ef65a1626449d89d0811cf9befce46f0' => __DIR__ . '/..' . '/illuminate/events/functions.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
+        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '532945a4b12d830ff3e086cc36a64375' => __DIR__ . '/..' . '/james-heinrich/phpthumb/phpthumb.class.php',
         'd507e002f7fce7f0c6dbf1f22edcb902' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/functions.php',
@@ -59,6 +60,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php81\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
@@ -206,6 +208,10 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'WebPConvert\\' => 
         array (
             0 => __DIR__ . '/..' . '/rosell-dk/webp-convert/src',
+        ),
+        'Symfony\\Polyfill\\Php81\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php81',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -548,7 +554,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
         ),
         'Database\\Seeders\\' => 
         array (
@@ -669,6 +675,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Carbon\\Traits\\IntervalStep' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/IntervalStep.php',
         'Carbon\\Traits\\Localization' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Localization.php',
         'Carbon\\Traits\\Macro' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Macro.php',
+        'Carbon\\Traits\\MagicParameter' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/MagicParameter.php',
         'Carbon\\Traits\\Mixin' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Mixin.php',
         'Carbon\\Traits\\Modifiers' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Modifiers.php',
         'Carbon\\Traits\\Mutability' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Mutability.php',
@@ -678,6 +685,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Carbon\\Traits\\Serialization' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Serialization.php',
         'Carbon\\Traits\\Test' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Test.php',
         'Carbon\\Traits\\Timestamp' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Timestamp.php',
+        'Carbon\\Traits\\ToStringFormat' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/ToStringFormat.php',
         'Carbon\\Traits\\Units' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Units.php',
         'Carbon\\Traits\\Week' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Week.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
@@ -873,13 +881,16 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Composer\\Package\\Version\\VersionSelector' => __DIR__ . '/..' . '/composer/composer/src/Composer/Package/Version/VersionSelector.php',
         'Composer\\PartialComposer' => __DIR__ . '/..' . '/composer/composer/src/Composer/PartialComposer.php',
         'Composer\\Pcre\\MatchAllResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchAllResult.php',
+        'Composer\\Pcre\\MatchAllStrictGroupsResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchAllStrictGroupsResult.php',
         'Composer\\Pcre\\MatchAllWithOffsetsResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchAllWithOffsetsResult.php',
         'Composer\\Pcre\\MatchResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchResult.php',
+        'Composer\\Pcre\\MatchStrictGroupsResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchStrictGroupsResult.php',
         'Composer\\Pcre\\MatchWithOffsetsResult' => __DIR__ . '/..' . '/composer/pcre/src/MatchWithOffsetsResult.php',
         'Composer\\Pcre\\PcreException' => __DIR__ . '/..' . '/composer/pcre/src/PcreException.php',
         'Composer\\Pcre\\Preg' => __DIR__ . '/..' . '/composer/pcre/src/Preg.php',
         'Composer\\Pcre\\Regex' => __DIR__ . '/..' . '/composer/pcre/src/Regex.php',
         'Composer\\Pcre\\ReplaceResult' => __DIR__ . '/..' . '/composer/pcre/src/ReplaceResult.php',
+        'Composer\\Pcre\\UnexpectedNullMatchException' => __DIR__ . '/..' . '/composer/pcre/src/UnexpectedNullMatchException.php',
         'Composer\\Platform\\HhvmDetector' => __DIR__ . '/..' . '/composer/composer/src/Composer/Platform/HhvmDetector.php',
         'Composer\\Platform\\Runtime' => __DIR__ . '/..' . '/composer/composer/src/Composer/Platform/Runtime.php',
         'Composer\\Platform\\Version' => __DIR__ . '/..' . '/composer/composer/src/Composer/Platform/Version.php',
@@ -1005,9 +1016,9 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Doctrine\\Common\\Cache\\Psr6\\DoctrineProvider' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/DoctrineProvider.php',
         'Doctrine\\Common\\Cache\\Psr6\\InvalidArgument' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/InvalidArgument.php',
         'Doctrine\\Common\\Cache\\Psr6\\TypedCacheItem' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/TypedCacheItem.php',
-        'Doctrine\\Common\\EventArgs' => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common/EventArgs.php',
-        'Doctrine\\Common\\EventManager' => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common/EventManager.php',
-        'Doctrine\\Common\\EventSubscriber' => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common/EventSubscriber.php',
+        'Doctrine\\Common\\EventArgs' => __DIR__ . '/..' . '/doctrine/event-manager/src/EventArgs.php',
+        'Doctrine\\Common\\EventManager' => __DIR__ . '/..' . '/doctrine/event-manager/src/EventManager.php',
+        'Doctrine\\Common\\EventSubscriber' => __DIR__ . '/..' . '/doctrine/event-manager/src/EventSubscriber.php',
         'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
         'Doctrine\\DBAL\\Abstraction\\Result' => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL/Abstraction/Result.php',
         'Doctrine\\DBAL\\Cache\\ArrayStatement' => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL/Cache/ArrayStatement.php',
@@ -1706,6 +1717,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'EvolutionCMS\\Tracy\\Panels\\View\\Panel' => __DIR__ . '/../..' . '/src/Tracy/Panels/View/Panel.php',
         'EvolutionCMS\\Tracy\\Template' => __DIR__ . '/../..' . '/src/Tracy/Template.php',
         'EvolutionCMS\\Traits\\Helpers' => __DIR__ . '/../..' . '/src/Traits/Helpers.php',
+        'EvolutionCMS\\Traits\\Models\\LockedElements' => __DIR__ . '/../..' . '/src/Traits/Models/LockedElements.php',
         'EvolutionCMS\\Traits\\Models\\ManagerActions' => __DIR__ . '/../..' . '/src/Traits/Models/ManagerActions.php',
         'EvolutionCMS\\Traits\\Models\\SoftDeletes' => __DIR__ . '/../..' . '/src/Traits/Models/SoftDeletes.php',
         'EvolutionCMS\\Traits\\Models\\TimeMutator' => __DIR__ . '/../..' . '/src/Traits/Models/TimeMutator.php',
@@ -2969,6 +2981,12 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Predis\\Command\\Redis\\UNSUBSCRIBE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/UNSUBSCRIBE.php',
         'Predis\\Command\\Redis\\UNWATCH' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/UNWATCH.php',
         'Predis\\Command\\Redis\\WATCH' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/WATCH.php',
+        'Predis\\Command\\Redis\\XADD' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XADD.php',
+        'Predis\\Command\\Redis\\XDEL' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XDEL.php',
+        'Predis\\Command\\Redis\\XLEN' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XLEN.php',
+        'Predis\\Command\\Redis\\XRANGE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XRANGE.php',
+        'Predis\\Command\\Redis\\XREVRANGE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XREVRANGE.php',
+        'Predis\\Command\\Redis\\XTRIM' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XTRIM.php',
         'Predis\\Command\\Redis\\ZADD' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/ZADD.php',
         'Predis\\Command\\Redis\\ZCARD' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/ZCARD.php',
         'Predis\\Command\\Redis\\ZCOUNT' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/ZCOUNT.php',
@@ -3115,6 +3133,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'React\\Promise\\PromisorInterface' => __DIR__ . '/..' . '/react/promise/src/PromisorInterface.php',
         'React\\Promise\\RejectedPromise' => __DIR__ . '/..' . '/react/promise/src/RejectedPromise.php',
         'React\\Promise\\UnhandledRejectionException' => __DIR__ . '/..' . '/react/promise/src/UnhandledRejectionException.php',
+        'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'Seld\\JsonLint\\DuplicateKeyException' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/DuplicateKeyException.php',
         'Seld\\JsonLint\\JsonParser' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/JsonParser.php',
         'Seld\\JsonLint\\Lexer' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/Lexer.php',
@@ -3933,6 +3952,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
         'Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
+        'Symfony\\Polyfill\\Php81\\Php81' => __DIR__ . '/..' . '/symfony/polyfill-php81/Php81.php',
         'Tracy\\Bar' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Bar/Bar.php',
         'Tracy\\BlueScreen' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/BlueScreen/BlueScreen.php',
         'Tracy\\Bridges\\Nette\\Bridge' => __DIR__ . '/..' . '/tracy/tracy/src/Bridges/Nette/Bridge.php',
