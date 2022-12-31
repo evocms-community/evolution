@@ -3511,7 +3511,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         // web users are stored with negative keys
-        $userId = $this->getLoginUserType() == 'manager' ? $this->getLoginUserID() : -$this->getLoginUserID();
+        $userId = $this->getLoginUserID();
         if ($userId != false) {
             Models\ActiveUserSession::where('internalKey', $userId)->delete();
             Models\ActiveUserSession::where('sid', $this->sid)->delete();
