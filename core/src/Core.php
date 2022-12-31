@@ -6130,7 +6130,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         return $usrSettings;
     }
 
-    public function resolverecoverySiteCache()
+    public function recoverySiteCache()
     {
         $siteCacheDir = $this->bootstrapPath();
         $siteCachePath = $this->getSiteCacheFilePath();
