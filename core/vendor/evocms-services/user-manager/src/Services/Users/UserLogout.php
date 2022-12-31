@@ -133,7 +133,7 @@ class UserLogout implements UserServiceInterface
             $sid = EvolutionCMS()->sid;
             if ($this->events) {
                 // invoke OnBeforeManagerLogout event
-                EvolutionCMS()->invokeEvent("OnBeforeManagerLogout",
+                EvolutionCMS()->invokeEvent("OnBeforeUserLogout",
                     array(
                         "userid" => $internalKey,
                         "username" => $username
@@ -149,7 +149,7 @@ class UserLogout implements UserServiceInterface
 
         if ($this->events) {
             // invoke OnManagerLogout event
-            EvolutionCMS()->invokeEvent("OnManagerLogout",
+            EvolutionCMS()->invokeEvent("OnUserLogout",
                 array(
                     "userid" => $internalKey,
                     "username" => $username

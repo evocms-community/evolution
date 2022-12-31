@@ -52,9 +52,9 @@ class DocumentEdit extends DocumentCreate
 
     /**
      * UserRegistration constructor.
-     * @param array $documentData
-     * @param bool $events
-     * @param bool $cache
+     * @param  array  $documentData
+     * @param  bool  $events
+     * @param  bool  $cache
      */
     public function __construct(array $documentData, bool $events = true, bool $cache = true)
     {
@@ -63,7 +63,7 @@ class DocumentEdit extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-        $this->currentDate = EvolutionCMS()->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
+        $this->currentDate = EvolutionCMS()->timestamp((int) get_by_key($_SERVER, 'REQUEST_TIME', 0));
 
     }
 
@@ -113,10 +113,11 @@ class DocumentEdit extends DocumentCreate
 
         // invoke OnBeforeDocFormSave event
         if ($this->events) {
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", array(
-                "mode" => "upd",
-                "user" => $this->documentData['id'],
-            ));
+            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
+                'mode' => 'upd',
+                'id'   => $this->documentData['id'],
+                'doc'  => &$this->documentData
+            ]);
         }
 
         $document = SiteContent::query()->withTrashed()->find($this->documentData['id']);
@@ -127,10 +128,10 @@ class DocumentEdit extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", array(
-                "mode" => "upd",
-                "id" => $this->documentData['id']
-            ));
+            EvolutionCMS()->invokeEvent("OnDocFormSave", [
+                'mode'  => 'upd',
+                'id'    => $this->documentData['id']
+            ]);
         }
 
 
@@ -165,8 +166,6 @@ class DocumentEdit extends DocumentCreate
     public function prepareEditDocument()
     {
         $existingDocument = SiteContent::query()->withTrashed()->find($this->documentData['id'])->toArray();
-        $this->documentData['editedby'] = EvolutionCMS()->getLoginUserID();
-        $this->documentData['editedon'] = $this->currentDate;
         $this->documentData['oldparent'] = $existingDocument['parent'];
         if (!isset($this->documentData['parent'])) {
             $this->documentData['parent'] = $this->documentData['oldparent'];
@@ -178,7 +177,9 @@ class DocumentEdit extends DocumentCreate
         if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && $this->documentData['published'] == 0) {
             throw new ServiceActionException("Document is linked to site_start variable and cannot be unpublished!");
         }
-        $today = EvolutionCMS()->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
+        $today = EvolutionCMS()->timestamp();
+        $this->preparePublicationStatus();
+
         if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && ($this->documentData['pub_date'] > $today || $this->documentData['unpub_date'] != "0")) {
             throw new ServiceActionException("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
         }
@@ -192,7 +193,8 @@ class DocumentEdit extends DocumentCreate
         }
 
         // check to see document is a folder
-        $child = \EvolutionCMS\Models\SiteContent::withTrashed()->select('id')->where('parent', $this->documentData['id'])->first();
+        $child = \EvolutionCMS\Models\SiteContent::withTrashed()->select('id')->where('parent',
+            $this->documentData['id'])->first();
         if (!is_null($child)) {
             $this->documentData['isfolder'] = 1;
         }
@@ -225,4 +227,29 @@ class DocumentEdit extends DocumentCreate
 
     }
 
+    protected function preparePublicationStatus() {
+        // determine published status
+        $today = EvolutionCMS()->timestamp();
+        if (empty ($pub_date)) {
+            $this->documentData['pub_date'] = 0;
+        } else {
+            $this->documentData['pub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['pub_date']);
+
+            if ($this->documentData['pub_date'] < $today) {
+                $this->documentData['published'] = 1;
+            }
+            elseif ($this->documentData['pub_date'] > $today) {
+                $this->documentData['published'] = 0;
+            }
+        }
+
+        if (empty ($this->documentData['unpub_date'])) {
+            $this->documentData['unpub_date'] = 0;
+        } else {
+            $this->documentData['unpub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['unpub_date']);
+            if ($this->documentData['pub_date'] < $today) {
+                $this->documentData['published'] = 0;
+            }
+        }
+    }
 }

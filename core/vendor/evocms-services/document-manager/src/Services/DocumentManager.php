@@ -1,7 +1,7 @@
 <?php namespace EvolutionCMS\DocumentManager\Services;
 
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\DocumentManager\Services\Documents\DocumentClearCart;
+use EvolutionCMS\DocumentManager\Services\Documents\DocumentEmptyTrash;
 use EvolutionCMS\DocumentManager\Services\Documents\DocumentCreate;
 use EvolutionCMS\DocumentManager\Services\Documents\DocumentDelete;
 use EvolutionCMS\DocumentManager\Services\Documents\DocumentDuplicate;
@@ -13,7 +13,6 @@ use EvolutionCMS\DocumentManager\Services\Documents\DocumentUnpublish;
 
 class DocumentManager
 {
-
     public function get($id)
     {
         return SiteContent::withTrashed()->find($id);
@@ -45,33 +44,32 @@ class DocumentManager
 
     public function undelete(array $userData, bool $events = true, bool $cache = true)
     {
-        $username = new DocumentUndelete($userData, $events, $cache);
-        return $username->process();
+        $document = new DocumentUndelete($userData, $events, $cache);
+        return $document->process();
     }
 
     public function setGroups(array $userData, bool $events = true, bool $cache = true)
     {
-        $user = new DocumentSetGroups($userData, $events, $cache);
-        return $user->process();
+        $document = new DocumentSetGroups($userData, $events, $cache);
+        return $document->process();
     }
-
 
     public function publish(array $userData, bool $events = true, bool $cache = true)
     {
-        $user = new DocumentPublish($userData, $events, $cache);
-        return $user->process();
+        $document = new DocumentPublish($userData, $events, $cache);
+        return $document->process();
     }
 
     public function unpublish(array $userData, bool $events = true, bool $cache = true)
     {
-        $user = new DocumentUnpublish($userData, $events, $cache);
-        return $user->process();
+        $document = new DocumentUnpublish($userData, $events, $cache);
+        return $document->process();
     }
 
-    public function clearCart(array $userData = [], bool $events = true, bool $cache = true)
+    public function emptyTrash(array $userData = [], bool $events = true, bool $cache = true)
     {
-        $user = new DocumentClearCart($userData, $events, $cache);
-        return $user->process();
+        $document = new DocumentEmptyTrash($userData, $events, $cache);
+        return $document->process();
     }
 
 }

@@ -6,6 +6,7 @@ use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
 use \EvolutionCMS\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentCreate implements DocumentServiceInterface
@@ -52,9 +53,9 @@ class DocumentCreate implements DocumentServiceInterface
 
     /**
      * UserRegistration constructor.
-     * @param array $documentData
-     * @param bool $events
-     * @param bool $cache
+     * @param  array  $documentData
+     * @param  bool  $events
+     * @param  bool  $cache
      */
     public function __construct(array $documentData, bool $events = true, bool $cache = true)
     {
@@ -63,7 +64,7 @@ class DocumentCreate implements DocumentServiceInterface
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-        $this->currentDate = EvolutionCMS()->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
+        $this->currentDate = EvolutionCMS()->timestamp((int) get_by_key($_SERVER, 'REQUEST_TIME', 0));
 
     }
 
@@ -74,7 +75,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle' => ['required'],
-            'template' => ['required'],
+            'template'  => ['required'],
         ];
     }
 
@@ -85,7 +86,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle.required' => Lang::get("global.required_field", ['field' => 'pagetitle']),
-            'template.required' => Lang::get("global.required_field", ['field' => 'template']),
+            'template.required'  => Lang::get("global.required_field", ['field' => 'template']),
         ];
 
     }
@@ -101,7 +102,6 @@ class DocumentCreate implements DocumentServiceInterface
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
@@ -113,13 +113,13 @@ class DocumentCreate implements DocumentServiceInterface
         $this->prepareCreateDocument();
         // invoke OnBeforeDocFormSave event
         if ($this->events) {
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", array(
-                "mode" => "new",
-                "user" => $this->documentData['id'],
-            ));
+            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
+                'mode' => 'new',
+                'id'   => null,
+                'doc'  => &$this->documentData
+            ]);
         }
-//var_dump($this->documentData);
-//        die();
+
         if (isset($this->documentData['pub_date']) && !is_numeric($this->documentData['pub_date'])) {
             unset($this->documentData['pub_date']);
         }
@@ -135,10 +135,10 @@ class DocumentCreate implements DocumentServiceInterface
 
         if ($this->events) {
             // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", array(
-                "mode" => "new",
-                "id" => $this->documentData['id']
-            ));
+            EvolutionCMS()->invokeEvent("OnDocFormSave", [
+                'mode' => 'new',
+                'id'   => $this->documentData['id'],
+            ]);
         }
 
 
@@ -178,7 +178,7 @@ class DocumentCreate implements DocumentServiceInterface
             $this->documentData['id'] = false;
         }
 
-      
+
         if (isset($this->documentData['pagetitle']) && trim($this->documentData['pagetitle']) == "") {
             if ($this->documentData['type'] == "reference") {
                 $this->documentData['pagetitle'] = Lang::get('global.untitled_weblink');
@@ -221,7 +221,7 @@ class DocumentCreate implements DocumentServiceInterface
                 $this->documentData['alias'] = strtolower(EvolutionCMS()->stripAlias(trim($this->documentData['pagetitle'])));
                 if (!EvolutionCMS()->getConfig('allow_duplicate_alias')) {
 
-                    if (\EvolutionCMS\Models\SiteContent::query()
+                    if (SiteContent::query()
                             ->withTrashed()
                             ->where('id', '<>', $this->documentData['id'])
                             ->where('alias', $this->documentData['alias'])->count() > 0) {
@@ -239,7 +239,7 @@ class DocumentCreate implements DocumentServiceInterface
                         $this->documentData['alias'] = $tempAlias;
                     }
                 } else {
-                    if (\EvolutionCMS\Models\SiteContent::query()
+                    if (SiteContent::query()
                             ->withTrashed()
                             ->where('id', '<>', $this->documentData['id'])
                             ->where('alias', $this->documentData['alias'])
@@ -272,17 +272,18 @@ class DocumentCreate implements DocumentServiceInterface
                 }
                 $docid = $docid->first();
                 if (!is_null($docid)) {
-                    throw new ServiceActionException(\Lang::get('global.duplicate_alias_found'));
+                    throw new ServiceActionException(sprintf(\Lang::get('global.duplicate_alias_found'), $docid->id, $this->documentData['alias']));
                 }
             } // strip alias of special characters
             elseif ($this->documentData['alias']) {
                 $this->documentData['alias'] = EvolutionCMS()->stripAlias($this->documentData['alias']);
-                $docid = \EvolutionCMS\Models\SiteContent::query()->select('id')
+                $docid = SiteContent::query()->select('id')
                     ->withTrashed()
                     ->where('id', '<>', $this->documentData['id'])
-                    ->where('alias', $this->documentData['alias'])->where('parent', $this->documentData['parent'])->first();
+                    ->where('alias', $this->documentData['alias'])->where('parent',
+                        $this->documentData['parent'])->first();
                 if (!is_null($docid)) {
-                    throw new ServiceActionException(\Lang::get('global.duplicate_alias_found'));
+                    throw new ServiceActionException(sprintf(\Lang::get('global.duplicate_alias_found'), $docid->id, $this->documentData['alias']));
                 }
             }
         } elseif ($this->documentData['alias']) {
@@ -292,19 +293,14 @@ class DocumentCreate implements DocumentServiceInterface
 
     public function prepareCreateDocument()
     {
-        $this->documentData['parent'] = (int)get_by_key($this->documentData, 'parent', 0, 'is_scalar');
+        $this->documentData['parent'] = (int) get_by_key($this->documentData, 'parent', 0, 'is_scalar');
 
-        
-        $this->documentData['menuindex'] = !empty($this->documentData['menuindex']) ? (int)$this->documentData['menuindex'] : 0;
+        $this->documentData['menuindex'] = !empty($this->documentData['menuindex']) ? (int) $this->documentData['menuindex'] : 0;
 
-        $this->documentData['createdby'] = EvolutionCMS()->getLoginUserID();
-        $this->documentData['editedby'] = EvolutionCMS()->getLoginUserID();
-        $this->documentData['createdon'] = $this->currentDate;
-        $this->documentData['editedon'] = $this->currentDate;
         // invoke OnBeforeDocFormSave event
         switch (EvolutionCMS()->getConfig('docid_incrmnt_method')) {
             case '1':
-                $id = \EvolutionCMS\Models\SiteContent::query()
+                $id = SiteContent::query()
                     ->withTrashed()
                     ->leftJoin('site_content as t1', 'site_content.id +1', '=', 't1.id')
                     ->whereNull('t1.id')->min('site_content.id');
@@ -312,23 +308,29 @@ class DocumentCreate implements DocumentServiceInterface
 
                 break;
             case '2':
-                $id = \EvolutionCMS\Models\SiteContent::withTrashed()->max('id');
+                $id = SiteContent::withTrashed()->max('id');
                 $id++;
                 break;
 
             default:
                 $id = '';
         }
-        if ($id != '')
+        if ($id != '') {
             $this->documentData['id'] = $id;
+        }
 
     }
 
     public function prepareTV()
     {
-        $tmplvars = SiteTmplvarTemplate::query()->select('site_tmplvars.*')
-            ->where('templateid', $this->documentData['template'])
-            ->join('site_tmplvars', 'site_tmplvars.id', '=', 'site_tmplvar_templates.tmplvarid')->get();
+        $tmplvars = Cache::store('array')->rememberForever('sitetmplvars' . $this->documentData['template'],
+            function () {
+                return Cache::rememberForever('sitetmplvars' . $this->documentData['template'], function () {
+                    return SiteTmplvarTemplate::query()->select('site_tmplvars.*')
+                        ->where('templateid', $this->documentData['template'])
+                        ->join('site_tmplvars', 'site_tmplvars.id', '=', 'site_tmplvar_templates.tmplvarid')->get();
+                });
+            });
         foreach ($tmplvars as $tmplvar) {
             if (isset($this->documentData[$tmplvar->name])) {
                 $this->tvs[] = ['id' => $tmplvar->id, 'value' => $this->documentData[$tmplvar->name]];
@@ -340,7 +342,9 @@ class DocumentCreate implements DocumentServiceInterface
     public function saveTVs()
     {
         foreach ($this->tvs as $value) {
-            \EvolutionCMS\Models\SiteTmplvarContentvalue::updateOrCreate(['contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']], ['value' => $value['value']]);
+            \EvolutionCMS\Models\SiteTmplvarContentvalue::updateOrCreate([
+                'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']
+            ], ['value' => $value['value']]);
         }
 
     }
@@ -349,8 +353,8 @@ class DocumentCreate implements DocumentServiceInterface
     {
         // update parent folder status
         if ($this->documentData['parent'] != 0) {
-            $fields = array('isfolder' => 1);
-            \EvolutionCMS\Models\SiteContent::withTrashed()->where('id', $this->documentData['parent'])->update(['isfolder' => 1]);
+            $fields = ['isfolder' => 1];
+            SiteContent::withTrashed()->where('id', $this->documentData['parent'])->update($fields);
         }
     }
 

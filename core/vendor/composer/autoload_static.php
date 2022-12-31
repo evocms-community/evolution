@@ -416,8 +416,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
-            1 => __DIR__ . '/..' . '/illuminate/collections',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
+            1 => __DIR__ . '/..' . '/illuminate/macroable',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -1552,6 +1552,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentDelete' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentDelete.php',
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentDuplicate' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentDuplicate.php',
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentEdit' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentEdit.php',
+        'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentEmptyTrash' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentEmptyTrash.php',
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentPublish' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentPublish.php',
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentSetGroups' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentSetGroups.php',
         'EvolutionCMS\\DocumentManager\\Services\\Documents\\DocumentUndelete' => __DIR__ . '/..' . '/evocms-services/document-manager/src/Services/Documents/DocumentUndelete.php',
@@ -1742,7 +1743,6 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLogin' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLogin.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLoginById' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLoginById.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLogout' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLogout.php',
-        'EvolutionCMS\\UserManager\\Services\\Users\\UserManagerChangePassword' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserManagerChangePassword.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRefreshToken' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRefreshToken.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRegistration' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRegistration.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRepairPassword' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRepairPassword.php',

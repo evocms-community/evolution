@@ -93,7 +93,7 @@ class UserDelete implements UserServiceInterface
 
         if ($this->events) {
             // invoke OnBeforeWUsrFormDelete event
-            EvolutionCMS()->invokeEvent("OnBeforeWUsrFormDelete",
+            EvolutionCMS()->invokeEvent("OnBeforeUserDelete",
                 array(
                     "id"	=> $this->userData['id']
                 ));
@@ -106,16 +106,10 @@ class UserDelete implements UserServiceInterface
         \EvolutionCMS\Models\UserValue::query()->where('userid', $this->userData['id'])->delete();
         if ($this->events) {
             // invoke OnWebDeleteUser event
-            EvolutionCMS()->invokeEvent("OnWebDeleteUser",
+            EvolutionCMS()->invokeEvent("OnUserDelete",
                 array(
                     "userid"		=> $this->userData['id'],
                     "username"		=> $username
-                ));
-
-            // invoke OnWUsrFormDelete event
-            EvolutionCMS()->invokeEvent("OnWUsrFormDelete",
-                array(
-                    "id"	=> $this->userData['id']
                 ));
         }
 
