@@ -3180,13 +3180,13 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 <meta http-equiv="Content-Type" content="text/html; charset=' . $manager_charset . ';">
                 ' . $style . "
                 <script>
-                    public function __alertQuit() {
+                    function __alertQuit() {
                         var el = document.querySelector('p');
                         alert(el.innerHTML);
                         el.remove();
                         " . $fnc . "
                     }
-                    window.setTimeout('__alertQuit();',100);
+                    window.setTimeout(__alertQuit,100);
                 </script>
             </head>
             <body>
