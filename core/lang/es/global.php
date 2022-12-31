@@ -146,7 +146,7 @@ $_lang["configcheck_notok"] = 'Uno o más detalles de la configuración no está
 $_lang["configcheck_ok"] = 'El chequeo pasó OK - sin advertencias para reportar.';
 $_lang["configcheck_php_gdzip"] = 'El GD y/o Zip PHP extenciones no son encontrados.';
 $_lang["configcheck_php_gdzip_msg"] = 'Evolution CMS necesita GS y ZIp extenciones habilitadas para PHP. Aunque Evolution CMS continua su funccionamiento sin ellos, no será posible usar las funcciones de Administrador de archivos, de Editor de Imagenes o de Captcha.';
-$_lang["configcheck_rb_base_dir"] = 'El estado de la dirección <a href="index.php?a=17&tab=6">Base de Files</a> parece incorrecto.';
+$_lang["configcheck_rb_base_dir"] = 'El estado de la dirección <a href="/[+MGR_DIR+]/?a=17&amp;tab=5">Base de Files</a> parece incorrecto.';
 $_lang["configcheck_rb_base_dir_msg"] = 'Esto puede suceder, por ejemplo, al mover la instalación a un directorio o servidor diferente. Verifique y actualice usted su configuración de Evolution CMS.';
 $_lang["configcheck_register_globals"] = 'register_globals está configurado como ON en la configuración php.ini';
 $_lang["configcheck_register_globals_msg"] = 'Esta configuración hace su sitio mucho más vulnerable a los ataques Cross Site Scripting (XSS). Tiene que hablar con su proveedor de hospedaje para deshabilitar esta configuración.';
@@ -1340,9 +1340,12 @@ $_lang["cache_type_1"] = 'El caché se basa solo en el ID de recurso (estándar)
 $_lang["cache_type_2"] = 'El caché se basa en los parámetros el ID de recurso y $_GET';
 $_lang["seostrict_title"] = 'Usar URLs estrictas de SEO';
 $_lang["seostrict_message"] = 'Refuerza el uso de URL estrictas para evitar contenido duplicado (si es necesario)';
-$_lang["aliaslistingfolder_title"] = 'Use AliasListing solo para las carpetas';
-$_lang["full_aliaslisting_title"] = 'Deshabilitar AliasListing para todos los recursos';
-$_lang["aliaslistingfolder_message"] = 'Reduce el consumo de memoria cuando hay la cantidad grande de recursos';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'Es necesario cambiar el nombre del archivo "ht.access" en el directorio de instalación de EVO a ".htaccess" para usar la función de URL amigable.';
 $_lang["settings_friendlyurls_alert2"] = 'Debido que EVO se instaló en el subdirectorio es necesario cambiar el contenido de ".htaccess".';

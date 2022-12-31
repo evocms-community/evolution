@@ -1294,9 +1294,12 @@ $_lang["cache_type_1"] = 'Cache is based only on Resource ID (standard)';
 $_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Use SEO Strict URLs';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
-$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
-$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
-$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the Evolution CMS installation directory at .htaccess to use the Friendly URL function.';
 $_lang["settings_friendlyurls_alert2"] = 'Since Evolution CMS was installed in a subdirectory, it is necessary to change the content of .htaccess.';

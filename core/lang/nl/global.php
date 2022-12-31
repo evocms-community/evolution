@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = '&Eacute;&eacute;n of meer configuratie opties zij
 $_lang["configcheck_ok"] = 'Controle is geslaagd - er zijn geen onjuistheden gevonden.';
 $_lang["configcheck_php_gdzip"] = 'GD en/of Zip PHP extensies niet gevonden';
 $_lang["configcheck_php_gdzip_msg"] = 'EVO heeft de GD- en Zip-extensie ingeschakeld voor PHP. Hoewel EVO zonder deze functies werkt, kunt u niet volledig profiteren van de ingebouwde bestandsbeheerder, afbeeldingseditor of Captcha voor aanmeldingen.';
-$_lang["configcheck_rb_base_dir"] = 'Het momenteel ingestelde basis <a href="/[+MGR_DIR+]/#?a=17&tab=6">Bestandsbeheer pad</a> lijkt onjuist te zijn.';
+$_lang["configcheck_rb_base_dir"] = 'Het momenteel ingestelde basis <a href="/[+MGR_DIR+]/?a=17&amp;tab=5">Bestandsbeheer pad</a> lijkt onjuist te zijn.';
 $_lang["configcheck_rb_base_dir_msg"] = 'Dit kan bijvoorbeeld gebeuren door uw installatie naar een andere directory of server te verplaatsen. Controleer en update uw Evo systeemconfiguratie.';
 $_lang["configcheck_register_globals"] = 'register_globals staat op AAN in uw php.ini configuratiebestand';
 $_lang["configcheck_register_globals_msg"] = 'Deze instelling maakt uw website veel gevoeliger voor Cross Site Scripting (XSS) aanvallen. Neem contact op met uw host over hoe u deze instelling kunt uitzetten.';
@@ -1298,9 +1298,12 @@ $_lang["cache_type_1"] = 'Cache is gebaseerd op document id (standaard)';
 $_lang["cache_type_2"] = 'Cache is gebaseerd op document id en $_GET parameters';
 $_lang["seostrict_title"] = 'Gebruik SEO Strict URLs';
 $_lang["seostrict_message"] = 'Gebruik van strikte URL\'s om dubbele inhoud te voorkomen (wanneer dit plaatsvindt)';
-$_lang["aliaslistingfolder_title"] = 'Gebruik AliasListing alleen bij mappen';
-$_lang["full_aliaslisting_title"] = 'AliasListing uitschakelen voor alle pagina\'s';
-$_lang["aliaslistingfolder_message"] = 'Vermindert het geheugengebruik wanneer de site veel pagina\'s heeft';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'Het is noodzakelijk om het ht.access bestand in de EVO-installatiemap naar .htaccess te hernoemen voor het gebruik van de Friendly URL-functie.';
 $_lang["settings_friendlyurls_alert2"] = 'Omdat EVO in een submap is geïnstalleerd, is het noodzakelijk om de inhoud van .htaccess te wijzigen.';

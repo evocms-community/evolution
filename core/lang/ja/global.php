@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = '動作環境に問題があります。';
 $_lang["configcheck_ok"] = '問題なし - 警告はありません。';
 $_lang["configcheck_php_gdzip"] = 'GDライブラリが読み込まれてません。';
 $_lang["configcheck_php_gdzip_msg"] = 'このサーバでは<a href="http://www.google.com/search?q=gd+%22php.ini%22&lr=lang_ja" target="_blank">GDライブラリ</a>が読み込まれてません。<a href="http://www.google.com/cse?cx=007286147079563201032%3Aigbcdgg0jyo&ie=UTF-8&q=CAPTCHA&sa.x=26&sa.y=8&siteurl=http:%2F%2Fforum.modx.jp%2F" target="_blank">ログイン時の画像認証機能(CAPTCHA)</a>など画像まわりの処理に制限があります。';
-$_lang["configcheck_rb_base_dir"] = '現在の設定している <a href="index.php?a=17&tab=6">ファイルのベースパス</a> は不完全のようです。';
+$_lang["configcheck_rb_base_dir"] = '現在の設定している <a href="/[+MGR_DIR+]/#?a=17&amp;tab=5">ファイルのベースパス</a> は不完全のようです。';
 $_lang["configcheck_rb_base_dir_msg"] = '例えば、この問題は異なるディレクトリやサーバーに移動されたことで生じています。グローバル設定を確認し、更新してください。';
 $_lang["configcheck_register_globals"] = '「register_globals」が「ON」に設定されており、セキュリティ上問題があります。';
 $_lang["configcheck_register_globals_msg"] = 'register_globals がonになっているため、この環境は非常に脆弱です。.htaccessまたはphp.iniによって off にすることを強くおすすめします。';
@@ -1304,9 +1304,12 @@ $_lang["cache_type_1"] = 'リソースIDのみを元にしたキャッシュ（�
 $_lang["cache_type_2"] = 'リソースIDと$_GETパラメータを元にしたキャッシュ';
 $_lang["seostrict_title"] = '厳密なURL（SEO Strict URLs）を使う';
 $_lang["seostrict_message"] = 'コンテンツの重複を防ぐために厳密なURLの使用を強制する（必要な場合）';
-$_lang["aliaslistingfolder_title"] = 'フォルダにのみエイリアスリスティング（AliasListing）を使用する';
-$_lang["full_aliaslisting_title"] = '全てのリソースに対するエイリアスリスティングを無効';
-$_lang["aliaslistingfolder_message"] = '大量のリソースがある場合にメモリ消費量を削減する';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'フレンドリーURL機能を利用するにはEVO設置ディレクトリの\nsample.htaccessファイルを.htaccessにリネームする必要があります。\nサブディレクトリに設置している場合はファイル内の\nRewriteBaseの値を変更してください。';
 $_lang["settings_friendlyurls_alert2"] = 'EVOはサブディレクトリにインストールされました。.htaccessの内容を変更する必要があります。(参考 : install/tpl/htaccess.tpl)';

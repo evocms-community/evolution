@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = 'Verificare alcuni dettagli della configurazione: 
 $_lang["configcheck_ok"] = 'Controllo OK - Nessun avviso da segnalare.';
 $_lang["configcheck_php_gdzip"] = 'Le estensioni PHP GD e/o Zip non sono state trovate';
 $_lang["configcheck_php_gdzip_msg"] = 'EVO richiede le estensioni PHP GD e Zip. EVO funziona anche senza, ma non potrete utilizzare File Manager, Image Editor e Captcha.';
-$_lang["configcheck_rb_base_dir"] = 'L\'impostazione <a href="index.php?a=17&tab=6">File base path</a> sembra errata.';
+$_lang["configcheck_rb_base_dir"] = 'L\'impostazione <a href="/[+MGR_DIR+]/?a=17&amp;tab=5">File base path</a> sembra errata.';
 $_lang["configcheck_rb_base_dir_msg"] = 'Questo può accadere, per esempio, quando si sposta l\'installazione di EVO in una differente cartella o server. Per favore, controlla e aggiorna la configurazione di sistema di EVO.';
 $_lang["configcheck_register_globals"] = 'Nel vostro file di configurazione php.ini, il valore register_globals è impostato su ON';
 $_lang["configcheck_register_globals_msg"] = 'Questa configurazione rende il vostro sito molto più suscettibile agli attacchi di Cross Site Scripting (XSS). Contattate il vostro fornitore di hosting per capire cosa si può fare per disabilitare questa impostazione.';
@@ -1307,9 +1307,12 @@ $_lang["cache_type_1"] = 'La cache si basa solo sull\'ID della Risorsa (standard
 $_lang["cache_type_2"] = 'La cache si basa sull\'ID della risorsa e sui parametri $_GET';
 $_lang["seostrict_title"] = 'Usa URL univoci:';
 $_lang["seostrict_message"] = 'Forza l\'uso di URL SEO univoche per prevenire contenuti duplicati (se necessario)';
-$_lang["aliaslistingfolder_title"] = 'Usa AliasListing solo per le cartelle';
-$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
-$_lang["aliaslistingfolder_message"] = 'Riduce il consumo di memoria quando si ha un gran numero di risorse';
+
+$_lang["alias_listing_title"] = 'Use AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_disabled"] = 'Disabled';
+$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_enabled"] = 'Enabled';
 
 $_lang["settings_friendlyurls_alert"] = 'E\' necessario rinominare il file ht.access presente nella root dell\'installazione di EVO in .htaccess per poter utilizzare gli URL Semplici.';
 $_lang["settings_friendlyurls_alert2"] = 'Dasto che EVO è installato in una sottodirectory è necessario modificare di conseguenza il file .htaccess.';
@@ -1386,7 +1389,7 @@ $_lang["extras"] = "Extras";
 $_lang["display_locks"] = "Mostra Blocchi";
 $_lang["role_display_locks"] = "Mostra Blocchi";
 $_lang["session_timeout"] = "Timeout Sessione";
-$_lang["session_timeout_msg"] = "Evolution CMS will ping the server, if the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
+$_lang["session_timeout_msg"] = "EVO effettua il ping al server una volta ogni minuto per aggiornare il controllo di posta. Se l'ultimo ping supera questa impostazione, la sessione associata sarà considerata non valida e tutti i blocchi relativi saranno rimossi automaticamente. Inserisci il valore in minuti (> 2 minuti, di default 15 minuti).";
 $_lang["unlock_element_id_warning"] = "Sei sicuro di voler sbloccare questo [+element_type+] (ID [+id+])?";
 $_lang["lock_element_type_1"] = "Template";
 $_lang["lock_element_type_2"] = "Template-Variable";
