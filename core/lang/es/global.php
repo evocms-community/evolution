@@ -133,7 +133,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'La página de error de sitio no e
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Esto significa que su página de Error no está accesible para navegantes normales de Internet o que no existe. Esto puede provocar un estado de circulo cerrado y varios errores en el archivo de registro. Asegúrese que no hay los grupos de usuarios asignados a la página.';
 $_lang["configcheck_errorpage_unpublished"] = 'La página de error de sitio no está publicada o no existe.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Esto significa que la página de error no está accesible para el público en general. Publique la página o asegúrese usted que está asignada a un documento existente en el árbol de sitio en el menú Herramientas &gt; Configuración.';
-$_lang["configcheck_filemanager_path"] = 'El estado de la dirección <a href="index.php?a=17&tab=5">Administrador de archivos</a> parece incorrecto.';
+$_lang["configcheck_filemanager_path"] = 'El estado de la dirección <a href="/[+MGR_DIR+]/?a=17&amp;tab=4">Administrador de archivos</a> parece incorrecto.';
 $_lang["configcheck_filemanager_path_msg"] = 'Esto puede suceder, por ejemplo, al mover la instalación a un directorio o servidor diferente. Verifique y actualice usted su configuración de Evolution CMS.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>No vuelvas a mostrar esto.</em></a>';
 $_lang["configcheck_images"] = 'El directorio de imágenes no está escribible';
@@ -163,6 +163,7 @@ $_lang["configcheck_validate_referer"] = 'Advertencia de seguridad: validación 
 $_lang["configcheck_validate_referer_msg"] = 'La opción de configuración <strong>Validar encabezados HTTP_REFERER</strong> esta apagado. Recomendamos encenderlo. Ir a las <a href="index.php?a=17">Opciones de configuración</a>';
 $_lang["configcheck_warning"] = 'La advertencia de configuración:';
 $_lang["configcheck_what"] = '¿Qué significa esto?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = '¿Está seguro que quiere bloquear a este usuario?';
 $_lang["confirm_delete_category"] = '¿Está seguro que quiere borrar esta categoría?';
 $_lang["confirm_delete_eventlog"] = '¿Está seguro que quiere borrar este registro?';

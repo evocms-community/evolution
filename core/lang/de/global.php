@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'Die Fehlerseite Ihres Webauftritt
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Ihre Fehlerseite ist für normale Besucher nicht abrufbar oder existiert nicht. Dies kann zu einer Endlosschleife und vielen Fehlermeldungen in Ihren Webserver-Statistiken führen. Stellen Sie sicher, dass der Seite keine Benutzergruppen zugeordnet sind.';
 $_lang["configcheck_errorpage_unpublished"] = 'Die Fehlerseite Ihres Webauftrittes wurde nicht veröffentlicht oder noch nicht erstellt.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Ihre Fehlerseite ist der Allgemeinheit nicht zugänglich. Veröffentlichen Sie die Seite oder stellen Sie sicher, dass in der Konfiguration eine vorhandene Seite aus dem Ressourcen-Baum ausgewählt ist.';
-$_lang["configcheck_filemanager_path"] = 'Der aktuelle <a href="index.php?a=17&tab=5">Datei-Manager Pfad</a> scheint nicht korrekt zu sein.';
+$_lang["configcheck_filemanager_path"] = 'Der aktuelle <a href="/[+MGR_DIR+]/?a=17&amp;tab=4">Datei-Manager Pfad</a> scheint nicht korrekt zu sein.';
 $_lang["configcheck_filemanager_path_msg"] = 'Dies kann beispielsweise der Fall sein, wenn Sie Ihre Installation in ein anderes Verzeichnis oder auf einen anderen Server umgezogen haben. Bitte prüfen und speichern Sie die System-Konfiguration erneut.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Nicht mehr anzeigen.</em></a>';
 $_lang["configcheck_images"] = 'Das Bilderverzeichnis ist nicht beschreibbar';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Sicherheitshinweis: HTTP Header Validi
 $_lang["configcheck_validate_referer_msg"] = 'Die Konfigurationseinstellung <strong>HTTP_REFERER Header validieren?</strong> ist AUSGESCHALTET. Wir empfehlen, diese anzuschalten. <a href="index.php?a=17">Zu den Einstellungen</a>';
 $_lang["configcheck_warning"] = 'Konfigurationswarnung:';
 $_lang["configcheck_what"] = 'Was bedeutet das?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'Sind Sie sicher, dass Sie diesen Benutzer sperren wollen?';
 $_lang["confirm_delete_category"] = 'Sind Sie sicher, dass Sie diese Kategorie löschen möchten?';
 $_lang["confirm_delete_eventlog"] = 'Wollen Sie das Ereignisprotokoll wirklich löschen?';

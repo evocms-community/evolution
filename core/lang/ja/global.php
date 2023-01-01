@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = '設定した「エラーページ
 $_lang["configcheck_errorpage_unavailable_msg"] = '設定した「エラーページ」が一般的なエンドユーザーからアクセスできないページ（private）かあるいは存在しないことを意味しています。この場合、システムがループ状態に陥り、多くのエラーメッセージをエラーログに記録してしまいます。「エラーページ」には存在するページでかつ、公開ページ、かつ「public」なページを指定してください。';
 $_lang["configcheck_errorpage_unpublished"] = 'グローバル設定で設定されたエラーページは公開されていません。';
 $_lang["configcheck_errorpage_unpublished_msg"] = '設定したエラーページが誰でも見られるようにはなっていないことを意味します。エラーページは全ての人(Public)に公開するようにしてください。';
-$_lang["configcheck_filemanager_path"] = '現在設定されている <a href="index.php?a=17&tab=5">ファイルマネージャーのパス</a>は不完全なようです。';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=4">File Manager path</a> seems incorrect.';
 $_lang["configcheck_filemanager_path_msg"] = '例えば、この問題は異なるディレクトリやサーバーに移動されたことで生じています。Evoのグローバル設定を確認し、更新してください。';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>次からこの警告を表示しない</em></a>';
 $_lang["configcheck_images"] = 'images/ディレクトリに書き込みできません';
@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = '動作環境に問題があります。';
 $_lang["configcheck_ok"] = '問題なし - 警告はありません。';
 $_lang["configcheck_php_gdzip"] = 'GDライブラリが読み込まれてません。';
 $_lang["configcheck_php_gdzip_msg"] = 'このサーバでは<a href="http://www.google.com/search?q=gd+%22php.ini%22&lr=lang_ja" target="_blank">GDライブラリ</a>が読み込まれてません。<a href="http://www.google.com/cse?cx=007286147079563201032%3Aigbcdgg0jyo&ie=UTF-8&q=CAPTCHA&sa.x=26&sa.y=8&siteurl=http:%2F%2Fforum.modx.jp%2F" target="_blank">ログイン時の画像認証機能(CAPTCHA)</a>など画像まわりの処理に制限があります。';
-$_lang["configcheck_rb_base_dir"] = '現在の設定している <a href="/[+MGR_DIR+]/#?a=17&amp;tab=5">ファイルのベースパス</a> は不完全のようです。';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=5">File Browser path</a> seems incorrect.';
 $_lang["configcheck_rb_base_dir_msg"] = '例えば、この問題は異なるディレクトリやサーバーに移動されたことで生じています。グローバル設定を確認し、更新してください。';
 $_lang["configcheck_register_globals"] = '「register_globals」が「ON」に設定されており、セキュリティ上問題があります。';
 $_lang["configcheck_register_globals_msg"] = 'register_globals がonになっているため、この環境は非常に脆弱です。.htaccessまたはphp.iniによって off にすることを強くおすすめします。';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'セキュリティ警告: 参照元チ
 $_lang["configcheck_validate_referer_msg"] = '<a href="index.php?a=17">グローバル設定</a>の<strong>「管理画面のリファラチェック」</strong>がオフになっています。セキュリティ強化のためオンにすることをおすすめします。<br /><a href="javascript:hideHeaderVerificationWarning();"><em>今後この警告を表示しない</em></a>';
 $_lang["configcheck_warning"] = '警告';
 $_lang["configcheck_what"] = 'どういう意味ですか?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'このアカウントを休止してもよろしいですか?';
 $_lang["confirm_delete_category"] = 'このカテゴリーを削除してもよろしいですか?';
 $_lang["confirm_delete_eventlog"] = 'このログエントリーを削除してもよろしいですか?';

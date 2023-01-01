@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'Strona błędu Twojego serwisu je
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Oznacza to, że Twoja strona błędu jest niedostępna dla użytkowników albo nie istnieje. Może to powodować niestabilność i wiele błędnych wpisów w logach serwisu. Upewnij się, że żadna grupa użytkowników nie jest przypisana do strony.';
 $_lang["configcheck_errorpage_unpublished"] = 'Strona błędu Twojego serwisu jest nieopublikowana lub nie istnieje.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Oznacza to, że strona błędu Twojego serwisu jest niedostępna dla odwiedzających. Opublikuj tą stronę albo upewnij się, że jest ona przypisana do istniejącego dokumentu w drzewie zawartości Twojej strony.';
-$_lang["configcheck_filemanager_path"] = 'Obecne ustawienie <a href="index.php?a=17&tab=5">File Manager path</a> wygląda nieprawidłowo.';
+$_lang["configcheck_filemanager_path"] = 'Obecne ustawienie <a href="/[+MGR_DIR+]/?a=17&amp;tab=4">File Manager path</a> wygląda nieprawidłowo.';
 $_lang["configcheck_filemanager_path_msg"] = 'To może się zdarzyć np. po przeniesieniu instalacji do innego katalogu lub innego serwera. Proszę sprawdzić i zapisać Konfigurację EVO.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Nie pokazuj tego ponownie.</em></a>';
 $_lang["configcheck_images"] = 'Katalog obrazów nie jest zapisywalny';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Ostrzeżenie odnośnie bezpieczeństwa
 $_lang["configcheck_validate_referer_msg"] = 'Ustawienie konfiguracyjne <strong>Weryfikuj nagłówki HTTP_REFERER</strong> jest wyłączone. Zalecamy aby było ono włączone. <a href="index.php?a=17">Przejdź do konfiguracji systemu</a><br /><a href="javascript:hideHeaderVerificationWarning();"><em>Nie pokazuj tego komunikatu ponownie./em></a>';
 $_lang["configcheck_warning"] = 'Ostrzeżenia konfiguracji:';
 $_lang["configcheck_what"] = 'Co to oznacza?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'Czy na pewno chcesz zablokować tego użytkownika?';
 $_lang["confirm_delete_category"] = 'Na pewno chcesz usunąć tę kategorię?';
 $_lang["confirm_delete_eventlog"] = 'Czy na pewno chcesz usunąć log zdarzeń?';

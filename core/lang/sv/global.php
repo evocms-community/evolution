@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'Felsidan för din webbplats är i
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Detta betyder att din felsida inte är tillgänglig för vanliga användare eller att den inte existerar. Det här kan leda till att ett tillstånd med upprepande loopar skapas och ger upphov till att många fel rapporteras i webbplatsens loggar. Kontrollera att inga webbanvändargrupper är anslutna till sidan.';
 $_lang["configcheck_errorpage_unpublished"] = 'Felsidan för din webbplats är inte publicerad eller existerar inte.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Detta betyder att din felsida inte är tillgänglig för allmänheten. Publicera sidan eller kontrollera under Verktyg &gt; Konfiguration att den angivna sidan är en existerande resurs i webbplatsens resursträd.';
-$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=4">File Manager path</a> seems incorrect.';
 $_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Visa inte detta igen.</em></a>';
 $_lang["configcheck_images"] = 'Bildkatalogen är inte skrivbar';
@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = 'En eller flera konfigurationsdetaljer är inte ko
 $_lang["configcheck_ok"] = 'Kontrollen utförd OK - inga varningar att rapportera.';
 $_lang["configcheck_php_gdzip"] = 'GD och/eller Zip PHP-tillägg kunde inte hittas';
 $_lang["configcheck_php_gdzip_msg"] = 'EVO behöver tilläggen GD och Zip aktiverade för PHP. Även om EVO kommer att fungera utan dom, så kommer du inte att kunna utnyttja alla möjligheterna i den inbyggda filhanteraren, bildredigeraren eller captcha för inloggningar.';
-$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=5">File Browser path</a> seems incorrect.';
 $_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals är satt till ON i din konfigurationsfil för php - php.ini';
 $_lang["configcheck_register_globals_msg"] = 'Denna konfiguration gör din webbplats betydligt mer sårbar för så kallade serveröverskridande scriptattacker (Cross Site Scripting eller XSS). Du bör ta kontakt med din webbhost och ta reda på vad du kan göra för att stänga av den här inställningen.';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Säkerhetsvarning: validering av HTTP-
 $_lang["configcheck_validate_referer_msg"] = 'Konfigurationsinställningen <strong>Kontrollera HTTP_REFERER-headers?</strong> är inaktiverad. Vi rekommenderar att den aktiveras. <a href="index.php?a=17">Gå till konfigurationssidan</a>.';
 $_lang["configcheck_warning"] = 'Konfigurationsvarning: ';
 $_lang["configcheck_what"] = 'Vad betyder det här?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'Är du säker på att du vill blockera denna användare?';
 $_lang["confirm_delete_category"] = 'Are you sure you want to delete this category?';
 $_lang["confirm_delete_eventlog"] = 'Är du säker på att du vill ta bort den här händelseloggen?';

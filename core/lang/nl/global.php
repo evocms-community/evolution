@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'Er is geen \'Fout\'-pagina voor u
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Dit houdt in dat uw \'Fout\'-pagina niet toegankelijk is voor normale Webgebruikers of niet bestaat. Dit kan leiden tot een oneindige lus en veel foutmeldingen in uw logbestand. Zorg ervoor dat de Pagina niet aan een Webgebruikersgroep is toegewezen.';
 $_lang["configcheck_errorpage_unpublished"] = 'De \'Fout\'-pagina voor uw website is niet gepubliceerd of bestaat niet.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Dit houdt in dat uw \'Fout\'-pagina niet toegankelijk is voor bezoekers. Publiceer de Pagina of zorg ervoor dat het is toegewezen aan een bestaande Pagina in de inhoudsopgave van uw website met het Beheer &gt; Configuratie menu.';
-$_lang["configcheck_filemanager_path"] = 'Het momenteel ingestelde <a href="/[+MGR_DIR+]/#?a=17&tab=5">Bestandsbeheer pad</a> lijkt onjuist te zijn.';
+$_lang["configcheck_filemanager_path"] = 'Het momenteel ingestelde <a href="/[+MGR_DIR+]/?a=17&amp;tab=4">Bestandsbeheer pad</a> lijkt onjuist te zijn.';
 $_lang["configcheck_filemanager_path_msg"] = 'Dit kan bijvoorbeeld gebeuren door uw installatie naar een andere directory of server te verhuizen. Controleer en update uw Evo systeemconfiguratie.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Niet meer tonen.</em></a>';
 $_lang["configcheck_images"] = 'De Map images is niet schrijfbaar';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Beveiliging Waarschuwing: HTTP Header 
 $_lang["configcheck_validate_referer_msg"] = 'De configuratie instelling <strong>Validate HTTP_REFERER headers?</strong> staat UIT. We raden aan deze AAN te zetten. <a href="index.php?a=17">Ga naar de Configuratie opties</a>';
 $_lang["configcheck_warning"] = 'Configuratie waarschuwing:';
 $_lang["configcheck_what"] = 'Wat betekent dit?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'Weet u zeker dat u deze Gebruiker wilt blokkeren?';
 $_lang["confirm_delete_category"] = 'Weet u zeker dat u deze categorie wilt verwijderen?';
 $_lang["confirm_delete_eventlog"] = 'Weet u zeker dat u het logboek (events) wilt leegmaken?';

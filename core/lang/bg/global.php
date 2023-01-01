@@ -126,7 +126,7 @@ $_lang["configcheck_errorpage_unavailable"] = 'Страницата с греш�
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Това означава, че страницата с грешката не е достъпна за нормалните уеб потребители или не съществува. Това може да доведе до състояние на зацикляне и много грешки в логовете на сайта. Уверете се, че няма никакви Групи на уеб потребители, прикачени към страницата.';
 $_lang["configcheck_errorpage_unpublished"] = 'Страницата с грешката, указана в конфигурацията на Вашия сайт не е публикувана или не съществува.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Това означава, че страницата с грешката не е публично достъпна. Публикувайте страницата и се уверете, че тя е прикачена към съществуващ документ в дървото на сайта като отидете на Инструменти &gt; в менюто Конфигурация.';
-$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=4">File Manager path</a> seems incorrect.';
 $_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Don\'t show this again.</em></a>';
 $_lang["configcheck_images"] = 'Директорията Images не е позволена за писане';
@@ -139,7 +139,7 @@ $_lang["configcheck_notok"] = 'Конфигурацията съдържа гр�
 $_lang["configcheck_ok"] = 'Проверката мина успешно.';
 $_lang["configcheck_php_gdzip"] = 'GD and/or Zip PHP extensions not found';
 $_lang["configcheck_php_gdzip_msg"] = 'Evolution CMS needs the GD and Zip extension enabled for PHP. While Evolution CMS will work without them, you will not be able to take full advantage of the built-in File Manager, Image Editor or Captcha for logins.';
-$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=5">File Browser path</a> seems incorrect.';
 $_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evolution CMS configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals е установено на ON във Вашия php.ini конфигурационен файл';
 $_lang["configcheck_register_globals_msg"] = 'Тази конфигурация прави сайта ви податлив към Cross Site Scripting (XSS) атаки. Трябва да се обърнете към Вашия хостинг какво да направите, за да забраните тази настройка.';
@@ -156,6 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Security Warning: HTTP Header Validati
 $_lang["configcheck_validate_referer_msg"] = 'The configuration setting <strong>Validate HTTP_REFERER headers?</strong> is Off. We recommend turning it On. <a href="index.php?a=17">Go to Configuration options</a>';
 $_lang["configcheck_warning"] = 'Грешки в конфигурацията:';
 $_lang["configcheck_what"] = 'Какво означава това?';
+$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
 $_lang["confirm_block"] = 'Сигурни ли сте, че желаете да блокирате този потребител?';
 $_lang["confirm_delete_category"] = 'Are you sure you want to delete this category?';
 $_lang["confirm_delete_eventlog"] = 'Сигурни ли сте, че желаете да изтриете този Дневник на събитията?';
