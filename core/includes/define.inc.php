@@ -188,7 +188,7 @@ if (!defined('MODX_SANITIZE_SEED')) {
     define('MODX_SANITIZE_SEED', 'sanitize_seed_' . base_convert(md5(__FILE__), 16, 36));
 }
 
-if (is_cli()) {
+if (!defined('MODX_CLI') && is_cli()) {
     define('MODX_CLI', true);
     if (!(defined('MODX_BASE_PATH') || defined('MODX_BASE_URL'))) {
         throw new RuntimeException('Please, define MODX_BASE_PATH and MODX_BASE_URL on cli mode');
