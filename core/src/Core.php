@@ -3688,7 +3688,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 $f = MODX_BASE_PATH . $f;
             }
             if (file_exists($f) && is_file($f) && is_readable($f)) {
-                $mail->AddAttachment(MODX_BASE_PATH . $f);
+                $mail->AddAttachment($f);
             }
         }
 
