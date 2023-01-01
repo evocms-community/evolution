@@ -3683,12 +3683,16 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if (!is_array($files)) {
             $files = array();
         }
-        foreach ($files as $f) {
-            if (!file_exists($f) || !is_file($f) || !is_readable($f)) {
-                $f = MODX_BASE_PATH . $f;
+        foreach ($files as $name => $path) {
+            if (!is_file($path) || !is_readable($path)) {
+                $path = MODX_BASE_PATH . $path;
             }
-            if (file_exists($f) && is_file($f) && is_readable($f)) {
-                $mail->AddAttachment($f);
+            if (is_file($path) && is_readable($path)) {
+                if (is_numeric($name)) {
+                    $mail->AddAttachment($path);
+                } else {
+                    $mail->AddAttachment($path, $name);
+                }
             }
         }
 
