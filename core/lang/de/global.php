@@ -156,7 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Sicherheitshinweis: HTTP Header Validi
 $_lang["configcheck_validate_referer_msg"] = 'Die Konfigurationseinstellung <strong>HTTP_REFERER Header validieren?</strong> ist AUSGESCHALTET. Wir empfehlen, diese anzuschalten. <a href="index.php?a=17">Zu den Einstellungen</a>';
 $_lang["configcheck_warning"] = 'Konfigurationswarnung:';
 $_lang["configcheck_what"] = 'Was bedeutet das?';
-$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
+$_lang["safe_mode_warning"] = 'Der abgesicherte Modus ist aktiviert. Die Managerfunktionalität ist eingeschränkt.';
 $_lang["confirm_block"] = 'Sind Sie sicher, dass Sie diesen Benutzer sperren wollen?';
 $_lang["confirm_delete_category"] = 'Sind Sie sicher, dass Sie diese Kategorie löschen möchten?';
 $_lang["confirm_delete_eventlog"] = 'Wollen Sie das Ereignisprotokoll wirklich löschen?';
@@ -1300,11 +1300,11 @@ $_lang["cache_type_2"] = 'Der Cache basiert auf Ressoucen-ID and $_GET Parameter
 $_lang["seostrict_title"] = 'SEO strikte URLs benutzen';
 $_lang["seostrict_message"] = 'Erzwingt die Benutzung von strikten URLs um doppelten Inhalt zu vermeiden.';
 
-$_lang["alias_listing_title"] = 'Use AliasListing cache';
-$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
-$_lang["alias_listing_disabled"] = 'Disabled';
-$_lang["alias_listing_folders"] = 'Only for folders';
-$_lang["alias_listing_enabled"] = 'Enabled';
+$_lang["alias_listing_title"] = 'AliasListing Cache benutzen';
+$_lang["alias_listing_message"] = 'Die Zwischenspeicherung von Seiten-Aliasen muss deaktiviert werden, wenn eine Website eine große Anzahl von Ressourcen hat. "Deaktiviert" reduziert den Speicherverbrauch bei Websites mit einer großen Anzahl von Ressourcen.';
+$_lang["alias_listing_disabled"] = 'Deaktiviert';
+$_lang["alias_listing_folders"] = 'Nur für Ordner';
+$_lang["alias_listing_enabled"] = 'Aktiviert';
 
 $_lang["settings_friendlyurls_alert"] = 'Wenn Sie benutzerfreundliche URLs aktivieren wollen, ist es notwendig, die „ht.access“ Datei im Webroot der EVO Installation in „.htaccess“ umzubenennen.';
 $_lang["settings_friendlyurls_alert2"] = 'Da EVO in einem Unterverzeichnis installiert worden ist, ist es notwendig, den Inhalt der „.htaccess“ Datei zu verändern.';

@@ -156,7 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Beveiliging Waarschuwing: HTTP Header 
 $_lang["configcheck_validate_referer_msg"] = 'De configuratie instelling <strong>Validate HTTP_REFERER headers?</strong> staat UIT. We raden aan deze AAN te zetten. <a href="index.php?a=17">Ga naar de Configuratie opties</a>';
 $_lang["configcheck_warning"] = 'Configuratie waarschuwing:';
 $_lang["configcheck_what"] = 'Wat betekent dit?';
-$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
+$_lang["safe_mode_warning"] = 'Veilige modus is ingeschakeld. Manager functionaliteit is beperkt.';
 $_lang["confirm_block"] = 'Weet u zeker dat u deze Gebruiker wilt blokkeren?';
 $_lang["confirm_delete_category"] = 'Weet u zeker dat u deze categorie wilt verwijderen?';
 $_lang["confirm_delete_eventlog"] = 'Weet u zeker dat u het logboek (events) wilt leegmaken?';
@@ -1300,11 +1300,11 @@ $_lang["cache_type_2"] = 'Cache is gebaseerd op document id en $_GET parameters'
 $_lang["seostrict_title"] = 'Gebruik SEO Strict URLs';
 $_lang["seostrict_message"] = 'Gebruik van strikte URL\'s om dubbele inhoud te voorkomen (wanneer dit plaatsvindt)';
 
-$_lang["alias_listing_title"] = 'Use AliasListing cache';
-$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
-$_lang["alias_listing_disabled"] = 'Disabled';
-$_lang["alias_listing_folders"] = 'Only for folders';
-$_lang["alias_listing_enabled"] = 'Enabled';
+$_lang["alias_listing_title"] = 'Gebruik AliasListing cache';
+$_lang["alias_listing_message"] = 'Caching pagina aliassen moeten worden uitgeschakeld als een site een enorme hoeveelheid bronnen heeft. "Uitgeschakeld" vermindert het geheugen verbruik wanneer de site een groot aantal bronnen heeft.';
+$_lang["alias_listing_disabled"] = 'Uitgeschakeld';
+$_lang["alias_listing_folders"] = 'Alleen voor mappen';
+$_lang["alias_listing_enabled"] = 'Ingeschakeld';
 
 $_lang["settings_friendlyurls_alert"] = 'Het is noodzakelijk om het ht.access bestand in de EVO-installatiemap naar .htaccess te hernoemen voor het gebruik van de Friendly URL-functie.';
 $_lang["settings_friendlyurls_alert2"] = 'Omdat EVO in een submap is geïnstalleerd, is het noodzakelijk om de inhoud van .htaccess te wijzigen.';

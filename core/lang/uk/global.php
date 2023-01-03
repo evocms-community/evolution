@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'uk'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS - це <a href="https://evo-cms.com/" target="_blank">PHP Application Framework і система керування вмістом</a> ліцензія <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -156,7 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Попередження безпек�
 $_lang["configcheck_validate_referer_msg"] = 'У конфігурації параметр<strong>Перевіряти серверні заголовки HTTP_REFERER?</strong> відключений. Ми рекомендуємо його ввімкнути. <a href="index.php?a=17">Перейти до налаштування конфігурації</a>';
 $_lang["configcheck_warning"] = 'Помилка конфігурації:';
 $_lang["configcheck_what"] = 'Що це означає?';
-$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
+$_lang["safe_mode_warning"] = 'Безпечний режим увімкнено. Функціонал менеджера обмежений.';
 $_lang["confirm_block"] = 'Ви впевнені, що хочете заблокувати користувача?';
 $_lang["confirm_delete_category"] = 'Ви впевнені, що хочете видалити цю категорію?';
 $_lang["confirm_delete_eventlog"] = 'Ви впевнені, що хочете видалити протокол подій?';
@@ -1293,11 +1293,11 @@ $_lang["cache_type_2"] = 'З урахуванням ID та $_GET';
 $_lang["seostrict_title"] = 'Використовувати SEO Strict URLs';
 $_lang["seostrict_message"] = 'використання strict URLs видаляє дублі сторінок за різними посиланнями';
 
-$_lang["alias_listing_title"] = 'Use AliasListing cache';
-$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
-$_lang["alias_listing_disabled"] = 'Disabled';
-$_lang["alias_listing_folders"] = 'Only for folders';
-$_lang["alias_listing_enabled"] = 'Enabled';
+$_lang["alias_listing_title"] = 'Використовуйте кеш AliasListing';
+$_lang["alias_listing_message"] = 'Кешування псевдонімів сторінок потрібно вимкнути, якщо сайт має величезну кількість ресурсів. «Вимкнено» зменшує споживання пам’яті, коли сайт має велику кількість ресурсів.';
+$_lang["alias_listing_disabled"] = 'Вимкнено';
+$_lang["alias_listing_folders"] = 'Тільки для папок';
+$_lang["alias_listing_enabled"] = 'Увімкнено';
 
 $_lang["settings_friendlyurls_alert"] = 'Для використання дружніх URL, необхідно змінити ім\'я файлу ht.access в папці, в яку встановлений EVO, на .htaccess.';
 $_lang["settings_friendlyurls_alert2"] = 'При встановленні EVO в підпапку необхідно внести зміни в файл .htaccess.';
