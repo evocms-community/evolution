@@ -62,7 +62,7 @@ if ($id !== null) {
             $classes .= ($row['published']) ? ' publishedNode ' : ' unpublishedNode ';
             $classes = ($row['deleted']) ? ' deletedNode ' : $classes;
             $icon = $row['isfolder'] ? '<i class="' . $_style['files_folder'] . '"></i> ' : ' <i class="' . $_style['files_page_html'] . '"></i> ';
-            $ressourcelist .= '<li id="item_' . $row['id'] . '" class="' . $classes . '">' . $icon . $row['pagetitle'] . ' <small>(' . $row['id'] . ')</small></li>';
+            $ressourcelist .= '<li id="item_' . $row['id'] . '" class="' . $classes . '">' . $icon . $modx->htmlspecialchars($row['pagetitle']) . ' <small>(' . $row['id'] . ')</small></li>';
         }
         $ressourcelist .= '</ul></div>';
     } else {
@@ -149,7 +149,7 @@ $pagetitle = empty($id) ? $site_name : $pagetitle;
 </script>
 
 <h1>
-    <i class="fa fa-sort-numeric-asc"></i><?= ($pagetitle ? $pagetitle . '<small>(' . $id . ')</small>' : $_lang['sort_menuindex']) ?>
+    <i class="fa fa-sort-numeric-asc"></i><?= ($pagetitle ? $modx->htmlspecialchars($pagetitle) . '<small>(' . $id . ')</small>' : $_lang['sort_menuindex']) ?>
 </h1>
 
 <?= $_style['actionbuttons']['dynamic']['save'] ?>

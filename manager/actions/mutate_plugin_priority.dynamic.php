@@ -47,7 +47,7 @@ while ($plugins = $modx->db->getRow($rs)) {
         $sortableList .= '<div class="form-group clearfix"><strong>' . $plugins['evtname'] . '</strong><ul id="' . $plugins['evtid'] . '" class="sortableList">';
         $insideUl = 1;
     }
-    $sortableList .= '<li id="item_' . $plugins['pluginid'] . '"' . ($plugins['disabled'] ? ' class="disabledPlugin"' : '') . '><i class="fa fa-plug"></i> ' . $plugins['name'] . ($plugins['disabled'] ? ' (hide)' : '') . '<input type="hidden" name="priority[' . $plugins['evtid'] . '][]" value="' . $plugins['pluginid'] . '"></li>';
+    $sortableList .= '<li id="item_' . $plugins['pluginid'] . '"' . ($plugins['disabled'] ? ' class="disabledPlugin"' : '') . '><i class="fa fa-plug"></i> ' . $modx->htmlspecialchars($plugins['name']) . ($plugins['disabled'] ? ' (hide)' : '') . '<input type="hidden" name="priority[' . $plugins['evtid'] . '][]" value="' . $plugins['pluginid'] . '"></li>';
     $preEvt = $plugins['evtid'];
 }
 if ($insideUl) {

@@ -161,6 +161,9 @@ class mgrResources
 
         $result = [];
         while ($row = $modx->db->getRow($rs)) {
+            foreach ($row as &$item) {
+                $item = str_replace(['&lt;strong&gt;', '&lt;/strong&gt;'], ['<strong>', '</strong>'], htmlspecialchars($item));
+            }
             $result[] = $row;
         }
         return $result;

@@ -130,8 +130,8 @@ echo $cm->render();
 					if(!empty($sqlQuery)) {
 						$where .= (empty($where) ? "" : " AND ") . "((mu.username LIKE '{$sqlQuery}%') OR (mua.fullname LIKE '%{$sqlQuery}%') OR (mua.email LIKE '{$sqlQuery}%'))";
 					}
-					$ds = $modx->db->select("mu.id, mu.username, rname.name AS role, mua.fullname, mua.email, IF(mua.blocked,'{$_lang['yes']}','-') as blocked, mua.thislogin, mua.logincount", $modx->getFullTableName('manager_users') . " AS mu 
-			INNER JOIN " . $modx->getFullTableName('user_attributes') . " AS mua ON mua.internalKey=mu.id 
+					$ds = $modx->db->select("mu.id, mu.username, rname.name AS role, mua.fullname, mua.email, IF(mua.blocked,'{$_lang['yes']}','-') as blocked, mua.thislogin, mua.logincount", $modx->getFullTableName('manager_users') . " AS mu
+			INNER JOIN " . $modx->getFullTableName('user_attributes') . " AS mua ON mua.internalKey=mu.id
 			LEFT JOIN " . $modx->getFullTableName('user_roles') . " AS rname ON mua.role=rname.id", $where, 'mua.blocked ASC, mua.thislogin DESC');
 
 					include_once MODX_MANAGER_PATH . "includes/controls/datagrid.class.php";
@@ -156,9 +156,9 @@ echo $cm->render();
 					$grd->colAligns = "center,,,,,right' nowrap='nowrap,right,center";
 					$grd->colTypes = implode('||', array(
 						'template:<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu([+id+],event);" title="' . $_lang['click_to_context'] . '"><i class="' . $_style['icons_user'] . '"></i></a>',
-						'template:<a href="index.php?a=12&id=[+id+]" title="' . $_lang['click_to_edit_title'] . '">[+value+]</a>',
-						'template:[+fullname+]',
-						'template:[+role+]',
+						'template:<a href="index.php?a=12&id=[+id+]" title="' . $_lang['click_to_edit_title'] . '">[+e.value+]</a>',
+						'template:[+e.fullname+]',
+						'template:[+e.role+]',
 						'template:[+email+]',
 						'date: ' . $modx->toDateFormat('[+thislogin+]', 'formatOnly') . ' H:i',
 						'template:[+logincount+]',

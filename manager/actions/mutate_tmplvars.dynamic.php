@@ -20,7 +20,7 @@ $tbl_documentgroup_names = $modx->getFullTableName('documentgroup_names');
 
 // check to see the snippet editor isn't locked
 if($lockedEl = $modx->elementIsLocked(2, $id)) {
-	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['tmplvar']));
+	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['tmplvar']));
 }
 // end check for lock
 
@@ -470,7 +470,7 @@ if(is_array($evtOut)) {
 					$row['category'] = stripslashes($row['category']); //pixelchutes
 					if($preCat !== $row['category']) {
 						$tplList .= $insideUl ? '</ul>' : '';
-						$tplList .= '<li><strong>' . $row['category'] . ($row['catid'] != '' ? ' <small>(' . $row['catid'] . ')</small>' : '') . '</strong><ul>';
+						$tplList .= '<li><strong>' . $modx->htmlspecialchars($row['category']) . ($row['catid'] != '' ? ' <small>(' . $row['catid'] . ')</small>' : '') . '</strong><ul>';
 						$insideUl = 1;
 					}
 
@@ -486,7 +486,7 @@ if(is_array($evtOut)) {
 					$selectable = !$row['selectable'] ? ' class="disabled"' : '';
 					$checked = $checked ? ' checked="checked"' : '';
 					$tplId = '&nbsp;<small>(' . $row['id'] . ')</small>';
-					$desc = !empty($row['tpldescription']) ? ' - ' . $row['tpldescription'] : '';
+					$desc = !empty($row['tpldescription']) ? ' - ' . $modx->htmlspecialchars($row['tpldescription']) : '';
 
 					$tplInfo = array();
 					if($row['tpllocked']) {
@@ -497,7 +497,7 @@ if(is_array($evtOut)) {
 					}
 					$tplInfo = !empty($tplInfo) ? ' <em>(' . implode(', ', $tplInfo) . ')</em>' : '';
 
-					$tplList .= sprintf('<li><label%s><input name="template[]" value="%s" type="checkbox" %s onchange="documentDirty=true;"> %s%s%s%s</label></li>', $selectable, $row['id'], $checked, $row['templatename'], $tplId, $desc, $tplInfo);
+					$tplList .= sprintf('<li><label%s><input name="template[]" value="%s" type="checkbox" %s onchange="documentDirty=true;"> %s%s%s%s</label></li>', $selectable, $row['id'], $checked, $modx->htmlspecialchars($row['templatename']), $tplId, $desc, $tplInfo);
 					$tplList .= '</li>';
 
 					$preCat = $row['category'];
@@ -556,7 +556,7 @@ if(is_array($evtOut)) {
 								if($checked) {
 									$notPublic = true;
 								}
-								$chks .= "<li><label><input type='checkbox' name='docgroups[]' value='" . $row['id'] . "' " . ($checked ? "checked='checked'" : '') . " onclick=\"makePublic(false)\" /> " . $row['name'] . "</label></li>";
+								$chks .= "<li><label><input type='checkbox' name='docgroups[]' value='" . $row['id'] . "' " . ($checked ? "checked='checked'" : '') . " onclick=\"makePublic(false)\" /> " . $modx->htmlspecialchars($row['name']) . "</label></li>";
 							} else {
 								if($checked) {
 									echo "<input type='hidden' name='docgroups[]'  value='" . $row['id'] . "' />";

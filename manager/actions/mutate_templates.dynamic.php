@@ -24,7 +24,7 @@ $tbl_site_templates = $modx->getFullTableName('site_templates');
 
 // check to see the snippet editor isn't locked
 if($lockedEl = $modx->elementIsLocked(1, $id)) {
-	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['template']));
+	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['template']));
 }
 // end check for lock
 
@@ -272,13 +272,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					$row['category'] = stripslashes($row['category']); //pixelchutes
 					if($preCat !== $row['category']) {
 						$tvList .= $insideUl ? '</ul>' : '';
-						$tvList .= '<li><strong>' . $row['category'] . ($row['catid'] != '' ? ' <small>(' . $row['catid'] . ')</small>' : '') . '</strong><ul>';
+						$tvList .= '<li><strong>' . $modx->htmlspecialchars($row['category']) . ($row['catid'] != '' ? ' <small>(' . $row['catid'] . ')</small>' : '') . '</strong><ul>';
 						$insideUl = 1;
 					}
 
-					$desc = !empty($row['tvdescription']) ? '&nbsp;&nbsp;<small>(' . $row['tvdescription'] . ')</small>' : '';
+					$desc = !empty($row['tvdescription']) ? '&nbsp;&nbsp;<small>(' . $modx->htmlspecialchars($row['tvdescription']) . ')</small>' : '';
 					$locked = $row['tvlocked'] ? ' <em>(' . $_lang['locked'] . ')</em>' : "";
-					$tvList .= sprintf('<li><label><input name="assignedTv[]" value="%s" type="checkbox" onchange="documentDirty=true;jQuery(\'#tvsDirty\').val(\'1\');"> %s <small>(%s)</small> - %s%s</label>%s <a href="index.php?id=%s&a=301&or=%s&oid=%s">%s</a></li>', $row['tvid'], $row['tvname'], $row['tvid'], $row['tvcaption'], $desc, $locked, $row['tvid'], $modx->manager->action, $id, $_lang['edit']);
+					$tvList .= sprintf('<li><label><input name="assignedTv[]" value="%s" type="checkbox" onchange="documentDirty=true;jQuery(\'#tvsDirty\').val(\'1\');"> %s <small>(%s)</small> - %s%s</label>%s <a href="index.php?id=%s&a=301&or=%s&oid=%s">%s</a></li>', $row['tvid'], $modx->htmlspecialchars($row['tvname']), $row['tvid'], $modx->htmlspecialchars($row['tvcaption']), $desc, $locked, $row['tvid'], $modx->manager->action, $id, $_lang['edit']);
 					$tvList .= '</li>';
 
 					$preCat = $row['category'];

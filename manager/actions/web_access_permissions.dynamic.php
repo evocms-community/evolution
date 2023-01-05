@@ -13,7 +13,7 @@ if($modx->db->getRecordCount($rs) < 1) {
 } else {
 	$docgroupselector = '<select name="docgroup">' . "\n";
 	while($row = $modx->db->getRow($rs)) {
-		$docgroupselector .= "\t" . '<option value="' . $row['id'] . '">' . $row['name'] . "</option>\n";
+		$docgroupselector .= "\t" . '<option value="' . $row['id'] . '">' . $modx->htmlspecialchars($row['name']) . "</option>\n";
 	}
 	$docgroupselector .= "</select>\n";
 }
@@ -24,7 +24,7 @@ if($modx->db->getRecordCount($rs) < 1) {
 } else {
 	$usrgroupselector = '<select name="usergroup">' . "\n";
 	while($row = $modx->db->getRow($rs)) {
-		$usrgroupselector .= "\t" . '<option value="' . $row['id'] . '">' . $row['name'] . "</option>\n";
+		$usrgroupselector .= "\t" . '<option value="' . $row['id'] . '">' . $modx->htmlspecialchars($row['name']) . "</option>\n";
 	}
 	$usrgroupselector .= "</select>\n";
 }

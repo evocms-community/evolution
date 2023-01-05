@@ -27,7 +27,7 @@ $tbl_site_snippets = $modx->getFullTableName('site_snippets');
 
 // check to see the snippet editor isn't locked
 if ($lockedEl = $modx->elementIsLocked(4, $id)) {
-    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['snippet']));
+    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['snippet']));
 }
 // end check for lock
 
@@ -554,8 +554,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             <select name="moduleguid" class="form-control" onchange="documentDirty=true;">
                                 <option>&nbsp;</option>
                                 <?php
-                                $ds = $modx->db->select('sm.id,sm.name,sm.guid', "{$tbl_site_modules} AS sm 
-								INNER JOIN {$tbl_site_module_depobj} AS smd ON smd.module=sm.id AND smd.type=40 
+                                $ds = $modx->db->select('sm.id,sm.name,sm.guid', "{$tbl_site_modules} AS sm
+								INNER JOIN {$tbl_site_module_depobj} AS smd ON smd.module=sm.id AND smd.type=40
 								INNER JOIN {$tbl_site_snippets} AS ss ON ss.id=smd.resource", "smd.resource='{$id}' AND sm.enable_sharedparams=1", 'sm.name');
                                 while ($row = $modx->db->getRow($ds)) {
                                     echo "<option value='" . $row['guid'] . "'" . ($content['moduleguid'] == $row['guid'] ? " selected='selected'" : "") . ">" . $modx->htmlspecialchars($row['name']) . "</option>";

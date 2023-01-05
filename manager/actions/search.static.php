@@ -94,7 +94,7 @@ if (isset($_REQUEST['submitok'])) {
     $searchlongtitle = $modx->db->escape(trim($_REQUEST['searchfields']));
     $search_alias = $modx->db->escape(trim($_REQUEST['searchfields']));
     $templateid = isset($_REQUEST['templateid']) && $_REQUEST['templateid'] !== '' ? (int)$_REQUEST['templateid'] : '';
-    $searchcontent = $modx->db->escape($_REQUEST['content']);
+    $searchcontent = $modx->db->escape($_REQUEST['content'] ?? '');
 
     $fields = 'DISTINCT sc.id, contenttype, pagetitle, longtitle, description, introtext, menutitle, deleted, published, isfolder, type';
 
@@ -327,9 +327,9 @@ if (isset($_REQUEST['submitok'])) {
                 //templates
                 if ($modx->hasPermission('edit_template')) {
                     $rs = $modx->db->select("id,templatename,locked", $modx->getFullTableName('site_templates'),
-                        "`id` like '%" . $searchfields . "%' 
-					OR `templatename` like '%" . $searchfields . "%' 
-					OR `description` like '%" . $searchfields . "%' 
+                        "`id` like '%" . $searchfields . "%'
+					OR `templatename` like '%" . $searchfields . "%'
+					OR `description` like '%" . $searchfields . "%'
 					OR `content` like '%" . $searchfields . "%'");
                     $templatecounts = $modx->db->getRecordCount($rs);
                     if ($templatecounts > 0) {
@@ -344,13 +344,13 @@ if (isset($_REQUEST['submitok'])) {
                 //tvs
                 if ($modx->hasPermission('edit_template') && $modx->hasPermission('edit_snippet') && $modx->hasPermission('edit_chunk') && $modx->hasPermission('edit_plugin')) {
                     $rs = $modx->db->select("id,name,locked", $modx->getFullTableName('site_tmplvars'),
-                        "`id` like '%" . $searchfields . "%' 
-					OR `name` like '%" . $searchfields . "%' 
-					OR `description` like '%" . $searchfields . "%' 
-					OR `type` like '%" . $searchfields . "%' 
-					OR `elements` like '%" . $searchfields . "%' 
-					OR `display` like '%" . $searchfields . "%' 
-					OR `display_params` like '%" . $searchfields . "%' 
+                        "`id` like '%" . $searchfields . "%'
+					OR `name` like '%" . $searchfields . "%'
+					OR `description` like '%" . $searchfields . "%'
+					OR `type` like '%" . $searchfields . "%'
+					OR `elements` like '%" . $searchfields . "%'
+					OR `display` like '%" . $searchfields . "%'
+					OR `display_params` like '%" . $searchfields . "%'
 					OR `default_text` like '%" . $searchfields . "%'");
                     $tvscounts = $modx->db->getRecordCount($rs);
                     if ($tvscounts > 0) {
@@ -365,9 +365,9 @@ if (isset($_REQUEST['submitok'])) {
                 //Chunks
                 if ($modx->hasPermission('edit_chunk')) {
                     $rs = $modx->db->select("id,name,locked,disabled", $modx->getFullTableName('site_htmlsnippets'),
-                        "`id` like '%" . $searchfields . "%' 
-					OR `name` like '%" . $searchfields . "%' 
-					OR `description` like '%" . $searchfields . "%'     
+                        "`id` like '%" . $searchfields . "%'
+					OR `name` like '%" . $searchfields . "%'
+					OR `description` like '%" . $searchfields . "%'
 					OR `snippet` like '%" . $searchfields . "%'");
                     $chunkscounts = $modx->db->getRecordCount($rs);
                     if ($chunkscounts > 0) {
@@ -383,11 +383,11 @@ if (isset($_REQUEST['submitok'])) {
                 //Snippets
                 if ($modx->hasPermission('edit_snippet')) {
                     $rs = $modx->db->select("id,name,locked,disabled", $modx->getFullTableName('site_snippets'),
-                        "`id` like '%" . $searchfields . "%' 
-					OR `name` like '%" . $searchfields . "%' 
-					OR `description` like '%" . $searchfields . "%' 
-					OR `snippet` like '%" . $searchfields . "%'  
-					OR `properties` like '%" . $searchfields . "%'      
+                        "`id` like '%" . $searchfields . "%'
+					OR `name` like '%" . $searchfields . "%'
+					OR `description` like '%" . $searchfields . "%'
+					OR `snippet` like '%" . $searchfields . "%'
+					OR `properties` like '%" . $searchfields . "%'
 					OR `moduleguid` like '%" . $searchfields . "%'");
                     $snippetscounts = $modx->db->getRecordCount($rs);
                     if ($snippetscounts > 0) {
@@ -403,11 +403,11 @@ if (isset($_REQUEST['submitok'])) {
                 //plugins
                 if ($modx->hasPermission('edit_plugin')) {
                     $rs = $modx->db->select("id,name,locked,disabled", $modx->getFullTableName('site_plugins'),
-                        "`id` like '%" . $searchfields . "%' 
-					OR `name` like '%" . $searchfields . "%' 
-					OR `description` like '%" . $searchfields . "%' 
-					OR `plugincode` like '%" . $searchfields . "%'  
-					OR `properties` like '%" . $searchfields . "%'      
+                        "`id` like '%" . $searchfields . "%'
+					OR `name` like '%" . $searchfields . "%'
+					OR `description` like '%" . $searchfields . "%'
+					OR `plugincode` like '%" . $searchfields . "%'
+					OR `properties` like '%" . $searchfields . "%'
 					OR `moduleguid` like '%" . $searchfields . "%'");
                     $pluginscounts = $modx->db->getRecordCount($rs);
                     if ($pluginscounts > 0) {
@@ -423,12 +423,12 @@ if (isset($_REQUEST['submitok'])) {
                 //modules
                 if ($modx->hasPermission('edit_module')) {
                     $rs = $modx->db->select("id,name,locked,disabled", $modx->getFullTableName('site_modules'),
-                        "`id` like '%" . $searchfields . "%' 
-                    OR `name` like '%" . $searchfields . "%' 
-                    OR `description` like '%" . $searchfields . "%' 
-                    OR `modulecode` like '%" . $searchfields . "%'  
-                    OR `properties` like '%" . $searchfields . "%'  
-                    OR `guid` like '%" . $searchfields . "%'      
+                        "`id` like '%" . $searchfields . "%'
+                    OR `name` like '%" . $searchfields . "%'
+                    OR `description` like '%" . $searchfields . "%'
+                    OR `modulecode` like '%" . $searchfields . "%'
+                    OR `properties` like '%" . $searchfields . "%'
+                    OR `guid` like '%" . $searchfields . "%'
                     OR `resourcefile` like '%" . $searchfields . "%'");
                     $modulescounts = $modx->db->getRecordCount($rs);
                     if ($modulescounts > 0) {

@@ -48,8 +48,8 @@ if(!$modx->hasPermission('edit_user')) {
 								} else {
 									?>
 									<tr>
-										<td><a class="text-primary" href="index.php?id=<?= $row['id'] ?>&a=35"><?= $row['name'] ?></a></td>
-										<td><?= $row['description'] ?></td>
+										<td><a class="text-primary" href="index.php?id=<?= $row['id'] ?>&a=35"><?= $modx->htmlspecialchars($row['name']) ?></a></td>
+										<td><?= $modx->htmlspecialchars($row['description']) ?></td>
 									</tr>
 									<?php
 								}

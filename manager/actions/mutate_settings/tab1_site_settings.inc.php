@@ -83,7 +83,7 @@ table.sysSettings tr.noborder td {border:none;}
 
         $currentCategory = '';
                         while ($row = $modx->db->getRow($rs)) {
-            $thisCategory = $row['category'];
+            $thisCategory = $modx->htmlspecialchars($row['category']);
             if($thisCategory == null) {
                 $thisCategory = $_lang['no_category'];
             }
@@ -100,10 +100,10 @@ table.sysSettings tr.noborder td {border:none;}
             $selectedtext = $row['id'] == $default_template ? ' selected="selected"' : '';
             if ($selectedtext) {
                 $oldTmpId = $row['id'];
-                $oldTmpName = $row['templatename'];
+                $oldTmpName = $modx->htmlspecialchars($row['templatename']);
             }
 
-            echo "\t\t\t\t\t".'<option value="'.$row['id'].'"'.$selectedtext.'>'.$row['templatename']."</option>\n";
+            echo "\t\t\t\t\t".'<option value="'.$row['id'].'"'.$selectedtext.'>'.$modx->htmlspecialchars($row['templatename'])."</option>\n";
             $currentCategory = $thisCategory;
         }
         if($thisCategory != '') {

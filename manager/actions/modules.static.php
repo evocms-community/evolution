@@ -8,7 +8,7 @@ if (!($modx->hasPermission('new_module') || $modx->hasPermission('edit_module') 
 
 // initialize page view state - the $_PAGE object
 $modx->manager->initPageViewState();
-
+$sqlQuery = '';
 // get and save search string
 if (isset($_REQUEST['op']) && $_REQUEST['op'] == 'reset') {
     $query = '';
@@ -136,7 +136,7 @@ echo $cm->render();
         $grd->columns = $_lang["icon"] . " ," . $_lang["name"] . " ," . $_lang["description"] . " ," . $_lang["locked"] . " ," . $_lang["disabled"];
         $grd->colWidths = "34,,,60,60";
         $grd->colAligns = "center,,,center,center";
-        $grd->colTypes = "template:<a class='tableRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='[+value+]'></i></a>||template:" . $title;
+        $grd->colTypes = "template:<a class='tableRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='[+value+]'></i></a>||template:[+e.name+]||template:[+e.description+]";
         if ($listmode == '1') {
             $grd->pageSize = 0;
         }

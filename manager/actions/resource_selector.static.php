@@ -187,7 +187,7 @@ include_once MODX_MANAGER_PATH . "includes/header.inc.php";
                     $grd->itemClass = "tableItem";
                     $grd->altItemClass = "tableAltItem";
                     $grd->columns = $_lang["name"] . " ," . $_lang["description"];
-                    $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') . "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+value+]";
+                    $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') . "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+e.value+]||template:[+e.value+]";
                     $grd->colWidths = "45%";
                     $grd->fields = "name,description";
                     if (isset($_REQUEST['listmode']) && $_REQUEST['listmode'] == '1') {

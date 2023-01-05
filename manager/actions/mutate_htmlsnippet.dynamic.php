@@ -25,7 +25,7 @@ $tbl_site_htmlsnippets = $modx->getFullTableName('site_htmlsnippets');
 
 // check to see the snippet editor isn't locked
 if ($lockedEl = $modx->elementIsLocked(3, $id)) {
-    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['chunk']));
+    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['chunk']));
 }
 // end check for lock
 
@@ -136,7 +136,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         <input type="hidden" name="mode" value="<?= $modx->manager->action ?>" />
 
         <h1>
-            <i class="fa fa-th-large"></i><?= isset($content['name']) ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['new_htmlsnippet'] ?><i class="fa fa-question-circle help"></i>
+            <i class="fa fa-th-large"></i><?= isset($content['name']) ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['new_htmlsnippet'] ?><i class="fa fa-question-circle help"></i>
         </h1>
 
         <?= $_style['actionbuttons']['dynamic']['element'] ?>

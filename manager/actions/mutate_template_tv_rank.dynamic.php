@@ -45,9 +45,9 @@ $rs = $modx->db->select("tv.name AS name, tv.caption AS caption, tv.id AS id, tr
 if ($modx->db->getRecordCount($rs)) {
     $sortableList = '<div class="clearfix"><ul id="sortlist" class="sortableList">';
     while ($row = $modx->db->getRow($rs)) {
-        $templatename = $row['templatename'];
-        $caption = $row['caption'] != '' ? $row['caption'] : $row['name'];
-        $sortableList .= '<li id="item_' . $row['id'] . '"><i class="fa fa-list-alt"></i> ' . $caption . ' <small class="protectedNode" style="float:right">[*' . $row['name'] . '*]</small></li>';
+        $templatename = $modx->htmlspecialchars($row['templatename']);
+        $caption = $modx->htmlspecialchars($row['caption'] != '' ? $row['caption'] : $row['name']);
+        $sortableList .= '<li id="item_' . $row['id'] . '"><i class="fa fa-list-alt"></i> ' . $caption . ' <small class="protectedNode" style="float:right">[*' . $modx->htmlspecialchars($row['name']) . '*]</small></li>';
     }
     $sortableList .= '</ul></div>';
 } else {

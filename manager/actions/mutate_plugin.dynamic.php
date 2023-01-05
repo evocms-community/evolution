@@ -26,7 +26,7 @@ $tbl_system_eventnames = $modx->getFullTableName('system_eventnames');
 
 // check to see the plugin isn't locked
 if ($lockedEl = $modx->elementIsLocked(5, $id)) {
-    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['plugin']));
+    $modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['plugin']));
 }
 // end check for lock
 
@@ -603,7 +603,7 @@ function bold($cond = false)
                             <select name="moduleguid" class="form-control" onchange="documentDirty=true;">
                                 <option>&nbsp;</option>
                                 <?php
-                                $ds = $modx->db->select('sm.id,sm.name,sm.guid', $modx->getFullTableName("site_modules") . " sm 
+                                $ds = $modx->db->select('sm.id,sm.name,sm.guid', $modx->getFullTableName("site_modules") . " sm
 								INNER JOIN " . $modx->getFullTableName("site_module_depobj") . " smd ON smd.module=sm.id AND smd.type=30
 								INNER JOIN " . $modx->getFullTableName("site_plugins") . " sp ON sp.id=smd.resource", "smd.resource='{$id}' AND sm.enable_sharedparams='1'", 'sm.name');
                                 while ($row = $modx->db->getRow($ds)) {

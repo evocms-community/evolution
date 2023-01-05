@@ -24,7 +24,7 @@ $tbl_user_roles = $modx->getFullTableName('user_roles');
 
 // check to see the snippet editor isn't locked
 if($lockedEl = $modx->elementIsLocked(8, $role)) {
-	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['role']));
+	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['role']));
 }
 // end check for lock
 
@@ -39,7 +39,7 @@ if($modx->manager->action == '35') {
 	}
 	$_SESSION['itemname'] = $roledata['name'];
 } else {
-	$roledata = 0;
+	$roledata = [];
 	$_SESSION['itemname'] = $_lang["new_role"];
 }
 
@@ -80,10 +80,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 	<form name="userform" method="post" action="index.php" enctype="multipart/form-data">
         <input type="hidden" name="a" value="36">
 		<input type="hidden" name="mode" value="<?= $modx->manager->action ?>">
-		<input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+		<input type="hidden" name="id" value="<?= $_GET['id'] ?? 0 ?>">
 
 		<h1>
-            <i class="fa fa-legal"></i><?= ($roledata['name'] ? $roledata['name'] . '<small>(' . $roledata['id'] . ')</small>' : $_lang['role_title']) ?>
+            <i class="fa fa-legal"></i><?= (isset($roledata['name']) ? $modx->htmlspecialchars($roledata['name']) . (isset($roledata['id']) ? '<small>(' . $roledata['id'] . ')</small>' : '') : $_lang['role_title']) ?>
         </h1>
 
 		<?= $_style['actionbuttons']['dynamic']['savedelete'] ?>
@@ -93,11 +93,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 				<div class="form-group">
 					<div class="row form-row">
 						<div class="col-md-3 col-lg-2"><?= $_lang['role_name'] ?>:</div>
-						<div class="col-md-9 col-lg-10"><input class="form-control form-control-lg" name="name" type="text" maxlength="50" value="<?= $roledata['name'] ?>" /></div>
+						<div class="col-md-9 col-lg-10"><input class="form-control form-control-lg" name="name" type="text" maxlength="50" value="<?= htmlspecialchars($roledata['name'] ?? '') ?>" /></div>
 					</div>
 					<div class="row form-row">
 						<div class="col-md-3 col-lg-2"><?= $_lang['resource_description'] ?>:</div>
-						<div class="col-md-9 col-lg-10"><input name="description" type="text" maxlength="255" value="<?= $roledata['description'] ?>" size="60" /></div>
+						<div class="col-md-9 col-lg-10"><input name="description" type="text" maxlength="255" value="<?= htmlspecialchars($roledata['description'] ?? '') ?>" size="60" /></div>
 					</div>
 				</div>
 
@@ -309,8 +309,8 @@ function render_form($name, $label, $status = '') {
 		[+label+]
 	</label>';
 
-	$checked = ($roledata[$name] == 1) ? 'checked' : '';
-	$value = ($roledata[$name] == 1) ? 1 : 0;
+	$checked = (isset($roledata[$name]) && $roledata[$name] == 1) ? 'checked' : '';
+	$value = (isset($roledata[$name]) && $roledata[$name] == 1) ? 1 : 0;
 	if($status == 'disabled') {
 		$checked = 'checked';
 		$value = 1;

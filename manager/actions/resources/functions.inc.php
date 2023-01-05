@@ -63,7 +63,7 @@ function createResourceList($resourceTable, $resources) {
 		// Add panel-heading / category-collapse to output
 		$panelGroup .= parsePh($tpl['panelHeading'], array(
 			'tab' => $resourceTable,
-			'category' => $modx->htmlspecialchars($categories[$catid]['name']),
+			'category' => $categories[$catid]['name'],
 			'categoryid' => $catid != '' ? ' <small>(' . $catid . ')</small>' : '',
 			'catid' => $catid,
 		));
@@ -124,7 +124,7 @@ function createCombinedView($resources) {
 		// Add panel-heading / button
 		$panelGroup .= parsePh($tpl['panelHeading'], array(
 			'tab' => 'categories_list',
-			'category' => $modx->htmlspecialchars($categories[$catid]),
+			'category' => $categories[$catid],
 			'categoryid' => $catid != '' ? ' <small>(' . $catid . ')</small>' : '',
 			'catid' => $catid,
 		));
@@ -204,7 +204,7 @@ function prepareElementRowPh($row, $resourceTable, $resources) {
 		} else {
 			$title = $modx->parseText($_lang["lock_element_locked_by"], array(
 				'element_type' => $_lang["lock_element_type_" . $lockElementType],
-				'username' => $rowLock['username'],
+				'username' => $modx->htmlspecialchars($rowLock['username']),
 				'lasthit_df' => $rowLock['lasthit_df']
 			));
 			if($modx->hasPermission('remove_locks')) {
@@ -254,7 +254,7 @@ function prepareElementRowPh($row, $resourceTable, $resources) {
 	return array(
 		'class' => $class ? ' class="' . $class . '"' : '',
 		'lockedByUser' => $lockedByUser,
-		'name' => $modx->htmlspecialchars($row['name']),
+		'name' => $row['name'],
 		'caption' => $caption,
 		'buttons' => $buttons,
 		'marks' => $marks,

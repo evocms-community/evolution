@@ -191,13 +191,13 @@ if($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 	<input type="hidden" name="id" value="<?php echo $content['id']; ?>" />
 
 	<h1>
-		<i class="fa fa-cogs"></i><?= ($content['name'] ? $content['name'] . '<small>(' . $content['id'] . ')</small>' : $_lang['module_resource_title']) ?>
+		<i class="fa fa-cogs"></i><?= ($content['name'] ? $modx->htmlspecialchars($content['name']) . '<small>(' . $content['id'] . ')</small>' : $_lang['module_resource_title']) ?>
 	</h1>
 
 	<?php echo $_style['actionbuttons']['dynamic']['close'] ?>
 
 	<div class="section">
-		<div class="sectionHeader"><?php echo $content["name"] . " - " . $_lang['module_resource_title']; ?></div>
+		<div class="sectionHeader"><?php echo $modx->htmlspecialchars($content["name"]) . " - " . $_lang['module_resource_title']; ?></div>
 		<div class="sectionBody">
 			<p><?php echo $_lang['module_resource_msg']; ?></p>
 			<br />
@@ -229,7 +229,7 @@ if($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 						$grd->itemClass = "gridItem";
 						$grd->altItemClass = "gridAltItem";
 						$grd->columns = $_lang["element_name"] . " ," . $_lang["type"];
-						$grd->colTypes = "template:<input type='checkbox' name='depid[]' value='[+id+]'> [+value+]";
+						$grd->colTypes = "template:<input type='checkbox' name='depid[]' value='[+id+]'> [+e.value+]";
 						$grd->fields = "name,type";
 						echo $grd->render();
 						?>

@@ -43,7 +43,7 @@ function createGUID() {
 
 // check to see the module editor isn't locked
 if($lockedEl = $modx->elementIsLocked(6, $id)) {
-	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $lockedEl['username'], $_lang['module']));
+	$modx->webAlertAndQuit(sprintf($_lang['lock_msg'], $modx->htmlspecialchars($lockedEl['username']), $_lang['module']));
 }
 // end check for lock
 
@@ -620,7 +620,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 							<i class="<?= $_style["actions_save"] ?>"></i> <?= $_lang['manage_depends'] ?></a>
 					</div>
 					<?php
-					$ds = $modx->db->select("smd.id, COALESCE(ss.name,st.templatename,sv.name,sc.name,sp.name,sd.pagetitle) AS name, 
+					$ds = $modx->db->select("smd.id, COALESCE(ss.name,st.templatename,sv.name,sc.name,sp.name,sd.pagetitle) AS name,
 					CASE smd.type
 						WHEN 10 THEN 'Chunk'
 						WHEN 20 THEN 'Document'
@@ -628,8 +628,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 						WHEN 40 THEN 'Snippet'
 						WHEN 50 THEN 'Template'
 						WHEN 60 THEN 'TV'
-					END AS type", "{$tbl_site_module_depobj} AS smd 
-						LEFT JOIN {$tbl_site_htmlsnippets} AS sc ON sc.id = smd.resource AND smd.type = 10 
+					END AS type", "{$tbl_site_module_depobj} AS smd
+						LEFT JOIN {$tbl_site_htmlsnippets} AS sc ON sc.id = smd.resource AND smd.type = 10
 						LEFT JOIN {$tbl_site_content} AS sd ON sd.id = smd.resource AND smd.type = 20
 						LEFT JOIN {$tbl_site_plugins} AS sp ON sp.id = smd.resource AND smd.type = 30
 						LEFT JOIN {$tbl_site_snippets} AS ss ON ss.id = smd.resource AND smd.type = 40
@@ -645,6 +645,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					$grd->altItemClass = 'gridAltItem';
 					$grd->columns = $_lang['element_name'] . " ," . $_lang['type'];
 					$grd->fields = "name,type";
+                    $grd->colTypes = "template:[+e.value+]";
 					echo $grd->render();
 					?>
 				</div>
@@ -698,7 +699,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 							if($checked) {
 								$notPublic = true;
 							}
-							$chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . $row['name'] . "</label><br />\n";
+							$chks .= '<label><input type="checkbox" name="usrgroups[]" value="' . $row['id'] . '"' . ($checked ? ' checked="checked"' : '') . ' onclick="makePublic(false)" /> ' . $modx->htmlspecialchars($row['name']) . "</label><br />\n";
 						} else {
 							if($checked) {
 								$chks = '<input type="hidden" name="usrgroups[]"  value="' . $row['id'] . '" />' . "\n" . $chks;

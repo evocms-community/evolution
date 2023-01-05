@@ -218,7 +218,7 @@ if($which_browser == 'default') {
 	<input type="hidden" name="blockedmode" value="<?php echo ((isset($userdata['blocked']) && $userdata['blocked'] == 1) || (isset($userdata['blockeduntil']) && $userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || (isset($userdata['blockedafter']) && $userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) || (isset($userdata['failedlogins']) && $userdata['failedlogins'] > $modx->getConfig('failed_login_attempts'))) ? "1" : "0" ?>" />
 
 	<h1>
-        <i class="fa fa-user-circle-o"></i><?= ($usernamedata['username'] ? $usernamedata['username'] . '<small>(' . $usernamedata['id'] . ')</small>' : $_lang['user_title']) ?>
+        <i class="fa fa-user-circle-o"></i><?= ($usernamedata['username'] ?$modx->htmlspecialchars($usernamedata['username']) . (isset($usernamedata['id']) ? '<small>(' . $usernamedata['id'] . ')</small>' : '') : $_lang['user_title']) ?>
     </h1>
 
 	<?php echo $_style['actionbuttons']['dynamic']['user'] ?>
@@ -318,7 +318,7 @@ if($which_browser == 'default') {
 										$selectedtext = $row['id'] == $userdata['role'] ? "selected='selected'" : '';
 									}
 									?>
-									<option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo $row['name']; ?></option>
+									<option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo $modx->htmlspecialchars($row['name']); ?></option>
 									<?php
 								}
 								?>
@@ -790,7 +790,7 @@ if($which_browser == 'default') {
 				<?php
 				$rs = $modx->db->select('name, id', $modx->getFullTableName('membergroup_names'), '', 'name');
 				while($row = $modx->db->getRow($rs)) {
-					echo "<label><input type='checkbox' name='user_groups[]' value='" . $row['id'] . "'" . (in_array($row['id'], $groupsarray) ? " checked='checked'" : "") . " />" . $row['name'] . "</label><br />";
+					echo "<label><input type='checkbox' name='user_groups[]' value='" . $row['id'] . "'" . (in_array($row['id'], $groupsarray) ? " checked='checked'" : "") . " />" . $modx->htmlspecialchars($row['name']) . "</label><br />";
 				}
 				}
 				?>

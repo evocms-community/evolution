@@ -8,7 +8,7 @@ if(!$modx->hasPermission('edit_web_user')) {
 
 // initialize page view state - the $_PAGE object
 $modx->manager->initPageViewState();
-
+$sqlQuery = '';
 // get and save search string
 if(isset($_REQUEST['op']) && $_REQUEST['op'] == 'reset') {
 	$query = '';
@@ -90,7 +90,7 @@ echo $cm->render();
 
 </script>
 <form name="resource" method="post">
-	<input type="hidden" name="id" value="<?= $id ?>" />
+	<input type="hidden" name="id" value="<?= $id ?? 0 ?>" />
 	<input type="hidden" name="listmode" value="<?= $listmode ?>" />
 	<input type="hidden" name="op" value="" />
 
@@ -124,7 +124,7 @@ echo $cm->render();
 			<div class="row">
 				<div class="table-responsive">
 					<?php
-					$ds = $modx->db->select("wu.id, wu.username, wua.fullname, wua.email, wua.thislogin, wua.logincount, IF(wua.blocked,'{$_lang['yes']}','-') as 'blocked'", $modx->getFullTableName("web_users") . " wu 
+					$ds = $modx->db->select("wu.id, wu.username, wua.fullname, wua.email, wua.thislogin, wua.logincount, IF(wua.blocked,'{$_lang['yes']}','-') as 'blocked'", $modx->getFullTableName("web_users") . " wu
 			INNER JOIN " . $modx->getFullTableName("web_user_attributes") . " wua ON wua.internalKey=wu.id", ($sqlQuery ? "(wu.username LIKE '{$sqlQuery}%') OR (wua.fullname LIKE '%{$sqlQuery}%') OR (wua.email LIKE '%{$sqlQuery}%')" : ""), 'username');
 					include_once MODX_MANAGER_PATH . "includes/controls/datagrid.class.php";
 					$grd = new DataGrid('', $ds, $number_of_results); // set page size to 0 t show all items
@@ -137,7 +137,7 @@ echo $cm->render();
 					$grd->columns = $_lang["icon"] . " ," . $_lang["name"] . " ," . $_lang["user_full_name"] . " ," . $_lang["email"] . " ," . $_lang["user_prevlogin"] . " ," . $_lang["user_logincount"] . " ," . $_lang["user_block"];
 					$grd->colWidths = "1%,,,,1%,1%,1%";
 					$grd->colAligns = "center,,,,right' nowrap='nowrap,right,center";
-					$grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='" . $_style["icons_web_user"] . "'></i></a>||template:<a href='index.php?a=88&id=[+id+]' title='" . $_lang["click_to_edit_title"] . "'>[+value+]</a>||template:[+fullname+]||template:[+email+]||date: " . $modx->toDateFormat('[+thislogin+]', 'formatOnly') . 
+					$grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . $_lang["click_to_context"] . "'><i class='" . $_style["icons_web_user"] . "'></i></a>||template:<a href='index.php?a=88&id=[+id+]' title='" . $_lang["click_to_edit_title"] . "'>[+value+]</a>||template:[+fullname+]||template:[+email+]||date: " . $modx->toDateFormat('[+thislogin+]', 'formatOnly') .
 					" H:i";
 					if($listmode == '1') {
 						$grd->pageSize = 0;
