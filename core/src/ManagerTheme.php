@@ -6,8 +6,8 @@ use EvolutionCMS\Controllers\UserRoles\RoleManagment;
 use EvolutionCMS\Controllers\UserRoles\UserRole;
 use EvolutionCMS\Controllers\Users\ChangePassword;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Interfaces\CoreInterface;
+use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Models\ActiveUser;
 use EvolutionCMS\Models\UserAttribute;
 use Illuminate\Http\Request;
@@ -133,10 +133,10 @@ class ManagerTheme implements ManagerThemeInterface
         53 => Controllers\SystemInfo::class,
         /** optimise table */
         54,
-        /** view logging */
-        13,
-        /** empty logs */
-        55,
+        /** manager log: view items */
+        13 => Controllers\ManagerLog::class,
+        /** manager log: truncate items */
+        55 => Controllers\ManagerLog::class,
         /** calls test page    */
         999,
         /** Empty recycle bin */
@@ -177,7 +177,7 @@ class ManagerTheme implements ManagerThemeInterface
         114 => Controllers\EventLog::class,
         115 => Controllers\EventLogDetails::class,
         116,
-        501
+        501,
     ];
 
     public function __construct(CoreInterface $core, string $theme)
@@ -192,8 +192,9 @@ class ManagerTheme implements ManagerThemeInterface
         $this->loadLang(
             $this->getCore()->getConfig('manager_language')
         );
-        if (IN_INSTALL_MODE === false)
+        if (IN_INSTALL_MODE === false) {
             $this->loadStyle();
+        }
 
         if ($this->getCore()->getConfig('mgr_jquery_path', '') === '') {
             $this->getCore()->setConfig('mgr_jquery_path', 'media/script/jquery/jquery.min.js');
@@ -223,7 +224,6 @@ class ManagerTheme implements ManagerThemeInterface
         if ($lang !== 'english' && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
             include EVO_CORE_PATH . 'lang/' . $lang . '/global.php';
         }
-
 
         foreach ($_lang as $k => $v) {
             if (strpos($v, '[+') !== false) {
@@ -348,7 +348,7 @@ class ManagerTheme implements ManagerThemeInterface
             'modx_textdir' => $this->getTextDir(),
             'manager_language' => $this->getLangName(),
             '_lang' => $this->getLexicon(),
-            '_style' => $this->getStyle()
+            '_style' => $this->getStyle(),
         ];
 
         return array_merge($baseParams, $params);
@@ -456,7 +456,7 @@ class ManagerTheme implements ManagerThemeInterface
 
     public function getItemId()
     {
-        $out = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+        $out = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
         if ($out <= 0) {
             $out = null;
         }
@@ -471,9 +471,9 @@ class ManagerTheme implements ManagerThemeInterface
         if (isset($_GET['a']) && isset($_POST['a'])) {
             $this->alertAndQuit('error_double_action');
         } elseif (isset($_GET['a'])) {
-            $action = (int)filter_input(INPUT_GET, 'a', FILTER_VALIDATE_INT, $option);
+            $action = (int) filter_input(INPUT_GET, 'a', FILTER_VALIDATE_INT, $option);
         } elseif (isset($_POST['a'])) {
-            $action = (int)filter_input(INPUT_POST, 'a', FILTER_VALIDATE_INT, $option);
+            $action = (int) filter_input(INPUT_POST, 'a', FILTER_VALIDATE_INT, $option);
         } else {
             $action = null;
         }
@@ -497,11 +497,11 @@ class ManagerTheme implements ManagerThemeInterface
 
         // andrazk 20070416 - if installer is running, destroy active sessions
         if (is_file(MODX_BASE_PATH . 'assets/cache/installProc.inc.php')) {
-            include_once(MODX_BASE_PATH . 'assets/cache/installProc.inc.php');
+            include_once MODX_BASE_PATH . 'assets/cache/installProc.inc.php';
             if (isset($installStartTime)) {
                 if ((time() - $installStartTime) > 5 * 60) { // if install flag older than 5 minutes, discard
                     unset($installStartTime);
-                    @ chmod(MODX_BASE_PATH . 'assets/cache/installProc.inc.php', 0755);
+                    @chmod(MODX_BASE_PATH . 'assets/cache/installProc.inc.php', 0755);
                     unlink(MODX_BASE_PATH . 'assets/cache/installProc.inc.php');
                 } else {
                     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -545,7 +545,7 @@ class ManagerTheme implements ManagerThemeInterface
 
     public function getManagerStartupPageId()
     {
-        $homeId = (int)$this->getCore()->getConfig('manager_login_startup');
+        $homeId = (int) $this->getCore()->getConfig('manager_login_startup');
         if ($homeId <= 0) {
             $homeId = $this->getCore()->getConfig('site_start');
         }
@@ -572,7 +572,6 @@ class ManagerTheme implements ManagerThemeInterface
         $target = $this->getCore()->getConfig($config);
         $target = str_replace('[+base_path+]', MODX_BASE_PATH, $target);
         $target = $this->getCore()->mergeSettingsContent($target);
-
 
         $content = $this->getCore()->getChunk($target);
         if (empty($content)) {
@@ -664,7 +663,7 @@ class ManagerTheme implements ManagerThemeInterface
     public function renderLoginPage()
     {
         $plh = [
-            'remember_me' => isset($_COOKIE['modx_remember_manager']) ? 'checked="checked"' : ''
+            'remember_me' => isset($_COOKIE['modx_remember_manager']) ? 'checked="checked"' : '',
         ];
 
         // invoke OnManagerLoginFormPrerender event
@@ -674,7 +673,7 @@ class ManagerTheme implements ManagerThemeInterface
 
         // andrazk 20070416 - notify user of install/update
         if (isset($_GET['installGoingOn'])) {
-            switch ((int)$_GET['installGoingOn']) {
+            switch ((int) $_GET['installGoingOn']) {
                 case 1:
                     $this->getCore()->setPlaceholder(
                         'login_message',
@@ -715,7 +714,6 @@ class ManagerTheme implements ManagerThemeInterface
 
         $plh['repair_password'] = $this->repairPassword($plh);
 
-
         return $this->makeTemplate('login', 'manager_login_tpl', $plh, false);
     }
 
@@ -726,15 +724,15 @@ class ManagerTheme implements ManagerThemeInterface
         // save page to manager object
         $this->getCore()->getManagerApi()->action = $action;
 
-        if ((int)$action > 1) {
+        if ((int) $action > 1) {
             ActiveUser::where('internalKey', $this->getCore()->getLoginUserID('mgr'))->forceDelete();
             $activeUser = new ActiveUser;
             $activeUser->sid = session_id();
-            $activeUser->internalKey = (int)$this->getCore()->getLoginUserID('mgr');
+            $activeUser->internalKey = (int) $this->getCore()->getLoginUserID('mgr');
             $activeUser->username = $_SESSION['mgrShortname'];
-            $activeUser->lasthit = (int)$this->getCore()->tstart;
-            $activeUser->action = (int)$action;
-            $activeUser->id = (int)$this->getItemId();
+            $activeUser->lasthit = (int) $this->getCore()->tstart;
+            $activeUser->action = (int) $action;
+            $activeUser->id = (int) $this->getItemId();
             $activeUser->save();
             $flag = true;
         }
@@ -789,7 +787,7 @@ class ManagerTheme implements ManagerThemeInterface
             'tabpane' => $this->getThemeDir() . 'css/tabpane.css',
             'contextmenu' => $this->getThemeDir() . 'css/contextmenu.css',
             'index' => $this->getThemeDir() . 'css/index.css',
-            'main' => $this->getThemeDir() . 'css/main.css'
+            'main' => $this->getThemeDir() . 'css/main.css',
         ];
     }
 
@@ -803,7 +801,7 @@ class ManagerTheme implements ManagerThemeInterface
             $evtOut = $this->getCore()->invokeEvent('OnBeforeMinifyCss', array(
                 'files' => $files,
                 'source' => 'manager',
-                'theme' => $this->getTheme()
+                'theme' => $this->getTheme(),
             ));
             switch (true) {
                 case empty($evtOut):
@@ -844,8 +842,8 @@ class ManagerTheme implements ManagerThemeInterface
         $default = 'dark';
         $modes = array('', 'lightness', 'light', 'dark', 'darkness');
 
-        $cookie = (int)get_by_key($_COOKIE, 'MODX_themeMode', 0, function ($val) use ($modes) {
-            return (int)$val > 0 && (int)$val <= \count($modes);
+        $cookie = (int) get_by_key($_COOKIE, 'MODX_themeMode', 0, function ($val) use ($modes) {
+            return (int) $val > 0 && (int) $val <= \count($modes);
         });
         $system = $this->getCore()->getConfig('manager_theme_mode');
 
@@ -884,13 +882,13 @@ class ManagerTheme implements ManagerThemeInterface
                         }
                     }
                 }
-                if ($output == '')
+                if ($output == '') {
                     $output .= $this->sendRepairMail($_GET['email'], $hash, 'hash');
+                }
             }
-
         }
-        return $output . $this->makeTemplate('repair_button', 'manager_login_tpl', $plh, false);
 
+        return $output . $this->makeTemplate('repair_button', 'manager_login_tpl', $plh, false);
     }
 
     public function sendRepairMail($email, $hash, $mode)
@@ -907,7 +905,9 @@ class ManagerTheme implements ManagerThemeInterface
         $param['body'] = $body;
         $rs = $this->getCore()->sendmail($param); //ignore mail errors in this case
 
-        if (!$rs) return '<span class="error">' . \Lang::get('global.error_sending_email') . '</span>';
+        if (!$rs) {
+            return '<span class="error">' . \Lang::get('global.error_sending_email') . '</span>';
+        }
 
         return '<p><b>' . \Lang::get('global.email_sent') . '</b></p>';
     }
