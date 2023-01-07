@@ -30,7 +30,9 @@ class Tv extends AbstractResources implements TabControllerInterface
     {
         return $this->managerTheme->getCore()->hasAnyPermissions([
             'new_template',
-            'edit_template'
+            'edit_template',
+            'new_role',
+            'edit_role'
         ]);
     }
 

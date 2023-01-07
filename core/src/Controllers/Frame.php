@@ -415,7 +415,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function menuElementTv()
     {
-        if (!$this->managerTheme->getCore()->hasPermission('edit_template') || !$this->managerTheme->getCore()->hasPermission('edit_role')) {
+        if (!$this->managerTheme->getCore()->hasAnyPermissions(['edit_template', 'edit_role'])) {
             return;
         }
 
