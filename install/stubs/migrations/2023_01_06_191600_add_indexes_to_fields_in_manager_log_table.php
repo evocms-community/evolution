@@ -14,7 +14,12 @@ class AddIndexesToFieldsInManagerLogTable extends Migration
     public function up()
     {
         Schema::table('manager_log', function (Blueprint $table) {
-            $table->index(['internalKey', 'action', 'itemid', 'itemname', 'message', 'timestamp']);
+            $table->index('internalKey');
+            $table->index('action');
+            $table->index('itemid');
+            $table->index('itemname');
+            $table->index('message');
+            $table->index('timestamp');
         });
     }
 
