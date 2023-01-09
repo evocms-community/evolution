@@ -217,24 +217,25 @@ if($_SESSION['mgrRole']!= 1){
 }
 $tvs = $tvs->get();
 foreach ($tvs->toArray() as $row) {
-    if(!isset($_POST["tv" . $row['id']])) continue;
     $tmplvar = '';
     switch ($row['type']) {
         case 'url':
-            $tmplvar = $_POST["tv" . $row['id']];
-            if ($_POST["tv" . $row['id'] . '_prefix'] != '--') {
-                $tmplvar = str_replace(array (
-                    "feed://",
-                    "ftp://",
-                    "http://",
-                    "https://",
-                    "mailto:"
-                ), "", $tmplvar);
-                $tmplvar = $_POST["tv" . $row['id'] . '_prefix'] . $tmplvar;
+            if (isset($_POST["tv" . $row['id']])) {
+                $tmplvar = $_POST["tv" . $row['id']];
+                if (isset($_POST["tv" . $row['id'] . '_prefix']) && $_POST["tv" . $row['id'] . '_prefix'] != '--') {
+                    $tmplvar = str_replace([
+                        "feed://",
+                        "ftp://",
+                        "http://",
+                        "https://",
+                        "mailto:"
+                    ], "", $tmplvar);
+                    $tmplvar = $_POST["tv" . $row['id'] . '_prefix'] . $tmplvar;
+                }
             }
-        break;
+            break;
         case 'file':
-            $tmplvar = $_POST["tv" . $row['id']];
+            $tmplvar = $_POST["tv" . $row['id']] ?? '';
         break;
         default:
             $tmp = get_by_key($_POST, 'tv' . $row['id']);
