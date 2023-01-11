@@ -3774,14 +3774,21 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         // modify field names to use sc. table reference
-        $fields = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $fields))));
-        $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+        $fields = array_filter(array_map('trim', explode(',', $fields)));
+        foreach ($fields as $key => $value) {
+            if (stristr($value, '.') === false) {
+                $fields[$key] = 'site_content.' . $value;
+            }
+        }
         $content = SiteContent::query()
             ->withTrashed()
-            ->select(explode(',', $fields))
+            ->select($fields)
             ->where('site_content.parent', $id)
-            ->groupBy('site_content.id')
-            ->orderBy($sort, $dir);
+            ->groupBy('site_content.id');
+        if ($sort != '') {
+            $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+            $content = $content->orderBy($sort, $dir);
+        }
         if ($checkAccess) {
             $content->withoutProtected();
         }
@@ -3814,14 +3821,21 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         // modify field names to use sc. table reference
-        $fields = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $fields))));
-        $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+        $fields = array_filter(array_map('trim', explode(',', $fields)));
+        foreach ($fields as $key => $value) {
+            if (stristr($value, '.') === false) {
+                $fields[$key] = 'site_content.' . $value;
+            }
+        }
         $content = SiteContent::query()
-            ->select(explode(',', $fields))
+            ->select($fields)
             ->where('site_content.parent', $id)
             ->active()
-            ->groupBy('site_content.id')
-            ->orderBy($sort, $dir);
+            ->groupBy('site_content.id');
+        if ($sort != '') {
+            $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+            $content = $content->orderBy($sort, $dir);
+        }
         if ($checkAccess) {
             $content->withoutProtected();
         }
@@ -3888,16 +3902,19 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         } elseif (is_array($where)) {
             $documentChildren = $documentChildren->where($where);
         }
-        if (!is_array($fields)) {
-            $fields = array_filter(array_map('trim', explode(',', $fields)));
-            $documentChildren = $documentChildren->select($fields);
+
+        $fields = array_filter(array_map('trim', explode(',', $fields)));
+        foreach ($fields as $key => $value) {
+            if (stristr($value, '.') === false) {
+                $fields[$key] = 'site_content.' . $value;
+            }
         }
+        $documentChildren = $documentChildren->select($fields);
+
         // modify field names to use sc. table reference
         if ($sort != '') {
-            $sort = array_filter(array_map('trim', explode(',', $sort)));
-            foreach ($sort as $item) {
-                $documentChildren = $documentChildren->orderBy($item, $dir);
-            }
+            $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+            $documentChildren = $documentChildren->orderBy($sort, $dir);
         }
 
         if ($checkAccess) {
@@ -3971,24 +3988,19 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         } elseif (is_array($where)) {
             $documentChildren = $documentChildren->where($where);
         }
-        if (!is_array($fields)) {
-            $arr = array_filter(array_map('trim', explode(',', $fields)));
-            $new_arr = [];
-            foreach ($arr as $item) {
-                if (stristr($item, '.') === false) {
-                    $new_arr[] = 'site_content.' . $item;
-                } else {
-                    $new_arr[] = $item;
-                }
+
+        $fields = array_filter(array_map('trim', explode(',', $fields)));
+        foreach ($fields as $key => $value) {
+            if (stristr($value, '.') === false) {
+                $fields[$key] = 'site_content.' . $value;
             }
-            $documentChildren = $documentChildren->select($new_arr);
         }
+        $documentChildren = $documentChildren->select($fields);
+
         // modify field names to use sc. table reference
         if ($sort != '') {
-            $sort = array_filter(array_map('trim', explode(',', $sort)));
-            foreach ($sort as $item) {
-                $documentChildren = $documentChildren->orderBy($item, $dir);
-            }
+            $sort = 'site_content.' . implode(',site_content.', array_filter(array_map('trim', explode(',', $sort))));
+            $documentChildren = $documentChildren->orderBy($sort, $dir);
         }
 
         if ($checkAccess) {
