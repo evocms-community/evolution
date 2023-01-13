@@ -450,18 +450,18 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                         };
                                         fclose($file);
 
-                                        $tooltip = "Generation Time: " . $details["Generation Time"] . "\n";
-                                        $tooltip .= "Server version: " . $details["Server version"] . "\n";
-                                        $tooltip .= "PHP Version: " . $details["PHP Version"] . "\n";
-                                        $tooltip .= "Host: " . $details["Host"] . "\n";
+                                        $tooltip = "Generation Time: " . ($details["Generation Time"] ?? '-') . "\n";
+                                        $tooltip .= "Server version: " . ($details["Server version"] ?? '-') . "\n";
+                                        $tooltip .= "PHP Version: " . ($details["PHP Version"] ?? '-') . "\n";
+                                        $tooltip .= "Host: " . ($details["Host"] ?? '-') . "\n";
                                         ?>
                                         <tr>
                                             <td><?= $filename ?></td>
                                             <td><i class="<?= $_style['actions_help'] ?>" data-tooltip="<?= $tooltip ?>"></i></td>
                                             <td><?= $filesize ?></td>
-                                            <td><?= $details['Description'] ?></td>
-                                            <td><?= $details['MODX Version'] ?></td>
-                                            <td><?= $details['Database'] ?></td>
+                                            <td><?= $details['Description'] ?? '' ?></td>
+                                            <td><?= $details['MODX Version'] ?? '-' ?></td>
+                                            <td><?= $details['Database'] ?? '-' ?></td>
                                             <td><a href="javascript:;" onclick="confirmRevert('<?= $filename ?>');" title="<?= $tooltip ?>"><?= $_lang["bkmgr_restore_submit"] ?></a></td>
                                         </tr>
                                         <?php
