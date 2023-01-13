@@ -302,13 +302,6 @@ class synccache
                 $content .= '$d[\'' . $key . '\']=' . $docid . ';';
                 $content .= '$m[]=array(' . $doc['parent'] . '=>' . $docid . ');';
             }
-
-            // get content types
-            $rs = $modx->db->select('id, contentType', '[+prefix+]site_content', "contentType!='text/html'");
-            $content .= '$c=&$this->contentTypes;';
-            while ($doc = $modx->db->getRow($rs)) {
-                $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
-            }
         }
 
         if (!isset($config['disable_chunk_cache']) || $config['disable_chunk_cache'] != 1) {
