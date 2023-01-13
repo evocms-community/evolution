@@ -295,18 +295,6 @@ class Cache
                 // document map
                 $content .= '$m[]=array(' . $doc['parent'] . '=>' . $doc['id'] . ');';
             }
-
-            // get content types
-            $contentTypes = Models\SiteContent::query()
-                ->select('id', 'contentType')
-                ->where('contentType', '!=', 'text/html')
-                ->get();
-
-            $content .= '$c=&$this->contentTypes;';
-            foreach ($contentTypes->toArray() as $doc) {
-                // content type
-                $content .= '$c[\'' . $doc['id'] . '\']=\'' . $doc['contentType'] . '\';';
-            }
         }
 
         if (!isset($config['disable_chunk_cache']) || $config['disable_chunk_cache'] != 1) {

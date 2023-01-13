@@ -99,7 +99,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     public $chunkCache = [];
     public $snippetCache = [];
     public $modulesFromFile = [];
-    public $contentTypes;
     public $dumpSQL = false;
     public $queryCode;
     public $placeholders = [];
@@ -800,7 +799,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         // send out content-type and content-disposition headers
         if (IN_PARSER_MODE == "true") {
-            $type = !empty($this->contentTypes[$this->documentIdentifier]) ? $this->contentTypes[$this->documentIdentifier] : "text/html";
+            $type = !empty($this->documentObject['contentType']) ? $this->documentObject['contentType'] : "text/html";
             header('Content-Type: ' . $type . '; charset=' . $this->getConfig('modx_charset'));
             // if (($this->documentIdentifier == $this->config['error_page']) || $redirect_error)
             //   header('HTTP/1.0 404 Not Found');
