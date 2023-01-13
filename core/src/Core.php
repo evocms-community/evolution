@@ -2752,7 +2752,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 if (isset(UrlProcessor::getFacadeRoot()->documentListing[$alias])) {
                     $this->documentIdentifier = UrlProcessor::getFacadeRoot()->documentListing[$alias];
                 } else {
+                    $parent = $virtualDir ? UrlProcessor::getIdFromAlias($virtualDir) : 0;
                     $doc = SiteContent::select('id')
+                        ->where('parent', $parent)
                         ->where('alias', $this->documentIdentifier)
                         ->first();
 
