@@ -332,7 +332,7 @@ if (!class_exists('\\DLTemplate')) {
         protected function getBaseChunk($name)
         {
             if (empty($name)) {
-                return null;
+                return '';
             }
 
             if (isset ($this->modx->chunkCache[$name])) {
@@ -346,7 +346,7 @@ if (!class_exists('\\DLTemplate')) {
                     $row = $this->modx->db->getRow($query);
                     $tpl = $row['snippet'];
                 } else {
-                    $tpl = null;
+                    $tpl = '';
                 }
             }
 

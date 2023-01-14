@@ -252,4 +252,12 @@ class Mailer
     {
         return \APIhelpers::getkey($this->config, $param, $default);
     }
+    
+    /**
+     * @return MODxMailer
+     */
+    public function getMailProcessor()
+    {
+        return $this->mail;
+    }
 }

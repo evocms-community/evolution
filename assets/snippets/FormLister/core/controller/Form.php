@@ -51,7 +51,7 @@ class Form extends Core
      */
     public function renderReport ($tplParam = 'reportTpl')
     {
-        $tpl = $this->getCFGDef($tplParam);
+        $tpl = $this->getCFGDef($tplParam, '');
         $skipPrerender = $this->getCFGDef('skipPrerender', 0);
         if (empty($tpl) && $tplParam == 'reportTpl') {
             $tpl = '@CODE:';

@@ -525,13 +525,14 @@ class modResource extends MODxAPI
         }
 
         $this->set('alias', $this->getAlias());
-
+        $data = $this->toArray(null, null, null, false);
         $this->invokeEvent('OnBeforeDocFormSave', array(
             'mode'   => $this->newDoc ? "new" : "upd",
             'id'     => isset($this->id) ? $this->id : '',
-            'doc'    => $this->toArray(),
+            'doc'    => &$data,
             'docObj' => $this
         ), $fire_events);
+        $this->fromArray($data);
 
         $fld = $this->encodeFields()->toArray(null, null, null, false);
         foreach ($this->default_field as $key => $value) {
@@ -632,7 +633,7 @@ class modResource extends MODxAPI
         $this->invokeEvent('OnDocFormSave', array(
             'mode'   => $this->mode,
             'id'     => isset($this->id) ? $this->id : '',
-            'doc'    => $this->toArray(),
+            'doc'    => $this->toArray(null, null, null, false),
             'docObj' => $this
         ), $fire_events);
 
