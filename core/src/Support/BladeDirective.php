@@ -37,10 +37,10 @@ class BladeDirective
     {
         return '<?php echo ManagerTheme::getTheme();?>';
     }
-   
-    public static function makeUrl($id) : string
+
+    public static function makeUrl($id, string $alias = '', string $args = '', string $scheme = '') : string
     {
-        return '<?php echo app("UrlProcessor")->makeUrlWithString(' . $id . ');?>';
+        return '<?php echo app("UrlProcessor")->makeUrlWithString(' . $id . ', "' . $alias . '", "' . $args . '", "' . $scheme . '");?>';
     }
     public static function csrf() : string
     {

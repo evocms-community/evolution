@@ -704,10 +704,10 @@ class UrlProcessor
         return null;
     }
 
-    public function makeUrlWithString($id)
+    public function makeUrlWithString($id, string $alias = '', string $args = '', string $scheme = '')
     {
         if (is_numeric($id)) {
-            return $this->makeUrl($id);
+            return $this->makeUrl($id, $alias, $args, $scheme);
         } else {
             return $id;
         }
