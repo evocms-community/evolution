@@ -229,6 +229,9 @@ class DBAPI
         }
 
         $where = trim($where);
+        if(!$where && !$limit) {
+            return $this->truncate($from);
+        }
 
         $from = $this->replaceFullTableName($from);
         $orderBy = trim($orderBy);
