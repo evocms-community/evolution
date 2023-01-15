@@ -760,11 +760,8 @@ class DocumentParser
             $q = $_[1];
         }
 
-        /* First remove any / before or after */
         $q = trim($q, '/');
 
-        /* Save path if any */
-        /* FS#476 and FS#308: only return virtualDir if friendly paths are enabled */
         if ($this->config['use_alias_path'] == 1) {
             $_ = strrpos($q, '/');
             $this->virtualDir = $_ !== false ? substr($q, 0, $_) : '';
@@ -775,27 +772,61 @@ class DocumentParser
             $this->virtualDir = '';
         }
 
-        if (preg_match('@^[1-9][0-9]*$@', $q) && !isset($this->documentListing[$q])) { /* we got an ID returned, check to make sure it's not an alias */
-            /* FS#476 and FS#308: check that id is valid in terms of virtualDir structure */
-            if ($this->config['use_alias_path'] == 1) {
-                if (($this->virtualDir != '' && !isset($this->documentListing[$this->virtualDir . '/' . $q]) || ($this->virtualDir == '' && !isset($this->documentListing[$q]))) && (($this->virtualDir != '' && isset($this->documentListing[$this->virtualDir]) && in_array($q, $this->getChildIds($this->documentListing[$this->virtualDir], 1))) || ($this->virtualDir == '' && in_array($q, $this->getChildIds(0, 1))))) {
-                    $this->documentMethod = 'id';
-                    return $q;
-                } else { /* not a valid id in terms of virtualDir, treat as alias */
-                    $this->documentMethod = 'alias';
-                    return $q;
-                }
-            } else {
-                $this->documentMethod = 'id';
-                return $q;
-            }
-        } else { /* we didn't get an ID back, so instead we assume it's an alias */
+        if (!preg_match('@^[1-9][0-9]*$@', $q) || isset($this->documentListing[$q])) {
             if ($this->config['friendly_alias_urls'] != 1) {
                 $q = $qOrig;
             }
             $this->documentMethod = 'alias';
             return $q;
         }
+
+        if ($this->config['use_alias_path'] != 1) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+
+        if ($this->virtualDir == '' && isset($this->documentListing[$q])) {
+            $this->documentMethod = 'alias';
+            return $q;
+        }
+
+        if ($this->virtualDir != '' && isset($this->documentListing[$this->virtualDir . '/' . $q])) {
+            $this->documentMethod = 'alias';
+            return $q;
+        }
+
+        if ($this->virtualDir == '' && !in_array($q, $this->getChildIds(0, 1))) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+
+        if($this->virtualDir != '' && !isset($this->documentListing[$this->virtualDir])) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+        if (
+            $this->virtualDir == '' && !in_array($q, $this->getChildIds(0, 1))
+        ) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+
+        if (
+            $this->virtualDir != '' && !in_array($q, $this->getChildIds($this->documentListing[$this->virtualDir], 1))
+        ) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+
+        if (
+            $this->virtualDir == '' && !in_array($q, $this->getChildIds(0, 1))
+        ) {
+            $this->documentMethod = 'id';
+            return $q;
+        }
+
+        $this->documentMethod = 'id';
+        return $q;
     }
 
     /**
