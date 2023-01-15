@@ -1834,9 +1834,12 @@ class DocumentParser
 
         $content = str_replace(array('<@ELSE>', '<@ENDIF>'), array('<?php else:?>', '<?php endif;?>'), $content);
         ob_start();
-        $content = eval('?>' . $content);
-        $content = ob_get_clean();
-        $content = str_replace(array("{$sp}b", "{$sp}p", "{$sp}s", "{$sp}e"), array('<?php', '<?=', '<?', '?>'), $content);
+        eval('?>' . $content);
+        $content = str_replace(
+            array("{$sp}b", "{$sp}p", "{$sp}s", "{$sp}e"),
+            array('<?php', '<?=', '<?', '?>'),
+            ob_get_clean()
+        );
 
         return $content;
     }
