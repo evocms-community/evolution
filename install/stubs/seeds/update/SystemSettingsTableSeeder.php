@@ -34,7 +34,7 @@ class SystemSettingsTableSeeder extends Seeder
             $insertArray = [
                 ['setting_name' => 'alias_listing', 'setting_value' => $value],
             ];
-            \DB::table('system_settings')->insert($insertArray);
+            \DB::table('system_settings')->insertOrIgnore($insertArray);
 
             $deleteArray = [
                 'aliaslistingfolder',
