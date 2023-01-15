@@ -118,6 +118,7 @@ class MysqlDumper implements MysqlDumperInterface
         $output .= "SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;{$lf}";
         $output .= "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
         file_put_contents($tempfile_path, $output, FILE_APPEND | LOCK_EX);
+        $output = '';
         // Generate dumptext for the tables.
         if (isset($this->_dbtables) && count($this->_dbtables)) {
             $this->_dbtables = implode(',', $this->_dbtables);
