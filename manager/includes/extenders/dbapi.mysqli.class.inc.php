@@ -223,27 +223,26 @@ class DBAPI
     public function delete($from, $where = '', $orderBy = '', $limit = '')
     {
         $modx = evolutionCMS();
-        $out = false;
         if (!$from) {
             $modx->messageQuit("Empty \$from parameters in DBAPI::delete().");
-        } else {
-            $from = $this->replaceFullTableName($from);
-            $where = trim($where);
-            $orderBy = trim($orderBy);
-            $limit = trim($limit);
-            if ($where !== '' && stripos($where, 'WHERE') !== 0) {
-                $where = "WHERE {$where}";
-            }
-            if ($orderBy !== '' && stripos($orderBy, 'ORDER BY') !== 0) {
-                $orderBy = "ORDER BY {$orderBy}";
-            }
-            if ($limit !== '' && stripos($limit, 'LIMIT') !== 0) {
-                $limit = "LIMIT {$limit}";
-            }
-
-            $out = $this->query("DELETE FROM {$from} {$where} {$orderBy} {$limit}");
+            return false;
         }
-        return $out;
+
+        $where = trim($where);
+
+        $from = $this->replaceFullTableName($from);
+        $orderBy = trim($orderBy);
+        $limit = trim($limit);
+        if ($where !== '' && stripos($where, 'WHERE') !== 0) {
+            $where = "WHERE {$where}";
+        }
+        if ($orderBy !== '' && stripos($orderBy, 'ORDER BY') !== 0) {
+            $orderBy = "ORDER BY {$orderBy}";
+        }
+        if ($limit !== '' && stripos($limit, 'LIMIT') !== 0) {
+            $limit = "LIMIT {$limit}";
+        }
+        return $this->query("DELETE FROM {$from} {$where} {$orderBy} {$limit}");
     }
 
     /**
