@@ -1702,14 +1702,18 @@ class DocumentParser
                 continue;
             }
 
-            $value = $this->parseText($value, $params); // parse local scope placeholers for ConditionalTags
-            $value = $this->mergePlaceholderContent($value, $params);  // parse page global placeholers
+            $value = $this->mergePlaceholderContent(
+                $this->parseText($value, $params),
+                $params
+            );
             if ($this->config['enable_at_syntax']) {
                 $value = $this->mergeConditionalTagsContent($value);
             }
-            $value = $this->mergeDocumentContent($value);
-            $value = $this->mergeSettingsContent($value);
-            $value = $this->mergeChunkContent($value);
+            $value = $this->mergeChunkContent(
+                $this->mergeSettingsContent(
+                    $this->mergeDocumentContent($value)
+                )
+            );
 
             if ($modifiers !== false) {
                 $value = $this->applyFilter($value, $modifiers, $key);
