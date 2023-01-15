@@ -355,6 +355,11 @@ class DocumentParser
             exit;
         }
 
+        if ($type === 'REDIRECT_JS') {
+            echo sprintf("<script>window.location.href='%s';</script>", $url);
+            exit;
+        }
+
         if ($type && $type !== 'REDIRECT_HEADER') {
             return false;
         }
