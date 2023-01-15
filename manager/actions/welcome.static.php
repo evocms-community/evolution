@@ -529,7 +529,7 @@ function getRecentInfoList() {
     while($ph = $modx->db->getRow($rs)) {
         $docid = $ph['id'];
         $_ = $modx->getUserInfo($ph['editedby']);
-        $ph['username'] = $_['username'];
+        $ph['username'] = $_['username'] ?? '';
 
         if($ph['deleted'] == 1) {
             $ph['status'] = 'deleted text-danger';
