@@ -461,9 +461,21 @@ class DocumentParser
         $this->config['valid_hostnames'] = MODX_SITE_HOSTNAMES;
         $this->config['site_manager_url'] = MODX_MANAGER_URL;
         $this->config['site_manager_path'] = MODX_MANAGER_PATH;
-        $this->error_reporting = isset($this->config['error_reporting']) ? $this->config['error_reporting'] : 0;
-        $this->config['filemanager_path'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : ''));
-        $this->config['rb_base_dir'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['rb_base_dir']) ? $this->config['rb_base_dir'] : ''));
+        $this->error_reporting = $this->config['error_reporting'] ?? 0;
+        if(strpos($this->config['filemanager_path'], '[(base_path)]')!==false) {
+            $this->config['filemanager_path'] = str_replace(
+                '[(base_path)]',
+                MODX_BASE_PATH,
+                $this->config['filemanager_path']
+            );
+        }
+        if(strpos($this->config['rb_base_dir'],'[(base_path)]')!==false) {
+            $this->config['rb_base_dir'] = str_replace(
+                '[(base_path)]',
+                MODX_BASE_PATH,
+                $this->config['rb_base_dir']
+            );
+        }
 
         if (!isset($this->config['session_timeout'])) {
             $this->config['session_timeout'] = 15;
