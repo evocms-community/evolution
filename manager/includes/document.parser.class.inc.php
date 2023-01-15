@@ -4604,7 +4604,7 @@ class DocumentParser
      * @internal param $suffix {string} - Placeholders suffix. Default: '+]'. - Placeholders suffix. Default: '+]'.
      *
      */
-    public function parseText($tpl = '', $ph = array(), $left = '[+', $right = '+]', $execModifier = true)
+    public function parseText($tpl = '', $ph = [], $left = '[+', $right = '+]', $execModifier = true)
     {
         if (empty($ph) || empty($tpl)) {
             return $tpl;
