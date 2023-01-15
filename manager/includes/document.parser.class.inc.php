@@ -1887,7 +1887,7 @@ class DocumentParser
     private function _parseCTagCMD($cmd)
     {
         $cmd = trim($cmd);
-        $reverse = substr($cmd, 0, 1) === '!' ? true : false;
+        $reverse = strpos($cmd, '!') === 0;
         if ($reverse) {
             $cmd = ltrim($cmd, '!');
         }
@@ -1921,7 +1921,7 @@ class DocumentParser
         $cmd = rtrim($cmd, '-');
         $cmd = str_ireplace(array(' and ', ' or '), array('&&', '||'), $cmd);
 
-        if (!preg_match('@^[0-9]*$@', $cmd) && preg_match('@^[0-9<= \-\+\*/\(\)%!&|]*$@', $cmd)) {
+        if (!preg_match('@^[0-9]*$@', $cmd) && preg_match('@^[0-9<= \-+\*/\(\)%!&|]*$@', $cmd)) {
             $cmd = eval("return {$cmd};");
         } else {
             $_ = explode(',', '[*,[(,{{,[[,[!,[+');
@@ -1940,7 +1940,7 @@ class DocumentParser
         }
 
         if ($reverse) {
-            $cmd = !$cmd;
+            return !$cmd;
         }
 
         return $cmd;
