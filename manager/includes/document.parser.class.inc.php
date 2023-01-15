@@ -2097,8 +2097,7 @@ class DocumentParser
         } else {
             $return = call_user_func_array($phpcode, array($params));
         }
-        $echo = ob_get_contents();
-        ob_end_clean();
+        $echo = ob_get_clean();
         if ((0 < $this->config['error_reporting']) && isset($php_errormsg)) {
             $error_info = error_get_last();
             if ($this->detectError($error_info['type'])) {
@@ -2112,9 +2111,9 @@ class DocumentParser
         unset($modx->event->params);
         if (is_array($return) || is_object($return)) {
             return $return;
-        } else {
-            return $echo . $return;
         }
+
+        return $echo . $return;
     }
 
     /**
