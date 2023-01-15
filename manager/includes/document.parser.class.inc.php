@@ -4931,41 +4931,41 @@ class DocumentParser
 
         if (!$docs) {
             return false;
-        } else {
-            $result = [];
+        }
 
-            $unsetResultKey = false;
+        $result = [];
 
-            if ($resultKey !== false) {
-                if (is_array($tvidnames)) {
-                    if (count($tvidnames) != 0 && !in_array($resultKey, $tvidnames)) {
-                        $tvidnames[] = $resultKey;
-                        $unsetResultKey = true;
-                    }
-                } else if ($tvidnames != '*' && $tvidnames != $resultKey) {
-                    $tvidnames = array($tvidnames, $resultKey);
+        $unsetResultKey = false;
+
+        if ($resultKey !== false) {
+            if (is_array($tvidnames)) {
+                if (count($tvidnames) != 0 && !in_array($resultKey, $tvidnames)) {
+                    $tvidnames[] = $resultKey;
                     $unsetResultKey = true;
                 }
+            } elseif ($tvidnames !== '*' && $tvidnames != $resultKey) {
+                $tvidnames = array($tvidnames, $resultKey);
+                $unsetResultKey = true;
             }
+        }
 
-            for ($i = 0; $i < count($docs); $i++) {
-                $tvs = $this->getTemplateVarOutput($tvidnames, $docs[$i]['id'], $published);
+        for ($i = 0; $i < count($docs); $i++) {
+            $tvs = $this->getTemplateVarOutput($tvidnames, $docs[$i]['id'], $published);
 
-                if ($tvs) {
-                    if ($resultKey !== false && array_key_exists($resultKey, $tvs)) {
-                        $result[$tvs[$resultKey]] = $tvs;
+            if ($tvs) {
+                if ($resultKey !== false && array_key_exists($resultKey, $tvs)) {
+                    $result[$tvs[$resultKey]] = $tvs;
 
-                        if ($unsetResultKey) {
-                            unset($result[$tvs[$resultKey]][$resultKey]);
-                        }
-                    } else {
-                        $result[] = $tvs;
+                    if ($unsetResultKey) {
+                        unset($result[$tvs[$resultKey]][$resultKey]);
                     }
+                } else {
+                    $result[] = $tvs;
                 }
             }
-
-            return $result;
         }
+
+        return $result;
     }
 
     /**
