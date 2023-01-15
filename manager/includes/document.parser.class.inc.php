@@ -1564,9 +1564,8 @@ class DocumentParser
                 if ($find) {
                     if (isset($prev[$key])) {
                         return $prev[$key];
-                    } else {
-                        $docid = $prev['id'];
                     }
+                    $docid = $prev['id'];
                 } else {
                     $docid = '';
                 }
@@ -1593,9 +1592,8 @@ class DocumentParser
                 if ($find) {
                     if (isset($next[$key])) {
                         return $next[$key];
-                    } else {
-                        $docid = $next['id'];
                     }
+                    $docid = $next['id'];
                 } else {
                     $docid = '';
                 }
@@ -1603,12 +1601,10 @@ class DocumentParser
             default:
                 $docid = $str;
         }
-        if (preg_match('@^[1-9][0-9]*$@', $docid)) {
-            $value = $this->getField($key, $docid);
-        } else {
-            $value = '';
+        if (!preg_match('@^[1-9][0-9]*$@', $docid)) {
+            return '';
         }
-        return $value;
+        return $this->getField($key, $docid);
     }
 
     /**
