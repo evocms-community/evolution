@@ -656,18 +656,21 @@ class DocumentParser
             return $this->db->escape($_REQUEST['q']);
         }
 
-        $id_ = filter_input(INPUT_GET, 'id');
-        if ($id_) {
-            if (preg_match('@^[1-9][0-9]*$@', $id_)) {
-                return $id_;
-            } else {
+        $id = filter_input(INPUT_GET, 'id');
+        if ($id) {
+            if (!preg_match('@^[1-9][0-9]*$@', $id)) {
                 $this->sendErrorPage();
+                exit;
             }
-        } elseif (strpos($_SERVER['REQUEST_URI'], 'index.php/') !== false) {
-            $this->sendErrorPage();
-        } else {
-            return $this->config['site_start'];
+            return $id;
         }
+
+        if (strpos($_SERVER['REQUEST_URI'], 'index.php/') !== false) {
+            $this->sendErrorPage();
+            exit;
+        }
+
+        return $this->config['site_start'];
     }
 
     /**
