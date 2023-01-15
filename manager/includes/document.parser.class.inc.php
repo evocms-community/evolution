@@ -3012,6 +3012,9 @@ class DocumentParser
     public function mb_basename($path, $suffix = null)
     {
         $exp = explode('/', $path);
+        if(!$suffix) {
+            return end($exp);
+        }
         return str_replace($suffix, '', end($exp));
     }
 
