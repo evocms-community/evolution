@@ -18,18 +18,18 @@
 
 $modx = evolutionCMS();
 $_CONFIG = array(
-    'disabled'            => false,
-    'denyZipDownload'     => $modx->config['denyZipDownload'],
-    'denyExtensionRename' => $modx->config['denyExtensionRename'],
-    'showHiddenFiles'     => $modx->config['showHiddenFiles'],
-    'theme'               => "evo",
-    'uploadURL'           => rtrim($modx->config['rb_base_url'], '/'),
-    'uploadDir'           => rtrim($modx->config['rb_base_dir'], '/'),
-    'siteURL'             => $modx->config['site_url'],
-    'assetsURL'           => rtrim($modx->config['rb_base_url'], '/'),
-    'dirPerms'            => intval($modx->config['new_folder_permissions'], 8),
-    'filePerms'           => intval($modx->config['new_file_permissions'], 8),
-    'maxfilesize'         => (int)$modx->config['upload_maxsize'],
+    'disabled'               => false,
+    'denyZipDownload'        => $modx->config['denyZipDownload'],
+    'denyExtensionRename'    => $modx->config['denyExtensionRename'],
+    'showHiddenFiles'        => $modx->config['showHiddenFiles'],
+    'theme'                  => "evo",
+    'uploadURL'              => rtrim($modx->config['rb_base_url'], '/'),
+    'uploadDir'              => rtrim($modx->config['rb_base_dir'], '/'),
+    'siteURL'                => $modx->config['site_url'],
+    'assetsURL'              => rtrim($modx->config['rb_base_url'], '/'),
+    'dirPerms'               => intval($modx->config['new_folder_permissions'], 8),
+    'filePerms'              => intval($modx->config['new_file_permissions'], 8),
+    'maxfilesize'            => (int)$modx->config['upload_maxsize'],
     'noThumbnailsRecreation' => $modx->config['noThumbnailsRecreation'],
 
     'access' => array(
@@ -71,9 +71,10 @@ $_CONFIG = array(
 
     'maxImageWidth'  => $modx->config['maxImageWidth'],
     'maxImageHeight' => $modx->config['maxImageHeight'],
-    'clientResize'   => $modx->config['clientResize'] && ($modx->config['maxImageWidth'] || $modx->config['maxImageHeight']) ? array('maxWidth'  => $modx->config['maxImageWidth'],
-                                                                                                                                   'maxHeight' => $modx->config['maxImageHeight'],
-                                                                                                                                   'quality'   => $modx->config['jpegQuality'] / 100
+    'clientResize'   => $modx->config['clientResize'] && ($modx->config['maxImageWidth'] || $modx->config['maxImageHeight']) ? array(
+        'maxWidth'  => $modx->config['maxImageWidth'],
+        'maxHeight' => $modx->config['maxImageHeight'],
+        'quality'   => $modx->config['jpegQuality'] / 100
     ) : array(),
 
     'thumbWidth'  => $modx->config['thumbWidth'],
