@@ -118,25 +118,22 @@ class DBAPI
      * @param int $safeCount
      * @return array|string
      */
-    public function escape($s, $safeCount = 0)
+    public function escape($s)
     {
-        $safeCount++;
-        if (1000 < $safeCount) {
-            exit("Too many loops '{$safeCount}'");
-        }
-        if ( ! ($this->conn instanceof mysqli)) {
+        if (!$this->conn instanceof mysqli) {
             $this->connect();
         }
-        if (is_array($s)) {
-            if (count($s) === 0) {
-                $s = '';
-            } else {
-                foreach ($s as $i => $v) {
-                    $s[$i] = $this->escape($v, $safeCount);
-                }
-            }
-        } else {
-            $s = $this->conn->escape_string($s);
+
+        if (!is_array($s)) {
+            return $this->conn->escape_string($s);
+        }
+
+        if (!count($s)) {
+            return '';
+        }
+
+        foreach ($s as $i => $v) {
+            $s[$i] = $this->escape($v);
         }
 
         return $s;
