@@ -1638,11 +1638,10 @@ class DocumentParser
         foreach ($matches[1] as $i => $key) {
             [$key, $modifiers] = $this->splitKeyAndFilter($key);
 
-            if (isset($ph[$key])) {
-                $value = $ph[$key];
-            } else {
+            if (!isset($ph[$key])) {
                 continue;
             }
+            $value = $ph[$key];
 
             if ($modifiers !== false) {
                 $value = $this->applyFilter($value, $modifiers, $key);
