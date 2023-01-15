@@ -31,11 +31,11 @@ class DBAPI
         $charset = '',
         $connection_method = 'SET CHARACTER SET'
     ) {
-        $this->config['host'] = $host ? $host : $GLOBALS['database_server'];
-        $this->config['dbase'] = $dbase ? $dbase : $GLOBALS['dbase'];
-        $this->config['user'] = $uid ? $uid : $GLOBALS['database_user'];
-        $this->config['pass'] = $pwd ? $pwd : $GLOBALS['database_password'];
-        $this->config['charset'] = $charset ? $charset : $GLOBALS['database_connection_charset'];
+        $this->config['host'] = $host ?: $GLOBALS['database_server'];
+        $this->config['dbase'] = $dbase ?: $GLOBALS['dbase'];
+        $this->config['user'] = $uid ?: $GLOBALS['database_user'];
+        $this->config['pass'] = $pwd ?: $GLOBALS['database_password'];
+        $this->config['charset'] = $charset ?: $GLOBALS['database_connection_charset'];
         $this->config['connection_method'] = $this->_dbconnectionmethod = (isset($GLOBALS['database_connection_method']) ? $GLOBALS['database_connection_method'] : $connection_method);
         $this->config['table_prefix'] = ($pre !== null) ? $pre : $GLOBALS['table_prefix'];
     }
@@ -50,11 +50,11 @@ class DBAPI
     public function connect($host = '', $dbase = '', $uid = '', $pwd = '')
     {
         $modx = evolutionCMS();
-        $uid = $uid ? $uid : $this->config['user'];
-        $pwd = $pwd ? $pwd : $this->config['pass'];
-        $host = $host ? $host : $this->config['host'];
+        $uid = $uid ?: $this->config['user'];
+        $pwd = $pwd ?: $this->config['pass'];
+        $host = $host ?: $this->config['host'];
         $host = explode(':', $host, 2);
-        $dbase = $dbase ? $dbase : $this->config['dbase'];
+        $dbase = $dbase ?: $this->config['dbase'];
         $dbase = trim($dbase, '`'); // remove the `` chars
         $charset = $this->config['charset'];
         $connection_method = $this->config['connection_method'];
@@ -118,25 +118,22 @@ class DBAPI
      * @param int $safeCount
      * @return array|string
      */
-    public function escape($s, $safeCount = 0)
+    public function escape($s)
     {
-        $safeCount++;
-        if (1000 < $safeCount) {
-            exit("Too many loops '{$safeCount}'");
-        }
-        if ( ! ($this->conn instanceof mysqli)) {
+        if (!$this->conn instanceof mysqli) {
             $this->connect();
         }
-        if (is_array($s)) {
-            if (count($s) === 0) {
-                $s = '';
-            } else {
-                foreach ($s as $i => $v) {
-                    $s[$i] = $this->escape($v, $safeCount);
-                }
-            }
-        } else {
-            $s = $this->conn->escape_string($s);
+
+        if (!is_array($s)) {
+            return $this->conn->escape_string($s);
+        }
+
+        if (!count($s)) {
+            return '';
+        }
+
+        foreach ($s as $i => $v) {
+            $s[$i] = $this->escape($v);
         }
 
         return $s;
@@ -702,7 +699,7 @@ class DBAPI
      */
     public function truncate($table_name)
     {
-        return $this->query('TRUNCATE '.$table_name);
+        return $this->query('TRUNCATE '.$this->replaceFullTableName($table_name));
     }
 
     /**
