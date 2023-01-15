@@ -4488,24 +4488,28 @@ class DocumentParser
     /**
      * Returns the EVO version information as version, branch, release date and full application name.
      *
-     * @param null $data
+     * @param null $key
      * @return array
      */
 
-    public function getVersionData($data = null)
+    public function getVersionData($key = null)
     {
-        $out = array();
+        $out = [];
         if (empty($this->version) || !is_array($this->version)) {
             //include for compatibility modx version < 1.0.10
             include MODX_MANAGER_PATH . "includes/version.inc.php";
-            $this->version = array();
-            $this->version['version'] = isset($modx_version) ? $modx_version : '';
-            $this->version['branch'] = isset($modx_branch) ? $modx_branch : '';
-            $this->version['release_date'] = isset($modx_release_date) ? $modx_release_date : '';
-            $this->version['full_appname'] = isset($modx_full_appname) ? $modx_full_appname : '';
-            $this->version['new_version'] = isset($this->config['newversiontext']) ? $this->config['newversiontext'] : '';
+            $this->version = [
+                'version' => $modx_version ?? '',
+                'branch' => $modx_branch ?? '',
+                'release_date' => $modx_release_date ?? '',
+                'full_appname' => $modx_full_appname ?? '',
+                'new_version' => $this->config['newversiontext'] ?? ''
+            ];
         }
-        return (!is_null($data) && is_array($this->version) && isset($this->version[$data])) ? $this->version[$data] : $this->version;
+        if (!$key) {
+            return $this->version;
+        }
+        return $this->version[$key];
     }
 
     /**
