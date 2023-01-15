@@ -2049,8 +2049,7 @@ class DocumentParser
         }*/
         ob_start();
         eval($pluginCode);
-        $msg = ob_get_contents();
-        ob_end_clean();
+        $msg = ob_get_clean();
         // When reached here, no fatal error occured so the lock should be removed.
         /*if(is_file($lock_file_path)) unlink($lock_file_path);*/
 
