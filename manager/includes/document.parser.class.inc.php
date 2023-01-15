@@ -707,15 +707,15 @@ class DocumentParser
      */
     public function checkPreview()
     {
-        if ($this->isLoggedIn() == true) {
-            if (isset ($_REQUEST['z']) && $_REQUEST['z'] == 'manprev') {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        if (!$this->isLoggedIn()) {
             return false;
         }
+
+        if (!isset ($_REQUEST['z']) || $_REQUEST['z'] !== 'manprev') {
+            return false;
+        }
+
+        return true;
     }
 
     /**
