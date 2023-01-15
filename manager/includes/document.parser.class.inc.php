@@ -1253,33 +1253,47 @@ class DocumentParser
     public function postProcess()
     {
         // if the current document was generated, cache it!
-        $cacheable = ($this->config['enable_cache'] && $this->documentObject['cacheable']) ? 1 : 0;
-        if ($cacheable && $this->documentGenerated && $this->documentObject['type'] == 'document' && $this->documentObject['published']) {
-            // invoke OnBeforeSaveWebPageCache event
-            $this->invokeEvent("OnBeforeSaveWebPageCache");
-
-            if (!empty($this->cacheKey) && is_scalar($this->cacheKey)) {
-                // get and store document groups inside document object. Document groups will be used to check security on cache pages
-                $where = "document='{$this->documentIdentifier}'";
-                $rs = $this->db->select('document_group', '[+prefix+]document_groups', $where);
-                $docGroups = $this->db->getColumn('document_group', $rs);
-
-                // Attach Document Groups and Scripts
-                if (is_array($docGroups)) {
-                    $this->documentObject['__MODxDocGroups__'] = implode(",", $docGroups);
-                }
-
-                $docObjSerial = serialize($this->documentObject);
-                $cacheContent = $docObjSerial . "<!--__MODxCacheSpliter__-->" . $this->documentContent;
-                $page_cache_path = MODX_BASE_PATH . $this->getHashFile($this->cacheKey);
-                file_put_contents($page_cache_path, "<?php die('Unauthorized access.'); ?>$cacheContent");
-            }
+        if ($this->config['enable_cache'] && $this->documentObject['cacheable']) {
+            $this->invokeEvent('OnWebPageComplete');
+            return;
+        }
+        if (!$this->documentGenerated) {
+            $this->invokeEvent('OnWebPageComplete');
+            return;
+        }
+        if ($this->documentObject['type'] !== 'document' || !$this->documentObject['published']) {
+            $this->invokeEvent('OnWebPageComplete');
+            return;
         }
 
-        // Useful for example to external page counters/stats packages
-        $this->invokeEvent('OnWebPageComplete');
+        $this->invokeEvent("OnBeforeSaveWebPageCache");
 
-        // end post processing
+        if (empty($this->cacheKey) || !is_scalar($this->cacheKey)) {
+            $this->invokeEvent('OnWebPageComplete');
+            return;
+        }
+
+        $docGroups = $this->db->getColumn(
+            'document_group',
+            $this->db->select(
+                'document_group',
+                '[+prefix+]document_groups',
+                "document='" . $this->documentIdentifier . "'"
+            )
+        );
+        // Attach Document Groups and Scripts
+        if (is_array($docGroups)) {
+            $this->documentObject['__MODxDocGroups__'] = implode(",", $docGroups);
+        }
+        file_put_contents(
+            MODX_BASE_PATH . $this->getHashFile($this->cacheKey),
+            sprintf(
+                "<?php die('Unauthorized access.'); ?>%s<!--__MODxCacheSpliter__-->%s",
+                serialize($this->documentObject),
+                $this->documentContent
+            )
+        );
+        $this->invokeEvent('OnWebPageComplete');
     }
 
     /**
