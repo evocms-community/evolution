@@ -1322,16 +1322,24 @@ class DocumentParser
      * @param string $right
      * @return array
      */
-    public function _getTagsFromContent($content, $left = '[+', $right = '+]')
+    private function _getTagsFromContent($content, $left = '[+', $right = '+]')
     {
         if (strpos($content, $left) === false) {
             return [];
         }
         $spacer = md5('<<<EVO>>>');
-        if($left==='{{' && strpos($content,';}}')!==false)  $content = str_replace(';}}', sprintf(';}%s}',   $spacer),$content);
-        if($left==='{{' && strpos($content,'{{}}')!==false) $content = str_replace('{{}}',sprintf('{%$1s{}%$1s}',$spacer),$content);
-        if($left==='[[' && strpos($content,']]]]')!==false) $content = str_replace(']]]]',sprintf(']]%s]]',  $spacer),$content);
-        if($left==='[[' && strpos($content,']]]')!==false)  $content = str_replace(']]]', sprintf(']%s]]',   $spacer),$content);
+        if($left==='{{' && strpos($content,';}}')!==false) {
+            $content = str_replace(';}}', sprintf(';}%s}', $spacer), $content);
+        }
+        if($left==='{{' && strpos($content,'{{}}')!==false) {
+            $content = str_replace('{{}}', sprintf('{%$1s{}%$1s}', $spacer), $content);
+        }
+        if($left==='[[' && strpos($content,']]]]')!==false) {
+            $content = str_replace(']]]]', sprintf(']]%s]]', $spacer), $content);
+        }
+        if($left==='[[' && strpos($content,']]]')!==false) {
+            $content = str_replace(']]]', sprintf(']%s]]', $spacer), $content);
+        }
 
         $pos['<![CDATA['] = strpos($content, '<![CDATA[');
         $pos[']]>'] = strpos($content, ']]>');
@@ -1374,8 +1382,9 @@ class DocumentParser
                 }
                 $rc++;
                 if ($lc === $rc) {
-                    // #1200 Enable modifiers in Wayfinder - add nested placeholders to $tags like for $fetch = "phx:input=`[+wf.linktext+]`:test"
-                    if ( (isset($this->config['enable_filter']) && $this->config['enable_filter'] == 1) OR class_exists('PHxParser') ) {
+                    // #1200 Enable modifiers in Wayfinder - add nested placeholders to $tags like
+                    // for $fetch = "phx:input=`[+wf.linktext+]`:test"
+                    if ( $this->config['enable_filter']??0 == 1 || class_exists('PHxParser') ) {
                         if (strpos($fetch, $left) !== false) {
                             $nested = $this->_getTagsFromContent($fetch, $left, $right);
                             foreach ($nested as $tag) {
@@ -1396,15 +1405,16 @@ class DocumentParser
                     $fetch .= $right;
                 }
             } else {
-                if (0 < $lc) {
-                    $fetch .= $v;
-                } else {
+                if (0 >= $lc) {
                     continue;
                 }
+                $fetch .= $v;
             }
         }
         foreach($tags as $i=>$tag) {
-            if(strpos($tag,$spacer)!==false) $tags[$i] = str_replace($spacer, '', $tag);
+            if(strpos($tag,$spacer)!==false) {
+                $tags[$i] = str_replace($spacer, '', $tag);
+            }
         }
         return $tags;
     }
