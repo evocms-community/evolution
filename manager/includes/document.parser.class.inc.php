@@ -986,12 +986,14 @@ class DocumentParser
     {
         $this->documentOutput = $this->documentContent;
 
-        if ($this->documentGenerated == 1 && $this->documentObject['cacheable'] == 1 && $this->documentObject['type'] == 'document' && $this->documentObject['published'] == 1) {
-            if (!empty($this->sjscripts)) {
-                $this->documentObject['__MODxSJScripts__'] = $this->sjscripts;
-            }
-            if (!empty($this->jscripts)) {
-                $this->documentObject['__MODxJScripts__'] = $this->jscripts;
+        if ($this->documentGenerated && $this->documentObject['cacheable']) {
+            if($this->documentObject['type'] === 'document' && $this->documentObject['published']) {
+                if (!empty($this->sjscripts)) {
+                    $this->documentObject['__MODxSJScripts__'] = $this->sjscripts;
+                }
+                if (!empty($this->jscripts)) {
+                    $this->documentObject['__MODxJScripts__'] = $this->jscripts;
+                }
             }
         }
 
@@ -1040,13 +1042,12 @@ class DocumentParser
                     $name = $this->cleanUpMODXTags($name);
                     $name = strtolower($name);
                     $name = preg_replace('/&.+?;/', '', $name); // kill entities
-                    $name = preg_replace('/[^\.%a-z0-9 _-]/', '', $name);
+                    $name = preg_replace('/[^.%a-z0-9 _-]/', '', $name);
                     $name = preg_replace('/\s+/', '-', $name);
-                    $name = preg_replace('|-+|', '-', $name);
+                    $name = preg_replace('/-+/', '-', $name);
                     $name = trim($name, '-');
                 }
-                $header = 'Content-Disposition: attachment; filename=' . $name;
-                header($header);
+                header('Content-Disposition: attachment; filename=' . $name);
             }
         }
         $this->setConditional();
@@ -1054,12 +1055,18 @@ class DocumentParser
         $stats = $this->getTimerStats($this->tstart);
 
         $out =& $this->documentOutput;
-        $out = str_replace("[^q^]", $stats['queries'], $out);
-        $out = str_replace("[^qt^]", $stats['queryTime'], $out);
-        $out = str_replace("[^p^]", $stats['phpTime'], $out);
-        $out = str_replace("[^t^]", $stats['totalTime'], $out);
-        $out = str_replace("[^s^]", $stats['source'], $out);
-        $out = str_replace("[^m^]", $stats['phpMemory'], $out);
+        $out = str_replace(
+            ["[^q^]", "[^qt^]", "[^p^]", "[^t^]", "[^s^]", "[^m^]"],
+            [
+                $stats['queries'],
+                $stats['queryTime'],
+                $stats['phpTime'],
+                $stats['totalTime'],
+                $stats['source'],
+                $stats['phpMemory']
+            ],
+            $out
+        );
         //$this->documentOutput= $out;
 
         // invoke OnWebPagePrerender event
@@ -1092,7 +1099,11 @@ class DocumentParser
                 $sc .= sprintf("%s. %s (%s)<br>", $s, $sname, sprintf("%2.2f ms", $t)); // currentSnippet
                 $tt += $t;
             }
-            echo "<fieldset><legend><b>Snippets</b> (" . count($this->snippetsTime) . " / " . sprintf("%2.2f ms", $tt) . ")</legend>{$sc}</fieldset><br />";
+            echo sprintf(
+                '<fieldset><legend><b>Snippets</b> (%s / %s)</legend>{$sc}</fieldset><br />',
+                count($this->snippetsTime),
+                sprintf("%2.2f ms", $tt)
+            );
             echo $this->snippetsCode;
         }
         if ($this->dumpPlugins) {
