@@ -4553,26 +4553,36 @@ class DocumentParser
      */
     public function getChunk($chunkName)
     {
-        $out = null;
-        if (empty($chunkName)) {
-            // nop
-        } elseif ($this->isChunkProcessor('DLTemplate')) {
-            $out = DLTemplate::getInstance($this)->getChunk($chunkName);
-        } elseif (isset ($this->chunkCache[$chunkName])) {
-            $out = $this->chunkCache[$chunkName];
-        } elseif (stripos($chunkName, '@FILE') === 0) {
-            $out = $this->chunkCache[$chunkName] = $this->atBindFileContent($chunkName);
-        } else {
-            $where = sprintf("`name`='%s' AND disabled=0", $this->db->escape($chunkName));
-            $rs = $this->db->select('snippet', '[+prefix+]site_htmlsnippets', $where);
-            if ($this->db->getRecordCount($rs) == 1) {
-                $row = $this->db->getRow($rs);
-                $out = $this->chunkCache[$chunkName] = $row['snippet'];
-            } else {
-                $out = $this->chunkCache[$chunkName] = null;
-            }
+        if (!$chunkName) {
+            return null;
         }
-        return $out;
+
+        if ($this->isChunkProcessor('DLTemplate')) {
+            return DLTemplate::getInstance($this)->getChunk($chunkName);
+        }
+
+        if (isset ($this->chunkCache[$chunkName])) {
+            return $this->chunkCache[$chunkName];
+        }
+
+        if (stripos($chunkName, '@FILE') === 0) {
+            $this->chunkCache[$chunkName] = $this->atBindFileContent($chunkName);
+            return $this->chunkCache[$chunkName];
+        }
+
+        $rs = $this->db->select(
+            'snippet',
+            '[+prefix+]site_htmlsnippets',
+            sprintf("`name`='%s' AND disabled=0", $this->db->escape($chunkName))
+        );
+        if ($this->db->getRecordCount($rs) != 1) {
+            $this->chunkCache[$chunkName] = null;
+            return null;
+        }
+
+        $row = $this->db->getRow($rs);
+        $this->chunkCache[$chunkName] = $row['snippet'];
+        return $this->chunkCache[$chunkName];
     }
 
     /**
