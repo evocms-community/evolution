@@ -300,31 +300,27 @@ class DBAPI
     public function update($fields, $table, $where = "")
     {
         $modx = evolutionCMS();
-        $out = false;
         if (!$table) {
             $modx->messageQuit('Empty '.$table.' parameter in DBAPI::update().');
-        } else {
-            $table = $this->replaceFullTableName($table);
-            if (is_array($fields)) {
-                foreach ($fields as $key => $value) {
-                    if ($value === null || strtolower($value) === 'null') {
-                        $f = 'NULL';
-                    } else {
-                        $f = "'" . $value . "'";
-                    }
-                    $fields[$key] = "`{$key}` = " . $f;
-                }
-                $fields = implode(',', $fields);
-            }
-            $where = trim($where);
-            if ($where !== '' && stripos($where, 'WHERE') !== 0) {
-                $where = 'WHERE '.$where;
-            }
-
-            return $this->query('UPDATE '.$table.' SET '.$fields.' '.$where);
+            return false;
         }
-        return $out;
-    }
+        $table = $this->replaceFullTableName($table);
+        if (is_array($fields)) {
+            foreach ($fields as $key => $value) {
+                if ($value === null || strtolower($value) === 'null') {
+                    $f = 'NULL';
+                } else {
+                    $f = "'" . $value . "'";
+                }
+                $fields[$key] = "`{$key}` = " . $f;
+            }
+            $fields = implode(',', $fields);
+        }
+        if ($where && stripos(trim($where), 'WHERE') !== 0) {
+            $where = 'WHERE '.trim($where);
+        }
+        return $this->query('UPDATE '.$table.' SET '.$fields.' '.$where);
+}
 
     /**
      * @param string|array $fields
