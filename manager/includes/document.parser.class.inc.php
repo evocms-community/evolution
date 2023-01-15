@@ -4849,54 +4849,56 @@ class DocumentParser
         $docs = $this->getDocumentChildren($parentid, $published, 0, '*', '', $docsort, $docsortdir, '', $checkAccess);
         if (!$docs) {
             return false;
-        } else {
-            $result = [];
-            // get user defined template variables
-            if ($tvfields) {
-                $_ = array_filter(array_map('trim', explode(',', $tvfields)));
-                foreach ($_ as $i => $v) {
-                    if ($v === 'value') {
-                        unset($_[$i]);
-                    } else {
-                        $_[$i] = 'tv.' . $v;
-                    }
-                }
-                $fields = implode(',', $_);
-            } else {
-                $fields = "tv.*";
-            }
-
-            if ($tvsort != '') {
-                $tvsort = 'tv.' . implode(',tv.', array_filter(array_map('trim', explode(',', $tvsort))));
-            }
-            if ($tvidnames == "*") {
-                $query = "tv.id<>0";
-            } else {
-                $query = (is_numeric($tvidnames[0]) ? "tv.id" : "tv.name") . " IN ('" . implode("','", $tvidnames) . "')";
-            }
-
-            foreach ($docs as $doc) {
-
-                $docid = $doc['id'];
-
-                $rs = $this->db->select("{$fields}, IF(tvc.value!='',tvc.value,tv.default_text) as value ", "[+prefix+]site_tmplvars tv
-                        INNER JOIN [+prefix+]site_tmplvar_templates tvtpl ON tvtpl.tmplvarid = tv.id
-                        LEFT JOIN [+prefix+]site_tmplvar_contentvalues tvc ON tvc.tmplvarid=tv.id AND tvc.contentid='{$docid}'", "{$query} AND tvtpl.templateid = '{$doc['template']}'", ($tvsort ? "{$tvsort} {$tvsortdir}" : ""));
-                $tvs = $this->db->makeArray($rs);
-
-                // get default/built-in template variables
-                ksort($doc);
-                foreach ($doc as $key => $value) {
-                    if ($tvidnames == '*' || in_array($key, $tvidnames)) {
-                        $tvs[] = array('name' => $key, 'value' => $value);
-                    }
-                }
-                if (is_array($tvs) && count($tvs)) {
-                    $result[] = $tvs;
-                }
-            }
-            return $result;
         }
+
+        $result = [];
+        // get user defined template variables
+        if ($tvfields) {
+            $_ = array_filter(array_map('trim', explode(',', $tvfields)));
+            foreach ($_ as $i => $v) {
+                if ($v === 'value') {
+                    unset($_[$i]);
+                } else {
+                    $_[$i] = 'tv.' . $v;
+                }
+            }
+            $fields = implode(',', $_);
+        } else {
+            $fields = "tv.*";
+        }
+
+        if ($tvsort != '') {
+            $tvsort = 'tv.' . implode(',tv.', array_filter(array_map('trim', explode(',', $tvsort))));
+        }
+        if ($tvidnames == "*") {
+            $query = "tv.id<>0";
+        } else {
+            $query = (is_numeric($tvidnames[0]) ? "tv.id" : "tv.name") . " IN ('" . implode("','", $tvidnames) . "')";
+        }
+
+        $this->getUserDocGroups();
+
+        foreach ($docs as $doc) {
+
+            $docid = $doc['id'];
+
+            $rs = $this->db->select("{$fields}, IF(tvc.value!='',tvc.value,tv.default_text) as value ", "[+prefix+]site_tmplvars tv
+                    INNER JOIN [+prefix+]site_tmplvar_templates tvtpl ON tvtpl.tmplvarid = tv.id
+                    LEFT JOIN [+prefix+]site_tmplvar_contentvalues tvc ON tvc.tmplvarid=tv.id AND tvc.contentid='{$docid}'", "{$query} AND tvtpl.templateid = '{$doc['template']}'", ($tvsort ? "{$tvsort} {$tvsortdir}" : ""));
+            $tvs = $this->db->makeArray($rs);
+
+            // get default/built-in template variables
+            ksort($doc);
+            foreach ($doc as $key => $value) {
+                if ($tvidnames === '*' || in_array($key, $tvidnames)) {
+                    $tvs[] = array('name' => $key, 'value' => $value);
+                }
+            }
+            if (is_array($tvs) && count($tvs)) {
+                $result[] = $tvs;
+            }
+        }
+        return $result;
     }
 
     /**
