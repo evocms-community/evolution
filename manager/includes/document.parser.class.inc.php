@@ -383,20 +383,19 @@ class DocumentParser
      */
     public function sendForward($id, $responseCode = '')
     {
-        if ($this->forwards > 0) {
-            $this->forwards = $this->forwards - 1;
-            $this->documentIdentifier = $id;
-            $this->documentMethod = 'id';
-            if ($responseCode) {
-                header($responseCode);
-            }
-            $this->prepareResponse();
-            exit();
-        } else {
+        if ($this->forwards <= 0) {
             $this->messageQuit("Internal Server Error id={$id}");
             header('HTTP/1.0 500 Internal Server Error');
             die('<h1>ERROR: Too many forward attempts!</h1><p>The request could not be completed due to too many unsuccessful forward attempts.</p>');
         }
+        $this->forwards--;
+        $this->documentIdentifier = $id;
+        $this->documentMethod = 'id';
+        if ($responseCode) {
+            header($responseCode);
+        }
+        $this->prepareResponse();
+        exit();
     }
 
     /**
