@@ -4985,10 +4985,10 @@ class DocumentParser
     {
         if ($idname == "") {
             return false;
-        } else {
-            $result = $this->getTemplateVars(array($idname), $fields, $docid, $published, "", "", $checkAccess); //remove sorting for speed
-            return ($result != false) ? $result[0] : false;
         }
+
+        $result = $this->getTemplateVars(array($idname), $fields, $docid, $published, "", "", $checkAccess); //remove sorting for speed
+        return ($result != false) ? $result[0] : false;
     }
 
     /**
