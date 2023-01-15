@@ -727,13 +727,13 @@ class DocumentParser
     {
         if ($this->config['site_status']) {
             return true;
-        }  // site online
-        elseif ($this->isLoggedin()) {
+        }
+
+        if ($this->isLoggedin()) {
             return true;
-        }  // site offline but launched via the manager
-        else {
-            return false;
-        } // site is offline
+        }
+
+        return false;
     }
 
     /**
