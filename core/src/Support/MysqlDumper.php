@@ -109,9 +109,15 @@ class MysqlDumper implements MysqlDumperInterface
         $output .= "# Database: `{$this->dbname}`{$lf}";
         $output .= "# Description: " . trim($_REQUEST['backup_title'] ?? '') . "{$lf}";
         $output .= "#";
+        $output .= "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
+        $output .= "SET @old_sql_mode := @@sql_mode;{$lf}";
+        $output .= "SET @new_sql_mode := @old_sql_mode;{$lf}";
+        $output .= "SET @new_sql_mode := TRIM(BOTH ',' FROM REPLACE(CONCAT(',',@new_sql_mode,','),',NO_ZERO_DATE,'  ,','));{$lf}";
+        $output .= "SET @new_sql_mode := TRIM(BOTH ',' FROM REPLACE(CONCAT(',',@new_sql_mode,','),',NO_ZERO_IN_DATE,',','));{$lf}";
+        $output .= "SET @@sql_mode := @new_sql_mode ;{$lf}";
+        $output .= "SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;{$lf}";
+        $output .= "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
         file_put_contents($tempfile_path, $output, FILE_APPEND | LOCK_EX);
-        $output = '';
-
         // Generate dumptext for the tables.
         if (isset($this->_dbtables) && count($this->_dbtables)) {
             $this->_dbtables = implode(',', $this->_dbtables);
@@ -119,11 +125,7 @@ class MysqlDumper implements MysqlDumperInterface
             unset($this->_dbtables);
         }
 
-
-
         foreach ($tables as $tblval) {
-
-
             // check for selected table
             if (isset($this->_dbtables)) {
                 if (strstr(",{$this->_dbtables},", ",{$tblval},") === false) {
@@ -140,9 +142,7 @@ class MysqlDumper implements MysqlDumperInterface
             $output .= "#{$lf}{$lf}";
             // Generate DROP TABLE statement when client wants it to.
             if ($this->isDroptables()) {
-                $output .= "SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;{$lf}";
                 $output .= "DROP TABLE IF EXISTS `{$tblval}`;{$lf}";
-                $output .= "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;{$lf}{$lf}";
             }
             $output .= "{$createtable[$tblval][0]};{$lf}";
             $output .= $lf;
@@ -225,8 +225,15 @@ class MysqlDumper implements MysqlDumperInterface
 
             //пишем блок в файл
             file_put_contents($tempfile_path, $output, FILE_APPEND | LOCK_EX);
+
             $output = '';
         }
+        
+        $output = "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
+        $output .= "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;{$lf}{$lf}";
+        $output .= "SET @@sql_mode := @old_sql_mode ;{$lf}";
+        $output .= "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
+        file_put_contents($tempfile_path, $output, FILE_APPEND | LOCK_EX);
 
         switch ($callBack) {
             case 'dumpSql':
