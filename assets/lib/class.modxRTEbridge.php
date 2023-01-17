@@ -29,7 +29,7 @@ class modxRTEbridge
 
         if ($editorKey == NULL) {
             exit('modxRTEbridge: No editorKey set in plugin-initialization.');
-        };
+        }
 
         // Check right path
         $file = !empty($basePath) ? $basePath : __FILE__;
@@ -68,7 +68,7 @@ class modxRTEbridge
             default:
                 $editorConfig = $settings;
                 break;
-        };
+        }
 
         // Modx default WYSIWYG-params
         $modxParamsArr = array(
@@ -96,7 +96,7 @@ class modxRTEbridge
                 $useGlobalName = $editorKey . '_' . $param . '_useglobal';
                 $this->modxParams[$param . '_useglobal'] = !isset($editorConfig[$useGlobalName]) || !empty($editorConfig[$useGlobalName]) || (isset($editorConfig[$useGlobalName]) && is_null($editorConfig[$useGlobalName])) ? '1' : '0';
             }
-        };
+        }
 
         // Take over editor-configuration from Modx
         foreach ($modxParamsArr as $p) {
@@ -146,11 +146,11 @@ class modxRTEbridge
     // Function to append string to existing parameters
     public function appendSet($key, $value, $separator = ',')
     {
-        if ($value === '') { return; };
+        if ($value === '') { return; }
 
         if (isset($this->themeConfig[$key])) {
             $this->themeConfig[$key]['value'] .= $this->themeConfig[$key]['value'] != '' ? $separator.$value : $value;
-        };
+        }
     }
 
     // Function to force editor-setting via plugin-code
@@ -170,7 +170,7 @@ class modxRTEbridge
     {
         if (!in_array($str, $this->initOnceArr)) {  // Avoid doubling..
             $this->initOnceArr[] = $str;
-        };
+        }
     }
 
     // Function to force pluginParams like "elements" via plugin-code
@@ -208,7 +208,7 @@ class modxRTEbridge
             $this->langArr = $overwriteExisting == false ? array_merge($this->langArr, $string) : array_merge($string, $this->langArr);
         } else {
             $this->langArr[$key] = isset($this->langArr[$key]) && $overwriteExisting == false ? $this->langArr[$key] : $string;
-        };
+        }
     }
 
     // Get translation
@@ -387,9 +387,9 @@ class modxRTEbridge
         $raw = '';
         foreach ($this->themeConfig as $key => $conf) {
 
-            if ($conf === NULL) { continue; }; // Skip nulled parameters
+            if ($conf === NULL) { continue; } // Skip nulled parameters
             $value = $this->determineValue($key, $conf);
-            if ($value === NULL) { continue; }; // Skip none-allowed empty settings
+            if ($value === NULL) { continue; } // Skip none-allowed empty settings
 
             $value = is_string($value) ? $modx->parseText($value, $defaultPhs) : $value; // Allow default-placeholders like [+which_browser+] in theme-param-values
 
@@ -403,7 +403,7 @@ class modxRTEbridge
                 $config[$key] = "        {$key}:'{$value}'";
                 break;
                 case 'array': case 'arr':
-                if (is_array($value)) { $value = "['" . implode("','", $value) . "']"; };
+                if (is_array($value)) { $value = "['" . implode("','", $value) . "']"; }
                 $config[$key] = "        {$key}:{$value}";
                 break;
                 case 'boolean': case 'bool':
@@ -423,7 +423,7 @@ class modxRTEbridge
                 case 'raw':
                     $raw .= "{$value}\n";
                     break;
-            };
+            }
         }
 
         return implode(",\n", $config) . $raw;
@@ -436,15 +436,15 @@ class modxRTEbridge
         $raw = '';
         foreach ($this->themeConfig as $key => $conf) {
 
-            if ($conf === NULL) { continue; };  // Skip nulled parameters
+            if ($conf === NULL) { continue; }  // Skip nulled parameters
             $value = $this->determineValue($key, $conf);
-            if ($value === NULL) { continue; }; // Skip none-allowed empty settings
+            if ($value === NULL) { continue; } // Skip none-allowed empty settings
 
             if ($conf['type'] == 'raw') {
                 $raw .= "{$value}\n";
                 break;
-            };
-        };
+            }
+        }
 
         return $raw;
     }
@@ -452,7 +452,7 @@ class modxRTEbridge
     // Get final value of editor-config
     public function determineValue($key, $conf=NULL)
     {
-        if($conf == NULL && isset($this->themeConfig[$key])) { $conf = $this->themeConfig[$key]; };
+        if($conf == NULL && isset($this->themeConfig[$key])) { $conf = $this->themeConfig[$key]; }
 
         $value = isset($this->themeConfig[$key]['bridged']) ? $this->themeConfig[$key]['bridged'] : NULL;
         $value = $value === NULL && isset($this->themeConfig[$key]['force']) ? $this->themeConfig[$key]['force'] : $value;
@@ -462,8 +462,8 @@ class modxRTEbridge
             if ($value === '' && $conf['empty'] === false) {  // Empty values not allowed
                 if ($conf['default'] === '') return NULL;    // Skip none-allowed empty setting
                 $value = $conf['default'];
-            };
-        };
+            }
+        }
 
         return $value;
     }
@@ -488,10 +488,10 @@ class modxRTEbridge
                         // No <body> - append to source
                         $modx->documentOutput .= $initJs;
                     }
-                };
+                }
 
-            };
-        };
+            }
+        }
     }
 
     /***************************************************************
@@ -569,7 +569,7 @@ class modxRTEbridge
                 $ph['schema_options'] .= '<br />';
                 $ph['schema_options'] .= '<label><input name="[+name+]" type="radio" value="" ' . $this->checked(empty($params[$this->editorKey . '_schema'])) . '/>' . $this->lang('theme_global_settings') . '</label><br />';
                 break;
-        };
+        }
 
         // Prepare settings rows output
         include($params['base_path'] . 'gsettings/gsettings.rows.inc.php');
@@ -581,7 +581,7 @@ class modxRTEbridge
 
             if ($row == NULL) {
                 continue;
-            };     // Skip disabled config-settings
+            }     // Skip disabled config-settings
 
             $row = array_merge($this->langArr, $row);
 
@@ -614,7 +614,7 @@ class modxRTEbridge
             }
 
             $ph['rows'] .= $output . "\n";
-        };
+        }
 
         $settingsBody = file_get_contents("{$params['base_path']}gsettings/gsettings.body.inc.html");
 
@@ -643,8 +643,8 @@ class modxRTEbridge
 
                 if ($trans !== NULL)
                     $output = str_replace($placeholderArr[0][$key], $trans, $output);
-            };
-        };
+            }
+        }
         return $output;
     }
 
@@ -692,7 +692,7 @@ class modxRTEbridge
 
         if (empty($params['skinsDirectory'])) {
             return '<option value="">No skinsDirectory set</option>';
-        };
+        }
 
         $skinDir = "{$params['base_path']}{$params['skinsDirectory']}";
 
@@ -805,22 +805,22 @@ class modxRTEbridge
 
             $this->langArr = $_lang;
             $this->langArr['lang_code'] = $lang_code;
-        };
+        }
     }
 
     // Merges all available config-params with prefixes into single array
     public function mergeParamArrays()
     {
         $p = array();
-        foreach($this->pluginParams as $param=>$value) { $p['pp.'.$param] = is_array($value) ? implode(',',$value) : $value; };
-        foreach($this->modxParams   as $param=>$value) { $p['mp.'.$param] = is_array($value) ? implode(',',$value) : $value; };
+        foreach($this->pluginParams as $param=>$value) { $p['pp.'.$param] = is_array($value) ? implode(',',$value) : $value; }
+        foreach($this->modxParams   as $param=>$value) { $p['mp.'.$param] = is_array($value) ? implode(',',$value) : $value; }
         foreach($this->themeConfig  as $param=>$arr) {
             if (isset($arr['force'])) $p['tc.' . $param] = $arr['force'];
             elseif (isset($arr['bridged'])) $p['tc.' . $param] = $arr['bridged'];
             else $p['tc.' . $param] = $arr['value'];
-        };
-        foreach($this->gSettingsDefaultValues as $param=>$value) { $p['gd.'.$param] = is_array($value) ? implode(',',$value) : $value; };
-        foreach($this->langArr as $param=>$value)      { $p['l.'.$param] = $value; };
+        }
+        foreach($this->gSettingsDefaultValues as $param=>$value) { $p['gd.'.$param] = is_array($value) ? implode(',',$value) : $value; }
+        foreach($this->langArr as $param=>$value)      { $p['l.'.$param] = $value; }
         return $p;
     }
 
@@ -830,7 +830,7 @@ class modxRTEbridge
         global $modx;
 
         if( $pluginName != NULL ) {
-            if (empty ($modx->config)) { $modx->getSettings(); };
+            if (empty ($modx->config)) { $modx->getSettings(); }
             $modx->db->connect();
 
             $plugin = $modx->getPluginCode($pluginName);
@@ -838,8 +838,8 @@ class modxRTEbridge
 
             if (is_array($parameter)) {
                 $this->pluginParams = array_merge($parameter, $this->pluginParams);
-            };
-        };
+            }
+        }
         return $this->pluginParams;
     }
 
@@ -858,7 +858,7 @@ class modxRTEbridge
         $elements = explode(',', $str);
         foreach ($elements as $key => $val) {
             $elements[$key] = $quote . trim($val) . $quote;
-        };
+        }
         return implode(',', $elements);
     }
 
@@ -950,7 +950,7 @@ class modxRTEbridge
                 $output .= "this->gSettingsCustom = ".print_r($this->gSettingsCustom, true)."\n";
                 $output .= "this->gSettingsDefaultValues = ".print_r($this->gSettingsDefaultValues, true)."\n";
                 $output .= "ph = ".print_r($placeholderArr, true)."\n";
-            };
+            }
 
             $output .= "\n     ##### modxRTEbridge Debug Infos End ##### -->\n";
         }
@@ -1034,7 +1034,7 @@ class modxRTEbridge
                 foreach ($editableIds as $modxPh) {
                     if (isset($_POST[$modxPh]) && $_POST[$modxPh] != 'undefined') // Prevent if Javascript returned "undefined"
                         $modx->doc->set($modxPh, $this->unprotectModxPlaceholders($_POST[$modxPh]));
-                };
+                }
                 return $modx->doc->save(true, true);    // Returns ressource-ID
             }
 
