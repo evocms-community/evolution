@@ -341,7 +341,7 @@ class DocumentParser
             }
             $url .= sprintf(
                 '%serr=%s',
-                strpos($url, '?') > 0 ? '?' : '&',
+                strpos($url, '?') > 0 ? '&' : '?',
                 ($currentNumberOfRedirects + 1)
             );
         }
