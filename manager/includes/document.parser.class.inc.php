@@ -316,7 +316,7 @@ class DocumentParser
      *
      * @param string $url
      * @param int $count_attempts
-     * @param string $type
+     * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH|REDIRECT_META|REDIRECT_JS
      * @param string $responseCode
      * @return null|false
      */
@@ -329,6 +329,7 @@ class DocumentParser
             $this->messageQuit('No newline allowed in redirect url.');
             exit;
         }
+
         if ($count_attempts) {
             // append the redirect count string to the url
             $currentNumberOfRedirects = $_GET['err'] ?? 0;
@@ -344,6 +345,7 @@ class DocumentParser
                 ($currentNumberOfRedirects + 1)
             );
         }
+
         if ($type === 'REDIRECT_REFRESH') {
             header('Refresh: 0;URL=' . $url);
             exit;
@@ -351,6 +353,11 @@ class DocumentParser
 
         if ($type === 'REDIRECT_META') {
             echo '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
+            exit;
+        }
+
+        if ($type === 'REDIRECT_JS') {
+            echo sprintf("<script>window.location.href='%s';</script>", $url);
             exit;
         }
 
@@ -362,10 +369,12 @@ class DocumentParser
             header($responseCode);
         }
 
-        if (strpos($url, MODX_BASE_URL) === 0) {
-            $url = MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL));
-        }
-        header('Location: ' . $url);
+        header(sprintf(
+            'Location: %s',
+            strpos($url, MODX_BASE_URL) === 0
+                ? MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL))
+                : $url
+        ));
         exit;
     }
 
