@@ -412,6 +412,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH|REDIRECT_META|REDIRECT_JS
      * @param string $responseCode
      * @return null|false
+     * @throws Exception
      */
     public function sendRedirect($url, $count_attempts = 0, $type = 'REDIRECT_HEADER', $responseCode = '')
     {
@@ -419,8 +420,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return false;
         }
         if (Str::contains($url, "\n")) {
-            $this->getService('ExceptionHandler')->messageQuit('No newline allowed in redirect url.');
-            exit;
+            throw new \Exception('No newline allowed in redirect url.');
         }
 
         if ($count_attempts) {
@@ -444,16 +444,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             exit;
         }
 
-        if ($type === 'REDIRECT_META') {
-            echo '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
-            exit;
-        }
-
-        if ($type === 'REDIRECT_JS') {
-            echo sprintf("<script>window.location.href='%s';</script>", $url);
-            exit;
-        }
-
         if ($type && $type !== 'REDIRECT_HEADER') {
             return false;
         }
@@ -462,12 +452,11 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             header($responseCode);
         }
 
-        header(sprintf(
-            'Location: %s',
+        header(
             strpos($url, MODX_BASE_URL) === 0
-                ? MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL))
-                : $url
-        ));
+                ? 'Location: ' . MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL))
+                : 'Location: ' . $url
+        );
         exit;
     }
 
