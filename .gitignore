@@ -45,6 +45,7 @@
 
 # Core
 /core/.install
+/core/storage/sessions/*
 
 # Manager
 /manager/includes/config.inc.php
@@ -82,3 +83,5 @@ Desktop.ini
 
 # dev
 .vscode/
+
+.htaccess
