@@ -439,6 +439,16 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             header('Refresh: 0;URL=' . $url);
             exit;
         }
+        
+        if ($type === 'REDIRECT_META') {
+            echo '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
+            exit;
+        }
+
+        if ($type === 'REDIRECT_JS') {
+            echo sprintf("<script>window.location.href='%s';</script>", $url);
+            exit;
+        }
 
         if ($type && $type !== 'REDIRECT_HEADER') {
             return false;
