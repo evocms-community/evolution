@@ -412,7 +412,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH
      * @param string $responseCode
      * @return null|false
-     * @throws Exception
+     * @throws \Exception
      */
     public function sendRedirect($url, $count_attempts = 0, $type = 'REDIRECT_HEADER', $responseCode = '')
     {
@@ -432,11 +432,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 );
                 exit;
             }
-            $url .= sprintf(
-                '%serr=%s',
-                Str::contains($url, '?') ? '?' : '&',
-                ($currentNumberOfRedirects + 1)
-            );
+            $url .= (Str::contains($url, '?') ? '?' : '&') . 'err=' . ($currentNumberOfRedirects + 1);
         }
 
         if ($type === 'REDIRECT_REFRESH') {
