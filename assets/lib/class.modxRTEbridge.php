@@ -2,7 +2,9 @@
 /**
  * @author Deesen, yama / updated: 27.01.2018
  */
-if (!defined('MODX_BASE_PATH')) { die('What are you doing? Get out of here!'); }
+if (!defined('MODX_BASE_PATH')) {
+    die('What are you doing? Get out of here!');
+}
 
 class modxRTEbridge
 {
@@ -130,12 +132,12 @@ class modxRTEbridge
 
     // Function to set editor-parameters
     // $value = NULL deletes key completely from editor-config
-    public function set($key, $value, $type=false, $emptyAllowed=false)
+    public function set($key, $value, $type = false, $emptyAllowed = false)
     {
         if ($value === NULL) {
             $this->themeConfig[$key] = NULL;    // Delete Parameter completely from JS-initialization
         } else {
-            if(!isset($this->themeConfig[$key])) $this->themeConfig[$key] = array();
+            if (!isset($this->themeConfig[$key])) $this->themeConfig[$key] = array();
             $this->themeConfig[$key]['value']   = $value;
             $this->themeConfig[$key]['default'] = !isset($this->themeConfig[$key]['default']) ? $value : $this->themeConfig[$key]['default'];
             $this->themeConfig[$key]['type']    = $type == false ? 'string' : $type;
@@ -146,7 +148,9 @@ class modxRTEbridge
     // Function to append string to existing parameters
     public function appendSet($key, $value, $separator = ',')
     {
-        if ($value === '') { return; }
+        if ($value === '') {
+            return;
+        }
 
         if (isset($this->themeConfig[$key])) {
             $this->themeConfig[$key]['value'] .= $this->themeConfig[$key]['value'] != '' ? $separator.$value : $value;
@@ -160,7 +164,7 @@ class modxRTEbridge
         if ($value === NULL) {
             $this->themeConfig[$key] = NULL;  // Delete Parameter completely from JS-initialization
         } else {
-            if(!isset($this->themeConfig[$key])) $this->themeConfig[$key] = array();
+            if (!isset($this->themeConfig[$key])) $this->themeConfig[$key] = array();
             $this->themeConfig[$key]['force'] = $value;
         }
     }
@@ -178,10 +182,10 @@ class modxRTEbridge
     public function setPluginParam($param, $value)
     {
         if ($value === NULL) {
-            unset($this->pluginParams[$param]);  // Delete Parameter completely
-        } else {
-            $this->pluginParams[$param] = $value;
+            unset($this->pluginParams[$param]);
+            return;
         }
+        $this->pluginParams[$param] = $value;
     }
 
     // Function to set custom-placeholders like renders javascript-objects, arrays etc
@@ -189,16 +193,16 @@ class modxRTEbridge
     public function setPlaceholder($ph, $value)
     {
         if ($value === NULL) {
-            unset($this->customPlaceholders[$ph]);  // Delete placeholder completely
-        } else {
-            $this->customPlaceholders[$ph] = $value;
+            unset($this->customPlaceholders[$ph]);
+            return;
         }
+        $this->customPlaceholders[$ph] = $value;
     }
 
     // Function to get custom-placeholders
     public function getPlaceholder($ph)
     {
-        return isset($this->customPlaceholders[$ph]) ? $this->customPlaceholders[$ph] : NULL;
+        return $this->customPlaceholders[$ph] ?? NULL;
     }
 
     // Set new/overwrite translations manually (via bridge)
@@ -247,26 +251,26 @@ class modxRTEbridge
                 // Init only once at all - Load Editors-Library, CSS etc
                 if (!defined($this->editorKey . '_INIT_ONCE')) {
                     define($this->editorKey . '_INIT_ONCE', 1);
-                    $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.init_once.html") ."\n";
+                    $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.init_once.html") . "\n";
                     if (!empty($this->initOnceArr)) {
                         $output .= implode("\n", $this->initOnceArr);
                     }
                     // Provide JS-object with parameters for external scripts like MultiTV
                     $jsParams = array(
-                        'default'=>'config_'.$this->editorKey.'_'.$this->modxParams['theme']
+                        'default' => 'config_' . $this->editorKey . '_' . $this->modxParams['theme']
                     );
-                    $output .= "<script>var modxRTEbridge_{$this->editorKey} = ". json_encode($jsParams) .";</script>";
+                    $output .= "<script>var modxRTEbridge_{$this->editorKey} = " . json_encode($jsParams) . ";</script>";
                 }
 
                 // Init only once per config (enables multiple config-objects i.e. for richtext / richtextmini via [+configJs+])
                 if (!defined($this->editorKey . '_INIT_CONFIG_' . $this->theme)) {
                     define($this->editorKey . '_INIT_CONFIG_' . $this->theme, 1);
-                    $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.config.html") ."\n";
+                    $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.config.html") . "\n";
                 }
 
                 // Loop through tvs
-                $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.init.html") ."\n";
-                $output  = $modx->parseText($output, $ph);
+                $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.init.html") . "\n";
+                $output = $modx->parseText($output, $ph);
                 $output = str_replace('\\', '/', $output);
             }
 
@@ -282,8 +286,8 @@ class modxRTEbridge
 
             if (!defined($this->editorKey . '_INIT_CONFIG_' . $this->theme)) {
                 define($this->editorKey . '_INIT_CONFIG_' . $this->theme, 1);
-                $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.config.html") ."\n";
-                $output  = $modx->parseText($output, $ph);
+                $output .= file_get_contents("{$this->pluginParams['base_path']}tpl/tpl.{$this->editorKey}.config.html") . "\n";
+                $output = $modx->parseText($output, $ph);
             }
         }
 
@@ -292,7 +296,7 @@ class modxRTEbridge
         if (!empty($placeholderArr)) {
             foreach ($placeholderArr[1] as $key => $val) {
                 $output = str_replace($placeholderArr[0][$key], '', $output);
-                $this->debugMessages[] = 'Removed empty placeholder: '.$placeholderArr[1];
+                $this->debugMessages[] = 'Removed empty placeholder: ' . $placeholderArr[1];
             }
         }
 
@@ -305,11 +309,11 @@ class modxRTEbridge
     /**
      * @return array
      */
-    public function prepareDefaultPlaceholders($selector='', $render=true)
+    public function prepareDefaultPlaceholders($selector = '', $render = true)
     {
         global $modx;
 
-        if($render) {
+        if ($render) {
             $ph['configString']    = $this->renderConfigString();
             $ph['configRawString'] = $this->renderConfigRawString();
         }
@@ -381,20 +385,24 @@ class modxRTEbridge
         global $modx;
 
         $config = array();
-        $defaultPhs = $this->prepareDefaultPlaceholders('',false);
+        $defaultPhs = $this->prepareDefaultPlaceholders('', false);
 
         // Build config-string as per themeConfig
         $raw = '';
         foreach ($this->themeConfig as $key => $conf) {
 
-            if ($conf === NULL) { continue; } // Skip nulled parameters
+            if ($conf === NULL) {
+                continue;
+            } // Skip nulled parameters
             $value = $this->determineValue($key, $conf);
-            if ($value === NULL) { continue; } // Skip none-allowed empty settings
+            if ($value === NULL) {
+                continue;
+            } // Skip none-allowed empty settings
 
             $value = is_string($value) ? $modx->parseText($value, $defaultPhs) : $value; // Allow default-placeholders like [+which_browser+] in theme-param-values
 
             // Escape quotes
-            if (!is_array($value) && strpos($value, "'") !== false && !in_array($conf['type'], array('raw','object','obj')) )
+            if (!is_array($value) && strpos($value, "'") !== false && !in_array($conf['type'], array('raw', 'object', 'obj')))
                 $value = str_replace("'", "\\'", $value);
 
             // Determine output-type
@@ -436,11 +444,15 @@ class modxRTEbridge
         $raw = '';
         foreach ($this->themeConfig as $key => $conf) {
 
-            if ($conf === NULL) { continue; }  // Skip nulled parameters
+            if ($conf === NULL) {
+                continue;
+            }  // Skip nulled parameters
             $value = $this->determineValue($key, $conf);
-            if ($value === NULL) { continue; } // Skip none-allowed empty settings
+            if ($value === NULL) {
+                continue;
+            } // Skip none-allowed empty settings
 
-            if ($conf['type'] == 'raw') {
+            if ($conf['type'] === 'raw') {
                 $raw .= "{$value}\n";
                 break;
             }
@@ -450,7 +462,7 @@ class modxRTEbridge
     }
 
     // Get final value of editor-config
-    public function determineValue($key, $conf=NULL)
+    public function determineValue($key, $conf = NULL)
     {
         if($conf == NULL && isset($this->themeConfig[$key])) { $conf = $this->themeConfig[$key]; }
 
@@ -573,7 +585,7 @@ class modxRTEbridge
 
         // Prepare settings rows output
         include($params['base_path'] . 'gsettings/gsettings.rows.inc.php');
-        $settingsRowTpl = file_get_contents("{$params['base_path']}gsettings/gsettings.row.inc.html");
+        $settingsRowTpl = file_get_contents($params['base_path'] . "gsettings/gsettings.row.inc.html");
         $settingsRows = isset($settingsRows) ? array_merge($settingsRows, $this->gSettingsCustom) : $this->gSettingsCustom;
 
         $ph['rows'] = '';
@@ -606,8 +618,8 @@ class modxRTEbridge
 
             // Nested parsing
             $output = $settingsRowTpl;
-            $bt=md5('');
-            while($bt !== md5($output)) {
+            $bt = md5('');
+            while ($bt !== md5($output)) {
                 $bt = md5($output);
                 $output = $this->parsePlaceholders($output, $row); // Replace general translations
                 $output = $this->parsePlaceholders($output, $ph);  // Replace values / settings
@@ -670,7 +682,9 @@ class modxRTEbridge
             $file = str_replace($themeDir, '', $file);
             $file = str_replace('theme.' . $this->editorKey . '.', '', $file);
 
-            if(in_array($file,array('index.html'))) continue;
+            if (in_array($file, array('index.html'))) {
+                continue;
+            }
 
             $theme = trim(str_replace('.inc.php', '', $file));
             if ($theme == 'base') continue; // Why should user select base-theme?
@@ -716,11 +730,14 @@ class modxRTEbridge
                     $skins[$skin_name][] = $skin_variant;
                 }
             }
-            foreach ($skins as $k => $o) ;
+            foreach ($skins as $k => $o)
             {
                 foreach ($o as $v) {
-                    if ($v === 'default') $value = $k;
-                    else               $value = "{$k}:{$v}";
+                    if ($v === 'default') {
+                        $value = $k;
+                    } else {
+                        $value = $k . ":" . $v;
+                    }
                     $selected = $this->selected($value == $this->modxParams['skin']);
                     $option[] = '<option value="' . $value . '"' . $selected . '>' . "{$value}</option>";
                 }
@@ -750,7 +767,7 @@ class modxRTEbridge
             //$file = str_replace('\\', '/', $file);
             $theme = str_replace($themeDir, '', $theme);
 
-            if(in_array($theme,array('index.html'))) continue;
+            if (in_array($theme, array('index.html'))) continue;
 
             $selected = $this->selected($theme == $this->modxParams['skintheme']);
 
@@ -762,16 +779,21 @@ class modxRTEbridge
 
     public function selected($cond = false)
     {
-        if ($cond !== false) return ' selected="selected"';
-        else                return '';
+        if ($cond === false) {
+            return '';
+        }
+
+        return ' selected="selected"';
     }
+
     public function checked($cond = false)
     {
-        if ($cond !== false) return ' checked="checked"';
-        else                return '';
+        if ($cond === false) {
+            return '';
+        }
+
+        return ' checked="checked"';
     }
-
-
 
     // Init translations
     public function initLang($basePath)
@@ -853,7 +875,9 @@ class modxRTEbridge
     // Translates Modx Plugin-configuration strings to JSON-compatible string
     public function addQuotesToCommaList($str, $quote = '"')
     {
-        if (empty($str)) { return ''; }
+        if (empty($str)) {
+            return '';
+        }
 
         $elements = explode(',', $str);
         foreach ($elements as $key => $val) {
@@ -903,23 +927,24 @@ class modxRTEbridge
     public function protectModxPlaceholders($output)
     {
         return str_replace(
-            array('[*',     '*]',     '[(',     ')]',     '{{',           '}}',           '[[',         ']]',         '[!',     '!]',     '[+',     '+]',     '[~',     '~]'),
-            array('&#91;*', '*&#93;', '&#91;(', ')&#93;', '&#123;&#123;', '&#125;&#125;', '&#91;&#91;', '&#93;&#93;', '&#91;!', '!&#93;', '&#91;+', '+&#93;', '&#91;~', '~&#93;'),
+            ['[*', '*]', '[(', ')]', '{{', '}}', '[[', ']]', '[!', '!]', '[+', '+]', '[~', '~]'],
+            ['&#91;*', '*&#93;', '&#91;(', ')&#93;', '&#123;&#123;', '&#125;&#125;', '&#91;&#91;', '&#93;&#93;', '&#91;!', '!&#93;', '&#91;+', '+&#93;', '&#91;~', '~&#93;'],
             $output
         );
     }
+
     public function unprotectModxPlaceholders($output)
     {
         return str_replace(
-            array('&#91;*', '*&#93;', '&#91;(', ')&#93;', '&#123;&#123;', '&#125;&#125;', '&#91;&#91;', '&#93;&#93;', '&#91;!', '!&#93;', '&#91;+', '+&#93;', '&#91;~', '~&#93;'),
-            array('[*',     '*]',     '[(',     ')]',     '{{',           '}}',           '[[',         ']]',         '[!',     '!]',     '[+',     '+]',     '[~',     '~]'),
+            ['&#91;*', '*&#93;', '&#91;(', ')&#93;', '&#123;&#123;', '&#125;&#125;', '&#91;&#91;', '&#93;&#93;', '&#91;!', '!&#93;', '&#91;+', '+&#93;', '&#91;~', '~&#93;'],
+            ['[*', '*]', '[(', ')]', '{{', '}}', '[[', ']]', '[!', '!]', '[+', '+]', '[~', '~]'],
             $output
         );
     }
 
     public function prepareAjaxSecHash($docId)
     {
-        if(isset($this->ajaxSecHash[$docId])) return $this->ajaxSecHash[$docId];
+        if (isset($this->ajaxSecHash[$docId])) return $this->ajaxSecHash[$docId];
 
         $secHash = md5(rand(0, 999999999) + rand(0, 999999999));
         $_SESSION['modxRTEbridge']['secHash'][$docId] = $secHash;
@@ -1013,7 +1038,7 @@ class modxRTEbridge
         return $templatesArr;
     }
 
-    public function saveContentProcessor($rid, $ppPluginName, $ppEditableIds='editableIds')
+    public function saveContentProcessor($rid, $ppPluginName, $ppEditableIds = 'editableIds')
     {
         global $modx;
 
