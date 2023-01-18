@@ -316,60 +316,66 @@ class DocumentParser
      *
      * @param string $url
      * @param int $count_attempts
-     * @param string $type $type
+     * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH|REDIRECT_META|REDIRECT_JS
      * @param string $responseCode
-     * @return bool|null
-     * @global string $base_url
-     * @global string $site_url
+     * @return null|false
      */
-    public function sendRedirect($url, $count_attempts = 0, $type = '', $responseCode = '')
+    public function sendRedirect($url, $count_attempts = 0, $type = 'REDIRECT_HEADER', $responseCode = '')
     {
-        $header = '';
         if (empty ($url)) {
             return false;
         }
-        if ($count_attempts == 1) {
-            // append the redirect count string to the url
-            $currentNumberOfRedirects = isset ($_REQUEST['err']) ? $_REQUEST['err'] : 0;
-            if ($currentNumberOfRedirects > 3) {
-                $this->messageQuit('Redirection attempt failed - please ensure the document you\'re trying to redirect to exists. <p>Redirection URL: <i>' . $url . '</i></p>');
-            } else {
-                $currentNumberOfRedirects += 1;
-                if (strpos($url, "?") > 0) {
-                    $url .= "&err=$currentNumberOfRedirects";
-                } else {
-                    $url .= "?err=$currentNumberOfRedirects";
-                }
-            }
-        }
-        if ($type == 'REDIRECT_REFRESH') {
-            $header = 'Refresh: 0;URL=' . $url;
-        } elseif ($type == 'REDIRECT_META') {
-            $header = '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
-            echo $header;
+        if (strpos($url, "\n") !== false) {
+            $this->messageQuit('No newline allowed in redirect url.');
             exit;
-        } elseif ($type == 'REDIRECT_HEADER' || empty ($type)) {
-            // check if url has /$base_url
-            global $base_url, $site_url;
-            if (substr($url, 0, strlen($base_url)) == $base_url) {
-                // append $site_url to make it work with Location:
-                $url = $site_url . substr($url, strlen($base_url));
-            }
-            if (strpos($url, "\n") === false) {
-                $header = 'Location: ' . $url;
-            } else {
-                $this->messageQuit('No newline allowed in redirect url.');
-            }
         }
-        if ($responseCode && (strpos($responseCode, '30') !== false)) {
+
+        if ($count_attempts) {
+            // append the redirect count string to the url
+            $currentNumberOfRedirects = $_GET['err'] ?? 0;
+            if ($currentNumberOfRedirects > 3) {
+                $this->messageQuit(
+                    "Redirection attempt failed - please ensure the document you're trying to redirect to exists. <p>Redirection URL: <i>" . $url . '</i></p>'
+                );
+                exit;
+            }
+            $url .= sprintf(
+                '%serr=%s',
+                strpos($url, '?') > 0 ? '?' : '&',
+                ($currentNumberOfRedirects + 1)
+            );
+        }
+
+        if ($type === 'REDIRECT_REFRESH') {
+            header('Refresh: 0;URL=' . $url);
+            exit;
+        }
+
+        if ($type === 'REDIRECT_META') {
+            echo '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
+            exit;
+        }
+
+        if ($type === 'REDIRECT_JS') {
+            echo sprintf("<script>window.location.href='%s';</script>", $url);
+            exit;
+        }
+
+        if ($type && $type !== 'REDIRECT_HEADER') {
+            return false;
+        }
+
+        if ($responseCode && strpos($responseCode, '30') !== false) {
             header($responseCode);
         }
 
-        if(!empty($header)) {
-            header($header);
-        }
-
-        exit();
+        header(sprintf(
+            'Location: %s',
+            strpos($url, MODX_BASE_URL) === 0
+                ? MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL))
+                : $url
+        ));
+        exit;
     }
 
     /**
