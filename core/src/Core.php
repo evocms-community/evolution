@@ -409,62 +409,51 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      *
      * @param string $url
      * @param int $count_attempts
-     * @param string $type $type
+     * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH
      * @param string $responseCode
-     * @return bool|null
-     * @global string $base_url
-     * @global string $site_url
+     * @return null|false
+     * @throws \Exception
      */
-    public function sendRedirect($url, $count_attempts = 0, $type = '', $responseCode = '')
+    public function sendRedirect($url, $count_attempts = 0, $type = 'REDIRECT_HEADER', $responseCode = '')
     {
-        $header = '';
-        if (empty($url)) {
+        if (!$url) {
             return false;
         }
-        if ($count_attempts == 1) {
+        if (Str::contains($url, "\n")) {
+            throw new \Exception('No newline allowed in redirect url.');
+        }
+
+        if ($count_attempts) {
             // append the redirect count string to the url
-            $currentNumberOfRedirects = isset($_REQUEST['err']) ? $_REQUEST['err'] : 0;
+            $currentNumberOfRedirects = $_GET['err'] ?? 0;
             if ($currentNumberOfRedirects > 3) {
                 $this->getService('ExceptionHandler')->messageQuit(
-                    'Redirection attempt failed - please ensure the document you\'re trying to redirect to exists.' .
-                    '<p>Redirection URL: <i>' . $url . '</i></p>'
+                    "Redirection attempt failed - please ensure the document you're trying to redirect to exists. <p>Redirection URL: <i>" . $url . '</i></p>'
                 );
-            } else {
-                $currentNumberOfRedirects += 1;
-                if (Str::contains($url, '?')) {
-                    $url .= "&err=$currentNumberOfRedirects";
-                } else {
-                    $url .= "?err=$currentNumberOfRedirects";
-                }
+                exit;
             }
+            $url .= (Str::contains($url, '?') ? '&' : '?') . 'err=' . ($currentNumberOfRedirects + 1);
         }
+
         if ($type === 'REDIRECT_REFRESH') {
-            $header = 'Refresh: 0;URL=' . $url;
-        } elseif ($type === 'REDIRECT_META') {
-            $header = '<META HTTP-EQUIV="Refresh" CONTENT="0; URL=' . $url . '" />';
-            echo $header;
+            header('Refresh: 0;URL=' . $url);
             exit;
-        } elseif ($type === 'REDIRECT_HEADER' || empty($type)) {
-            // check if url has /$base_url
-            if (substr($url, 0, strlen(MODX_BASE_URL)) == MODX_BASE_URL) {
-                // append $site_url to make it work with Location:
-                $url = MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL));
-            }
-            if (!Str::contains($url, "\n")) {
-                $header = 'Location: ' . $url;
-            } else {
-                $this->getService('ExceptionHandler')->messageQuit('No newline allowed in redirect url.');
-            }
         }
-        if ($responseCode && (Str::contains($responseCode, '30'))) {
+
+        if ($type && $type !== 'REDIRECT_HEADER') {
+            return false;
+        }
+
+        if ($responseCode && Str::contains($responseCode, '30')) {
             header($responseCode);
         }
 
-        if (!empty($header)) {
-            header($header);
-        }
-
-        exit(0);
+        header(
+            strpos($url, MODX_BASE_URL) === 0
+                ? 'Location: ' . MODX_SITE_URL . substr($url, strlen(MODX_BASE_URL))
+                : 'Location: ' . $url
+        );
+        exit;
     }
 
     /**
