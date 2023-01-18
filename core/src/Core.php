@@ -432,7 +432,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 );
                 exit;
             }
-            $url .= (Str::contains($url, '?') ? '?' : '&') . 'err=' . ($currentNumberOfRedirects + 1);
+            $url .= (Str::contains($url, '?') ? '&' : '?') . 'err=' . ($currentNumberOfRedirects + 1);
         }
 
         if ($type === 'REDIRECT_REFRESH') {
