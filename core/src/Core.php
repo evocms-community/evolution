@@ -409,7 +409,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      *
      * @param string $url
      * @param int $count_attempts
-     * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH|REDIRECT_META|REDIRECT_JS
+     * @param string $type REDIRECT_HEADER(default)|REDIRECT_REFRESH
      * @param string $responseCode
      * @return null|false
      * @throws Exception
