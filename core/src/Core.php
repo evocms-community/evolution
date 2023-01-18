@@ -416,7 +416,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function sendRedirect($url, $count_attempts = 0, $type = 'REDIRECT_HEADER', $responseCode = '')
     {
-        if (empty ($url)) {
+        if (!$url) {
             return false;
         }
         if (Str::contains($url, "\n")) {
