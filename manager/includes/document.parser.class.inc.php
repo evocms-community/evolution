@@ -412,7 +412,7 @@ class DocumentParser
             // invoke OnPageNotFound event
             $this->invokeEvent('OnPageNotFound');
         }
-        $url = $this->config['error_page'] ? $this->config['error_page'] : $this->config['site_start'];
+        $url = $this->config['error_page'] ?: $this->config['site_start'];
 
         $this->sendForward($url, 'HTTP/1.0 404 Not Found');
         exit();
