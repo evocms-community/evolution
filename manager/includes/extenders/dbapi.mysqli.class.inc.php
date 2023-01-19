@@ -229,22 +229,18 @@ class DBAPI
         }
 
         $where = trim($where);
-        if(!$where && !$limit) {
-            return $this->truncate($from);
-        }
-
-        $from = $this->replaceFullTableName($from);
-        $orderBy = trim($orderBy);
-        $limit = trim($limit);
         if ($where !== '' && stripos($where, 'WHERE') !== 0) {
             $where = "WHERE {$where}";
         }
+        $orderBy = trim($orderBy);
         if ($orderBy !== '' && stripos($orderBy, 'ORDER BY') !== 0) {
             $orderBy = "ORDER BY {$orderBy}";
         }
+        $limit = trim($limit);
         if ($limit !== '' && stripos($limit, 'LIMIT') !== 0) {
             $limit = "LIMIT {$limit}";
         }
+        $from = $this->replaceFullTableName($from);
         return $this->query("DELETE FROM {$from} {$where} {$orderBy} {$limit}");
     }
 
