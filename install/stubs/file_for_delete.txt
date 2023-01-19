@@ -7,3 +7,4 @@
 {core}src/Facades/DocumentManager.php
 {core}src/Facades/UserManager.php
 {core}src/Interfaces/ServiceInterface.php
+{core}storage/bootstrap/siteCache.idx.php
