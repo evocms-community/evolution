@@ -1012,6 +1012,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             }
                         }
                     ?>
+                <div class='comment'><?php echo $_lang["user_photo_message"] ?></div>
                 <input type="text" id="photo" name="photo" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>"  onchange="documentDirty=true;" /><input type="button" value="<?php echo ManagerTheme::getLexicon('insert') ?>" onclick="BrowseServer('photo')" />
                 <div class="col-12" style="padding-left: 0px;">
                     <div id="image_for_photo" class="image_for_field" data-image="<?php echo $modx->getPhpCompat()->htmlspecialchars($out); ?>" onclick="BrowseServer('photo')" style="background-image: url('<?php echo $modx->getPhpCompat()->htmlspecialchars($out) ?>');"></div>
