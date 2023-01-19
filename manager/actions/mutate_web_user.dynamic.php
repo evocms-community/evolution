@@ -993,41 +993,30 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 			<div class="tab-page" id="tabPhoto">
 				<h2 class="tab"><?php echo $_lang["settings_photo"] ?></h2>
 				<script type="text/javascript">tpUser.addTabPage(document.getElementById("tabPhoto"));</script>
-				<table border="0" cellspacing="0" cellpadding="3">
-					<tr>
-						<td><?php echo $_lang["user_photo"] ?></td>
-                        <td>
-						<input onChange="documentDirty=true;" type='text' maxlength='255' name="photo" id="photo" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>" />
-                            <input type="button"  onClick="BrowseServer('photo');" value="<?php echo $_lang['insert']; ?>" />
-                        </td>
-					</tr>
-					<tr>
-						<td width="200">&nbsp;</td>
-						<td class='comment'><?php echo $_lang["user_photo_message"] ?></td>
-					</tr>
-					<tr>
-                        <?php
-                        $out = '';
-                            if (isset($_POST['photo'])) {
-                                if((strpos($_POST['photo'], "http://") === false)){
-                                    $out = MODX_SITE_URL;
-                                }
-                                $out.=$_POST['photo'];
-                            }else {
-                                if(!empty($userdata['photo'])){
-                                    if((strpos($userdata['photo'], "http://") === false)){
-                                    $out = MODX_SITE_URL;
-                                }
-                                $out.=$userdata['photo'];
-
-                                }else {
-                                    $out = $_style["tx"];
-                                }
+                    <?php
+                    $out = '';
+                        if (isset($_POST['photo'])) {
+                            if((strpos($_POST['photo'], "http://") === false)){
+                                $out = MODX_SITE_URL;
                             }
-                        ?>
-						<td colspan="2" align="center"><img name="iphoto" src="<?php echo $modx->getPhpCompat()->htmlspecialchars($out);  ?>" /></td>
-					</tr>
-				</table>
+                            $out.=$_POST['photo'];
+                        }else {
+                            if(!empty($userdata['photo'])){
+                                if((strpos($userdata['photo'], "http://") === false)){
+                                $out = MODX_SITE_URL;
+                            }
+                            $out.=$userdata['photo'];
+
+                            }else {
+                                $out = $_style["tx"];
+                            }
+                        }
+                    ?>
+                <input type="text" id="photo" name="photo" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>"  onchange="documentDirty=true;" /><input type="button" value="<?php echo ManagerTheme::getLexicon('insert') ?>" onclick="BrowseServer('photo')" />
+                <div class="col-12" style="padding-left: 0px;">
+                    <div id="image_for_photo" class="image_for_field" data-image="<?php echo $modx->getPhpCompat()->htmlspecialchars($out); ?>" onclick="BrowseServer('photo')" style="background-image: url('<?php echo $modx->getPhpCompat()->htmlspecialchars($out) ?>');"></div>
+                    <script>document.getElementById('photo').addEventListener('change', evoRenderTvImageCheck, false);</script>
+                </div>
 			</div>
 			<?php
 			if($modx->getConfig('use_udperms')) {
