@@ -20,7 +20,7 @@ $urls['modx_news_content'] = $rss_url_news;
 $urls['modx_security_notices_content'] = $rss_url_security;
 
 // How many items per Feed?
-$itemsNumber = '3';
+$itemsNumber = 3;
 
 /* End of configuration
 NO NEED TO EDIT BELOW THIS LINE
