@@ -465,14 +465,17 @@ class DocumentParser
         $this->config['site_manager_url']  = MODX_MANAGER_URL;
         $this->config['site_manager_path'] = MODX_MANAGER_PATH;
         $this->error_reporting = $this->config['error_reporting'] ?? 0;
-        if(strpos($this->config['filemanager_path']??'', '[(base_path)]')!==false) {
+
+        $this->config['filemanager_path'] = $this->config['filemanager_path']??'';
+        if(strpos($this->config['filemanager_path'], '[(base_path)]')!==false) {
             $this->config['filemanager_path'] = str_replace(
                 '[(base_path)]',
                 MODX_BASE_PATH,
                 $this->config['filemanager_path']
             );
         }
-        if(strpos($this->config['rb_base_dir']??'','[(base_path)]')!==false) {
+        $this->config['rb_base_dir'] = $this->config['rb_base_dir']??'';
+        if(strpos($this->config['rb_base_dir'],'[(base_path)]')!==false) {
             $this->config['rb_base_dir'] = str_replace(
                 '[(base_path)]',
                 MODX_BASE_PATH,
