@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -58,6 +60,7 @@ use Memcached as NativeMemcached;
  * @subpackage Caching
  * @author     Paul L. McNeely
  * @uses       Memcached
+ * @deprecated since SimplePie 1.8.0, use implementation of "Psr\SimpleCache\CacheInterface" instead
  */
 class Memcached implements Base
 {
@@ -82,8 +85,8 @@ class Memcached implements Base
     /**
      * Create a new cache object
      * @param string $location Location string (from SimplePie::$cache_location)
-     * @param string $name     Unique ID for the cache
-     * @param string $type     Either TYPE_FEED for SimplePie data, or TYPE_IMAGE for image data
+     * @param string $name Unique ID for the cache
+     * @param Base::TYPE_FEED|Base::TYPE_IMAGE $type Either TYPE_FEED for SimplePie data, or TYPE_IMAGE for image data
      */
     public function __construct($location, $name, $type)
     {
@@ -95,7 +98,7 @@ class Memcached implements Base
                 'prefix'  => 'simplepie_',
             ],
         ];
-        $this->options = \SimplePie\Misc::array_merge_recursive($this->options, \SimplePie\Cache::parse_URL($location));
+        $this->options = array_replace_recursive($this->options, \SimplePie\Cache::parse_URL($location));
 
         $this->name = $this->options['extras']['prefix'] . md5("$name:$type");
 
@@ -105,7 +108,7 @@ class Memcached implements Base
 
     /**
      * Save data to the cache
-     * @param array|SimplePie $data Data to store in the cache. If passed a SimplePie object, only cache the $data property
+     * @param array|\SimplePie\SimplePie $data Data to store in the cache. If passed a SimplePie object, only cache the $data property
      * @return bool Successfulness
      */
     public function save($data)

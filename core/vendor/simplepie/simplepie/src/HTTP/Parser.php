@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -86,62 +88,33 @@ class Parser
      */
     public $body = '';
 
-    /**
-     * @access private
-     */
-    const STATE_HTTP_VERSION = 'http_version';
-    /**
-     * @access private
-     */
-    const STATE_STATUS = 'status';
-    /**
-     * @access private
-     */
-    const STATE_REASON = 'reason';
-    /**
-     * @access private
-     */
-    const STATE_NEW_LINE = 'new_line';
-    /**
-     * @access private
-     */
-    const STATE_BODY = 'body';
-    /**
-     * @access private
-     */
-    const STATE_NAME = 'name';
-    /**
-     * @access private
-     */
-    const STATE_VALUE = 'value';
-    /**
-     * @access private
-     */
-    const STATE_VALUE_CHAR = 'value_char';
-    /**
-     * @access private
-     */
-    const STATE_QUOTE = 'quote';
-    /**
-     * @access private
-     */
-    const STATE_QUOTE_ESCAPED = 'quote_escaped';
-    /**
-     * @access private
-     */
-    const STATE_QUOTE_CHAR = 'quote_char';
-    /**
-     * @access private
-     */
-    const STATE_CHUNKED = 'chunked';
-    /**
-     * @access private
-     */
-    const STATE_EMIT = 'emit';
-    /**
-     * @access private
-     */
-    const STATE_ERROR = false;
+    private const STATE_HTTP_VERSION = 'http_version';
+
+    private const STATE_STATUS = 'status';
+
+    private const STATE_REASON = 'reason';
+
+    private const STATE_NEW_LINE = 'new_line';
+
+    private const STATE_BODY = 'body';
+
+    private const STATE_NAME = 'name';
+
+    private const STATE_VALUE = 'value';
+
+    private const STATE_VALUE_CHAR = 'value_char';
+
+    private const STATE_QUOTE = 'quote';
+
+    private const STATE_QUOTE_ESCAPED = 'quote_escaped';
+
+    private const STATE_QUOTE_CHAR = 'quote_char';
+
+    private const STATE_CHUNKED = 'chunked';
+
+    private const STATE_EMIT = 'emit';
+
+    private const STATE_ERROR = false;
 
     /**
      * Current state of the state machine
@@ -495,8 +468,11 @@ class Parser
             }
 
             $chunk_length = strlen($matches[0]);
-            $decoded .= $part = substr($encoded, $chunk_length, $length);
+            $decoded .= substr($encoded, $chunk_length, $length);
             $encoded = substr($encoded, $chunk_length + $length + 2);
+
+            // BC for PHP < 8.0: substr() can return bool instead of string
+            $encoded = ($encoded === false) ? '' : $encoded;
 
             if (trim($encoded) === '0' || empty($encoded)) {
                 $this->state = self::STATE_EMIT;

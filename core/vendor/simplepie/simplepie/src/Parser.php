@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -43,6 +45,8 @@
 
 namespace SimplePie;
 
+use SimplePie\XML\Declaration\Parser as DeclarationParser;
+
 /**
  * Parses XML into something sane
  *
@@ -52,7 +56,7 @@ namespace SimplePie;
  * @package SimplePie
  * @subpackage Parsing
  */
-class Parser
+class Parser implements RegistryAware
 {
     public $error_code;
     public $error_string;
@@ -71,7 +75,7 @@ class Parser
     public $encoding;
     protected $registry;
 
-    public function set_registry(\SimplePie\Registry $registry)
+    public function set_registry(\SimplePie\Registry $registry)/* : void */
     {
         $this->registry = $registry;
     }
@@ -122,7 +126,7 @@ class Parser
         }
 
         if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false) {
-            $declaration = $this->registry->create('XML_Declaration_Parser', [substr($data, 5, $pos - 5)]);
+            $declaration = $this->registry->create(DeclarationParser::class, [substr($data, 5, $pos - 5)]);
             if ($declaration->parse()) {
                 $data = substr($data, $pos + 2);
                 $data = '<?xml version="' . $declaration->version . '" encoding="' . $encoding . '" standalone="' . (($declaration->standalone) ? 'yes' : 'no') . '"?>' ."\n". $this->declare_html_entities() . $data;
@@ -183,7 +187,6 @@ class Parser
         $xml->xml($data);
         while (@$xml->read()) {
             switch ($xml->nodeType) {
-
                 case constant('XMLReader::END_ELEMENT'):
                     if ($xml->namespaceURI !== '') {
                         $tagName = $xml->namespaceURI . $this->separator . $xml->localName;
@@ -263,16 +266,16 @@ class Parser
 
     public function tag_open($parser, $tag, $attributes)
     {
-        list($this->namespace[], $this->element[]) = $this->split_ns($tag);
+        [$this->namespace[], $this->element[]] = $this->split_ns($tag);
 
         $attribs = [];
         foreach ($attributes as $name => $value) {
-            list($attrib_namespace, $attribute) = $this->split_ns($name);
+            [$attrib_namespace, $attribute] = $this->split_ns($name);
             $attribs[$attrib_namespace][$attribute] = $value;
         }
 
         if (isset($attribs[\SimplePie\SimplePie::NAMESPACE_XML]['base'])) {
-            $base = $this->registry->call('Misc', 'absolutize_url', [$attribs[\SimplePie\SimplePie::NAMESPACE_XML]['base'], end($this->xml_base)]);
+            $base = $this->registry->call(Misc::class, 'absolutize_url', [$attribs[\SimplePie\SimplePie::NAMESPACE_XML]['base'], end($this->xml_base)]);
             if ($base !== false) {
                 $this->xml_base[] = $base;
                 $this->xml_base_explicit[] = true;
@@ -394,7 +397,7 @@ class Parser
                 return '<a class="h-card" href="'.$link.'">'.$person_tag.$name.'</a>';
             }
         }
-        return isset($data['value']) ? $data['value'] : '';
+        return $data['value'] ?? '';
     }
 
     private function parse_microformats(&$data, $url)
@@ -477,8 +480,7 @@ class Parser
                     // author is a special case, it can be plain text or an h-card array.
                     // If it's plain text it can also be a url that should be followed to
                     // get the actual h-card.
-                    $author = isset($entry['properties']['author'][0]) ?
-                        $entry['properties']['author'][0] : $feed_author;
+                    $author = $entry['properties']['author'][0] ?? $feed_author;
                     if (!is_string($author)) {
                         $author = $this->parse_hcard($author);
                     } elseif (strpos($author, 'http') === 0) {

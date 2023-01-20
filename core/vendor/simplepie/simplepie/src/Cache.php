@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -43,6 +45,8 @@
 
 namespace SimplePie;
 
+use SimplePie\Cache\Base;
+
 /**
  * Used to create cache objects
  *
@@ -52,6 +56,7 @@ namespace SimplePie;
  *
  * @package SimplePie
  * @subpackage Caching
+ * @deprecated since SimplePie 1.8.0, use "SimplePie\SimplePie::set_cache()" instead
  */
 class Cache
 {
@@ -81,8 +86,8 @@ class Cache
      *
      * @param string $location URL location (scheme is used to determine handler)
      * @param string $filename Unique identifier for cache object
-     * @param string $extension 'spi' or 'spc'
-     * @return \SimplePie\Cache\Base Type of object depends on scheme of `$location`
+     * @param Base::TYPE_FEED|Base::TYPE_IMAGE $extension 'spi' or 'spc'
+     * @return Base Type of object depends on scheme of `$location`
      */
     public static function get_handler($location, $filename, $extension)
     {
@@ -99,11 +104,12 @@ class Cache
     /**
      * Create a new SimplePie\Cache object
      *
-     * @deprecated Use {@see get_handler} instead
+     * @deprecated since SimplePie 1.3.1, use {@see get_handler()} instead
      */
     public function create($location, $filename, $extension)
     {
-        trigger_error('Cache::create() has been replaced with Cache::get_handler(). Switch to the registry system to use this.', E_USER_DEPRECATED);
+        trigger_error('Cache::create() has been replaced with Cache::get_handler() since SimplePie 1.3.1, use the registry system instead.', \E_USER_DEPRECATED);
+
         return self::get_handler($location, $filename, $extension);
     }
 
@@ -111,7 +117,7 @@ class Cache
      * Register a handler
      *
      * @param string $type DSN type to register for
-     * @param string $class Name of handler class. Must implement \SimplePie\Cache\Base
+     * @param class-string<Base> $class Name of handler class. Must implement Base
      */
     public static function register($type, $class)
     {

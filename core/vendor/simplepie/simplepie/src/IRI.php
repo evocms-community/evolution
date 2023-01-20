@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -152,7 +154,7 @@ class IRI
         if (method_exists($this, 'set_' . $name)) {
             call_user_func([$this, 'set_' . $name], $value);
         } elseif (
-               $name === 'iauthority'
+            $name === 'iauthority'
             || $name === 'iuserinfo'
             || $name === 'ihost'
             || $name === 'ipath'
@@ -373,10 +375,10 @@ class IRI
             // C: if the input buffer begins with a prefix of "/../" or "/..", where ".." is a complete path segment, then replace that prefix with "/" in the input buffer and remove the last segment and its preceding "/" (if any) from the output buffer; otherwise,
             elseif (strpos($input, '/../') === 0) {
                 $input = substr($input, 3);
-                $output = substr_replace($output, '', strrpos($output, '/'));
+                $output = substr_replace($output, '', intval(strrpos($output, '/')));
             } elseif ($input === '/..') {
                 $input = '/';
-                $output = substr_replace($output, '', strrpos($output, '/'));
+                $output = substr_replace($output, '', intval(strrpos($output, '/')));
             }
             // D: if the input buffer consists only of "." or "..", then remove that from the input buffer; otherwise,
             elseif ($input === '.' || $input === '..') {
@@ -420,6 +422,7 @@ class IRI
         $strlen = strlen($string);
         while (($position += strspn($string, $extra_chars, $position)) < $strlen) {
             $value = ord($string[$position]);
+            $character = 0;
 
             // Start position
             $start = $position;
@@ -489,13 +492,13 @@ class IRI
                 || $character >= 0xFDD0 && $character <= 0xFDEF
                 || (
                     // Everything else not in ucschar
-                       $character > 0xD7FF && $character < 0xF900
+                    $character > 0xD7FF && $character < 0xF900
                     || $character < 0xA0
                     || $character > 0xEFFFD
                 )
                 && (
                     // Everything not in iprivate, if it applies
-                       !$iprivate
+                    !$iprivate
                     || $character < 0xE000
                     || $character > 0x10FFFD
                 )
@@ -537,6 +540,12 @@ class IRI
         // at the first byte!).
         $string = '';
         $remaining = 0;
+
+        // these variables will be initialized in the loop but PHPStan is not able to detect it currently
+        $start = 0;
+        $character = 0;
+        $length = 0;
+        $valid = true;
 
         // Loop over each and every byte, and set $value to its value
         for ($i = 1, $len = count($bytes); $i < $len; $i++) {
@@ -717,14 +726,17 @@ class IRI
         if ($iri === null) {
             return true;
         } elseif (isset($cache[$iri])) {
-            list($this->scheme,
-                 $this->iuserinfo,
-                 $this->ihost,
-                 $this->port,
-                 $this->ipath,
-                 $this->iquery,
-                 $this->ifragment,
-                 $return) = $cache[$iri];
+            [
+                $this->scheme,
+                $this->iuserinfo,
+                $this->ihost,
+                $this->port,
+                $this->ipath,
+                $this->iquery,
+                $this->ifragment,
+                $return
+            ] = $cache[$iri];
+
             return $return;
         }
 
@@ -739,14 +751,17 @@ class IRI
             && $this->set_query($parsed['query'])
             && $this->set_fragment($parsed['fragment']);
 
-        $cache[$iri] = [$this->scheme,
-                             $this->iuserinfo,
-                             $this->ihost,
-                             $this->port,
-                             $this->ipath,
-                             $this->iquery,
-                             $this->ifragment,
-                             $return];
+        $cache[$iri] = [
+            $this->scheme,
+            $this->iuserinfo,
+            $this->ihost,
+            $this->port,
+            $this->ipath,
+            $this->iquery,
+            $this->ifragment,
+            $return
+        ];
+
         return $return;
     }
 
@@ -794,10 +809,12 @@ class IRI
             $this->port = null;
             return true;
         } elseif (isset($cache[$authority])) {
-            list($this->iuserinfo,
-                 $this->ihost,
-                 $this->port,
-                 $return) = $cache[$authority];
+            [
+                $this->iuserinfo,
+                $this->ihost,
+                $this->port,
+                $return
+            ] = $cache[$authority];
 
             return $return;
         }
@@ -809,7 +826,7 @@ class IRI
         } else {
             $iuserinfo = null;
         }
-        if (($port_start = strpos($remaining, ':', strpos($remaining, ']'))) !== false) {
+        if (($port_start = strpos($remaining, ':', intval(strpos($remaining, ']')))) !== false) {
             if (($port = substr($remaining, $port_start + 1)) === false) {
                 $port = null;
             }
@@ -822,10 +839,12 @@ class IRI
                   $this->set_host($remaining) &&
                   $this->set_port($port);
 
-        $cache[$authority] = [$this->iuserinfo,
-                                   $this->ihost,
-                                   $this->port,
-                                   $return];
+        $cache[$authority] = [
+            $this->iuserinfo,
+            $this->ihost,
+            $this->port,
+            $return
+        ];
 
         return $return;
     }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SimplePie
  *
@@ -43,6 +45,13 @@
 
 namespace SimplePie;
 
+use InvalidArgumentException;
+use SimplePie\Cache\Base;
+use SimplePie\Cache\BaseDataCache;
+use SimplePie\Cache\CallableNameFilter;
+use SimplePie\Cache\DataCache;
+use SimplePie\Cache\NameFilter;
+
 /**
  * Used for data cleanup and post-processing
  *
@@ -52,7 +61,7 @@ namespace SimplePie;
  * @package SimplePie
  * @todo Move to using an actual HTML parser (this will allow tags to be properly stripped, and to switch between HTML and XHTML), this will also make it easier to shorten a string while preserving HTML tags
  */
-class Sanitize
+class Sanitize implements RegistryAware
 {
     // Private vars
     public $base;
@@ -70,11 +79,26 @@ class Sanitize
     public $enable_cache = true;
     public $cache_location = './cache';
     public $cache_name_function = 'md5';
+
+    /**
+     * @var NameFilter
+     */
+    private $cache_namefilter;
     public $timeout = 10;
     public $useragent = '';
     public $force_fsockopen = false;
     public $replace_url_attributes = null;
     public $registry;
+
+    /**
+     * @var DataCache|null
+     */
+    private $cache = null;
+
+    /**
+     * @var int Cache duration (in seconds)
+     */
+    private $cache_duration = 3600;
 
     /**
      * List of domains for which to force HTTPS.
@@ -104,12 +128,12 @@ class Sanitize
         }
     }
 
-    public function set_registry(\SimplePie\Registry $registry)
+    public function set_registry(\SimplePie\Registry $registry)/* : void */
     {
         $this->registry = $registry;
     }
 
-    public function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie\Cache')
+    public function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie\Cache', DataCache $cache = null)
     {
         if (isset($enable_cache)) {
             $this->enable_cache = (bool) $enable_cache;
@@ -119,8 +143,26 @@ class Sanitize
             $this->cache_location = (string) $cache_location;
         }
 
-        if ($cache_name_function) {
+        if (! is_string($cache_name_function) && ! is_object($cache_name_function) && ! $cache_name_function instanceof NameFilter) {
+            throw new InvalidArgumentException(sprintf(
+                '%s(): Argument #3 ($cache_name_function) must be of type %s',
+                __METHOD__,
+                NameFilter::class
+            ), 1);
+        }
+
+        // BC: $cache_name_function could be a callable as string
+        if (is_string($cache_name_function)) {
+            // trigger_error(sprintf('Providing $cache_name_function as string in "%s()" is deprecated since SimplePie 1.8.0, provide as "%s" instead.', __METHOD__, NameFilter::class), \E_USER_DEPRECATED);
             $this->cache_name_function = (string) $cache_name_function;
+
+            $cache_name_function = new CallableNameFilter($cache_name_function);
+        }
+
+        $this->cache_namefilter = $cache_name_function;
+
+        if ($cache !== null) {
+            $this->cache = $cache;
         }
     }
 
@@ -374,19 +416,20 @@ class Sanitize
                 // If image handling (caching, etc.) is enabled, cache and rewrite all the image tags.
                 if (isset($this->image_handler) && ((string) $this->image_handler) !== '' && $this->enable_cache) {
                     $images = $document->getElementsByTagName('img');
+
                     foreach ($images as $img) {
                         if ($img->hasAttribute('src')) {
-                            $image_url = call_user_func($this->cache_name_function, $img->getAttribute('src'));
-                            $cache = $this->registry->call('Cache', 'get_handler', [$this->cache_location, $image_url, 'spi']);
+                            $image_url = $this->cache_namefilter->filter($img->getAttribute('src'));
+                            $cache = $this->get_cache($image_url);
 
-                            if ($cache->load()) {
+                            if ($cache->get_data($image_url, false)) {
                                 $img->setAttribute('src', $this->image_handler . $image_url);
                             } else {
-                                $file = $this->registry->create('File', [$img->getAttribute('src'), $this->timeout, 5, ['X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']], $this->useragent, $this->force_fsockopen]);
+                                $file = $this->registry->create(File::class, [$img->getAttribute('src'), $this->timeout, 5, ['X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']], $this->useragent, $this->force_fsockopen]);
                                 $headers = $file->headers;
 
                                 if ($file->success && ($file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($file->status_code === 200 || $file->status_code > 206 && $file->status_code < 300))) {
-                                    if ($cache->save(['headers' => $file->headers, 'body' => $file->body])) {
+                                    if ($cache->set_data($image_url, ['headers' => $file->headers, 'body' => $file->body], $this->cache_duration)) {
                                         $img->setAttribute('src', $this->image_handler . $image_url);
                                     } else {
                                         trigger_error("$this->cache_location is not writable. Make sure you've set the correct relative or absolute path, and that the location is server-writable.", E_USER_WARNING);
@@ -413,7 +456,7 @@ class Sanitize
             }
 
             if ($type & \SimplePie\SimplePie::CONSTRUCT_IRI) {
-                $absolute = $this->registry->call('Misc', 'absolutize_url', [$data, $base]);
+                $absolute = $this->registry->call(Misc::class, 'absolutize_url', [$data, $base]);
                 if ($absolute !== false) {
                     $data = $absolute;
                 }
@@ -424,7 +467,7 @@ class Sanitize
             }
 
             if ($this->output_encoding !== 'UTF-8') {
-                $data = $this->registry->call('Misc', 'change_encoding', [$data, 'UTF-8', $this->output_encoding]);
+                $data = $this->registry->call(Misc::class, 'change_encoding', [$data, 'UTF-8', $this->output_encoding]);
             }
         }
         return $data;
@@ -462,7 +505,7 @@ class Sanitize
             foreach ($elements as $element) {
                 foreach ($attributes as $attribute) {
                     if ($element->hasAttribute($attribute)) {
-                        $value = $this->registry->call('Misc', 'absolutize_url', [$element->getAttribute($attribute), $this->base]);
+                        $value = $this->registry->call(Misc::class, 'absolutize_url', [$element->getAttribute($attribute), $this->base]);
                         if ($value !== false) {
                             $value = $this->https_url($value);
                             $element->setAttribute($attribute, $value);
@@ -585,6 +628,29 @@ class Sanitize
                 $element->setAttribute($attrib, $value);
             }
         }
+    }
+
+    /**
+     * Get a DataCache
+     *
+     * @param string $image_url Only needed for BC, can be removed in SimplePie 2.0.0
+     *
+     * @return DataCache
+     */
+    private function get_cache($image_url = '')
+    {
+        if ($this->cache === null) {
+            // @trigger_error(sprintf('Not providing as PSR-16 cache implementation is deprecated since SimplePie 1.8.0, please use "SimplePie\SimplePie::set_cache()".'), \E_USER_DEPRECATED);
+            $cache = $this->registry->call(Cache::class, 'get_handler', [
+                $this->cache_location,
+                $image_url,
+                Base::TYPE_IMAGE
+            ]);
+
+            return new BaseDataCache($cache);
+        }
+
+        return $this->cache;
     }
 }
 
