@@ -156,7 +156,7 @@ $_lang["configcheck_validate_referer"] = 'Avertissement de sécurité: validatio
 $_lang["configcheck_validate_referer_msg"] = 'Le paramètre de configuration <strong>Valider les en-têtes HTTP_REFERER?</strong> est désactivé. Nous vous recommandons de l\'activer. <a href="index.php?a=17">Aller aux options de configuration</a><br /><a href="javascript:hideHeaderVerificationWarning();"><em>Ne plus afficher ce message.</em></a>';
 $_lang["configcheck_warning"] = 'Avertissement de configuration:';
 $_lang["configcheck_what"] = 'Que signifie ceci?';
-$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
+$_lang["safe_mode_warning"] = 'Le mode sans échec est activé. Les fonctionnalités du gestionnaire sont limitées.';
 $_lang["confirm_block"] = 'Voulez-vous vraiment bloquer cet utilisateur?';
 $_lang["confirm_delete_category"] = 'Êtes-vous sûr de vouloir supprimer cette catégorie ?';
 $_lang["confirm_delete_eventlog"] = 'Voulez-vous vraiment supprimer cet historique?';
@@ -762,11 +762,11 @@ $_lang["resources_in_container"] = 'Ressources dans ce Conteneur';
 $_lang["resources_in_container_no"] = 'Ce Conteneur n\'a aucune Ressource enfant.';
 $_lang["role"] = 'Rôle';
 $_lang["role_about"] = 'Consulter la page «À propos»';
-$_lang["manager_access_permissions"] = 'Manager access permission';
-$_lang["manage_groups"] = 'Manage document and user groups';
-$_lang["manage_document_permissions"] = 'Manage document permissions';
-$_lang["manage_module_permissions"] = 'Manage module permissions';
-$_lang["manage_tv_permissions"] = 'Manage TV permissions';
+$_lang["manager_access_permissions"] = 'Autorisation d\'accès du gestionnaire';
+$_lang["manage_groups"] = 'Gérer les documents et les groupes d\'utilisateurs';
+$_lang["manage_document_permissions"] = 'Gérer les autorisations des documents';
+$_lang["manage_module_permissions"] = 'Gérer les autorisations de modules';
+$_lang["manage_tv_permissions"] = 'Gérer les autorisations des TV';
 $_lang["role_actionok"] = 'Accès à l\'écran de fin d\'action';
 $_lang["role_assets_images"] = 'Gérer assets/images';
 $_lang["role_assets_files"] = 'Gérer assets/files';
@@ -1144,7 +1144,7 @@ $_lang["web_access_permissions_user_groups"] = 'Groupes d\'Utilisateurs Web';
 $_lang["web_permissions"] = 'Autorisations Web';
 $_lang["web_user_management_msg"] = 'Choisissez quel Utilisateur Web vous souhaitez modifier. Les Utilisateurs Web sont ceux qui ne peuvent se connecter que sur le site web.';
 $_lang["web_user_management_title"] = 'Gestion des Utilisateurs Web';
-$_lang["web_user_management_select_role"] = 'All roles';
+$_lang["web_user_management_select_role"] = 'Tous les rôles';
 $_lang["web_user_title"] = 'Créer/modifier un Utilisateur Web';
 $_lang["web_users"] = 'Utilisateurs Web';
 $_lang["weblink"] = 'Lien Web';
@@ -1152,8 +1152,8 @@ $_lang["webpwdreminder_message"] = 'Entrez ici le message envoyé à vos Utilisa
 $_lang["webpwdreminder_title"] = 'Message pour un nouveau mot de passe:';
 $_lang["websignupemail_message"] = 'Entrez ici le message envoyé à vos Utilisateurs Web lorsque vous leur créez un compte. Le système leur enverra par email leur nom d\'utilisateur et leur mot de passe. <br /><b>NOTE:</b> Le Gestionnaire de Contenu remplacera les Placeholders suivants avant l\'envoi du message: <br /><br />[+sname+] - Nom de votre site web, <br />[+saddr+] - Adresse email du site web, <br />[+surl+] - URL de votre site web, <br />[+uid+] - Nom d\'utilisateur, <br />[+pwd+] - Mot de passe, <br />[+ufn+] - Nom complet de l\'utilisateur. <br /><br /><b>Ne pas retirer les Placeholders [+uid+] et [+pwd+] du message, sans quoi le nom d\'utilisateur et le mot de passe ne seront pas envoyés et vos Utilisateurs ne pourront pas se connecter!</b>';
 $_lang["websignupemail_title"] = 'Message pour l\'inscription web:';
-$_lang["allow_multiple_emails_title"] = 'Duplicate Web User email address';
-$_lang["allow_multiple_emails_message"] = 'Allows Web Users to share the same email address for situations when a member may not have their own email address or there is just one family email address.<br/>Note: Any password reminder and registration logic will need to account for this option if set to yes.';
+$_lang["allow_multiple_emails_title"] = 'Dupliquer l\'adresse email de l\'utilisateur web';
+$_lang["allow_multiple_emails_message"] = 'Permet aux utilisateurs Web de partager la même adresse e-mail dans les situations où un membre n\'a pas sa propre adresse e-mail ou s\'il n\'y a qu\'une seule adresse e-mail familiale.<br/>Remarque : Tout rappel de mot de passe et toute logique d\'enregistrement devront tenir compte de cette option si elle est définie sur Oui.';
 $_lang["wednesday"] = 'Mercredi';
 $_lang["welcome_title"] = 'Bienvenue dans votre Gestionnaire de Contenu EVO';
 $_lang["which_editor_message"] = 'Choisissez l\'éditeur WYSIWYG que vous souhaitez utiliser. D\'autres éditeurs WYSIWYG à installer sont disponibles sur la page de téléchargement de EVO.';
@@ -1184,12 +1184,12 @@ $_lang["pwd_hash_algo_message"] = 'Algorithme "Hash" pour les mots de passe.';
 
 $_lang["enable_bindings_title"] = 'Activer les commandes @Bindings';
 $_lang["enable_bindings_message"] = 'Interdit l\'exécution de code PHP via les @Bindings des TVs. Utile si vous avez des utilisateurs qui doivent pourvoir créer ou éditer des des TVs mais ne doivent pas pouvoir créer de code PHP. Le résultat des TVs contenant un @Binding sera "@Bindings is disabled".';
-$_lang["enable_filter_title"] = 'Enable filters';
-$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
+$_lang["enable_filter_title"] = 'Activer les filtres';
+$_lang["enable_filter_message"] = 'Les filtres vous permettent de manipuler la manière dont les données sont présentées ou analysées dans une balise. Ils vous permettent de modifier les valeurs depuis l\'intérieur de vos modèles. Ceci est analogue à PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Plus d\'informations</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Lorsque pHx plug-in activé, les filtres intégrés sont désactivés par défaut';
 
-$_lang["enable_at_syntax_title"] = 'Enable &lt;@SYNTAX&gt;';
-$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) is simple and lightweight template syntax. This is designed to consider coexistence with HTML tags and content strings.';
+$_lang["enable_at_syntax_title"] = 'Activer &lt;@SYNTAX&gt;';
+$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) est une syntaxe de modèle simple et légère. Ceci est conçu pour prendre en compte la coexistence avec les balises HTML et les chaînes de contenu.';
 
 $_lang["bkmgr_alert_mkdir"] = 'Un fichier n\'a pu être créé dans un répertoire. Veuillez vérifier les droits de [+snapshot_path+]';
 $_lang["bkmgr_restore_msg"] = '<p>Un site peut être restauré via un fichier SQL. </p>';
@@ -1212,8 +1212,8 @@ $_lang["files.dynamic.php1"] = 'Créer un fichier texte';
 $_lang["files.dynamic.php2"] = 'Ce dossier ne peut être affiché.';
 $_lang["files.dynamic.php3"] = 'Il y a un problème dans le nom du fichier.';
 $_lang["files.dynamic.php4"] = 'Le fichier texte a été crée.';
-$_lang["files.dynamic.php5"] = 'File could not be duplicated.';
-$_lang["files.dynamic.php6"] = 'File or directory could not be renamed.';
+$_lang["files.dynamic.php5"] = 'Le fichier n\'a pas pu être dupliqué.';
+$_lang["files.dynamic.php6"] = 'Impossible de renommer le fichier ou le répertoire.';
 $_lang["files_dynamic_new_folder_name"] = 'Saisissez un nouveau nom de dossier :';
 $_lang["files_dynamic_new_file_name"] = 'Saisissez un nouveau nom de fichier :';
 $_lang["not_readable_dir"] = 'Dossier illisible.';
@@ -1242,7 +1242,7 @@ $_lang['smtp_port_title'] = 'Port SMTP';
 
 $_lang["setting_resource_tree_node_name"] = 'Nom des éléments dans l\'arbre des ressources';
 $_lang["setting_resource_tree_node_name_desc"] = 'Permet de définir le champ du document à utiliser dans l\'arbre. Par défaut ce champ est "pagetitle", mais tous les champs peuvent être utilisés comme "menutitle", "alias"...';
-$_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since Evolution CMS 1.1 you can change this Display Name within Resource-Tree´s sorting option. This setting is used when Display Name in Resource Tree is set to &quot;Default&quot;.';
+$_lang["setting_resource_tree_node_name_desc_add"] = 'Remarque : depuis Evolution CMS 1.1, vous pouvez modifier ce nom d\'affichage dans l\'option de tri de l\'arborescence des ressources. Ce paramètre est utilisé lorsque le nom d\'affichage dans l\'arborescence des ressources est défini sur &quot;Par défaut&quot;.';
 
 $_lang["resource_opt_alvisibled"] = 'Utiliser l\'alias du document dans chemin d\'alias';
 $_lang["resource_opt_alvisibled_help"] = 'L\'alias de ce document sera utilisé dans le chemin d\'alias';
@@ -1252,11 +1252,11 @@ $_lang["docid_incrmnt_method_0"] = 'Incrément automatique de la base de donnée
 $_lang["docid_incrmnt_method_1"] = 'Plus petit ID disponible';
 $_lang["docid_incrmnt_method_2"] = 'Plus grand ID + 1';
 
-$_lang["enable_cache_title"] = 'Document caching';
-$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
-$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
-$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
-$_lang["disabled_at_login"] = 'Disabled at login';
+$_lang["enable_cache_title"] = 'Mise en cache des documents';
+$_lang["disable_chunk_cache_title"] = 'Désactiver la mise en cache des chunks';
+$_lang["disable_snippet_cache_title"] = 'Désactiver la mise en cache des snippets';
+$_lang["disable_plugins_cache_title"] = 'Désactiver la mise en cache des plugins';
+$_lang["disabled_at_login"] = 'Désactivé à la connexion';
 
 $_lang["cache_type_title"] = 'Type de cache des documents';
 $_lang["cache_type_1"] = 'Le cache est basé sur l\'ID du document (standard)';
@@ -1264,11 +1264,11 @@ $_lang["cache_type_2"] = 'Le cache est basé sur l\'ID du document et les param�
 $_lang["seostrict_title"] = 'Utiliser le format "SEO Strict" pour les URLs';
 $_lang["seostrict_message"] = 'Forcer le format "SEO Strict" pour les URLs afin d\'éviter les contenus dupliqués';
 
-$_lang["alias_listing_title"] = 'Use AliasListing cache';
-$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
-$_lang["alias_listing_disabled"] = 'Disabled';
-$_lang["alias_listing_folders"] = 'Only for folders';
-$_lang["alias_listing_enabled"] = 'Enabled';
+$_lang["alias_listing_title"] = 'Utiliser le cache AliasListing';
+$_lang["alias_listing_message"] = 'La mise en cache des alias de page doit être désactivée si un site dispose d\'une grande quantité de ressources. « Désactivé » réduit la consommation de mémoire lorsque le site dispose d\'un grand nombre de ressources.';
+$_lang["alias_listing_disabled"] = 'Désactivé';
+$_lang["alias_listing_folders"] = 'Uniquement pour les dossiers';
+$_lang["alias_listing_enabled"] = 'Activé';
 
 $_lang["settings_friendlyurls_alert"] = 'Il est nécessaire de renommer le fichier ht.access de EVO en .htaccess pour être en mesure d\'utiliser les "URLs simples".';
 $_lang["settings_friendlyurls_alert2"] = 'L\'installation ayant été réalisée dans un sous répertoire, il est nécessaire de modifier la directive "RewriteBase" dans votre fichier .htaccess.';
@@ -1287,7 +1287,7 @@ $_lang["error_no_truncate_tablename"] = "Nom de la table à vider non trouvé da
 $_lang["error_double_action"] = "Double action (GET & POST) demandée !";
 $_lang["error_no_id"] = "ID du document non passé dans la requête !";
 $_lang["error_id_nan"] = "l'ID du document passé dans la requête est invalide !";
-$_lang["error_parent_deleted"] = "Failed because resource parent is deleted!";
+$_lang["error_parent_deleted"] = "Échec car le parent de la ressource est supprimé !";
 $_lang["error_no_parent"] = "Impossible de trouver le nom du document parent !";
 $_lang["error_many_results"] = "Trop de résultats ont été retournés par la base de données !";
 $_lang["error_no_results"] = "Pas assez de résultats ont été retournés par la base de données !";
@@ -1296,12 +1296,12 @@ $_lang["error_no_group_selected"] = "Aucun groupe n'est destinataire de ce messa
 $_lang["error_movedocument1"] = "Un document ne peut pas être son propre parent !";
 $_lang["error_movedocument2"] = "ID du document non passé dans la requête !";
 $_lang["error_movedocument3"] = "Nouveau parent non défini dans la requête !";
-$_lang["error_internet_connection"] = "Server isn't available. Check your internet connection!";
+$_lang["error_internet_connection"] = "Le serveur n'est pas disponible. Vérifiez votre connexion internet !";
 
 $_lang["login_processor_unknown_user"] = "Identifiant ou mot de passe invalide !";
 $_lang["login_processor_wrong_password"] = "Identifiant ou mot de passe invalide !";
 $_lang["login_processor_many_failed_logins"] = "Votre compte a été verrouillé en raison de trop nombreuses tentatives.";
-$_lang["login_processor_verified"] = "User verification required!";
+$_lang["login_processor_verified"] = "Vérification de l'utilisateur requise !";
 $_lang["login_processor_blocked1"] = "Votre compte a été verrouillé, vous ne pouvez plus vous connecter.";
 $_lang["login_processor_blocked2"] = "Votre compte a été verrouillé, vous ne pouvez plus vous connecter. Veuillez réessayer plus tard.";
 $_lang["login_processor_blocked3"] = "Votre compte a été verrouillé, vous ne pouvez plus vous connecter.";
@@ -1311,158 +1311,158 @@ $_lang["login_processor_remote_ip"] = "Vous n'êtes pas autorisé à vous connec
 $_lang["login_processor_date"] = "Vous n'êtes - pour l'instant - pas autorisé à vous connecter. Veuillez réessayer plus tard.";
 $_lang["login_processor_captcha_config"] = "Les Captcha ne sont pas correctement configurés.";
 
-$_lang["dp_dayNames"] = "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']";
-$_lang["dp_monthNames"] = "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']";
+$_lang["dp_dayNames"] = "['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']";
+$_lang["dp_monthNames"] = "['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']";
 $_lang["dp_startDay"] = "1";
 
-$_lang["check_all"] = "Select all";
-$_lang["check_none"] = "Select none";
-$_lang["check_toggle"] = "Toggle selection";
+$_lang["check_all"] = "Tout sélectionner";
+$_lang["check_none"] = "Ne rien sélectionner";
+$_lang["check_toggle"] = "Basculer la sélection";
 
-$_lang["version_notices"] = "Version Notices";
+$_lang["version_notices"] = "Avis de version";
 
-$_lang["em_button_shift"] = " (Shift-Mouseclick to open multiple windows)";
+$_lang["em_button_shift"] = "(Maj-Clic pour ouvrir plusieurs fenêtres)";
 
-$_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
-$_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
+$_lang["reset_sysfiles_checksum_button"] = "Reconstruire les Checksums";
+$_lang["reset_sysfiles_checksum_alert"] = "Voulez-vous vraiment réinitialiser les checksums des fichiers système ?";
 
-$_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
-$_lang["which_browser_default_title"] = "Default File Browser";
-$_lang["which_browser_default_msg"] = "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
-$_lang["which_browser_title"] = "File Browser";
-$_lang["which_browser_msg"] = "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
-$_lang["option_default"] = "Default";
+$_lang["file_browser_disabled_msg"] = "La fonction de navigateur de fichiers n'est pas activée.";
+$_lang["which_browser_default_title"] = "Navigateur de fichiers par défaut";
+$_lang["which_browser_default_msg"] = "Choisissez le navigateur de fichiers que vous préférez par défaut. Dans Paramètres utilisateur, vous pouvez choisir un navigateur personnalisé par utilisateur ou le laisser sur &quot;Par défaut&quot;.";
+$_lang["which_browser_title"] = "Navigateur de fichiers";
+$_lang["which_browser_msg"] = "Vous pouvez choisir un navigateur de fichiers personnalisé pour cet utilisateur. Pour utiliser le navigateur par défaut du système, laissez-le sur &quot;Par défaut&quot;.";
+$_lang["option_default"] = "Par défaut";
 $_lang["position"] = "Position";
-$_lang["are_you_sure"] = "Are you sure?";
+$_lang["are_you_sure"] = "Êtes-vous sûr ?";
 
-$_lang['evo_downloads_title'] = "Evolution CMS Downloads";
-$_lang['help_translating_title'] = "Help translating Evolution CMS";
-$_lang['download'] = "Download";
-$_lang['downloads'] = "Downloads";
-$_lang["previous_releases"] = "Previous Releases";
+$_lang['evo_downloads_title'] = "Téléchargements du CMS Evolution";
+$_lang['help_translating_title'] = "Aide à la traduction d'Evolution CMS";
+$_lang['download'] = "Téléchargement";
+$_lang['downloads'] = "Téléchargements";
+$_lang["previous_releases"] = "Versions précédentes";
 $_lang["extras"] = "Extras";
 
-$_lang["display_locks"] = "Display Locks";
-$_lang["role_display_locks"] = "Display Locks";
-$_lang["session_timeout"] = "Session Timeout";
-$_lang["session_timeout_msg"] = "Evolution CMS will ping the server, if the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
-$_lang["unlock_element_id_warning"] = "Are you sure you want to unlock this [+element_type+] (ID [+id+])?";
-$_lang["lock_element_type_1"] = "Template";
-$_lang["lock_element_type_2"] = "Template-Variable";
+$_lang["display_locks"] = "Afficher les verrous";
+$_lang["role_display_locks"] = "Afficher les verrous";
+$_lang["session_timeout"] = "Expiration de la session";
+$_lang["session_timeout_msg"] = "Evolution CMS enverra un ping au serveur, si le dernier ping dépasse ce paramètre, la session associée sera considérée comme invalide et tous les verrous associés seront automatiquement supprimés. Définir la valeur en minutes (> 2 min, 15 min par défaut).";
+$_lang["unlock_element_id_warning"] = "Êtes-vous sûr de vouloir déverrouiller [+element_type+] (ID [+id+])?";
+$_lang["lock_element_type_1"] = "Modèle";
+$_lang["lock_element_type_2"] = "Variable de modèle";
 $_lang["lock_element_type_3"] = "Chunk";
 $_lang["lock_element_type_4"] = "Snippet";
 $_lang["lock_element_type_5"] = "Plugin";
 $_lang["lock_element_type_6"] = "Module";
-$_lang["lock_element_type_7"] = "Resource";
-$_lang["lock_element_type_8"] = "Role";
-$_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
-$_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
+$_lang["lock_element_type_7"] = "Ressource";
+$_lang["lock_element_type_8"] = "Rôle";
+$_lang["lock_element_editing"] = "Vous modifiez [+element_type+] depuis\n[+lasthit_df+]";
+$_lang["lock_element_locked_by"] = "Ce [+element_type+] est vérouillé par \n[+username+] depuis [+lasthit_df+]";
 
-$_lang["minifyphp_incache_title"] = 'Minify php code in site cache';
-$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
+$_lang["minifyphp_incache_title"] = 'Réduire le code php dans le cache du site';
+$_lang["minifyphp_incache_message"] = 'Réduire le code php (snippets et plugins) et le stocker dans le fichier cache du site, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
-$_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+$_lang["logout_reminder_msg"] = "Rappel : Il semble que le [+date+] vous ayez oublié de vous déconnecter. Veuillez faire attention à l'avenir à le faire une fois votre travail terminé.";
 
-$_lang["allow_eval_title"] = "Eval php code in snippet call";
-$_lang["allow_eval_msg"] = "For developer : Please use \$modx-&gt;safeEval().";
-$_lang["allow_eval_with_scan"] = "Execute only permitted functions";
-$_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
-$_lang["allow_eval_everytime_eval"] = "Unlimited (Use only for debugging)";
-$_lang["allow_eval_dont_eval"] = "Do not allow all functions";
+$_lang["allow_eval_title"] = "Évaluer le code php dans l'appel du snippet";
+$_lang["allow_eval_msg"] = "Pour les développeurs : veuillez utiliser \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"] = "Exécuter uniquement les fonctions autorisées";
+$_lang["allow_eval_with_scan_at_post"] = "Exécutez tout. Cependant, au POST, seules les fonctions autorisées.";
+$_lang["allow_eval_everytime_eval"] = "Illimité (à utiliser uniquement pour le débogage)";
+$_lang["allow_eval_dont_eval"] = "Ne pas autoriser toutes les fonctions";
 
-$_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
-$_lang["safe_functions_at_eval_msg"] = "Comma separated list";
+$_lang["safe_functions_at_eval_title"] = "Fonctions pour permettre l'évaluation";
+$_lang["safe_functions_at_eval_msg"] = "Liste séparée par des virgules";
 
-$_lang["multiple_sessions_msg"] = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
-$_lang["iconv_not_available"] = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
+$_lang["multiple_sessions_msg"] = "Information : Plusieurs sessions utilisateur actives ([+total+] au total) trouvées pour l'utilisateur <b>[+username+]</b>.";
+$_lang["iconv_not_available"] = "Il est important d'installer/d'activer l'extension iconv. Veuillez contacter votre hébergeur si vous ne savez pas comment l'activer.";
 
-$_lang["cm_create_new_category"] = "Create the new category";
-$_lang["cm_category_name"] = "Category name";
-$_lang["cm_category_position"] = "Category position";
-$_lang["cm_no_x_assigned"] = "No %s assigned";
-$_lang["cm_save_categorization"] = "Save categorization";
-$_lang["cm_update_categories"] = "Update categories";
-$_lang["cm_assigned_elements"] = "Assigned elements";
-$_lang["cm_edit_name"] = "Edit name";
-$_lang["cm_mark_for_deletion"] = "Mark for deletion";
-$_lang["cm_delete_now"] = "Delete immediately";
-$_lang["cm_delete_element_x_now"] = "Delete &quot;%s&quot; immediately";
-$_lang["cm_select_element_group"] = "Select an element group";
-$_lang["cm_global_messages"] = "Global Messages";
-$_lang["cm_add_new_category"] = "Add a new category";
-$_lang["cm_edit_categories"] = "Edit categories";
-$_lang["cm_sort_categories"] = "Sort categories";
-$_lang["cm_categorize_elements"] = "Categorize elements";
-$_lang["cm_translation"] = "Translation";
-$_lang["cm_translations"] = "Translations";
-$_lang["cm_categorize_x"] = "Categorize <span class=\"highlight\">%s</span>";
-$_lang["cm_unknown_error"] = "Something went wrong.";
-$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> has been assigned to category <span class=\"highlight\">%s(%s)</span>";
-$_lang["cm_no_categorization"] = "No categorization made.";
-$_lang["cm_no_changes"] = "Nothing to change, so no changes made.";
-$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changes made";
-$_lang["cm_enter_name_for_category"] = "Please enter a name for the new category.";
-$_lang["cm_category_x_exists"] = "Category <span class=\"highlight\">%s</span> already exists.";
-$_lang["cm_category_x_saved_at_position_y"] = "The new category <span class=\"highlight\">%s</span> was saved at position <span class=\"highlight\">%s</span>.";
-$_lang["cm_category_x_moved_to_position_y"] = "Category <span class=\"highlight\">%s</span> was moved to position <span class=\"highlight\">%s</span>";
-$_lang["cm_category_x_deleted"] = "Category <span class=\"highlight\">%s</span> has been deleted";
-$_lang["cm_category_x_renamed_to_y"] = "Category <span class=\"highlight\">%s</span> was renamed to <span class=\"highlight\">%s</span>";
-$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
-$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
-$_lang["cm_save_new_sorting"] = "Save new sorting";
-$_lang["cm_translate_phrases"] = "Translate phrases";
-$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
-$_lang["cm_native_phrase"] = "Native phrase";
+$_lang["cm_create_new_category"] = "Créer la nouvelle catégorie";
+$_lang["cm_category_name"] = "Nom de la catégorie";
+$_lang["cm_category_position"] = "Position de la catégorie";
+$_lang["cm_no_x_assigned"] = "Aucun %s affecté";
+$_lang["cm_save_categorization"] = "Enregistrer la catégorisation";
+$_lang["cm_update_categories"] = "Mettre à jour les catégories";
+$_lang["cm_assigned_elements"] = "Éléments affectés";
+$_lang["cm_edit_name"] = "Éditer le nom";
+$_lang["cm_mark_for_deletion"] = "Marquer pour suppression";
+$_lang["cm_delete_now"] = "Supprimer immédiatement";
+$_lang["cm_delete_element_x_now"] = "Supprimer &quot;%s&quot; immédiatement";
+$_lang["cm_select_element_group"] = "Sélectionnez un groupe d'éléments";
+$_lang["cm_global_messages"] = "Messages globaux";
+$_lang["cm_add_new_category"] = "Ajouter une nouvelle catégorie";
+$_lang["cm_edit_categories"] = "Éditer une catégorie";
+$_lang["cm_sort_categories"] = "Trier les catégories";
+$_lang["cm_categorize_elements"] = "Catégoriser les éléments";
+$_lang["cm_translation"] = "Traduction";
+$_lang["cm_translations"] = "Traductions";
+$_lang["cm_categorize_x"] = "Catégoriser <span class=\"highlight\">%s</span>";
+$_lang["cm_unknown_error"] = "Quelque chose s'est mal passé.";
+$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> a été affecté à la catégorie <span class=\"highlight\">%s(%s)</span>";
+$_lang["cm_no_categorization"] = "Aucune catégorisation faite.";
+$_lang["cm_no_changes"] = "Rien à changer, donc aucune modification apportée.";
+$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changements faits.";
+$_lang["cm_enter_name_for_category"] = "Veuillez entrer un nom pour la nouvelle catégorie.";
+$_lang["cm_category_x_exists"] = "La catégorie <span class=\"highlight\">%s</span> existe déjà.";
+$_lang["cm_category_x_saved_at_position_y"] = "La nouvelle catégorie <span class=\"highlight\">%s</span> a été enregistrée à la position <span class=\"highlight\">%s</span>.";
+$_lang["cm_category_x_moved_to_position_y"] = "La catégorie <span class=\"highlight\">%s</span> a été déplacé à la position <span class=\"highlight\">%s</span>";
+$_lang["cm_category_x_deleted"] = "La catégorie <span class=\"highlight\">%s</span> a été supprimée";
+$_lang["cm_category_x_renamed_to_y"] = "La catégorie <span class=\"highlight\">%s</span> a été renommée <span class=\"highlight\">%s</span>";
+$_lang["cm_translation_for_x_empty"] = "La traduction pour <span class=\"highlight\">%s</span> était vide";
+$_lang["cm_translation_for_x_to_y_success"] = "La traduction de <span class=\"highlight\">%s</span> pour <span class=\"highlight\">%s</span> a été enregistré avec succès";
+$_lang["cm_save_new_sorting"] = "Enregistrer le nouveau tri";
+$_lang["cm_translate_phrases"] = "Traduire des phrases";
+$_lang["cm_translate_module_phrases"] = "Traduire des phrases de module";
+$_lang["cm_native_phrase"] = "Phrase native";
 
-$_lang["btn_view_options"] = 'View Options';
-$_lang["view_options_msg"] = 'The display & listing of elements can be customized via &quot;View Options&quot;-button. Settings are saved and restored per Browser using HTML5´s localStorage.';
-$_lang["viewopts_title"] = 'View Options';
-$_lang["viewopts_cb_buttons"] = 'Buttons';
+$_lang["btn_view_options"] = 'Voir les options';
+$_lang["view_options_msg"] = 'L\'affichage et la liste des éléments peuvent être personnalisés via le bouton &quot;Options d\'affichage&quot;. Les paramètres sont enregistrés et restaurés par navigateur à l\'aide du stockage local de HTML5.';
+$_lang["viewopts_title"] = 'Options d\'affichage';
+$_lang["viewopts_cb_buttons"] = 'Boutons';
 $_lang["viewopts_cb_descriptions"] = 'Descriptions';
-$_lang["viewopts_cb_icons"] = 'Icons';
-$_lang["viewopts_radio_list"] = 'List';
-$_lang["viewopts_radio_inline"] = 'Inline';
+$_lang["viewopts_cb_icons"] = 'Icônes';
+$_lang["viewopts_radio_list"] = 'Liste';
+$_lang["viewopts_radio_inline"] = 'En ligne';
 $_lang["viewopts_radio_flex"] = 'Flex';
-$_lang["viewopts_fontsize"] = 'Font-Size';
-$_lang["viewopts_cb_alltabs"] = 'All Tabs';
+$_lang["viewopts_fontsize"] = 'Taille des polices';
+$_lang["viewopts_cb_alltabs"] = 'Tous les onglets';
 
-$_lang['email_sender_method'] = 'The envelope sender of the message';
-$_lang['auto'] = 'Auto-detect';
-$_lang['use_emailsender'] = 'Use [(emailsender)] value';
-$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+$_lang['email_sender_method'] = 'L\'expéditeur de l\'enveloppe du message';
+$_lang['auto'] = 'Auto-détection';
+$_lang['use_emailsender'] = 'Utiliser la valeur [(emailsender)]';
+$_lang['email_sender_method_message'] = 'L\'expéditeur de l\'enveloppe du message. Cela sera généralement transformé en un en-tête Return-Path par le récepteur, et c\'est l\'adresse à laquelle les rebonds seront envoyés. La détection automatique fonctionnera dans la plupart des cas.';
 
-$_lang['login_form_position_title'] = 'Login form postiton';
-$_lang['login_form_position_left'] = 'left';
-$_lang['login_form_position_center'] = 'center';
-$_lang['login_form_position_right'] = 'right';
-$_lang["login_form_style"] = 'Login form style:';
-$_lang["login_form_style_dark"] = 'dark';
-$_lang["login_form_style_light"] = 'light';
-$_lang['login_logo_title'] = 'Login page logo image';
-$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
-$_lang['login_bg_title'] = 'Login page background image';
-$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
+$_lang['login_form_position_title'] = 'Position du formulaire de connexion';
+$_lang['login_form_position_left'] = 'gauche';
+$_lang['login_form_position_center'] = 'centre';
+$_lang['login_form_position_right'] = 'droite';
+$_lang["login_form_style"] = 'Style de formulaire de connexion :';
+$_lang["login_form_style_dark"] = 'sombre';
+$_lang["login_form_style_light"] = 'lumineux';
+$_lang['login_logo_title'] = 'Image du logo de la page de connexion';
+$_lang['login_logo_message'] = 'Largeur d\'image du logo de connexion recommandée : 360 px, type .png';
+$_lang['login_bg_title'] = 'Image d\'arrière-plan de la page de connexion';
+$_lang['login_bg_message'] = 'Largeur recommandée de l\'image d\'arrière-plan de la page de connexion : 1920 pixels';
 
-$_lang['manager_menu_position_title'] = 'Main menu position';
-$_lang['manager_menu_position_top'] = 'top';
-$_lang['manager_menu_position_left'] = 'left';
+$_lang['manager_menu_position_title'] = 'Position du menu principal';
+$_lang['manager_menu_position_top'] = 'haut';
+$_lang['manager_menu_position_left'] = 'gauche';
 
-$_lang['invalid_event_response'] = 'The %s event has ivalid output';
+$_lang['invalid_event_response'] = 'L\'événement %s a une sortie non valide';
 
-$_lang['chunk_processor'] = 'Chunks processing class';
+$_lang['chunk_processor'] = 'Classe de traitement des chunks';
 
-$_lang["permission_title"] = 'Create / edit permission';
-$_lang["groups_permission_title"] = 'Create / edit category';
-$_lang["lang_key_desc"] = 'Key language from array $_lang';
-$_lang["key_desc"] = 'Key for checked permission';
+$_lang["permission_title"] = 'Créer / éditer les permissions';
+$_lang["groups_permission_title"] = 'Créer / éditer les catégories';
+$_lang["lang_key_desc"] = 'Clé de language du tableau $_lang';
+$_lang["key_desc"] = 'Clé pour autorisation cochée';
 
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
+$_lang["role_no_tv"] = 'Aucune variable n\'a encore été attribuée à ce rôle.';
+$_lang["role_notassigned_tv"] = 'Ces variables sont disponibles pour l\'affectation.';
+$_lang["role_tv_msg"] = 'Les variables affectées à ce rôle sont répertoriées ci-dessous.';
+$_lang["tmplvar_roles_access_msg"] = 'Sélectionnez les rôles autorisés à accéder/traiter cette variable de modèle';
 
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
-$_lang['disable'] = 'Disable';
-$_lang['enable'] = 'Enable';
+$_lang["setting_from_file"] = '<strong class="text-danger">La valeur du paramètre est définie dans core/custom/confic/cms/settings</strong>';
+$_lang['disable'] = 'Désactiver';
+$_lang['enable'] = 'Activer';
 
 return $_lang;
