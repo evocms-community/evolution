@@ -386,20 +386,19 @@ class DocumentParser
      */
     public function sendForward($id, $responseCode = '')
     {
-        if ($this->forwards > 0) {
-            $this->forwards = $this->forwards - 1;
-            $this->documentIdentifier = $id;
-            $this->documentMethod = 'id';
-            if ($responseCode) {
-                header($responseCode);
-            }
-            $this->prepareResponse();
-            exit();
-        } else {
+        if ($this->forwards <= 0) {
             $this->messageQuit("Internal Server Error id={$id}");
             header('HTTP/1.0 500 Internal Server Error');
             die('<h1>ERROR: Too many forward attempts!</h1><p>The request could not be completed due to too many unsuccessful forward attempts.</p>');
         }
+        $this->forwards--;
+        $this->documentIdentifier = $id;
+        $this->documentMethod = 'id';
+        if ($responseCode) {
+            header($responseCode);
+        }
+        $this->prepareResponse();
+        exit;
     }
 
     /**
@@ -413,10 +412,10 @@ class DocumentParser
             // invoke OnPageNotFound event
             $this->invokeEvent('OnPageNotFound');
         }
-        $url = $this->config['error_page'] ? $this->config['error_page'] : $this->config['site_start'];
+        $url = $this->config['error_page'] ?: $this->config['site_start'];
 
         $this->sendForward($url, 'HTTP/1.0 404 Not Found');
-        exit();
+        exit;
     }
 
     /**
@@ -431,14 +430,17 @@ class DocumentParser
             $this->invokeEvent('OnPageUnauthorized');
         }
         if ($this->config['unauthorized_page']) {
-            $unauthorizedPage = $this->config['unauthorized_page'];
-        } elseif ($this->config['error_page']) {
-            $unauthorizedPage = $this->config['error_page'];
-        } else {
-            $unauthorizedPage = $this->config['site_start'];
+            $this->sendForward($this->config['unauthorized_page'], 'HTTP/1.1 401 Unauthorized');
+            exit;
         }
-        $this->sendForward($unauthorizedPage, 'HTTP/1.1 401 Unauthorized');
-        exit();
+
+        if ($this->config['error_page']) {
+            $this->sendForward($this->config['error_page'], 'HTTP/1.1 401 Unauthorized');
+            exit;
+        }
+
+        $this->sendForward($this->config['site_start'], 'HTTP/1.1 401 Unauthorized');
+        exit;
     }
 
     /**
@@ -456,15 +458,30 @@ class DocumentParser
         }
 
         // store base_url and base_path inside config array
-        $this->config['base_url'] = MODX_BASE_URL;
-        $this->config['base_path'] = MODX_BASE_PATH;
-        $this->config['site_url'] = MODX_SITE_URL;
-        $this->config['valid_hostnames'] = MODX_SITE_HOSTNAMES;
-        $this->config['site_manager_url'] = MODX_MANAGER_URL;
+        $this->config['base_url']          = MODX_BASE_URL;
+        $this->config['base_path']         = MODX_BASE_PATH;
+        $this->config['site_url']          = MODX_SITE_URL;
+        $this->config['valid_hostnames']   = MODX_SITE_HOSTNAMES;
+        $this->config['site_manager_url']  = MODX_MANAGER_URL;
         $this->config['site_manager_path'] = MODX_MANAGER_PATH;
-        $this->error_reporting = isset($this->config['error_reporting']) ? $this->config['error_reporting'] : 0;
-        $this->config['filemanager_path'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['filemanager_path']) ? $this->config['filemanager_path'] : ''));
-        $this->config['rb_base_dir'] = str_replace('[(base_path)]', MODX_BASE_PATH, (isset($this->config['rb_base_dir']) ? $this->config['rb_base_dir'] : ''));
+        $this->error_reporting = $this->config['error_reporting'] ?? 0;
+
+        $this->config['filemanager_path'] = $this->config['filemanager_path']??'';
+        if(strpos($this->config['filemanager_path'], '[(base_path)]')!==false) {
+            $this->config['filemanager_path'] = str_replace(
+                '[(base_path)]',
+                MODX_BASE_PATH,
+                $this->config['filemanager_path']
+            );
+        }
+        $this->config['rb_base_dir'] = $this->config['rb_base_dir']??'';
+        if(strpos($this->config['rb_base_dir'],'[(base_path)]')!==false) {
+            $this->config['rb_base_dir'] = str_replace(
+                '[(base_path)]',
+                MODX_BASE_PATH,
+                $this->config['rb_base_dir']
+            );
+        }
 
         if (!isset($this->config['session_timeout'])) {
             $this->config['session_timeout'] = 15;
