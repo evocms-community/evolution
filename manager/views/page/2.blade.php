@@ -210,7 +210,7 @@
     $urls['modx_security_notices_content'] = $modx->getConfig('rss_url_security');
 
     // How many items per Feed?
-    $itemsNumber = '3';
+    $itemsNumber = 3;
 
     $feedData = [];
 
