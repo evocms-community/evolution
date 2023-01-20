@@ -398,7 +398,7 @@ class DocumentParser
             header($responseCode);
         }
         $this->prepareResponse();
-        exit();
+        exit;
     }
 
     /**
@@ -415,7 +415,7 @@ class DocumentParser
         $url = $this->config['error_page'] ?: $this->config['site_start'];
 
         $this->sendForward($url, 'HTTP/1.0 404 Not Found');
-        exit();
+        exit;
     }
 
     /**
@@ -431,16 +431,16 @@ class DocumentParser
         }
         if ($this->config['unauthorized_page']) {
             $this->sendForward($this->config['unauthorized_page'], 'HTTP/1.1 401 Unauthorized');
-            exit();
+            exit;
         }
 
         if ($this->config['error_page']) {
             $this->sendForward($this->config['error_page'], 'HTTP/1.1 401 Unauthorized');
-            exit();
+            exit;
         }
 
         $this->sendForward($this->config['site_start'], 'HTTP/1.1 401 Unauthorized');
-        exit();
+        exit;
     }
 
     /**
