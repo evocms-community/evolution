@@ -25,25 +25,27 @@ class modxRTEbridge
     public $debugMessages = array();            // Holds all messages - added by    $this->debugMessages[] = 'Message';
     public $ajaxSecHash = array();              // Holds security-hashes
 
-    public function __construct($editorKey = NULL, $bridgeConfig=array(), $tvOptions=array(), $basePath='')
+    public function __construct($editorKey = NULL, $bridgeConfig = array(), $tvOptions = array(), $basePath = '')
     {
         global $modx, $settings, $usersettings;
 
-        if ($editorKey == NULL) {
+        if ($editorKey === NULL) {
             exit('modxRTEbridge: No editorKey set in plugin-initialization.');
         }
 
         // Check right path
         $file = !empty($basePath) ? $basePath : __FILE__;
         $current_path = str_replace('\\', '/', dirname($file) . '/');
-        if (strpos($current_path, MODX_BASE_PATH) !== false) {
-            $path = substr($current_path, strlen(MODX_BASE_PATH));
-            $basePath = MODX_BASE_PATH . $path;
-            $baseUrl = MODX_BASE_URL . $path;
-        } else exit('modxRTEbridge: Path-Error');
+        if (strpos($current_path, MODX_BASE_PATH) === false) {
+            exit('modxRTEbridge: Path-Error');
+        }
+
+        $path = substr($current_path, strlen(MODX_BASE_PATH));
+        $basePath = MODX_BASE_PATH . $path;
+        $baseUrl = MODX_BASE_URL . $path;
 
         // Object to pass vars between multiple plugin-events
-        if(!isset($modx->modxRTEbridge)) $modx->modxRTEbridge = array();
+        if (!isset($modx->modxRTEbridge)) $modx->modxRTEbridge = array();
 
         // Init language before bridge so bridge can alter translations via $this->setLang()
         $this->initLang($basePath);
@@ -905,9 +907,12 @@ class modxRTEbridge
     {
         global $modx;
 
-        if(!empty($editableIds) && isset($editableIds[1])) {
-            foreach ($editableIds[1] as $i=>$id)
-                $modx->modxRTEbridge['editableIds'][$id] = '';
+        if (empty($editableIds) || !isset($editableIds[1])) {
+            return;
+        }
+
+        foreach ($editableIds[1] as $i => $id) {
+            $modx->modxRTEbridge['editableIds'][$id] = '';
         }
     }
 
