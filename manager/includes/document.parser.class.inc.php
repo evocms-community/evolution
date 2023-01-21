@@ -653,12 +653,12 @@ class DocumentParser
     {
         // function to test the query and find the retrieval method
         if ($method === 'alias') {
-            return $this->db->escape($_REQUEST['q']);
+            return $_REQUEST['q'];
         }
 
         $id = filter_input(INPUT_GET, 'id');
         if ($id) {
-            if (!preg_match('@^[1-9][0-9]*$@', $id)) {
+            if (!preg_match('/^[1-9]\d*$/', $id)) {
                 $this->sendErrorPage();
                 exit;
             }
@@ -670,7 +670,7 @@ class DocumentParser
             exit;
         }
 
-        return $this->config['site_start'];
+        return $this->getConfig('site_start');
     }
 
     /**
