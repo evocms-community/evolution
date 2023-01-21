@@ -579,11 +579,11 @@ class DocumentParser
         $usrSettings = [];
         if ($id = $this->getLoginUserID()) {
             $usrType = $this->getLoginUserType();
-            if (isset ($usrType) && $usrType == 'manager') {
+            if (isset ($usrType) && $usrType === 'manager') {
                 $usrType = 'mgr';
             }
 
-            if ($usrType == 'mgr' && $this->isBackend()) {
+            if ($usrType === 'mgr' && $this->isBackend()) {
                 // invoke the OnBeforeManagerPageInit event, only if in backend
                 $this->invokeEvent("OnBeforeManagerPageInit");
             }
@@ -591,7 +591,7 @@ class DocumentParser
             if (isset ($_SESSION[$usrType . 'UsrConfigSet'])) {
                 $usrSettings = &$_SESSION[$usrType . 'UsrConfigSet'];
             } else {
-                if ($usrType == 'web') {
+                if ($usrType === 'web') {
                     $from = $tbl_web_user_settings;
                     $where = "webuser='{$id}'";
                 } else {
@@ -603,7 +603,7 @@ class DocumentParser
 
                 $result = $this->db->select('setting_name, setting_value', $from, $where);
                 while ($row = $this->db->getRow($result)) {
-                    if ($row['setting_name'] == 'which_browser' && $row['setting_value'] == 'default') {
+                    if ($row['setting_name'] === 'which_browser' && $row['setting_value'] === 'default') {
                         $row['setting_value'] = $which_browser_default;
                     }
                     $usrSettings[$row['setting_name']] = $row['setting_value'];
