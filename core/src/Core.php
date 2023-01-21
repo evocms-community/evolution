@@ -535,18 +535,21 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return $_REQUEST['q'];
         }
 
-        $id_ = filter_input(INPUT_GET, 'id');
-        if ($id_) {
-            if (preg_match('@^[1-9]\d*$@', $id_)) {
-                return $id_;
+        $id = filter_input(INPUT_GET, 'id');
+        if ($id) {
+            if (!preg_match('/^[1-9]\d*$/', $id)) {
+                $this->sendErrorPage();
+                exit;
             }
-
-            $this->sendErrorPage();
-        } elseif (Str::contains($_SERVER['REQUEST_URI'], 'index.php/')) {
-            $this->sendErrorPage();
-        } else {
-            return $this->getConfig('site_start');
+            return $id;
         }
+
+        if (Str::contains($_SERVER['REQUEST_URI'], 'index.php/')) {
+            $this->sendErrorPage();
+            exit;
+        }
+
+        return $this->getConfig('site_start');
     }
 
     /**
