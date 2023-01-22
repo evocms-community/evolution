@@ -999,7 +999,7 @@ class DocumentParser
             header('Content-Type: ' . $type . '; charset=' . $this->config['modx_charset']);
             //            if (($this->documentIdentifier == $this->config['error_page']) || $redirect_error)
             //                header('HTTP/1.0 404 Not Found');
-            if (!$this->checkPreview() && $this->documentObject['content_dispo'] == 1) {
+            if (!$this->checkPreview() && isset($this->documentObject['content_dispo']) && $this->documentObject['content_dispo'] == 1) {
                 if ($this->documentObject['alias']) {
                     $name = $this->documentObject['alias'];
                 } else {
