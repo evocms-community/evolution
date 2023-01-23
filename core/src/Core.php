@@ -1469,7 +1469,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             }
             $value = $ph[$key];
 
-            if ($value === null && !stripos('[', $key)) {
+            if (empty($value) && !stripos('[', $key)) {
                 continue;
             }
 
