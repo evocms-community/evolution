@@ -2757,9 +2757,26 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                         ->where('parent', $parent)
                         ->where('alias', $this->documentIdentifier)
                         ->first();
-
                     if (is_null($doc)) {
-                        $this->sendErrorPage();
+                        $hidden = Cache::rememberForever('hidden_aliases', function () {
+                            return SiteContent::select('id', 'parent')
+                                ->where('alias_visible', 0)
+                                ->where('isfolder', 1)
+                                ->pluck('parent', 'id')->toArray();
+                        });
+                        $docs = SiteContent::select('id', 'parent')
+                            ->where('alias', $this->documentIdentifier)
+                            ->get();
+                        foreach ($docs as $doc) {
+                            $tmp_parent = $doc->parent;
+                            while(isset($hidden[$tmp_parent])) {
+                                $tmp_parent = $hidden[$tmp_parent];
+                            }
+                            if($parent == $tmp_parent) {
+                                break;
+                            }
+                        }
+                        if(is_null($doc)) $this->sendErrorPage();
                     }
 
                     $this->documentIdentifier = $doc->getKey();
@@ -3015,7 +3032,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
             $current_id = $id;
 
-            if ($this->getConfig('alias_listing') == 2) {
+            if ($this->getConfig('alias_listing') == 0) {
                 $id = $tmp ?? (int) Models\SiteContent::findOrNew($id)->parent;
             } else {
                 $id = $tmp;
@@ -3070,7 +3087,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
         $cached[$cacheKey] = [];
 
-        if ($this->getConfig('alias_listing') == 2) {
+        if ($this->getConfig('alias_listing') != 1) {
             $id = is_array($id) ? $id : [$id];
             $res = \EvolutionCMS\Models\SiteContent::withTrashed()->select(['id', 'alias', 'isfolder', 'parent'])
                 ->whereIn('parent', $id)
