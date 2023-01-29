@@ -357,7 +357,7 @@ span.CodeMirror-selectedtext { background: none; }
 }
 .CodeMirror {
   border: 1px solid #eee;
-  height: auto;
+  height: 100vh;
 }
 .CodeMirror-scroll {
   overflow-y: hidden;
@@ -464,4 +464,4 @@ span.CodeMirror-selectedtext { background: none; }
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     opacity: .5;
-} 
+}
