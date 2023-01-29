@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use EvolutionCMS\Tracy\Debugger;
 use EvolutionCMS\Interfaces\TracyPanel;
 use Tracy\IBarPanel;
+use Tracy\NativeSession;
 
 class TracyServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class TracyServiceProvider extends ServiceProvider
 
     protected function activateTracy() : void
     {
+        Debugger::setSessionStorage(new NativeSession());
         Debugger::enable($this->isHiddenTracyHandler(), $this->logPath());
         Debugger::$strictMode = $this->isStrictMode();
         Debugger::$showLocation = $this->isShowLocation();
