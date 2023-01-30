@@ -3032,7 +3032,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
             $current_id = $id;
 
-            if ($this->getConfig('alias_listing') == 0) {
+            if ($this->getConfig('alias_listing') != 1) {
                 $id = $tmp ?? (int) Models\SiteContent::findOrNew($id)->parent;
             } else {
                 $id = $tmp;
