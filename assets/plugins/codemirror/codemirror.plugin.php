@@ -58,102 +58,104 @@ $limitedHeight = false;
 /*
  * Switch event
  */
-switch($modx->event->name) {
-	case 'OnTempFormRender'   :
-		$rte = ($prte ? $prte : 'none');
-		break;
-	case 'OnChunkFormRender'  :
-		$rte = isset($editor) ? $editor : 'none';
-		break;
+switch ($modx->event->name) {
+    case 'OnTempFormRender'   :
+        $rte = ($prte ? $prte : 'none');
+        break;
+    case 'OnChunkFormRender'  :
+        $rte = isset($editor) ? $editor : 'none';
+        break;
 
-	case 'OnRichTextEditorInit':
-		if($editor !== 'Codemirror') {
-			return;
-		}
-		$textarea_name = $modx->event->params['elements'];
-		$rte = 'none';
-		$tvMode = true;
-		$contentType = $content['contentType'] ?? $modx->event->params['contentType'];
+    case 'OnRichTextEditorInit':
+        if ($editor !== 'Codemirror') {
+            return;
+        }
+        $textarea_name = $modx->event->params['elements'];
+        $rte = 'none';
+        $tvMode = true;
+        $contentType = $content['contentType'] ?? $modx->event->params['contentType'];
 
-		/*
-		* Switch contentType for doc
-		*/
-		switch($contentType) {
-			case "text/css":
-				$mode = "text/css";
-				$lang = "css";
-				break;
-			case "text/javascript":
-				$mode = "text/javascript";
-				$lang = "javascript";
-				break;
-			case "application/json":
-				$mode = "application/json";
-				$lang = "javascript";
-				break;
-			case "application/x-httpd-php":
-				$mode = "application/x-httpd-php";
-				$lang = "php";
-				break;
-		}
-		break;
-	case 'OnDocFormRender'     :
-		if($content['type'] == 'reference') {
-			return;
-		}
-		$textarea_name = 'ta';
-		$xrte = (('htmlmixed' == $mode) ? $xrte : 0);
+        /*
+        * Switch contentType for doc
+        */
+        switch ($contentType) {
+            case "text/css":
+                $mode = "text/css";
+                $lang = "css";
+                break;
+            case "text/javascript":
+                $mode = "text/javascript";
+                $lang = "javascript";
+                break;
+            case "application/json":
+                $mode = "application/json";
+                $lang = "javascript";
+                break;
+            case "application/x-httpd-php":
+                $mode = "application/x-httpd-php";
+                $lang = "php";
+                break;
+        }
+        break;
+    case 'OnDocFormRender'     :
+        if ($content['type'] == 'reference') {
+            return;
+        }
+        $textarea_name = 'ta';
+        $xrte = (('htmlmixed' == $mode) ? $xrte : 0);
         $rte = ($prte ? $prte : (isset($content['id']) ? ($xrte ? $srte : 'none') : $srte));
-		$contentType = $content['contentType'];
-		/*
-		* Switch contentType for doc
-		*/
-		switch($contentType) {
-			case "text/css":
-				$mode = "text/css";
-				$lang = "css";
-				break;
-			case "text/javascript":
-				$mode = "text/javascript";
-				$lang = "javascript";
-				break;
-			case "application/json":
-				$mode = "application/json";
-				$lang = "javascript";
-				break;
-		}
-		break;
+        $contentType = $content['contentType'];
+        /*
+        * Switch contentType for doc
+        */
+        switch ($contentType) {
+            case "text/css":
+                $mode = "text/css";
+                $lang = "css";
+                break;
+            case "text/javascript":
+                $mode = "text/javascript";
+                $lang = "javascript";
+                break;
+            case "application/json":
+                $mode = "application/json";
+                $lang = "javascript";
+                break;
+        }
+        break;
 
-	case 'OnSnipFormRender'   :
-	case 'OnPluginFormRender' :
-	case 'OnModFormRender'    :
+    case 'OnSnipFormRender'   :
+    case 'OnPluginFormRender' :
+    case 'OnModFormRender'    :
     case 'OnTVFormRender':
-		$tvMode = true;
-		// $limitedHeight = true; // No limited height since MODX 1.2
-		$elements = array(
-			$textarea_name,
-			'properties'
-		);
-		$mode = 'application/x-httpd-php-open';
-		$rte = ($prte ? $prte : 'none');
-		$lang = "php";
-		break;
+        $tvMode = true;
+        // $limitedHeight = true; // No limited height since MODX 1.2
+        $elements = [
+            $textarea_name,
+            'properties'
+        ];
+        $mode = 'application/x-httpd-php-open';
+        $rte = ($prte ? $prte : 'none');
+        $lang = "php";
+        break;
 
-	case 'OnManagerPageRender':
-		if((31 == $action) && (('view' == $_REQUEST['mode']) || ('edit' == $_REQUEST['mode']))) {
-			$textarea_name = 'content';
-			$rte = 'none';
-		}
-		break;
+    case 'OnManagerPageRender':
+        if ((31 == $action) && (('view' == $_REQUEST['mode']) || ('edit' == $_REQUEST['mode']))) {
+            $textarea_name = 'content';
+            $rte = 'none';
+        }
+        break;
 
-	default:
-		$this->logEvent(1, 2, 'Undefined event : <b>' . $modx->Event->name . '</b> in <b>' . $this->Event->activePlugin . '</b> Plugin', 'CodeMirror Plugin : ' . $modx->Event->name);
+    default:
+        $this->logEvent(1, 2,
+            'Undefined event : <b>' . $modx->Event->name . '</b> in <b>' . $this->Event->activePlugin . '</b> Plugin',
+            'CodeMirror Plugin : ' . $modx->Event->name);
 }
 $output = '';
 
-if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
-	define('INIT_CODEMIRROR', 1);
-	$output = <<< HEREDOC
+if (('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
+    define('INIT_CODEMIRROR', 1);
+    $output = <<< HEREDOC
     <link rel="stylesheet" href="{$_CM_URL}cm/lib/codemirror.css">
     <link rel="stylesheet" href="{$_CM_URL}cm/addon.css">
     <link rel="stylesheet" href="{$_CM_URL}cm/theme/{$defaulttheme}.css">
@@ -169,7 +171,7 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
     <script src="{$_CM_URL}cm/mode/{$lang}-compressed.js"></script>
     {$emmet}{$search}
 	<script src="{$_CM_URL}cm/addon-compressed.js"></script>
-	    
+
     <script type="text/javascript">
         // Add mode MODX for syntax highlighting. Dfsed on $mode
         CodeMirror.defineMode("MODx-{$mode}", function(config, parserConfig) {
@@ -239,7 +241,7 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
                         stream.match("@file", true, true) ||
                         stream.match("@code", true, true)
                     ) {
-                        return "modxBinding";                   
+                        return "modxBinding";
                     }
                     if (stream.match("!]")) {
                         return "modxSnippetNoCache";
@@ -322,7 +324,7 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
                 		el2.options[2].selected = true;
                 		el.onclick();
                 	}
-                }
+                },
             }
         };
         var myCodeMirrors = {};
@@ -330,24 +332,25 @@ if(('none' == $rte) && $mode && !defined('INIT_CODEMIRROR')) {
 HEREDOC;
 }
 
-if(!$tvMode) {
-	$elements = array($textarea_name);
+if (!$tvMode) {
+    $elements = [$textarea_name];
 }
 
-if(('none' == $rte) && $mode && $elements !== NULL) {
-	foreach($elements as $el) {
+if (('none' == $rte) && $mode && $elements !== null) {
+    foreach ($elements as $el) {
 
-		if($el != $textarea_name && $limitedHeight) {
-			$setHeight = "myCodeMirrors['{$el}'].setSize('98%', 260);";
-		} else {
-			$setHeight = '';
-		};
-        if(isset($content['id']))
-		    $object_id = md5($modx->event->name . '-' . $content['id'] . '-' . $el);
-        else
+        if ($el != $textarea_name && $limitedHeight) {
+            $setHeight = "myCodeMirrors['{$el}'].setSize('98%', 260);";
+        } else {
+            $setHeight = '';
+        };
+        if (isset($content['id'])) {
+            $object_id = md5($modx->event->name . '-' . $content['id'] . '-' . $el);
+        } else {
             $object_id = md5($modx->event->name . '-' . $el);
+        }
 
-		$output .= "
+        $output .= "
 			<script>
 				var readOnly = {$readOnly};
 				var foldFunc = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
@@ -386,6 +389,16 @@ if(('none' == $rte) && $mode && $elements !== NULL) {
 					foldFunc(cm, n);
 					cm.setGutterMarker(n, 'breakpoints', info.gutterMarkers ? null : makeMarker('+'));
 				});
+                myCodeMirrors['{$el}'].on('cursorActivity', function(cm) {
+                    let position = cm.getScrollInfo();
+                    localStorage['position_{$object_id}'] = JSON.stringify(position);
+				});
+                myCodeMirrors['{$el}'].on('refresh', function(cm) {
+                    if (localStorage['position_{$object_id}'] !== undefined) {
+                        let position = JSON.parse(localStorage['position_{$object_id}']);
+                        cm.scrollTo(0, position.top);
+                    }
+				});
 				myCodeMirrors['{$el}'].on('change', function(cm, n) {
 					try {
 						var cmHistory = myCodeMirrors['{$el}'].doc.getHistory();
@@ -406,6 +419,6 @@ if(('none' == $rte) && $mode && $elements !== NULL) {
 					};
 				})();
 			</script>\n";
-	};
+    };
 };
 $modx->event->addOutput($output);
