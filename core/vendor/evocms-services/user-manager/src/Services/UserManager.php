@@ -61,6 +61,12 @@ class UserManager
         return $user->process();
     }
 
+    public function changeManagerPassword($userData, bool $events = true, bool $cache = true)
+    {
+        $user = new UserManagerChangePassword($userData, $events, $cache);
+        return $user->process();
+    }
+
     public function hashChangePassword($userData, bool $events = true, bool $cache = true)
     {
         $user = new UserHashChangePassword($userData, $events, $cache);

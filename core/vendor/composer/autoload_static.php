@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
+class ComposerStaticInit5dccf4067825ec6831786c318bd74620
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -339,8 +339,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -416,8 +416,8 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
-            1 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            1 => __DIR__ . '/..' . '/illuminate/collections',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -617,6 +617,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'Carbon\\CarbonInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterface.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\CarbonPeriod' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonPeriod.php',
+        'Carbon\\CarbonPeriodImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonPeriodImmutable.php',
         'Carbon\\CarbonTimeZone' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonTimeZone.php',
         'Carbon\\Cli\\Invoker' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Cli/Invoker.php',
         'Carbon\\Doctrine\\CarbonDoctrineType' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Doctrine/CarbonDoctrineType.php',
@@ -1745,6 +1746,7 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLogin' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLogin.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLoginById' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLoginById.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserLogout' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserLogout.php',
+        'EvolutionCMS\\UserManager\\Services\\Users\\UserManagerChangePassword' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserManagerChangePassword.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRefreshToken' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRefreshToken.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRegistration' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRegistration.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserRepairPassword' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserRepairPassword.php',
@@ -4132,10 +4134,10 @@ class ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit08584f8f0eccca6c60577ced8376ce8c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$classMap;
 
         }, null, ClassLoader::class);
     }
