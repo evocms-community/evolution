@@ -73,9 +73,12 @@ $base_path = $pth . (substr($pth, -1) !== '/' ? '/' : '');
 
 // connect to the database
 $host = explode(':', $database_server, 2);
+if (isset($host[1])) {
+    $host[0] .= ';port=' . $host[1];
+}
 global $conn;
 try {
-    $dbh = new PDO($_POST['database_type'] . ':host=' . $_POST['databasehost'] . ';dbname=' . $_POST['database_name'], $database_user, $database_password);
+    $dbh = new PDO($_POST['database_type'] . ':host=' . $host[0] . ';dbname=' . $_POST['database_name'], $database_user, $database_password);
 
     include dirname(__DIR__) . '/processor/result.php';
 
@@ -90,10 +93,10 @@ try {
     error_reporting(E_ALL);
 
     if ($installLevel === 1) {
-
+        $host = explode(':', $database_server, 2);
         // write the config.inc.php file if new installation
         $confph = array();
-        $confph['database_server'] = $database_server;
+        $confph['database_server'] = $host[0];
         $confph['database_type'] = $database_type;
         $confph['user_name'] = $database_user;
         $confph['password'] = $database_password;
@@ -107,11 +110,11 @@ try {
         $confph['database_engine'] = '';
         switch ($database_type) {
             case 'pgsql':
-                $confph['database_port'] = '5432';
+                $confph['database_port'] = $host[1] ?? '5432';
                 $confph['connection_charset'] = 'utf8';
                 break;
             case 'mysql':
-                $confph['database_port'] = '3306';
+                $confph['database_port'] = $host[1] ?? '3306';
                 $serverVersion = $dbh->getAttribute(PDO::ATTR_SERVER_VERSION);
                 if (version_compare($serverVersion, '5.7.6', '<')) {
                     $confph['database_engine'] = ", 'myisam'";

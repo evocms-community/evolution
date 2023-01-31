@@ -188,6 +188,7 @@ if (!$isWriteable) {
 if ($installMode == 1) {
     $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
     $database_server = $db_config['host'];
+    $database_server .= ':' . $db_config['port'];
     $database_user = $db_config['username'];
     $database_password = $db_config['password'];
     $database_collation = $db_config['collation'];
@@ -212,8 +213,11 @@ if ($installMode == 1) {
 }
 echo '<p>' . $_lang['creating_database_connection'];
 $host = explode(':', $database_server, 2);
+if (isset($host[1])) {
+    $host[0] .= ';port=' . $host[1];
+}
 try {
-    $dbh = new PDO($database_type . ':host=' . $database_server . ';dbname=' . $_POST['database_name'], $database_user, $database_password);
+    $dbh = new PDO($database_type . ':host=' . $host[0] . ';dbname=' . $_POST['database_name'], $database_user, $database_password);
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 
 } catch (PDOException $e) {
