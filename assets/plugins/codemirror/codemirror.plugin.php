@@ -383,6 +383,16 @@ if(('none' == $rte) && $mode && $elements !== NULL) {
 					foldFunc(cm, n);
 					cm.setGutterMarker(n, 'breakpoints', info.gutterMarkers ? null : makeMarker('+'));
 				});
+                myCodeMirrors['{$el}'].on('cursorActivity', function(cm) {
+                    let position = cm.getScrollInfo();
+                    localStorage['position_{$object_id}'] = JSON.stringify(position);
+                });
+                myCodeMirrors['{$el}'].on('refresh', function(cm) {
+                    if (localStorage['position_{$object_id}'] !== undefined) {
+                        let position = JSON.parse(localStorage['position_{$object_id}']);
+                        cm.scrollTo(0, position.top);
+                    }
+                });
 				myCodeMirrors['{$el}'].on('change', function(cm, n) {
 					try {
 						var cmHistory = myCodeMirrors['{$el}'].doc.getHistory();
