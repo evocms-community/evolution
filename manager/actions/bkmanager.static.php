@@ -328,14 +328,20 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                         break;
 
                                     case 'mysql':
-                                        $modx->getDatabase()->query("SET @STATS_EXPIRY = @@SESSION.information_schema_stats_expiry, @@SESSION.information_schema_stats_expiry = 0");
-                                        $sql = 'SHOW TABLE STATUS FROM `' . $modx->getDatabase()->getConfig('database') . '` LIKE "' . $prefix . '%"';
+                                        $q = $modx->getDatabase()->query("SHOW VARIABLES LIKE 'information_schema_stats_expiry'");
+                                        $mysql8 = $modx->getDatabase()->getRow($q);
+                                        if ($mysql8) {
+                                            $modx->getDatabase()->query("SET @STATS_EXPIRY = @@SESSION.information_schema_stats_expiry, @@SESSION.information_schema_stats_expiry = 0");
+                                        }
 
+                                        $sql = 'SHOW TABLE STATUS FROM `' . $modx->getDatabase()->getConfig('database') . '` LIKE "' . $prefix . '%"';
                                         $array = $modx->getDatabase()->makeArray(
                                             $modx->getDatabase()->query($sql)
                                         );
 
-                                        $modx->getDatabase()->query("SET @@SESSION.information_schema_stats_expiry = @STATS_EXPIRY");
+                                        if($mysql8) {
+                                            $modx->getDatabase()->query("SET @@SESSION.information_schema_stats_expiry = @STATS_EXPIRY");
+                                        }
                                         break;
                                     default:
                                         $array = [];
