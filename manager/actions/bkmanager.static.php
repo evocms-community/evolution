@@ -319,7 +319,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 switch ($modx->getDatabase()->getConfig()['driver']) {
                                     case 'pgsql':
                                         $sql = "SELECT *, tablename as Name
-                 FROM pg_catalog.pg_tables WHERE 
+                 FROM pg_catalog.pg_tables WHERE
             schemaname != 'information_schema' AND tablename LIKE '%" . $prefix . "%'";
 
                                         $array = $modx->getDatabase()->makeArray(
@@ -328,11 +328,14 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                         break;
 
                                     case 'mysql':
+                                        $modx->getDatabase()->query("SET @STATS_EXPIRY = @@SESSION.information_schema_stats_expiry, @@SESSION.information_schema_stats_expiry = 0");
                                         $sql = 'SHOW TABLE STATUS FROM `' . $modx->getDatabase()->getConfig('database') . '` LIKE "' . $prefix . '%"';
 
                                         $array = $modx->getDatabase()->makeArray(
                                             $modx->getDatabase()->query($sql)
                                         );
+
+                                        $modx->getDatabase()->query("SET @@SESSION.information_schema_stats_expiry = @STATS_EXPIRY");
                                         break;
                                     default:
                                         $array = [];
