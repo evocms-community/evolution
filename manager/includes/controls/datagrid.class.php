@@ -272,6 +272,10 @@ class DataGrid {
 				break;
 
 			case "date":
+                if ($value == 0) {
+                    $value = "";
+                    break;
+                }
 				if($align == "") {
 					$align = "right";
 				}
