@@ -248,8 +248,8 @@
         $feedData[$section] = $output;
     }
 
-    $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'];
-    $ph['modx_news_content'] = $feedData['modx_news_content'];
+    $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'] ?? '';
+    $ph['modx_news_content'] = $feedData['modx_news_content'] ?? '';
 
     $ph['theme'] = $modx->getConfig('manager_theme');
     $ph['site_name'] = $modx->getPhpCompat()->entities($modx->getConfig('site_name'));
