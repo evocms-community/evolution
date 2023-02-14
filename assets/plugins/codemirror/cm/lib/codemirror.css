@@ -359,6 +359,9 @@ span.CodeMirror-selectedtext { background: none; }
   border: 1px solid #eee;
   height: 100vh;
 }
+#documentPane .CodeMirror {
+  height:auto;
+}
 .CodeMirror-scroll {
   overflow-y: hidden;
   overflow-x: auto;
