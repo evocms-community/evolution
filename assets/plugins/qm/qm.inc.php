@@ -4,11 +4,11 @@
  *
  * @author      Mikko Lammi, www.maagit.fi, updated by Dmi3yy and Nicola1971
  * @license     GNU General Public License (GPL), http://www.gnu.org/copyleft/gpl.html
- * @version     1.5.12 updated 22/06/2022
+ * @version     1.5.12 updated 16/02/2023
  */
 
 if(!class_exists('Qm')) {
-
+#[AllowDynamicProperties]
 class Qm {
     var $modx;
 

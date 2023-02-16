@@ -11,6 +11,7 @@ require_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
  * Class PHPThumb
  * @package Helpers
  */
+#[AllowDynamicProperties]
 class PHPThumb
 {
 

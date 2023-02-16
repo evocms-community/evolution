@@ -4,7 +4,7 @@
  * Class APIhelpers
  */
 if (!class_exists('APIhelpers')) {
-
+#[AllowDynamicProperties]
 class APIhelpers
 {
 

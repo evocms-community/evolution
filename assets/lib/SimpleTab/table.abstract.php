@@ -8,6 +8,7 @@ require_once(MODX_BASE_PATH . 'assets/lib/Helpers/PHPThumb.php');
  * Class dataTable
  * @package SimpleTab
  */
+#[AllowDynamicProperties] 
 class dataTable extends \autoTable
 {
     /**

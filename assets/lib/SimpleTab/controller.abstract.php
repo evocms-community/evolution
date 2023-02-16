@@ -6,6 +6,7 @@ require_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
  * Class AbstractController
  * @package SimpleTab
  */
+#[AllowDynamicProperties] 
 abstract class AbstractController
 {
     /**

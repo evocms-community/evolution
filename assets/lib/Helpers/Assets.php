@@ -5,6 +5,7 @@ require_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
 /**
  * Class AssetsHelper
  */
+#[AllowDynamicProperties] 
 class AssetsHelper
 {
     /**

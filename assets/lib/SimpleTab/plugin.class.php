@@ -10,6 +10,7 @@ require_once(MODX_BASE_PATH . 'assets/lib/Helpers/Assets.php');
  * Class Plugin
  * @package SimpleTab
  */
+#[AllowDynamicProperties] 
 abstract class Plugin
 {
     /**

@@ -4,7 +4,8 @@ require_once('MODx.php');
 /**
  * Class autoTable
  */
-abstract class autoTable extends MODxAPI
+ #[AllowDynamicProperties]
+ abstract class autoTable extends MODxAPI
 {
     /**
      * @var null

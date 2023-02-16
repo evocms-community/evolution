@@ -4,6 +4,7 @@
  * Class FS
  * @package Helpers
  */
+#[AllowDynamicProperties]
 class FS
 {
     /**
@@ -11,7 +12,7 @@ class FS
      */
     protected static $instance;
 
-    /**
+/**
      * @var array
      */
     private $_fileInfo = array();

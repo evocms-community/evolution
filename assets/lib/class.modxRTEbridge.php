@@ -1,11 +1,11 @@
 <?php
 /**
- * @author Deesen, yama / updated: 27.01.2018
+ * @author Deesen, yama / updated: 16.02.2023
  */
 if (!defined('MODX_BASE_PATH')) {
     die('What are you doing? Get out of here!');
 }
-
+#[AllowDynamicProperties]
 class modxRTEbridge
 {
     public $pluginName = '';                    // Name of plugin - nessecary to retrieve plugin-configuration by connectors
@@ -836,15 +836,27 @@ class modxRTEbridge
     public function mergeParamArrays()
     {
         $p = array();
-        foreach($this->pluginParams as $param=>$value) { $p['pp.'.$param] = is_array($value) ? implode(',',$value) : $value; }
-        foreach($this->modxParams   as $param=>$value) { $p['mp.'.$param] = is_array($value) ? implode(',',$value) : $value; }
+		
+		//hack to php 8.2
+        foreach($this->pluginParams as $param=>$value) {
+            if(is_array($value)) {
+                foreach ($value as &$row) {
+                    if (is_array($row)) $row = 'Array';
+                }
+                unset($row);
+            }
+            $p['pp.'.$param] = is_array($value) ? implode(',',$value) : $value;
+        }
+		//end hack 
+		
+        foreach($this->modxParams   as $param=>$value) { $p['mp.'.$param] = is_array($value) ? implode(',',$value) : $value; };
         foreach($this->themeConfig  as $param=>$arr) {
             if (isset($arr['force'])) $p['tc.' . $param] = $arr['force'];
             elseif (isset($arr['bridged'])) $p['tc.' . $param] = $arr['bridged'];
             else $p['tc.' . $param] = $arr['value'];
-        }
-        foreach($this->gSettingsDefaultValues as $param=>$value) { $p['gd.'.$param] = is_array($value) ? implode(',',$value) : $value; }
-        foreach($this->langArr as $param=>$value)      { $p['l.'.$param] = $value; }
+        };
+        foreach($this->gSettingsDefaultValues as $param=>$value) { $p['gd.'.$param] = is_array($value) ? implode(',',$value) : $value; };
+        foreach($this->langArr as $param=>$value)      { $p['l.'.$param] = $value; };
         return $p;
     }
 

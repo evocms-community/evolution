@@ -5,6 +5,7 @@ if (!class_exists('\\DLTemplate')) {
     /**
      * Class DLTemplate
      */
+	#[AllowDynamicProperties] 
     class DLTemplate
     {
         /**
