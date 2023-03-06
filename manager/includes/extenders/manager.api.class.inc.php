@@ -279,7 +279,7 @@ class ManagerAPI
             if (!is_file($filePath)) {
                 continue;
             }
-            if (md5_file($filePath) != $checksum[$filePath]) {
+            if (!isset($checksum[$filePath]) || md5_file($filePath) != $checksum[$filePath]) {
                 $_[] = $file;
             }
         }
