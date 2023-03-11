@@ -88,7 +88,7 @@ class Database extends Manager
             return $out;
         } catch (Exception $exception) {
             if ($watchError === true) {
-                evolutionCMS()->getService('ExceptionHandler')->messageQuit($exception->getMessage());
+                evolutionCMS()->getService('ExceptionHandler')->messageQuit(e($exception->getMessage()) . '<br><br>' . e($sql));
             }
         }
     }
@@ -172,6 +172,7 @@ class Database extends Manager
                 $this->conn->reconnect();
             }
         }
+        
         return $this->conn;
     }
 
@@ -271,7 +272,6 @@ class Database extends Manager
      */
     public function getRow($result, $mode = 'assoc')
     {
-
         switch ($mode) {
             case 'assoc':
                 $out = $result->fetch(\PDO::FETCH_ASSOC);
