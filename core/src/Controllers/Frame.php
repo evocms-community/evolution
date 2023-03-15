@@ -48,7 +48,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
         $this->managerTheme->getCore()->invokeEvent(
             'OnManagerPreFrameLoader',
             [
-                'action' => $this->managerTheme->getActionId()
+                'action' => $this->managerTheme->getActionId(),
             ]
         );
 
@@ -94,7 +94,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'type5' => $this->managerTheme->getLexicon('lock_element_type_5'),
             'type6' => $this->managerTheme->getLexicon('lock_element_type_6'),
             'type7' => $this->managerTheme->getLexicon('lock_element_type_7'),
-            'type8' => $this->managerTheme->getLexicon('lock_element_type_8')
+            'type8' => $this->managerTheme->getLexicon('lock_element_type_8'),
         ];
 
         foreach ($unlockTranslations as $key => $value) {
@@ -115,15 +115,15 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
         $this->registerCss();
 
         $flag = $user['role'] == 1 || $this->managerTheme->getCore()->hasAnyPermissions([
-                'edit_template',
-                'edit_chunk',
-                'edit_snippet',
-                'edit_plugin'
-            ]);
+            'edit_template',
+            'edit_chunk',
+            'edit_snippet',
+            'edit_plugin',
+        ]);
 
         $this->managerTheme->getCore()->setConfig(
             'global_tabs',
-            (int)($this->managerTheme->getCore()->getConfig('global_tabs') && $flag)
+            (int) ($this->managerTheme->getCore()->getConfig('global_tabs') && $flag)
         );
 
         $this->makeMenu();
@@ -230,7 +230,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                     'parentClass' => 'dropdown',
                     'parentLinkClass' => 'dropdown-toggle',
                     'parentLinkAttr' => '',
-                    'parentLinkIn' => ''
+                    'parentLinkIn' => '',
                 ],
                 false
             );
@@ -249,7 +249,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             10,
-            ''
+            '',
         ];
 
         return $this;
@@ -268,7 +268,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             10,
-            'active'
+            'active',
         ];
 
         return $this;
@@ -295,7 +295,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             20,
-            ''
+            '',
         ];
 
         return $this;
@@ -318,7 +318,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             30,
-            ''
+            '',
         ];
 
         return $this;
@@ -328,10 +328,10 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
     {
         if (!$this->managerTheme->getCore()
             ->hasAnyPermissions([
-                    'edit_user',
-                    'edit_role',
-                    'manage_groups'
-                ]
+                'edit_user',
+                'edit_role',
+                'manage_groups',
+            ]
             )
         ) {
             return $this;
@@ -348,7 +348,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             40,
-            ''
+            '',
         ];
 
         return $this;
@@ -374,7 +374,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             50,
-            ''
+            '',
         ];
 
         return $this;
@@ -409,7 +409,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             10,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -430,7 +430,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             20,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -451,7 +451,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             30,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -472,7 +472,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             40,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -493,7 +493,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             50,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -514,7 +514,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             60,
-            'dropdown-toggle'
+            'dropdown-toggle',
         ];
     }
 
@@ -535,7 +535,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             80,
-            ''
+            '',
         ];
 
         return $this;
@@ -558,7 +558,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             70,
-            ''
+            '',
         ];
 
         return $this;
@@ -580,19 +580,26 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
     protected function menuRunModules()
     {
         if ($this->managerTheme->getCore()->hasPermission('exec_module')) {
+            $items = [];
+
+            // 1. modules from DB
             if ($_SESSION['mgrRole'] != 1 && $this->managerTheme->getCore()->getConfig('use_udperms') === true) {
                 $modules = SiteModule::select('site_modules.id', 'site_modules.name', 'site_modules.icon', 'member_groups.member')
                     ->withoutProtected()
                     ->lockedView()
                     ->where('site_modules.disabled', 0)
-                    ->orderBy('site_modules.name')->get()->toArray();
-
+                    ->orderBy('site_modules.name')
+                    ->get()
+                    ->toArray();
             } else {
-                $modules = SiteModule::where('disabled', '!=', 1)->orderBy('name')->get()->toArray();
+                $modules = SiteModule::where('disabled', '!=', 1)
+                    ->orderBy('name')
+                    ->get()
+                    ->toArray();
             }
             if (count($modules) > 0) {
                 foreach ($modules as $row) {
-                    $this->sitemenu['module' . $row['id']] = [
+                    $items['module' . $row['id']] = [
                         'module' . $row['id'],
                         'modules',
                         ($row['icon'] != '' ? '<i class="' . e($row['icon']) . '"></i>' : '<i class="' . $this->managerTheme->getStyle('icon_module') . '"></i>') . e($row['name']),
@@ -603,16 +610,18 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                         'main',
                         0,
                         1,
-                        ''
+                        '',
                     ];
                 }
             }
+
+            // 2. modules from files
             foreach ($this->managerTheme->getCore()->modulesFromFile as $module) {
                 if (!empty($module['properties']['hidden'])) {
                     continue;
                 }
 
-                $this->sitemenu['module' . $module['id']] = [
+                $items['module' . $module['id']] = [
                     'module' . $module['id'],
                     'modules',
                     ($module['icon'] != '' ? '<i class="' . $module['icon'] . '"></i>' : '<i class="' . $this->managerTheme->getStyle('icon_module') . '"></i>') . $module['name'],
@@ -623,14 +632,21 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                     'main',
                     0,
                     1,
-                    ''
+                    '',
                 ];
             }
+
+            usort($items, fn($a, $b) => $a[4] <=> $b[4]);
+
+            foreach ($items as $index => &$item) {
+                $item[0] = 'module' . $index;
+            }
+
+            $this->sitemenu = array_merge($this->sitemenu, $items);
         }
 
         return $this;
     }
-
 
     protected function menuWebUserManagment()
     {
@@ -646,7 +662,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                 'main',
                 0,
                 20,
-                'dropdown-toggle'
+                'dropdown-toggle',
             ];
         }
 
@@ -667,13 +683,12 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                 'main',
                 0,
                 30,
-                ''
+                '',
             ];
         }
 
         return $this;
     }
-
 
     protected function menuWebPermissions()
     {
@@ -692,7 +707,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             50,
-            ''
+            '',
         ];
 
         return $this;
@@ -724,10 +739,10 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                     // onclick
                     $this->managerTheme->getLexicon('refresh_site'),
                     // title
-                    '<i class="' . $this->managerTheme->getStyle('icon_recycle') . '"></i>'
+                    '<i class="' . $this->managerTheme->getStyle('icon_recycle') . '"></i>',
                     // innerHTML
-                ]
-            ]
+                ],
+            ],
         ];
 
         return $this;
@@ -746,7 +761,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             1,
             9,
-            ''
+            '',
         ];
 
         return $this;
@@ -769,7 +784,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             10,
-            ''
+            '',
         ];
 
         return $this;
@@ -792,7 +807,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             '',
             0,
             20,
-            ''
+            '',
         ];
 
         return $this;
@@ -811,7 +826,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             'main',
             0,
             30,
-            ''
+            '',
         ];
 
         return $this;
