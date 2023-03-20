@@ -675,7 +675,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             $this->sitemenu['role_management_title'] = [
                 'role_management_title',
                 'users',
-                '<i class="' . $this->managerTheme->getStyle('icon_role') . '"></i>' . $this->managerTheme->getLexicon('role_management_title'),
+                '<i class="' . $this->managerTheme->getStyle('icon_role') . '"></i>' . $this->managerTheme->getLexicon('role_management_title') . '<i class="' . $this->managerTheme->getStyle('icon_angle_right') . ' toggle"></i>',
                 'index.php?a=86',
                 $this->managerTheme->getLexicon('role_management_title'),
                 '',
@@ -683,7 +683,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                 'main',
                 0,
                 30,
-                '',
+                'dropdown-toggle',
             ];
         }
 

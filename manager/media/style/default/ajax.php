@@ -1,6 +1,7 @@
 <?php
 
 use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\UserRole;
 
 define('IN_MANAGER_MODE', true);  // we use this to make sure files are accessed through
 define('MODX_API_MODE', true);
@@ -283,6 +284,43 @@ if (isset($action)) {
                 }
                 foreach ($sql->take($limit)->get() as $row) {
                     $items .= '<li class="item ' . ($row->blocked ? 'disabled' : '') . '"><a id="a_' . $a . '__id_' . $row->id . '" href="index.php?a=' . $a . '&id=' . $row->id . '" target="main">' . entities($row->username, $modx->getConfig('modx_charset')) . ' <small>(' . $row->id . ')</small></a></li>';
+                }
+            }
+
+            if (isset($_REQUEST['filter'])) {
+                $output = $items;
+            } else {
+                $output .= $items;
+            }
+
+            echo $output;
+
+            break;
+        }
+
+        case '86':
+        {
+            $a = 35;
+            $output = '';
+            $items = '';
+            $filter = !empty($_REQUEST['filter']) && is_scalar($_REQUEST['filter']) ? addcslashes(trim($_REQUEST['filter']), '\%*_') : '';
+
+            $sql = UserRole::query()->orderBy('name');
+
+            if ($filter != '') {
+                $sql = $sql->where('name', 'LIKE', '%' . $filter . '%');
+            }
+
+            if ($modx->hasPermission('new_role')) {
+                $output .= '<li><a id="a_35" href="index.php?a=35" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_role'] . '</a></li>';
+            }
+
+            if ($count = $sql->count()) {
+                if ($count > $limit) {
+                    $output .= '<li class="item-input"><input type="text" name="filter" class="dropdown-item form-control form-control-sm" autocomplete="off" /></li>';
+                }
+                foreach ($sql->take($limit)->get() as $row) {
+                    $items .= '<li class="item"><a id="a_' . $a . '__id_' . $row->id . '" ' . ($row->id == 1 ? '' : 'href="index.php?a=' . $a . '&id=' . $row->id . '" target="main"') . '>' . entities($row->name, $modx->getConfig('modx_charset')) . ' <small>(' . $row->id . ')</small></a></li>';
                 }
             }
 
