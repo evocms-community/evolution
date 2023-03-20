@@ -14,18 +14,22 @@ function actionDisableElement(t) {
       $row = $(t).closest('.rTableRow'),
       $title = $('.rTableRowTitle', $row),
       $icon = $('i', $t);
+
   $row.fadeTo(100, .5);
 
-  jQuery.get($t.data('disabled') ? $t.data('enable-href') : $t.data('disable-href'), function() {
+  jQuery.get($t.data('disabled') ? $t.data('enable-href') : $t.data('disable-href'), function(data) {
     $row.fadeTo(100, 1);
+
+    /__alertQuit\(\)/.test(data) && parent.modx.alert(data.match(/\<body\>(.*?)\<\/body\>/s)[0]);
+
     if ($t.data('disabled')) {
       $t.data('disabled', 0);
-      $t.attr('title', $t.data('disable-title'));
+      $t.attr('title', $t.data('disable-title') ?? $t.title);
       $icon.attr('class', $t.data('disable-icon'));
       $title.removeClass('disabledPlugin');
     } else {
       $t.data('disabled', 1);
-      $t.attr('title', $t.data('enable-title'));
+      $t.attr('title', $t.data('enable-title') ?? $t.title);
       $icon.attr('class', $t.data('enable-icon'));
       $title.addClass('disabledPlugin');
     }
