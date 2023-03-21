@@ -207,194 +207,205 @@ switch ($action) {
         break;
 }
 
-$disabled = ($action == '19' || $action == '300' || $action == '77' || $action == '23' || $action == '101' || $action == '4' || $action == '72' || $action == '87' || $action == '11' || $action == '107' || $action == '38') ? ' disabled' : '';
+$disabled = (
+    $action == '19' // creating a new template
+     || $action == '300' // create Template Variable
+     || $action == '77' // creating a new Chunk
+     || $action == '23' // creating a new Snippet
+     || $action == '101' // create new plugin
+     || $action == '4' // creating a resource
+     || $action == '72' // adding a weblink
+     || $action == '87' // create new user
+     || $action == '107' // create new module
+     || $action == '38' // creating new role
+) ? ' disabled' : '';
 
 $_style['actionbuttons'] = array(
     'dynamic' => array(
         'document' => '<div id="actions">
-			<div class="btn-group">
-			' . (isset($_REQUEST['id']) ? '
-					<a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
-						<i class="' . $_style["icon_document"] . '"></i><span>' . $_lang['create_resource_here'] . '</span>
-					</a>
-					<a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
-						<i class="' . $_style["icon_chain"] . '"></i><span>' . $_lang['create_weblink_here'] . '</span>
-					</a>
-				' : '') . '
-				<div class="btn-group">
-					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-						<i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
-					</a>
-					<span class="btn btn-success plus dropdown-toggle"></span>
-					<select id="stay" name="stay">
-						' . ($addnew ? '
-							<option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
-						' : '') . '
-						<option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
-						<option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
-					</select>
-				</div>' .
+            <div class="btn-group">
+            ' . (isset($_REQUEST['id']) ? '
+                    <a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
+                        <i class="' . $_style["icon_document"] . '"></i><span>' . $_lang['create_resource_here'] . '</span>
+                    </a>
+                    <a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
+                        <i class="' . $_style["icon_chain"] . '"></i><span>' . $_lang['create_weblink_here'] . '</span>
+                    </a>
+                ' : '') . '
+                <div class="btn-group">
+                    <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                        <i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
+                    </a>
+                    <span class="btn btn-success plus dropdown-toggle"></span>
+                    <select id="stay" name="stay">
+                        ' . ($addnew ? '
+                            <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
+                        ' : '') . '
+                        <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
+                        <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
+                    </select>
+                </div>' .
         ($addnew ? '
-					<a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
-						<i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
-					</a>
-					' : '') . '
-				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-				<a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.view();">
-					<i class="' . $_style["icon_eye"] . '"></i><span>' . $_lang['preview'] . '</span>
-				</a>
-			</div>
-		</div>',
+                    <a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
+                        <i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
+                    </a>
+                    ' : '') . '
+                <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+                <a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.view();">
+                    <i class="' . $_style["icon_eye"] . '"></i><span>' . $_lang['preview'] . '</span>
+                </a>
+            </div>
+        </div>',
         'user' => '<div id="actions">
-			<div class="btn-group">
-				<div class="btn-group">
-					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-						<i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
-					</a>
-					<span class="btn btn-success plus dropdown-toggle"></span>
-					<select id="stay" name="stay">
-						' . ($addnew ? '
-							<option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
-						' : '') . '
-						<option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
-						<option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
-					</select>
-				</div>
-				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <div class="btn-group">
+                    <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                        <i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
+                    </a>
+                    <span class="btn btn-success plus dropdown-toggle"></span>
+                    <select id="stay" name="stay">
+                        ' . ($addnew ? '
+                            <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
+                        ' : '') . '
+                        <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
+                        <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
+                    </select>
+                </div>
+                <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
         'element' => '<div id="actions">
-			<div class="btn-group">
-				<div class="btn-group">
-					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-						<i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
-					</a>
-					<span class="btn btn-success plus dropdown-toggle"></span>
-					<select id="stay" name="stay">
-						' . ($addnew ? '
-							<option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
-						' : '') . '
-						<option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
-						<option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
-					</select>
-				</div>
-				' . ($addnew ? '
-				<a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
-					<i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
-				</a>
-				' : '') . '
-				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-				' . ($run ? '
-				<a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.run();">
-					<i class="' . $_style["icon_play"] . '"></i><span>' . $_lang['run_module'] . '</span>
-				</a>
-				' : '') . '
-			</div>
-		</div>',
+            <div class="btn-group">
+                <div class="btn-group">
+                    <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                        <i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
+                    </a>
+                    <span class="btn btn-success plus dropdown-toggle"></span>
+                    <select id="stay" name="stay">
+                        ' . ($addnew ? '
+                            <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' . $_lang['stay_new'] . '</option>
+                        ' : '') . '
+                        <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' . $_lang['stay'] . '</option>
+                        <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' . $_lang['close'] . '</option>
+                    </select>
+                </div>
+                ' . ($addnew ? '
+                <a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
+                    <i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
+                </a>
+                ' : '') . '
+                <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+                ' . ($run ? '
+                <a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.run();">
+                    <i class="' . $_style["icon_play"] . '"></i><span>' . $_lang['run_module'] . '</span>
+                </a>
+                ' : '') . '
+            </div>
+        </div>',
         'newmodule' => ($addnew ? '<div id="actions">
-			<div class="btn-group">
-				<a id="newModule" class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
-					<i class="' . $_style["icon_add"] . '"></i><span>' . $_lang['new_module'] . '</span>
-				</a>
-			</div>
-		</div>' : ''),
+            <div class="btn-group">
+                <a id="newModule" class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
+                    <i class="' . $_style["icon_add"] . '"></i><span>' . $_lang['new_module'] . '</span>
+                </a>
+            </div>
+        </div>' : ''),
         'close' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.close();">
-					<i class="' . $_style["icon_close"] . '"></i><span>' . $_lang['close'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.close();">
+                    <i class="' . $_style["icon_close"] . '"></i><span>' . $_lang['close'] . '</span>
+                </a>
+            </div>
+        </div>',
         'save' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-					<i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                    <i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
         'savedelete' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-					<i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
-				</a>
-				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                    <i class="' . $_style["icon_save"] . '"></i><span>' . $_lang['save'] . '</span>
+                </a>
+                <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
         'cancel' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
         'canceldelete' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
     ),
     'static' => array(
         'document' => '<div id="actions">
-			<div class="btn-group">' .
+            <div class="btn-group">' .
         ($addnew ? '
-					<a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
-						<i class="' . $_style["icon_document"] . '"></i><span>' . $_lang['create_resource_here'] . '</span>
-					</a>
-					<a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
-						<i class="' . $_style["icon_chain"] . '"></i><span>' . $_lang['create_weblink_here'] . '</span>
-					</a>
-				' : '') . '
-				<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.edit();">
-					<i class="' . $_style["icon_edit"] . '"></i><span>' . $_lang['edit'] . '</span>
-				</a>
-				<a id="Button2" class="btn btn-secondary" href="javascript:;" onclick="actions.move();">
-					<i class="' . $_style["icon_move"] . '"></i><span>' . $_lang['move'] . '</span>
-				</a>
-				<a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
-					<i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
-				</a>
-				<a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
-					<i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
-				</a>
-				<a id="Button4" class="btn btn-secondary" href="javascript:;" onclick="actions.view();">
-					<i class="' . $_style["icon_eye"] . '"></i><span>' . $_lang['preview'] . '</span>
-				</a>
-			</div>
-		</div>',
+                    <a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
+                        <i class="' . $_style["icon_document"] . '"></i><span>' . $_lang['create_resource_here'] . '</span>
+                    </a>
+                    <a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
+                        <i class="' . $_style["icon_chain"] . '"></i><span>' . $_lang['create_weblink_here'] . '</span>
+                    </a>
+                ' : '') . '
+                <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.edit();">
+                    <i class="' . $_style["icon_edit"] . '"></i><span>' . $_lang['edit'] . '</span>
+                </a>
+                <a id="Button2" class="btn btn-secondary" href="javascript:;" onclick="actions.move();">
+                    <i class="' . $_style["icon_move"] . '"></i><span>' . $_lang['move'] . '</span>
+                </a>
+                <a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
+                    <i class="' . $_style["icon_clone"] . '"></i><span>' . $_lang['duplicate'] . '</span>
+                </a>
+                <a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
+                    <i class="' . $_style["icon_trash"] . '"></i><span>' . $_lang['delete'] . '</span>
+                </a>
+                <a id="Button4" class="btn btn-secondary" href="javascript:;" onclick="actions.view();">
+                    <i class="' . $_style["icon_eye"] . '"></i><span>' . $_lang['preview'] . '</span>
+                </a>
+            </div>
+        </div>',
         'cancel' => '<div id="actions">
-			<div class="btn-group">
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
-				</a>
-			</div>
-		</div>',
+            <div class="btn-group">
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="' . $_style["icon_cancel"] . '"></i><span>' . $_lang['cancel'] . '</span>
+                </a>
+            </div>
+        </div>',
     ),
 );

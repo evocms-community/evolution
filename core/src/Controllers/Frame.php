@@ -171,7 +171,6 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                         $minifier->addFile($item);
                     }
                     file_put_contents($themeDir . 'css/styles.min.css', $minifier->minify());
-
                 }
             }
 
