@@ -672,25 +672,21 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function menuRoleManagement()
     {
-        $flag = $this->managerTheme->getCore()->hasPermission('edit_role');
-
-        if (!$flag) {
-            return $this;
+        if ($this->managerTheme->getCore()->hasPermission('edit_role')) {
+            $this->sitemenu['role_management_title'] = [
+                'role_management_title',
+                'users',
+                '<i class="' . $this->managerTheme->getStyle('icon_role') . '"></i>' . $this->managerTheme->getLexicon('role_management_title') . '<i class="' . $this->managerTheme->getStyle('icon_angle_right') . ' toggle"></i>',
+                'index.php?a=86',
+                $this->managerTheme->getLexicon('role_management_title'),
+                '',
+                'new_role,edit_role,delete_role',
+                'main',
+                0,
+                30,
+                'dropdown-toggle',
+            ];
         }
-
-        $this->sitemenu['role_management_title'] = [
-            'role_management_title',
-            'users',
-            '<i class="' . $this->managerTheme->getStyle('icon_role') . '"></i>' . $this->managerTheme->getLexicon('role_management_title'),
-            'index.php?a=86',
-            $this->managerTheme->getLexicon('role_management_title'),
-            '',
-            'new_role,edit_role,delete_role',
-            'main',
-            0,
-            30,
-            '',
-        ];
 
         return $this;
     }
