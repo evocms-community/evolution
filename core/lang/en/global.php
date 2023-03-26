@@ -37,6 +37,7 @@ $_lang["access_permissions_off"] = '<span class="warning">Access Permissions are
 $_lang["access_permissions_resource_groups"] = 'Resource Groups';
 $_lang["access_permissions_resources_in_group"] = '<b>Resources in group:</b> ';
 $_lang["access_permissions_resources_tab"] = 'See which Resource Groups have been created. Also create new groups, rename groups, delete groups and see which Resources are in the different groups (hover over the id of the Resource to see it\'s name). To add a Resource to a group or remove a Resource from a group, edit the Resource directly.';
+$_lang["access_permissions_user_toggle"] = 'Toggle access permissions';
 $_lang["access_permissions_user_groups"] = 'User groups';
 $_lang["access_permissions_user_message"] = 'Select which User Groups this user belongs to:';
 $_lang["access_permissions_users_in_group"] = 'Users in group:';
