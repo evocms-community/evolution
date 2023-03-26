@@ -1,9 +1,8 @@
 <?php
-
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\UserRole;
 
-define('IN_MANAGER_MODE', true);  // we use this to make sure files are accessed through
+define('IN_MANAGER_MODE', true); // we use this to make sure files are accessed through
 define('MODX_API_MODE', true);
 
 if (file_exists(dirname(__DIR__, 3) . '/config.php')) {
@@ -12,7 +11,7 @@ if (file_exists(dirname(__DIR__, 3) . '/config.php')) {
     $config = require dirname(__DIR__, 4) . '/config.php';
 } else {
     $config = [
-        'root' => dirname(__DIR__, 4)
+        'root' => dirname(__DIR__, 4),
     ];
 }
 
@@ -49,10 +48,8 @@ header('Content-Type: text/html; charset=' . $modx->getConfig('modx_charset'), t
 if (isset($action)) {
     switch ($action) {
         case '1':
-        {
             switch ($frame) {
                 case 'nodes':
-
                     // save folderstate
                     if (isset($_REQUEST['opened'])) {
                         $_SESSION['openedArray'] = $_REQUEST['opened'];
@@ -61,9 +58,9 @@ if (isset($action)) {
                         exit('send some data');
                     } //??
 
-                    $indent = (int)$_REQUEST['indent'];
-                    $parent = (int)$_REQUEST['parent'];
-                    $expandAll = (int)$_REQUEST['expandAll'];
+                    $indent = (int) $_REQUEST['indent'];
+                    $parent = (int) $_REQUEST['parent'];
+                    $expandAll = (int) $_REQUEST['expandAll'];
                     $output = '';
                     $hereid = isset($_REQUEST['id']) && is_numeric($_REQUEST['id']) ? $_REQUEST['id'] : '';
 
@@ -75,7 +72,7 @@ if (isset($action)) {
                     $sortParams = array(
                         'tree_sortby',
                         'tree_sortdir',
-                        'tree_nodename'
+                        'tree_nodename',
                     );
                     foreach ($sortParams as $param) {
                         if (isset($_REQUEST[$param])) {
@@ -108,17 +105,13 @@ if (isset($action)) {
                     }
                     break;
             }
-
             break;
-        }
 
+        // elements
         case '76':
-        {
-
             $elements = isset($_REQUEST['elements']) && is_scalar($_REQUEST['elements']) ? htmlentities($_REQUEST['elements']) : '';
 
             if ($elements) {
-
                 $output = '';
                 $items = '';
                 $sql = '';
@@ -235,12 +228,15 @@ if (isset($action)) {
                         if ($a == 301) {
                             $row['disabled'] = !$row['templateid'] && !$row['roleid'];
                         }
-                        if (!isset($row['disabled'])) $row['disabled'] = 0;
+                        if (!isset($row['disabled'])) {
+                            $row['disabled'] = 0;
+                        }
+
                         if (($row['disabled'] || $row['locked']) && $role != 1) {
                             continue;
                         }
 
-                        $items .= '<li class="item ' . ($row['disabled'] ? 'disabled' : '') . ($row['locked'] ? ' locked' : '') . '"><a id="a_' . $a . '__id_' . $row['id'] . '" href="index.php?a=' . $a . '&id=' . $row['id'] . '" target="main" data-parent-id="a_76__elements_' . $elements . '">' . entities($row['name'], $modx->getConfig('modx_charset')) . ' <small>(' . $row['id'] . ')</small></a></li>' . "\n";
+                        $items .= '<li class="item ' . ($row['disabled'] ? 'disabled' : '') . ($row['locked'] ? ' locked' : '') . '"><a id="a_' . $a . '__id_' . $row['id'] . '" href="index.php?a=' . $a . '&id=' . $row['id'] . '" target="main" data-parent-id="a_76__elements_' . $elements . '">' . entities($row['name'], $modx->getConfig('modx_charset')) . ' <small class="text-muted">(' . $row['id'] . ')</small></a></li>';
                     }
                 }
 
@@ -252,51 +248,7 @@ if (isset($action)) {
 
                 echo $output;
             }
-
             break;
-        }
-
-        case '75':
-        {
-            $a = 12;
-            $output = '';
-            $items = '';
-            $filter = !empty($_REQUEST['filter']) && is_scalar($_REQUEST['filter']) ? addcslashes(trim($_REQUEST['filter']), '\%*_') : '';
-
-            $sql = \EvolutionCMS\Models\User::select('manager_users.*', 'user_attributes.blocked')
-                ->leftJoin('user_attributes', 'manager_users.id', '=', 'user_attributes.internalKey')
-                ->orderBy('manager_users.username');
-            if ($filter != '') {
-                $sql = $sql->where('manager_users.username', 'LIKE', '%' . $filter . '%');
-            }
-            if (!$modx->hasPermission('save_role')) {
-                $sql = $sql->where('user_attributes.role', '!=', \DB::raw(1));
-            }
-
-
-            if ($modx->hasPermission('new_user')) {
-                $output .= '<li><a id="a_11" href="index.php?a=11" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_user'] . '</a></li>';
-            }
-
-            if ($count = $sql->count()) {
-                if ($count > $limit) {
-                    $output .= '<li class="item-input"><input type="text" name="filter" class="dropdown-item form-control form-control-sm" autocomplete="off" /></li>';
-                }
-                foreach ($sql->take($limit)->get() as $row) {
-                    $items .= '<li class="item ' . ($row->blocked ? 'disabled' : '') . '"><a id="a_' . $a . '__id_' . $row->id . '" href="index.php?a=' . $a . '&id=' . $row->id . '" target="main">' . entities($row->username, $modx->getConfig('modx_charset')) . ' <small>(' . $row->id . ')</small></a></li>';
-                }
-            }
-
-            if (isset($_REQUEST['filter'])) {
-                $output = $items;
-            } else {
-                $output .= $items;
-            }
-
-            echo $output;
-
-            break;
-        }
 
         case '86':
         {
@@ -331,12 +283,11 @@ if (isset($action)) {
             }
 
             echo $output;
-
             break;
         }
 
+        // users
         case '99':
-        {
             $a = 88;
             $output = '';
             $items = '';
@@ -358,7 +309,7 @@ if (isset($action)) {
                     $output .= '<li class="item-input"><input type="text" name="filter" class="dropdown-item form-control form-control-sm" autocomplete="off" /></li>';
                 }
                 foreach ($sql->take($limit)->get() as $row) {
-                    $items .= '<li class="item ' . ($row->blocked ? 'disabled' : '') . '"><a id="a_' . $a . '__id_' . $row->id . '" href="index.php?a=' . $a . '&id=' . $row->id . '" target="main">' . entities($row->username, $modx->getConfig('modx_charset')) . ' <small>(' . $row->id . ')</small></a></li>';
+                    $items .= '<li class="item ' . ($row->blocked ? 'disabled' : '') . '"><a id="a_' . $a . '__id_' . $row->id . '" href="index.php?a=' . $a . '&id=' . $row->id . '" target="main">' . entities($row->username, $modx->getConfig('modx_charset')) . ' <small class="text-muted">(' . $row->id . ')</small></a></li>';
                 }
             }
 
@@ -369,12 +320,9 @@ if (isset($action)) {
             }
 
             echo $output;
-
             break;
-        }
 
         case 'modxTagHelper':
-        {
             $name = isset($_REQUEST['name']) && is_scalar($_REQUEST['name']) ? $_REQUEST['name'] : false;
             $type = isset($_REQUEST['type']) && is_scalar($_REQUEST['type']) ? $_REQUEST['type'] : false;
             $contextmenu = '';
@@ -383,7 +331,6 @@ if (isset($action)) {
                 switch ($type) {
                     case 'Snippet':
                     case 'SnippetNoCache':
-                    {
                         $snippet = \EvolutionCMS\Models\SiteSnippet::query()->where('name', $name)->first();
 
                         if (!is_null($snippet)) {
@@ -391,87 +338,83 @@ if (isset($action)) {
 
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=22&id=" . $row['id']
-                                )
+                                    'url' => "index.php?a=22&id=" . $row['id'],
+                                ),
                             );
                             if (!empty($row['description'])) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = array(
-                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset')),
                                 );
                             }
                         } else {
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_snippet'],
-                                    'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset'))
-                                )
+                                    'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                ),
                             );
                         }
-
                         break;
-                    }
-                    case 'Chunk' :
-                    {
+
+                    case 'Chunk':
                         $chunk = \EvolutionCMS\Models\SiteHtmlsnippet::query()->where('name', $name)->first();
 
                         if (!is_null($chunk)) {
                             $row = $chunk->toArray();
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_chunk'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_chunk'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=78&id=" . $row['id']
-                                )
+                                    'url' => "index.php?a=78&id=" . $row['id'],
+                                ),
                             );
                             if (!empty($row['description'])) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = array(
-                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset')),
                                 );
                             }
                         } else {
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_chunk'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_chunk'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_htmlsnippet'],
-                                    'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset'))
-                                )
+                                    'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                ),
                             );
                         }
-
                         break;
-                    }
+
                     case 'AttributeValue':
-                    {
                         $chunk = \EvolutionCMS\Models\SiteHtmlsnippet::query()->where('name', $name)->first();
 
                         if (!is_null($chunk)) {
                             $row = $chunk->toArray();
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerText' => entities($row['name'], $modx->getConfig('modx_charset'))
+                                    'innerText' => entities($row['name'], $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=78&id=" . $row['id']
-                                )
+                                    'url' => "index.php?a=78&id=" . $row['id'],
+                                ),
                             );
                             if (!empty($row['description'])) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = array(
-                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset')),
                                 );
                             }
                         } else {
@@ -482,41 +425,39 @@ if (isset($action)) {
                                 $row = $snippets->toArray();
                                 $contextmenu = array(
                                     'header' => array(
-                                        'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset'))
+                                        'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset')),
                                     ),
                                     'item' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                        'url' => "index.php?a=22&id=" . $row['id']
-                                    )
+                                        'url' => "index.php?a=22&id=" . $row['id'],
+                                    ),
                                 );
                                 if (!empty($row['description'])) {
                                     $contextmenu['seperator'] = '';
                                     $contextmenu['description'] = array(
-                                        'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset'))
+                                        'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset')),
                                     );
                                 }
                             } else {
                                 $contextmenu = array(
                                     'header' => array(
-                                        'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset'))
+                                        'innerHTML' => '<i class="' . $_style['icon_code'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset')),
                                     ),
                                     'item' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_htmlsnippet'],
-                                        'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset'))
+                                        'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset')),
                                     ),
                                     'item2' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_snippet'],
-                                        'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset'))
-                                    )
+                                        'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                    ),
                                 );
                             }
                         }
-
                         break;
-                    }
-                    case 'Placeholder' :
-                    case 'Tv' :
-                    {
+
+                    case 'Placeholder':
+                    case 'Tv':
                         $default_field = array(
                             'id',
                             'type',
@@ -555,7 +496,7 @@ if (isset($action)) {
                             'privatemgr',
                             'content_dispo',
                             'hidemenu',
-                            'alias_visible'
+                            'alias_visible',
                         );
 
                         if (in_array($name, $default_field)) {
@@ -568,55 +509,50 @@ if (isset($action)) {
                             $row = $tv->toArray();
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_tv'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_tv'] . '"></i> ' . entities($row['name'], $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=301&id=" . $row['id']
-                                )
+                                    'url' => "index.php?a=301&id=" . $row['id'],
+                                ),
                             );
                             if (!empty($row['description'])) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = array(
-                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_info'] . '"></i> ' . entities($row['description'], $modx->getConfig('modx_charset')),
                                 );
                             }
                         } else {
                             $contextmenu = array(
                                 'header' => array(
-                                    'innerHTML' => '<i class="' . $_style['icon_tv'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset'))
+                                    'innerHTML' => '<i class="' . $_style['icon_tv'] . '"></i> ' . entities($name, $modx->getConfig('modx_charset')),
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_tmplvars'],
-                                    'url' => "index.php?a=300&itemname=" . entities($name, $modx->getConfig('modx_charset'))
-                                )
+                                    'url' => "index.php?a=300&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                ),
                             );
                         }
-
                         break;
-                    }
                 }
                 echo json_encode($contextmenu, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE);
                 break;
             }
-
             break;
-        }
 
-        case 'movedocument' :
-        {
-            $json = array();
+        case 'movedocument':
+            $json = [];
 
             if ($modx->hasPermission('new_document') && $modx->hasPermission('edit_document') && $modx->hasPermission('save_document')) {
-                $id = !empty($_REQUEST['id']) ? (int)$_REQUEST['id'] : '';
-                $parent = isset($_REQUEST['parent']) ? (int)$_REQUEST['parent'] : 0;
+                $id = !empty($_REQUEST['id']) ? (int) $_REQUEST['id'] : '';
+                $parent = isset($_REQUEST['parent']) ? (int) $_REQUEST['parent'] : 0;
                 $menuindex = isset($_REQUEST['menuindex']) && is_scalar($_REQUEST['menuindex']) ? $_REQUEST['menuindex'] : 0;
 
                 // set parent
                 if ($id && $parent >= 0) {
 
                     // find older parent
-                    $parentOld = (int)SiteContent::withTrashed()->find($id)->parent;
+                    $parentOld = (int) SiteContent::withTrashed()->find($id)->parent;
                     $eventOut = $modx->invokeEvent('OnBeforeMoveDocument', [
                         'id' => $id,
                         'old_parent' => $parentOld,
@@ -632,6 +568,7 @@ if (isset($action)) {
                             $parent = $eventParent;
                         }
                     }
+
                     $parentDeleted = $parent > 0 && empty(SiteContent::find($parent));
                     if ($parentDeleted) {
                         $json['errors'] = $_lang['error_parent_deleted'];
@@ -709,14 +646,11 @@ if (isset($action)) {
 
             header('content-type: application/json');
             echo json_encode($json, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE);
-
             break;
-        }
 
         case 'getLockedElements':
-        {
-            $type = isset($_REQUEST['type']) ? (int)$_REQUEST['type'] : 0;
-            $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+            $type = isset($_REQUEST['type']) ? (int) $_REQUEST['type'] : 0;
+            $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 
             $output = !!$modx->elementIsLocked($type, $id, true);
 
@@ -740,8 +674,6 @@ if (isset($action)) {
             }
 
             echo $output;
-
             break;
-        }
     }
 }

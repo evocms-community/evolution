@@ -171,7 +171,6 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
                         $minifier->addFile($item);
                     }
                     file_put_contents($themeDir . 'css/styles.min.css', $minifier->minify());
-
                 }
             }
 
@@ -196,8 +195,8 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
             ->menuCategories()
             ->menuNewModule()
             ->menuRunModules()
-            ->menuWebUserManagment()
-            ->menuRoleManagment()
+            ->menuUserManagement()
+            ->menuRoleManagement()
             ->menuWebPermissions()
             ->menuRefreshSite()
             ->menuSearch()
@@ -326,14 +325,11 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function menuUsers()
     {
-        if (!$this->managerTheme->getCore()
-            ->hasAnyPermissions([
-                'edit_user',
-                'edit_role',
-                'manage_groups',
-            ]
-            )
-        ) {
+        $flag = $this->managerTheme->getCore()->hasAnyPermissions(
+            ['edit_user', 'edit_role', 'manage_groups']
+        );
+
+        if (!$flag) {
             return $this;
         }
 
@@ -359,6 +355,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
         $flag = $this->managerTheme->getCore()->hasAnyPermissions(
             ['empty_cache', 'bk_manager', 'remove_locks', 'import_static', 'export_static']
         );
+
         if (!$flag) {
             return $this;
         }
@@ -518,7 +515,7 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
         ];
     }
 
-    function menuFiles()
+    protected function menuFiles()
     {
         if (!$this->managerTheme->getCore()->hasPermission('file_manager')) {
             return $this;
@@ -648,28 +645,32 @@ class Frame extends AbstractController implements ManagerTheme\PageControllerInt
         return $this;
     }
 
-    protected function menuWebUserManagment()
+    protected function menuUserManagement()
     {
-        if ($this->managerTheme->getCore()->hasPermission('edit_user')) {
-            $this->sitemenu['web_user_management_title'] = [
-                'web_user_management_title',
-                'users',
-                '<i class="' . $this->managerTheme->getStyle('icon_web_user') . '"></i>' . $this->managerTheme->getLexicon('web_user_management_title') . '<i class="' . $this->managerTheme->getStyle('icon_angle_right') . ' toggle"></i>',
-                'index.php?a=99',
-                $this->managerTheme->getLexicon('web_user_management_title'),
-                '',
-                'edit_user',
-                'main',
-                0,
-                20,
-                'dropdown-toggle',
-            ];
+        $flag = $this->managerTheme->getCore()->hasPermission('edit_user');
+
+        if (!$flag) {
+            return $this;
         }
+
+        $this->sitemenu['web_user_management_title'] = [
+            'web_user_management_title',
+            'users',
+            '<i class="' . $this->managerTheme->getStyle('icon_web_user') . '"></i>' . $this->managerTheme->getLexicon('web_user_management_title') . '<i class="' . $this->managerTheme->getStyle('icon_angle_right') . ' toggle"></i>',
+            'index.php?a=99',
+            $this->managerTheme->getLexicon('web_user_management_title'),
+            '',
+            'edit_user',
+            'main',
+            0,
+            20,
+            'dropdown-toggle',
+        ];
 
         return $this;
     }
 
-    protected function menuRoleManagment()
+    protected function menuRoleManagement()
     {
         if ($this->managerTheme->getCore()->hasPermission('edit_role')) {
             $this->sitemenu['role_management_title'] = [

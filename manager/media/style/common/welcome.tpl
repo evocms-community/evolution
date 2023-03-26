@@ -33,7 +33,6 @@
 							<br /><br />
 						</td>
 						<td valign="top">
-							[+SecurityIcon+]
 							[+WebUserIcon+]
 							[+ModulesIcon+]
 							[+ResourcesIcon+]

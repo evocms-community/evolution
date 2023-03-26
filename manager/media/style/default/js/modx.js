@@ -1074,7 +1074,7 @@
                             modx.openWindow(href);
                             this.restoreTree();
                         } else {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + href, title: title + '<small>(' + id + ')</small>' });
+                            modx.tabs({ url: modx.MODX_MANAGER_URL + href, title: title + '<small class="text-muted">(' + id + ')</small>' });
                             if (modx.isMobile && w.innerWidth < modx.minWidth) modx.resizer.toggle();
                         }
                     }
@@ -1246,38 +1246,38 @@
                 switch (a) {
                     case 1:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=3&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=3&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 2:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=27&r=1&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=27&r=1&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 3:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=4&pid=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=4&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 4:
                         if (this.selectedObjectDeleted) {
                             alert('"' + this.selectedObjectName + '" ' + modx.lang.already_deleted);
                         } else if (confirm('"' + this.selectedObjectName + '"\n\n' + modx.lang.confirm_delete_resource) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=6&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=6&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 5:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=51&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=51&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 6:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=72&pid=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=72&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 7:
                         if (confirm(modx.lang.confirm_resource_duplicate) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=94&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=94&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 8:
                         if (d.getElementById('node' + this.itemToChange).firstChild.dataset.deleted) {
                             if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_undelete) === true) {
-                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=63&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=63&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                             }
                         } else {
                             alert('"' + this.selectedObjectName + '"' + modx.lang.not_deleted);
@@ -1285,20 +1285,20 @@
                         break;
                     case 9:
                         if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_publish) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=61&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=61&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 10:
                         if (this.itemToChange !== modx.config.site_start) {
                             if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_unpublish) === true) {
-                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=62&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=62&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                             }
                         } else {
                             modx.alert('Document is linked to site_start variable and cannot be unpublished!');
                         }
                         break;
                     case 11:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=56&id=' + this.itemToChange, title: this.selectedObjectName + '<small>(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=56&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 12:
                         w.open(d.getElementById('node' + this.itemToChange).firstChild.dataset.href, 'previeWin');
@@ -1506,7 +1506,7 @@
                 this.timer = null;
                 this.olduid = '';
                 this.closeactions = [6, 61, 62, 63, 94];
-                this.saveAndCloseActions = [75, 86, 99, 106];
+                this.saveAndCloseActions = [86, 99, 106];
                 this.reload = typeof a.reload !== 'undefined' ? a.reload : 1;
                 this.action = modx.getActionFromUrl(a.url);
                 this.getTab = modx.main.getQueryVariable('tab', a.url);

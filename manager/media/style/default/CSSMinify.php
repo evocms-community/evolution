@@ -9,5 +9,5 @@
     MODX_MANAGER_PATH . 'media/style/default/css/tabpane.css',
     MODX_MANAGER_PATH . 'media/style/default/css/contextmenu.css',
     MODX_MANAGER_PATH . 'media/style/default/css/index.css',
-    MODX_MANAGER_PATH . 'media/style/default/css/main.css'
+    MODX_MANAGER_PATH . 'media/style/default/css/main.css',
 ];
