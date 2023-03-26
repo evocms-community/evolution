@@ -770,7 +770,7 @@ class ManagerTheme implements ManagerThemeInterface
 
     public function isLoadDatePicker(): bool
     {
-        $actions = [85, 27, 4, 72, 13, 11, 12, 87, 88];
+        $actions = [85, 27, 4, 72, 13, 87, 88];
         return \in_array($this->getCore()->getManagerApi()->action, $actions, true);
     }
 
@@ -822,7 +822,6 @@ class ManagerTheme implements ManagerThemeInterface
                 $this->getThemeDir() . $minCssName,
                 $css
             );
-
         }
         if (file_exists($this->getThemeDir() . $minCssName)) {
             $css = $this->getThemeUrl() . $minCssName;
