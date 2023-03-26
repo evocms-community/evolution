@@ -38,6 +38,21 @@
                         </a>
                     </li>
                     @endif
+                    @if(evolutionCMS()->hasPermission('edit_template'))
+                    <li>
+                        <a href="javascript:;"
+                           onclick="actionDisableElement(this)"
+                           title="{{ __('global.template_selectable') }}"
+                           data-disabled="{{ !$item->selectable }}"
+                           data-enable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 1]) }}"
+                           data-enable-icon="{{ $_style['icon_disable'] }}"
+                           data-disable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 0]) }}"
+                           data-disable-icon="{{ $_style['icon_enable'] }}"
+                        >
+                            <i class="@if($item->selectable) {{ $_style['icon_enable'] }} @else {{ $_style['icon_disable'] }} @endif"></i>
+                        </a>
+                    </li>
+                    @endif
                     @if(evolutionCMS()->hasPermission('new_template'))
                     <li>
                         <a href="{{ $item->makeUrl('actions.duplicate') }}" target="main" title="{{ ManagerTheme::getLexicon('resource_duplicate') }}" onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}')">

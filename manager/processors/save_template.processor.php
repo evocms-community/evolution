@@ -1,9 +1,42 @@
 <?php
+
+use EvolutionCMS\Models\SiteTemplate;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_template')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+}
+
+if (isset($_GET['selectable'])) {
+    $selectable = (int) $_GET['selectable'];
+    $id = (int) ($_REQUEST['id'] ?? 0);
+
+    try {
+        /** @var SiteTemplate $template */
+        $template = SiteTemplate::query()->findOrFail($id);
+
+        $modx->invokeEvent("OnBeforeTempFormSave", [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
+
+        $_SESSION['itemname'] = $template->templatename;
+
+        $template->update(['selectable' => $selectable]);
+        $modx->invokeEvent('OnTempFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
+    } catch (ModelNotFoundException $e) {
+        $modx->webAlertAndQuit(__('global.error_no_id'));
+    }
+
+    $header = 'Location: index.php?a=76&tab=0&r=2';
+    header($header);
+    exit;
 }
 
 $id = (int)$_POST['id'];
