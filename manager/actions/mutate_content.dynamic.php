@@ -624,7 +624,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					}
 				}
 
-				$out .= '<li class="breadcrumbs__li breadcrumbs__li_current">' . $title . '</li>';
+				$out .= '<li class="breadcrumbs__li breadcrumbs__li_current">' . htmlspecialchars($title) . '</li>';
 				echo '<ul class="breadcrumbs">' . $out . '</ul>';
 			}
 			?>
