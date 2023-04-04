@@ -184,7 +184,7 @@ function saveTemplateVarAccess()
     if ($newid) {
         $id = $newid;
     }
-    $templates = $_POST['template']; // get muli-templates based on S.BRENNAN mod
+    $templates = $_POST['template'] ?? []; // get muli-templates based on S.BRENNAN mod
 
     // update template selections
     $tbl_site_tmplvar_templates = $modx->getFullTableName('site_tmplvar_templates');
@@ -220,7 +220,7 @@ function saveDocumentAccessPermissons()
     if ($newid) {
         $id = $newid;
     }
-    $docgroups = $_POST['docgroups'];
+    $docgroups = $_POST['docgroups'] ?? [];
 
     // check for permission update access
     if ($use_udperms == 1) {
