@@ -24,7 +24,7 @@ class modxRTEbridge
     public $debug = false;                      // Enable/disable debug messages via HTML-comment
     public $debugMessages = array();            // Holds all messages - added by    $this->debugMessages[] = 'Message';
     public $ajaxSecHash = array();              // Holds security-hashes
-
+    public $gSettingsRows;
     public function __construct($editorKey = NULL, $bridgeConfig = array(), $tvOptions = array(), $basePath = '')
     {
         global $modx, $settings, $usersettings;

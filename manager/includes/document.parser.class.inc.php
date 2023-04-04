@@ -11,6 +11,7 @@ if (!defined('E_USER_DEPRECATED')) {
     define('E_USER_DEPRECATED', 16384);
 }
 
+#[AllowDynamicProperties]
 class DocumentParser
 {
     /**
