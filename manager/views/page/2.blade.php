@@ -109,22 +109,22 @@
 
     $tpl = '
     <table class="table data">
-    	<tr>
-    		<td width="150">[%yourinfo_username%]</td>
-    		<td><b>[+username+]</b></td>
-    	</tr>
-    	<tr>
-    		<td>[%yourinfo_role%]</td>
-    		<td><b>[+role+]</b></td>
-    	</tr>
-    	<tr>
-    		<td>[%yourinfo_previous_login%]</td>
-    		<td><b>[+lastlogin+]</b></td>
-    	</tr>
-    	<tr>
-    		<td>[%yourinfo_total_logins%]</td>
-    		<td><b>[+logincount+]</b></td>
-    	</tr>
+        <tr>
+            <td width="150">[%yourinfo_username%]</td>
+            <td><b>[+username+]</b></td>
+        </tr>
+        <tr>
+            <td>[%yourinfo_role%]</td>
+            <td><b>[+role+]</b></td>
+        </tr>
+        <tr>
+            <td>[%yourinfo_previous_login%]</td>
+            <td><b>[+lastlogin+]</b></td>
+        </tr>
+        <tr>
+            <td>[%yourinfo_total_logins%]</td>
+            <td><b>[+logincount+]</b></td>
+        </tr>
     </table>';
 
     $ph['UserInfo'] = $modx->parseText($tpl, [
@@ -153,22 +153,22 @@
         }
         $timetocheck = $now - 60 * 20; //+$server_offset_time;
         $html = '
-    	<div class="card-body">
-    		[%onlineusers_message%]
-    		<b>[+now+]</b>):
-    	</div>
-    	<div class="table-responsive">
-    	<table class="table data">
-    	<thead>
-    		<tr>
-    			<th>[%onlineusers_user%]</th>
-    			<th>ID</th>
-    			<th>[%onlineusers_ipaddress%]</th>
-    			<th>[%onlineusers_lasthit%]</th>
-    			<th>[%onlineusers_action%]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    		</tr>
-    	</thead>
-    	<tbody>';
+        <div class="card-body">
+            [%onlineusers_message%]
+            <b>[+now+]</b>):
+        </div>
+        <div class="table-responsive">
+        <table class="table data">
+        <thead>
+            <tr>
+                <th>[%onlineusers_user%]</th>
+                <th>ID</th>
+                <th>[%onlineusers_ipaddress%]</th>
+                <th>[%onlineusers_lasthit%]</th>
+                <th>[%onlineusers_action%]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>';
 
         $userList = [];
         $userCount = [];
@@ -196,8 +196,8 @@
         }
 
         $html .= '
-    	</tbody>
-    	</table>
+        </tbody>
+        </table>
     </div>
     ';
     }
@@ -213,14 +213,14 @@
     $itemsNumber = 3;
 
 
-    $feedData = cache()->remember('feeddata', 3600, function() use ($modx, $itemsNumber) {
+    $feedData = cache()->remember('feeddata', 24 * 3600, function() use ($modx, $urls, $itemsNumber) {
         // create Feed
         $feedData = [];
         $feed = new \SimplePie\SimplePie();
         $feedCache = evolutionCMS()->getCachePath() . 'rss/';
         \Illuminate\Support\Facades\File::ensureDirectoryExists($feedCache);
         $feed->set_cache_location($feedCache);
-        $feed->set_autodiscovery_level(0);
+        $feed->set_cache_duration(24 * 3600);
         foreach ($urls as $section => $url) {
             if (empty($url)) {
                 continue;
@@ -414,7 +414,7 @@
             '
                     </table>
                 </div>
-    		',
+            ',
         'hide' => '0',
     ];
     $widgets['onlineinfo'] = [
