@@ -152,7 +152,13 @@ class MODxMailer extends PHPMailer
         $this->Body = $this->modx->removeSanitizeSeed($this->Body);
         $this->Subject = $this->modx->removeSanitizeSeed($this->Subject);
 
-        return parent::send();
+        $prevent = false;
+        $this->modx->invokeEvent('OnBeforeMailSend', [
+            'mailer'  => $this,
+            'prevent' => &$prevent
+        ]);
+
+        return $prevent ? true : parent::send();
     }
 
     /**
