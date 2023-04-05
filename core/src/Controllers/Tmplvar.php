@@ -156,6 +156,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
         $this->object = $this->parameterData();
         $this->parameters = [
             'data'              => $this->object,
+            'elementType'       => $this->elementType,
             'categories'        => $this->parameterCategories(),
             'types'             => $this->parameterTypes(),
             'display'           => $this->parameterDisplay(),
