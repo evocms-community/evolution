@@ -1284,10 +1284,6 @@ $_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since Evolution CMS 
 $_lang["resource_opt_alvisibled"] = 'Use current alias in alias path';
 $_lang["resource_opt_alvisibled_help"] = 'The alias of this Resource is inserted in Friendly URL alias path';
 $_lang['resource_opt_is_published'] = 'Published';
-$_lang["docid_incrmnt_method_title"] = 'Increment Resource ID method';
-$_lang["docid_incrmnt_method_0"] = 'DB auto increment';
-$_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
-$_lang["docid_incrmnt_method_2"] = 'Maximal ID + 1';
 
 $_lang["enable_cache_title"] = 'Document caching';
 $_lang["disable_chunk_cache_title"] = 'Disable chunk caching';

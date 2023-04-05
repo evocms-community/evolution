@@ -359,22 +359,6 @@
         <div class="split my-1"></div>
 
         @include('manager::form.radio', [
-            'name' => 'docid_incrmnt_method',
-            'label' => __('global.docid_incrmnt_method_title'),
-            'small' => '[(docid_incrmnt_method)]',
-            'value' => $settings['docid_incrmnt_method'],
-            'options' => [
-                0 => __('global.docid_incrmnt_method_0'),
-                1 => __('global.docid_incrmnt_method_1'),
-                2 => __('global.docid_incrmnt_method_2')
-            ],
-            'comment' => (isset($disabledSettings['docid_incrmnt_method']) ? __('global.setting_from_file') . '<br>' : ''),
-            'disabled' => $disabledSettings['docid_incrmnt_method'] ?? null
-        ])
-
-        <div class="split my-1"></div>
-
-        @include('manager::form.radio', [
             'name' => 'enable_cache',
             'label' => __('global.enable_cache_title'),
             'small' => '[(enable_cache)]',

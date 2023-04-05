@@ -7,7 +7,6 @@ return [
     'site_unavailable_page' => '',
     'top_howmany' => 10,
     'custom_contenttype' => 'application/rss+xml,application/pdf,application/vnd.ms-word,application/vnd.ms-excel,text/html,text/css,text/xml,text/javascript,text/plain,application/json',
-    'docid_incrmnt_method' => 0,
     'valid_hostnames' => '',
     'enable_filter' => 0,
     'enable_at_syntax' => 0,
