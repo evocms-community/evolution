@@ -412,13 +412,6 @@ $which_browser = $which_browser ?? 'mcpuk';
                                             </a>
                                         </li>
                                     <?php } ?>
-                                    <?php if ($modx->hasPermission('help')) { ?>
-                                        <li>
-                                            <a href="index.php?a=9" target="main">
-                                                <?= $_style['page_help'] ?><?= $_lang['help'] ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
                                     <?php
                                     $style = $modx->config['settings_version'] != $modx->getVersionData('version') ? 'style="color:#ffff8a;"' : '';
                                     $version = 'Evolution CE';

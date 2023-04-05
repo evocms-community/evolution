@@ -112,7 +112,6 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 								echo render_form('home', $_lang['role_home'], 'disabled');
 								echo render_form('messages', $_lang['role_messages']);
 								echo render_form('logout', $_lang['role_logout'], 'disabled');
-								echo render_form('help', $_lang['role_help']);
 								echo render_form('action_ok', $_lang['role_actionok'], 'disabled');
 								echo render_form('error_dialog', $_lang['role_errors'], 'disabled');
 								echo render_form('about', $_lang['role_about'], 'disabled');

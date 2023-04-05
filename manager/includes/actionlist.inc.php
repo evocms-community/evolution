@@ -13,7 +13,6 @@ $GLOBALS['action_list'] = array(
 	'6'	=> 'Deleting resource',
 	'7'	=> 'Waiting while EVO cleans up',
 	'8'	=> 'Logged out',
-	'9'	=> 'Viewing help',
 	'10'	=> 'Viewing/ composing messages',
 	'11'	=> 'Creating a user',
 	'12'	=> 'Editing user',
