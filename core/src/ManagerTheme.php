@@ -164,8 +164,6 @@ class ManagerTheme implements ManagerThemeInterface
         94,
         /** Update Tree for Closure Table */
         95 => Controllers\UpdateTree::class,
-        /** Help */
-        9 => Controllers\Help::class,
         /** Template Variables - Based on Apodigm's Docvars */
         300 => Controllers\Tmplvar::class,
         301 => Controllers\Tmplvar::class,

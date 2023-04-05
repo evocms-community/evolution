@@ -325,15 +325,6 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        @if ($modx->hasPermission('help'))
-                                            <li>
-                                                <a href="index.php?a=9" target="main">
-                                                    <i
-                                                        class="{{ $_style['icon_question_circle'] }}"></i>{{ ManagerTheme::getLexicon('help') }}
-                                                </a>
-                                            </li>
-                                        @endif
-
                                         <?php
                                         $style = $modx->getConfig('settings_version') !== $modx->getVersionData('version') ? 'style="color:#ffff8a;"' : '';
                                         $version = 'Evolution CE';
