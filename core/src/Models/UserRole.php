@@ -138,4 +138,16 @@ class UserRole extends Eloquent\Model
     {
         return $this->isAlreadyEdit ? self::getLockedElements(8)[$this->getKey()] : null;
     }
+
+    public function roleVar()
+    {
+        return $this->hasMany(UserRoleVar::class, 'roleid', 'id');
+    }
+
+    public function delete()
+    {
+        $this->roleVar()->delete();
+
+        parent::delete();
+    }
 }

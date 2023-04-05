@@ -170,11 +170,18 @@ class SiteTmplvar extends Eloquent\Model
         return $this->hasMany(UserRoleVar::class, 'tmplvarid', 'id');
     }
 
+    public function tmplvarUservalue()
+    {
+        return $this->hasMany(UserValue::class, 'tmplvarid', 'id');
+    }
+
     public function delete()
     {
         $this->tmplvarContentvalue()->delete();
         $this->tmplvarAccess()->delete();
         $this->tmplvarTemplate()->delete();
+        $this->tmplvarUserRole()->delete();
+        $this->tmplvarUservalue()->delete();
 
         return parent::delete();
     }

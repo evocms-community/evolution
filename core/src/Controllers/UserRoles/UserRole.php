@@ -5,6 +5,7 @@ namespace EvolutionCMS\Controllers\UserRoles;
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Interfaces\ManagerTheme;
 use EvolutionCMS\Models;
+use EvolutionCMS\Models\UserAttribute;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
 
@@ -40,9 +41,15 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
     {
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
             $id = $this->getElementId();
+            $count = UserAttribute::where('role',$id)->count();
+            if($id==1){
+                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
+            }
+            if($count>0){
+                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
+            }
             Models\RolePermissions::query()->where('role_id', $id)->delete();
-            Models\UserRoleVar::query()->where('roleid', $id)->delete();
-            Models\UserRole::query()->where('id', $id)->delete();
+            Models\UserRole::destroy($id);
             header('Location: index.php?a=86&tab=0');
         }
 
