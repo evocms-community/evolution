@@ -1,6 +1,6 @@
 <?php
 
-namespace EvolutionCMS\Installer\Install;
+namespace EvolutionCMS\Installer\Update;
 
 use Illuminate\Database\Seeder;
 
@@ -46,7 +46,7 @@ class SystemEventnamesTableSeeder extends Seeder
         foreach ($rename as $old => $new) {
             \DB::table('system_eventnames')->where('name', $old)->update([
                 'name' => $new,
-                'group' => 'Users',
+                'groupname' => 'Users',
                 'service' => 1
             ]);
         }
