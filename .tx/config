@@ -1,26 +1,30 @@
 [main]
-host = https://www.transifex.com
+host = https://app.transifex.com
 
-[evolution-3x.installer]
-file_filter = install/src/lang/<lang>.inc.php
-source_file = install/src/lang/en.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+[o:evo-cms-community:p:evolution-3x:r:core_global]
+file_filter   = core/lang/<lang>/global.php
+source_file   = core/lang/en/global.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = core_global
 
-[evolution-3x.manager_country]
-file_filter = manager/includes/lang/country/<lang>_country.inc.php
-source_file = manager/includes/lang/country/en_country.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+[o:evo-cms-community:p:evolution-3x:r:installer]
+file_filter   = install/src/lang/<lang>.inc.php>
+source_file   = install/src/lang/en.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = installer
 
-[evolution-3x.manager_errormsg]
-file_filter = manager/includes/lang/errormsg/<lang>.inc.php
-source_file = manager/includes/lang/errormsg/en.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+[o:evo-cms-community:p:evolution-3x:r:manager_country]
+file_filter   = manager/includes/lang/country/<lang>_country.inc.php
+source_file   = manager/includes/lang/country/en_country.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = manager_country
 
-[evolution-3x.core_global]
-file_filter = core/lang/<lang>/global.php
-source_file = core/lang/en/global.php
-source_lang = en
-type = PHP_ALT_ARRAY
+[o:evo-cms-community:p:evolution-3x:r:manager_errormsg]
+file_filter   = manager/includes/lang/errormsg/<lang>.inc.php
+source_file   = manager/includes/lang/errormsg/en.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = manager_errormsg
