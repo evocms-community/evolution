@@ -540,7 +540,7 @@ class UrlProcessor
                 }
             }
         }
-        return $out;
+        return $out ? $out : null;
     }
 
     /**
