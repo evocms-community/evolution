@@ -249,6 +249,8 @@
             $output .= '</ul>';
             $feedData[$section] = $output;
         }
+
+        return $feedData;
     });
 
     $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'];
