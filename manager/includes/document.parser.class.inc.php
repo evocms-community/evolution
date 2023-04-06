@@ -2682,7 +2682,7 @@ class DocumentParser
                 $docgrp = implode(",", $docgrp);
             }
             // get document
-            $access = ($this->isFrontend() ? "sc.privateweb=0" : "1='" . $_SESSION['mgrRole'] . "' OR sc.privatemgr=0") . (!$docgrp ? "" : " OR dg.document_group IN ($docgrp)");
+            $access = ($this->isFrontend() ? "sc.privateweb=0" : "1='" . ($_SESSION['mgrRole'] ?? 0) . "' OR sc.privatemgr=0") . (!$docgrp ? "" : " OR dg.document_group IN ($docgrp)");
             $rs = $this->db->select('sc.*', "{$tblsc} sc
                 LEFT JOIN {$tbldg} dg ON dg.document = sc.id", "sc.{$method} = '{$identifier}' AND ({$access})", "", 1);
             if ($this->db->getRecordCount($rs) < 1) {
