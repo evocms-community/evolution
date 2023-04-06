@@ -1,53 +1,59 @@
 [main]
-host = https://www.transifex.com
-lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norsk, pl: polish-utf8, pt_BR: portuguese-br-utf8, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
+host = https://app.transifex.com
 
-[evolution-14x.installer]
-file_filter = install/lang/<lang>.inc.php
-lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish-utf8, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br-utf8, pt: portuguese, ru: russian-UTF8, sv: svenska, uk: ukrainian, zh: chinese
-source_file = install/lang/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
-
-[evolution-14x.countrylist]
-file_filter = manager/includes/lang/country/<lang>_country.inc.php
-lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish-utf8, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br-utf8, pt: portuguese, ru: russian-UTF8, sv: svenska, uk: ukrainian, zh: chinese
-source_file = manager/includes/lang/country/english_country.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
-
-[evolution-14x.manager]
-file_filter = manager/includes/lang/<lang>.inc.php
-lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish-utf8, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br-utf8, pt: portuguese, ru: russian-UTF8, sv: svenska, uk: ukrainian, zh: chinese
-source_file = manager/includes/lang/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
-
-[evolution-14x.docmanager]
-file_filter = assets/modules/docmanager/lang/<lang>.inc.php
+[o:evo-cms-community:p:evolution-14x:r:countrylist]
 lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
-source_file = assets/modules/docmanager/lang/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+file_filter   = manager/includes/lang/country/<lang>_country.inc.php
+source_file   = manager/includes/lang/country/english_country.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = countrylist
 
-[evolution-14x.filesource]
-file_filter = assets/plugins/filesource/lang/<lang>.inc.php
+[o:evo-cms-community:p:evolution-14x:r:docmanager]
 lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
-source_file = assets/plugins/filesource/lang/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+file_filter   = assets/modules/docmanager/lang/<lang>.inc.php
+source_file   = assets/modules/docmanager/lang/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = docmanager
 
-[evolution-14x.tinymce4_custom]
-file_filter = assets/plugins/tinymce4/lang/custom/<lang>.inc.php
+[o:evo-cms-community:p:evolution-14x:r:filesource]
 lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
-source_file = assets/plugins/tinymce4/lang/custom/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+file_filter   = assets/plugins/filesource/lang/<lang>.inc.php
+source_file   = assets/plugins/filesource/lang/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = filesource
 
-[evolution-14x.tinymce4_gsettings]
-file_filter = assets/plugins/tinymce4/lang/custom/<lang>.inc.php
+[o:evo-cms-community:p:evolution-14x:r:installer]
 lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
-source_file = assets/plugins/tinymce4/lang/gsettings/english.inc.php
-source_lang = en
-type = PHP_ALT_ARRAY
+file_filter   = install/lang/<lang>.inc.php
+source_file   = install/lang/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = installer
+
+[o:evo-cms-community:p:evolution-14x:r:manager]
+lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
+file_filter   = manager/includes/lang/<lang>.inc.php
+source_file   = manager/includes/lang/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = manager
+
+[o:evo-cms-community:p:evolution-14x:r:tinymce4_custom]
+lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
+file_filter   = assets/plugins/tinymce4/lang/custom/<lang>.inc.php
+source_file   = assets/plugins/tinymce4/lang/custom/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = tinymce4_custom
+
+[o:evo-cms-community:p:evolution-14x:r:tinymce4_gsettings]
+lang_map = be: belarusian, bg: bulgarian, cs: czech, da: danish, de: german, es: spanish-utf8, fa: persian, fi: finnish, fr: francais-utf8, he: hebrew, it: italian, ja: japanese-utf8, nl: nederlands-utf8, no: norwegian, pl: polish-utf8, pt_BR: portuguese-br, pt: portuguese, ru: russian-UTF8, sv: svenska-utf8, uk: ukrainian, zh: chinese
+file_filter   = assets/plugins/tinymce4/lang/custom/<lang>.inc.php
+source_file   = assets/plugins/tinymce4/lang/gsettings/english.inc.php
+type          = PHP_ALT_ARRAY
+minimum_perc  = 0
+resource_name = tinymce4_gsettings
 
