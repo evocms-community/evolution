@@ -54,9 +54,8 @@ $modx->invokeEvent("OnBeforeTempFormDelete", array(
 ));
 
 // delete the document.
-EvolutionCMS\Models\SiteTemplate::where('id', $id)->delete();
+EvolutionCMS\Models\SiteTemplate::find($id)->delete();
 
-EvolutionCMS\Models\SiteTmplvarTemplate::where('templateid',$id)->delete();
 // invoke OnTempFormDelete event
 $modx->invokeEvent("OnTempFormDelete", array(
     "id" => $id
