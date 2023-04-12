@@ -393,8 +393,8 @@ class Cache
             exit("Cannot write $filename! Make sure file or its directory is writable!");
         }
 
-        if (!is_file($this->cachePath . '/.htaccess')) {
-            file_put_contents($this->cachePath . '/.htaccess', "<ifModule mod_authz_core.c>\nRequire all denied\n</ifModule>\n<ifModule !mod_authz_core.c>\norder deny,allow\ndeny from all\n</ifModule>\n");
+        if (!is_file(MODX_BASE_PATH . '/assets/cache/.htaccess')) {
+            file_put_contents(MODX_BASE_PATH . '/assets/cache/.htaccess', "<ifModule mod_authz_core.c>\nRequire all denied\n</ifModule>\n<ifModule !mod_authz_core.c>\norder deny,allow\ndeny from all\n</ifModule>\n");
         }
 
         // invoke OnCacheUpdate event
