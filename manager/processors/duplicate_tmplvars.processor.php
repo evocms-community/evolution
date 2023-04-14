@@ -6,7 +6,7 @@ if (!$modx->hasPermission('edit_template')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
     $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
@@ -15,9 +15,11 @@ if ($id == 0) {
 $tmplvar = EvolutionCMS\Models\SiteTmplvar::with(['tmplvarAccess', 'tmplvarTemplate', 'tmplvarUserRole'])->findOrFail($id);
 $name = $tmplvar->name;
 $count = EvolutionCMS\Models\SiteTmplvar::where('name', 'like', $name . ' ' . $_lang['duplicated_el_suffix'] . '%')->count();
-if ($count >= 1) $count = ' ' . ($count + 1);
-else $count = '';
-
+if ($count >= 1) {
+    $count = ' ' . ($count + 1);
+} else {
+    $count = '';
+}
 
 $newTmplvar = $tmplvar->replicate();
 $newTmplvar->name = $tmplvar->name . ' ' . $_lang['duplicated_el_suffix'] . $count;

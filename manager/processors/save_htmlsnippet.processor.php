@@ -1,5 +1,5 @@
 <?php
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_chunk')) {
@@ -8,35 +8,35 @@ if (!$modx->hasPermission('save_chunk')) {
 
 if (isset($_GET['disabled'])) {
     $disabled = $_GET['disabled'] == 1 ? 1 : 0;
-    $id = (int)($_REQUEST['id'] ?? 0);
+    $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
         $chunk = EvolutionCMS\Models\SiteHtmlsnippet::findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforeChunkFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
         $_SESSION['itemname'] = $chunk->name;
         $chunk->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
         $modx->invokeEvent("OnChunkFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
         $modx->webAlertAndQuit($_lang["error_no_id"]);
     }
     // empty cache
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header="Location: index.php?a=76&tab=2&r=2";
+    $header = "Location: index.php?a=76&tab=2&r=2";
     header($header);
     exit;
 }
 
-$id = (int)$_POST['id'];
+$id = (int) $_POST['id'];
 $snippet = $_POST['post'];
 $name = trim($_POST['name']);
 $description = $_POST['description'];
@@ -46,11 +46,11 @@ $createdon = $editedon = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
-    $category = (int)$_POST['categoryid'];
+    $category = (int) $_POST['categoryid'];
 } elseif (empty($_POST['newcategory']) && $_POST['categoryid'] <= 0) {
     $category = 0;
 } else {
-    include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+    include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
     $category = checkCategory($_POST['newcategory']);
     if (!$category) {
         $category = newCategory($_POST['newcategory']);
@@ -66,26 +66,25 @@ $editor_name = $_POST['which_editor'] != 'none' ? $_POST['which_editor'] : 'none
 
 switch ($_POST['mode']) {
     case '77':
-
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforeChunkFormSave", array(
             "mode" => "new",
-            "id" => $id
+            "id" => $id,
         ));
 
         // disallow duplicate names for new chunks
-        if (EvolutionCMS\Models\SiteHtmlsnippet::where('name','=',$name)->first()) {
+        if (EvolutionCMS\Models\SiteHtmlsnippet::where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(77);
             $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=77");
         }
 
         //do stuff to save the new doc
-        $id = EvolutionCMS\Models\SiteHtmlsnippet::create(compact('name', 'description','snippet','locked','category','editor_type','editor_name','disabled','createdon','editedon'))->getKey();
+        $id = EvolutionCMS\Models\SiteHtmlsnippet::create(compact('name', 'description', 'snippet', 'locked', 'category', 'editor_type', 'editor_name', 'disabled', 'createdon', 'editedon'))->getKey();
 
         // invoke OnChunkFormSave event
         $modx->invokeEvent("OnChunkFormSave", array(
             "mode" => "new",
-            "id" => $id
+            "id" => $id,
         ));
 
         // Set the item name for logger
@@ -108,11 +107,11 @@ switch ($_POST['mode']) {
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforeChunkFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
 
         // disallow duplicate names for chunks
-        if (EvolutionCMS\Models\SiteHtmlsnippet::where('id','!=',$id)->where('name','=',$name)->first()) {
+        if (EvolutionCMS\Models\SiteHtmlsnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(78);
             $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=78&id={$id}");
         }
@@ -120,12 +119,12 @@ switch ($_POST['mode']) {
         //do stuff to save the edited doc
         $chunk = EvolutionCMS\Models\SiteHtmlsnippet::find($id);
 
-        $chunk->update(compact('name', 'description','snippet','locked','category','editor_type','editor_name','disabled','editedon'));
+        $chunk->update(compact('name', 'description', 'snippet', 'locked', 'category', 'editor_type', 'editor_name', 'disabled', 'editedon'));
 
         // invoke OnChunkFormSave event
         $modx->invokeEvent("OnChunkFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
 
         // Set the item name for logger

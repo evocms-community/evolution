@@ -10,7 +10,7 @@ if (!$modx->hasPermission('exec_module')) {
 }
 if (isset($_GET['id'])) {
     if (is_numeric($_GET['id'])) {
-        $id = (int)$_GET['id'];
+        $id = (int) $_GET['id'];
     } else {
         $id = $_GET['id'];
     }
