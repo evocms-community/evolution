@@ -8,7 +8,6 @@ if (!$modx->hasPermission('delete_plugin')) {
     $e->dumpError();
 }
 
-
 // Get unique list of latest added plugins by highest sql-id
 $plugins = \EvolutionCMS\Models\SitePlugin::query()->select('site_plugins.id')->leftJoin('site_plugins as t2', function ($join) {
     $join->on('site_plugins.name', '=', 't2.name')->on('site_plugins.id', '<', 't2.id');
@@ -24,10 +23,12 @@ $plugins = \EvolutionCMS\Models\SitePlugin::query()->select('site_plugins.id')->
 })->where('site_plugins.disabled', 1);
 
 foreach ($plugins->get()->toArray() as $row) {
-
     $id = $row['id'];
 
-    if (in_array($id, $latestIds)) continue;    // Keep latest version of disabled plugins
+    if (in_array($id, $latestIds)) {
+        continue;
+    }
+    // Keep latest version of disabled plugins
 
     // invoke OnBeforePluginFormDelete event
     $modx->invokeEvent('OnBeforePluginFormDelete', array('id' => $id));

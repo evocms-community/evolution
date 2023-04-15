@@ -1,26 +1,40 @@
 <?php
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('new_module')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
     $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
 // count duplicates
 $name = EvolutionCMS\Models\SiteModule::select('name')->findOrFail($id)->name;
 $count = EvolutionCMS\Models\SiteModule::where('name', 'LIKE', "{$name} {$_lang['duplicated_el_suffix']}%'")->count();
-if ($count >= 1) $count = ' ' . ($count + 1);
-else $count = '';
+if ($count >= 1) {
+    $count = ' ' . ($count + 1);
+} else {
+    $count = '';
+}
 
 // duplicate module
-$module = EvolutionCMS\Models\SiteModule::select("name",
-    "description",  "category", "wrap", "icon", "enable_resource", "resourcefile", "createdon",
-    "editedon", "guid", "enable_sharedparams", "properties", "modulecode")
-    ->findOrFail($id);
+$module = EvolutionCMS\Models\SiteModule::select(
+    "name",
+    "description",
+    "category",
+    "wrap",
+    "icon",
+    "enable_resource",
+    "resourcefile",
+    "createdon",
+    "editedon",
+    "guid",
+    "enable_sharedparams",
+    "properties",
+    "modulecode"
+)->findOrFail($id);
 
 $moduleNew = $module->replicate();
 $moduleNew->name .= " {$_lang['duplicated_el_suffix']}{$count}";
@@ -37,7 +51,6 @@ EvolutionCMS\Models\SiteModuleDepobj::select("module", "resource", "type")
         $item->replicate()->save();
     });
 
-
 // duplicate module user group access
 EvolutionCMS\Models\SiteModuleAccess::select("module", "usergroup")
     ->where('module', $id)->get()
@@ -51,5 +64,5 @@ $name = EvolutionCMS\Models\SiteModule::select('name')->findOrFail($newid)->name
 $_SESSION['itemname'] = $name;
 
 // finish duplicating - redirect to new module
-$header="Location: index.php?r=2&a=108&id=$newid";
+$header = "Location: index.php?r=2&a=108&id=$newid";
 header($header);

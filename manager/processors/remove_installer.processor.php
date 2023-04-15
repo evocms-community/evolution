@@ -51,5 +51,3 @@ if ($msg) {
 }
 
 echo "<script>window.location='../#?a=2';</script>";
-
-
