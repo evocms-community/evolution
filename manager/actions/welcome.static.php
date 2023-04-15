@@ -91,6 +91,13 @@ if(($modx->config['warning_visibility'] == 0 && $_SESSION['mgrRole'] == 1) || $m
     $ph['config_display'] = 'none';
 }
 
+if(file_exists(MODX_BASE_PATH . 'vendor/autoload.php')) {
+    $ph['show_composer_reminder'] = 'block';
+    $ph['composer_reminder_msg'] = $_lang['composer_reminder_msg'];
+} else {
+    $ph['show_composer_reminder'] = 'none';
+}
+
 // Check logout-reminder
 if(isset($_SESSION['show_logout_reminder'])) {
     switch($_SESSION['show_logout_reminder']['type']) {

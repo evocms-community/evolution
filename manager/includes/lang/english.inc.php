@@ -1434,6 +1434,8 @@ $_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) an
 
 $_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
 
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+
 $_lang["allow_eval_title"]             = "Eval php code in snippet call";
 $_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
 $_lang["allow_eval_with_scan"]         = "Execute only permitted functions";

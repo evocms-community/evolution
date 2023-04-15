@@ -1,5 +1,9 @@
 <!-- welcome -->
 <div style="margin: 20px 12px;">
+	<div id="composer_reminder" style="padding-left:0; padding-right:0;display:[+show_composer_reminder+]">
+		[+composer_reminder_msg+]
+	</div>
+
 	<div id="logout_reminder" style="padding-left:0; padding-right:0;display:[+show_logout_reminder+]">
 		[+logout_reminder_msg+]
 	</div>
