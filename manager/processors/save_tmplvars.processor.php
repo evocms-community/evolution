@@ -1,34 +1,34 @@
 <?php
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_template')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
-$id = (int)$_POST['id'];
+$id = (int) $_POST['id'];
 $name = trim($_POST['name']);
 $description = $_POST['description'];
 $caption = $_POST['caption'];
 $type = $_POST['type'];
 $elements = $_POST['elements'];
 $default_text = $_POST['default_text'];
-$rank = isset ($_POST['rank']) ? $_POST['rank'] : 0;
+$rank = isset($_POST['rank']) ? $_POST['rank'] : 0;
 $display = $_POST['display'];
 $params = $_POST['params'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
-$origin = isset($_REQUEST['or']) ? (int)$_REQUEST['or'] : 76;
-$originId = isset($_REQUEST['oid']) ? (int)$_REQUEST['oid'] : null;
+$origin = isset($_REQUEST['or']) ? (int) $_REQUEST['or'] : 76;
+$originId = isset($_REQUEST['oid']) ? (int) $_REQUEST['oid'] : null;
 $currentdate = time() + $modx->config['server_offset_time'];
 $properties = $_POST['properties'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
-    $categoryid = (int)$_POST['categoryid'];
+    $categoryid = (int) $_POST['categoryid'];
 } elseif (empty($_POST['newcategory']) && $_POST['categoryid'] <= 0) {
     $categoryid = 0;
 } else {
-    include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+    include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
     $categoryid = checkCategory($_POST['newcategory']);
     if (!$categoryid) {
         $categoryid = newCategory($_POST['newcategory']);
@@ -40,11 +40,10 @@ $caption = $caption != '' ? $caption : $name;
 
 switch ($_POST['mode']) {
     case '300':
-
         // invoke OnBeforeTVFormSave event
         $modx->invokeEvent("OnBeforeTVFormSave", array(
             "mode" => "new",
-            "id" => $id
+            "id" => $id,
         ));
 
         // disallow duplicate names for new tvs
@@ -74,9 +73,9 @@ switch ($_POST['mode']) {
             'category' => $categoryid,
             'createdon' => $currentdate,
             'editedon' => $currentdate,
-            'properties' => $properties
+            'properties' => $properties,
         );
-        $tmplVar= EvolutionCMS\Models\SiteTmplvar::create($field);
+        $tmplVar = EvolutionCMS\Models\SiteTmplvar::create($field);
         $newid = $tmplVar->getKey();
 
         // save access permissions
@@ -87,7 +86,7 @@ switch ($_POST['mode']) {
         // invoke OnTVFormSave event
         $modx->invokeEvent("OnTVFormSave", array(
             "mode" => "new",
-            "id" => $newid
+            "id" => $newid,
         ));
 
         // Set the item name for logger
@@ -110,7 +109,7 @@ switch ($_POST['mode']) {
         // invoke OnBeforeTVFormSave event
         $modx->invokeEvent("OnBeforeTVFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
 
         // disallow duplicate names for tvs
@@ -138,7 +137,7 @@ switch ($_POST['mode']) {
             'locked' => $locked,
             'category' => $categoryid,
             'editedon' => $currentdate,
-            'properties' => $properties
+            'properties' => $properties,
         );
         $tmplVar = EvolutionCMS\Models\SiteTmplvar::findOrFail($id);
         $tmplVar->update($field);
@@ -151,7 +150,7 @@ switch ($_POST['mode']) {
         // invoke OnTVFormSave event
         $modx->invokeEvent("OnTVFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
 
         // Set the item name for logger

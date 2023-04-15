@@ -1,46 +1,46 @@
 <?php
 global $id, $newid;
 global $use_udperms;
-if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
+if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_module')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
-}else {
+} else {
     $use_udperms = 1;
 }
 
 if (isset($_GET['disabled'])) {
     $disabled = $_GET['disabled'] == 1 ? 1 : 0;
-    $id = (int)($_REQUEST['id'] ?? 0);
+    $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
         $module = EvolutionCMS\Models\SiteModule::findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforeModFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
         $_SESSION['itemname'] = $module->name;
         $module->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
         $modx->invokeEvent("OnModFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
         $modx->webAlertAndQuit($_lang["error_no_id"]);
     }
     // empty cache
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header="Location: index.php?a=76&tab=5&r=2";
+    $header = "Location: index.php?a=76&tab=5&r=2";
     header($header);
     exit;
 }
 
-$id = (int)$_POST['id'];
+$id = (int) $_POST['id'];
 $name = trim($_POST['name']);
 $description = $_POST['description'];
 $resourcefile = $_POST['resourcefile'];
@@ -59,11 +59,11 @@ $currentdate = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
-    $categoryid = (int)$_POST['categoryid'];
+    $categoryid = (int) $_POST['categoryid'];
 } elseif (empty($_POST['newcategory']) && $_POST['categoryid'] <= 0) {
     $categoryid = 0;
 } else {
-    include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+    include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
     $categoryid = checkCategory($_POST['newcategory']);
     if (!$categoryid) {
         $categoryid = newCategory($_POST['newcategory']);
@@ -79,7 +79,7 @@ if ($parse_docblock) {
     $name = isset($parsed['name']) ? $parsed['name'] : $name;
     $properties = isset($parsed['properties']) ? $parsed['properties'] : $properties;
     $guid = isset($parsed['guid']) ? $parsed['guid'] : $guid;
-    $enable_sharedparams = isset($parsed['shareparams']) ? (int)$parsed['shareparams'] : $enable_sharedparams;
+    $enable_sharedparams = isset($parsed['shareparams']) ? (int) $parsed['shareparams'] : $enable_sharedparams;
 
     $description = isset($parsed['description']) ? $parsed['description'] : $description;
     $version = isset($parsed['version']) ? '<b>' . $parsed['version'] . '</b> ' : '';
@@ -87,7 +87,7 @@ if ($parse_docblock) {
         $description = $version . trim(preg_replace('/(<b>.+?)+(<\/b>)/i', '', $description));
     }
     if (isset($parsed['modx_category'])) {
-        include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+        include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
         $categoryid = getCategory($parsed['modx_category']);
     }
 }
@@ -96,9 +96,9 @@ switch ($_POST['mode']) {
     case '107':
         // invoke OnBeforeModFormSave event
         $modx->invokeEvent("OnBeforeModFormSave", array(
-                "mode" => "new",
-                "id" => $id
-            ));
+            "mode" => "new",
+            "id" => $id,
+        ));
 
         // disallow duplicate names for new modules
         $count = \EvolutionCMS\Models\SiteModule::query()->where('name', $name)->count();
@@ -123,7 +123,7 @@ switch ($_POST['mode']) {
             'modulecode' => $modulecode,
             'properties' => $properties,
             'createdon' => $currentdate,
-            'editedon' => $currentdate
+            'editedon' => $currentdate,
         ));
 
         // save user group access permissions
@@ -131,9 +131,9 @@ switch ($_POST['mode']) {
 
         // invoke OnModFormSave event
         $modx->invokeEvent("OnModFormSave", array(
-                "mode" => "new",
-                "id" => $newid
-            ));
+            "mode" => "new",
+            "id" => $newid,
+        ));
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
@@ -154,9 +154,9 @@ switch ($_POST['mode']) {
     case '108':
         // invoke OnBeforeModFormSave event
         $modx->invokeEvent("OnBeforeModFormSave", array(
-                "mode" => "upd",
-                "id" => $id
-            ));
+            "mode" => "upd",
+            "id" => $id,
+        ));
 
         // disallow duplicate names for new modules
         $count = \EvolutionCMS\Models\SiteModule::query()->where('name', $name)->where('id', '!=', $id)->count();
@@ -181,7 +181,7 @@ switch ($_POST['mode']) {
             'guid' => $guid,
             'modulecode' => $modulecode,
             'properties' => $properties,
-            'editedon' => $currentdate
+            'editedon' => $currentdate,
         ));
 
         // save user group access permissions
@@ -189,9 +189,9 @@ switch ($_POST['mode']) {
 
         // invoke OnModFormSave event
         $modx->invokeEvent("OnModFormSave", array(
-                "mode" => "upd",
-                "id" => $id
-            ));
+            "mode" => "upd",
+            "id" => $id,
+        ));
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;

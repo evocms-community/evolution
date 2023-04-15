@@ -8,35 +8,35 @@ if (!$modx->hasPermission('save_plugin')) {
 
 if (isset($_GET['disabled'])) {
     $disabled = $_GET['disabled'] == 1 ? 1 : 0;
-    $id = (int)($_REQUEST['id'] ?? 0);
+    $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
         $plugin = EvolutionCMS\Models\SitePlugin::findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforePluginFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
         $_SESSION['itemname'] = $plugin->name;
         $plugin->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
         $modx->invokeEvent("OnPluginFormSave", array(
             "mode" => "upd",
-            "id" => $id
+            "id" => $id,
         ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
         $modx->webAlertAndQuit($_lang["error_no_id"]);
     }
     // empty cache
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header="Location: index.php?a=76&tab=4&r=2";
+    $header = "Location: index.php?a=76&tab=4&r=2";
     header($header);
     exit;
 }
 
-$id = (int)$_POST['id'];
+$id = (int) $_POST['id'];
 $name = trim($_POST['name']);
 $description = $_POST['description'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? '1' : '0';
@@ -50,11 +50,11 @@ $currentdate = time() + $modx->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
-    $categoryid = (int)$_POST['categoryid'];
+    $categoryid = (int) $_POST['categoryid'];
 } elseif (empty($_POST['newcategory']) && $_POST['categoryid'] <= 0) {
     $categoryid = 0;
 } else {
-    include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+    include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
     $categoryid = getCategory($_POST['newcategory']);
 }
 
@@ -75,7 +75,7 @@ if ($parse_docblock) {
         $description = $version . trim(preg_replace('/(<b>.+?)+(<\/b>)/i', '', $description));
     }
     if (isset($parsed['modx_category'])) {
-        include_once(MODX_MANAGER_PATH . 'includes/categories.inc.php');
+        include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
         $categoryid = getCategory($parsed['modx_category']);
     }
 }
@@ -83,11 +83,10 @@ if ($parse_docblock) {
 $eventIds = array();
 switch ($_POST['mode']) {
     case '101':
-
         // invoke OnBeforePluginFormSave event
         $modx->invokeEvent('OnBeforePluginFormSave', array(
             'mode' => 'new',
-            'id' => $id
+            'id' => $id,
         ));
 
         // disallow duplicate names for active plugins
@@ -110,7 +109,7 @@ switch ($_POST['mode']) {
             'properties' => $properties,
             'category' => $categoryid,
             'createdon' => $currentdate,
-            'editedon' => $currentdate
+            'editedon' => $currentdate,
         ));
 
         // save event listeners
@@ -119,7 +118,7 @@ switch ($_POST['mode']) {
         // invoke OnPluginFormSave event
         $modx->invokeEvent('OnPluginFormSave', array(
             'mode' => 'new',
-            'id' => $newid
+            'id' => $newid,
         ));
 
         // Set the item name for logger
@@ -139,11 +138,10 @@ switch ($_POST['mode']) {
         }
         break;
     case '102':
-
         // invoke OnBeforePluginFormSave event
         $modx->invokeEvent('OnBeforePluginFormSave', array(
             'mode' => 'upd',
-            'id' => $id
+            'id' => $id,
         ));
 
         // disallow duplicate names for active plugins
@@ -165,7 +163,7 @@ switch ($_POST['mode']) {
             'locked' => $locked,
             'properties' => $properties,
             'category' => $categoryid,
-            'editedon' => $currentdate
+            'editedon' => $currentdate,
         ));
 
         // save event listeners
@@ -174,7 +172,7 @@ switch ($_POST['mode']) {
         // invoke OnPluginFormSave event
         $modx->invokeEvent('OnPluginFormSave', array(
             'mode' => 'upd',
-            'id' => $id
+            'id' => $id,
         ));
 
         // Set the item name for logger

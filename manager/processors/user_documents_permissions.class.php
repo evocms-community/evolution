@@ -5,4 +5,5 @@
  */
 class udperms extends EvolutionCMS\Legacy\Permissions
 {
+    //
 }

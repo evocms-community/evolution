@@ -1035,6 +1035,7 @@ $_lang["template_assignedtv_tab"] = 'Assigned Template Variables';
 $_lang["template_code"] = 'Template code (html)';
 $_lang["template_desc"] = 'Description';
 $_lang["template_edit_tab"] = 'Edit Template';
+$_lang["template_inuse"] = 'This template is in use. Please set the documents using the template to another template. Documents using this template:';
 $_lang["template_management_msg"] = 'Choose which Template you wish to edit.';
 $_lang["template_msg"] = 'Create and edit Templates. Changed or new Templates won\'t be visible in your site\'s cached pages until the cache is emptied, however, you can use the preview function on a page to see the Template in action.';
 $_lang["template_name"] = 'Template name';

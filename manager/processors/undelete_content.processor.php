@@ -6,7 +6,7 @@ if (!$modx->hasPermission('delete_document')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
-$id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
     $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
@@ -20,7 +20,7 @@ if ($parentDeleted) {
 }
 $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
-$pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
+$pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
 $add_path = $sd . $sb . $pg;
 
 // check permissions on the document
@@ -46,15 +46,19 @@ array_unshift($documentDeleteIds, $id);
 $site_content_table = (new \EvolutionCMS\Models\SiteContent())->getTable();
 DB::table($site_content_table)
     ->whereIn('id', $documentDeleteIds)
-    ->update(['deleted' => 0,
+    ->update([
+        'deleted' => 0,
         'deletedby' => 0,
-        'deletedon' => 0]);
+        'deletedon' => 0,
+    ]);
 
-$modx->invokeEvent("OnDocFormUnDelete",
+$modx->invokeEvent(
+    "OnDocFormUnDelete",
     array(
         "id" => $id,
-        "children" => $children
-    ));
+        "children" => $children,
+    )
+);
 
 // Set the item name for logger
 $_SESSION['itemname'] = $document->pagetitle;

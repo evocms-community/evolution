@@ -6,7 +6,7 @@ if (!$modx->hasPermission('new_plugin')) {
     $modx->webAlertAndQuit($_lang["error_no_privileges"]);
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
     $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
@@ -14,8 +14,11 @@ if ($id == 0) {
 // count duplicates
 $name = EvolutionCMS\Models\SitePlugin::select('name')->findOrFail($id)->name;
 $count = EvolutionCMS\Models\SitePlugin::where('name', 'LIKE', "{$name} {$_lang['duplicated_el_suffix']}%'")->count();
-if ($count >= 1) $count = ' ' . ($count + 1);
-else $count = '';
+if ($count >= 1) {
+    $count = ' ' . ($count + 1);
+} else {
+    $count = '';
+}
 
 // duplicate Plugin
 $plugin = EvolutionCMS\Models\SitePlugin::select("name", "description", "disabled", "moduleguid", "plugincode", "properties", "category")
