@@ -3,9 +3,14 @@
  * EVO Installer
  */
 
-$autoloader = realpath(__DIR__.'/../vendor/autoload.php');
+$autoloader = __DIR__ . '/../assets/vendor/autoload.php';
 if (file_exists($autoloader) && is_readable($autoloader)) {
     include_once($autoloader);
+} else {
+    $autoloader = __DIR__ . '/../vendor/autoload.php';
+    if (file_exists($autoloader) && is_readable($autoloader)) {
+        include_once($autoloader);
+    }
 }
 
 $self = 'install/index.php';
