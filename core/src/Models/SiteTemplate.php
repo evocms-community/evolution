@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent;
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * EvolutionCMS\Models\SiteTemplate
@@ -140,5 +141,23 @@ class SiteTemplate extends Eloquent\Model
     public function getAlreadyEditInfoAttribute() :? array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(1)[$this->getKey()] : null;
+    }
+
+    public function values(): HasManyThrough
+    {
+        return $this->hasManyThrough(SiteTmplvarContentvalue::class, SiteTmplvarTemplate::class, 'templateid',  'tmplvarid', 'id', 'tmplvarid');
+    }
+
+    public function templateVar()
+    {
+        return $this->hasMany(SiteTmplvarTemplate::class, 'templateid', 'id');
+    }
+
+    public function delete()
+    {
+        $this->values()->delete();
+        $this->templateVar()->delete();
+
+        parent::delete();
     }
 }
