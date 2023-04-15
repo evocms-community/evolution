@@ -56,6 +56,13 @@ $modx->invokeEvent("OnBeforeTempFormDelete", array(
 // delete the document.
 $modx->db->delete($modx->getFullTableName('site_templates'), "id='{$id}'");
 
+$q = $modx->db->query("SELECT `tmplvarid` FROM {$modx->getFullTableName('site_tmplvar_templates')} WHERE `templateid`='{$id}'");
+$ids = $modx->db->getColumn('tmplvarid', $q);
+if ($ids) {
+    $ids = implode(',', $ids);
+    $modx->db->delete($modx->getFullTableName('site_tmplvar_contentvalues'), "tmplvarid IN ({$ids})");
+}
+
 $modx->db->delete($modx->getFullTableName('site_tmplvar_templates'), "templateid='{$id}'");
 
 // invoke OnTempFormDelete event
