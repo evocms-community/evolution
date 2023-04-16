@@ -1,14 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Mohsen Zare (MotSmart), MotSmart@Gmail.com, www.modxcms.ir
- * @author AliAqua
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Persian
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -36,6 +35,8 @@ $_lang["cant_write_config_file"] = 'مد ایکس نتوانست فایل پیک
 $_lang["cant_write_config_file_note"] = 'هنگامی که نصب با موفقیت یه اتمام رسید شما می توانید به قسمت مدیریت سایت خود به آدرس YourSiteName.com/[+MGR_DIR+]/ بروید.';
 $_lang["checkbox_select_options"] = 'موارد را انتخاب کنید:';
 $_lang["checking_if_cache_exist"] = 'مرور اینکه آیا <span class=\"mono\">assets/cache</span> موجود است: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'مرور اینکه آیا فایل <span class=\"mono\">assets/cache/siteCache.idx.php</span> قابل نوشتن است: ';
 $_lang["checking_if_cache_file2_writable"] = 'ررو اینکه آیا فایل <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> قابل نوشتن است: ';
 $_lang["checking_if_cache_writable"] = 'مرور اینکه آیا <span class=\"mono\">assets/cache</span> قابل نوشتن است: ';
@@ -82,7 +83,7 @@ $_lang["database_connection_failed_note"] = 'لطفا اطلاعات مربوط 
 $_lang["database_use_failed"] = 'پایگاه داده نمی تواند انتخاب شود!';
 $_lang["database_use_failed_note"] = 'لطفا اجازه دسترسی پایگاه داده با کاربر مورد اشاره را مرور و دوباره اقدام کنید.';
 $_lang["default_language"] = 'Default Manager Language';
-$_lang["default_language_description"] = 'This is the default language that will be used in the MODX Manager back end control panel.';
+$_lang["default_language_description"] = 'This is the default language that will be used in the EVO Manager back end control panel.';
 $_lang["depedency_create"] = 'Depedency created';
 $_lang["depedency_update"] = 'Depedency updated';
 $_lang["during_execution_of_sql"] = ' به هنگام اجراي فرامين SQL ';
@@ -93,7 +94,7 @@ $_lang["failed"] = 'با مشکل روبرو شد!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Help!';
 $_lang["help_link"] = 'http://forums.modx.com/';
-$_lang["help_title"] = 'Installation assistance in the MODX forums';
+$_lang["help_title"] = 'Installation assistance in the EVO forums';
 $_lang["iagree_box"] = 'من با شرایط استفاده مندرج در بالا موافقم.';
 $_lang["install"] = 'نصب';
 $_lang["install_overwrite"] = ' نصب/بازنگاری ';
@@ -133,11 +134,14 @@ $_lang["please_correct_error"] = '. لطفا خطا موحود را درست ک�
 $_lang["please_correct_errors"] = '. لطفا خطا های موجود را درست کنید.';
 $_lang["plugins"] = 'پلاگینها';
 $_lang["preinstall_validation"] = 'بازبینی قبل از نصب »';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = ' پوشه و فایلهای نصب را از وبگاه پاک کن <br />&nbsp;(این کار مستلزم دارا بودن سطح حذف پوشه ی نصب(install) است). ';
 $_lang["remove_install_folder_manual"] = 'لطفا به خاطر بسیپارید که پوشه ی &quot;<b>نصب یا install</b>&quot; را پیش از ورود به وبگاه حذف کنید.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'دوباره';
 $_lang["running_database_updates"] = 'به روز رسانی پایگاه داده:';
 $_lang["sample_web_site"] = 'محتویات پیشفرض وبگاه';
@@ -170,7 +174,7 @@ $_lang['status_failed_mysqli'] = 'error - mysqli extension for PHP is not instal
 $_lang["status_passed"] = 'موفقیت آمیز - پایگاه دادهی انتخاب شد!';
 $_lang["status_passed_database_created"] = 'موفقیت آمیز - پایگاه داده ایجاد شد';
 $_lang["status_passed_server"] = 'موفقیت آمیز - تطبیق ها تهیه شد!';
-$_lang["strict_mode"] = 'Warning : MySQL server is in strict mode';
+$_lang["strict_mode"] = ' MySQL server strict sql_mode is enabled!';
 $_lang["strict_mode_error"] = 'مادایکس نیازمند strict mode غیر فعال است. شما می توانید از طریق ویرایش فایل my.cnf یا تماس با هاستینگ خود این حالت را غیر فعال کنید.';
 $_lang["summary_setup_check"] = 'برنامه ی نصب، مواردی را بازبینی کرده تا در صورت آمادگی برای نصب اقدام شود.';
 $_lang["system_configuration"] = 'System Configuration';

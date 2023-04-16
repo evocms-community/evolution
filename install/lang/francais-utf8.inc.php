@@ -1,15 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Grégory Pakosz (guardian)
- * @author Coroico
- * @author Jean-Christophe Brebion (Fairytree)
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language French
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -37,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX n\'a pas pu écrire le fichier de confi
 $_lang["cant_write_config_file_note"] = 'Une fois l\'opération effectuée, vous pouvez vous connecter à l\'interface d\'administration de MODX en utilisant l\'adresse  VotreSite.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Cochez pour sélectionner les options:';
 $_lang["checking_if_cache_exist"] = 'Vérification de l\'existence du répertoire <span class=\"mono\">assets/cache</span>: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Vérification des droits en écriture du fichier <span class=\"mono\">assets/cache/siteCache.idx.php</span>: ';
 $_lang["checking_if_cache_file2_writable"] = 'Vérification des droits en écriture du fichier <span class=\"mono\">assets/cache/sitePublishing.idx.php</span>: ';
 $_lang["checking_if_cache_writable"] = 'Vérification des droits en écriture du répertoire <span class=\"mono\">assets/cache</span>: ';
@@ -134,11 +134,14 @@ $_lang["please_correct_error"] = '. Veuillez corriger l\'erreur';
 $_lang["please_correct_errors"] = '. Veuillez corriger les erreurs';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Validation de la phase de pré-installation';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Modification des paramètres de configuration recommendée';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Modification des paramètres de configuration: <em>Autorisation des entêtes HTTP_REFERER?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Votre site n\'est pas configuré pour autoriser l\'entête HTTP_REFERER des requêtes entrantes dans le Manager. Nous recommandons fortement l\'autorisation de ce paramètre pour réduire le risque d\'attaque CSRF (Cross Site Request Forgery).';
 $_lang["remove_install_folder_auto"] = 'Effacer automatiquement le répertoire «install» de mon site <br />&nbsp;(Cette opération nécessite des droits d\'accès en effacement sur le répertoire «install»).';
 $_lang["remove_install_folder_manual"] = 'Veuillez effacer le répertoire &quot;<b>install</b>&quot; avant de vous connecter au Gestionnaire de Contenu.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Réessayer';
 $_lang["running_database_updates"] = 'Mise à jour de la base de données: ';
 $_lang["sample_web_site"] = 'Exemple de site web';

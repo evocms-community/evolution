@@ -8,12 +8,12 @@
  * Date: 2014/02/24
  */
 // titles
-$_lang['DM_module_title'] = 'Document Manager';
-$_lang['DM_action_title'] = 'Select an action';
-$_lang['DM_range_title'] = 'Specify a Range of Document IDs';
-$_lang['DM_tree_title'] = 'Select Documents from the tree';
-$_lang['DM_update_title'] = 'Update Completed';
-$_lang['DM_sort_title'] = 'Menu Index Editor';
+$_lang['DM_module_title'] = 'Менеджар рэсурсаў';
+$_lang['DM_action_title'] = 'Выберыце дзеянне';
+$_lang['DM_range_title'] = 'Пакажыце дыяпазон ID рэсурсаў';
+$_lang['DM_tree_title'] = 'Выберыце рэсурсы з дрэва';
+$_lang['DM_update_title'] = 'Абнаўленне завершана';
+$_lang['DM_sort_title'] = 'Рэдактар індэксаў меню';
 
 // tabs
 $_lang['DM_doc_permissions'] = 'Document Permissions';

@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author modxcms.cz
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Czech
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX nemohl zapsat konfigurační soubor. N�
 $_lang["cant_write_config_file_note"] = 'Až bude tento obsah uložen v souboru, můžete se přihlásit do MODX správce obsahu na adrese AdresaVasichStranek.cz/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Možnosti výběru zaškrtávacích polí:';
 $_lang["checking_if_cache_exist"] = 'Kontrola existence adresářů <span class="mono">/assets/cache</span> a <span class="mono">/assets/cache/rss</span>: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Kontrola zda lze zapisovat do souboru <span class="mono">/assets/cache/siteCache.idx.php</span>: ';
 $_lang["checking_if_cache_file2_writable"] = 'Kontrola zda lze zapisovat do souboru <span class="mono">/assets/cache/sitePublishing.idx.php</span>: ';
 $_lang["checking_if_cache_writable"] = 'Kontrola zda lze zapisovat do adresářů <span class="mono">/assets/cache</span> a <span class="mono">/assets/cache/rss</span>: ';
@@ -132,11 +134,14 @@ $_lang["please_correct_error"] = '. Opravte chybu';
 $_lang["please_correct_errors"] = '.Opravte chyby';
 $_lang["plugins"] = 'Pluginy';
 $_lang["preinstall_validation"] = 'Před-instalační kontrola';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Doporučené změny konfigurace';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Změna nastavení: <em>Ověřit hlavičky HTTP_REFERER?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Na portálu není nastaveno ověřování hlaviček HTTP_REFERER pří přístupu do správce obsahu. Důrazně doporučujeme aktivovat toto nastavení, které vede ke snížení rizika útoků CSRF (Cross Site Request Forgery).';
 $_lang["remove_install_folder_auto"] = 'Odstranit z portálu adresář instalátoru a jeho soubory <br />&nbsp;(Tato operace vyžaduje práva pro mazání přidělená adresáři instalátoru).';
 $_lang["remove_install_folder_manual"] = 'Před tím než se přihlásíte do správce obsahu nezapomeňte odstranit adresář "<b>instalátoru</b>".';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Znovu';
 $_lang["running_database_updates"] = 'Probíhající aktualizace databáze: ';
 $_lang["sample_web_site"] = 'Ukázkový portál';

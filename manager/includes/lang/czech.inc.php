@@ -1,12 +1,12 @@
 <?php
 /**
- * MODX Manager language file
+ * EVO Manager language file
  *
  * @version 1.0.15
  * @date 2014/02/24
- * @author modxcms.cz
+ * @author The EVO Project Team
  *
- * @language Czech
+ * @language English
  * @package modx
  * @subpackage manager
  *
@@ -68,6 +68,7 @@ $_lang["allow_mgr_access"] = 'Správce přístupového rozhraní';
 $_lang["allow_mgr_access_message"] = 'Zvolením tohoto výběru umožníte nebo znemožníte přístup do správcovského rozhraní. <b>POZNÁMKA: Jestliže je v této volbě nastaveno NE, potom uživatel bude přesměrován do Správce úvodního přihlášení nebo na úvodní stránku.</b>';
 $_lang["already_deleted"] = 'už byl vymazán.';
 $_lang["attachment"] = 'Příloha';
+$_lang["author_infos"] = 'Author information';
 $_lang["automatic_alias_message"] = 'Volbou \'ano\' je systémem automaticky generován alias založený na nadpisu stránky dokumentu, když je uložen.';
 $_lang["automatic_alias_title"] = 'Automaticky vytvořený alias:';
 $_lang["backup"] = 'Záloha';
@@ -84,6 +85,9 @@ $_lang["captcha_words_default"] = 'MODX,Access,Better,BitCode,Chunk,Cache,Desc,D
 $_lang["captcha_words_message"] = 'Zde můžete zadat seznam CAPTCHA slov, které se používají při povolené CAPTCHA. Oddělte slova čárkami. Toto pole je limitované max. počtem 255 znaků.';
 $_lang["captcha_words_title"] = 'CAPTCHA slova';
 $_lang["category_heading"] = 'Kategorie';
+$_lang["category_manager"] = 'Category Manager';
+$_lang["category_management"] = 'Category management';
+$_lang["manage_categories"] = 'Manage Categories';
 $_lang["category_msg"] = 'Tady můžete zobrazit a upravit všechny zdroje seskupené do kategorií.';
 $_lang["cfg_base_path"] = 'MODX_BASE_PATH';
 $_lang["cfg_base_url"] = 'MODX_BASE_URL';
@@ -122,6 +126,8 @@ $_lang["configcheck_errorpage_unavailable"] = 'Vaše Chybová stránka (error 40
 $_lang["configcheck_errorpage_unavailable_msg"] = 'To znamená, že vaše Chybová stránka není dostupná normálním internetovým uživatelům nebo neexistuje. To může vést k mnoha chybovým zápisům do logů. Ujistěte se zda žádná ze skupin návštěvníků nemá přístup k této stránce.';
 $_lang["configcheck_errorpage_unpublished"] = 'Vaše Chybová stránka (error 404) není publikována nebo neexistuje.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'To znamená, že vaše Chybová stránka je nedostupná širolé veřejnosti. Publikujte stránku nebo se přesvědčte, že stránka existuje a je umístěna ve stromu dokumentů v Nástrojích &gt; Konfigurační menu';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evo system configuration.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Tuto zprávu již nezobrazovat.</em></a>';
 $_lang["configcheck_images"] = 'Do adresáře pro obrázky nelze zapisovat';
 $_lang["configcheck_images_msg"] = 'Adresář pro obrázky neexistuje nebo nemá povoleno právo k zápisu. Je potřeba pro funkčnost WYSIWYG editoru.';
@@ -133,6 +139,8 @@ $_lang["configcheck_notok"] = 'Byly nalezeny následující problémy: ';
 $_lang["configcheck_ok"] = 'Kontola proběhla úspěšně - žádná varovavání nejsou třeba.';
 $_lang["configcheck_php_gdzip"] = 'GD a/nebo Zip PHP extenze nenalezena';
 $_lang["configcheck_php_gdzip_msg"] = 'MODX potřebuje aktivní extenzi GD a Zip v PHP. Dokud bude MODX bežet bez nich, nebude možno používat všech výhod vestavěného správce souborů, editoru obrázků nebo captcha.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evo system configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals je nastaven na zapnuto (ON) v konfiguračním souboru php.ini';
 $_lang["configcheck_register_globals_msg"] = 'Tato konfigurace dělá Vaše stránky více citlivé na útoky typu Cross Site Scripting (XSS). ';
 $_lang["configcheck_title"] = 'Kontrola konfigurace';
@@ -149,8 +157,10 @@ $_lang["configcheck_validate_referer_msg"] = 'Nastavení <strong>Ověřit hlavi�
 $_lang["configcheck_warning"] = 'Výstraha konfigurace:';
 $_lang["configcheck_what"] = 'Co to znamená?';
 $_lang["confirm_block"] = 'Opravdu chcete zablokovat tohoto uživatele?';
+$_lang["confirm_delete_category"] = 'Are you sure you want to delete this category?';
 $_lang["confirm_delete_eventlog"] = 'Skutečně chcete smazat tento výpis událostí?';
 $_lang["confirm_delete_file"] = 'Jste si jistí, že chcete odstranit soubor?\n\nMůže to narušit činnost stránek! Soubor odstraňte jen tehdy, jestliže víte, na co slouží a jste si jistý, že jeho odstranění nemůže ohrozit nebo narušit činnost stránky.';
+$_lang["confirm_delete_group"] = 'Are you sure you want to delete this group?';
 $_lang["confirm_delete_htmlsnippet"] = 'Jste si jistí, že chcete odstranit chunk?';
 $_lang["confirm_delete_keywords"] = 'Jste si jisti, že chcete smazat tato klíčová slova?';
 $_lang["confirm_delete_module"] = 'Opravdu chcete tento modul smazat?';
@@ -169,6 +179,7 @@ $_lang["confirm_load_depends"] = 'Opravdu chcete nahrát Správu závislostí be
 $_lang["confirm_name_change"] = 'Změna uživatelského jména může ovlivnit jiné aplikace, které jsou provázané se Správcem obsahu. \n\n Skutečně chcete změnit toto uživatelské jméno?';
 $_lang["confirm_publish"] = '\n\nPublikováním tohoto dokumentu odstraníte nastavené datumy ukončení publikování. Jestli chcete nastavené datum začátku nebo ukončení publikace zachovat, zvolte prosím místo této volby \'Upravit dokument\'.\n\nPokračovať?';
 $_lang["confirm_remove_locks"] = 'Užívatelé někdy vypnou svůj prohlížeč v průběhu úprav dokumentů, šablon, snippetů nebo opustí složku, případně příspěvek v uzamknutém stavu v průběhu úpravy. Stisknutím OK můžete odstranit VŠECHNY zámky, které jsou aktivovní.\n\nPokračovat?';
+$_lang["confirm_reset_sort_order"] = 'Are you sure you want to reset the \"sort order/index\" of all listed elements to 0 ?';
 $_lang["confirm_resource_duplicate"] = 'Opravdu chcete zkopírovat tento dokument/složku?\nPodsložky a dokumenty budou také zkopírovány.';
 $_lang["confirm_setting_language_change"] = 'Změnili jste výchozí hodnotu a přijdete o provedené změny. Pokračovat?';
 $_lang["confirm_unblock"] = 'Opravdu chcete odblokovat tohoto uživatele?';
@@ -181,6 +192,7 @@ $_lang["create_resource_here"] = 'Zde vytvořit dokument';
 $_lang["create_resource_title"] = 'Vytvořit dokument';
 $_lang["create_weblink_here"] = 'Zde vytvořit link';
 $_lang["createdon"] = 'Vytvořeno dne:';
+$_lang["create_new"] = 'Create new';
 $_lang["credits"] = 'Poděkování';
 $_lang["credits_shouts_msg"] = '<p>MODX je spravován a udržován na <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Tady můžete přidat uživatelské typy obsahu užité ve vašich dokumentech. Pro přidání nového vstupu, zadejte typ obsahu v textovém poli, potom klikněte na tlačítko \'Přidat\'.';
@@ -234,12 +246,14 @@ $_lang["deselect_keywords"] = 'Smazat klíčová slova';
 $_lang["deselect_metatags"] = 'Smazat META tagy';
 $_lang["disabled"] = 'Zakázaný';
 $_lang["doc_data_title"] = 'Náhled na data dokumentu';
+$_lang["documentation"] = 'Documentation';
 $_lang["duplicate"] = 'Kopírovat';
 $_lang["duplicate_alias_found"] = 'Dokument \'%s\' již používá alias \'%s\'. Prosím zadejte jednoznačný alias.';
 $_lang["duplicate_alias_message"] = 'Zde můžete zvolit \'ano\' k povolení duplicity aliasů, které byly uloženy. <b>POZNÁMKA: Tato volba by měla být použita s volbou "Cesta ke zjednodušenému aliasu" nastavenou na \'Ano\', aby se vyhnulo problémům při odkazování na dokument.</b>';
 $_lang["duplicate_alias_title"] = 'Povolit duplicitu aliasů:';
 $_lang["duplicate_name_found_general"] = '%s s názvem \'%s\' již existuje. Zadejte ještě nepoužitý název.';
 $_lang["duplicate_name_found_module"] = 'Modul s názvem \'%s\' již existuje. Zadejte ještě nepoužitý název.';
+$_lang["duplicated_el_suffix"] = 'Duplicate';
 $_lang["edit"] = 'Upravit';
 $_lang["edit_resource"] = 'Upravit dokument';
 $_lang["edit_resource_title"] = 'Upravit dokument';
@@ -250,6 +264,7 @@ $_lang["editor_css_path_message"] = 'Zadejte cestu k Vašemu CSS souboru, jestli
 $_lang["editor_css_path_title"] = 'Cesta k CSS souboru:';
 $_lang["element"] = 'Zdroj';
 $_lang["element_categories"] = 'Všechny zdroje a moduly';
+$_lang["element_filter_msg"] = 'Type here to filter list';
 $_lang["element_management"] = 'Správa zdrojů';
 $_lang["element_name"] = 'Název zdroje';
 $_lang["element_selector_msg"] = 'Vyberte zdroj(e) z níže uvedeného seznamu a klikněte na tlačítko \'Vložit\'.';
@@ -325,6 +340,7 @@ $_lang["files_access_denied"] = 'Přístup zamítnutý!';
 $_lang["files_data"] = 'Data';
 $_lang["files_dir_listing"] = 'Výpis adresáře:';
 $_lang["files_directories"] = 'Adresáře';
+$_lang["files_directory_is_empty"] = 'This directory is empty.';
 $_lang["files_dirwritable"] = 'Zápis povolen?';
 $_lang["files_editfile"] = 'Upravit soubor';
 $_lang["files_file_type"] = 'Typ souboru: ';
@@ -333,6 +349,8 @@ $_lang["files_fileoptions"] = 'Možnosti';
 $_lang["files_files"] = 'Soubory';
 $_lang["files_filesize"] = 'Velikost souboru';
 $_lang["files_filetype_notok"] = 'Nahrání tohoto typu souboru není povoleno!';
+$_lang["files_management"] = 'Manage Files';
+$_lang["files_management_no_permission"] = 'You do not have enough permissions to view or edit these files. Ask the administrator to grant you access to <b>%s</b>.';
 $_lang["files_modified"] = 'Změněno';
 $_lang["files_top_level"] = 'Domovský adresář';
 $_lang["files_up_level"] = 'Nadřazený adresář';
@@ -368,23 +386,30 @@ $_lang["friendlyurlsuffix_message"] = 'Zde můžete nastavit příponu pro jedno
 $_lang["friendlyurlsuffix_title"] = 'Přípona jednoduchých URL:';
 $_lang["functionnotimpl"] = 'Sakrblééé?!';
 $_lang["functionnotimpl_message"] = 'Tato funkce ještě nebyla implementovaná';
+$_lang["further_info"] = 'Further information';
+$_lang["global_tabs"] = 'Global Tabs';
 $_lang["go"] = 'Hledej';
 $_lang["group_access_permissions"] = 'Přístupová práva skupiny uživatelů';
+$_lang['group_tvs'] = 'Group TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Pomoc';
 $_lang["help_msg"] = 'Jestliže potřebujete pomoc při používaní systému MODX, uděláte nejlépe, když navštívíte <a href="http://www.modxcms.cz/" target="_blank">české MODX fórum</a>. Najdete tam: návody, dokumentaci používání a nastavení MODX. Jestliže pošlete svoji otázku na fórum, budeme se snažit odpovědět, co nejdříve.';
 $_lang["help_title"] = 'Pomoc';
 $_lang["hide_tree"] = 'Skrýt';
 $_lang["home"] = 'Domů';
+$_lang["htmlsnippet"] = 'Chunk';
+$_lang["htmlsnippets"] = 'Chunks';
 $_lang["htmlsnippet_desc"] = 'Popis';
 $_lang["htmlsnippet_management_msg"] = 'Zde můžete zvolit chunk, který chcete upravit.';
 $_lang["htmlsnippet_msg"] = 'Zde můžete přidávat nebo upravovat chunky. Pamatujte, chunk je \'surový\' HTML kód  nebo též část PHP kódu, který není možné samostatně spustit.';
 $_lang["htmlsnippet_name"] = 'Název chunku';
 $_lang["htmlsnippet_title"] = 'Tvorba/úprava chunku';
 $_lang["icon"] = 'Ikona';
+$_lang["icon_description"] = 'CSS class value. e.g. fa&nbsp;fa-star';
 $_lang["id"] = 'ID';
 $_lang["illegal_parent_child"] = 'Nadřazení:\n\nDokument je potomek vybraného dokumentu.';
 $_lang["illegal_parent_self"] = 'Nadřazení:\n\nVybraný dokument nemůže být podřízen sám sobě.';
+$_lang["images_management"] = 'Manage Images';
 $_lang["import_files_found"] = '<b>Nalezeno %s dokument(y/ů) k importu...</b>';
 $_lang["import_params"] = 'Importovat sdílené parametry modulu';
 $_lang["import_params_msg"] = 'Můžete importovat parametery nebo nastavení modulu výběrem jména modulu z menu. <b>POZNÁMKA:</b> Aby se moduly objevily v menu, musí být tento plugin/snippet součástí seznam závislostí modulu a modul musí mít povolen parametr sdílení. ';
@@ -410,6 +435,10 @@ $_lang["inline"] = 'V řadě';
 $_lang["insert"] = 'Vložit';
 $_lang["maxImageWidth"] = 'Maximum image width';
 $_lang["maxImageHeight"] = 'Maximum image height';
+$_lang["clientResize"] = 'Resize images on client-side';
+$_lang["clientResize_message"] = 'If enabled then images will be resized by browser before upload to the server';
+$_lang["noThumbnailsRecreation"] = 'Create thumbnails on upload only';
+$_lang["noThumbnailsRecreation_message"] = 'File browser will create thumbnails only on upload; if there\'s no thumbnails for some images, they will not be created';
 $_lang["thumbWidth"] = 'Maximum thumbnail width';
 $_lang["thumbHeight"] = 'Maximum thumbnail height';
 $_lang["thumbsDir"] = 'Thumbnails directory location';
@@ -428,7 +457,9 @@ $_lang["keywords"] = 'Klíčová slova';
 $_lang["keywords_intro"] = 'Pro úpravu klíčového slova, jednoduše napište do textového pole vedle původního slova nové klíčové slovo. Pro smazání klíčového slova, označte \'vymazávací\' box před klíčovým slovem. Jestliže označíte vymazávací pole a také změníte jeho název, klíčové slovo bude smazáno a přejmenování klíčového slova nebude uskutečněno!';
 $_lang["language_message"] = 'Vyberte jazyk, který chcete používat v administrační části MODX.';
 $_lang["language_title"] = 'Jazyk:';
+$_lang["last_update"] = 'Last update';
 $_lang["launch_site"] = 'Spustit stránky';
+$_lang["license"] = 'License';
 $_lang["link_attributes"] = 'Vlastnosti odkazu';
 $_lang["link_attributes_help"] = 'Zde můžete zadat vlastnosti odkazu pro tuto stránku, jako target= nebo rel=.';
 $_lang["list_mode"] = 'Zapnutí/vypnutí seznam režimu - používate-li seznam všech záznamů v tabulce.';
@@ -475,11 +506,19 @@ $_lang["manage_modules"] = 'Správa modulů';
 $_lang["manage_plugins"] = 'Pluginy';
 $_lang["manage_snippets"] = 'Snippety';
 $_lang["manage_templates"] = 'Šablony';
+$_lang["manage_documents"] = 'Documents';
 $_lang["manager"] = 'Správce';
 $_lang["manager_lockout_message"] = 'Jste přihlášen do Správce obsahu. Pokud chcete opustit MODX, klikněte na tlačítko "Ohlásit".</p>Pro spuštění nebo přechod na domovskou stránku klikněte na tlačítko "Domů".';
 $_lang["manager_permissions"] = 'Správa přístupových práv';
 $_lang["manager_theme"] = 'Vzhled správce:';
 $_lang["manager_theme_message"] = 'Zvolit vzhled Správce obsahu.';
+$_lang["manager_theme_mode"] = 'Color Scheme:';
+$_lang["manager_theme_mode1"] = 'everything is light';
+$_lang["manager_theme_mode2"] = 'the header is dark';
+$_lang["manager_theme_mode3"] = 'header and sidebar are dark';
+$_lang["manager_theme_mode4"] = 'everything is dark';
+$_lang['manager_theme_mode_message'] = 'This setting is used as the "default" and can be overridden by the manager when using the theme color mode switch button in the Resource Tree: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["messages"] = 'Zprávy';
 $_lang["messages_all"] = 'Všichni';
 $_lang["messages_compose"] = 'Napsat zprávu';
@@ -609,6 +648,7 @@ $_lang["onlineusers_title"] = 'Uživatelé online';
 $_lang["onlineusers_user"] = 'Uživatel';
 $_lang["onlineusers_userid"] = 'ID uživatele';
 $_lang["optimize_table"] = 'Klikněte zde pro optimalizaci této tabulky.';
+$_lang["page_data_alias"] = 'Alias';
 $_lang["page_data_cacheable"] = 'Ukládání do zásobníku (cache)';
 $_lang["page_data_cacheable_help"] = 'Zatrhněte tuto položku, jestliže budete chtít povolit ukládání dokumentů do zásobníku. Jestliže váš dokument obsahuje snippety, nechejte tuto položku neoznačenou.';
 $_lang["page_data_cached"] = '<b>Zdroj vyvolaný ze zásobníku:</b>';
@@ -649,6 +689,8 @@ $_lang["paging_showing"] = 'Zobrazuji';
 $_lang["paging_to"] = 'až';
 $_lang["paging_total"] = 'celkem';
 $_lang["parameter"] = 'Parametr';
+$_lang["parse_docblock"] = 'Parse DocBlock';
+$_lang["parse_docblock_msg"] = 'Attention (!): <b>Resets</b> actual name, configuration, description and category to install-defaults by parsing the source code.';
 $_lang["password"] = 'Heslo';
 $_lang["password_change_request"] = 'Požadována změna hesla';
 $_lang["password_gen_gen"] = 'Nechat MODX vygenerovat heslo.';
@@ -661,6 +703,7 @@ $_lang["password_method_screen"] = 'Zobrazit nové heslo na monitoru.';
 $_lang["password_msg"] = 'Nové heslo pro <b>%s</b> je <b>%s</b><br>';
 $_lang["php_version_check"] = 'MODX je kompatibilní jen s verzí PHP 5.6.0 a vyšší. Aktualizujte prosím svou PHP instalaci!';
 $_lang["plugin"] = 'Plugin';
+$_lang["plugins"] = 'Plugins';
 $_lang["plugin_code"] = 'Kód pluginu (php)';
 $_lang["plugin_config"] = 'Nastavení pluginu';
 $_lang["plugin_desc"] = 'Popis';
@@ -672,6 +715,8 @@ $_lang["plugin_name"] = 'Název pluginu';
 $_lang["plugin_priority"] = 'Upravit pořadí provedení pluginů podle události';
 $_lang["plugin_priority_instructions"] = 'Pro změnu pořadí spouštěných Pluginů pro každou událost jej v rámci události přetáhněte. První spouštěný Plugin by měl být nahoře.';
 $_lang["plugin_priority_title"] = 'Pořadí spouštěných Pluginů';
+$_lang["purge_plugin"] = 'Purge obsolete plugins';
+$_lang["purge_plugin_confirm"] = 'Are you sure you want to purge obsolete plugins?';
 $_lang["plugin_title"] = 'Vytvořit/upravit plugin';
 $_lang["preview"] = 'Náhled';
 $_lang["preview_msg"] = 'Tohle je náhled na vaše poslední uložené změny. Kliknutím zde na <a href="javascript:;" onclick="saveRefreshPreview();">Uložit a obnovit</a> uložíte vaše současné změny';
@@ -692,6 +737,7 @@ $_lang["rb_webuser_title"] = 'Návštěvník?';
 $_lang["recent_docs"] = 'Poslední dokumenty';
 $_lang["recommend_setting_change_title"] = 'Doporučena změna nastavení';
 $_lang["recommend_setting_change_description"] = 'Váš web není nastaven pro ověřování HTTP_REFERER příchozích dotazů do Manager. Doporučejeme Vám zapnutí tohoto nastavení, předejdete tím možnému CSRF (Cross Site Request Forgery) útoku.';
+$_lang["references"] = 'References';
 $_lang["refresh_cache"] = 'Vyrovnávací paměť (cache): Počet souborů umístěných v adresáři cache <b>%s</b> a smazáno <b>%d</b> vyrovnávacích souborů.<p>Nové vyrovnávací soubory budou vytvořeny až to budou stránky vyžadovat.';
 $_lang["refresh_published"] = 'Počet publikovaných dokumentů: <b>%s</b>';
 $_lang["refresh_site"] = 'Vyrovnávací paměť';
@@ -707,11 +753,13 @@ $_lang["remove_date"] = 'Odstranit datum';
 $_lang["remove_locks"] = 'Odstranit zámky';
 $_lang["rename"] = 'Přejmenovat';
 $_lang["reports"] = 'Hlášení';
+$_lang["report_issues"] = 'Report issues';
 $_lang["require_tagname"] = 'Je požadován název značky';
 $_lang["require_tagvalue"] = 'Je požadována hodnota tagu';
 $_lang["reserved_name_warning"] = 'Tento název nelze použít. Jedná se o název, který je vyhrazen systému.';
 $_lang["reset"] = 'Vymazat';
 $_lang["reset_failedlogins"] = 'reset';
+$_lang["reset_sort_order"] = 'Reset sort order';
 $_lang["resource"] = 'Dokument';
 $_lang["resource_alias"] = 'Zástupce dokumentu';
 $_lang["resource_alias_help"] = 'Zde můžete zvolit zástupce pro tento dokument. Pro lehčí přístup k dokumentu použijte:
@@ -763,8 +811,11 @@ $_lang["role"] = 'Role';
 $_lang["role_about"] = 'Zobrazení informací o stránkách';
 $_lang["role_access_persmissions"] = 'Přístupová práva';
 $_lang["role_actionok"] = 'Prohlížení dokončené akce na obrazovce';
+$_lang["role_assets_images"] = 'Manage assets/images';
+$_lang["role_assets_files"] = 'Manage assets/files';
 $_lang["role_bk_manager"] = 'Použít správce zálohy';
 $_lang["role_cache_refresh"] = 'Vyprázdnit zásobník stránek (cache)';
+$_lang["role_category_manager"] = 'Use the Category Manager';
 $_lang["role_change_password"] = 'Změna hesla';
 $_lang["role_change_resourcetype"] = 'Změnit typ zdroje';
 $_lang["role_chunk_management"] = 'Správa chunků';
@@ -801,6 +852,7 @@ $_lang["role_empty_trash"] = 'Permanentně odstranit smazané dokumenty';
 $_lang["role_errors"] = 'Zobrazit chybová hlášení';
 $_lang["role_eventlog_management"] = 'Správa výpisu událostí';
 $_lang["role_export_static"] = 'Exportovat statické HTML';
+$_lang["role_file_management"] = 'File Management';
 $_lang["role_file_manager"] = 'Použít správce souborů';
 $_lang["role_frames"] = 'Použít rámy správce';
 $_lang["role_help"] = 'Zobrazit pomocníka';
@@ -861,8 +913,11 @@ $_lang["search_criteria_content"] = 'Hledat v obsahu';
 $_lang["search_criteria_content_msg"] = 'Najít všechny dokumenty obsahující zadaný text.';
 $_lang["search_criteria_id"] = 'Hledat podle ID';
 $_lang["search_criteria_id_msg"] = 'Zadajte ID dokumentu rychlého vyhledávání.';
+$_lang["search_criteria_top"] = 'Search in main fields';
+$_lang["search_criteria_top_msg"] = 'Pagetitle, Longtitle, Alias, ID';
 $_lang["search_criteria_template_id"] = 'Search by template ID';
 $_lang["search_criteria_template_id_msg"] = 'Find all Resources using the specified template.';
+$_lang["search_criteria_url_msg"] = 'Find Resource by exact URL.';
 $_lang["search_criteria_longtitle"] = 'Hledat podle dlouhého názvu';
 $_lang["search_criteria_longtitle_msg"] = 'Najít všechny dokumenty s vloženým textem v dlouhém názvu.';
 $_lang["search_criteria_title"] = 'Hledat podle názvu';
@@ -888,17 +943,28 @@ $_lang["serveroffset"] = 'Časový posun oproti serveru';
 $_lang["serveroffset_message"] = 'Vyberte hodnotu rozdílu času mezi vaším časovým pásmem s pásmem nastaveným na serveru. Současný čas na serveru je <b>[%s]</b>, čas na serveru po použití a uložení kompenzace je <b>[%s]</b>.';
 $_lang["serveroffset_title"] = 'Časový posun oproti serveru:';
 $_lang["servertime"] = 'Čas serveru';
+$_lang["set_automatic"] = 'Set automatic';
+$_lang["set_default"] = 'Set default';
+$_lang["set_default_all"] = 'Set defaults';
 $_lang["settings_after_install"] = 'Protože jde o novou instalaci, bude potřeba zkontrolovat nastavení MODX nebo ho upravit. Po kontrole nastavení kliněte na \'Uložit\' pro aktulizaci nastavení v databázi.<br /><br />';
 $_lang["settings_config"] = 'Konfigurace';
 $_lang["settings_dependencies"] = 'Závislosti';
 $_lang["settings_events"] = 'Systemové události';
 $_lang["settings_furls"] = 'Zjednodušené URL';
 $_lang["settings_general"] = 'Všeobecné';
+$_lang["settings_group_tv_message"] = 'Choose if Template Variables should be grouped in sections or tabs (named by TV category) when editing a Resource';
+$_lang["settings_group_tv_options"] = 'No,Sections in General tab,Tabs in General tab,Sections in new tab,Tabs in new tab,New tabs';
 $_lang["settings_misc"] = 'Správce souborů';
+$_lang["settings_security"] = 'Security';
 $_lang["settings_KC"] = 'File Browser';
 $_lang["settings_page_settings"] = 'Nastavení stránky';
 $_lang["settings_photo"] = 'Foto';
 $_lang["settings_properties"] = 'Vlastnosti';
+$_lang["show_fullscreen_btn_message"] = 'Show Menu toggle Fullscreen button';
+$_lang["show_newresource_btn_message"] = 'Show Menu New Resource button';
+$_lang["settings_show_picker_message"] = 'Customize manager theme and save to localstorage';
+$_lang["show_fullscreen_btn"] = 'Toggle Fullscreen button';
+$_lang["show_newresource_btn"] = 'New Resource button';
 $_lang["settings_site"] = 'Web';
 $_lang["settings_strip_image_paths_message"] = 'Jestliže nastavíte \'Ne\', MODX zapíše cestu ke zdroji (obrázek, soubor, flash atd.) jako absolutní. Relativní adresy jsou dobré, jestliže budete přesouvat vaši instalaci MODX. Jestliže si nejste jistí, co to znamená, je nejlepší nastavit volbu na \'Ano\'.';
 $_lang["settings_strip_image_paths_title"] = 'Přepsat cestu k obrázkům?';
@@ -909,6 +975,7 @@ $_lang["settings_users"] = 'Uživatel';
 $_lang["show_meta"] = 'Zobrazit záložku META klíčových slov';
 $_lang["show_meta_message"] = 'Zobrazit zastaralou editaci META klíčových slov při editaci dokumentu v Manager.';
 $_lang["show_tree"] = 'Ukázat strom dokumentů';
+$_lang["show_picker"] = 'Show Color Switcher';
 $_lang["showing"] = 'Zobrazení';
 $_lang["signupemail_message"] = 'Zde můžete nastavit zprávu odesílanou uživatelům po vytvoření účtu. MODX potom odešle email obsahujíci jejich uživatelské jméno a heslo. <b>Poznámka:</b> Následující rezervovaná místa (placeholders) budou nahrazena Správcem obsahu, když pošle zprávu: <br /><br />[+sname+] - Jméno Vaší webové stránky, <br />[+saddr+] - Emailová adresa Vašich stránek, <br />[+surl+] - URL Vašich stránek, <br />[+uid+] - Uživatelské přihlašovací jméno nebo id, <br />[+pwd+] - Uživatelské heslo, <br />[+ufn+] - Celé uživatelovo jméno. <br /><br /><b>Vynecháním [+uid+] a [+pwd+] v emailu způsobíte, že se uživatel nedozví své uživatelské jméno a heslo!</b>';
 $_lang["signupemail_title"] = 'Obsah emailu:';
@@ -926,6 +993,7 @@ $_lang["siteunavailable_page_message"] = 'Zadejte ID dokumentu, který chcete zo
 $_lang["siteunavailable_page_title"] = 'Stránka při nedosažitelnosti webu:';
 $_lang["siteunavailable_title"] = 'Stránky jsou nedostupné:';
 $_lang["snippet"] = 'Snippet';
+$_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Kód snippetu (php)';
 $_lang["snippet_desc"] = 'Popis';
 $_lang["snippet_execonsave"] = 'Provést snippet po uložení.';
@@ -934,9 +1002,15 @@ $_lang["snippet_msg"] = 'Zde můžete přidávat anebo upravovat snippety. Pamat
 $_lang["snippet_name"] = 'Název snippetu';
 $_lang["snippet_properties"] = 'Výchozí vlastnosti';
 $_lang["snippet_title"] = 'Vytvořit/upravit snippet';
+$_lang["sort_alphabetically"] = 'Sort alphabetically';
 $_lang["sort_asc"] = 'Vzestupně';
 $_lang["sort_desc"] = 'Sestupně';
+$_lang["sort_menuindex"] = 'Sort menu index';
 $_lang["sort_tree"] = 'Uspořádat strom';
+$_lang['sort_updating'] = 'Updating ...';
+$_lang['sort_updated'] = 'Updated!';
+$_lang['sort_nochildren'] = 'Parent does not have any children';
+$_lang["sort_elements_msg"] = 'Drag to reorder the listed elements.';
 $_lang["source"] = 'Zdroj';
 $_lang["stay"] = 'Pokračovat v úpravách';
 $_lang["stay_new"] = 'Přidat další';
@@ -945,6 +1019,7 @@ $_lang["sunday"] = 'Neděle';
 $_lang["sys_alert"] = 'Výstraha systému';
 $_lang["sysinfo_activity_message"] = 'Tento výpis informuje, které dokumenty byli nedávno upravované uživateli.';
 $_lang["sysinfo_userid"] = 'Uživatel';
+$_lang["system"] = 'System';
 $_lang["system_email_signup"] = 'Dobrý den [+uid+]
 
 Zde jsou podrobnosti k vašemu přihlášení pro [+sname+] do správce obsahu:
@@ -985,6 +1060,7 @@ $_lang["table_hoverinfo"] = 'Zastavením kurzoru myši nad jménem tabulky zobra
 $_lang["table_prefix"] = 'Předpona tabulek';
 $_lang["tag"] = 'Značka';
 $_lang["template"] = 'Šablona';
+$_lang["templates"] = 'Templates';
 $_lang["template_assignedtv_tab"] = 'Přiřazené Template Variables';
 $_lang["template_code"] = 'Kód šablony (html)';
 $_lang["template_desc"] = 'Popis';
@@ -993,8 +1069,10 @@ $_lang["template_management_msg"] = 'Zde můžete zvolit šablonu, kterou chcete
 $_lang["template_msg"] = 'Zde můžete vytvářet/upravovat šablony. Nové anebo upravené šablony nebudou viditelné ve stránkach uložených v zásobníku až do jeho vyprázdnění. Můžete použít náhled stránek pro prohlédnutí šablony v činnosti.';
 $_lang["template_name"] = 'Název šablony';
 $_lang["template_no_tv"] = 'Žádná Template Variables nebyla přiřazena této šabloně.';
+$_lang["template_notassigned_tv"] = 'These Template Variables are available for assigning.';
 $_lang["template_reset_all"] = 'Vymazat všechny stránky pro použití základní šablony';
 $_lang["template_reset_specific"] = 'Vymazat jen "%s" stránky';
+$_lang["template_selectable"] = 'Template selectable when creating or editing ressources.';
 $_lang["template_title"] = 'Vytvořit/upravit šablonu';
 $_lang["template_tv_edit"] = 'Upravit uspořádání Template Variables';
 $_lang["template_tv_edit_message"] = 'Změnu pořadí Template Variables pro tuto šablonu je možné určit přetažením.';
@@ -1006,6 +1084,7 @@ $_lang["tmplvar_change_template_msg"] = 'Změna této šablony zapříčiní zno
 $_lang["tmplvar_inuse"] = 'Následující dokument(y) používá(jí) tuto Template Variable. Pro pokračování smazání klikněte na tlačítko Smazat, zrušit mazání můžete pomocí tlačítka Zrušit.';
 $_lang["tmplvar_tmpl_access"] = 'Přístup k šabloně';
 $_lang["tmplvar_tmpl_access_msg"] = 'Vyberte šablony, které budou přístupné této proměnné';
+$_lang["tmplvar"] = 'Template Variable';
 $_lang["tmplvars"] = 'Template Variables';
 $_lang["tmplvars_binding_msg"] = 'Toto pole podporuje zdroj dat vázaný na užití @ příkazů';
 $_lang["tmplvars_caption"] = 'Hlavička';
@@ -1018,12 +1097,14 @@ $_lang["tmplvars_msg"] = 'Zde můžete přidávat a upravovat Template Variables
 $_lang["tmplvars_name"] = 'Jméno proměnné';
 $_lang["tmplvars_novars"] = 'Žádné Template Variables nenalezeny';
 $_lang["tmplvars_rank"] = 'Uspořádání';
+$_lang["tmplvars_rank_edit_message"] = 'Drag to reorder the Template Variables.';
 $_lang["tmplvars_reset_params"] = 'Resetovat parametery';
 $_lang["tmplvars_title"] = 'Vytvořit/upravit Template Variable';
 $_lang["tmplvars_type"] = 'Typ vstupu';
 $_lang["tmplvars_widget"] = 'Výstup';
 $_lang["tmplvars_widget_prop"] = 'Možnosti výstupu';
 $_lang["to"] = 'do';
+$_lang["toggle_fullscreen"] = 'Toggle Fullscreen';
 $_lang["tools"] = 'Nástroje';
 $_lang["top_howmany_message"] = 'Když prohlížíte výpisy ve statistikách, určujete počet položek zobrazených v seznamech "Nejlepších ..."?';
 $_lang["top_howmany_title"] = 'Kolik "Nejlepších ...." položek';
@@ -1032,6 +1113,8 @@ $_lang["track_visitors_message"] = 'Toto nastavení nemá žádný efekt, pokud 
 $_lang["track_visitors_title"] = 'Logování návštěv (statistiky)';
 $_lang["tree_page_click"] = 'Chování stránky při kliknutí';
 $_lang["tree_page_click_message"] = 'Výchozí chování při kliknutí na stránku ve stromu dokumentů.';
+$_lang["use_breadcrumbs"] = 'Show navigation';
+$_lang["use_breadcrumbs_message"] = 'Show the navigation when creating or editing Resource in the Manager';
 $_lang["tree_show_protected"] = 'Ukázat chráněné stránky';
 $_lang["tree_show_protected_message"] = 'Pokud nastavíte "Ne", chráněné stránky (a žádní jejich potomci) se nezobrazí ve stromu dokumentů. "Ne" je výchozím nastavením MODX.';
 $_lang["truncate_table"] = 'Klikněte sem pro vyprázdnění této tabulky';
@@ -1069,6 +1152,7 @@ $_lang["use_alias_path_message"] = 'Nastavení této volby na \'Ano\' znázorní
 $_lang["use_alias_path_title"] = 'Cesta ke zjednodušenému aliasu:';
 $_lang["use_editor_message"] = 'Chcete umožnit používání rozšíreného kontextového editoru? Můžete pohodlně navrhovat stránky v režimu WYSIWYG, anebo psát kód HTML. Také můžete editor střídavě vypínat výběrem této volby. Pamatujte, že toto nastavení je použité pro všechnu dokumenty a všechny uživatele!';
 $_lang["use_editor_title"] = 'Povolit editor';
+$_lang["use_global_tabs"] = 'Use global Tabs';
 $_lang["user"] = 'Uživatel';
 $_lang["user_block"] = 'Blokované';
 $_lang["user_blockedafter"] = 'Zablokováno od';
@@ -1099,6 +1183,7 @@ $_lang["user_state"] = 'Kraj';
 $_lang["user_title"] = 'Vytvořit/upravit uživatele';
 $_lang["user_upload_message"] = 'Jestliže si přejete zastavit uživatele v nahrávání jakéhokoli typu souborů v této kategorii, ujistěte se, že zaškrtávací políčko v \'Užít hlavní konfigurační nastavení\' není zatrženo a nechte pole prázdné.';
 $_lang["user_use_config"] = 'Užít hlavní konfigurační nastavení';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'PSČ';
 $_lang["username"] = 'Uživatel';
 $_lang["users"] = 'Zabezpečení';
@@ -1107,6 +1192,7 @@ $_lang["valid_hostnames_title"] = 'Valid hostnames';
 $_lang["validate_referer_message"] = 'Ověření hlaviček HTTP_REFERER z důvodů snížení nebezpečí, že by Váš editor mohl způsobit neúmyslé postupy ve správci jako oběť CSRF (Cross Site Request Forgery) útoku. Některé nastavení nemusí být použitelné pokud servr neposílá HTTP_REFERER hlavičky.';
 $_lang["validate_referer_title"] = 'Ověřit hlavičky HTTP_REFERER';
 $_lang["value"] = 'Hodnota';
+$_lang["version"] = 'Version';
 $_lang["view"] = 'Zobrazit';
 $_lang["view_child_resources_in_container"] = 'Zobrazit potomky';
 $_lang["view_log"] = 'Zobrazit výpis';
@@ -1128,6 +1214,8 @@ $_lang["webpwdreminder_message"] = 'Zde napište zprávu, která bude odeslána 
 $_lang["webpwdreminder_title"] = 'Nastavení emailu při zapomenutém hesle:';
 $_lang["websignupemail_message"] = 'Zde můžete nastavit zprávu, která bude zaslána vašim uživatelům webu, když jim vytvoříte webový účet a necháte Správce obsahuzaslat jim e-mail obsahující jejich přístupové jméno a heslo. <br /><b>Poznámka:</b> Následující značky (placeholders) budou nahrazeny při odesílání nahrazeny Správcem obsahu: <br /><br />[+sname+] - Jméno vaší webové stránky, <br />[+saddr+] - E-mailová adresa vašich stránek, <br />[+surl+] - URL vašich stránek, <br />[+uid+] - Uživatelské přihlašovací jméno nebo id, <br />[+pwd+] - Uživatelské heslo, <br />[+ufn+] - Celé uživatelovo jméno. <br /><br /><b>Vynecháním [+uid+] a [+pwd+] v e-mailu způsobíte, že se uživatel své uživatelské jméno a heslo!</b>';
 $_lang["websignupemail_title"] = 'Nastavení emailu pro webové přihlášení:';
+$_lang["allow_multiple_emails_title"] = 'Duplicate Web User email address';
+$_lang["allow_multiple_emails_message"] = 'Allows Web Users to share the same email address for situations when a member may not have their own email address or there is just one family email address.<br/>Note: Any password reminder and registration logic will need to account for this option if set to yes.';
 $_lang["wednesday"] = 'Středa';
 $_lang["welcome_messages"] = 'Vaše schránka obsahuje <b>%d</b> zpráv(y), z toho <b>%s</b> nepřečtených.';
 $_lang["welcome_title"] = 'Vítejte v MODX správci obsahu';
@@ -1158,8 +1246,13 @@ $_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
 
 $_lang["enable_bindings_title"] = 'Enable @Bindings commands';
 $_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
-
+$_lang["enable_filter_title"] = 'Enable filters';
+$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Pokud je povoleno PHX plugin, vestavěné filtry jsou ve výchozím nastavení zakázány';
+
+$_lang["enable_at_syntax_title"] = 'Enable &lt;@SYNTAX&gt;';
+$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) is simple and lightweight template syntax. This is designed to consider coexistence with HTML tags and content strings.';
+
 $_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
 $_lang["bkmgr_restore_msg"] = '<p>A site can be restore using an SQL file. </p>';
 $_lang["bkmgr_restore_title"] = 'Restore';
@@ -1181,6 +1274,8 @@ $_lang["files.dynamic.php1"] = 'create text file';
 $_lang["files.dynamic.php2"] = 'This directory cannot be displayed.';
 $_lang["files.dynamic.php3"] = 'There is a problem in a file name.';
 $_lang["files.dynamic.php4"] = 'The text file was created.';
+$_lang["files.dynamic.php5"] = 'File could not be duplicated.';
+$_lang["files.dynamic.php6"] = 'File or directory could not be renamed.';
 $_lang["files_dynamic_new_folder_name"] = 'Enter new directory name:';
 $_lang["files_dynamic_new_file_name"] = 'Enter new file name:';
 $_lang["not_readable_dir"] = 'Can not read this directory.';
@@ -1208,6 +1303,7 @@ $_lang['smtp_port_title'] = 'SMTP port';
 
 $_lang["setting_resource_tree_node_name"] = 'The node name of a resource tree';
 $_lang["setting_resource_tree_node_name_desc"] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias.';
+$_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since EVO 1.1 you can change this Display Name within Resource-Tree´s sorting option. This setting is used when Display Name in Resource Tree is set to &quot;Default&quot;.';
 
 $_lang["resource_opt_alvisibled"] = 'Use current alias in alias path';
 $_lang["resource_opt_alvisibled_help"] = 'The alias of this Resource is inserted in Friendly URL alias path';
@@ -1217,11 +1313,20 @@ $_lang["docid_incrmnt_method_0"] = 'DB auto increment';
 $_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximal ID + 1';
 
+$_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
+$_lang["disabled_at_login"] = 'Disabled at login';
+
 $_lang["cache_type_title"] = 'Document caching type';
 $_lang["cache_type_1"] = 'Cache is based only on document id (standard)';
 $_lang["cache_type_2"] = 'Cache is based on document id and $_GET parameters';
 $_lang["seostrict_title"] = 'Use SEO Strict URLs';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content if needed';
+$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
+$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file of a MODX installation directory at .htaccess to use the Friendly URL function.';
 $_lang["settings_friendlyurls_alert2"] = 'Since it has installed in a subdirectory, it is necessary to change the contents of .htaccess.';
@@ -1256,6 +1361,7 @@ $_lang["error_double_action"]         = "Double action (GET & POST) posted!";
 $_lang["error_no_id"]                 = "ID not passed in request!";
 $_lang["error_id_nan"]                = "ID passed in request is NaN!";
 $_lang["error_no_parent"]             = "Couldn't find parent document's name!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_many_results"]          = "Too many results returned from database!";
 $_lang["error_no_results"]            = "Not enough/ no results returned from database!";
 $_lang["error_no_user_selected"]      = "No user selected as recipient of this message!";
@@ -1263,6 +1369,7 @@ $_lang["error_no_group_selected"]     = "No group selected as recipient of this 
 $_lang["error_movedocument1"]         = "Document cannot be it's own parent!";
 $_lang["error_movedocument2"]         = "Document's ID not passed in request!";
 $_lang["error_movedocument3"]         = "New parent not set in request!";
+$_lang["error_internet_connection"]   = "Server isn't available. Check your internet connection!";
 
 $_lang["login_processor_unknown_user"]       = "Incorrect username or password entered!";
 $_lang["login_processor_wrong_password"]     = "Incorrect username or password entered!";
@@ -1283,3 +1390,137 @@ $_lang["dp_startDay"]   = "1";
 $_lang["check_all"] = "Select all";
 $_lang["check_none"] = "Select none";
 $_lang["check_toggle"] = "Toggle selection";
+
+$_lang["version_notices"] = "Version Notices";
+
+$_lang["em_button_shift"] = " (Shift-Mouseclick to open multiple windows)";
+
+$_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
+$_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
+
+$_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
+$_lang["which_browser_default_title"]= "Default File Browser";
+$_lang["which_browser_default_msg"]= "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
+$_lang["which_browser_title"]= "File Browser";
+$_lang["which_browser_msg"]= "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
+$_lang["option_default"] = "Default";
+$_lang["position"] = "Position";
+$_lang["are_you_sure"] = "Are you sure?";
+
+$_lang['evo_downloads_title'] = "Evolution Downloads";
+$_lang['help_translating_title'] = "Help translating Evolution";
+$_lang['download'] = "Download";
+$_lang['downloads'] = "Downloads";
+$_lang["previous_releases"] = "Previous Releases";
+$_lang["extras"] = "Extras";
+
+$_lang["display_locks"] = "Display Locks";
+$_lang["role_display_locks"] = "Display Locks";
+$_lang["session_timeout"] = "Session Timeout";
+$_lang["session_timeout_msg"] = "EVO will ping the server as per setting &quot;Mail Check Time Period&quot;. If the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
+$_lang["unlock_element_id_warning"] = "Are you sure you want to unlock this [+element_type+] (ID [+id+])?";
+$_lang["lock_element_type_1"] = "Template";
+$_lang["lock_element_type_2"] = "Template-Variable";
+$_lang["lock_element_type_3"] = "Chunk";
+$_lang["lock_element_type_4"] = "Snippet";
+$_lang["lock_element_type_5"] = "Plugin";
+$_lang["lock_element_type_6"] = "Module";
+$_lang["lock_element_type_7"] = "Resource";
+$_lang["lock_element_type_8"] = "Role";
+$_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
+$_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
+
+$_lang["minifyphp_incache_title"] = 'Minify php code in site cache';
+$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
+
+$_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+
+$_lang["allow_eval_title"]             = "Eval php code in snippet call";
+$_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"]         = "Execute only permitted functions";
+$_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
+$_lang["allow_eval_everytime_eval"]    = "Unlimited (Use only for debugging)";
+$_lang["allow_eval_dont_eval"]         = "Do not allow all functions";
+
+$_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
+$_lang["safe_functions_at_eval_msg"]   = "Comma separated list";
+
+$_lang["multiple_sessions_msg"]   = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
+$_lang["iconv_not_available"]     = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
+
+$_lang["cm_create_new_category"] = "Create the new category";
+$_lang["cm_category_name"] = "Category name";
+$_lang["cm_category_position"] = "Category position";
+$_lang["cm_no_x_assigned"] = "No %s assigned";
+$_lang["cm_save_categorization"] = "Save categorization";
+$_lang["cm_update_categories"] = "Update categories";
+$_lang["cm_assigned_elements"] = "Assigned elements";
+$_lang["cm_edit_name"] = "Edit name";
+$_lang["cm_mark_for_deletion"] = "Mark for deletion";
+$_lang["cm_delete_now"] = "Delete immediately";
+$_lang["cm_delete_element_x_now"] = "Delete &quot;%s&quot; immediately";
+$_lang["cm_select_element_group"] = "Select an element group";
+$_lang["cm_global_messages"] = "Global Messages";
+$_lang["cm_add_new_category"] = "Add a new category";
+$_lang["cm_edit_categories"] = "Edit categories";
+$_lang["cm_sort_categories"] = "Sort categories";
+$_lang["cm_categorize_elements"] = "Categorize elements";
+$_lang["cm_translation"] = "Translation";
+$_lang["cm_translations"] = "Translations";
+$_lang["cm_categorize_x"] = "Categorize <span class=\"highlight\">%s</span>";
+$_lang["cm_unknown_error"] = "Something went wrong.";
+$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> has been assigned to category <span class=\"highlight\">%s(%s)</span>";
+$_lang["cm_no_categorization"] = "No categorization made.";
+$_lang["cm_no_changes"] = "Nothing to change, so no changes made.";
+$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changes made";
+$_lang["cm_enter_name_for_category"] = "Please enter a name for the new category.";
+$_lang["cm_category_x_exists"] = "Category <span class=\"highlight\">%s</span> already exists.";
+$_lang["cm_category_x_saved_at_position_y"] = "The new category <span class=\"highlight\">%s</span> was saved at position <span class=\"highlight\">%s</span>.";
+$_lang["cm_category_x_moved_to_position_y"] = "Category <span class=\"highlight\">%s</span> was moved to position <span class=\"highlight\">%s</span>";
+$_lang["cm_category_x_deleted"] = "Category <span class=\"highlight\">%s</span> has been deleted";
+$_lang["cm_category_x_renamed_to_y"] = "Category <span class=\"highlight\">%s</span> was renamed to <span class=\"highlight\">%s</span>";
+$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
+$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
+$_lang["cm_save_new_sorting"] = "Save new sorting";
+$_lang["cm_translate_phrases"] = "Translate phrases";
+$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
+$_lang["cm_native_phrase"] = "Native phrase";
+
+$_lang["btn_view_options"] = 'View Options';
+$_lang["view_options_msg"] = 'The display & listing of elements can be customized via &quot;View Options&quot;-button. Settings are saved and restored per Browser using HTML5´s localStorage.';
+$_lang["viewopts_title"] = 'View Options';
+$_lang["viewopts_cb_buttons"] = 'Buttons';
+$_lang["viewopts_cb_descriptions"] = 'Descriptions';
+$_lang["viewopts_cb_icons"] = 'Icons';
+$_lang["viewopts_radio_list"] = 'List';
+$_lang["viewopts_radio_inline"] = 'Inline';
+$_lang["viewopts_radio_flex"] = 'Flex';
+$_lang["viewopts_fontsize"] = 'Font-Size';
+$_lang["viewopts_cb_alltabs"] = 'All Tabs';
+
+$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['auto'] = 'Auto-detect';
+$_lang['use_emailsender'] = 'Use [(emailsender)] value';
+$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+
+$_lang['login_form_position_title'] = 'Login form postiton';
+$_lang['login_form_position_left'] = 'left';
+$_lang['login_form_position_center'] = 'center';
+$_lang['login_form_position_right'] = 'right';
+$_lang["login_form_style"] = 'Login form style:';
+$_lang["login_form_style_dark"] = 'dark';
+$_lang["login_form_style_light"] = 'light';
+$_lang['login_logo_title'] = 'Login page logo image';
+$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
+$_lang['login_bg_title'] = 'Login page background image';
+$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
+
+$_lang['manager_menu_position_title'] = 'Main menu position';
+$_lang['manager_menu_position_top'] = 'top';
+$_lang['manager_menu_position_left'] = 'left';
+
+$_lang['invalid_event_response'] = 'The %s event has invalid output';
+
+$_lang['chunk_processor'] = 'Chunks processing class';

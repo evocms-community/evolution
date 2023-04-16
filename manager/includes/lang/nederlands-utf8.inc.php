@@ -2,15 +2,15 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4
- * @date 2017/12/13
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Dutch
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
- * Please commit your language changes on Transifex (https://www.transifex.com/evolutioncms/evolution/) or on GitHub (https://github.com/evolution-cms/evolution).
+ * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
 $modx_lang_attribute = 'nl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
@@ -435,6 +435,10 @@ $_lang["inline"] = 'Ge&iuml;ntegreerd';
 $_lang["insert"] = 'Invoegen';
 $_lang["maxImageWidth"] = 'Maximum afbeelding breedte';
 $_lang["maxImageHeight"] = 'Maximum afbeelding hoogte';
+$_lang["clientResize"] = 'Resize images on client-side';
+$_lang["clientResize_message"] = 'If enabled then images will be resized by browser before upload to the server';
+$_lang["noThumbnailsRecreation"] = 'Create thumbnails on upload only';
+$_lang["noThumbnailsRecreation_message"] = 'File browser will create thumbnails only on upload; if there\'s no thumbnails for some images, they will not be created';
 $_lang["thumbWidth"] = 'Maximum thumbnail breedte';
 $_lang["thumbHeight"] = 'Maximum thumbnail hoogte';
 $_lang["thumbsDir"] = 'Thumbnail locatie';
@@ -508,6 +512,13 @@ $_lang["manager_lockout_message"] = 'U bent momenteel aangemeld bij het Content 
 $_lang["manager_permissions"] = 'Toegangsbeheer';
 $_lang["manager_theme"] = 'Manager thema';
 $_lang["manager_theme_message"] = 'Selecteer een thema voor het Content Management Systeem.';
+$_lang["manager_theme_mode"] = 'Color Scheme:';
+$_lang["manager_theme_mode1"] = 'everything is light';
+$_lang["manager_theme_mode2"] = 'the header is dark';
+$_lang["manager_theme_mode3"] = 'header and sidebar are dark';
+$_lang["manager_theme_mode4"] = 'everything is dark';
+$_lang['manager_theme_mode_message'] = 'This setting is used as the "default" and can be overridden by the manager when using the theme color mode switch button in the Resource Tree: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["messages"] = 'Berichten';
 $_lang["messages_all"] = 'Iedereen';
 $_lang["messages_compose"] = 'Bericht opstellen';
@@ -705,6 +716,7 @@ $_lang["plugin_priority"] = 'Wijzig Plug-in event volgorde';
 $_lang["plugin_priority_instructions"] = 'Om de volgorde van de Plug-ins te veranderen versleep onder elke gebeurtenis (event) de titel. De eerste Plug-in die uitgevoerd dient te worden dient bovenaan te staan.';
 $_lang["plugin_priority_title"] = 'Plug-in uitvoer volgorde';
 $_lang["purge_plugin"] = 'Verwijder verouderde Plug-ins';
+$_lang["purge_plugin_confirm"] = 'Are you sure you want to purge obsolete plugins?';
 $_lang["plugin_title"] = 'Aanmaken/bewerken Plug-in';
 $_lang["preview"] = 'Voorbeeld';
 $_lang["preview_msg"] = 'Dit is een voorbeeld van uw laatst opgeslagen wijzigingen. Klik hier om uw huidige wijzigingen <a href="javascript:;" onclick="saveRefreshPreview();">op te slaan en te vernieuwen</a>.';
@@ -1170,6 +1182,7 @@ $_lang["user_state"] = 'Provincie';
 $_lang["user_title"] = 'Manager gebruiker creëren/bewerken';
 $_lang["user_upload_message"] = 'Als u wilt voorkomen dat deze Gebruiker bestanden in deze categorie kan uploaden, Zorg dan dat \'Gebruik Systeem Configuratie Instellingen\' niet is aangevinkt en laat het veld leeg.';
 $_lang["user_use_config"] = 'Gebruik Systeem Configuratie Instellingen';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Postcode';
 $_lang["username"] = 'Gebruikersnaam';
 $_lang["users"] = 'Gebruikers';
@@ -1200,6 +1213,8 @@ $_lang["webpwdreminder_message"] = 'Hier kunt u de boodschap instellen die naar 
 $_lang["webpwdreminder_title"] = 'Herinnering e-mailadres';
 $_lang["websignupemail_message"] = 'Hier kunt u de boodschap instellen die naar uw gebruikers verstuurd wordt wanneer u voor hen een web account heeft aangemaakt en Evolution een e-mail laat sturen met hun gebruikersnaam en wachtwoord. <br /><br />De volgende codes worden door Evolution vervangen als het bericht verstuurd wordt: <br /><br /> [+sname+] - naam van uw website, <br />[+saddr+] - e-mail adres van uw website, <br />[+surl+] - adres van de website, <br />[+uid+] - aanmeld naam of id, <br />[+pwd+] - wachtwoord, <br />[+ufn+] - volledige naam. <br /><br /><b>Laat de [+uid+] en [+pwd+] codes in de e-mail staan, omdat de gebruikersnaam en het wachtwoord anders niet in de e-mail komen te staan en uw gebruikers daardoor hun aanmeld gegevens niet ontvangen!</b>';
 $_lang["websignupemail_title"] = 'Bevestiging e-mail bij aanmelding:<br />(Webgebruiker)';
+$_lang["allow_multiple_emails_title"] = 'Duplicate Web User email address';
+$_lang["allow_multiple_emails_message"] = 'Allows Web Users to share the same email address for situations when a member may not have their own email address or there is just one family email address.<br/>Note: Any password reminder and registration logic will need to account for this option if set to yes.';
 $_lang["wednesday"] = 'Woensdag';
 $_lang["welcome_messages"] = 'In uw inbox staan <b>%d</b> bericht(en), waarvan <b>%s</b> ongelezen.';
 $_lang["welcome_title"] = 'Welkom bij uw Evolution CMS Content Manager';
@@ -1232,8 +1247,6 @@ $_lang["enable_bindings_title"] = '@Bindings commando\'s aanzetten';
 $_lang["enable_bindings_message"] = 'Voorkom het uitvoeren van PHP-functies via TV @Bindings. Handig wanneer u Manager gebruikers heeft die niet PHP-code kunnen creëren, maar wel in staat zijn om TV\'s te maken of te bewerken. Het tonen van een TV met een @Binding zal worden uitgeschakeld.';
 $_lang["enable_filter_title"] = 'Filters aanzetten';
 $_lang["enable_filter_message"] = 'Filters kunt u manipuleren van de manier waarop gegevens worden gepresenteerd of geparsed in een tag. Ze laten u waarden wijzigen vanuit uw Template. Dit is gelijk aan PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Meer info</a>'; // todo: change link to documentation
-$_lang["enable_filter_phx_warning"] = 'Wanneer de PHx plugin is ingeschakeld staan de ingebouwde filters standaard uitgeschakeld';
-
 $_lang["enable_filter_phx_warning"] = 'Wanneer de PHx plugin is ingeschakeld staan de ingebouwde filters standaard uitgeschakeld';
 
 $_lang["enable_at_syntax_title"] = '&lt;@SYNTAX&gt; aanzetten';
@@ -1300,6 +1313,9 @@ $_lang["docid_incrmnt_method_1"] = 'Minimaal aantal gemiste ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximaal ID+1';
 
 $_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
 $_lang["disabled_at_login"] = 'Uitgeschakeld bij inloggen';
 
 $_lang["cache_type_title"] = 'Document cache type';
@@ -1308,6 +1324,7 @@ $_lang["cache_type_2"] = 'Cache is gebaseerd op document id en $_GET parameters'
 $_lang["seostrict_title"] = 'Gebruik SEO Strict URLs';
 $_lang["seostrict_message"] = 'Gebruik van strikte URL\'s om dubbele inhoud te voorkomen (wanneer dit plaatsvindt)';
 $_lang["aliaslistingfolder_title"] = 'Gebruik AliasListing alleen bij mappen';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
 $_lang["aliaslistingfolder_message"] = 'Vermindert het geheugengebruik wanneer de site veel pagina\'s heeft';
 
 $_lang["settings_friendlyurls_alert"] = 'Het is noodzakelijk om het ht.access bestand in de EVO-installatiemap naar .htaccess te hernoemen voor het gebruik van de Friendly URL-functie.';
@@ -1343,6 +1360,7 @@ $_lang["error_double_action"]         = "Dubbele actie (GET & POST) geplaatst!";
 $_lang["error_no_id"]                 = "Document ID niet doorgegeven in aanvraag!";
 $_lang["error_id_nan"]                = "Doorgegeven ID is NaN!";
 $_lang["error_no_parent"]             = "Kon naam bovenliggende document niet vinden!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_many_results"]          = "Te veel resultaten uit de database!";
 $_lang["error_no_results"]            = "Te weinig / geen resultaten terug van database!";
 $_lang["error_no_user_selected"]      = "Geen gebruiker geselecteerd als ontvanger van dit bericht!";
@@ -1416,6 +1434,8 @@ $_lang["minifyphp_incache_message"] = 'Minify php code (snippets en plugins) en 
 
 $_lang["logout_reminder_msg"] = "Ter herinnering: Het lijkt er op dat op [+datum+] je vergeten bent om uit te loggen. In de toekomst kun je dit beter wel doen na je werk!";
 
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+
 $_lang["allow_eval_title"]             = "Eval php code in je snippet";
 $_lang["allow_eval_msg"]               = "Voor ontwikkelaars: Gebruik \$modx-&gt;safeEval().";
 $_lang["allow_eval_with_scan"]         = "Alleen functies uitvoeren die worden toegestaan";
@@ -1478,3 +1498,28 @@ $_lang["viewopts_radio_inline"] = 'Inline';
 $_lang["viewopts_radio_flex"] = 'Flex';
 $_lang["viewopts_fontsize"] = 'Fontgrootte';
 $_lang["viewopts_cb_alltabs"] = 'Alle tabs';
+
+$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['auto'] = 'Auto-detect';
+$_lang['use_emailsender'] = 'Use [(emailsender)] value';
+$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+
+$_lang['login_form_position_title'] = 'Login form postiton';
+$_lang['login_form_position_left'] = 'left';
+$_lang['login_form_position_center'] = 'center';
+$_lang['login_form_position_right'] = 'right';
+$_lang["login_form_style"] = 'Login form style:';
+$_lang["login_form_style_dark"] = 'dark';
+$_lang["login_form_style_light"] = 'light';
+$_lang['login_logo_title'] = 'Login page logo image';
+$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
+$_lang['login_bg_title'] = 'Login page background image';
+$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
+
+$_lang['manager_menu_position_title'] = 'Main menu position';
+$_lang['manager_menu_position_top'] = 'top';
+$_lang['manager_menu_position_left'] = 'left';
+
+$_lang['invalid_event_response'] = 'The %s event has invalid output';
+
+$_lang['chunk_processor'] = 'Chunks processing class';

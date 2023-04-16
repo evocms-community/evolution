@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: eastbind (eastbind@bodenplatte.jp)
- * Language: Japanese
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'リソースグループから削除';
 
 $_lang['DM_doc_skip_message1'] = 'リソースID';
 $_lang['DM_doc_skip_message2'] = 'は選択したリソースグループに既に含まれています。(スキップ)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'メニューの並び順(menuindex)をマウス操作でまとめて変更できます。<br />サイトルートか、並べ替えたい範囲の親リソース(コンテナ)をクリックしてください。';
-$_lang['DM_sort_updating'] = '更新中 ...';
-$_lang['DM_sort_updated'] = '更新しました。「閉じる」または「戻る」ボタンをクリックしてください。';
-$_lang['DM_sort_nochildren'] = 'このリソースにはサブリソースがありません。';
-$_lang['DM_sort_noid'] = 'リソースが選択されていません。戻ってリソースを選択してください。';
 
 // other tab
 $_lang['DM_other_header'] = 'リソースの各種設定';

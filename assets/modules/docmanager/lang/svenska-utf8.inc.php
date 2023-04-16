@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Pontus Ågren (Pont)
- * Language: Swedish
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Ta bort en dokumentgrupp';
 
 $_lang['DM_doc_skip_message1'] = 'Dokument med ID';
 $_lang['DM_doc_skip_message2'] = 'är redan en del av den valda dokumentgruppen (hoppar över)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Klicka på webbplatsens rotdokument eller det föräldradokument som du vill sortera i dokumentträdet till vänster.';
-$_lang['DM_sort_updating'] = 'Uppdaterar...';
-$_lang['DM_sort_updated'] = 'Uppdaterad';
-$_lang['DM_sort_nochildren'] = 'Föräldern har inga barn';
-$_lang['DM_sort_noid'] = 'Inga dokument har markerats. Gå tillbaka och välj ett dokument.';
 
 // other tab
 $_lang['DM_other_header'] = 'Övriga dokumentinställningar';

@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Jaroslav Sidorkin
- * Language: Russian
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Исключить из группы ресур
 
 $_lang['DM_doc_skip_message1'] = 'Ресурс с ID';
 $_lang['DM_doc_skip_message2'] = 'уже входит в указанную группу ресурсов (пропущен)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Выберите в дереве корень сайта или любой контейнер, вложенные ресурсы которого вы хотите отсортировать в меню.';
-$_lang['DM_sort_updating'] = 'Идет обновление ...';
-$_lang['DM_sort_updated'] = 'Обновление успешно завершено';
-$_lang['DM_sort_nochildren'] = 'Выбранный корневой элемент не содержит вложенных ресурсов.';
-$_lang['DM_sort_noid'] = 'Не выбраны ресурсы для сортировки пунктов меню. Пожалуйста, нажмите "Назад" для выбора ресурсов.';
 
 // other tab
 $_lang['DM_other_header'] = 'Различные свойства ресурсов';

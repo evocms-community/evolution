@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Nicola Lambathakis (banzai), luigif
- * Language: Italian
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Rimuovi un gruppo di documenti';
 
 $_lang['DM_doc_skip_message1'] = 'Documento con ID';
 $_lang['DM_doc_skip_message2'] = 'E\' gia parte del gruppo di documenti selezionato (saltare)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Seleziona nell\'albero dei documenti la root del sito o il documento genitore del documento che vorresti ordinare.';
-$_lang['DM_sort_updating'] = 'Aggiornamento ...';
-$_lang['DM_sort_updated'] = 'Aggiornato';
-$_lang['DM_sort_nochildren'] = 'Il documento genitore non ha sotto documenti';
-$_lang['DM_sort_noid'] = ' Nessun documento è stato selezionato. Tornare indietro e selezionare un documento';
 
 // other tab
 $_lang['DM_other_header'] = ' Impostazioni varie del documento';

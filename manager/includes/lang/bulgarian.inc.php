@@ -1,12 +1,12 @@
 <?php
 /**
- * MODX Manager language file
+ * EVO Manager language file
  *
  * @version 1.0.15
  * @date 2014/02/24
- * @author The MODX Project Team
+ * @author The EVO Project Team
  *
- * @language Bulgarian
+ * @language English
  * @package modx
  * @subpackage manager
  *
@@ -16,7 +16,7 @@
 $modx_lang_attribute = 'bg'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = 'MODX is a <a href="http://modx.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="../assets/docs/license.txt">GNU GPL</a>.';
+$_lang["about_msg"] = 'EVO is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'За Системата MODX';
 $_lang["access_permission_denied"] = 'Нямате Права за Достъп за този Документ.';
 $_lang["access_permission_parent_denied"] = 'Нямате Права да създавате Документ тук!';
@@ -68,6 +68,7 @@ $_lang["allow_mgr_access"] = 'Права за Достъп до интерфей
 $_lang["allow_mgr_access_message"] = 'Изберете тази опция, за да разрешите или забраните Достъпа до интерфейса на Мениджъра. <b>ЗАБЕЛЕЖКА: В случай, че е избрано НЕ, потребителят ще бъде пренасочен към началния екран за влизане в Мениджъра или към началната страница на сайта.</b>';
 $_lang["already_deleted"] = 'вече е изтрит.';
 $_lang["attachment"] = 'Прикрепен файл';
+$_lang["author_infos"] = 'Author information';
 $_lang["automatic_alias_message"] = 'Изберете \'Да\' , за да може системата автоматично да генерира псевдоним, на базата на заглавието на документа при съхраняването му.';
 $_lang["automatic_alias_title"] = 'Автоматично генериране на псевдоним:';
 $_lang["backup"] = 'Архив';
@@ -84,6 +85,9 @@ $_lang["captcha_words_default"] = 'MODX,Access,Better,BitCode,Chunk,Cache,Desc,D
 $_lang["captcha_words_message"] = 'Тук можете да въведете списък от CAPTCHA думи, които ще се използват, ако опцията за използване на CAPTCHA кода е включена. Разделете думите със запетаи. Полето е с лимит до 255 символа.';
 $_lang["captcha_words_title"] = 'CAPTCHA Думи';
 $_lang["category_heading"] = 'Категория';
+$_lang["category_manager"] = 'Category Manager';
+$_lang["category_management"] = 'Category management';
+$_lang["manage_categories"] = 'Manage Categories';
 $_lang["category_msg"] = 'Тук можете да разгледате и редактирате всички ресурси групирани по категория.';
 $_lang["cfg_base_path"] = 'MODX_BASE_PATH';
 $_lang["cfg_base_url"] = 'MODX_BASE_URL';
@@ -122,6 +126,8 @@ $_lang["configcheck_errorpage_unavailable"] = 'Страницата с греш�
 $_lang["configcheck_errorpage_unavailable_msg"] = 'Това означава, че страницата с грешката не е достъпна за нормалните уеб потребители или не съществува. Това може да доведе до състояние на зацикляне и много грешки в логовете на сайта. Уверете се, че няма никакви Групи на уеб потребители, прикачени към страницата.';
 $_lang["configcheck_errorpage_unpublished"] = 'Страницата с грешката, указана в конфигурацията на Вашия сайт не е публикувана или не съществува.';
 $_lang["configcheck_errorpage_unpublished_msg"] = 'Това означава, че страницата с грешката не е публично достъпна. Публикувайте страницата и се уверете, че тя е прикачена към съществуващ документ в дървото на сайта като отидете на Инструменти &gt; в менюто Конфигурация.';
+$_lang["configcheck_filemanager_path"] = 'The currently set <a href="index.php?a=17&tab=5">File Manager path</a> seems incorrect.';
+$_lang["configcheck_filemanager_path_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evo system configuration.';
 $_lang["configcheck_hide_warning"] = '<a href="javascript:hideConfigCheckWarning(\'%s\');"><em>Don\'t show this again.</em></a>';
 $_lang["configcheck_images"] = 'Директорията Images не е позволена за писане';
 $_lang["configcheck_images_msg"] = 'Директорията с изображенията не е достъпна за запис или не съществува. Това означава, че функцията на Мениджъра за изображенията в редактора няма да работи!';
@@ -132,7 +138,9 @@ $_lang["configcheck_lang_difference_msg"] = 'Текущо избрания ез�
 $_lang["configcheck_notok"] = 'Конфигурацията съдържа грешки: ';
 $_lang["configcheck_ok"] = 'Проверката мина успешно.';
 $_lang["configcheck_php_gdzip"] = 'GD and/or Zip PHP extensions not found';
-$_lang["configcheck_php_gdzip_msg"] = 'MODX needs the GD and Zip extension enabled for PHP. While MODX will work without them, you will not be able to take full advantage of the built-in File Manager, Image Editor or Captcha for logins.';
+$_lang["configcheck_php_gdzip_msg"] = 'EVO needs the GD and Zip extension enabled for PHP. While EVO will work without them, you will not be able to take full advantage of the built-in File Manager, Image Editor or Captcha for logins.';
+$_lang["configcheck_rb_base_dir"] = 'The currently set <a href="index.php?a=17&tab=6">File base path</a> seems incorrect.';
+$_lang["configcheck_rb_base_dir_msg"] = 'This can happen for example by moving your installation to a different directory or server. Please check and update your Evo system configuration.';
 $_lang["configcheck_register_globals"] = 'register_globals е установено на ON във Вашия php.ini конфигурационен файл';
 $_lang["configcheck_register_globals_msg"] = 'Тази конфигурация прави сайта ви податлив към Cross Site Scripting (XSS) атаки. Трябва да се обърнете към Вашия хостинг какво да направите, за да забраните тази настройка.';
 $_lang["configcheck_title"] = 'Проверка на конфигурацията';
@@ -149,8 +157,10 @@ $_lang["configcheck_validate_referer_msg"] = 'The configuration setting <strong>
 $_lang["configcheck_warning"] = 'Грешки в конфигурацията:';
 $_lang["configcheck_what"] = 'Какво означава това?';
 $_lang["confirm_block"] = 'Сигурни ли сте, че желаете да блокирате този потребител?';
+$_lang["confirm_delete_category"] = 'Are you sure you want to delete this category?';
 $_lang["confirm_delete_eventlog"] = 'Сигурни ли сте, че желаете да изтриете този Дневник на събитията?';
 $_lang["confirm_delete_file"] = 'Сигурни ли сте, че желаете да изтриете файла?\n\nТова може да наруши работоспособността на сайта! Изтрийте този файл, САМО ако сте сигурни, че това което правите няма да развали нещо.';
+$_lang["confirm_delete_group"] = 'Are you sure you want to delete this group?';
 $_lang["confirm_delete_htmlsnippet"] = 'Сигурни ли сте, че желаете да изтриете този чънк?';
 $_lang["confirm_delete_keywords"] = 'Сигурни ли сте, че желаете да изтриете тези ключови думи?';
 $_lang["confirm_delete_module"] = 'Сигурни ли сте, че желаете да изтриете този модул?';
@@ -169,6 +179,7 @@ $_lang["confirm_load_depends"] = 'Сигурни ли сте, че желает�
 $_lang["confirm_name_change"] = 'Смяната на потребителското име може да окаже влияние на други приложения, които са свързани с Мениджъра. \n\n Сигурни ли сте, че желаете да смените това потребителско име?';
 $_lang["confirm_publish"] = '\n\nПубликуването на този документ сега ще премахне всякакви предварително установени настройки на датата за публикуването или отмяна на публикуването му. В случай, че желаете да укажете нова дата за публикуване или не на документа, или да запазите старата дата - изберете \'Редактиране\' на документа.\n\nЖелаете ли да продължите?';
 $_lang["confirm_remove_locks"] = 'Понякога потребителите затварят бразерите си докато редактират документи, шаблони, снипети или парсери, оставяйки елемента, който редактират в заключено състояние. Натискайки OK можете да премахнете ВСИЧКИ текущи блокировки.\n\nЖелаете ли да продължите?';
+$_lang["confirm_reset_sort_order"] = 'Are you sure you want to reset the \"sort order/index\" of all listed elements to 0 ?';
 $_lang["confirm_resource_duplicate"] = 'Сигурни ли сте, че желаете да дублирате този документ? Съдържанието му също ще бъде дублирано.';
 $_lang["confirm_setting_language_change"] = 'You have modified the default value and will lose the changes. Proceed?';
 $_lang["confirm_unblock"] = 'Сигурни ли сте, че желаете да отблокирате този потребител?';
@@ -181,8 +192,9 @@ $_lang["create_resource_here"] = 'Създайте документ тук';
 $_lang["create_resource_title"] = 'Create Resource';
 $_lang["create_weblink_here"] = 'Създайте препратка тук';
 $_lang["createdon"] = 'Дата на създаване';
+$_lang["create_new"] = 'Create new';
 $_lang["credits"] = 'Екипът на MODX';
-$_lang["credits_shouts_msg"] = '<p>MODX is managed and maintained at <a href="http://modx.com/" target="_blank">modx.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>EVO is managed and maintained at <a href="http://evo.im/" target="_blank">evo.im</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Тук можете да добавите типовете потребителско съдържание, които могат да бъдат използвани във Вашите документи. За да добавите нов запис, въведете типа на съдържанието в текстовото поле и след това щракнете на бутона \'Добавяне\'.';
 $_lang["custom_contenttype_title"] = 'Потребителски типове съдържание:';
 $_lang["database_charset"] = 'Кодова таблица на базата от данни';
@@ -234,12 +246,14 @@ $_lang["deselect_keywords"] = 'Премахване на ключовите ду
 $_lang["deselect_metatags"] = 'Изчистване на META таговете';
 $_lang["disabled"] = 'Изключен';
 $_lang["doc_data_title"] = 'Преглед на данните в документа';
+$_lang["documentation"] = 'Documentation';
 $_lang["duplicate"] = 'Дублирайте';
 $_lang["duplicate_alias_found"] = 'Документ \'%s\' използва вече псевдоним \'%s\'. Моля, въведете уникален псевдоним.';
 $_lang["duplicate_alias_message"] = 'Тук можете да изберете \'Да\' , за да разрешите съхранението на дублирани псевдоними. <b>ЗАБЕЛЕЖКА: Тази опция трябва да се използва след избирането на  \'Да\' на \'Път на псевдонима\', за да се избегнат проблемите при обръщение към документа.</b>';
 $_lang["duplicate_alias_title"] = 'Разрешете дублиране на псевдонимите:';
 $_lang["duplicate_name_found_general"] = 'There is already a %s named \'%s\'. Please enter a unique name.';
 $_lang["duplicate_name_found_module"] = 'There is already a Module named \'%s\'. Please enter a unique name.';
+$_lang["duplicated_el_suffix"] = 'Duplicate';
 $_lang["edit"] = 'Редактиране';
 $_lang["edit_resource"] = 'Редактиране на Документ';
 $_lang["edit_resource_title"] = 'Създаване/Редактиране на Документ';
@@ -250,6 +264,7 @@ $_lang["editor_css_path_message"] = 'Въведете пътя към Вашия
 $_lang["editor_css_path_title"] = 'Път към CSS файла:';
 $_lang["element"] = 'Ресурс';
 $_lang["element_categories"] = 'Комбинирано разглеждане';
+$_lang["element_filter_msg"] = 'Type here to filter list';
 $_lang["element_management"] = 'Управление на Ресурсите';
 $_lang["element_name"] = 'Име на ресурс';
 $_lang["element_selector_msg"] = 'Изберете ресурс(и) от списъка по-долу и щракнете бутона \'Вмъкнете\'.';
@@ -325,6 +340,7 @@ $_lang["files_access_denied"] = 'Достъпът забранен!';
 $_lang["files_data"] = 'Данни';
 $_lang["files_dir_listing"] = 'Списък на файловете в директорията за:';
 $_lang["files_directories"] = 'Директории';
+$_lang["files_directory_is_empty"] = 'This directory is empty.';
 $_lang["files_dirwritable"] = 'Директорията разрешена ли е за писане?';
 $_lang["files_editfile"] = 'Редактиране на файл';
 $_lang["files_file_type"] = 'Тип на файл: ';
@@ -333,6 +349,8 @@ $_lang["files_fileoptions"] = 'Опции';
 $_lang["files_files"] = 'Файлове';
 $_lang["files_filesize"] = 'Размер на файл';
 $_lang["files_filetype_notok"] = 'Ъплоудването на този тип файлове не е позволено!';
+$_lang["files_management"] = 'Manage Files';
+$_lang["files_management_no_permission"] = 'You do not have enough permissions to view or edit these files. Ask the administrator to grant you access to <b>%s</b>.';
 $_lang["files_modified"] = 'Модифициран';
 $_lang["files_top_level"] = 'Към най-горно ниво';
 $_lang["files_up_level"] = 'Едно ниво нагоре';
@@ -368,23 +386,30 @@ $_lang["friendlyurlsuffix_message"] = 'Тук можете да определи
 $_lang["friendlyurlsuffix_title"] = 'Суфикс за приятелски URL адреси:';
 $_lang["functionnotimpl"] = 'Съжаляваме!';
 $_lang["functionnotimpl_message"] = 'Тази функция все още не е завършена.';
+$_lang["further_info"] = 'Further information';
+$_lang["global_tabs"] = 'Global Tabs';
 $_lang["go"] = 'Отиди';
 $_lang["group_access_permissions"] = 'Права за достъп на Група Потребители';
+$_lang['group_tvs'] = 'Group TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Помощ';
 $_lang["help_msg"] = '<p>Можете да получите безплатна помощ на <a href="http://forums.modx.com" target="_blank">адреса на Форума на MODX</a>. Също така можете да посетите и <a href="http://rtfm.modx.com/evolution/1.0" target="_blank">MODX Документация и Ръководства</a> , където са засегнати почти всички аспекти на MODX.</p><p>Екипът планира да предложи и платена помощ като услуга също. Моля да се информирате за платената помощ на адрес <a href="mailto:modx@vertexworks.com?subject=MODX Commercial Support Inquiry"></a>.';
 $_lang["help_title"] = 'Помощ';
 $_lang["hide_tree"] = 'Скриване на дървото';
 $_lang["home"] = 'Начало';
+$_lang["htmlsnippet"] = 'Chunk';
+$_lang["htmlsnippets"] = 'Chunks';
 $_lang["htmlsnippet_desc"] = 'Описание';
 $_lang["htmlsnippet_management_msg"] = 'Тук избирате кой чънк желаете да редактирате.';
 $_lang["htmlsnippet_msg"] = 'Тук можете да добавяте/редактирате чънкове. Запомнете, че чънковете са \'суров\' HTML код, така, че няма да се изпълнява какъвто и да е PHP код.';
 $_lang["htmlsnippet_name"] = 'Име на чънка';
 $_lang["htmlsnippet_title"] = 'Създаване/Редактиране на чънк';
 $_lang["icon"] = 'Икона';
+$_lang["icon_description"] = 'CSS class value. e.g. fa&nbsp;fa-star';
 $_lang["id"] = 'ID';
 $_lang["illegal_parent_child"] = 'Присвояване на родител:\n\nДокументът е дъщерен на избрания документ.';
 $_lang["illegal_parent_self"] = 'Присвояване на родител:\n\nИзбраният документ не може да бъде присвоен на себе си.';
+$_lang["images_management"] = 'Manage Images';
 $_lang["import_files_found"] = '<b>Намерени са %s документа за импорт...</b>';
 $_lang["import_params"] = 'Импортване на споделени параметри на модул';
 $_lang["import_params_msg"] = 'Импортването на параметри или настройки става, чрез избиране на името на модула от горното падащо меню. <b>ЗАБЕЛЕЖКА:</b> За да се появи модула вътре в менюто, този плъгин/снипет трябва да е част от списъка със зависещите от него и да му е разрешено споделянето на параметър. ';
@@ -410,6 +435,10 @@ $_lang["inline"] = 'Вътрешен';
 $_lang["insert"] = 'Вмъкнете';
 $_lang["maxImageWidth"] = 'Maximum image width';
 $_lang["maxImageHeight"] = 'Maximum image height';
+$_lang["clientResize"] = 'Resize images on client-side';
+$_lang["clientResize_message"] = 'If enabled then images will be resized by browser before upload to the server';
+$_lang["noThumbnailsRecreation"] = 'Create thumbnails on upload only';
+$_lang["noThumbnailsRecreation_message"] = 'File browser will create thumbnails only on upload; if there\'s no thumbnails for some images, they will not be created';
 $_lang["thumbWidth"] = 'Maximum thumbnail width';
 $_lang["thumbHeight"] = 'Maximum thumbnail height';
 $_lang["thumbsDir"] = 'Thumbnails directory location';
@@ -420,7 +449,7 @@ $_lang["maxImageWidth_message"] = 'If uploaded image resolution exceeds this set
 $_lang["maxImageHeight_message"] = 'If uploaded image resolution exceeds this setting it will be automatically resized. Set 0 to avoid.';
 $_lang["thumbWidth_message"] = 'Maximum thumbnail width.';
 $_lang["thumbHeight_message"] = 'Maximum thumbnail height.';
-$_lang["thumbsDir_message"] = 'The name of previews folder.';
+$_lang["thumbsDir_message"] = 'The name of thumbnail directory.';
 $_lang["jpegQuality_message"] = 'JPEG compression quality of thumbnails and resized images';
 $_lang["showHiddenFiles"] = 'Show hidden files in file browser';
 $_lang["keyword"] = 'Ключова дума';
@@ -428,7 +457,9 @@ $_lang["keywords"] = 'Ключови думи';
 $_lang["keywords_intro"] = 'За да редактирате ключова дума, просто въведете новата дума в текстовото поле, намиращо се до това на думата,  която желаете да промените. За да изтриете дума, сложете отметка на бокса \'Изтриване\' за съответната дума. Ако сложите отметка на бокса на изтриване на думата и също така смените името й, тя ще бъде изтрита, а не преименувана!';
 $_lang["language_message"] = 'Изберете език за MODX Мениджъра.';
 $_lang["language_title"] = 'Език:';
+$_lang["last_update"] = 'Last update';
 $_lang["launch_site"] = 'Разгледайте Сайта';
+$_lang["license"] = 'License';
 $_lang["link_attributes"] = 'Атрибути на връзката';
 $_lang["link_attributes_help"] = 'Тук можете да въведете атрибутите за връзката на тази страница, като target= или rel=.';
 $_lang["list_mode"] = 'Включи/Изключи режим списък - използва се за извеждане на всички записи като списък в таблицата.';
@@ -475,11 +506,19 @@ $_lang["manage_modules"] = 'Управление на модули';
 $_lang["manage_plugins"] = 'Плъгини';
 $_lang["manage_snippets"] = 'Снипети';
 $_lang["manage_templates"] = 'Шаблони';
+$_lang["manage_documents"] = 'Documents';
 $_lang["manager"] = 'Мениджър';
 $_lang["manager_lockout_message"] = 'В момента сте влезли в Мениджъра. Ако желаете да прекратите сесията си, моля щракнете върху бутона "Изход" . <p />За да отидете във Вашата начална страница щракнете върху бутона "Начало" .';
 $_lang["manager_permissions"] = 'Права за достъп до Мениджъра';
 $_lang["manager_theme"] = 'Тема на Мениджъра:';
 $_lang["manager_theme_message"] = 'Избор на Тема за Мениджъра.';
+$_lang["manager_theme_mode"] = 'Color Scheme:';
+$_lang["manager_theme_mode1"] = 'everything is light';
+$_lang["manager_theme_mode2"] = 'the header is dark';
+$_lang["manager_theme_mode3"] = 'header and sidebar are dark';
+$_lang["manager_theme_mode4"] = 'everything is dark';
+$_lang['manager_theme_mode_message'] = 'This setting is used as the "default" and can be overridden by the manager when using the theme color mode switch button in the Resource Tree: <i class="fa fa-lg fa-adjust"></i>';
+$_lang['manager_theme_mode_title'] = 'Theme color mode switch';
 $_lang["messages"] = 'Съобщения';
 $_lang["messages_all"] = 'Всички';
 $_lang["messages_compose"] = 'Съставете Ново съобщение';
@@ -548,10 +587,10 @@ $_lang["module_resource_title"] = 'Взаимовръзки на модула';
 $_lang["module_title"] = 'Създаване/Редактиране на Модул';
 $_lang["module_viewdepend_msg"] = 'Тук можете да видите съответните ресурси, от които той зависи. Щракнете на бутона \'Взаимовръзки\' , за да модифицирате взаимовръзките';
 $_lang["modules"] = 'Модули';
-$_lang["modx_news"] = 'MODX News Notices';
-$_lang["modx_news_tab"] = 'MODX News';
-$_lang["modx_news_title"] = 'MODX News';
-$_lang["modx_security_notices"] = 'MODX Security Notices';
+$_lang["modx_news"] = 'EVO News Notices';
+$_lang["modx_news_tab"] = 'EVO News';
+$_lang["modx_news_title"] = 'EVO News';
+$_lang["modx_security_notices"] = 'EVO Security Notices';
 $_lang["modx_version"] = 'Версия на MODX';
 $_lang["monday"] = 'Понеделник';
 $_lang["move"] = 'Преместете';
@@ -609,6 +648,7 @@ $_lang["onlineusers_title"] = 'Активни потребители';
 $_lang["onlineusers_user"] = 'Потребител';
 $_lang["onlineusers_userid"] = 'ID на потребител';
 $_lang["optimize_table"] = 'Щракнете, за да опитимизирате тази таблица';
+$_lang["page_data_alias"] = 'Alias';
 $_lang["page_data_cacheable"] = 'Кешируем';
 $_lang["page_data_cacheable_help"] = 'Ако оставите това поле маркирано, се разрешава съхранението на документа в кеша. В случай, че документа съдържа снипети, уверете се, че полето няма отметка.';
 $_lang["page_data_cached"] = '<b>Код, извлечен от кеша:</b>';
@@ -649,6 +689,8 @@ $_lang["paging_showing"] = 'Показване';
 $_lang["paging_to"] = 'до';
 $_lang["paging_total"] = 'общо';
 $_lang["parameter"] = 'Параметър';
+$_lang["parse_docblock"] = 'Parse DocBlock';
+$_lang["parse_docblock_msg"] = 'Attention (!): <b>Resets</b> actual name, configuration, description and category to install-defaults by parsing the source code.';
 $_lang["password"] = 'Парола';
 $_lang["password_change_request"] = 'Заявка за смяна на парола';
 $_lang["password_gen_gen"] = 'Нека MODX да генерира парола.';
@@ -661,6 +703,7 @@ $_lang["password_method_screen"] = 'Покажи новата парола на 
 $_lang["password_msg"] = 'Новата парола на <b>%s</b> е <b>%s</b><br>';
 $_lang["php_version_check"] = 'MODX е съвместим с PHP версия 5.6.0 и по-високи. Ъпгрейдвайте PHP инсталацията си!';
 $_lang["plugin"] = 'Плъгин';
+$_lang["plugins"] = 'Plugins';
 $_lang["plugin_code"] = 'Код на плъгина (php)';
 $_lang["plugin_config"] = 'Конфигурация на плъгин';
 $_lang["plugin_desc"] = 'Описание';
@@ -672,6 +715,8 @@ $_lang["plugin_name"] = 'Име на плъгин';
 $_lang["plugin_priority"] = 'Редактирайте реда за изпълнение на плъгина по събитие';
 $_lang["plugin_priority_instructions"] = 'Drag to reorder the Plugins under each Event header. The first plugin to execute should go at the top.';
 $_lang["plugin_priority_title"] = 'Plugin Execution Order';
+$_lang["purge_plugin"] = 'Purge obsolete plugins';
+$_lang["purge_plugin_confirm"] = 'Are you sure you want to purge obsolete plugins?';
 $_lang["plugin_title"] = 'Създаване/редактиране на плъгин';
 $_lang["preview"] = 'Преглед';
 $_lang["preview_msg"] = 'Това е преглед на последно съхранените промени. Щракнете <a href="javascript:;" onclick="saveRefreshPreview();">Съхранение и Обновяване</a> на текущите промени';
@@ -692,6 +737,7 @@ $_lang["rb_webuser_title"] = 'Web Потребители?';
 $_lang["recent_docs"] = 'Последно отваряни документи';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
+$_lang["references"] = 'References';
 $_lang["refresh_cache"] = 'Кеш: Намерени са <b>%s</b> файла в кеш директорията и са изтрити <b>%d</b> кеш файла.<p>Нови кеш файлове ще се създадат при викане на страниците.';
 $_lang["refresh_published"] = '<b>%s</b> документа са публикувани.';
 $_lang["refresh_site"] = 'Изчистете Кеша';
@@ -707,11 +753,13 @@ $_lang["remove_date"] = 'Дата на премахване';
 $_lang["remove_locks"] = 'Премахни блокировките';
 $_lang["rename"] = 'Преименувай';
 $_lang["reports"] = 'Доклади';
+$_lang["report_issues"] = 'Report issues';
 $_lang["require_tagname"] = 'Необходимо е име на таг';
 $_lang["require_tagvalue"] = 'Необходима е стойност на таг';
 $_lang["reserved_name_warning"] = 'You have used a reserved name.';
 $_lang["reset"] = 'Ресет';
 $_lang["reset_failedlogins"] = 'ресет';
+$_lang["reset_sort_order"] = 'Reset sort order';
 $_lang["resource"] = 'Документ';
 $_lang["resource_alias"] = 'Псевдоним на документа';
 $_lang["resource_alias_help"] = 'Тук можете да изберете псевдоним за този Документ. Така ще можете да достъпвате документа по този начин:\n\nhttp://yourserver/alias\n\nТова работи само при условие, че използвате приятелски URL адрес.';
@@ -749,7 +797,7 @@ $_lang["resource_title"] = 'Заглавие';
 $_lang["resource_title_help"] = 'Въведете името/заглавието на документа тук. Опитайте се да не използвате обратни наклонени черти в името!';
 $_lang["resource_to_be_moved"] = 'Документ за преместване';
 $_lang["resource_type"] = 'Resource Type';
-$_lang["resource_type_message"] = 'Weblinks reference Resources on the Internet including another MODX Resource, an external page, or an image or other file on the Internet. Weblinks should have a text/html Internet Media Type and Inline Content-Disposition.';
+$_lang["resource_type_message"] = 'Weblinks reference Resources on the Internet including another EVO Resource, an external page, or an image or other file on the Internet. Weblinks should have a text/html Internet Media Type and Inline Content-Disposition.';
 $_lang["resource_type_weblink"] = 'Weblink';
 $_lang["resource_type_webpage"] = 'Web page';
 $_lang["resource_weblink_help"] = 'Въведете адреса на обекта, който желаете да отнесете към този уеблинк тук.';
@@ -759,8 +807,11 @@ $_lang["role"] = 'Роля';
 $_lang["role_about"] = 'Преглед на страницата за самата система';
 $_lang["role_access_persmissions"] = 'Права за достъп';
 $_lang["role_actionok"] = 'Преглед на екрана с приключилите действия';
+$_lang["role_assets_images"] = 'Manage assets/images';
+$_lang["role_assets_files"] = 'Manage assets/files';
 $_lang["role_bk_manager"] = 'Използване на Мениджъра за съхранение';
 $_lang["role_cache_refresh"] = 'Изчистване на кеша на сайта';
+$_lang["role_category_manager"] = 'Use the Category Manager';
 $_lang["role_change_password"] = 'Смяна на паролата';
 $_lang["role_change_resourcetype"] = 'Промяна Вид документ';
 $_lang["role_chunk_management"] = 'Управление на чънковете';
@@ -797,6 +848,7 @@ $_lang["role_empty_trash"] = 'Трайно изчистване на изтри�
 $_lang["role_errors"] = 'Преглед на грешките';
 $_lang["role_eventlog_management"] = 'Управление на Дневника на събитията';
 $_lang["role_export_static"] = 'Експорт в статичен HTML';
+$_lang["role_file_management"] = 'File Management';
 $_lang["role_file_manager"] = 'Използване на файлов мениджър';
 $_lang["role_frames"] = 'Викане на мениджъра';
 $_lang["role_help"] = 'Преглед на страниците Помощ';
@@ -857,8 +909,11 @@ $_lang["search_criteria_content"] = 'Търсете по съдържание';
 $_lang["search_criteria_content_msg"] = 'Намиране на всички документи със зададения текст в тяхното съдържание.';
 $_lang["search_criteria_id"] = 'Търсете по ID';
 $_lang["search_criteria_id_msg"] = 'Въведете ID на документ за по-бързото му намиране.';
+$_lang["search_criteria_top"] = 'Search in main fields';
+$_lang["search_criteria_top_msg"] = 'Pagetitle, Longtitle, Alias, ID';
 $_lang["search_criteria_template_id"] = 'Search by template ID';
 $_lang["search_criteria_template_id_msg"] = 'Find all Resources using the specified template.';
+$_lang["search_criteria_url_msg"] = 'Find Resource by exact URL.';
 $_lang["search_criteria_longtitle"] = 'Търсете по дълго заглавие';
 $_lang["search_criteria_longtitle_msg"] = 'Намиране на всички документи със зададения текст в тяхното дълго заглавие.';
 $_lang["search_criteria_title"] = 'Търсете по заглавие';
@@ -884,17 +939,28 @@ $_lang["serveroffset"] = 'Времево отместване за сървър�
 $_lang["serveroffset_message"] = 'Изберете колко е разликата във времето, там където сте вие и където се намира сървъра. Текущото сървърно време е <b>[%s]</b>, текущо време на сървъра с използване на отместване е <b>[%s]</b>.';
 $_lang["serveroffset_title"] = 'Отместване спрямо времето на сървъра:';
 $_lang["servertime"] = 'Време на сървъра';
+$_lang["set_automatic"] = 'Set automatic';
+$_lang["set_default"] = 'Set default';
+$_lang["set_default_all"] = 'Set defaults';
 $_lang["settings_after_install"] = 'Тъй като това е нова инсталация, необходимо е да прегледате настройките и да направите нужните промени. След проверка на настройките, натиснете бутона \'Съхранете\', за да обновите базата от данни.<br /><br />';
 $_lang["settings_config"] = 'Конфигурация';
 $_lang["settings_dependencies"] = 'Взаимовъзки';
 $_lang["settings_events"] = 'Системни събития';
 $_lang["settings_furls"] = 'Приятелски URL адреси';
 $_lang["settings_general"] = 'Общи настройки';
+$_lang["settings_group_tv_message"] = 'Choose if Template Variables should be grouped in sections or tabs (named by TV category) when editing a Resource';
+$_lang["settings_group_tv_options"] = 'No,Sections in General tab,Tabs in General tab,Sections in new tab,Tabs in new tab,New tabs';
 $_lang["settings_misc"] = 'Файлов мениджър';
+$_lang["settings_security"] = 'Security';
 $_lang["settings_KC"] = 'File Browser';
 $_lang["settings_page_settings"] = 'Настройки на страница';
 $_lang["settings_photo"] = 'Снимка';
 $_lang["settings_properties"] = 'Свойства';
+$_lang["show_fullscreen_btn_message"] = 'Show Menu toggle Fullscreen button';
+$_lang["show_newresource_btn_message"] = 'Show Menu New Resource button';
+$_lang["settings_show_picker_message"] = 'Customize manager theme and save to localstorage';
+$_lang["show_fullscreen_btn"] = 'Toggle Fullscreen button';
+$_lang["show_newresource_btn"] = 'New Resource button';
 $_lang["settings_site"] = 'Сайт';
 $_lang["settings_strip_image_paths_message"] = 'Ако това е указано \'Не\', MODX  ще запише ресурсите на файловия браузер (изображения, файлове, флаш, и др.) като абсолютни URL адреси. Относителните URL адреси са много полезни, когато решите да местите инсталацията на MODX, т.е. от тестови в продуктивен сайт. Ако нямате никаква идея какво означава това, най-добре е да оставите тази настройка на \'Да\'.';
 $_lang["settings_strip_image_paths_title"] = 'Да презапиша ли пътя от браузера?';
@@ -905,6 +971,7 @@ $_lang["settings_users"] = 'Потребител';
 $_lang["show_meta"] = 'Show META Keywords tab';
 $_lang["show_meta_message"] = 'Show the deprecated META Keywords tab when editing Resources in the Manager.';
 $_lang["show_tree"] = 'Покажи дървото';
+$_lang["show_picker"] = 'Show Color Switcher';
 $_lang["showing"] = 'Показване';
 $_lang["signupemail_message"] = 'Тук можете да настроите съобщението, което ще бъде изпращано на потребителите при създаване на акаунт и да разрешите на MODX да им изпраща емейл, съдържащ името и паролата. <br /><b>ЗАБЕЛЕЖКА:</b> При изпращане на съобщението Мениджъра замества следните placeholders: <br /><br />[+sname+] - Име на уеб сайта, <br />[+saddr+] - Емейл адрес в сайта, <br />[+surl+] - URL адрес на сайта, <br />[+uid+] - Потребителско име или id, <br />[+pwd+] - Потребителска парола, <br />[+ufn+] - Пълно име на потребителя. <br /><br /><b>Оставете [+uid+] и [+pwd+] в емейла, защото в противен случай потребителското име и парола няма да бъдат изпратени по пощата и потребителя няма да го знае!</b>';
 $_lang["signupemail_title"] = 'Емейл за регистрация:';
@@ -922,6 +989,7 @@ $_lang["siteunavailable_page_message"] = 'Тук въведете ID на док
 $_lang["siteunavailable_page_title"] = 'Страница, когато сайта е недостъпен:';
 $_lang["siteunavailable_title"] = 'Съобщение, когато сайта е недостъпенe:';
 $_lang["snippet"] = 'Снипет';
+$_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Код на снипета (php)';
 $_lang["snippet_desc"] = 'Описание';
 $_lang["snippet_execonsave"] = 'Изпълни снипета след съхранение.';
@@ -930,9 +998,15 @@ $_lang["snippet_msg"] = 'Тук можете да добавяте/редакт�
 $_lang["snippet_name"] = 'Име на снипета';
 $_lang["snippet_properties"] = 'Свойства по подразбиране';
 $_lang["snippet_title"] = 'Създаване/редактиране на снипет';
+$_lang["sort_alphabetically"] = 'Sort alphabetically';
 $_lang["sort_asc"] = 'Във възходящ ред';
 $_lang["sort_desc"] = 'В низходящ ред';
+$_lang["sort_menuindex"] = 'Sort menu index';
 $_lang["sort_tree"] = 'Сортиране на дървото';
+$_lang['sort_updating'] = 'Updating ...';
+$_lang['sort_updated'] = 'Updated!';
+$_lang['sort_nochildren'] = 'Parent does not have any children';
+$_lang["sort_elements_msg"] = 'Drag to reorder the listed elements.';
 $_lang["source"] = 'Код';
 $_lang["stay"] = 'Продължи редактирането';
 $_lang["stay_new"] = 'Добави друг';
@@ -941,6 +1015,7 @@ $_lang["sunday"] = 'Неделя';
 $_lang["sys_alert"] = 'Системен сигнал';
 $_lang["sysinfo_activity_message"] = 'Този списък показва кои документи са били редактирани напоследък от потребителите.';
 $_lang["sysinfo_userid"] = 'Потребител';
+$_lang["system"] = 'System';
 $_lang["system_email_signup"] = 'Здравей [+uid+] 
 
 Въведи потребителско име и парола, за да влезеш в Мениджъра на [+sname+]:
@@ -981,6 +1056,7 @@ $_lang["table_hoverinfo"] = 'Постави курсора на мишката �
 $_lang["table_prefix"] = 'Префикс на таблицата';
 $_lang["tag"] = 'Таг';
 $_lang["template"] = 'Шаблон';
+$_lang["templates"] = 'Templates';
 $_lang["template_assignedtv_tab"] = 'Присвоени Шаблонни Променливи (ШП)';
 $_lang["template_code"] = 'Код на шаблона (html)';
 $_lang["template_desc"] = 'Описание';
@@ -989,8 +1065,10 @@ $_lang["template_management_msg"] = 'Тук можете да изберете �
 $_lang["template_msg"] = 'Създаване и редактиране на шаблони. Променените или новите шаблони няма да бъдат видими на кешираните страници на сайта докато кеша не се изчисти. Обаче можете да използвате функцията за предварителен преглед на страницата, за да видите шаблона в действие.';
 $_lang["template_name"] = 'Име на Шаблона';
 $_lang["template_no_tv"] = 'На този шаблон няма присвоени все още никакви шаблонни променливи.';
+$_lang["template_notassigned_tv"] = 'These Template Variables are available for assigning.';
 $_lang["template_reset_all"] = 'Ресетване на всички страници към шаблона по подразбиране';
 $_lang["template_reset_specific"] = 'Ресетване само на \'%s\' страници';
+$_lang["template_selectable"] = 'Template selectable when creating or editing ressources.';
 $_lang["template_title"] = 'Създаване/редактиране на шаблон';
 $_lang["template_tv_edit"] = 'Редактиране на реда за сортиране на шаблонните променливи (ШП)';
 $_lang["template_tv_edit_message"] = 'Drag to reorder the Template Variables for this template.';
@@ -1002,6 +1080,7 @@ $_lang["tmplvar_change_template_msg"] = 'Промяната на този шаб
 $_lang["tmplvar_inuse"] = 'Следните документ(и) използват тази Шаблонни Променливи (ШП). За да продължите изтриването щракнете на бутона Изтриване, в противен случай щракнете бутона Отказ.';
 $_lang["tmplvar_tmpl_access"] = 'Достъп до шаблона';
 $_lang["tmplvar_tmpl_access_msg"] = 'Изберете шаблоните, към които е разрешен достъпа/изпълнението на тази променлива';
+$_lang["tmplvar"] = 'Template Variable';
 $_lang["tmplvars"] = 'Шаблонни Променливи (ШП)';
 $_lang["tmplvars_binding_msg"] = 'Това поле поддържа свързване на данните в кода, като се използват @ команди';
 $_lang["tmplvars_caption"] = 'Заглавие';
@@ -1014,12 +1093,14 @@ $_lang["tmplvars_msg"] = 'Добавете или редактирайте Ша�
 $_lang["tmplvars_name"] = 'Име на променлива';
 $_lang["tmplvars_novars"] = 'Не са намерени Шаблонни Променливи';
 $_lang["tmplvars_rank"] = 'Начин на сортиране';
+$_lang["tmplvars_rank_edit_message"] = 'Drag to reorder the Template Variables.';
 $_lang["tmplvars_reset_params"] = 'Ресет параметри';
 $_lang["tmplvars_title"] = 'Create/edit Template Variable';
 $_lang["tmplvars_type"] = 'Input Type';
 $_lang["tmplvars_widget"] = 'Уиджет';
 $_lang["tmplvars_widget_prop"] = 'Свойства на Уиджета';
 $_lang["to"] = 'на';
+$_lang["toggle_fullscreen"] = 'Toggle Fullscreen';
 $_lang["tools"] = 'Инструменти';
 $_lang["top_howmany_message"] = 'При разглеждане на докладите, колко трябва да е голям списъка \'ТОП ...\'?';
 $_lang["top_howmany_title"] = 'Колко ТОП';
@@ -1028,6 +1109,8 @@ $_lang["track_visitors_message"] = 'Тази настройка не е ефек
 $_lang["track_visitors_title"] = 'Лог-ване на посещенията (статистика)';
 $_lang["tree_page_click"] = 'Page Click Behavior';
 $_lang["tree_page_click_message"] = 'The default behavior when clicking on a page in the site tree.';
+$_lang["use_breadcrumbs"] = 'Show navigation';
+$_lang["use_breadcrumbs_message"] = 'Show the navigation when creating or editing Resource in the Manager';
 $_lang["tree_show_protected"] = 'Показване на защитените страници';
 $_lang["tree_show_protected_message"] = 'Когато е "Не", защитените страници (и техните дъщерни документи) не се показват в дървото с документите. "Не" е настройката за MODX.';
 $_lang["truncate_table"] = 'Щракнете тук, за да съкратите тази таблица';
@@ -1065,6 +1148,7 @@ $_lang["use_alias_path_message"] = 'Ако тази настройка е \'Да
 $_lang["use_alias_path_title"] = 'Използване на път с псевдоним:';
 $_lang["use_editor_message"] = 'Желаете ли да включите редактор? Ако ви е по-удобно да пишете HTML, можете да изключите редактора от тази настройка. Имайте предвид, че тази настройка се прилага на всички документи и всички потребители!';
 $_lang["use_editor_title"] = 'Разрешаване на редактор:';
+$_lang["use_global_tabs"] = 'Use global Tabs';
 $_lang["user"] = 'Потребител';
 $_lang["user_block"] = 'Блокиран';
 $_lang["user_blockedafter"] = 'Блокиран след';
@@ -1095,6 +1179,7 @@ $_lang["user_state"] = 'Състояние на потребител';
 $_lang["user_title"] = 'Създаване/Редактиране на потребител';
 $_lang["user_upload_message"] = ' В случай, че не желаете този потребител да уплоудва каквито и да е файлове в тази категория, проверете дали полето с отметката \'Използване на настройките на основната конфигурация\' не е маркирано, и ако е - махнете отметката.';
 $_lang["user_use_config"] = 'Използване на настройките на основната конфигурация';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Архив';
 $_lang["username"] = 'Име на потребител';
 $_lang["users"] = 'Сигурност';
@@ -1103,6 +1188,7 @@ $_lang["valid_hostnames_title"] = 'Valid hostnames';
 $_lang["validate_referer_message"] = 'Проверка на HTTP_REFERER headers за намаляне на риска редакторите на съдържание да бъдат измамени да изпълняват непреднамерени действия в мениджъра като следствие от CSRF (Cross Site Request Forgery) атака. Възможно е някои конфигурации да не могат да използват тази опция, ако сървъра не изпраща HTTP_REFERER headers.';
 $_lang["validate_referer_title"] = 'Проверка на HTTP_REFERER headers?';
 $_lang["value"] = 'Стойност';
+$_lang["version"] = 'Version';
 $_lang["view"] = 'Преглед';
 $_lang["view_child_resources_in_container"] = 'Разглеждане на дъщерните документи';
 $_lang["view_log"] = 'Разглеждане на лог-а';
@@ -1124,6 +1210,8 @@ $_lang["webpwdreminder_message"] = 'Въведете съобщението, к�
 $_lang["webpwdreminder_title"] = 'Напомнителен Емейл:';
 $_lang["websignupemail_message"] = 'Въведете съобщението, което ще изпращате на уеб потребителите, когато им създадете уеб акаунт и позволете на Мениджъра да им изпрати емейл, съдържащ тяхното Потребителско име и Парола. <br /><b>ЗАБЕЛЕЖКА:</b> След изпращането на съобщението, Мениджърът подменя следните placeholders: <br /><br />[+sname+] - Име на уебсайта, <br />[+saddr+] - Em@il адрес на уебсайта, <br />[+surl+] - URL адреса на уебсайта, <br />[+uid+] - Потребителското име, <br />[+pwd+] - Парола, <br />[+ufn+] - Пълно име на потребителя. <br /><br /><b>Включете в съобщението [+uid+] и [+pwd+], защото в противен случай Потребителското име и Парола няма да бъдат изпратени и потребителите няма да ги знаят!</b>';
 $_lang["websignupemail_title"] = 'Емейл за уеб регистрация:';
+$_lang["allow_multiple_emails_title"] = 'Duplicate Web User email address';
+$_lang["allow_multiple_emails_message"] = 'Allows Web Users to share the same email address for situations when a member may not have their own email address or there is just one family email address.<br/>Note: Any password reminder and registration logic will need to account for this option if set to yes.';
 $_lang["wednesday"] = 'Сряда';
 $_lang["welcome_messages"] = 'Входящата кутия съдържа <strong>%d</strong> съобщение(я), от които <strong>%s</strong> непрочетени.';
 $_lang["welcome_title"] = 'ДОБРЕ ДОШЪЛ в Мениджъра на MODX';
@@ -1142,10 +1230,10 @@ $_lang["yourinfo_title"] = 'Вашата информация';
 $_lang["yourinfo_total_logins"] = 'Общ брой на влизанията:';
 $_lang["yourinfo_username"] = 'Влязал си като:';
 
-$_lang["a17_error_reporting_title"] = 'Detection level of the PHP error';
-$_lang["a17_error_reporting_msg"] = 'Set the detection level of the PHP error.';
+$_lang["a17_error_reporting_title"] = 'Detection level of PHP errors';
+$_lang["a17_error_reporting_msg"] = 'Set the detection level of the PHP errors.';
 $_lang["a17_error_reporting_opt0"] = 'Ignore all';
-$_lang["a17_error_reporting_opt1"] = 'Ignore the warning of a slight notice level(<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
+$_lang["a17_error_reporting_opt1"] = 'Ignore warnings of a slight notice level (<a href="https://www.google.com/search?q=E_DEPRECATED+E_STRICT" target="_blank">E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT</a>)';
 $_lang["a17_error_reporting_opt2"] = 'Detect all errors except E_NOTICE';
 $_lang["a17_error_reporting_opt99"] = 'Detect all';
 
@@ -1154,56 +1242,64 @@ $_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
 
 $_lang["enable_bindings_title"] = 'Enable @Bindings commands';
 $_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
-
+$_lang["enable_filter_title"] = 'Enable filters';
+$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'При активиране РНх плъгин, вградени филтри са изключени по подразбиране';
+
+$_lang["enable_at_syntax_title"] = 'Enable &lt;@SYNTAX&gt;';
+$_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) is simple and lightweight template syntax. This is designed to consider coexistence with HTML tags and content strings.';
+
 $_lang["bkmgr_alert_mkdir"] = 'A file cannot be created in a directory.  Please check the permission of [+snapshot_path+]';
-$_lang["bkmgr_restore_msg"] = '<p>A site can be restore using an SQL file. </p>';
+$_lang["bkmgr_restore_msg"] = '<p>Database tables could be restored by SQL:</p>';
 $_lang["bkmgr_restore_title"] = 'Restore';
 $_lang["bkmgr_import_ok"] = 'SQL recovery was performed normally.';
 $_lang["bkmgr_snapshot_ok"] = 'The snapshot was saved normally.';
-$_lang["bkmgr_run_sql_file_label"] = 'Execute by sql file';
-$_lang["bkmgr_run_sql_direct_label"] = 'Direct execute SQL command strings';
+$_lang["bkmgr_run_sql_file_label"] = 'Execute by SQL file';
+$_lang["bkmgr_run_sql_direct_label"] = 'Direct execute SQL commands';
 $_lang["bkmgr_run_sql_submit"] = 'Execute restore';
 $_lang["bkmgr_run_sql_result"] = 'Result';
 $_lang["bkmgr_snapshot_title"] = 'Snapshot save and recovery';
-$_lang["bkmgr_snapshot_msg"] = '<p>The contents of the database are saved and restored to a server.<br />Preservation place : [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
-$_lang["bkmgr_snapshot_submit"] = 'Add snapshot';
-$_lang["bkmgr_snapshot_list_title"] = 'List of snapshot';
+$_lang["bkmgr_snapshot_msg"] = '<p>The contents of the database are saved in and restored from a server directory.<br />Location: [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
+$_lang["bkmgr_snapshot_submit"] = 'Add Snapshot';
+$_lang["bkmgr_snapshot_list_title"] = 'List of snapshots';
 $_lang["bkmgr_restore_submit"] = 'Връщане на тези данни';
 $_lang["bkmgr_restore_confirm"] = 'Сигурни ли сте, че искате да се върнете архивиране\n[+filename+] ?';
-$_lang["bkmgr_snapshot_nothing"] = 'No snapshot';
+$_lang["bkmgr_snapshot_nothing"] = 'No snapshots available';
 
-$_lang["files.dynamic.php1"] = 'create text file';
+$_lang["files.dynamic.php1"] = 'New File';
 $_lang["files.dynamic.php2"] = 'This directory cannot be displayed.';
 $_lang["files.dynamic.php3"] = 'There is a problem in a file name.';
 $_lang["files.dynamic.php4"] = 'The text file was created.';
+$_lang["files.dynamic.php5"] = 'File could not be duplicated.';
+$_lang["files.dynamic.php6"] = 'File or directory could not be renamed.';
 $_lang["files_dynamic_new_folder_name"] = 'Enter new directory name:';
 $_lang["files_dynamic_new_file_name"] = 'Enter new file name:';
 $_lang["not_readable_dir"] = 'Can not read this directory.';
 $_lang["confirm_delete_dir"] = 'Are you sure you want to delete the directory?';
-$_lang["confirm_delete_dir_recursive"] = 'Are you sure you want to delete the directory?\n\nAny children files will also be deleted.';
+$_lang["confirm_delete_dir_recursive"] = 'Are you sure you want to delete this directory?\n\nAll files inside this directory will also be deleted.';
 
-$_lang["make_folders_title"] = 'Make end slash URL at the container';
-$_lang["make_folders_message"] = 'The slash to append to Resources set as containers when using FURLs.';
+$_lang["make_folders_title"] = 'End Container URL with Slash';
+$_lang["make_folders_message"] = 'Append trailing slash to Resources that are set as containers when using Friendly URLs.';
 
 $_lang["check_files_onlogin_title"] = 'Check core files on login';
-$_lang["check_files_onlogin_message"] = 'By enabling this option, important system files will be checked for modification typical of scripted website attacks. While not a foolproof guarantee, it may alert you to a compromised MODX system file and website.';
+$_lang["check_files_onlogin_message"] = 'By enabling this option, important system files will be checked for modification typical of scripted website attacks. While not a foolproof guarantee, it may alert you to a compromised EVO system file and website.';
 
 $_lang["configcheck_sysfiles_mod"] = 'Important System Files have been modified.';
-$_lang["configcheck_sysfiles_mod_msg"] = 'You have enabled the setting to check important system files to detect possible website script attacks. This doesn\'t necessarily mean that your site has been compromised, however, you should review the changed files.(index.php, .htaccess, [+MGR_DIR+]/index.php, [+MGR_DIR+]/includes/config.inc.php)';
+$_lang["configcheck_sysfiles_mod_msg"] = 'You have configured EVO to check important system files for possible website script attacks. This warning does not necessarily mean your site has been compromised, however, you should review the watched files in your installation (set in System configuration -> User -> Check core files on login). If you find your files unaltered or changes were made by site administrators, go to System Configuration and click to re-save settings to dismiss this message. Changes in the following files have been found:';
 
 $_lang['email_method_title'] = 'Sendmail method';
-$_lang['email_method_mail'] = 'mail() PHP function';
+$_lang['email_method_mail'] = 'PHP mail() function';
 $_lang['email_method_smtp'] = 'SMTP Server';
-$_lang['smtp_auth_title'] = 'SMTP－AUTH';
+$_lang['smtp_auth_title'] = 'SMTP-AUTH';
 $_lang['smtp_host_title'] = 'SMTP host';
 $_lang['smtp_secure_title'] = 'Encrypted SMTP';
-$_lang['smtp_username_title'] = 'SMTP user name';
+$_lang['smtp_username_title'] = 'SMTP username';
 $_lang['smtp_password_title'] = 'SMTP password';
 $_lang['smtp_port_title'] = 'SMTP port';
 
-$_lang["setting_resource_tree_node_name"] = 'The node name of a resource tree';
-$_lang["setting_resource_tree_node_name_desc"] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias.';
+$_lang["setting_resource_tree_node_name"] = 'Display Name in Resource Tree';
+$_lang["setting_resource_tree_node_name_desc"] = 'Select the Resource field to show as the Resource name in the Resource Tree. The default setting is pagetitle.';
+$_lang["setting_resource_tree_node_name_desc_add"] = 'Note: Since EVO 1.1 you can change this Display Name within Resource-Tree´s sorting option. This setting is used when Display Name in Resource Tree is set to &quot;Default&quot;.';
 
 $_lang["resource_opt_alvisibled"] = 'Use current alias in alias path';
 $_lang["resource_opt_alvisibled_help"] = 'The alias of this Resource is inserted in Friendly URL alias path';
@@ -1213,14 +1309,23 @@ $_lang["docid_incrmnt_method_0"] = 'DB auto increment';
 $_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximal ID + 1';
 
-$_lang["cache_type_title"] = 'Document caching type';
-$_lang["cache_type_1"] = 'Cache is based only on document id (standard)';
-$_lang["cache_type_2"] = 'Cache is based on document id and $_GET parameters';
-$_lang["seostrict_title"] = 'Use SEO Strict URLs';
-$_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content if needed';
+$_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
+$_lang["disabled_at_login"] = 'Disabled at login';
 
-$_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file of a MODX installation directory at .htaccess to use the Friendly URL function.';
-$_lang["settings_friendlyurls_alert2"] = 'Since it has installed in a subdirectory, it is necessary to change the contents of .htaccess.';
+$_lang["cache_type_title"] = 'Document caching type';
+$_lang["cache_type_1"] = 'Cache is based only on Resource ID (standard)';
+$_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
+$_lang["seostrict_title"] = 'Use SEO Strict URLs';
+$_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
+$_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
+$_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
+
+$_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the EVO installation directory at .htaccess to use the Friendly URL function.';
+$_lang["settings_friendlyurls_alert2"] = 'Since EVO was installed in a subdirectory, it is necessary to change the content of .htaccess.';
 
 $_lang["user_street"] = 'Street';
 $_lang["user_city"] = 'City';
@@ -1241,9 +1346,9 @@ $_lang["export_site.static.php5"] = 'Replace with';
 $_lang["export_site.static.php6"] = 'Target';
 $_lang["export_site.static.php7"] = 'Files could not be saved to [+rb_base_url+]';
 
-$_lang["mutate_settings.dynamic.php6"] = 'Send mail on MODX errors';
+$_lang["mutate_settings.dynamic.php6"] = 'Send mail on EVO errors';
 $_lang["mutate_settings.dynamic.php7"] = 'not notify';
-$_lang["mutate_settings.dynamic.php8"] = 'A mail with the error source will be sent to [(emailsender)] ([+emailsender+]) if a MODX error occurs. The details of the error could be seen in the MODX system events log.';
+$_lang["mutate_settings.dynamic.php8"] = 'A mail with the error source will be sent to [(emailsender)] ([+emailsender+]) if a EVO error occurs. The details of the error could be seen in the EVO system events log.';
 
 $_lang["error_no_privileges"]         = "You don't have enough privileges for this action!";
 $_lang["error_no_optimise_tablename"] = "Table to optimise not found in request!";
@@ -1252,6 +1357,7 @@ $_lang["error_double_action"]         = "Double action (GET & POST) posted!";
 $_lang["error_no_id"]                 = "ID not passed in request!";
 $_lang["error_id_nan"]                = "ID passed in request is NaN!";
 $_lang["error_no_parent"]             = "Couldn't find parent document's name!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_many_results"]          = "Too many results returned from database!";
 $_lang["error_no_results"]            = "Not enough/ no results returned from database!";
 $_lang["error_no_user_selected"]      = "No user selected as recipient of this message!";
@@ -1259,6 +1365,7 @@ $_lang["error_no_group_selected"]     = "No group selected as recipient of this 
 $_lang["error_movedocument1"]         = "Document cannot be it's own parent!";
 $_lang["error_movedocument2"]         = "Document's ID not passed in request!";
 $_lang["error_movedocument3"]         = "New parent not set in request!";
+$_lang["error_internet_connection"]   = "Server isn't available. Check your internet connection!";
 
 $_lang["login_processor_unknown_user"]       = "Incorrect username or password entered!";
 $_lang["login_processor_wrong_password"]     = "Incorrect username or password entered!";
@@ -1279,3 +1386,137 @@ $_lang["dp_startDay"]   = "1";
 $_lang["check_all"] = "Select all";
 $_lang["check_none"] = "Select none";
 $_lang["check_toggle"] = "Toggle selection";
+
+$_lang["version_notices"] = "Version Notices";
+
+$_lang["em_button_shift"] = " (Shift-Mouseclick to open multiple windows)";
+
+$_lang["reset_sysfiles_checksum_button"] = "Rebuild Checksums";
+$_lang["reset_sysfiles_checksum_alert"] = "Are you sure you want to reset the system files checksums?";
+
+$_lang["file_browser_disabled_msg"] = "The File Browser Feature is not enabled.";
+$_lang["which_browser_default_title"]= "Default File Browser";
+$_lang["which_browser_default_msg"]= "Choose the File Browser you prefer as default. In User-Settings you can choose a Custom Browser per User, or leave it on &quot;default&quot;.";
+$_lang["which_browser_title"]= "File Browser";
+$_lang["which_browser_msg"]= "You can choose a custom File Browser for this user. To use the System´s default Browser, leave it on &quot;Default&quot;.";
+$_lang["option_default"] = "Default";
+$_lang["position"] = "Position";
+$_lang["are_you_sure"] = "Are you sure?";
+
+$_lang['evo_downloads_title'] = "Evolution Downloads";
+$_lang['help_translating_title'] = "Help translating Evolution";
+$_lang['download'] = "Download";
+$_lang['downloads'] = "Downloads";
+$_lang["previous_releases"] = "Previous Releases";
+$_lang["extras"] = "Extras";
+
+$_lang["display_locks"] = "Display Locks";
+$_lang["role_display_locks"] = "Display Locks";
+$_lang["session_timeout"] = "Session Timeout";
+$_lang["session_timeout_msg"] = "EVO will ping the server as per setting &quot;Mail Check Time Period&quot;. If the last ping exceeds this setting, the associated session will be considered invalid and all related locks will be removed automatically. Set value in minutes (>2min, default 15min).";
+$_lang["unlock_element_id_warning"] = "Are you sure you want to unlock this [+element_type+] (ID [+id+])?";
+$_lang["lock_element_type_1"] = "Template";
+$_lang["lock_element_type_2"] = "Template-Variable";
+$_lang["lock_element_type_3"] = "Chunk";
+$_lang["lock_element_type_4"] = "Snippet";
+$_lang["lock_element_type_5"] = "Plugin";
+$_lang["lock_element_type_6"] = "Module";
+$_lang["lock_element_type_7"] = "Resource";
+$_lang["lock_element_type_8"] = "Role";
+$_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
+$_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
+
+$_lang["minifyphp_incache_title"] = 'Minify php code in site cache';
+$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
+
+$_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+
+$_lang["allow_eval_title"]             = "Eval php code in snippet call";
+$_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
+$_lang["allow_eval_with_scan"]         = "Execute only permitted functions";
+$_lang["allow_eval_with_scan_at_post"] = "Execute all. However, at POST, only permitted functions";
+$_lang["allow_eval_everytime_eval"]    = "Unlimited (Use only for debugging)";
+$_lang["allow_eval_dont_eval"]         = "Do not allow all functions";
+
+$_lang["safe_functions_at_eval_title"] = "Functions to allow eval";
+$_lang["safe_functions_at_eval_msg"]   = "Comma separated list";
+
+$_lang["multiple_sessions_msg"]   = "Information: Multiple active user sessions (total [+total+]) found for user <b>[+username+]</b>.";
+$_lang["iconv_not_available"]     = "It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.";
+
+$_lang["cm_create_new_category"] = "Create the new category";
+$_lang["cm_category_name"] = "Category name";
+$_lang["cm_category_position"] = "Category position";
+$_lang["cm_no_x_assigned"] = "No %s assigned";
+$_lang["cm_save_categorization"] = "Save categorization";
+$_lang["cm_update_categories"] = "Update categories";
+$_lang["cm_assigned_elements"] = "Assigned elements";
+$_lang["cm_edit_name"] = "Edit name";
+$_lang["cm_mark_for_deletion"] = "Mark for deletion";
+$_lang["cm_delete_now"] = "Delete immediately";
+$_lang["cm_delete_element_x_now"] = "Delete &quot;%s&quot; immediately";
+$_lang["cm_select_element_group"] = "Select an element group";
+$_lang["cm_global_messages"] = "Global Messages";
+$_lang["cm_add_new_category"] = "Add a new category";
+$_lang["cm_edit_categories"] = "Edit categories";
+$_lang["cm_sort_categories"] = "Sort categories";
+$_lang["cm_categorize_elements"] = "Categorize elements";
+$_lang["cm_translation"] = "Translation";
+$_lang["cm_translations"] = "Translations";
+$_lang["cm_categorize_x"] = "Categorize <span class=\"highlight\">%s</span>";
+$_lang["cm_unknown_error"] = "Something went wrong.";
+$_lang["cm_x_assigned_to_category_y"] = "<span class=\"highlight\">%s(%s)</span> has been assigned to category <span class=\"highlight\">%s(%s)</span>";
+$_lang["cm_no_categorization"] = "No categorization made.";
+$_lang["cm_no_changes"] = "Nothing to change, so no changes made.";
+$_lang["cm_x_changes_made"] = "<span class=\"highlight\">%s</span> changes made";
+$_lang["cm_enter_name_for_category"] = "Please enter a name for the new category.";
+$_lang["cm_category_x_exists"] = "Category <span class=\"highlight\">%s</span> already exists.";
+$_lang["cm_category_x_saved_at_position_y"] = "The new category <span class=\"highlight\">%s</span> was saved at position <span class=\"highlight\">%s</span>.";
+$_lang["cm_category_x_moved_to_position_y"] = "Category <span class=\"highlight\">%s</span> was moved to position <span class=\"highlight\">%s</span>";
+$_lang["cm_category_x_deleted"] = "Category <span class=\"highlight\">%s</span> has been deleted";
+$_lang["cm_category_x_renamed_to_y"] = "Category <span class=\"highlight\">%s</span> was renamed to <span class=\"highlight\">%s</span>";
+$_lang["cm_translation_for_x_empty"] = "Translation for <span class=\"highlight\">%s</span> was empty";
+$_lang["cm_translation_for_x_to_y_success"] = "Translation for <span class=\"highlight\">%s</span> to <span class=\"highlight\">%s</span> successfully saved";
+$_lang["cm_save_new_sorting"] = "Save new sorting";
+$_lang["cm_translate_phrases"] = "Translate phrases";
+$_lang["cm_translate_module_phrases"] = "Translate module-phrases";
+$_lang["cm_native_phrase"] = "Native phrase";
+
+$_lang["btn_view_options"] = 'View Options';
+$_lang["view_options_msg"] = 'The display & listing of elements can be customized via &quot;View Options&quot;-button. Settings are saved and restored per Browser using HTML5´s localStorage.';
+$_lang["viewopts_title"] = 'View Options';
+$_lang["viewopts_cb_buttons"] = 'Buttons';
+$_lang["viewopts_cb_descriptions"] = 'Descriptions';
+$_lang["viewopts_cb_icons"] = 'Icons';
+$_lang["viewopts_radio_list"] = 'List';
+$_lang["viewopts_radio_inline"] = 'Inline';
+$_lang["viewopts_radio_flex"] = 'Flex';
+$_lang["viewopts_fontsize"] = 'Font-Size';
+$_lang["viewopts_cb_alltabs"] = 'All Tabs';
+
+$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['auto'] = 'Auto-detect';
+$_lang['use_emailsender'] = 'Use [(emailsender)] value';
+$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+
+$_lang['login_form_position_title'] = 'Login form postiton';
+$_lang['login_form_position_left'] = 'left';
+$_lang['login_form_position_center'] = 'center';
+$_lang['login_form_position_right'] = 'right';
+$_lang["login_form_style"] = 'Login form style:';
+$_lang["login_form_style_dark"] = 'dark';
+$_lang["login_form_style_light"] = 'light';
+$_lang['login_logo_title'] = 'Login page logo image';
+$_lang['login_logo_message'] = 'Recomended login logo image width: 360px, type .png';
+$_lang['login_bg_title'] = 'Login page background image';
+$_lang['login_bg_message'] = 'Recomended login page background image width: 1920px  ';
+
+$_lang['manager_menu_position_title'] = 'Main menu position';
+$_lang['manager_menu_position_top'] = 'top';
+$_lang['manager_menu_position_left'] = 'left';
+
+$_lang['invalid_event_response'] = 'The %s event has invalid output';
+
+$_lang['chunk_processor'] = 'Chunks processing class';

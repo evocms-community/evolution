@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author MEGU, yamamoto, TxO
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Japanese
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -32,9 +32,11 @@ $_lang["btnback_value"] = '戻る';
 $_lang["btnclose_value"] = 'インストール終了';
 $_lang["btnnext_value"] = '進む';
 $_lang["cant_write_config_file"] = '設定ファイルを生成できませんでした。以下をコピーしてconfig.inc.phpに反映してください ';
-$_lang["cant_write_config_file_note"] = 'Once that\'s been done, you can log into MODX Admin by pointing your browser at YourSiteName.com/[+MGR_DIR+]/.';
+$_lang["cant_write_config_file_note"] = 'Once that\'s been done, you can log into EVO Admin by pointing your browser at YourSiteName.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = '拡張機能の選択:';
 $_lang["checking_if_cache_exist"] = '<span class="mono">/assets/cache</span>ディレクトリの存在チェック(なければ転送に失敗しています): ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'ファイル<span class="mono">/assets/cache/siteCache.idx.php</span>の書き込み属性(606などに設定): ';
 $_lang["checking_if_cache_file2_writable"] = 'ファイル<span class="mono">/assets/cache/sitePublishing.idx.php</span>の書き込み属性(606などに設定): ';
 $_lang["checking_if_cache_writable"] = '<span class="mono">/assets/cache</span>ディレクトリの書き込み属性(707などに設定): ';
@@ -100,7 +102,7 @@ $_lang["install_results"] = 'インストールを実行しました。';
 $_lang["install_update"] = 'インストール／アップデート';
 $_lang["installation_error_occured"] = '<span style="font-weight:bold;color:red;">インストール中に以下のエラーが発生しました。</span>';
 $_lang["installation_install_new_copy"] = '新規インストール - ';
-$_lang["installation_install_new_note"] = 'すでにMODXをインストールしている場合はデータを上書きします。<br />※Tableプリフィクスが異なる場合を除く';
+$_lang["installation_install_new_note"] = 'すでにインストールしている場合はデータを上書きします。<br />※Tableプリフィクスが異なる場合を除く';
 $_lang["installation_mode"] = 'インストールの選択';
 $_lang["installation_new_installation"] = '新規インストール';
 $_lang["installation_note"] = '<strong>はじめに:</strong>管理画面にログインできたら、まずは管理画面右上のヘルプをご確認ください。';
@@ -114,31 +116,32 @@ $_lang["installing_demo_site"] = 'サンプルサイトのインストール: ';
 $_lang["language_code"] = 'ja';
 $_lang["loading"] = '処理中...';
 $_lang["modules"] = 'モジュール';
-$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] the <a href="http://modx.com/" target="_blank" style="color: green; text-decoration:underline">MODX</a> Content Management Framework (CMF) project. All rights reserved. MODX is licensed under the GNU GPL.';
-$_lang["modx_footer2"] = 'MODX is free software.  We encourage you to be creative and make use of MODX in any way you see fit. Just make sure that if you do make changes and decide to redistribute your modified MODX, that you keep the source code free!';
-$_lang["modx_install"] = 'MODX &raquo; インストール';
-$_lang["modx_requires_php"] = 'MODXの動作にはPHP [+min_version+]以上が必要です。';
+$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] the <a href="http://evo.im/" target="_blank" style="color: green; text-decoration:underline">EVO</a> Content Management Framework (CMF) project. All rights reserved. EVO is licensed under the GNU GPL.';
+$_lang["modx_footer2"] = 'EVO is free software.  We encourage you to be creative and make use of EVO in any way you see fit. Just make sure that if you do make changes and decide to redistribute your modified EVO, that you keep the source code free!';
+$_lang["modx_install"] = 'EVO&raquo; インストール';
+$_lang["modx_requires_php"] = 'EVOの動作にはPHP [+min_version+]以上が必要です。';
 $_lang["mysql_5051"] = ' MySQL server version is 5.0.51!';
 $_lang["mysql_5051_warning"] = 'MySQL 5.0.51には不具合が確認されています。MySQLのアップデートをおすすめします。';
-$_lang["mysql_version_is"] = ' Version ';
+$_lang["mysql_version_is"] = ' Your MySQL version is: ';
 $_lang["no"] = 'いいえ';
 $_lang["none"] = '全ての選択を解除';
 $_lang["not_found"] = '見つかりません';
 $_lang["ok"] = '問題なし';
 $_lang["optional_items"] = 'インストールオプションの選択';
-$_lang["optional_items_note"] = 'オプションを選択してください:<br /><br />初めてMODXを試す人は、全てチェックを入れましょう。<br />※日本チームより：「サンプルサイト」は内容が古く、検証も不十分です。興味がある場合のみ、参考程度にお試しください。';
-$_lang["php_security_notice"] = '<legend>セキュリティ警告</legend><p>このサーバ上で稼働しているPHPには重大な問題があります。MODXの稼働自体には問題はありませんが、このバージョンのPHPには報告されている脆弱性がいくつか存在し、MODXに限らずさまざまなPHPアプリを通じて多数の攻撃にさらされてきました。バージョン4.3.8より古いPHPは深刻な脆弱性を抱えています。この機会にPHPのアップデートをおすすめします。</p>';
+$_lang["optional_items_note"] = 'オプションを選択してください:';
+$_lang["php_security_notice"] = '<legend>セキュリティ警告</legend><p>このサーバ上で稼働しているPHPには重大な問題があります。EVOの稼働自体には問題はありませんが、このバージョンのPHPには報告されている脆弱性がいくつか存在します。</p>';
 $_lang["please_correct_error"] = 'があります。';
 $_lang["please_correct_errors"] = 'があります。';
 $_lang["plugins"] = 'プラグイン';
 $_lang["preinstall_validation"] = 'インストール前の状態確認';
-$_lang['recommend_collation'] = 'utf8mb4_general_ci';
-$_lang['recommend_collations_order'] = 'utf8mb4_general_ci,utf8_general_ci,utf8mb4_bin,utf8_bin';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_general_ci,utf8_general_ci,utf8mb4_bin,utf8_bin';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'インストールディレクトリを自動的に削除する<br />※この操作はサーバ設定によっては実行されないことがあります。<br />削除できなかった場合は、管理画面ログイン時に太文字で警告が表示されますので、手作業で削除してください。';
 $_lang["remove_install_folder_manual"] = '管理画面にログインする前に、&quot;<b>install</b>&quot; フォルダを必ず削除してください。';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = '再チェック';
 $_lang["running_database_updates"] = '実行中のデータベースのアップデート: ';
 $_lang["sample_web_site"] = 'サンプルサイト';
@@ -192,11 +195,11 @@ $_lang["unable_install_template"] = 'テンプレートをインストールで�
 $_lang["upgrade_note"] = '<strong>注意:</strong>管理画面に無事にログインできたら、リソース(旧称・ドキュメント)および各種設定を日本語を含めて編集・保存し、文字化けが起きないかどうかを必ず確認してください。また管理画面内の「イベントログ」を開き、エラーの有無をご確認ください。';
 $_lang["upgraded"] = 'アップデートしました';
 $_lang["validate_referer_title"] = 'Validate HTTP_REFERER headers?';
-$_lang["visit_forum"] = ' <a href="http://forum.modx.jp/" target="_blank">MODX フォーラム</a>';
+$_lang["visit_forum"] = ' <a href="http://forum.modx.jp/" target="_blank">EVO フォーラム</a>';
 $_lang["warning"] = '注意 ';
 $_lang["welcome_message_start"] = 'インストールの種別を選択してください。';
-$_lang["welcome_message_text"] = '心踊る、未知の領域へようこそ。ガイドに従ってインストールを進めましょう。MODXのインストールは簡単。インストーラの説明に従って、次へ次へと進めてください。<br /><br />このインストーラの手順に従うことにより、他のCMSとのデータベースの共有設定(Tableプリフィクス)や、サンプルコンテンツ及び、推奨される拡張機能のインストールを個別に選択できます。何も選択せずシンプルにコアのみをインストールすることもできます。また、すでに運用中のMODXをアップデートしたり、データベースの設定を変更することもできます。';
-$_lang["welcome_message_welcome"] = 'MODXのインストールを開始します。';
+$_lang["welcome_message_text"] = '心踊る、未知の領域へようこそ。ガイドに従ってインストールを進めましょう。EVOのインストールは簡単。インストーラの説明に従って、次へ次へと進めてください。<br /><br />このインストーラの手順に従うことにより、他のCMSとのデータベースの共有設定(Tableプリフィクス)や、サンプルコンテンツ及び、推奨される拡張機能のインストールを個別に選択できます。何も選択せずシンプルにコアのみをインストールすることもできます。また、すでに運用中のEVOをアップデートしたり、データベースの設定を変更することもできます。';
+$_lang["welcome_message_welcome"] = 'EVOのインストールを開始します。';
 $_lang["writing_config_file"] = 'config.inc.phpへの書き込み(設定情報): ';
 $_lang["yes"] = 'はい';
 $_lang["you_running_php"] = ' - You are running on PHP ';

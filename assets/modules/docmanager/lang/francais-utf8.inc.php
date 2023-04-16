@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: David Mollière, Jean-Christophe Brebion
- * Language: French
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Supprimer un Groupe de Ressources';
 
 $_lang['DM_doc_skip_message1'] = 'La Ressource dont l\'ID est';
 $_lang['DM_doc_skip_message2'] = 'fait déjà partie du Groupe de Ressources sélectionné (non pris en compte)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Veuillez cliquer, dans l\'Arbre du Site, sur la racine du site ou sur la Ressource parente que vous souhaitez trier.';
-$_lang['DM_sort_updating'] = 'Mise à jour ...';
-$_lang['DM_sort_updated'] = 'Mise à jour effectuée.';
-$_lang['DM_sort_nochildren'] = 'Cette Ressource parente n\'a aucun enfant';
-$_lang['DM_sort_noid'] = 'Aucune Ressource sélectionnée. Merci de revenir en arrière et de sélectionner une Ressource.';
 
 // other tab
 $_lang['DM_other_header'] = 'Réglages divers de Ressources';

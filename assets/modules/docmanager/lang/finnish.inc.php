@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: doze
- * Language: Finnish
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Poista dokumenttiryhmä';
 
 $_lang['DM_doc_skip_message1'] = 'Dokumentti ID:llä';
 $_lang['DM_doc_skip_message2'] = 'kuuluu jo valittuun dokumenttiryhmään (ohitetaan)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Ole hyvä ja klikkaa sivuston runkoon tai kansioon PÄÄDOKUMENTTIPUUSSA, jota haluat järjestää.';
-$_lang['DM_sort_updating'] = 'Päivitetään ...';
-$_lang['DM_sort_updated'] = 'Päivitetty';
-$_lang['DM_sort_nochildren'] = 'Kansiossa ei ole yhtään dokumenttia';
-$_lang['DM_sort_noid'] = 'Ei ole valittu yhtään dokumenttia. Ole hyvä ja siirry takaisin sekä valitse dokumentti.';
 
 // other tab
 $_lang['DM_other_header'] = 'Selkalaiset dokumenttien asetukset';

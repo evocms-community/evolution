@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Thomas Steinberg, www.elbwiese.de
- * Language: German
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -17,9 +17,9 @@ $_lang['DM_sort_title'] = 'Menüindex-Editor';
 
 // tabs
 $_lang['DM_doc_permissions'] = 'Zugriffsberechtigungen';
-$_lang['DM_template_variables'] = 'Template Variablen';
+$_lang['DM_template_variables'] = 'Vorlagenvariablen';
 $_lang['DM_sort_menu'] = 'Menüeinträge sortieren';
-$_lang['DM_change_template'] = 'Template wechseln';
+$_lang['DM_change_template'] = 'Vorlage wechseln';
 $_lang['DM_publish'] = 'Veröffentlichen/Zurückziehen';
 $_lang['DM_other'] = 'Weitere Einstellungen';
 
@@ -31,23 +31,23 @@ $_lang['DM_save'] = 'Speichern';
 $_lang['DM_sort_another'] = 'Noch eine Sortierung';
 
 // templates tab
-$_lang['DM_tpl_desc'] = 'Wählen Sie das gewünschte Template. Legen Sie dann die IDs der Dokumente fest, die geändert werden sollen.';
-$_lang['DM_tpl_no_templates'] = 'Keine Templates gefunden';
+$_lang['DM_tpl_desc'] = 'Wählen Sie das gewünschte Vorlage. Legen Sie dann die IDs der Dokumente fest, die geändert werden sollen.';
+$_lang['DM_tpl_no_templates'] = 'Keine Vorlagen gefunden';
 $_lang['DM_tpl_column_id'] = 'ID';
 $_lang['DM_tpl_column_name'] = 'Name';
 $_lang['DM_tpl_column_description'] = 'Beschreibung';
-$_lang['DM_tpl_blank_template'] = 'Leeres Template';
+$_lang['DM_tpl_blank_template'] = 'Leeres Vorlage';
 $_lang['DM_tpl_results_message'] = 'Nutzen Sie den Zurück-Button, wenn Sie noch mehr Änderungen durchfüren wollen. Der Cache wurde geleert.';
 
 // template variables tab
-$_lang['DM_tv_desc'] = 'Definieren Sie die IDs der zu ändernden Dokumente, in dem Sie das Dokument entweder aus dem Dokumentenbaum auswählen oder mit Hilfe der untenstehenden Funktion. Wälen Sie dann aus der Tabelle das passende Template. Die zugeordneten Template Variables werden geladen. Geben Sie die gewünschten Template Variablen ein und klicken Sie auf los.';
-$_lang['DM_tv_template_mismatch'] = 'Dieses Dokument benutzt nicht das gewählte Template.';
+$_lang['DM_tv_desc'] = 'Definieren Sie die IDs der zu ändernden Dokumente, in dem Sie das Dokument entweder aus dem Dokumentenbaum auswählen oder mit Hilfe der untenstehenden Funktion. Wälen Sie dann aus der Tabelle das passende Vorlage. Die zugeordneten Vorlagenvariablen werden geladen. Geben Sie die gewünschten Vorlagenvariablen ein und klicken Sie auf los.';
+$_lang['DM_tv_template_mismatch'] = 'Dieses Dokument benutzt nicht das gewählte Vorlage.';
 $_lang['DM_tv_doc_not_found'] = 'Das Dokument wurde nicht in der Datenbank gefunden.';
-$_lang['DM_tv_no_tv'] = 'Keine Template Variablen für dieses Dokument gefunden.';
+$_lang['DM_tv_no_tv'] = 'Keine Vorlagenvariablen für dieses Dokument gefunden.';
 $_lang['DM_tv_no_docs'] = 'Sie haben keine Dokumente ausgewählt, die aktualisiert werden könnten.';
-$_lang['DM_tv_no_template_selected'] = 'Sie haben kein Template ausgewählt..';
-$_lang['DM_tv_loading'] = 'Die Template Variablen werden geladen...';
-$_lang['DM_tv_ignore_tv'] = 'Diese Template Variables ignorieren (Werte mit Kommas getrennt eintragen):';
+$_lang['DM_tv_no_template_selected'] = 'Sie haben kein Vorlage ausgewählt..';
+$_lang['DM_tv_loading'] = 'Die Vorlagenvariablen werden geladen...';
+$_lang['DM_tv_ignore_tv'] = 'Diese Vorlagenvariablen ignorieren (Werte mit Kommas getrennt eintragen):';
 $_lang['DM_tv_ajax_insertbutton'] = 'Einfügen';
 
 // document permissions tab
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Dokumente entfernen';
 
 $_lang['DM_doc_skip_message1'] = 'Das Dokument mit der ID';
 $_lang['DM_doc_skip_message2'] = 'gehört schon zur gewählten Dokumentengruppe (Überspringen)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Wählen Sie einen Ordner, dessen Dokumente Sie im Menü neu sortieren wollen.';
-$_lang['DM_sort_updating'] = 'Aktualisieren...';
-$_lang['DM_sort_updated'] = 'Aktualisiert';
-$_lang['DM_sort_nochildren'] = 'Dieses Dokument ist kein Ordner.';
-$_lang['DM_sort_noid'] = 'Es wurden kein Dokument ausgewählt. Bitten gehen Sie zurück und wählen Sie ein Dokument.';
 
 // other tab
 $_lang['DM_other_header'] = 'Diverse Einstellungen';
@@ -136,8 +129,8 @@ $_lang['DM_process_update_error'] = 'Die Aktualisierung war erfolgreich, aber es
 $_lang['DM_process_back'] = 'Zurück';
 
 // manager access logging
-$_lang['DM_log_template'] = 'Document Manager: Templates geändert.';
-$_lang['DM_log_templatevariables'] = 'Document Manager: Template Variablen geändert.';
+$_lang['DM_log_template'] = 'Document Manager: Vorlagen geändert.';
+$_lang['DM_log_templatevariables'] = 'Document Manager: Vorlagenvariablen geändert.';
 $_lang['DM_log_docpermissions'] = 'Document Manager: Zugriffsberechtigungen geändert.';
 $_lang['DM_log_sortmenu'] = 'Document Manager: Menü neu strukturiert.';
 $_lang['DM_log_publish'] = 'Document Manager: Einstellungen Veröffentlicht/Zurückgezogen geändert.';

@@ -4,7 +4,7 @@
  * 
  * Purpose: Contains the language strings for use in the module.
  * Author: Garry Nutting
- * Language: Danish
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Fjern en Dokument Gruppe';
 
 $_lang['DM_doc_skip_message1'] = 'Dokument med ID';
 $_lang['DM_doc_skip_message2'] = 'er allerede en del af den valgte dokument gruppe (Springer over)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Klik venligst websitets rod eller ejer dokumentet fra hoved dokument Trӕet som du ønsker at sorterer.';
-$_lang['DM_sort_updating'] = 'Opdaterer ...';
-$_lang['DM_sort_updated'] = 'Opdateret';
-$_lang['DM_sort_nochildren'] = 'Ejer har ingen underdokumenter';
-$_lang['DM_sort_noid'] = 'Inget dokument er blevet valgt. Gǻ tilbage og vӕlg et dokument.';
 
 // other tab
 $_lang['DM_other_header'] = 'Diverse Dokument indstillinger';

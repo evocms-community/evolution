@@ -2,20 +2,16 @@
 /**
  * EVO Installer language file
  *
- * @author Pertsev Dmitriy
- * @author Safronovich Victor
- * @author Rudnykh Vitalii
- * @author Russian EVO Community
- * @version 1.4.5
- * @date 2018/10/31
+ * @author davaeron
+ * @version 1.5.0
+ * @date 2018/02/23
  *
- * @language Russian
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-setlocale (LC_ALL, 'ru_RU.UTF-8');
 $_lang["agree_to_terms"] = 'Согласиться с условиями лицензии и приступить к установке';
 $_lang["alert_database_test_connection"] = 'Вы должны создать базу данных или выбрать базу данных для проверки!';
 $_lang["alert_database_test_connection_failed"] = 'Неудачная проверка выбранной базы данных!';
@@ -38,9 +34,9 @@ $_lang["btnnext_value"] = 'Далее';
 $_lang["cant_write_config_file"] = 'Программа установки не смогла записать файл конфигурации. Скопируйте вышеперечисленное в файл ';
 $_lang["cant_write_config_file_note"] = 'Как только вы это сделаете, вы можете войти в панель управления, перейдя в браузере по адресу Адрес_Вашего_Сайта/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Параметры выбора флажков:';
+$_lang["checking_if_cache_exist"] = 'Проверка существования папок <span class="mono">/assets/cache</span> и <span class="mono">/assets/cache/rss</span>: ';
 $_lang["checking_iconv"] = 'Проверка доступности <span class="mono">iconv</span>: ';
 $_lang["checking_iconv_note"] = 'Необходимо установить/включить расширение iconv. Пожалуйста, обратитесь к администратору сервера, чтобы сделать это.';
-$_lang["checking_if_cache_exist"] = 'Проверка существования папок <span class="mono">/assets/cache</span> и <span class="mono">/assets/cache/rss</span>: ';
 $_lang["checking_if_cache_file_writable"] = 'Проверка возможности записи в файл <span class="mono">/assets/cache/siteCache.idx.php</span>: ';
 $_lang["checking_if_cache_file2_writable"] = 'Проверка возможности записи в файл <span class="mono">/assets/cache/sitePublishing.idx.php</span>: ';
 $_lang["checking_if_cache_writable"] = 'Проверка возможности записи в папки <span class="mono">/assets/cache</span> и <span class="mono">/assets/cache/rss</span>: ';
@@ -97,7 +93,7 @@ $_lang["errors"] = 'ошибок';
 $_lang["failed"] = 'ОШИБКА!';
 $_lang["guid_set"] = 'GUID ключ';
 $_lang["help"] = 'Помощь!';
-$_lang["help_link"] = 'http://modx.im';
+$_lang["help_link"] = 'https://evocms.ru';
 $_lang["help_title"] = 'Помощь в установке на форумах EVO';
 $_lang["iagree_box"] = 'Я согласен с условиями <a href="../assets/docs/license.txt" target="_blank">лицензии</a>. С русским переводом текста лицензии можно познакомиться на странице <a href="http://ru.wikipedia.org/wiki/GPL" target="_blank">GNU General Public License</a>.';
 $_lang["install"] = 'Установить';
@@ -207,3 +203,4 @@ $_lang["welcome_message_welcome"] = 'Добро пожаловать в прог
 $_lang["writing_config_file"] = 'Запись конфигурационного файла: ';
 $_lang["yes"] = 'Да';
 $_lang["you_running_php"] = ' - вы используете PHP ';
+?>

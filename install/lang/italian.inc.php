@@ -2,11 +2,11 @@
 /**
  * EVO Installer language file
  *
- * @author Nicola
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Italian
+ * @language English
  * @package evo
  * @subpackage installer
  *
@@ -93,7 +93,7 @@ $_lang["errors"] = 'errori';
 $_lang["failed"] = 'FALLITA!';
 $_lang["guid_set"] = 'GUID impostata';
 $_lang["help"] = 'Aiuto!';
-$_lang["help_link"] = 'http://forums.modx.com/';
+$_lang["help_link"] = 'https://forums.modx.com/';
 $_lang["help_title"] = 'Assistenza per l\'installazione nei forums EVO';
 $_lang["iagree_box"] = 'Accetto i termini della <a href="../assets/docs/license.txt" target="_blank">licenza EVO</a>. Per una traduzione della licenza GPL versione 2, vi preghiamo di visitare il sito <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">GNU</a>.';
 $_lang["install"] = 'Installazione';
@@ -170,7 +170,7 @@ $_lang["status_failed"] = 'fallita!';
 $_lang["status_failed_could_not_create_database"] = 'fallita - impossibile creare il database';
 $_lang["status_failed_database_collation_does_not_match"] = 'fallita - problemi con la collation del database; usate SET NAMES o scegliete %s';
 $_lang["status_failed_table_prefix_already_in_use"] = 'fallita - il prefisso scelto per le tabelle &eacute; gi&agrave; in uso!';
-$_lang['status_failed_mysqli'] = 'error - mysqli extension for PHP is not installed!';
+$_lang['status_failed_mysqli'] = 'Errore - l\'estensione mysqli per PHP non è installata!';
 $_lang["status_passed"] = 'successo - il database &eacute; stato selezionato';
 $_lang["status_passed_database_created"] = 'successo - il database &eacute; stato creato';
 $_lang["status_passed_server"] = 'successo - la collation del database &eacute; disponibile';

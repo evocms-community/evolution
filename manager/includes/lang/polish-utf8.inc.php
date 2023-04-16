@@ -2,12 +2,11 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4.6
- * @date 2018/11/10
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
- * @author Piotr Matysiak (pmfx)
  *
- * @language Polish
+ * @language English
  * @package modx
  * @subpackage manager
  *
@@ -969,7 +968,6 @@ $_lang["settings_templvars"] = 'Zmienne szablonu';
 $_lang["settings_title"] = 'Konfiguracja systemu';
 $_lang["settings_ui"] = 'Interfejs i edytor';
 $_lang["settings_users"] = 'Użytkownik';
-$_lang["settings_email_templates"] = 'E-mail i szablony';
 $_lang["show_meta"] = 'Pokazuj zakładkę META tagów i słów kluczowych';
 $_lang["show_meta_message"] = 'Pokazuj zakładkę META tagów i słów kluczowych podczas edycji dokumentu.';
 $_lang["show_tree"] = 'Pokaż drzewo';
@@ -1184,6 +1182,7 @@ $_lang["user_state"] = 'Województwo';
 $_lang["user_title"] = 'Dodaj/edytuj użytkownika Menedżera';
 $_lang["user_upload_message"] = 'Jeśli chcesz zabronić temu użytkownikowi ładowania dowolnych typów plików z tej kategorii, upewnij się że opcja "Używaj ustawień konfiguracji systemu" jest odznaczona i pozostaw to pole puste.';
 $_lang["user_use_config"] = 'Używaj ustawień konfiguracji systemu';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Kod pocztowy';
 $_lang["username"] = 'Nazwa użytkownika';
 $_lang["users"] = 'Użytkownicy';
@@ -1314,6 +1313,9 @@ $_lang["docid_incrmnt_method_1"] = 'Minimum missed ID';
 $_lang["docid_incrmnt_method_2"] = 'Maximal ID+1';
 
 $_lang["enable_cache_title"] = 'Cache dokumentu';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
 $_lang["disabled_at_login"] = 'Wyłącz po zalogowaniu';
 
 $_lang["cache_type_title"] = 'Metoda działania cache';
@@ -1322,6 +1324,7 @@ $_lang["cache_type_2"] = 'Cache bazuje na ID zasobu oraz parametrach $_GET';
 $_lang["seostrict_title"] = 'Używaj SEO Strict URL';
 $_lang["seostrict_message"] = 'Jeśli potrzeba, wymuś używanie strict URLs aby zapobiec duplikowaniu treści';
 $_lang["aliaslistingfolder_title"] = 'AliasListing tylko dla folderów';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
 $_lang["aliaslistingfolder_message"] = 'Redukuje zużycie pamięci w przypadku bardzo dużej liczby zasobów';
 
 $_lang["settings_friendlyurls_alert"] = 'Aby używać przyjaznych adresów, wymagana jest zmiana nazwy pliku ht.access na .htaccess.';
@@ -1357,6 +1360,7 @@ $_lang["error_double_action"]         = "Wysłano podwójną akcję (GET & POST)
 $_lang["error_no_id"]                 = "Nie przekazano ID w zapytaniu!";
 $_lang["error_id_nan"]                = "ID przekazane w zapytaniu jest NaN!";
 $_lang["error_no_parent"]             = "Nie znaleziono nazwy dokumentu nadrzędnego!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_many_results"]          = "Baza danych zwróciła zbyt wiele wyników!";
 $_lang["error_no_results"]            = "Baza danych zwróciła za mało/brak wyników!";
 $_lang["error_no_user_selected"]      = "Nie wybrano adresata tej wiadomości!";
@@ -1429,6 +1433,8 @@ $_lang["minifyphp_incache_title"] = 'Zmniejsz kod PHP w cache';
 $_lang["minifyphp_incache_message"] = 'Zmniejsz kod PHP (snippetów i wtyczek) i przechowuj go w pliku cache serwisu. Więcej informacji: <a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Przypomnienie: Wygląda na to że [+date+] zapomniałeś się wylogować. Proszę zwrócić w przyszłości uwagę na to aby poprawnie się wylogować po zakończeniu pracy.";
+
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
 
 $_lang["allow_eval_title"]             = "Kod PHP eval w snippetach";
 $_lang["allow_eval_msg"]               = "Dla developerów: Proszę używać \$modx-&gt;safeEval().";
@@ -1513,4 +1519,7 @@ $_lang['login_bg_message'] = 'Zalecana szerokość to 1920px';
 $_lang['manager_menu_position_title'] = 'Położenie głównej nawigacji';
 $_lang['manager_menu_position_top'] = 'Góra';
 $_lang['manager_menu_position_left'] = 'Lewa';
+
 $_lang['invalid_event_response'] = 'Zdarzenie %s ma nieprawidłowy wynik';
+
+$_lang['chunk_processor'] = 'Chunks processing class';

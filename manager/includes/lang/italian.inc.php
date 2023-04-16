@@ -6,8 +6,8 @@
  * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Italian
- * @package Evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -1191,6 +1191,7 @@ $_lang["user_state"] = 'Regione';
 $_lang["user_title"] = 'Crea/modifica utente';
 $_lang["user_upload_message"] = 'Se volete impedire che questo utente possa caricare files di questo tipo, assicuratevi che la casella \'Use Main Configuration Setting\' non sia selezionata e lasciate vuoto il campo.';
 $_lang["user_use_config"] = 'Usare le Impostazioni di Sistema';
+$_lang["user_verification"] = 'Utente verificato';
 $_lang["user_zip"] = 'CAP';
 $_lang["username"] = 'Nome utente';
 $_lang["users"] = 'Utenti';
@@ -1257,8 +1258,6 @@ $_lang["enable_filter_title"] = 'Abilita filtri';
 $_lang["enable_filter_message"] = 'I filtri consentono di manipolare il modo in cui viene mostrato un tag. Inoltre, consentono di modificare i valori dall\'interno template. Funzionalità analoghe a PHx.  <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Maggiori info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Quando PHx è abilitato, i filtri sono disabilitati.';
 
-$_lang["enable_filter_phx_warning"] = 'Quando PHx è abilitato, i filtri sono disabilitati.';
-
 $_lang["enable_at_syntax_title"] = 'Abilita &lt;@SYNTAX&gt;';
 $_lang["enable_at_syntax_message"] = '&lt;@SYNTAX&gt;(atmark syntax) è una sintassi di template semplice e leggera. Questo è progettato per considerare la coesistenza con tag HTML e stringhe di contenuto.';
 
@@ -1323,6 +1322,9 @@ $_lang["docid_incrmnt_method_1"] = 'ID libero più basso';
 $_lang["docid_incrmnt_method_2"] = 'ID più grande + 1';
 
 $_lang["enable_cache_title"] = 'Cache delle risorse';
+$_lang["disable_chunk_cache_title"] = 'Disabilita il caching per i Chunk';
+$_lang["disable_snippet_cache_title"] = 'Disabilita il caching per gli Snippet';
+$_lang["disable_plugins_cache_title"] = 'Disabilita il caching per i Plugins';
 $_lang["disabled_at_login"] = 'Disabilitato all\'accesso';
 
 $_lang["cache_type_title"] = 'Tipologia della cache dei documenti:';
@@ -1331,6 +1333,7 @@ $_lang["cache_type_2"] = 'La cache si basa sull\'ID della risorsa e sui parametr
 $_lang["seostrict_title"] = 'Usa URL univoci:';
 $_lang["seostrict_message"] = 'Forza l\'uso di URL SEO univoche per prevenire contenuti duplicati (se necessario)';
 $_lang["aliaslistingfolder_title"] = 'Usa AliasListing solo per le cartelle';
+$_lang["full_aliaslisting_title"] = 'Disabilita AliasListing per tutte le Risorse';
 $_lang["aliaslistingfolder_message"] = 'Riduce il consumo di memoria quando si ha un gran numero di risorse';
 
 $_lang["settings_friendlyurls_alert"] = 'E\' necessario rinominare il file ht.access presente nella root dell\'installazione di EVO in .htaccess per poter utilizzare gli URL Semplici.';
@@ -1366,6 +1369,7 @@ $_lang["error_double_action"]         = "E' stata inviata una doppia azione (GET
 $_lang["error_no_id"]                 = "Nella richiesta manca l'ID del documento!";
 $_lang["error_id_nan"]                = "L'ID passato nella richiesta è NaN!";
 $_lang["error_no_parent"]             = "Impossibile trovare il nome del documento genitore!";
+$_lang["error_parent_deleted"]        = "Si è verificato un errore perchè la risorsa padre è stata cancellata!";
 $_lang["error_many_results"]          = "Sono stati trovati troppi risultati nel database!";
 $_lang["error_no_results"]            = "Sono stati trovati pochi risultati (o nessuno) nel database!";
 $_lang["error_no_user_selected"]      = "Non è stato selezionato l'utente a cui inviare questo messaggio!";
@@ -1438,6 +1442,8 @@ $_lang["minifyphp_incache_title"] = 'Minimizza il codice php nella cache';
 $_lang["minifyphp_incache_message"] = 'Minimizza il codice php (snippets e plugins) e salvalo nel file di cache, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Promemoria: Sembra che il [+date+] ti sei dimenticato di effettuare il  logout. Si prega di prestare attenzione in futuro nel fare logout quando si ha finito di lavorare.";
+
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
 
 $_lang["allow_eval_title"]             = "Utilizza Eval per eseguire il codice PHP nelle chiamate snippet";
 $_lang["allow_eval_msg"]               = "Per gli sviluppatori : Si prega di utilizzare \$modx-&gt;safeEval().";
@@ -1522,8 +1528,7 @@ $_lang['login_bg_message'] = 'Ampiezza consigliata per l\'immagine di sfondo del
 $_lang['manager_menu_position_title'] = 'Posizione del menu principale';
 $_lang['manager_menu_position_top'] = 'alto';
 $_lang['manager_menu_position_left'] = 'sinistra';
+
 $_lang['invalid_event_response'] = 'L\'evento %s ha un output errato';
 
 $_lang['chunk_processor'] = 'Classe di elaborazione dei chunk';
-$_lang['enable_mootools'] = 'Abilita Mootools nel manager';
-$_lang['enable_mootools_message'] = 'Carica  nel manager la libreria Mootools.js per la retrocompatibilità';

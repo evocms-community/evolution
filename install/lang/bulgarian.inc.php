@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author MODX Team
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Bulgarian
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX не успя да запише кон�
 $_lang["cant_write_config_file_note"] = 'След като инсталацията завърши, можете да се логнете в Мениджъра на MODX, като напишете в браузера си YourSiteName.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'Опции:';
 $_lang["checking_if_cache_exist"] = 'Проверка дали съществува директорията <span class=\"mono\">assets/cache</span> : ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Проверка дали може да се пише във файла <span class=\"mono\">assets/cache/siteCache.idx.php</span> : ';
 $_lang["checking_if_cache_file2_writable"] = 'Проверка дали може да се пише във файла <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> : ';
 $_lang["checking_if_cache_writable"] = 'Проверка дали в директорията <span class=\"mono\">assets/cache</span> може да се пише: ';
@@ -81,7 +83,7 @@ $_lang["database_connection_failed_note"] = 'Моля, проверете дан
 $_lang["database_use_failed"] = 'Базата от Данни не може да бъде избрана!';
 $_lang["database_use_failed_note"] = 'Моля, проверете правата за достъп до БД на определения потребител и опитайте отново.';
 $_lang["default_language"] = 'Default Manager Language';
-$_lang["default_language_description"] = 'This is the default language that will be used in the MODX Manager back end control panel.';
+$_lang["default_language_description"] = 'This is the default language that will be used in the EVO Manager back end control panel.';
 $_lang["depedency_create"] = 'Depedency created';
 $_lang["depedency_update"] = 'Depedency updated';
 $_lang["during_execution_of_sql"] = ' по време на изпълнение на SQL условие ';
@@ -92,7 +94,7 @@ $_lang["failed"] = 'Неуспешно!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Помощ!';
 $_lang["help_link"] = 'http://forums.modx.com/';
-$_lang["help_title"] = 'Installation assistance in the MODX forums';
+$_lang["help_title"] = 'Installation assistance in the EVO forums';
 $_lang["iagree_box"] = 'Съгласен съм с условията на използване на този лиценз.';
 $_lang["install"] = 'Инсталиране';
 $_lang["install_overwrite"] = 'Инсталиране/Презаписване - ';
@@ -132,11 +134,14 @@ $_lang["please_correct_error"] = '. Моля, коригирайте грешк�
 $_lang["please_correct_errors"] = '. Моля, коригирайте грешките';
 $_lang["plugins"] = 'Плъгини';
 $_lang["preinstall_validation"] = 'Потвърждаване на инсталацията';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Изтрий директория install и файловете, които се намират в нея <br />&nbsp;(Тази операция изисква да бъдат гарантирани права за изтриване върху директорията install).';
 $_lang["remove_install_folder_manual"] = 'Моля, запомнете да изтриете  директорията &quot;<b>install</b>&quot; преди да се логнете в Мениджъра.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Опитай отново';
 $_lang["running_database_updates"] = 'Обновяване на БД: ';
 $_lang["sample_web_site"] = 'Примерен Уеб Сайт';

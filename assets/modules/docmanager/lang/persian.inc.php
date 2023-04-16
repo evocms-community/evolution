@@ -3,8 +3,8 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Mohsen (MotSmart), www.modxcms.ir
- * Language: Persian
+ * Author: Garry Nutting
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'حذف گروه پرونده ای';
 
 $_lang['DM_doc_skip_message1'] = 'پرونده با شناسه ی';
 $_lang['DM_doc_skip_message2'] = 'جزو گروه پرونده ای انتخاب شده است (بی اثر)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'لطفا روت سایت یا پرونده ی دست بالا را تمایل به ترتیب دهی دارید را از درختی اصلی پرونده ها کلیک کنید.';
-$_lang['DM_sort_updating'] = 'به روز رسانی ...';
-$_lang['DM_sort_updated'] = 'به روز شد';
-$_lang['DM_sort_nochildren'] = 'پرونده ی دست بالا هیپ پرونده ی زیر دستی ندارد';
-$_lang['DM_sort_noid'] = 'هیچ پرونده ای انتخاب نشده است. لطفا برگشته و پرونده ای را انتخاب کنید.';
 
 // other tab
 $_lang['DM_other_header'] = 'تنظیمات مخالف پرونده';

@@ -4,12 +4,12 @@
  * 
  * Purpose: Contains the language strings for use in the module.
  * Author: Garry Nutting
- * Language: Chinese
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
 $_lang['DM_module_title'] = '文档管理';
-$_lang['DM_action_title'] = 'Select an action';
+$_lang['DM_action_title'] = '选择下一步操作';
 $_lang['DM_range_title'] = 'Specify a Range of Document IDs';
 $_lang['DM_tree_title'] = 'Select Documents from the tree';
 $_lang['DM_update_title'] = 'Update Completed';
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Remove a Document Group';
 
 $_lang['DM_doc_skip_message1'] = 'Document with ID';
 $_lang['DM_doc_skip_message2'] = 'is already part of the selected document group (skipping)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Please click the site root or parent document from the MAIN DOCUMENT TREE that you\'d like to sort.';
-$_lang['DM_sort_updating'] = 'Updating ...';
-$_lang['DM_sort_updated'] = 'Updated';
-$_lang['DM_sort_nochildren'] = 'Parent does not have any children';
-$_lang['DM_sort_noid'] = 'No Document has been selected. Please go back and select a document.';
 
 // other tab
 $_lang['DM_other_header'] = 'Miscellaneous Document Settings';

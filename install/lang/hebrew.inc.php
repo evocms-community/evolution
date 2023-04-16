@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author MODX Team
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Hebrew
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -31,10 +31,12 @@ $_lang["begin"] = 'התחל';
 $_lang["btnback_value"] = 'חזרה';
 $_lang["btnclose_value"] = 'סגור';
 $_lang["btnnext_value"] = 'הבא';
-$_lang["cant_write_config_file"] = 'MODX couldn\'t write the config file. Please copy the following into the file ';
-$_lang["cant_write_config_file_note"] = 'Once that\'s been done, you can log into MODX Admin by pointing your browser at YourSiteName.com/[+MGR_DIR+]/.';
+$_lang["cant_write_config_file"] = 'EVO couldn\'t write the config file. Please copy the following into the file ';
+$_lang["cant_write_config_file_note"] = 'Once that\'s been done, you can log into EVO Admin by pointing your browser at YourSiteName.com/[+MGR_DIR+]/.';
 $_lang["checkbox_select_options"] = 'אפשרויות שדה סימון:';
 $_lang["checking_if_cache_exist"] = 'Checking if <span class="mono">/assets/cache</span> and <span class="mono">/assets/cache/rss</span> directories exist: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Checking if <span class="mono">/assets/cache/siteCache.idx.php</span> file is writable: ';
 $_lang["checking_if_cache_file2_writable"] = 'Checking if <span class="mono">/assets/cache/sitePublishing.idx.php</span> file is writable: ';
 $_lang["checking_if_cache_writable"] = 'Checking if <span class="mono">/assets/cache</span> and <span class="mono">/assets/cache/rss</span> directories are writable: ';
@@ -47,7 +49,7 @@ $_lang["checking_mysql_strict_mode"] = 'Checking MySQL for strict sql_mode: ';
 $_lang["checking_mysql_version"] = 'Checking MySQL version: ';
 $_lang["checking_php_version"] = 'Checking PHP version: ';
 $_lang["checking_registerglobals"] = 'Checking if Register_Globals is off: ';
-$_lang["checking_registerglobals_note"] = 'This configuration makes your site much more susceptible to Cross Site Scripting (XSS) attacks. You should speak to your host about disabling this setting, usually by one of three ways: modifying the global php.ini file, adding rules to a .htaccess file in the root of your MODX install, or adding custom php.ini override files in every directory on your install (and there\'s a lot of them). You will still be able to install MODX, but consider yourself warned.';
+$_lang["checking_registerglobals_note"] = 'This configuration makes your site much more susceptible to Cross Site Scripting (XSS) attacks. You should speak to your host about disabling this setting, usually by one of three ways: modifying the global php.ini file, adding rules to a .htaccess file in the root of your EVO install, or adding custom php.ini override files in every directory on your install (and there\'s a lot of them). You will still be able to install EVO, but consider yourself warned.';
 $_lang["checking_sessions"] = 'Checking if sessions are properly configured: ';
 $_lang["checking_table_prefix"] = 'Checking table prefix `';
 $_lang["choose_language"] = 'בחר שפה';
@@ -81,18 +83,18 @@ $_lang["database_connection_failed_note"] = 'אנא בדוק את פרטי הה�
 $_lang["database_use_failed"] = 'מסד הנתונים לא ניתן לבחירה!';
 $_lang["database_use_failed_note"] = 'Please check the database permissions for the specified user and try again.';
 $_lang["default_language"] = 'Default Manager Language';
-$_lang["default_language_description"] = 'This is the default language that will be used in the MODX Manager back end control panel.';
+$_lang["default_language_description"] = 'This is the default language that will be used in the EVO Manager back end control panel.';
 $_lang["depedency_create"] = 'Depedency created';
 $_lang["depedency_update"] = 'Depedency updated';
 $_lang["during_execution_of_sql"] = ' during the execution of SQL statement ';
-$_lang["encoding"] = 'UTF-8';
+$_lang["encoding"] = 'iso-8859-1';
 $_lang["error"] = 'שגיאה';
 $_lang["errors"] = 'שגיאות';
 $_lang["failed"] = 'נכשל!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Help!';
 $_lang["help_link"] = 'http://forums.modx.com/';
-$_lang["help_title"] = 'Installation assistance in the MODX forums';
+$_lang["help_title"] = 'Installation assistance in the EVO forums';
 $_lang["iagree_box"] = 'אני מסכים לתנאים שהוצגו ברשיון זה.';
 $_lang["install"] = 'התקן';
 $_lang["install_overwrite"] = 'התקנה/דריסה';
@@ -114,10 +116,10 @@ $_lang["installing_demo_site"] = 'התקנת אתר דוגמא: ';
 $_lang["language_code"] = 'he';
 $_lang["loading"] = 'טוען...';
 $_lang["modules"] = 'מודולים';
-$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] the <a href="http://modx.com/" target="_blank" style="color: green; text-decoration:underline">MODX</a> Content Management Framework (CMF) project. All rights reserved. MODX is licensed under the GNU GPL.';
-$_lang["modx_footer2"] = 'MODX is free software.  We encourage you to be creative and make use of MODX in any way you see fit. Just make sure that if you do make changes and decide to redistribute your modified MODX, that you keep the source code free!';
-$_lang["modx_install"] = 'MODX &raquo; Install';
-$_lang["modx_requires_php"] = ', and MODX requires PHP [+min_version+] or later';
+$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] the <a href="http://evo.im/" target="_blank" style="color: green; text-decoration:underline">EVO</a> Content Management Framework (CMF) project. All rights reserved. EVO is licensed under the GNU GPL.';
+$_lang["modx_footer2"] = 'EVO is free software.  We encourage you to be creative and make use of EVO in any way you see fit. Just make sure that if you do make changes and decide to redistribute your modified EVO, that you keep the source code free!';
+$_lang["modx_install"] = 'EVO &raquo; Install';
+$_lang["modx_requires_php"] = ', and EVO requires PHP [+min_version+] or later';
 $_lang["mysql_5051"] = ' MySQL server version is 5.0.51!';
 $_lang["mysql_5051_warning"] = 'There are known issues with MySQL 5.0.51. It is recommended that you upgrade before continuing.';
 $_lang["mysql_version_is"] = ' Your MySQL version is: ';
@@ -127,16 +129,19 @@ $_lang["not_found"] = 'לא נמצא';
 $_lang["ok"] = 'תקין!';
 $_lang["optional_items"] = 'פריטים אופצוינאלים';
 $_lang["optional_items_note"] = 'אנא בחר את אפשרויות ההתקנה שלך ולחץ על התקן:';
-$_lang["php_security_notice"] = '<legend>Security notice</legend><p>While MODX will work on your PHP version, usage of MODX on this version is not recommended. Your version of PHP is vulnerable to numerous security holes. Please upgrade to PHP version is 4.3.8 or higher, which patches these holes. It is recommended you upgrade to this version for the security of your own website.</p>';
+$_lang["php_security_notice"] = '<legend>Security notice</legend><p>While EVO will work on your PHP version, usage of EVO on this version is not recommended. Your version of PHP is vulnerable to numerous security holes. Please upgrade to PHP version is 5.6 or higher, which patches these holes. It is recommended you upgrade to this version for the security of your own website.</p>';
 $_lang["please_correct_error"] = '. Please correct the error';
 $_lang["please_correct_errors"] = '. Please correct the errors';
 $_lang["plugins"] = 'התקנים';
 $_lang["preinstall_validation"] = 'אימות לפני התקנה';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'מחק את תיקיית התתקנה מהאתר <br />&nbsp;(פעולה זו מצריכה הרשאת מחיקה).';
 $_lang["remove_install_folder_manual"] = 'אנא זכור להסיר את &quot;<b>תקיית ההתקנה</b>&quot; לפני כניסתך למערכת הניהול.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'נסה שוב';
 $_lang["running_database_updates"] = 'Running database updates: ';
 $_lang["sample_web_site"] = 'אתר אינטרנט לדוגמא';
@@ -144,7 +149,7 @@ $_lang["sample_web_site_note"] = 'יש לקחת בחשבון כי פעולה ז�
 $_lang["session_problem"] = 'A problem was detected with your server sessions. Please consult your server admin to correct this problem.';
 $_lang["session_problem_try_again"] = 'Try again?';
 $_lang["setup_cannot_continue"] = 'Unfortunately, Setup cannot continue at the moment, due to the above ';
-$_lang["setup_couldnt_install"] = 'MODX setup couldn\'t install/alter some tables inside the selected database.';
+$_lang["setup_couldnt_install"] = 'EVO setup couldn\'t install/alter some tables inside the selected database.';
 $_lang["setup_database"] = 'מערכת ההתקנה תנסה כעת להתקין את מסד הנתונים:<br />';
 $_lang["setup_database_create_connection"] = 'Creating connection to the database: ';
 $_lang["setup_database_create_connection_failed"] = 'Database connection failed!';
@@ -170,7 +175,7 @@ $_lang["status_passed"] = 'עבר - מסד נתונים נבחר';
 $_lang["status_passed_database_created"] = 'עבר - יצירת מסד נתונים';
 $_lang["status_passed_server"] = 'עבר - אוסף נתונים זמין';
 $_lang["strict_mode"] = ' MySQL server strict sql_mode is enabled!';
-$_lang["strict_mode_error"] = 'Certain features of MODX may not work properly unless the STRICT_TRANS_TABLES sql_mode is disabled. You can set the MySQL mode by editing the my.cnf file or contact your server administrator.';
+$_lang["strict_mode_error"] = 'Certain features of EVO may not work properly unless the STRICT_TRANS_TABLES sql_mode is disabled. You can set the MySQL mode by editing the my.cnf file or contact your server administrator.';
 $_lang["summary_setup_check"] = 'מערכת ההתקנה ביצעה מספר בדיקות על מנת לודא כי ניתן להמשיך בהתקנה.';
 $_lang["system_configuration"] = 'System Configuration';
 $_lang["system_configuration_validate_referer_description"] = 'The <strong>Validate HTTP_REFERER headers</strong> setting is recommended and can protect your site from CSRF attacks, but in some server configurations, can make your manager inaccessible.';

@@ -4,7 +4,7 @@
  * 
  * Purpose: Contains the language strings for use in the module.
  * Author: Garry Nutting
- * Language: Dutch
+ * Language: English
  * Date: 2014/02/24
  */
 // titles
@@ -60,13 +60,6 @@ $_lang['DM_doc_radio_remove'] = 'Documentgroep verwijderen';
 
 $_lang['DM_doc_skip_message1'] = 'Document met ID';
 $_lang['DM_doc_skip_message2'] = 'is al onderdeel van de geselecteerde documentgroep (wordt overgeslagen)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Klik a.u.b. op de site root of het ouder-document van de \'MAIN DOCUMENT\' structuur die u wilt sorteren.';
-$_lang['DM_sort_updating'] = 'Bijwerken ...';
-$_lang['DM_sort_updated'] = 'Bijgewerkt';
-$_lang['DM_sort_nochildren'] = 'Ouder heeft geen kinderen';
-$_lang['DM_sort_noid'] = 'Er is geen document geselecteerd. Ga a.u.b. terug en selecteer een document.';
 
 // other tab
 $_lang['DM_other_header'] = 'Diverse document instellingen';

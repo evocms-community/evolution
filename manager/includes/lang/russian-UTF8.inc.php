@@ -2,12 +2,12 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4.5
- * @date 2018/10/31
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Russian
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -105,7 +105,6 @@ $_lang["chunk"] = 'Чанк (HTML-элемент шаблона)';
 $_lang["chunk_code"] = 'Код чанка (HTML)';
 $_lang["chunk_multiple_id"] = 'Ошибка: Несколько чанков имеют одинаковый идентификатор.';
 $_lang["chunk_no_exist"] = 'Чанк не найден.';
-$_lang['chunk_processor'] = 'Класс обработки чанков';
 $_lang["cleaningup"] = 'Очистка...';
 $_lang["clean_uploaded_filename"] = 'Использовать транслитерацию при загрузке файлов.';
 $_lang["clean_uploaded_filename_message"] = 'Использовать настройки плагина transalias для транслитерации имен загружаемых файлов с сохранением точек и запятых.';
@@ -406,7 +405,7 @@ $_lang["htmlsnippet_msg"] = 'Здесь вы можете создать / от�
 $_lang["htmlsnippet_name"] = 'Название чанка';
 $_lang["htmlsnippet_title"] = 'Создать / редактировать чанк';
 $_lang["icon"] = 'Значок';
-$_lang["icon_description"] = "CSS класс";
+$_lang["icon_description"] = 'CSS класс';
 $_lang["id"] = 'ID';
 $_lang["illegal_parent_child"] = 'Смена родительского ресурса: \n\nресурс является дочерним к выбранному.';
 $_lang["illegal_parent_self"] = 'Смена родительского ресурса: \n\nвыбранный ресурс не может быть присвоен как родитель самому себе.';
@@ -1263,6 +1262,9 @@ $_lang["bkmgr_restore_confirm"] = 'Вы уверены, что хотите во
 $_lang["bkmgr_snapshot_nothing"] = 'Нет резервных копий';
 
 $_lang["files.dynamic.php1"] = 'Создать файл';
+$_lang["files.dynamic.php2"] = 'files.dynamic.php2';
+$_lang["files.dynamic.php3"] = 'files.dynamic.php3';
+$_lang["files.dynamic.php4"] = 'files.dynamic.php4';
 $_lang["files.dynamic.php5"] = 'Файл не может быть дублирован.';
 $_lang["files.dynamic.php6"] = 'Файл или директория не могут быть переименованы.';
 $_lang["files_dynamic_new_folder_name"] = 'Укажите новое имя для папки:';
@@ -1424,6 +1426,8 @@ $_lang["minifyphp_incache_message"] = 'Сжатие PHP кода(снипето�
 
 $_lang["logout_reminder_msg"] = "Напоминание: Похоже [+date+] Вы забыли выйти из системы. Пожалуйста, обратите внимание в будущем, нужно выходить из системы после того как закончили работу.";
 
+$_lang["composer_reminder_msg"] = "Похоже, что вы используете composer в корневой папке. В следующих версиях это не будет работать, используйте composer в папке assets.";
+
 $_lang["allow_eval_title"]             = "Использование функции EVAL ";
 $_lang["allow_eval_msg"]               = "Для разработчиков: используйте \$modx-&gt;safeEval().";
 $_lang["allow_eval_with_scan"]         = "Выполнять только разрешенные функции указанные ниже";
@@ -1489,18 +1493,19 @@ $_lang["viewopts_radio_flex"] = 'Флекс';
 $_lang["viewopts_fontsize"] = 'Размер шрифта';
 $_lang["viewopts_cb_alltabs"] = 'Все табы';
 
-$_lang['email_sender_method'] = 'The envelope sender of the message';
+$_lang['email_sender_method'] = 'Отправитель сообщения.';
 $_lang['auto'] = 'Auto-detect';
-$_lang['use_emailsender'] = 'Use [(emailsender)] value';
-$_lang['email_sender_method_message'] = 'The envelope sender of the message. This will usually be turned into a Return-Path header by the receiver, and is the address that bounces will be sent to. Auto-detect will work in most cases.';
+$_lang['use_emailsender'] = 'Использовать значение [(emailsender)]
+';
+$_lang['email_sender_method_message'] = 'Обычно подставляется в заголовок Return-Path на стороне получателя, а также это адрес, на который будут отправлены отказы. В большинстве случаев будет работать автоматическое определение.';
 
 $_lang['login_form_position_title'] = 'Положение формы авторизации';
 $_lang['login_form_position_left'] = 'слева';
 $_lang['login_form_position_center'] = 'по центру';
 $_lang['login_form_position_right'] = 'справа';
-$_lang['login_form_style'] = 'Стиль формы авторизации:';
-$_lang['login_form_style_dark'] = 'Темный';
-$_lang['login_form_style_light'] = 'Светлый';
+$_lang["login_form_style"] = 'Стиль формы авторизации:';
+$_lang["login_form_style_dark"] = 'Темный';
+$_lang["login_form_style_light"] = 'Светлый';
 $_lang['login_logo_title'] = 'Логотип на странице авторизации';
 $_lang['login_logo_message'] = 'Рекомендованный размер логотипа по ширине: 360px, тип .png';
 $_lang['login_bg_title'] = 'Фоновое изображение на странице авторизации';
@@ -1511,3 +1516,5 @@ $_lang['manager_menu_position_top'] = 'вверху';
 $_lang['manager_menu_position_left'] = 'слева';
 
 $_lang['invalid_event_response'] = 'Событие <b>%s</b> вернуло неверный результат';
+
+$_lang['chunk_processor'] = 'Класс обработки чанков';

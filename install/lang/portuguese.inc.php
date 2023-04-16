@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
  * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
  * @language English
- * @package modx
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX não pode escrever o arquivo de configu
 $_lang["cant_write_config_file_note"] = 'Assim que isto for feito, você pode acessar o MODX Admin por apontar seu navegador para NomeDoSeuSite.com/manager/.';
 $_lang["checkbox_select_options"] = 'Selecionar:';
 $_lang["checking_if_cache_exist"] = 'Checando se o diretórios <span class=\"mono\">assets/cache</span> e <span class="mono">/assets/cache/rss</span> existir: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Checando se o arquivo <span class=\"mono\">assets/cache/siteCache.idx.php</span> está liberado pra escrita: ';
 $_lang["checking_if_cache_file2_writable"] = 'Checando se o arquivo <span class=\"mono\">assets/cache/sitePublishing.idx.php</span> está liberado pra escrita: ';
 $_lang["checking_if_cache_writable"] = 'Checando se o diretórios <span class=\"mono\">assets/cache</span> e <span class="mono">/assets/cache/rss</span> está liberado para escrita: ';
@@ -81,7 +83,7 @@ $_lang["database_connection_failed_note"] = 'Por favor, verifique o usuário e s
 $_lang["database_use_failed"] = 'Base de Dados não pode ser selecionada!';
 $_lang["database_use_failed_note"] = 'Verifique se há permissão na Base de Dados para o usuário e tente novamente.';
 $_lang["default_language"] = 'Default Manager Language';
-$_lang["default_language_description"] = 'This is the default language that will be used in the MODX Manager back end control panel.';
+$_lang["default_language_description"] = 'This is the default language that will be used in the EVO Manager back end control panel.';
 $_lang["depedency_create"] = 'Depedency created';
 $_lang["depedency_update"] = 'Depedency updated';
 $_lang["during_execution_of_sql"] = ' durante uma execução do SQL statement ';
@@ -132,11 +134,14 @@ $_lang["please_correct_error"] = '. Por favor, corriga o erro';
 $_lang["please_correct_errors"] = '. Por favor, corriga os erros';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Validação de Pré Instalação';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Remova o diretório e arquivos de instalação do site <br />&nbsp;(É necessário permissões para apagar arquivos).';
 $_lang["remove_install_folder_manual"] = 'Por favor, lembre-se de remover o diretório &quot;<b>install</b>&quot; antes de entrar no Gerenciador de Conteúdo.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Tentar Novamente';
 $_lang["running_database_updates"] = 'Rodando atualizações na Base de Dados: ';
 $_lang["sample_web_site"] = 'Web Site Exemplo';
@@ -170,7 +175,7 @@ $_lang["status_passed"] = 'sucesso - Base de Dados selecionada';
 $_lang["status_passed_database_created"] = 'sucesso - Base de Dados criada';
 $_lang["status_passed_server"] = 'sucesso - collations agora disponíveis';
 $_lang["strict_mode"] = 'Aviso : Serviodr de MySQL está no modo strict';
-$_lang["strict_mode_error"] = 'Certain features of MODX may not work properly unless the STRICT_TRANS_TABLES sql_mode is disabled. You can set the MySQL mode by editing the my.cnf file or contact your server administrator.';
+$_lang["strict_mode_error"] = 'Certain features of EVO may not work properly unless the STRICT_TRANS_TABLES sql_mode is disabled. You can set the MySQL mode by editing the my.cnf file or contact your server administrator.';
 $_lang["summary_setup_check"] = 'O setup carregou um número de checkagens para verificar se está pronto para iniciar o setup.';
 $_lang["system_configuration"] = 'Configuração do Sistema';
 $_lang["system_configuration_validate_referer_description"] = 'The <strong>Validate HTTP_REFERER headers</strong> setting is recommended and can protect your site from CSRF attacks, but in some server configurations, can make your manager inaccessible.';

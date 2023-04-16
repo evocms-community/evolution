@@ -3,7 +3,7 @@
  * Document Manager Module
  * 
  * Purpose: Contains the language strings for use in the module.
- * Author: Łukasz Kowalczyk, www.pixeligence.pl
+ * Author: Garry Nutting
  * Language: English
  * Date: 2014/02/24
  */
@@ -61,13 +61,6 @@ $_lang['DM_doc_radio_remove'] = 'Usuń grupę dokumentów';
 
 $_lang['DM_doc_skip_message1'] = 'Dokument z ID';
 $_lang['DM_doc_skip_message2'] = 'już należy do wybranej grupy (pomijanie)';
-
-// sort menu tab
-$_lang['DM_sort_pick_item'] = 'Proszę kliknąć korzeń strony albo dokument nadrzędny z głównego drzewa dokumentów, który chcesz posortować.';
-$_lang['DM_sort_updating'] = 'Zmieniam...';
-$_lang['DM_sort_updated'] = 'Zakończono';
-$_lang['DM_sort_nochildren'] = 'Dokument nie ma żadnych dokumentów podrzędnych';
-$_lang['DM_sort_noid'] = 'Nie wybrano żadnego dokumentu. Proszę wrócić i wybrać dokument.';
 
 // other tab
 $_lang['DM_other_header'] = 'Inne ustawienia dokumentów';

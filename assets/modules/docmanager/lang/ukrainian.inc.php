@@ -8,139 +8,139 @@
  * Date: 2014/02/24
  */
 // titles
-$_lang['DM_module_title'] = 'Document Manager';
-$_lang['DM_action_title'] = 'Select an action';
-$_lang['DM_range_title'] = 'Specify a Range of Document IDs';
-$_lang['DM_tree_title'] = 'Select Documents from the tree';
-$_lang['DM_update_title'] = 'Update Completed';
-$_lang['DM_sort_title'] = 'Menu Index Editor';
+$_lang['DM_module_title'] = 'Менеджер документів';
+$_lang['DM_action_title'] = 'Виберіть дію';
+$_lang['DM_range_title'] = 'Вказати діапазон ідентифікаторів документів';
+$_lang['DM_tree_title'] = 'Виберіть документи з дерева';
+$_lang['DM_update_title'] = 'Оновлення завершено';
+$_lang['DM_sort_title'] = 'Редактор покажчика меню';
 
 // tabs
-$_lang['DM_doc_permissions'] = 'Document Permissions';
-$_lang['DM_template_variables'] = 'Template Variables';
-$_lang['DM_sort_menu'] = 'Sort Menu Items';
-$_lang['DM_change_template'] = 'Change Template';
-$_lang['DM_publish'] = 'Publish/Unpublish';
-$_lang['DM_other'] = 'Other Properties';
+$_lang['DM_doc_permissions'] = 'Дозволи для документів';
+$_lang['DM_template_variables'] = 'Змінні шаблону (TV)';
+$_lang['DM_sort_menu'] = 'Сортувати пункти меню';
+$_lang['DM_change_template'] = 'Змінити шаблон';
+$_lang['DM_publish'] = 'Опублікувати/Скасувати публікацію';
+$_lang['DM_other'] = 'Інші властивості';
 
 // buttons
-$_lang['DM_close'] = 'Close Doc Manager';
-$_lang['DM_cancel'] = 'Go Back';
-$_lang['DM_go'] = 'Go';
-$_lang['DM_save'] = 'Save';
-$_lang['DM_sort_another'] = 'Sort Another';
+$_lang['DM_close'] = 'Закрити менеджер документів';
+$_lang['DM_cancel'] = 'Повернутися';
+$_lang['DM_go'] = 'Перейти';
+$_lang['DM_save'] = 'Зберегти';
+$_lang['DM_sort_another'] = 'Відсортувати інше';
 
 // templates tab
-$_lang['DM_tpl_desc'] = 'Choose the required template from the table below and then specify the Document IDs which need to be changed. Either by specifying a range of IDs or by using the Tree option below.';
-$_lang['DM_tpl_no_templates'] = 'No Templates Found';
-$_lang['DM_tpl_column_id'] = 'ID';
-$_lang['DM_tpl_column_name'] = 'Name';
-$_lang['DM_tpl_column_description'] = 'Description';
-$_lang['DM_tpl_blank_template'] = 'Blank Template';
-$_lang['DM_tpl_results_message'] = 'Use the Back button if you need make more changes. The Site Cache has automatically been cleared.';
+$_lang['DM_tpl_desc'] = 'Оберіть необхідний шаблон із таблиці нижче, а потім вкажіть ідентифікатори документів, які потрібно змінити. Або вказавши діапазон ідентифікаторів, або використовуючи опцію дерева нижче.';
+$_lang['DM_tpl_no_templates'] = 'Шаблони не знайдено';
+$_lang['DM_tpl_column_id'] = 'Ідентифікатор';
+$_lang['DM_tpl_column_name'] = 'Назва';
+$_lang['DM_tpl_column_description'] = 'Опис';
+$_lang['DM_tpl_blank_template'] = 'Порожній шаблон';
+$_lang['DM_tpl_results_message'] = 'Використовуйте кнопку "Назад", якщо вам потрібно внести додаткові зміни. Кеш сайту автоматично очищено.';
 
 // template variables tab
-$_lang['DM_tv_desc'] = 'Specify the Document IDs which need to be changed, either by specifying a range of IDs or by using the Tree option below, then choose the required template from the table and the associated template variables will be loaded. Enter your desired Template Variable values and submit for processing.';
-$_lang['DM_tv_template_mismatch'] = 'This document does not use the chosen template.';
-$_lang['DM_tv_doc_not_found'] = 'This document was not found in the database.';
-$_lang['DM_tv_no_tv'] = 'No Template Variables found for the template.';
-$_lang['DM_tv_no_docs'] = 'No documents selected for updating.';
-$_lang['DM_tv_no_template_selected'] = 'No template has been selected.';
-$_lang['DM_tv_loading'] = 'Template Variables are loading ...';
-$_lang['DM_tv_ignore_tv'] = 'Ignore these Template Variables (comma-separated values):';
-$_lang['DM_tv_ajax_insertbutton'] = 'Insert';
+$_lang['DM_tv_desc'] = 'Вкажіть ідентифікатори документів, які потрібно змінити, вказавши діапазон ідентифікаторів або використовуючи опцію дерева нижче, потім виберіть потрібний шаблон із таблиці, і відповідні змінні шаблону (TV) будуть завантажені . Введіть потрібні значення змінної шаблону та надішліть на обробку.';
+$_lang['DM_tv_template_mismatch'] = 'Цей документ не використовує вибраний шаблон.';
+$_lang['DM_tv_doc_not_found'] = 'Цей документ не знайдено в базі даних.';
+$_lang['DM_tv_no_tv'] = 'Не знайдено змінних шаблону для шаблону.';
+$_lang['DM_tv_no_docs'] = 'Не вибрано документів для оновлення.';
+$_lang['DM_tv_no_template_selected'] = 'Жоден шаблон не вибрано.';
+$_lang['DM_tv_loading'] = 'Змінні шаблону завантажуються...';
+$_lang['DM_tv_ignore_tv'] = 'Ігнорувати ці змінні шаблону (значення, розділені комами):';
+$_lang['DM_tv_ajax_insertbutton'] = 'Вставити';
 
 // document permissions tab
-$_lang['DM_doc_desc'] = 'Choose the required document group from the table below and whether you wish to add or remove the group. Then specify the Document IDs which need to be changed. Either by specifying a range of IDs or by using the Tree option below.';
-$_lang['DM_doc_no_docs'] = 'No Document Groups Found';
-$_lang['DM_doc_column_id'] = 'ID';
-$_lang['DM_doc_column_name'] = 'Name';
-$_lang['DM_doc_radio_add'] = 'Add a Document Group';
-$_lang['DM_doc_radio_remove'] = 'Remove a Document Group';
+$_lang['DM_doc_desc'] = 'Виберіть необхідну групу документів із таблиці нижче та виберіть, чи бажаєте ви додати або видалити групу. Потім вкажіть ідентифікатори документів, які потрібно змінити. Або вказавши діапазон ідентифікаторів, або використовуючи опцію дерева нижче.';
+$_lang['DM_doc_no_docs'] = 'Групи документів не знайдено';
+$_lang['DM_doc_column_id'] = 'Ідентифікатор';
+$_lang['DM_doc_column_name'] = 'Ім\'я';
+$_lang['DM_doc_radio_add'] = 'Додати групу документів';
+$_lang['DM_doc_radio_remove'] = 'Видалити групу документів';
 
-$_lang['DM_doc_skip_message1'] = 'Document with ID';
-$_lang['DM_doc_skip_message2'] = 'is already part of the selected document group (skipping)';
+$_lang['DM_doc_skip_message1'] = 'Документ з ідентифікатором';
+$_lang['DM_doc_skip_message2'] = 'вже є частиною вибраної групи документів (пропускається)';
 
 // other tab
-$_lang['DM_other_header'] = 'Miscellaneous Document Settings';
-$_lang['DM_misc_label'] = 'Available Settings:';
-$_lang['DM_misc_desc'] = 'Please pick a setting from the dropdown menu and then the required option. Please note that only one setting can be changed at a time.';
+$_lang['DM_other_header'] = 'Різні налаштування документа';
+$_lang['DM_misc_label'] = 'Доступні налаштування:';
+$_lang['DM_misc_desc'] = 'Будь ласка, виберіть налаштування зі спадного меню, а потім потрібний параметр. Зауважте, що одночасно можна змінити лише одне налаштування.';
 
-$_lang['DM_other_dropdown_publish'] = 'Publish/Unpublish';
-$_lang['DM_other_dropdown_show'] = 'Show/Hide in Menu';
-$_lang['DM_other_dropdown_search'] = 'Searchable/Unsearchable';
-$_lang['DM_other_dropdown_cache'] = 'Cacheable/Uncacheable';
-$_lang['DM_other_dropdown_richtext'] = 'Richtext/No Richtext Editor';
-$_lang['DM_other_dropdown_delete'] = 'Delete/Undelete';
+$_lang['DM_other_dropdown_publish'] = 'Опублікувати/Скасувати публікацію';
+$_lang['DM_other_dropdown_show'] = 'Показати/Сховати в меню';
+$_lang['DM_other_dropdown_search'] = 'Пошук доступний/неможливий для пошуку';
+$_lang['DM_other_dropdown_cache'] = 'Кешувати/Не кешувати';
+$_lang['DM_other_dropdown_richtext'] = 'Richtext/Без редактора Richtext';
+$_lang['DM_other_dropdown_delete'] = 'Видалити/Відновити';
 
 // radio button text
-$_lang['DM_other_publish_radio1'] = 'Publish';
-$_lang['DM_other_publish_radio2'] = 'Unpublish';
-$_lang['DM_other_show_radio1'] = 'Hide in Menu';
-$_lang['DM_other_show_radio2'] = 'Show in Menu';
-$_lang['DM_other_search_radio1'] = 'Searchable';
-$_lang['DM_other_search_radio2'] = 'Unsearchable';
-$_lang['DM_other_cache_radio1'] = 'Cacheable';
-$_lang['DM_other_cache_radio2'] = 'Uncacheable';
-$_lang['DM_other_richtext_radio1'] = 'Richtext';
-$_lang['DM_other_richtext_radio2'] = 'No Richtext';
-$_lang['DM_other_delete_radio1'] = 'Delete';
-$_lang['DM_other_delete_radio2'] = 'Undelete';
+$_lang['DM_other_publish_radio1'] = 'Опублікувати';
+$_lang['DM_other_publish_radio2'] = 'Скасувати публікацію';
+$_lang['DM_other_show_radio1'] = 'Сховати в меню';
+$_lang['DM_other_show_radio2'] = 'Показати в меню';
+$_lang['DM_other_search_radio1'] = 'Можна шукати';
+$_lang['DM_other_search_radio2'] = 'Неможливо для пошуку';
+$_lang['DM_other_cache_radio1'] = 'Кешувати';
+$_lang['DM_other_cache_radio2'] = 'Неможливо кешувати';
+$_lang['DM_other_richtext_radio1'] = 'Розширений текст';
+$_lang['DM_other_richtext_radio2'] = 'Немає форматованого тексту';
+$_lang['DM_other_delete_radio1'] = 'Видалити';
+$_lang['DM_other_delete_radio2'] = 'Відновити';
 
 // adjust dates
-$_lang['DM_adjust_dates_header'] = 'Set Document Dates';
-$_lang['DM_adjust_dates_desc'] = 'Any of the following Document date settings can be changed. Use "View Calendar" option to set the dates.';
-$_lang['DM_view_calendar'] = 'View Calendar';
-$_lang['DM_clear_date'] = 'Clear Date';
+$_lang['DM_adjust_dates_header'] = 'Установити дати документів';
+$_lang['DM_adjust_dates_desc'] = 'Можна змінити будь-які з наведених нижче налаштувань дати документа. Використовуйте опцію «Переглянути календар», щоб встановити дати.';
+$_lang['DM_view_calendar'] = 'Переглянути календар';
+$_lang['DM_clear_date'] = 'Очистити дату';
 
 // adjust authors
-$_lang['DM_adjust_authors_header'] = 'Set Authors';
-$_lang['DM_adjust_authors_desc'] = 'Use the dropdown lists to set new authors for the Document.';
-$_lang['DM_adjust_authors_createdby'] = 'Created By:';
-$_lang['DM_adjust_authors_editedby'] = 'Edited By:';
-$_lang['DM_adjust_authors_noselection'] = 'No change';
+$_lang['DM_adjust_authors_header'] = 'Установити авторів';
+$_lang['DM_adjust_authors_desc'] = 'Використовуйте розкривні списки, щоб встановити нових авторів для документа.';
+$_lang['DM_adjust_authors_createdby'] = 'Створено:';
+$_lang['DM_adjust_authors_editedby'] = 'Редагував:';
+$_lang['DM_adjust_authors_noselection'] = 'Без змін';
 
 // labels
-$_lang['DM_date_pubdate'] = 'Publish Date:';
-$_lang['DM_date_unpubdate'] = 'Unpublish Date:';
-$_lang['DM_date_createdon'] = 'Created On Date:';
-$_lang['DM_date_editedon'] = 'Edited On Date:';
-$_lang['DM_date_notset'] = ' (not set)';
-$_lang['DM_date_dateselect_label'] = 'Select a Date: ';
+$_lang['DM_date_pubdate'] = 'Дата публікації:';
+$_lang['DM_date_unpubdate'] = 'Дата скасування публікації:';
+$_lang['DM_date_createdon'] = 'Дата створення:';
+$_lang['DM_date_editedon'] = 'Змінено в дату:';
+$_lang['DM_date_notset'] = '(не встановлено)';
+$_lang['DM_date_dateselect_label'] = 'Виберіть дату: ';
 
 // document select section
-$_lang['DM_select_submit'] = 'Submit';
-$_lang['DM_select_range'] = 'Switch back to setting a Document ID Range';
-$_lang['DM_select_range_text'] = '<p><strong>Key (where n is a document ID	number):</strong><br /><br />
-							  n* - Change setting for this document and immediate children<br /> 
-							  n** - Change setting for this document and ALL children<br /> 
-							  n-n2 - Change setting for this range of documents<br /> 
-							  n - Change setting for a single document</p> 
-							  <p>Example: 1*,4**,2-20,25 - This will change the selected setting
-						      for documents 1 and its children, document 4 and all children, documents 2 
-						      through 20 and document 25.</p>';
-$_lang['DM_select_tree'] = 'View and select documents using the Document Tree';
+$_lang['DM_select_submit'] = 'Надіслати';
+$_lang['DM_select_range'] = 'Повернутися до встановлення діапазону ідентифікаторів документа';
+$_lang['DM_select_range_text'] = '<p><strong>Ключ (де n — ідентифікаційний номер документа):</strong><br /><br />
+n* - Змінити налаштування для цього документа та безпосередніх дочірніх елементів<br />
+n** - Змінити налаштування для цього документа та ВСІХ дітей<br />
+n-n2 - Змінити налаштування для цього діапазону документів<br />
+n – змінити налаштування для окремого документа</p>
+<p>Приклад: 1*,4**,2-20,25 – це змінить вибране налаштування
+для документів 1 і його дітей, документ 4 і всіх дітей, документи 2
+через 20 і документ 25.</p>';
+$_lang['DM_select_tree'] = 'Перегляд і вибір документів за допомогою дерева документів';
 
 // process tree/range messages
-$_lang['DM_process_noselection'] = 'No selection was made. ';
-$_lang['DM_process_novalues'] = 'No values have been specified.';
-$_lang['DM_process_limits_error'] = 'Upper limit less than lower limit:';
-$_lang['DM_process_invalid_error'] = 'Invalid Value:';
-$_lang['DM_process_update_success'] = 'Update was completed successfully, with no errors.';
-$_lang['DM_process_update_error'] = 'Update has completed but encountered errors:';
-$_lang['DM_process_back'] = 'Back';
+$_lang['DM_process_noselection'] = 'Вибір не зроблено. ';
+$_lang['DM_process_novalues'] = 'Жодних значень не вказано.';
+$_lang['DM_process_limits_error'] = 'Верхня межа менша за нижню:';
+$_lang['DM_process_invalid_error'] = 'Недійсне значення:';
+$_lang['DM_process_update_success'] = 'Оновлення завершено успішно, без помилок.';
+$_lang['DM_process_update_error'] = 'Оновлення завершено, але виявлено помилки:';
+$_lang['DM_process_back'] = 'Назад';
 
 // manager access logging
-$_lang['DM_log_template'] = 'Document Manager: Templates changed.';
-$_lang['DM_log_templatevariables'] = 'Document Manager: Template variables changed.';
-$_lang['DM_log_docpermissions'] = 'Document Manager: Document Permissions changed.';
-$_lang['DM_log_sortmenu'] = 'Document Manager: Menu Index operation completed.';
-$_lang['DM_log_publish'] = 'Document Manager: Document Manager: Documents Published/Unpublished settings changed.';
-$_lang['DM_log_hidemenu'] = 'Document Manager: Documents Hide/Show in Menu settings changed.';
-$_lang['DM_log_search'] = 'Document Manager: Documents Searchable/Unsearchable settings changed.';
-$_lang['DM_log_cache'] = 'Document Manager: Documents Cacheable/Uncacheable settings changed.';
-$_lang['DM_log_richtext'] = 'Document Manager: Documents Use Richtext Editor settings changed.';
-$_lang['DM_log_delete'] = 'Document Manager: Documents Delete/Undelete settings changed.';
-$_lang['DM_log_dates'] = 'Document Manager: Documents Date settings changed.';
-$_lang['DM_log_authors'] = 'Document Manager: Documents Author settings changed.';
+$_lang['DM_log_template'] = 'Менеджер документів: шаблони змінено.';
+$_lang['DM_log_templatevariables'] = 'Менеджер документів: змінені змінні шаблону.';
+$_lang['DM_log_docpermissions'] = 'Менеджер документів: права доступу до документів змінено.';
+$_lang['DM_log_sortmenu'] = 'Менеджер документів: операцію індексу меню завершено.';
+$_lang['DM_log_publish'] = 'Менеджер документів: Менеджер документів: змінено параметри опублікованих/неопублікованих документів.';
+$_lang['DM_log_hidemenu'] = 'Менеджер документів: змінено параметри приховування/показу документів у меню.';
+$_lang['DM_log_search'] = 'Менеджер документів: змінено параметри документів, доступних/неможливих для пошуку.';
+$_lang['DM_log_cache'] = 'Менеджер документів: змінено налаштування документів, які можна кешувати/не кешувати.';
+$_lang['DM_log_richtext'] = 'Менеджер документів: змінено параметри використання редактора Richtext для документів.';
+$_lang['DM_log_delete'] = 'Менеджер документів: параметри видалення/відновлення документів змінено.';
+$_lang['DM_log_dates'] = 'Менеджер документів: параметри дати документів змінено.';
+$_lang['DM_log_authors'] = 'Менеджер документів: змінено параметри автора документів.';
 ?>

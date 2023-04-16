@@ -1,13 +1,13 @@
 <?php
 /**
- * MODX Installer language file
+ * EVO Installer language file
  *
- * @author Bjørn Erik Sandbakk (Sylvaticus)
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Norsk
- * @package modx
+ * @language English
+ * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
@@ -35,6 +35,8 @@ $_lang["cant_write_config_file"] = 'MODX kunne ikke skrive konfigurasjonsfilen. 
 $_lang["cant_write_config_file_note"] = 'N&aring;r det er klart kan du logge inn i MODX administrasjonskontoen ved &aring; g&aring; til adressen DittDomene.xx/[+MGR_DIR+]/ i din nettleser.';
 $_lang["checkbox_select_options"] = 'Alternativ for kryssbokser:';
 $_lang["checking_if_cache_exist"] = 'Kontrollerer at katalogen <span class="mono">assets/cache</span> eksisterer: ';
+$_lang["checking_iconv"] = 'Checking if extension <span class="mono">iconv</span> is available: ';
+$_lang["checking_iconv_note"] = 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
 $_lang["checking_if_cache_file_writable"] = 'Kontrollerer at filen <span class="mono">assets/cache/siteCache.idx.php</span> er skrivbar: ';
 $_lang["checking_if_cache_file2_writable"] = 'Kontrollerer at filen <span class="mono">assets/cache/sitePublishing.idx.php</span> er skrivbar: ';
 $_lang["checking_if_cache_writable"] = 'Kontrollerer at katalogen <span class="mono">assets/cache</span> er skrivbar: ';
@@ -81,7 +83,7 @@ $_lang["database_connection_failed_note"] = 'Kontrollér databasens tilkoblingso
 $_lang["database_use_failed"] = 'Databasen kunne ikke velges!';
 $_lang["database_use_failed_note"] = 'Kontrollér databasens tilkoblingsrettigheter for den oppgitte brukeren og fors&oslash;k igjen.';
 $_lang["default_language"] = 'Default Manager Language';
-$_lang["default_language_description"] = 'This is the default language that will be used in the MODX Manager back end control panel.';
+$_lang["default_language_description"] = 'This is the default language that will be used in the EVO Manager back end control panel.';
 $_lang["depedency_create"] = 'Depedency created';
 $_lang["depedency_update"] = 'Depedency updated';
 $_lang["during_execution_of_sql"] = ' under kj&oslash;ringen av SQL-sp&oslash;rringen ';
@@ -132,11 +134,14 @@ $_lang["please_correct_error"] = '. Korrigér feilen';
 $_lang["please_correct_errors"] = '. Korrigér feilen';
 $_lang["plugins"] = 'Plugins';
 $_lang["preinstall_validation"] = 'Kontroller f&oslash;r installasjon';
+$_lang["recommend_collation"] = 'utf8_general_ci';
+$_lang["recommend_collations_order"] = 'utf8mb4_unicode_ci,utf8mb4_general_ci,utf8_unicode_ci,utf8_general_ci,utf8mb4_bin,utf8_bin,utf8mb4_unicode_520_ci,utf8_unicode_520_ci,utf8_general_mysql500_ci';
 $_lang["recommend_setting_change_title"] = 'Recommended Setting Change';
 $_lang["recommend_setting_change_validate_referer_confirmation"] = 'Setting change: <em>Validate HTTP_REFERER headers?</em>';
 $_lang["recommend_setting_change_validate_referer_description"] = 'Your site is not configured to validate the HTTP_REFERER of incoming requests to the Manager. We strongly recommend enabling this setting to reduce the risk of a CSRF (Cross Site Request Forgery) attack.';
 $_lang["remove_install_folder_auto"] = 'Ta bort installasjonskatalogen og -filene fra mitt nettsted<br />&nbsp;(Denne operasjonen krever at sletterettigheter er satt for installasjonskatalogen).';
 $_lang["remove_install_folder_manual"] = 'Husk &aring; ta bort katalogen &quot;<b>install</b>&quot; f&oslash;r du logger inn i inneholdsh&aring;ndtereren.';
+$_lang["resetting_database"] = 'Resetting database for demo-site: ';
 $_lang["retry"] = 'Fors&oslash;k igjen';
 $_lang["running_database_updates"] = 'Kj&oslash;r oppdateringer for databasen: ';
 $_lang["sample_web_site"] = 'Pr&oslash;ve-data';

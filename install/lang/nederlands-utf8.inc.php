@@ -2,11 +2,11 @@
 /**
  * EVO Installer language file
  *
- * @author marc
+ * @author davaeron
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language Dutch
+ * @language English
  * @package evo
  * @subpackage installer
  *
@@ -93,7 +93,7 @@ $_lang["errors"] = 'fouten';
 $_lang["failed"] = 'MISLUKT!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Help!';
-$_lang["help_link"] = 'https://evo.im/forums.html';
+$_lang["help_link"] = 'https://forum.evo.im';
 $_lang["help_title"] = 'Installatiehulp in de EVO forums';
 $_lang["iagree_box"] = 'Ik ga akkoord met <a href="../assets/docs/license.txt" target="_blank">de EVO licensentie</a>. Voor vertalingen van de GPL versie 2 licensetie bezoek de <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">GNU Operating System website</a>.';
 $_lang["install"] = 'Installeer';

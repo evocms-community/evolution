@@ -2,17 +2,17 @@
 /**
  * EVO Manager language file
  *
- * @version 1.4
- * @date 2018/11/11
+ * @version 1.0.15
+ * @date 2014/02/24
  * @author The EVO Project Team
  *
- * @language Spanish
- * @package evo
+ * @language English
+ * @package modx
  * @subpackage manager
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL langauges
+//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
 $modx_lang_attribute = 'es'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
@@ -1182,6 +1182,7 @@ $_lang["user_state"] = 'Estado o Provincia';
 $_lang["user_title"] = 'Crear/Editar usuario';
 $_lang["user_upload_message"] = ' Si deseas evitar que este usuario suba cualquier tipo de archivos en esta categoría, asegúrate de que la caja de selección \'Usar Configuración Principal\' no está seleccionada y deja vacío el campo.';
 $_lang["user_use_config"] = 'Usar Configuración Principal';
+$_lang["user_verification"] = 'User is verified';
 $_lang["user_zip"] = 'Código postal';
 $_lang["username"] = 'Nombre de usuario';
 $_lang["users"] = 'Seguridad';
@@ -1245,7 +1246,7 @@ $_lang["pwd_hash_algo_message"] = 'Password hash algorithm.';
 $_lang["enable_bindings_title"] = 'Enable @Bindings commands';
 $_lang["enable_bindings_message"] = 'Prevents the execution of PHP functions through TV @Bindings. Useful if you have Manager users who should not be able to create PHP code but need to be able to create or edit TVs. The output of any TV with an @Binding will be "@Bindings disabled".';
 $_lang["enable_filter_title"] = 'Habilitar filtros';
-$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation 
+$_lang["enable_filter_message"] = 'Filters allow you to manipulate the way data is presented or parsed in a tag. They allow you to modify values from inside your templates. This is analogous to PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">More info</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Cuando está habilitada PHx plugin, incorporado en los filtros están desactivados por defecto';
 
 $_lang["enable_at_syntax_title"] = 'Habilitar &lt;@SYNTAX&gt;';
@@ -1312,6 +1313,9 @@ $_lang["docid_incrmnt_method_1"] = 'Mínimo ID perdido';
 $_lang["docid_incrmnt_method_2"] = 'Máximo ID + 1';
 
 $_lang["enable_cache_title"] = 'Document caching';
+$_lang["disable_chunk_cache_title"] = 'Disable chunk caching';
+$_lang["disable_snippet_cache_title"] = 'Disable snippet caching';
+$_lang["disable_plugins_cache_title"] = 'Disable plugins caching';
 $_lang["disabled_at_login"] = 'Deshabilitado al iniciar sesión';
 
 $_lang["cache_type_title"] = 'Tipo de caché de documentos';
@@ -1320,6 +1324,7 @@ $_lang["cache_type_2"] = 'Cache is based on Resource ID and $_GET parameters';
 $_lang["seostrict_title"] = 'Usar URLs estrictas de SEO';
 $_lang["seostrict_message"] = 'Enforces the use of strict URLs to prevent duplicate content (if needed)';
 $_lang["aliaslistingfolder_title"] = 'Use AliasListing only for Folders';
+$_lang["full_aliaslisting_title"] = 'Disable AliasListing for all resources';
 $_lang["aliaslistingfolder_message"] = 'Reduces memory consumption when a large number of resources';
 
 $_lang["settings_friendlyurls_alert"] = 'It is necessary to rename the ht.access file in the EVO installation directory at .htaccess to use the Friendly URL function.';
@@ -1355,6 +1360,7 @@ $_lang["error_double_action"]         = "Doble acción (GET & POST) enviadas!.";
 $_lang["error_no_id"]                 = "ID no pasada en la petición!";
 $_lang["error_id_nan"]                = "ID pasada en la petición es NaN!";
 $_lang["error_no_parent"]             = "No pudo encontrar el nombre del documento padre!";
+$_lang["error_parent_deleted"]        = "Failed because resource parent is deleted!";
 $_lang["error_many_results"]          = "Demasiados resultados devueltos de la base de datos!.";
 $_lang["error_no_results"]            = "Insuficientes ó sin resultados devueltos de la base de datos!.";
 $_lang["error_no_user_selected"]      = "Ningún usuario seleccionado como receptor de este mensaje.";
@@ -1427,6 +1433,8 @@ $_lang["minifyphp_incache_title"] = 'Minimizar el código php en el caché del s
 $_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
+
+$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
 
 $_lang["allow_eval_title"]             = "Eval php code in snippet call";
 $_lang["allow_eval_msg"]               = "For developer : Please use \$modx-&gt;safeEval().";
@@ -1515,5 +1523,3 @@ $_lang['manager_menu_position_left'] = 'izquierda';
 $_lang['invalid_event_response'] = 'The %s event has ivalid output';
 
 $_lang['chunk_processor'] = 'Clase de procesamiento de Chunks';
-$_lang['enable_mootools'] = 'Habilitar Mootools en el administrador';
-$_lang['enable_mootools_message'] = 'Cargue Mootools.js en el administrador para compatibilidad con versiones anteriores';
