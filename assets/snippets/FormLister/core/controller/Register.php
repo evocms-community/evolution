@@ -131,6 +131,7 @@ class Register extends Form
         $fields['verified'] = (int)!$checkActivation;
         $fields['username'] = is_scalar($fields['username']) ? $fields['username'] : '';
         $fields['email'] = is_scalar($fields['email']) ? $fields['email'] : '';
+        $fields['role'] = (int)$this->getCFGDef('userRole', 0);
         $this->user->create($fields);
         $this->user->setUserGroupsByName(0, $this->config->loadArray($this->getCFGDef('userGroups')));
         $result = $this->user->save(true);

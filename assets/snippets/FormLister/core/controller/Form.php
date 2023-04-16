@@ -30,13 +30,13 @@ class Form extends Core
         parent::__construct($modx, $cfg);
         $this->mailConfig = [
             'isHtml'   => $this->getCFGDef('isHtml', 1),
-            'to'       => $this->getCFGDef('to'),
+            'to'       => $this->getCFGDef('to', ''),
             'from'     => $this->getCFGDef('from', $this->modx->getConfig('emailsender')),
             'fromName' => $this->getCFGDef('fromName', $this->modx->getConfig('site_name')),
-            'subject'  => $this->getCFGDef('subject'),
-            'replyTo'  => $this->getCFGDef('replyTo'),
-            'cc'       => $this->getCFGDef('cc'),
-            'bcc'      => $this->getCFGDef('bcc'),
+            'subject'  => $this->getCFGDef('subject', ''),
+            'replyTo'  => $this->getCFGDef('replyTo', ''),
+            'cc'       => $this->getCFGDef('cc', ''),
+            'bcc'      => $this->getCFGDef('bcc', ''),
             'noemail'  => $this->getCFGDef('noemail', false)
         ];
         $this->lexicon->fromFile('form');
@@ -76,7 +76,7 @@ class Form extends Core
         if (!empty($subject)) {
             $subject = $this->parseChunk($subject, $this->prerenderForm(true));
         } else {
-            $subject = $this->getCFGDef($param);
+            $subject = $this->getCFGDef($param, '');
         }
 
         return $subject;
@@ -195,7 +195,7 @@ class Form extends Core
      */
     public function sendAutosender ()
     {
-        $to = $this->getCFGDef('autosender');
+        $to = $this->getCFGDef('autosender', '');
 
         $config = $this->getMailSendConfig($to, 'autosenderFromName', 'autoSubject');
         $asConfig = $this->config->loadArray($this->getCFGDef('autoMailConfig'));
@@ -224,7 +224,7 @@ class Form extends Core
      */
     public function sendCCSender ()
     {
-        $to = $this->getField($this->getCFGDef('ccSenderField', 'email'));
+        $to = $this->getField($this->getCFGDef('ccSenderField', 'email'), '');
 
         if ($this->getCFGDef('ccSender', 0)) {
             $config = $this->getMailSendConfig($to, 'ccSenderFromName', 'ccSubject');
@@ -292,6 +292,7 @@ class Form extends Core
             $search = array_keys($plh);
             $replace = array_values($plh);
             foreach ($cfg as $key => &$value) {
+                if(empty($value)) continue;
                 $value = str_replace($search, $replace, $value);
             }
             $config = \APIhelpers::renameKeyArr($this->modx->config, '[(', ')]', '');
@@ -330,9 +331,8 @@ class Form extends Core
      */
     public function getMailSendConfig ($to, $fromParam, $subjectParam = 'subject')
     {
-        $subject = empty($this->getCFGDef($subjectParam . 'Tpl'))
-            ? $this->renderSubject()
-            : $this->renderSubject($subjectParam);
+        $subject = $this->renderSubject($subjectParam);
+            
         $out = array_merge(
             $this->mailConfig,
             [

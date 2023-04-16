@@ -9,7 +9,7 @@ $e = $modx->event;
 if (!class_exists('\\FormLister\\Core')) {
     include_once(MODX_BASE_PATH . 'assets/snippets/FormLister/__autoload.php');
 }
-if ($e->name == 'OnWebAuthentication' && isset($userObj)) {
+if (($e->name == 'OnWebAuthentication' || $e->name == 'OnUserAuthentication') && isset($userObj)) {
     /**
      * @var modUsers $userObj
      */
@@ -23,7 +23,7 @@ if ($e->name == 'OnWebAuthentication' && isset($userObj)) {
         $userObj->save();
     }
 }
-if ($e->name == 'OnWebLogin' && isset($userObj)) {
+if (($e->name == 'OnWebLogin'  || $e->name == 'OnUserLogin') && isset($userObj)) {
     if (!$userObj->get('lastlogin')) {
         $userObj->set('lastlogin', time());
     } else {
@@ -38,7 +38,7 @@ if ($e->name == 'OnWebLogin' && isset($userObj)) {
     }
 }
 //Updating session_id in cookie, if user is login and just saved
-if ($e->name == 'OnWebSaveUser' && isset($userObj)) {
+if (($e->name == 'OnWebSaveUser'  || $e->name == 'OnUserSave') && isset($userObj)) {
     if( (int)$modx->getLoginUserID('web') == (int)$id && isset($_COOKIE[$cookieName]) ) { //checking, if current logined user was saved
         $cookieParts = explode("|", $_COOKIE[$cookieName], 4);
         if(isset($cookieParts[2]) && ($userObj->get('sessionid') != $cookieParts[2])) { //checking, if session ids in cookie and in user object became not equals
@@ -48,14 +48,19 @@ if ($e->name == 'OnWebSaveUser' && isset($userObj)) {
 }
 
 if ($e->name == 'OnWebPageInit' || $e->name == 'OnPageNotFound') {
-    $model = isset($params['model']) && class_exists($params['model']) ? $params['model'] : '\\modUsers';
+    if (function_exists('app')) {
+        $model = isset($params['model']) && class_exists($params['model']) ? $params['model'] : '\\Pathologic\\EvolutionCMS\\MODxAPI\\modUsers';
+    } else {
+        $model = isset($params['model']) && class_exists($params['model']) ? $params['model'] : '\\modUsers';
+    }
     $user = new $model($modx);
     if ($uid = (int)$modx->getLoginUserID('web')) {
         if ($trackWebUserActivity == 'Yes') {
             $sid = $modx->sid = session_id();
             $pageId = (int)$modx->documentIdentifier;
-            $uid = class_exists('\\EvolutionCMS\\Services\\UserManager') ? $uid : -1 * $uid;
-            $q = $modx->db->query("REPLACE INTO {$modx->getFullTableName('active_users')} (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) values('{$sid}', {$uid}, '{$_SESSION['webShortname']}', '{$modx->time}', 998, {$pageId})");
+            $uid = function_exists('app') ? $uid : -1 * $uid;
+            $name = $modx->db->escape($_SESSION['webShortname'] ?? '');
+            $q = $modx->db->query("REPLACE INTO {$modx->getFullTableName('active_users')} (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) values('{$sid}', {$uid}, '{$name}', '{$modx->time}', 998, {$pageId})");
             $modx->updateValidatedUserSession();
         }
         if (isset($_REQUEST[$logoutKey])) {

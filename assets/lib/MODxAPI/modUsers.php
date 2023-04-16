@@ -627,29 +627,21 @@ class modUsers extends MODxAPI
                 }
                 break;
             case 'destroy':
-                if (isset($_SESSION['mgrValidated'])) {
-                    unset($_SESSION['webShortname']);
-                    unset($_SESSION['webFullname']);
-                    unset($_SESSION['webEmail']);
-                    unset($_SESSION['webValidated']);
-                    unset($_SESSION['webInternalKey']);
-                    unset($_SESSION['webValid']);
-                    unset($_SESSION['webUser']);
-                    unset($_SESSION['webFailedlogins']);
-                    unset($_SESSION['webLastlogin']);
-                    unset($_SESSION['webnrlogins']);
-                    unset($_SESSION['webUsrConfigSet']);
-                    unset($_SESSION['webUserGroupNames']);
-                    unset($_SESSION['webDocgroups']);
+                unset($_SESSION['webShortname']);
+                unset($_SESSION['webFullname']);
+                unset($_SESSION['webEmail']);
+                unset($_SESSION['webValidated']);
+                unset($_SESSION['webInternalKey']);
+                unset($_SESSION['webValid']);
+                unset($_SESSION['webUser']);
+                unset($_SESSION['webFailedlogins']);
+                unset($_SESSION['webLastlogin']);
+                unset($_SESSION['webnrlogins']);
+                unset($_SESSION['webUsrConfigSet']);
+                unset($_SESSION['webUserGroupNames']);
+                unset($_SESSION['webDocgroups']);
 
-                    setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
-                } else {
-                    if (isset($_COOKIE[session_name()])) {
-                        setcookie(session_name(), '', time() - 60, MODX_BASE_URL);
-                    }
-                    setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
-                    session_destroy();
-                }
+                setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
                 break;
         }
 
@@ -661,7 +653,7 @@ class modUsers extends MODxAPI
      */
     public function isSecure()
     {
-        $out = $this->modxConfig('server_protocol') == 'http' ? false : true;
+        $out = strpos(MODX_SITE_URL, 'https') === 0;
 
         return $out;
     }

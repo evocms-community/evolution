@@ -112,7 +112,7 @@ abstract class filterDocLister
         }
 
         // exit if something is wrong
-        return !(empty($this->field) || empty($this->operator) || is_null($this->value));
+        return !(empty($this->field) || empty($this->operator) || (isset($parsed[3]) && is_null($this->value)));
     }
 
     /**
