@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent;
 use EvolutionCMS\Traits;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * EvolutionCMS\Models\UserRole
@@ -95,22 +94,22 @@ class UserRole extends Eloquent\Model
     use Traits\Models\ManagerActions,
         Traits\Models\LockedElements;
 
-    public $timestamps = false;
+	public $timestamps = false;
 
-    protected $casts = [
-        'frames' => 'int',
-        'home'   => 'int',
-    ];
+	protected $casts = [
+		'frames' => 'int',
+		'home' => 'int',
+	];
 
 
-    protected $fillable = [
-        'name',
-        'description',
-    ];
+	protected $fillable = [
+		'name',
+		'description',
+	];
 
     protected $managerActionsMap = [
         'actions.new' => 38,
-        'id'          => [
+        'id' => [
             'actions.edit' => 35
         ]
     ];
@@ -118,7 +117,7 @@ class UserRole extends Eloquent\Model
     /**
      * @return Eloquent\Relations\BelongsToMany
      */
-    public function tvs(): Eloquent\Relations\BelongsToMany
+    public function tvs() : Eloquent\Relations\BelongsToMany
     {
 
         return $this->belongsToMany(
@@ -135,7 +134,7 @@ class UserRole extends Eloquent\Model
         return array_key_exists($this->getKey(), self::getLockedElements(8));
     }
 
-    public function getAlreadyEditInfoAttribute(): ?array
+    public function getAlreadyEditInfoAttribute() :? array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(8)[$this->getKey()] : null;
     }
@@ -145,14 +144,8 @@ class UserRole extends Eloquent\Model
         return $this->hasMany(UserRoleVar::class, 'roleid', 'id');
     }
 
-    public function values(): HasManyThrough
-    {
-        return $this->hasManyThrough(UserValue::class, UserRoleVar::class, 'roleid',  'tmplvarid', 'id', 'tmplvarid');
-    }
-
     public function delete()
     {
-        $this->values()->delete();
         $this->roleVar()->delete();
 
         parent::delete();
