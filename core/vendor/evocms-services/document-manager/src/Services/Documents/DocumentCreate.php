@@ -296,29 +296,6 @@ class DocumentCreate implements DocumentServiceInterface
         $this->documentData['parent'] = (int) get_by_key($this->documentData, 'parent', 0, 'is_scalar');
 
         $this->documentData['menuindex'] = !empty($this->documentData['menuindex']) ? (int) $this->documentData['menuindex'] : 0;
-
-        // invoke OnBeforeDocFormSave event
-        switch (EvolutionCMS()->getConfig('docid_incrmnt_method')) {
-            case '1':
-                $id = SiteContent::query()
-                    ->withTrashed()
-                    ->leftJoin('site_content as t1', 'site_content.id +1', '=', 't1.id')
-                    ->whereNull('t1.id')->min('site_content.id');
-                $id++;
-
-                break;
-            case '2':
-                $id = SiteContent::withTrashed()->max('id');
-                $id++;
-                break;
-
-            default:
-                $id = '';
-        }
-        if ($id != '') {
-            $this->documentData['id'] = $id;
-        }
-
     }
 
     public function prepareTV()

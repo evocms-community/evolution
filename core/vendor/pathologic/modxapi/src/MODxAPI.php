@@ -297,7 +297,7 @@ abstract class MODxAPI
         if ($custom === false) {
             $this->modx->clearCache();
             $sync = new LegacyCache();
-            $path = $this->getCachePath(true);
+            $path = $this->getCachePath(false);
             $sync->setCachepath($path);
             $sync->setReport(false);
             $sync->emptyCache();

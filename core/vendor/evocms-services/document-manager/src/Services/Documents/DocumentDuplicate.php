@@ -116,23 +116,6 @@ class DocumentDuplicate extends DocumentCreate
         $tvArray = $documentObject->tv->pluck('value', 'name')->toArray();
 
         $documentArray = array_merge($documentObject->toArray(), $tvArray);
-        // Handle incremental ID
-        switch (EvolutionCMS()->getConfig('docid_incrmnt_method')) {
-            case '1':
-                $minId = \EvolutionCMS\Models\SiteContent::query()
-                    ->withTrashed()
-                    ->leftJoin('site_content as T1', \DB::raw('(') . 'site_content.id' . \DB::raw('+1)'), '=', 'T1.id')
-                    ->whereNull('T1.id')->min('site_content.id');
-
-                $documentArray['id'] = $minId + 1;
-                break;
-            case '2':
-                $documentArray['id'] = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->max('id') + 1;
-                break;
-
-            default:
-                unset($documentArray['id']); // remove the current id.
-        }
 
         // Once we've grabbed the document object, start doing some modifications
         if (!isset($this->documentData['toplevel'])) {

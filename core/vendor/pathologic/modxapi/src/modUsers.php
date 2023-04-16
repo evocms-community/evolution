@@ -247,7 +247,7 @@ class modUsers extends MODxAPI
         $id = (int) $this->get('internalKey');
         $result = $this->query("SELECT * from {$this->makeTable('user_values')} where `userid`=" . (int) $id);
         while ($row = $this->modx->db->getRow($result)) {
-            if ($this->belongsToTemplate($row['tmplvarid'])) {
+            if ($this->belongsToTemplate($row['tmplvarid']) && isset($this->tvid[$row['tmplvarid']])) {
                 $tv = $this->tvid[$row['tmplvarid']];
                 if (!$this->isDefaultField($tv)) {
                     $this->field[$tv] = empty($row['value']) ? $this->tvd[$tv]['default'] : $row['value'];
@@ -376,6 +376,8 @@ class modUsers extends MODxAPI
             $tvID = APIhelpers::getkey($this->tv, $key, 0);
             if (!in_array($tvID, $tvTPL)) {
                 $out = null;
+            } else {
+               $out = parent::get($key); 
             }
         }
 
@@ -772,6 +774,7 @@ class modUsers extends MODxAPI
                     $_SESSION['webFullname'] = $this->get('fullname');
                     $_SESSION['webEmail'] = $this->get('email');
                     $_SESSION['webValidated'] = 1;
+                    $_SESSION['webRole'] = $this->get('role');
                     $_SESSION['webInternalKey'] = $this->getID();
                     $_SESSION['webFailedlogins'] = $this->get('failedlogincount');
                     $_SESSION['webLastlogin'] = $this->get('lastlogin');
@@ -779,31 +782,48 @@ class modUsers extends MODxAPI
                     $_SESSION['webUsrConfigSet'] = [];
                     $_SESSION['webUserGroupNames'] = $this->getUserGroups();
                     $_SESSION['webDocgroups'] = $this->getDocumentGroups();
+                    $_SESSION['webPermissions'] = $this->getPermissions();
+                        
                     if (!empty($remember)) {
                         $this->setAutoLoginCookie($cookieName, $remember);
                     }
                 }
                 break;
             case 'destroy':
-                if (isset($_SESSION['webValidated'])) {
-                    unset($_SESSION['webShortname']);
-                    unset($_SESSION['webFullname']);
-                    unset($_SESSION['webEmail']);
-                    unset($_SESSION['webValidated']);
-                    unset($_SESSION['webInternalKey']);
-                    unset($_SESSION['webFailedlogins']);
-                    unset($_SESSION['webLastlogin']);
-                    unset($_SESSION['webLogincount']);
-                    unset($_SESSION['webUsrConfigSet']);
-                    unset($_SESSION['webUserGroupNames']);
-                    unset($_SESSION['webDocgroups']);
+                unset($_SESSION['webShortname']);
+                unset($_SESSION['webFullname']);
+                unset($_SESSION['webEmail']);
+                unset($_SESSION['webValidated']);
+                unset($_SESSION['webRole']);
+                unset($_SESSION['webInternalKey']);
+                unset($_SESSION['webFailedlogins']);
+                unset($_SESSION['webLastlogin']);
+                unset($_SESSION['webLogincount']);
+                unset($_SESSION['webUsrConfigSet']);
+                unset($_SESSION['webUserGroupNames']);
+                unset($_SESSION['webDocgroups']);
+                unset($_SESSION['webPermissions']);
 
-                    setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
-                }
+                setcookie($cookieName, '', time() - 60, MODX_BASE_URL);
                 break;
         }
 
         return $this;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getPermissions()
+    {
+        $out = [];
+        $role = (int)$this->get('role', 0);
+        $q = $this->modx->db->query("SELECT `permission` FROM " . $this->makeTable('role_permissions') . " WHERE `role_id`={$role}");
+        while($row = $this->modx->db->getRow($q)) {
+            $out[$row['permission']] = 1;
+        }
+        
+        return $out;
     }
 
     /**

@@ -431,13 +431,16 @@ class modResource extends MODxAPI
         if (!$this->newDoc) {
             $this->set('editedby', (int)$this->modx->getLoginUserID())->touch();
         }
+        $data = $this->toArray();
 
         $this->invokeEvent('OnBeforeDocFormSave', [
             'mode'   => $this->newDoc ? "new" : "upd",
             'id'     => isset($this->id) ? $this->id : '',
-            'doc'    => $this->toArray(),
+            'doc'    => &$data,
             'docObj' => $this
         ], $fire_events);
+
+        $this->fromArray($data);
 
         $fld = $this->encodeFields()->toArray(null, null, null, false);
         foreach ($this->default_field as $key => $value) {
@@ -656,10 +659,10 @@ class modResource extends MODxAPI
             (int) $this->modxConfig('unauthorized_page'),
             (int) $this->modxConfig('site_unavailable_page')
         ];
-        $data = $this->query("SELECT DISTINCT setting_value FROM {$this->makeTable('web_user_settings')} WHERE `setting_name`='login_home' AND `setting_value`!=''");
+        $data = $this->query("SELECT DISTINCT setting_value FROM {$this->makeTable('user_settings')} WHERE `setting_name`='login_home' AND `setting_value`!=''");
         $data = $this->modx->db->makeArray($data);
         foreach ($data as $item) {
-            $ignore[] = (int) $item['setting_value'];
+            $ignore[] = (int)$item['setting_value'];
         }
 
         return array_unique($ignore);
