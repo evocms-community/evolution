@@ -26,9 +26,9 @@ return [
         'link' => 'https://www.youtube.com/@evolutionlessons'
     ],
     [
-        'icon' => 'fa-uses',
+        'icon' => 'fa-users',
         'title' => 'Сайт сообщества',
-        'link' => 'https://community.evocms.ru'
+        'link' => 'https://community.evocms.ru/'
     ],
     [
         'icon' => 'fa-telegram',
