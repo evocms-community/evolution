@@ -3732,9 +3732,9 @@ class DocumentParser
             }
             if (is_file($path) && is_readable($path)) {
                 if (is_numeric($name)) {
-                    $mail->AddAttachment($path);
+                    $this->mail->AddAttachment($path);
                 } else {
-                    $mail->AddAttachment($path, $name);
+                    $this->mail->AddAttachment($path, $name);
                 }
             }
         }
