@@ -3727,14 +3727,19 @@ class DocumentParser
             $files = [];
         }
         foreach ($files as $name => $path) {
+			//For multiple files with array to $path ($name => $path)
+			if (is_array($path)) {
+                $name = array_shift(array_keys($path));
+                $path = array_shift($path);
+            }
             if (!is_file($path) || !is_readable($path)) {
                 $path = MODX_BASE_PATH . $path;
             }
             if (is_file($path) && is_readable($path)) {
                 if (is_numeric($name)) {
-                    $mail->AddAttachment($path);
+                    $this->mail->AddAttachment($path);
                 } else {
-                    $mail->AddAttachment($path, $name);
+                    $this->mail->AddAttachment($path, $name);
                 }
             }
         }
