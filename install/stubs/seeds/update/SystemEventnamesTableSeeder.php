@@ -56,7 +56,7 @@ class SystemEventnamesTableSeeder extends Seeder
         \DB::table('system_eventnames')->where('name', 'onAfterMoveDocument')->update([
             'name' => 'OnAfterMoveDocument',
         ]);
-        \DB::table('system_eventnames')->insert([
+        \DB::table('system_eventnames')->insertOrIgnore([
             'name' => 'OnBeforeMailSend', 'service' => '1', 'groupname' => '',
         ]);
     }
