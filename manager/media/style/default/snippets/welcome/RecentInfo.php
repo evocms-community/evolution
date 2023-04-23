@@ -95,7 +95,7 @@ foreach ($contents->get()->toArray() as $ph) {
     $ph['introtext'] = $ph['introtext'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['introtext']);
     $ph['alias'] = $ph['alias'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['alias']);
 
-    $ph['edit_date'] = $modx->toDateFormat($modx->timestamp($ph['editedon']));
+    $ph['edit_date'] = $modx->toDateFormat(strtotime($ph['editedon']));
 
     $output[] = $modx->parseText($tpl, $ph);
 }

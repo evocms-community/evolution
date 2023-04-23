@@ -66,8 +66,6 @@ class UserAttribute extends Eloquent\Model
 		'failedlogincount' => 'int',
 		'dob' => 'int',
 		'gender' => 'int',
-		'createdon' => 'int',
-		'editedon' => 'int'
 	];
 
     protected $hidden = [

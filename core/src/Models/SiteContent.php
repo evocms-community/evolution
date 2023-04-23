@@ -131,13 +131,6 @@ class SiteContent extends Eloquent\Model
     protected $softDelete = true;
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * Entity constructor.
      *
      * @param array $attributes
@@ -155,9 +148,7 @@ class SiteContent extends Eloquent\Model
         'searchable' => 'int',
         'cacheable' => 'int',
         'createdby' => 'int',
-        'createdon' => 'int',
         'editedby' => 'int',
-        'editedon' => 'int',
         'deleted' => 'int',
         'deletedby' => 'int',
         'publishedon' => 'int',
@@ -200,7 +191,6 @@ class SiteContent extends Eloquent\Model
         parent::boot();
 
         static::updating(static function (SiteContent $entity) {
-            $entity->editedon = time();
             $entity->editedby = evolutionCMS()->getLoginUserID();
         });
 
@@ -214,7 +204,6 @@ class SiteContent extends Eloquent\Model
         });
 
         static::creating(static function (SiteContent $entity) {
-            $entity->createdon = time();
             $entity->createdby = evolutionCMS()->getLoginUserID();
         });
         // When entity is created, the appropriate

@@ -37,7 +37,7 @@ $_lang["access_permissions_off"] = '<span class=\'warning\'>I permessi di access
 $_lang["access_permissions_resource_groups"] = 'Gruppi di Risorse';
 $_lang["access_permissions_resources_in_group"] = '<b>Risorse nel gruppo:</b> ';
 $_lang["access_permissions_resources_tab"] = 'Qui potete vedere i Gruppi di Risorse che sono stati impostati. Potete anche crearne di nuovi, rinominarli, eliminarli e vedere quali Risorse sono presenti nei differenti gruppi (posizionate il mouse sull\'ID della Risorsa per vederne il nome). Per aggiungere una Risorsa ad un gruppo o per rimuoverla da un gruppo, modificate direttamente la Risorsa.';
-$_lang["access_permissions_user_toggle"] = 'Toggle access permissions';
+$_lang["access_permissions_user_toggle"] = 'Cambia i permessi di accesso';
 $_lang["access_permissions_user_groups"] = 'Gruppi di Utenti';
 $_lang["access_permissions_user_message"] = 'Qui potete selezionare a quali Gruppi di Utenti appartiene l\'utente:';
 $_lang["access_permissions_users_in_group"] = '<b>Utenti del gruppo:</b> ';
@@ -85,8 +85,8 @@ $_lang["captcha_title"] = 'Usa codici CAPTCHA:';
 $_lang["captcha_words_default"] = 'EVO,Access,Better,BitCode,Chunk,Cache,Desc,Design,Excell,Enjoy,URLs,TechView,Gerald,Griff,Humphrey,Holiday,Intel,Integration,Joystick,Join(),Oscope,Genetic,Light,Likeness,Marit,Maaike,Niche,Netherlands,Ordinance,Oscillo,Parser,Phusion,Query,Question,Regalia,Righteous,Snippet,Sentinel,Template,Thespian,Unity,Enterprise,Verily,Tattoo,Veri,Website,WideWeb,Yap,Yellow,Zebra,Zygote';
 $_lang["captcha_words_message"] = 'Qui potete inserire una lista di parole CAPTCHA da usare quando CAPTCHA è abilitato. Separate le parole con virgole. Questo campo è limitato a 255 caratteri.';
 $_lang["captcha_words_title"] = 'Parole CAPTCHA:';
-$_lang["category"] = 'Category';
-$_lang["categories"] = 'Categories';
+$_lang["category"] = 'Categoria';
+$_lang["categories"] = 'Categorie';
 $_lang["category_heading"] = 'Categoria';
 $_lang["category_manager"] = 'Gestione Categorie';
 $_lang["category_management"] = 'Gestione Categorie';
@@ -158,7 +158,7 @@ $_lang["configcheck_validate_referer"] = 'Avviso di Sicurezza: Validazione heade
 $_lang["configcheck_validate_referer_msg"] = 'L\'opzione di <strong>Validazione degli headers HTTP_REFERER?</strong> non è attivata. Raccomandiamo di attivarla. <a href="index.php?a=17">Vai alle Opzioni di Configurazione</a>';
 $_lang["configcheck_warning"] = 'Avviso di configurazione:';
 $_lang["configcheck_what"] = 'Che cosa significa?';
-$_lang["safe_mode_warning"] = 'Safe mode is enabled. Manager functionality is limited.';
+$_lang["safe_mode_warning"] = 'La modalità sicura è attiva. Il Manager ha funzionalità limitate.';
 $_lang["confirm_block"] = 'Siete sicuri di voler bloccare l\'utente?';
 $_lang["confirm_delete_category"] = 'Sei sicuro di voler cancellare questa categoria?';
 $_lang["confirm_delete_eventlog"] = 'Siete sicuri di voler cancellare questo log?';
@@ -177,8 +177,8 @@ $_lang["confirm_delete_template"] = 'Siete sicuri di voler eliminare il Template
 $_lang["confirm_delete_tmplvars"] = 'Siete sicuri di voler rimuovere la Variabile di Template e tutti i suoi valori memorizzati?';
 $_lang["confirm_delete_user"] = 'Siete sicuri di voler eliminare l\'utente?';
 $_lang["delete_yourself"] = 'Non potete eliminare voi stessi!';
-$_lang["delete_last_admin"] = 'You can\'t delete last admin user';
-$_lang["confirm_delete_permission"] = 'Are you sure you want to delete this Permission?';
+$_lang["delete_last_admin"] = 'Impossibile eliminare l\'ultimo utente admin';
+$_lang["confirm_delete_permission"] = 'Siete sicuri di voler eliminare questo Permesso?';
 $_lang["confirm_duplicate_record"] = 'Siete sicuri di voler duplicare questo record?';
 $_lang["confirm_empty_trash"] = 'Volete rimuovere permanentemente tutte le Risorse eliminate?\n\nProcedere?';
 $_lang["confirm_load_depends"] = 'Siete sicuri di voler caricare la finestra di Impostazione Dipendenze senza salvare le modifiche?';
@@ -255,7 +255,7 @@ $_lang["doc_data_title"] = 'Visualizza dati della Risorsa';
 $_lang["documentation"] = 'Documentazione';
 $_lang["duplicate"] = 'Duplica';
 $_lang["duplicate_alias_found"] = 'La Risorsa \'%s\' utilizza già l\'alias \'%s\'. Inserire un altro alias.';
-$_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
+$_lang["duplicate_template_alias_found"] = 'Il Template \'%s\' utilizza già l\'alias \'%s\'. Inserire un altro alias.';
 $_lang["duplicate_alias_message"] = 'Qui potete selezionare \'Si\' per permettere gli alias duplicati. <b>NOTA: Questa opzione deve essere usata con l\'opzione \'Percorso URL Semplici\' attiva per evitare problemi di riferimenti alle Risorse.</b>';
 $_lang["duplicate_alias_title"] = 'Permetti alias duplicati:';
 $_lang["duplicate_name_found_general"] = 'E\' già presente un %s chiamato \'%s\'. Inserite un nome univoco.';
@@ -405,13 +405,13 @@ $_lang["import_params_msg"] = 'Potete importare i parametri e le impostazioni di
 $_lang["import_parent_resource"] = 'Risorsa genitore:';
 $_lang["update_tree"] = 'Ricostruisci l\'albero';
 $_lang["update_tree_description"] = '<ul>
-                   <li> - Closure table database design pattern that makes working with the document tree more convenient and fast </li>
-                     <li> - If the data in the tree is updated not through models, then there is a possibility of an incorrect linking of documents in the database </li>
-                     <li> - This operation fixes the problem when site_content is not updated through the model (save, create) and the links (Closure table) are not updated </li>
-                     <li> - It is also possible to perform this operation in CLI mode via the \'php artisan closuretable: rebuild \' command </li>
+                   <li> - Closure table database design che rende più veloce e conveniente lavorare con l\'abero dei documenti</li>
+                     <li> - Se i dati nell\'albero non sono aggiornati attraverso dei modelli c\'è la possibilità di collegamenti errati dei documenti nel database </li>
+                     <li> - Questa operazione corregge i problemi quando site_content non è aggiornato attaverso il modello (save, create) e i collegamenti (Closure table) non vengono aggiornati</li>
+                     <li> - Si può anche compiere questa operazione da riga di comando con \'php artisan closuretable: rebuild \' </li>
                      </ul>';
-$_lang["update_tree_danger"] = 'If you have more than 1000 resources, it is better to perform this operation in CLI mode using the \'php artisan closuretable: rebuild command\'';
-$_lang["update_tree_time"] = 'Rebuild tree finished. Documents processed: <b>%s</b><br>Import took <b>%s</b> seconds to complete.';
+$_lang["update_tree_danger"] = 'Se si hanno più di 1000 Risorse è preferibile eseguire l\'operazione da riga comando con \'php artisan closuretable: rebuild command\'';
+$_lang["update_tree_time"] = 'Ricostruzione dell\'albero terminata. Documenti elaborati: <b>%s</b><br>L\'importaziona ha richiesto <b>%s</b> secondi.';
 $_lang["info"] = 'Info';
 $_lang["information"] = 'Informazioni';
 $_lang["inline"] = 'In linea';
@@ -482,14 +482,14 @@ $_lang["long_title"] = 'Titolo esteso';
 $_lang["manage_categories"] = 'Gestione Categorie';
 $_lang["manage_depends"] = 'Configurazione Dipendenze';
 $_lang["manage_files"] = 'Gestione File';
-$_lang["manage_htmlsnippets"] = 'Manage Chunks';
+$_lang["manage_htmlsnippets"] = 'Gestisci Chunks';
 $_lang["manage_metatags"] = 'Gestione META tag e parole chiave';
 $_lang["manage_modules"] = 'Gestione moduli';
-$_lang["manage_plugins"] = 'Manage Plugins';
-$_lang["manage_snippets"] = 'Manage Snippets';
-$_lang["manage_templates"] = 'Manage Templates';
-$_lang["manage_documents"] = 'Manage Documents';
-$_lang["manage_permission"] = 'Manage Permissions';
+$_lang["manage_plugins"] = 'Gestisci Plugins';
+$_lang["manage_snippets"] = 'Gestisci Snippets';
+$_lang["manage_templates"] = 'Gestisci Templates';
+$_lang["manage_documents"] = 'Gestisci Documenti';
+$_lang["manage_permission"] = 'Gestisci Permessi';
 $_lang["manager"] = 'Manager';
 $_lang["manager_lockout_message"] = '<p>Siete entrati nel Manager EVO. Se desiderate uscire dalla sessione, fate clic sul pulsante "Uscita".</p>Per andare alla pagina inziale fate clic sul pulsante "Home".';
 $_lang["manager_permissions"] = 'Gestione Permessi';
@@ -714,7 +714,7 @@ $_lang["remove_locks"] = 'Rimuovi Blocchi';
 $_lang["rename"] = 'Rinomina';
 $_lang["reports"] = 'Resoconti';
 $_lang["report_issues"] = 'Segnala un problema';
-$_lang["required_field"] = 'Field :field is required';
+$_lang["required_field"] = 'Il campo :field è necessario';
 $_lang["require_tagname"] = 'E\' necessario immettere un nome per il tag';
 $_lang["require_tagvalue"] = 'E\' necessario immettere un valore per il tag';
 $_lang["reserved_name_warning"] = 'Avete utilizzato un nome riservato.';
@@ -766,11 +766,11 @@ $_lang["resources_in_container"] = 'Risorse in questo contenitore';
 $_lang["resources_in_container_no"] = 'Questo contenitore non contiene alcuna Risorsa.';
 $_lang["role"] = 'Ruolo';
 $_lang["role_about"] = 'Visualizza la pagina About';
-$_lang["manager_access_permissions"] = 'Manager access permission';
-$_lang["manage_groups"] = 'Manage document and user groups';
-$_lang["manage_document_permissions"] = 'Manage document permissions';
-$_lang["manage_module_permissions"] = 'Manage module permissions';
-$_lang["manage_tv_permissions"] = 'Manage TV permissions';
+$_lang["manager_access_permissions"] = 'Gestione permessi di accesso';
+$_lang["manage_groups"] = 'Gestione documento e gruppi di utenti';
+$_lang["manage_document_permissions"] = 'Gestione permessi di accesso al documento';
+$_lang["manage_module_permissions"] = 'Gestione permessi di accesso al modulo';
+$_lang["manage_tv_permissions"] = 'Gestione Permessi Variabile di Template';
 $_lang["role_actionok"] = 'Visualizza la schermata di azione completata';
 $_lang["role_assets_images"] = 'Accesso a assets/images';
 $_lang["role_assets_files"] = 'Accesso a assets/files';
@@ -820,7 +820,7 @@ $_lang["role_help"] = 'Visualizza le pagine di aiuto';
 $_lang["role_home"] = 'Visualizza la pagina introduttiva del Manager EVO';
 $_lang["role_import_static"] = 'Importa HTML';
 $_lang["role_logout"] = 'Esci dal Manager EVO';
-$_lang["role_list_module"] = 'List Module';
+$_lang["role_list_module"] = 'Elenca Modulo';
 $_lang["role_manage_metatags"] = 'Gestione META tag e parole chiave';
 $_lang["role_management_msg"] = 'Qui potete scegliere il Ruolo da modificare o creare un nuovo Ruolo.';
 $_lang["role_management_title"] = 'Gestione Ruoli';
@@ -963,10 +963,10 @@ $_lang["siteunavailable_message_default"] = 'Questo sito non è al momento dispo
 $_lang["siteunavailable_page_message"] = 'Inserite l\'ID che volete mostrare quando il sito è offline. <b>NOTA: assicuratevi che l\'ID appartenga ad una Risorsa esistente e che sia stata pubblicata!</b>';
 $_lang["siteunavailable_page_title"] = 'Pagina sito non disponibile:';
 $_lang["siteunavailable_title"] = 'Messaggio sito non disponibile:';
-$_lang["controller_namespace"] = 'Controller Namespace';
-$_lang["controller_namespace_message"] = 'Specify the full Namespace from which it is worth taking controllers, for example: <b>EvolutionCMS\\Main\\Controllers\\</b>';
-$_lang["update_repository"] = 'GitHub repository path';
-$_lang["update_repository_message"] = 'Enter GitHub repository path for example: <b>evocms-community/evolution</b>';
+$_lang["controller_namespace"] = 'Namespace del Controller';
+$_lang["controller_namespace_message"] = 'Specificare il Namespace completo dal quale prendere i controllers, ad esempio: <b>EvolutionCMS\\Main\\Controllers\\</b>';
+$_lang["update_repository"] = 'Percorso del repository Github';
+$_lang["update_repository_message"] = 'Inserire il percorso del repository GitHub, as esempio: <b>evocms-community/evolution</b>';
 $_lang["snippet"] = 'Snippet';
 $_lang["snippets"] = 'Snippets';
 $_lang["snippet_code"] = 'Codice dello Snippet (PHP)';
@@ -1044,7 +1044,7 @@ $_lang["template_assignedtv_tab"] = 'Variabili di Template Assegnate';
 $_lang["template_code"] = 'Codice del Template (HTML)';
 $_lang["template_desc"] = 'Descrizione';
 $_lang["template_edit_tab"] = 'Modifica Template';
-$_lang["template_inuse"] = 'This template is in use. Please set the documents using the template to another template. Documents using this template:';
+$_lang["template_inuse"] = 'Il Template è utilizzato. Impostare un altro template per questi documenti che lo utilizzano: ';
 $_lang["template_management_msg"] = 'Qui potete scegliere il Template da modificare o creare un nuovo Template.';
 $_lang["template_msg"] = 'Qui potete creare/modificare i Templates. I Template modificati o nuovi non saranno visibili nelle pagine in cache finchè la cache stessa non verrà svuotata. Ad ogni modo, potete usare la funzione di anteprima su una pagina per vedere il Template in azione.';
 $_lang["template_name"] = 'Nome del Template';
@@ -1311,9 +1311,9 @@ $_lang["seostrict_title"] = 'Usa URL univoci:';
 $_lang["seostrict_message"] = 'Forza l\'uso di URL SEO univoche per prevenire contenuti duplicati (se necessario)';
 
 $_lang["alias_listing_title"] = 'Usa la cache AliasListing';
-$_lang["alias_listing_message"] = 'Caching page aliases, have to be disabled if a site have huge amount of resources. "Disabled" reduces memory consumption when site have large number of resources.';
+$_lang["alias_listing_message"] = 'La cache degli alias delle pagine deve essere disabilitata nei siti che hanno un elevato numero di risorse. Disabilitarla riduce l\'utilizzo di memoria nei siti con molte risorse.';
 $_lang["alias_listing_disabled"] = 'Disabilitato';
-$_lang["alias_listing_folders"] = 'Only for folders';
+$_lang["alias_listing_folders"] = 'Unicamente per le cartelle';
 $_lang["alias_listing_enabled"] = 'Abilitato';
 
 $_lang["settings_friendlyurls_alert"] = 'E\' necessario rinominare il file ht.access presente nella root dell\'installazione di EVO in .htaccess per poter utilizzare gli URL Semplici.';
@@ -1333,7 +1333,7 @@ $_lang["error_no_truncate_tablename"] = "Impossibile trovare la tabella da tronc
 $_lang["error_double_action"] = "E' stata inviata una doppia azione (GET e POST)!";
 $_lang["error_no_id"] = "Nella richiesta manca l'ID del documento!";
 $_lang["error_id_nan"] = "L'ID passato nella richiesta è NaN!";
-$_lang["error_parent_deleted"] = "Failed because resource parent is deleted!";
+$_lang["error_parent_deleted"] = "Errore in quanto la risorsa genitore è stata cancellata!";
 $_lang["error_no_parent"] = "Impossibile trovare il nome del documento genitore!";
 $_lang["error_many_results"] = "Sono stati trovati troppi risultati nel database!";
 $_lang["error_no_results"] = "Sono stati trovati pochi risultati (o nessuno) nel database!";
@@ -1347,7 +1347,7 @@ $_lang["error_internet_connection"] = "Il server non è disponibile. Controlla l
 $_lang["login_processor_unknown_user"] = "Username o password errati!";
 $_lang["login_processor_wrong_password"] = "Username o password errati!";
 $_lang["login_processor_many_failed_logins"] = "Accesso bloccato a causa di troppi tentativi falliti!";
-$_lang["login_processor_verified"] = "User verification required!";
+$_lang["login_processor_verified"] = "E' richiesta l'autenticazione dell'utente!";
 $_lang["login_processor_blocked1"] = "Impossibile accedere, l'accesso è stato bloccato!";
 $_lang["login_processor_blocked2"] = "L'accesso è stato bloccato! Riprovare più tardi.";
 $_lang["login_processor_blocked3"] = "Dopo una certa data sarai bloccato e non potrai più accedere!";
@@ -1497,17 +1497,17 @@ $_lang['invalid_event_response'] = 'L\'evento %s ha un output errato';
 
 $_lang['chunk_processor'] = 'Classe di elaborazione dei chunk';
 
-$_lang["permission_title"] = 'Create / edit permission';
-$_lang["groups_permission_title"] = 'Create / edit category';
-$_lang["lang_key_desc"] = 'Key language from array $_lang';
-$_lang["key_desc"] = 'Key for checked permission';
+$_lang["permission_title"] = 'Crea/Modifica permesso';
+$_lang["groups_permission_title"] = 'Crea/Modifica categoria';
+$_lang["lang_key_desc"] = 'ID della lingua dall\'array $_lang';
+$_lang["key_desc"] = 'ID del permesso controllato';
 
-$_lang["role_no_tv"] = 'No Variables have been assigned to this Role yet.';
-$_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
-$_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
-$_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
+$_lang["role_no_tv"] = 'A questo Ruolo non sono ancora state assegnate delle Variabili.';
+$_lang["role_notassigned_tv"] = 'Queste Variabili sono disponibili per l\'assegnazione.';
+$_lang["role_tv_msg"] = 'Le Variabili assegnate a questo Ruolo sono elencate di seguito.';
+$_lang["tmplvar_roles_access_msg"] = 'Selezionate quali Ruoli possono utilizzare questa Variabile di Template';
 
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
+$_lang["setting_from_file"] = '<strong class="text-danger">Il valore del parametro è definito in core/custom/confic/cms/settings</strong>';
 $_lang['disable'] = 'Disabilita';
 $_lang['enable'] = 'Abilita';
 

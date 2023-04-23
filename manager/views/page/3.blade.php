@@ -245,7 +245,7 @@
                 $listDocs[] = array(
                     'docid'     => '<div class="text-right">' . $children['id'] . '</div>',
                     'title'     => $title,
-                    'createdon' => '<div class="text-right">' . ($modx->toDateFormat($children['createdon'] + $modx->timestamp(0),
+                    'createdon' => '<div class="text-right">' . ($modx->toDateFormat(strtotime($children['createdon']),
                             'dateOnly')) . '</div>',
                     'pub_date'  => '<div class="text-right">' . ($children['pub_date'] ? ($modx->toDateFormat($children['pub_date'] + $modx->timestamp(0),
                             'dateOnly')) : '') . '</div>',
@@ -370,14 +370,14 @@
                     </tr>
                     <tr>
                         <td>{{ ManagerTheme::getLexicon('page_data_created') }}:</td>
-                        <td><?= $modx->toDateFormat($content['createdon'] + $modx->timestamp(0)) ?>
+                        <td><?= $modx->toDateFormat(strtotime($content['createdon'])) ?>
                             (<b><?= entities($createdbyname, $modx->getConfig('modx_charset')) ?></b>)
                         </td>
                     </tr>
                     <?php if($editedbyname != '') { ?>
                     <tr>
                         <td>{{ ManagerTheme::getLexicon('page_data_edited') }}:</td>
-                        <td><?= $modx->toDateFormat($content['editedon'] + $modx->timestamp(0)) ?>
+                        <td><?= $modx->toDateFormat(strtotime($content['editedon'])) ?>
                             (<b><?= entities($editedbyname, $modx->getConfig('modx_charset')) ?></b>)
                         </td>
                     </tr>
