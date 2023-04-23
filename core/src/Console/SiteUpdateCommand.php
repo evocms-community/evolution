@@ -145,12 +145,14 @@ class SiteUpdateCommand extends Command
             $input = new ArrayInput(array('command' => 'update'));
             $application = new Application();
             $application->setAutoExit(false);
-            $application->run($input);
-            echo "Run Migrations\n";
-
-            exec('php  ../install/cli-install.php --typeInstall=2 --removeInstall=y');
-            echo "Remove Install Directory\n";
-            self::rmdirs(MODX_BASE_PATH . 'install');
+            if (!$application->run($input)) {
+                echo "Run Migrations\n";
+                exec('php  ../install/cli-install.php --typeInstall=2 --removeInstall=y');
+                echo "Remove Install Directory\n";
+                self::rmdirs(MODX_BASE_PATH . 'install');
+            } else {
+                echo "\nUpdate failed because of composer errors. Fix them, then run cli-install: \n\nphp  ../install/cli-install.php --typeInstall=2 --removeInstall=y\n";
+            }
         } else {
             echo 'You use almost current version';
         }
