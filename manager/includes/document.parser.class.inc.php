@@ -4676,6 +4676,8 @@ class DocumentParser
             $strTime = date($dateFormat . " H:i:s", $timestamp);
         } elseif ($mode == 'dateOnly') {
             $strTime = date($dateFormat, $timestamp);
+        } elseif ($mode == 'timeOnly') {
+            $strTime = date('H:i:s', $timestamp);
         } elseif ($mode == 'formatOnly') {
             $strTime = $dateFormat;
         }
