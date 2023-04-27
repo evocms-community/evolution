@@ -1,0 +1,47 @@
+{
+	"name": "dd/evolutioncms-plugins-managermanager-mm_requirefields",
+	"version": "1.2.6",
+	"description": "A widget for ManagerManager plugin that allows document fields (or TVs) to become required.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"managermanager",
+		"mm",
+		"mm widget",
+		"mm_requirefields",
+		"require document field",
+		"require tv"
+	],
+	"homepage": "https://code.divandesign.ru/modx/mm_requirefields",
+	"support": {
+		"chat": "https://t.me/dd_code"
+	},
+	"authors": [
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Owner"
+		},
+		{
+			"name": "ncrossland",
+			"role": "Developer"
+		},
+		{
+			"name": "Jelle Jager AKA TobyL",
+			"role": "Creator"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-plugins-managermanager": ">=0.7.0"
+	}
+}

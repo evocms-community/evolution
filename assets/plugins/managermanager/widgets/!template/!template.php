@@ -1,22 +1,38 @@
 <?php
 /**
  * mm_widget_template
- * @version 1.0 (2014-01-01)
+ * @version 1.0.1 (2021-03-09)
  * 
- * A template for creating new widgets
+ * @desc A template for creating new widgets.
  * 
- * @uses ManagerManager plugin 0.6.2.
+ * @uses PHP >= 5.4.
+ * @uses MODXEvo.plugin.ManagerManager >= 0.7.
+ * 
+ * @param $params {array_associative|stdClass} — The object of params. @required
+ * @param $params['fields'] {string_commaSeparated} — TV names to which the widget is applied. @required
+ * @param $params['otherParam'] {string} — Some parameter. Default: 'defaultValue'.
+ * @param $params['roles'] {string_commaSeparated} — The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
+ * @param $params['templates'] {string_commaSeparated} — Id of the templates to which this widget is applied (when this parameter is empty then widget is applied to the all templates). Default: ''.
  * 
  * @event OnDocFormPrerender
  * @event OnDocFormRender
  * 
  * @link http://
  * 
- * @copyright 2014
+ * @copyright 2016
  */
 
-function mm_widget_template($fields, $other_param = 'defaultValue', $roles = '', $templates = ''){
-	if (!useThisRule($roles, $templates)){return;}
+function mm_widget_template($params){
+	//Defaults
+	$params = (object) array_merge([
+		//Required params have no defaults
+// 		'fields' => '',
+		'otherParam' => 'defaultValue',
+		'roles' => '',
+		'templates' => ''
+	], (array) $params);
+	
+	if (!useThisRule($params->roles, $params->templates)){return;}
 	
 	global $modx;
 	$e = &$modx->Event;
@@ -26,33 +42,30 @@ function mm_widget_template($fields, $other_param = 'defaultValue', $roles = '',
 	if ($e->name == 'OnDocFormPrerender'){
 		// We have functions to include JS or CSS external files you might need
 		// The standard ModX API methods don't work here
-		$output .= includeJsCss($modx->config['base_url'].'assets/plugins/managermanager/widgets/template/javascript.js', 'html');
-		$output .= includeJsCss($modx->config['base_url'].'assets/plugins/managermanager/widgets/template/styles.css', 'html');
+		$output .= includeJsCss($modx->getConfig('base_url').'assets/plugins/managermanager/widgets/template/javascript.js', 'html');
+		$output .= includeJsCss($modx->getConfig('base_url').'assets/plugins/managermanager/widgets/template/styles.css', 'html');
 		
 		$e->output($output);
-	}else if ($e->name == 'OnDocFormRender'){
-		global $mm_fields, $mm_current_page;
+	}elseif ($e->name == 'OnDocFormRender'){
+		$params->fields = getTplMatchedFields($params->fields);
+		if ($params->fields == false){return;}
 		
-		// if we've been supplied with a string, convert it into an array
-		$fields = makeArray($fields);
-		
-		$tvs = tplUseTvs($mm_current_page['template'], $fields);
-		if ($tvs == false){return;}
-
 		// Your output should be stored in a string, which is outputted at the end
 		// It will be inserted as a Javascript block (with jQuery), which is executed on document ready
 		// We always put a JS comment, which makes debugging much easier
-		$output .= "//---------- mm_widget_template :: Begin -----\n";
+		$output .= '//---------- mm_widget_template :: Begin -----'.PHP_EOL;
 		
 		// Do something for each of the fields supplied
-		foreach ($fields as $targetTv){
-			// If it's a TV, we may need to map the field name, to what it's ID is.
-			// This can be obtained from the mm_fields array
-			$tv_id = $mm_fields[$targetTv]['fieldname'];
+		foreach ($params->fields as $field){
+			//“$j.ddMM.fields.'.$field.'.$elem” contains jQuery DOM element
+			$output .=
+'
+$j.ddMM.fields.'.$field.'.$elem;
+';
 		}
 		
 		//JS comment for end of widget
-		$output .= "//---------- mm_widget_template :: End -----\n";
+		$output .= '//---------- mm_widget_template :: End -----'.PHP_EOL;
 		
 		// Send the output to the browser
 		$e->output($output);

@@ -1,0 +1,50 @@
+{
+	"name": "dd/evolutioncms-plugins-managermanager-mm_ddresizeimage",
+	"version": "1.6.2",
+	"description": "Widget for ManagerManager plugin that allows image size to be changed (TV) so it is possible to create a little preview (thumb).",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"managermanager",
+		"mm",
+		"mm widget",
+		"mm_ddresizeimage",
+		"create thumb",
+		"resize image"
+	],
+	"homepage": "https://code.divandesign.biz/modx/mm_ddresizeimage",
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		},
+		{
+			"name": "Vladislav Lavrov",
+			"role": "Developer"
+		},
+		{
+			"name": "Andrey Demchenko",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-plugins-managermanager": ">=0.7.0"
+	}
+}

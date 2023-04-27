@@ -1,28 +1,28 @@
 <?php
 /**
  * mm_widget_tags
- * @version 1.1.3 (2014-05-15)
+ * @version 1.2 (2016-09-26)
  * 
  * @desc A widget for ManagerManager plugin allowing tags to be added to the documents (the tag list creates automatically for the required TV with all written tags; new tags may be written right in the tag list) on the document edit page.
  * 
- * @uses ManagerManager plugin 0.6.
+ * @uses ManagerManager plugin 0.6.2.
  * 
  * @param $fields {comma separated string} - The name(s) of the template variables this should apply to. @required
- * @param $delimiter {string} - The sign that separates tags in the field. Default: ','.
- * @param $source {comma separated string} - The names(s) of the template variables the list of tags should come from. This allows the list of tags to come from a different field than the widget. By default it uses all the TVs listed in “fields” parameter. Default: =$fields.
- * @param $display_count {boolean} - Display the number of documents using each tag (in brackets after it). Default: false.
+ * @param $tagDelimiter {string} - The sign that separates tags in the field. Default: ','.
+ * @param $sourceFields {comma separated string} - The names(s) of the template variables the list of tags should come from. This allows the list of tags to come from a different field than the widget. By default it uses all the TVs listed in “fields” parameter. Default: =$fields.
+ * @param $displayCount {boolean} - Display the number of documents using each tag (in brackets after it). Default: false.
  * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
  * @param $templates {comma separated string} - The templates that the widget is applied to (when this parameter is empty then widget is applied to the all templates). Default: ''.
  * 
  * @event OnDocFormPrerender
  * @event OnDocFormRender
  * 
- * @link http://code.divandesign.biz/modx/mm_widget_tags/1.1.3
+ * @link http://code.divandesign.biz/modx/mm_widget_tags/1.2
  * 
- * @copyright 2014
+ * @copyright 2012–2016
  */
 
-function mm_widget_tags($fields, $delimiter = ',', $source = '', $display_count = false, $roles = '', $templates = ''){
+function mm_widget_tags($fields, $tagDelimiter = ',', $sourceFields = '', $displayCount = false, $roles = '', $templates = ''){
 	if (!useThisRule($roles, $templates)){return;}
 	
 	global $modx;
@@ -42,65 +42,55 @@ function mm_widget_tags($fields, $delimiter = ',', $source = '', $display_count 
 		$fields = makeArray($fields);
 		
 		// And likewise for the data source (if supplied)
-		$source = (empty($source) ? $fields : makeArray($source));
+		$sourceFields = empty($sourceFields) ? $fields : makeArray($sourceFields);
 		
-		// Does this page's template use any of these TVs? If not, quit.
-		$field_tvs = tplUseTvs($mm_current_page['template'], $fields);
-		if ($field_tvs == false){return;}
+		$sourceFields = tplUseTvs($mm_current_page['template'], $sourceFields);
+		if ($sourceFields == false){return;}
 		
-		$source_tvs = tplUseTvs($mm_current_page['template'], $source);
-		if ($source_tvs == false){return;}
-		
-		$output .= "//---------- mm_widget_tags :: Begin -----\n";
+		$output .= '//---------- mm_widget_tags :: Begin -----'.PHP_EOL;
 		
 		// Go through each of the fields supplied
-		foreach ($fields as $targetTv){
-			$tv_id = $mm_fields[$targetTv]['fieldname'];
-			
-			// Make an SQL friendly list of fields to look at:
-			//$escaped_sources = array();
-			//foreach ($source as $s){
-			//	$s=substr($s,2,1);
-			//	$escaped_sources[] = "'".$s."'";
-			//}
-			
-			$sql_sources = implode(',', $source_tvs[0]);
+		foreach ($fields as $fields_item){
+			$fields_item_id = $mm_fields[$fields_item]['fieldname'];
 			
 			// Get the list of current values for this TV
-			$result = $modx->db->select('value', $modx->getFullTableName('site_tmplvar_contentvalues'), 'tmplvarid IN ('.$sql_sources.')');
-			$all_docs = $modx->db->makeArray($result);
+			$tagsFromAllDocs = $modx->db->getColumn('value', $modx->db->select(
+				'value',
+				ddTools::$tables['site_tmplvar_contentvalues'],
+				'tmplvarid IN ('.implode(',', ddTools::unfoldArray($sourceFields)).')'
+			));
 			
-			$foundTags = array();
-			foreach ($all_docs as $theDoc){
-				$theTags = explode($delimiter, $theDoc['value']);
+			$tagsToOutput = array();
+			foreach ($tagsFromAllDocs as $tagsFromAllDocs_item){
+				$tagsFromAllDocs_item = explode($tagDelimiter, $tagsFromAllDocs_item);
 				
-				foreach ($theTags as $t){
-					$foundTags[trim($t)]++;
+				foreach ($tagsFromAllDocs_item as $tagsFromAllDocs_item_item){
+					$tagsToOutput[trim($tagsFromAllDocs_item_item)]++;
 				}
 			}
 			
 			// Sort the TV values (case insensitively)
-			uksort($foundTags, 'strcasecmp');
+			uksort($tagsToOutput, 'strcasecmp');
 			
-			$lis = '';
-			foreach($foundTags as $t => $c){
-				$lis .= '<li title="Used '.$c.' times">'.jsSafe($t).($display_count?' ('.$c.')':'').'</li>';
+			$htmlTagList = '';
+			foreach($tagsToOutput as $tagsToOutput_item_name => $tagsToOutput_item_count){
+				$htmlTagList .= '<li title="Used '.$tagsToOutput_item_count.' times">'.jsSafe($tagsToOutput_item_name).($displayCount ? ' ('.$tagsToOutput_item_count.')' : '').'</li>';
 			}
 			
-			$html_list = '<ul class="mmTagList" id="'.$tv_id.'_tagList">'.$lis.'</ul>';
+			$htmlTagList = '<ul class="mmTagList" id="'.$fields_item_id.'_tagList">'.$htmlTagList.'</ul>';
 			
 			// Insert the list of tags after the field
 			$output .=
 '
-//mm_widget_tags for “'.$targetTv.'” ('.$tv_id.')
-$j("#'.$tv_id.'").after(\''.$html_list.'\');
+//mm_widget_tags for “'.$fields_item.'” ('.$fields_item_id.')
+$j("#'.$fields_item_id.'").after(\''.$htmlTagList.'\');
 ';
 			
 			// Initiate the tagCompleter class for this field
-			$output .= 'var '.$tv_id.'_tags = new TagCompleter("'.$tv_id.'", "'.$tv_id.'_tagList", "'.$delimiter.'");'."\n";
+			$output .= 'var '.$fields_item_id.'_tags = new TagCompleter("'.$fields_item_id.'", "'.$fields_item_id.'_tagList", "'.$tagDelimiter.'");'."\n";
 		}
 		
-		$output .= "//---------- mm_widget_tags :: End -----\n";
+		$output .= '//---------- mm_widget_tags :: End -----'.PHP_EOL;
 		
 		$e->output($output);
 	}

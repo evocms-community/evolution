@@ -1,0 +1,47 @@
+{
+	"name": "dd/evolutioncms-plugins-managermanager-mm_widget_showimagetvs",
+	"version": "1.3.0",
+	"description": "A widget for ManagerManager plugin that allows the preview of images chosen in image TVs to be shown on the document editing page.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"managermanager",
+		"mm",
+		"mm widget",
+		"mm_widget_showimagetvs",
+		"image preview",
+		"image tv"
+	],
+	"homepage": "https://code.divandesign.biz/modx/mm_widget_showimagetvs",
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		},
+		{
+			"name": "Segr Kaparov",
+			"homepage": "https://github.com/Segr",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-plugins-managermanager": ">=0.7.0"
+	}
+}

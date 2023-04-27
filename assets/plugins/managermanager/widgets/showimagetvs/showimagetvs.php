@@ -1,59 +1,109 @@
 <?php
 /**
  * mm_widget_showimagetvs
- * @version 1.2.1 (2014-05-07)
+ * @version 1.3 (2020-11-01)
  * 
- * @desc A widget for ManagerManager plugin that allows the preview of images chosen in image TVs to be shown on the document editing page.
- * Emulates showimagestv plugin, which is not compatible with ManagerManager.
+ * @see README.md
  * 
- * @uses ManagerManager plugin 0.6.1.
+ * @link https://code.divandesign.biz/modx/mm_widget_showimagetvs
  * 
- * @param $tvs {comma separated string} - The name(s) of the template variables this should apply to. Default: ''.
- * @param $maxWidth {integer} - Preferred maximum width of the preview. Default: 300.
- * @param $maxHeight {integer} - Preferred maximum height of the preview. Default: 100.
- * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
- * @param $templates {comma separated string} - Id of the templates to which this widget is applied (when this parameter is empty then widget is applied to the all templates). Default: ''.
- * 
- * @link http://code.divandesign.biz/modx/mm_widget_showimagetvs/1.2.1
- * 
- * @copyright 2014
+ * @copyright 2014–2020 DD Group {@link https://DivanDesign.biz }
  */
 
-function mm_widget_showimagetvs($tvs = '', $maxWidth = 300, $maxHeight = 100, $thumbnailerUrl = '', $roles = '', $templates = ''){
-	if (!useThisRule($roles, $templates)){return;}
+function mm_widget_showimagetvs($params){
+	//For backward compatibility
+	if (
+		!is_array($params) &&
+		!is_object($params)
+	){
+		//Convert ordered list of params to named
+		$params = \ddTools::orderedParamsToNamed([
+			'paramsList' => func_get_args(),
+			'compliance' => [
+				'fields',
+				'maxWidth',
+				'maxHeight',
+				'thumbnailerUrl',
+				'roles',
+				'templates'
+			]
+		]);
+	}
+	
+	//Defaults
+	$params = \DDTools\ObjectTools::extend([
+		'objects' => [
+			(object) [
+				'fields' => '',
+				'maxWidth' => 300,
+				'maxHeight' => 100,
+				'thumbnailerUrl' => '',
+				'roles' => '',
+				'templates' => ''
+			],
+			$params
+		]
+	]);
+	
+	if (
+		!useThisRule(
+			$params->roles,
+			$params->templates
+		)
+	){
+		return;
+	}
 	
 	global $modx;
 	$e = &$modx->Event;
 	
 	if ($e->name == 'OnDocFormPrerender'){
 		//The main js file including
-		$output = includeJsCss($modx->config['site_url'].'assets/plugins/managermanager/widgets/showimagetvs/jquery.ddMM.mm_widget_showimagetvs.js', 'html', 'jquery.ddMM.mm_widget_showimagetvs', '1.0.1');
+		$output = includeJsCss(
+			(
+				$modx->getConfig('site_url') .
+				'assets/plugins/managermanager/widgets/showimagetvs/jQuery.ddMM.mm_widget_showimagetvs.js'
+			),
+			'html',
+			'jQuery.ddMM.mm_widget_showimagetvs',
+			'1.0.3'
+		);
 		
 		$e->output($output);
 	}else if ($e->name == 'OnDocFormRender'){
-		global $mm_current_page;
-		
 		$output = '';
 		
-        // Does this page's template use any image TVs? If not, quit now!
-		$tvs = tplUseTvs($mm_current_page['template'], $tvs, 'image');
-		if ($tvs == false){return;}
+        //Does this page's template use any image TVs? If not, quit now!
+		$params->fields = getTplMatchedFields(
+			$params->fields,
+			'image'
+		);
 		
-		$output .= "//---------- mm_widget_showimagetvs :: Begin -----\n";
-		
-		// Go through each TV
-		foreach ($tvs as $tv){
-			$output .= 
-'
-$j("#tv'.$tv['id'].'").mm_widget_showimagetvs({
-	thumbnailerUrl: "'.trim($thumbnailerUrl).'",
-	width: '.intval($maxWidth).',
-	height: '.intval($maxHeight).',
-});
-';
+		if ($params->fields === false){
+			return;
 		}
 		
-		$output .= "//---------- mm_widget_showimagetvs :: End -----\n";
+		$output .= 
+'
+//---------- mm_widget_showimagetvs :: Begin -----
+$j.ddMM
+	.getFieldElems({
+		fields: ' .
+			\DDTools\ObjectTools::convertType([
+				'object' => $params->fields,
+				'type' => 'stringJsonArray'
+			]) .
+		'
+	})
+	.mm_widget_showimagetvs({
+		thumbnailerUrl: "' . trim($params->thumbnailerUrl) . '",
+		width: ' . intval($params->maxWidth) . ',
+		height: ' . intval($params->maxHeight) . ',
+	})
+;
+//---------- mm_widget_showimagetvs :: End -----
+'
+		;
 		
 		$e->output($output);
 	}

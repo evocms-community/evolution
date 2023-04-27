@@ -1,58 +1,89 @@
 <?php
 /** 
  * ddSetFieldValue
- * @version 1.1 (2014-03-27)
+ * @version 1.2 (2016-11-21)
  * 
- * Widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
+ * @desc A widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
- * @uses ManagerManager plugin 0.6.1.
+ * @uses PHP >= 5.4.
+ * @uses MODXEvo.plugin.ManagerManager >= 0.7.
  * 
- * @param $fields {comma separated string} - The name(s) of the document fields (or TVs) for which value setting is required. @required
- * @param $value {string} - Required value. Default: ''.
- * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
- * @param $templates {comma separated string} - Id of the templates to which this widget is applied. Default: ''.
+ * @param $params {array_associative|stdClass} — The object of params. @required
+ * @param $params['fields'] {string_commaSeparated} — The name(s) of the document fields (or TVs) for which value setting is required. @required
+ * @param $params['value'] {string} — Required value. Default: ''.
+ * @param $params['roles'] {string_commaSeparated} — The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
+ * @param $params['templates'] {string_commaSeparated} — Id of the templates to which this widget is applied. Default: ''.
  * 
- * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.1
+ * @event OnDocFormRender
  * 
- * @copyright 2014, DivanDesign
- * http://www.DivanDesign.biz
+ * @link http://code.divandesign.biz/modx/mm_ddsetfieldvalue/1.2
+ * 
+ * @copyright 2012–2016 DivanDesign {@link http://www.DivanDesign.biz }
  */
 
-function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
+function mm_ddSetFieldValue($params){
+	//For backward compatibility
+	if (
+		!is_array($params) &&
+		!is_object($params)
+	){
+		//Convert ordered list of params to named
+		$params = ddTools::orderedParamsToNamed([
+			'paramsList' => func_get_args(),
+			'compliance' => [
+				'fields',
+				'value',
+				'roles',
+				'templates'
+			]
+		]);
+	}
+	
+	//Defaults
+	$params = (object) array_merge([
+// 		'fields' => '',
+		'value' => '',
+		'roles' => '',
+		'templates' => ''
+	], (array) $params);
+	
 	global $modx;
 	$e = &$modx->Event;
 	
-	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
-		global $mm_current_page, $mm_fields;
+	if (
+		$e->name == 'OnDocFormRender' &&
+		useThisRule($params->roles, $params->templates)
+	){
+		$output = '//---------- mm_ddSetFieldValue :: Begin -----'.PHP_EOL;
 		
-		$output = "//---------- mm_ddSetFieldValue :: Begin -----\n";
+		$dateFormat = '';
 		
 		//Подбираем правильный формат даты в соответствии с конфигурацией
 		switch($modx->config['datetime_format']){
 			case 'dd-mm-YYYY':
-				$date_format = 'd-m-Y';
+				$dateFormat = 'd-m-Y';
 			break;
 			case 'mm/dd/YYYY':
-				$date_format = 'm/d/Y';
+				$dateFormat = 'm/d/Y';
 			break;
 			case 'YYYY/mm/dd':
-				$date_format = 'Y/m/d';
+				$dateFormat = 'Y/m/d';
 			break;
 		}
 		
-		$fields = getTplMatchedFields($fields);
-		if ($fields == false){return;}
+		$params->fields = getTplMatchedFields($params->fields);
+		if ($params->fields == false){return;}
 		
-		foreach ($fields as $field){
+		foreach ($params->fields as $field){
 			//Результирующее значение для выставления через $.fn.val
-			$setValue = $value;
+			$setValue = $params->value;
 			//Значение для чекбоксов
-			$checkValue = (bool)$value;
+			$checkValue = (bool)$params->value;
 			
 			//Селектор для выставления через $.fn.val
-			$setSelector = $mm_fields[$field]['fieldtype'].'[name=\''.$mm_fields[$field]['fieldname'].'\']';
+			$setElem = '$j.ddMM.fields.'.$field.'.$elem';
 			//Селектор для чекбоксов
-			$checkSelector = false;
+			$checkElem = false;
 			
 			//Некоторые поля документа требуют дополнительной обработки
 			switch ($field){
@@ -60,19 +91,19 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 				case 'pub_date':
 				//Дата отмены публикации
 				case 'unpub_date':
-					$setValue = ($setValue == '') ? jsSafe(date("$date_format H:i:s")) : jsSafe($setValue);
+					$setValue = ($setValue == '') ? jsSafe(date($dateFormat.' H:i:s')) : jsSafe($setValue);
 				break;
 				
 				//Аттрибуты ссылки
 				case 'link_attributes':
 					//Обработаем кавычки
-					$setValue = str_replace(array("'", '"'), '\"', $setValue);
+					$setValue = str_replace(["'", '"'], '\"', $setValue);
 				break;
 				
 				//Признак папки
 				case 'is_folder':
-					$checkSelector = $setSelector;
-					$setSelector = false;
+					$checkElem = $setElem;
+					$setElem = false;
 				break;
 				
 				//Чекбоксы с прямой логикой
@@ -91,13 +122,13 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 						$setValue = '0';
 					}
 					
-					$checkSelector = $setSelector;
+					$checkElem = $setElem;
 					
 					//Не очень красиво if внутри case, ровно так же, как и 'clear_cache' == 'syncsite', что поделать
 					if ($field == 'clear_cache'){
-						$setSelector = 'input[name=\'syncsite\']';
+						$setElem = '$j("input[name=\'syncsite\']")';
 					}else{
-						$setSelector = 'input[name=\''.$field.'\']';
+						$setElem = '$j("input[name=\''.$field.'\']")';
 					}
 				break;
 				
@@ -106,8 +137,8 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 					// Note these are reversed from what you'd think
 					$setValue = ($setValue == '1') ? '0' : '1';
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'hidemenu\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
 				//Признак скрытия из меню (аналогично show_in_menu, только наоборот)
@@ -118,13 +149,13 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 					
 					$checkValue = !$checkValue;
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'hidemenu\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'hidemenu\']")';
 				break;
 				
 				//Признак использованшия визуального редактора
 				case 'is_richtext':
-					$output .= 'var originalRichtextValue = $j("#which_editor:first").val();'."\n";
+					$output .= 'var originalRichtextValue = $j("#which_editor:first").val();'.PHP_EOL;
 					
 					if ($setValue != '1'){
 						$setValue = '0';
@@ -135,11 +166,11 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 								changeRTE();
 							}
 						';
-						$output .= "\n";
+						$output .= PHP_EOL;
 					}
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'richtext\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'richtext\']")';
 				break;
 				
 				//Признак логирования
@@ -148,27 +179,27 @@ function mm_ddSetFieldValue($fields, $value = '', $roles = '', $templates = ''){
 					$setValue = ($setValue == '1') ? '0' : '1';
 					$checkValue = !$checkValue;
 					
-					$checkSelector = $setSelector;
-					$setSelector = 'input[name=\'donthit\']';
+					$checkElem = $setElem;
+					$setElem = '$j("input[name=\'donthit\']")';
 				break;
 			}
 			
 			//Если это чекбокс
-			if ($checkSelector !== false){
+			if ($checkElem !== false){
 				if ($checkValue){
-					$output .= '$j("'.$checkSelector.'").attr("checked", "checked");'."\n";
+					$output .= $checkElem.'.attr("checked", "checked");'.PHP_EOL;
 				}else{
-					$output .= '$j("'.$checkSelector.'").removeAttr("checked");'."\n";
+					$output .= $checkElem.'.removeAttr("checked");'.PHP_EOL;
 				}
 			}
 			
 			//Если нужно задавать значение
-			if ($setSelector !== false){
-				$output .= '$j("'.$setSelector.'").val("'.$setValue.'");'."\n";
+			if ($setElem !== false){
+				$output .= $setElem.'.val("'.$setValue.'");'.PHP_EOL;
 			}
 		}
 		
-		$output .= "//---------- mm_ddSetFieldValue :: End -----\n";
+		$output .= '//---------- mm_ddSetFieldValue :: End -----'.PHP_EOL;
 		
 		$e->output($output);
 	}

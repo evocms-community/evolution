@@ -1,0 +1,50 @@
+{
+	"name": "dd/evolutioncms-plugins-managermanager-mm_renamefield",
+	"version": "1.3.0",
+	"description": "A widget for ManagerManager plugin that allows one of the default document fields or template variables to be renamed within the manager.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"managermanager",
+		"mm",
+		"mm widget",
+		"mm_renamefield",
+		"rename document field",
+		"rename tv"
+	],
+	"homepage": "https://code.divandesign.biz/modx/mm_renamefield",
+	"support": {
+		"chat": "https://t.me/dd_code"
+	},
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		},
+		{
+			"name": "Andrey Demchenko",
+			"homepage": "https://github.com/deversjkee",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-plugins-managermanager": ">=0.7.0"
+	}
+}

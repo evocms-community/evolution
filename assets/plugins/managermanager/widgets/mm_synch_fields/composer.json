@@ -1,0 +1,46 @@
+{
+	"name": "dd/evolutioncms-plugins-managermanager-mm_synch_fields",
+	"version": "1.2",
+	"description": "Widget for ManagerManager plugin that allows a few fields values to be synchronized while editing the document. E. g. it`s required that page title and menu title have the same value. It's especially useful when some values being synchronized are hidden.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"managermanager",
+		"mm",
+		"mm widget",
+		"mm_synch_fields",
+		"synch fields",
+		"synch field values",
+		"sync fields",
+		"sync field values",
+		"synchronize fields",
+		"synchronize field values"
+	],
+	"homepage": "https://code.divandesign.biz/modx/mm_synch_fields",
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-plugins-managermanager": ">=0.7.0"
+	}
+}
