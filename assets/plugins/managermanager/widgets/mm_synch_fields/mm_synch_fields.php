@@ -1,114 +1,78 @@
 <?php
 /**
  * mm_synch_fields
- * @version 1.2 (2020-10-28)
+ * @version 1.1 (2012-11-13)
  * 
- * @see README.md
+ * Synch two fields in real time.
  * 
- * @link https://code.divandesign.biz/modx/mm_synch_fields
+ * @uses ManagerManager plugin 0.4.
  * 
- * @copyright 2012–2020 DD Group {@link https://DivanDesign.biz }
+ * @link http://code.divandesign.biz/modx/mm_synch_fields/1.1
+ * 
+ * @copyright 2012
  */
 
-function mm_synch_fields($params){
-	//For backward compatibility
-	if (
-		!is_array($params) &&
-		!is_object($params)
-	){
-		//Convert ordered list of params to named
-		$params = \ddTools::orderedParamsToNamed([
-			'paramsList' => func_get_args(),
-			'compliance' => [
-				'fields',
-				'roles',
-				'templates'
-			]
-		]);
-	}
+function mm_synch_fields($fields, $roles = '', $templates = ''){
+	global $modx, $mm_fields;
+	$e = &$modx->Event;
 	
-	//Defaults
-	$params = \DDTools\ObjectTools::extend([
-		'objects' => [
-			(object) [
-				'fields' => '',
-				'roles' => '',
-				'templates' => ''
-			],
-			$params
-		]
-	]);
+	// if we've been supplied with a string, convert it into an array
+	$fields = makeArray($fields);
 	
-	if (
-		//If the current page is being edited by someone in the list of roles, and uses a template in the list of templates
-		!useThisRule(
-			$params->roles,
-			$params->templates
-		)
-	){
+	// We need at least 2 values
+	if (count($fields) < 2){
 		return;
 	}
 	
-	global
-		$modx
-	;
-	
-	$e = &$modx->Event;
-	
-	if ($e->name == 'OnDocFormPrerender'){
-		//The main js file including
-		$output = includeJsCss(
-			$modx->getConfig('site_url') .
-			'assets/plugins/managermanager/widgets/mm_synch_fields/jQuery.ddMM.mm_synch_fields.js',
-			'html',
-			'jQuery.ddMM.mm_synch_fields',
-			'1.1'
-		);
+	// if the current page is being edited by someone in the list of roles, and uses a template in the list of templates
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
+		$output = "//  -------------- mm_synch_fields :: Begin ------------- \n";
 		
-		$e->output($output);
-	}else if ($e->name == 'OnDocFormRender'){
-		$params->fields = getTplMatchedFields(
-			$params->fields,
-			//Make sure we're dealing with an input
-			'text,email,textarea'
-		);
+		$output .= '
+		synch_field[mm_sync_field_count] = new Array();
+		';
 		
-		if (
-			$params->fields === false ||
-			//We need at least 2 values
-			count($params->fields) < 2
-		){
-			return;
+		foreach ($fields as $field){
+			if (isset($mm_fields[$field])){
+				$fieldtype = $mm_fields[$field]['fieldtype'];
+				$fieldname = $mm_fields[$field]['fieldname'];
+				
+				$valid_fieldtypes = array('input', 'textarea');
+				
+				// Make sure we're dealing with an input
+				if (!in_array($fieldtype, $valid_fieldtypes)){
+					break;
+				}
+				
+				// Add this field to the array of fields being synched
+				$output .= '
+				synch_field[mm_sync_field_count].push($j("'.$fieldtype.'[name='.$fieldname.']"));
+				';
+				
+			// Or we don't recognise it
+			}else{
+				break;
+			}
 		}
 		
-		$output =
-			'//---------- mm_synch_fields :: Begin -----' .
-			PHP_EOL
-		;
+		// Output some javascript to sync these fields
+		$output .= '
+$j.each(synch_field[mm_sync_field_count], function(i, n){
+	$j.each(synch_field[mm_sync_field_count], function(j, m){
+		if (i != j){
+			n.keyup(function(){
+				m.val($j(this).val());
+			});
+		}
+	});
+});
+
+mm_sync_field_count++;
+		';
 		
-		$output .=
-'
-$j.ddMM
-	.getFieldElems({
-		fields: ' .
-			\DDTools\ObjectTools::convertType([
-				'object' => $params->fields,
-				'type' => 'stringJsonArray'
-			]) .
-		'
-	})
-	.mm_synch_fields()
-;
-'
-			;
-		;
+		$output .= "//  -------------- mm_synch_fields :: End ------------- \n";
 		
-		$output .=
-			'//---------- mm_synch_fields :: End -----' .
-			PHP_EOL
-		;
-		
-		$e->output($output);
+		$e->output($output . "\n");
 	}
 }
 ?>

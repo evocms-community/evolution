@@ -1,58 +1,27 @@
 <?php
 /**
  * mm_default
- * @version 1.2.1 (2018-04-03)
+ * @version 1.2 (2014-05-06)
  * 
  * @desc A widget for ManagerManager plugin that allows field (or TV) default value for a new document/folder to be set.
  * 
- * @uses PHP >= 5.4.
- * @uses MODXEvo.plugins.ManagerManager >= 0.7 {@link http://code.divandesign.biz/modx/managermanager }.
- * @uses MODXEvo.plugins.ManagerManager.mm_ddSetFieldValue >= 1.2 {@link http://code.divandesign.biz/modx/mm_ddsetfieldvalue }.
+ * @uses ManagerManager plugin 0.6.
+ * @uses ManagerManager.mm_ddSetFieldValue 1.1.
  * 
- * @param $params {array_associative|stdClass} — The object of params. @required
- * @param $params['fields'] {string_commaSeparated} — The name(s) of the document fields (or TVs) for which value setting is required. @required
- * @param $params['value {string} — The default value for the field. The current date/time will be used for the fields equals 'pub_date' or 'unpup_date' with empty value. A static value can be supplied as a string, or PHP code (to calculate something) can be supplied if the eval parameter is set as true. Default: ''.
- * @param $params['roles'] {string_commaSeparated} — The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
- * @param $params['templates'] {string_commaSeparated} — Id of the templates to which this widget is applied (when this parameter is empty then widget is applied to the all templates). Default: ''.
- * @param $params['needToEval'] {bollean} — Should the value be evaluated as PHP code? Default: false.
+ * @param $fields {comma separated string} - The name(s) of the document fields (or TVs) for which value setting is required. @required
+ * @param $value {string} - The default value for the field. The current date/time will be used for the fields equals 'pub_date' or 'unpup_date' with empty value. A static value can be supplied as a string, or PHP code (to calculate something) can be supplied if the eval parameter is set as true. Default: ''.
+ * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
+ * @param $templates {comma separated string} - Id of the templates to which this widget is applied (when this parameter is empty then widget is applied to the all templates). Default: ''.
+ * @param $eval {bollean} - Should the value be evaluated as PHP code? Default: false.
  * 
  * @event OnDocFormRender
  * 
- * @link http://code.divandesign.biz/modx/mm_default/1.2.1
+ * @link http://code.divandesign.biz/modx/mm_default/1.2
  * 
- * @copyright 2012–2018
+ * @copyright 2014
  */
 
-function mm_default($params){
-	//For backward compatibility
-	if (
-		!is_array($params) &&
-		!is_object($params)
-	){
-		//Convert ordered list of params to named
-		$params = ddTools::orderedParamsToNamed([
-			'paramsList' => func_get_args(),
-			'compliance' => [
-				'fields',
-				'value',
-				'roles',
-				'templates',
-				'needToEval'
-			]
-		]);
-	}
-	
-	//Defaults
-	$params = (object) array_merge([
-// 		'fields' => '',
-		'value' => '',
-		'roles' => '',
-		'templates' => '',
-		'needToEval' => false
-	], (array) $params);
-	
-	if (!useThisRule($params->roles, $params->templates)){return;}
-	
+function mm_default($fields, $value = '', $roles = '', $templates = '', $eval = false){
 	global $modx;
 	$e = &$modx->Event;
 	
@@ -61,22 +30,17 @@ function mm_default($params){
 	// 85 =
 	// 4 =
 	// 72 = Create new weblink
-	if (!in_array(
-		$modx->manager->action,
-		['85', '4', '72']
-	)){return;}
+	if (!in_array($modx->manager->action, array('85', '4', '72'))){return;}
 	
-	if ($e->name == 'OnDocFormRender'){
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
 		// What's the new value, and does it include PHP?
-		if ($params->needToEval){$params->value = eval($params->value);}
+		if ($eval){$value = eval($value);}
 		
-		$output = '//---------- mm_default :: Begin -----'.PHP_EOL;
+		$e->output("//---------- mm_default :: Begin -----\n");
 		
-		mm_ddSetFieldValue($params);
+		mm_ddSetFieldValue($fields, $value, $roles, $templates);
 		
-		$output .= '//---------- mm_default :: End -----'.PHP_EOL;
-		
-		$e->output($output);
+		$e->output("//---------- mm_default :: End -----\n");
 	}
 }
 ?>

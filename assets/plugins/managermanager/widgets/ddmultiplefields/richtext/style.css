@@ -1,36 +1,16 @@
-html,
-body {
-	box-sizing: border-box;
+html, body {
 	height: 100%;
 }
-
-body {
-	display: flex;
-	flex-direction: column;
-}
-
-body > .mce-container,
-#ddMultipleFields_richtext {
-	flex-grow: 1;
+textarea {
+	width: 100%;
+	min-height: 250px;
 	box-sizing: border-box;
-	border: none !important;
+	height: calc( 100% - 45px );
 }
-
-body > .mce-container > .mce-container-body {
-	display: flex !important;
-	flex-direction: column;
-	height: 100% !important;
-}
-
-body > .mce-container > .mce-container-body > .mce-edit-area {
-	flex-grow: 1;
-}
-
-.mce-edit-area iframe {
-	height: 100% !important;
-}
-
 .buttons {
-	padding: 10px;
+	padding-top: 10px;
 	text-align: right;
+}
+body > .mce-container {
+	box-sizing: border-box;
 }
