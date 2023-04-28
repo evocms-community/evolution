@@ -412,12 +412,9 @@ class SiteContent extends Eloquent\Model
      */
     public function scopePublishDocuments(Eloquent\Builder $builder, $time): Eloquent\Builder
     {
-        return $builder->where('pub_date', '>', $time)
+        return $builder->where('pub_date', '<=', $time)
             ->where('pub_date', '>', 0)
-            ->where(function (Eloquent\Builder $query) use ($time) {
-                $query->where('unpub_date', '>', $time)
-                    ->orWhere('unpub_date', '=', 0);
-            })->where('published', '=', 0);
+            ->where('published', '=', 0);
     }
 
     /**
@@ -427,7 +424,7 @@ class SiteContent extends Eloquent\Model
      */
     public function scopeUnPublishDocuments(Eloquent\Builder $builder, $time): Eloquent\Builder
     {
-        return $builder->where('unpub_date', '>', $time)
+        return $builder->where('unpub_date', '<=', $time)
             ->where('unpub_date', '>', 0)
             ->where('published', '=', 1);
     }
