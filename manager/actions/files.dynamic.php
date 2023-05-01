@@ -203,7 +203,7 @@ if (substr($webstart_path, 0, 1) == '/') {
     </script>
 
     <h1>
-        <i class="<?= $_style['icon_folder_open'] ?>"></i><?= $_lang['manage_files'] ?>
+        <i class="<?= $_style['icon_folder_open'] ?>"></i> <?= $_lang['manage_files'] ?>
     </h1>
 
     <div id="actions">

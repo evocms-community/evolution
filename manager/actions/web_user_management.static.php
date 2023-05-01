@@ -195,7 +195,7 @@ if ($numRecords > 0) {
     <input type="hidden" name="op" value="" />
 
     <h1>
-        <i class="<?= $_style['icon_web_user'] ?>"></i><?php echo ManagerTheme::getLexicon('web_user_management_title') ?> <i class="<?= $_style['icon_question_circle'] ?> help"></i>
+        <i class="<?= $_style['icon_web_user'] ?>"></i> <?php echo ManagerTheme::getLexicon('web_user_management_title') ?> <i class="<?= $_style['icon_question_circle'] ?> help"></i>
     </h1>
 
     <div class="container element-edit-message">

@@ -3,7 +3,6 @@
     <?php /** @var EvolutionCMS\Models\SiteContent $document */ ?>
     @push('scripts.top')
         <script language="javascript">
-
             parent.tree.ca = 'move';
 
             var actions = {
@@ -17,18 +16,18 @@
                 }
             };
 
-            function setMoveValue(pId, pName)
-            {
+            function setMoveValue(pId, pName) {
                 if (pId === 0 || checkParentChildRelation(pId, pName)) {
                     documentDirty = true;
                     document.newdocumentparent.new_parent.value = pId;
-                    document.getElementById('parentName').innerHTML = '{{ ManagerTheme::getLexicon('new_parent') }}: <span class="text-primary"><b>' + pId + '</b> (' + pName + ')</span>';
+                    document.getElementById('parentName').innerHTML =
+                        '{{ ManagerTheme::getLexicon('new_parent') }}: <span class="text-primary"><b>' + pId + '</b> (' +
+                        pName + ')</span>';
                 }
             }
 
             // check if the selected parent is a child of this document
-            function checkParentChildRelation(pId, pName)
-            {
+            function checkParentChildRelation(pId, pName) {
                 var sp;
                 var id = document.newdocumentparent.id.value;
                 var tdoc = parent.tree.document;
@@ -50,11 +49,10 @@
                 }
                 return true;
             }
-
         </script>
     @endpush
     <h1>
-        <i class="{{ $_style['icon_move'] }}"></i>{{ $document->pagetitle }} <small>({{ $document->getKey() }})</small>
+        <i class="{{ $_style['icon_move'] }}"></i> {{ $document->pagetitle }} <small>({{ $document->getKey() }})</small>
     </h1>
 
     {!! ManagerTheme::getStyle('actionbuttons.dynamic.save') !!}

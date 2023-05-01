@@ -311,9 +311,9 @@
 #mainMenu .nav .fa.site-status {
     position: absolute;
     color: #ffc107;
-    font-size: .75rem;
+    font-size: 0.75rem;
     left: 50%;
-    top: .25rem;
+    top: 0.25rem;
 }
 #mainMenu .nav li.item-group > *:not(:first-child) .fa,
 #mainMenu .nav li.item-group > *:not(:first-child) .fab,
@@ -413,7 +413,7 @@
     position: relative;
     z-index: 1;
 }
-#mainMenu #searchform .fa-refresh {
+#mainMenu #searchform .fa-sync {
     position: absolute;
     z-index: 9;
     display: none;

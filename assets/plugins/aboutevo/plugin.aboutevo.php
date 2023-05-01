@@ -9,7 +9,7 @@ if (file_exists($path)) {
 $body = '';
 if(!empty($links)) {
     foreach ($links as $link) {
-        $body .= '<span class="wm_button"><a href="' . $link['link'] . '" target="_blank"><i class="fa fa-2x fa-fw ' . $link['icon'] . '"></i><span>' . $link['title'] . '</span></a></span>';
+        $body .= '<span class="wm_button"><a href="' . $link['link'] . '" target="_blank"><i class="fa-2x fa-fw ' . $link['icon'] . '"></i><span>' . $link['title'] . '</span></a></span>';
     }
 }
 if(empty($body)) return;
@@ -43,11 +43,17 @@ $body .= "<style>
     background-color: rgba(93,109,202,0.16)
 }
 
-.widgets #about .wm_button a .fa {
-    display: inline-block
+.widgets #about .wm_button a .fa,
+.widgets #about .wm_button a .far,
+.widgets #about .wm_button a .fas,
+.widgets #about .wm_button a .fab {
+        display: inline-block
 }
 
-.widgets #about .wm_button a .fa + span {
+.widgets #about .wm_button a .fa + span,
+.widgets #about .wm_button a .far + span,
+.widgets #about .wm_button a .fas + span,
+.widgets #about .wm_button a .fab + span {
     display: block;
     padding: .5em 0;
     line-height: 1em;

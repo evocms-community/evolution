@@ -12,7 +12,7 @@
     @endpush
     <form name="logging" method="post" class="form-group">
         <h1>
-            <i class="{{ $_style['icon_user_secret'] }}"></i>{{ ManagerTheme::getLexicon('mgrlog_view') }}<i
+            <i class="{{ $_style['icon_user_secret'] }}"></i> {{ ManagerTheme::getLexicon('mgrlog_view') }} <i
                 class="fa fa-question-circle help"></i>
         </h1>
 

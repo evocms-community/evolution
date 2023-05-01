@@ -126,7 +126,7 @@ if ($templateVars->count() > 0) {
 </script>
 
 <h1>
-    <i class="<?= $_style['icon_sort_num_asc'] ?>"></i><?= ($templatename ? $templatename . '<small>(' . $id . ')</small>' : $_lang['template_tv_edit_title']) ?>
+    <i class="<?= $_style['icon_sort_num_asc'] ?>"></i> <?= ($templatename ? $templatename . '<small>(' . $id . ')</small>' : $_lang['template_tv_edit_title']) ?>
 </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.dynamic.save') ?>

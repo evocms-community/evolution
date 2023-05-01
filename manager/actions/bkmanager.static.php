@@ -268,7 +268,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
     </script>
 
     <h1>
-        <i class="<?= $_style['icon_database'] ?>"></i><?= $_lang['bk_manager'] ?>
+        <i class="<?= $_style['icon_database'] ?>"></i> <?= $_lang['bk_manager'] ?>
     </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.static.cancel') ?>

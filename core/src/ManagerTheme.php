@@ -776,7 +776,7 @@ class ManagerTheme implements ManagerThemeInterface
     {
         return [
             'bootstrap' => MODX_MANAGER_PATH . 'media/style/common/bootstrap/css/bootstrap.min.css',
-            'font-awesome' => MODX_MANAGER_PATH . 'media/style/common/font-awesome/css/font-awesome.min.css',
+            'font-awesome' => MODX_MANAGER_PATH . 'media/style/common/font-awesome/css/all.min.css',
             'fonts' => $this->getThemeDir() . 'css/fonts.css',
             'forms' => $this->getThemeDir() . 'css/forms.css',
             'mainmenu' => $this->getThemeDir() . 'css/mainmenu.css',

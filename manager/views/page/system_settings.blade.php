@@ -23,13 +23,14 @@
         <input type="hidden" name="site_id" value="{{ get_by_key($modx->config, 'site_id') }}" />
         <input type="hidden" name="settings_version" value="{{ $modx->getVersionData('version') }}" />
         <h1>
-            <i class="{{ $_style['icon_sliders'] }}"></i>{{ ManagerTheme::getLexicon('settings_title') }}
+            <i class="{{ $_style['icon_sliders'] }}"></i> {{ ManagerTheme::getLexicon('settings_title') }}
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
 
-        @if (!get_by_key($modx->config, 'settings_version') ||
-            get_by_key($modx->config, 'settings_version') !== $modx->getVersionData('version'))
+        @if (
+            !get_by_key($modx->config, 'settings_version') ||
+                get_by_key($modx->config, 'settings_version') !== $modx->getVersionData('version'))
             <div class="container">
                 <p class="alert alert-warning">{!! ManagerTheme::getLexicon('settings_after_install') !!}</p>
             </div>

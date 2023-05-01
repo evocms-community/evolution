@@ -1,379 +1,384 @@
 body {
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 /* bootstrap defaults */
 .container-fluid .row {
-  margin-left: -15px;
-  margin-right: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 
 /* fix icon rendering */
 .fa,
-.btn .fa {
-  font-size: 14px;
+.far,
+.fas,
+.btn .fa,
+.btn .far,
+.btn .fas {
+    font-size: 14px;
 }
 
 .pagetitle {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .github {
-  display: inline-block;
-  position: absolute;
-  top: -13px;
-  left: -3px;
-  font-style: normal;
+    display: inline-block;
+    position: absolute;
+    top: -13px;
+    left: -3px;
+    font-style: normal;
 }
 .github::before {
-  display: inline-block;
-  font-family: 'Font Awesome 5 Free';
-  font-size: 28px;
-  content: "\f09b";
-  font-weight: bold;
+    display: inline-block;
+    font-family: "Font Awesome\ 5 Free";
+    font-size: 28px;
+    content: "\f09b";
+    font-weight: bold;
 }
 
 .typesbadge {
-  border-top: 1px solid #e0e0e0;
-  background: #fafafa;
-  font-weight: 700;
-  display: block;
-  position: absolute;
-  min-width: 80px;
-  height: 25px;
-  right: 0px;
-  top: 0px;
-  padding: 3px 5px;
-  text-align: center;
-  border-radius: 0 0 0 5px;
-  border: 1px solid #dfdfdf;
-  border-width: 0 0 1px 1px;
+    border-top: 1px solid #e0e0e0;
+    background: #fafafa;
+    font-weight: 700;
+    display: block;
+    position: absolute;
+    min-width: 80px;
+    height: 25px;
+    right: 0px;
+    top: 0px;
+    padding: 3px 5px;
+    text-align: center;
+    border-radius: 0 0 0 5px;
+    border: 1px solid #dfdfdf;
+    border-width: 0 0 1px 1px;
 }
 
 .infobadge {
-  font-weight: 700;
-  display: block;
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  left: 0px;
-  top: 0px;
+    font-weight: 700;
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 0px;
+    top: 0px;
 }
 
 .curr {
-  margin-left: 6px;
-  background-color: #f1e810;
-  padding: 3px 6px;
-  font-size: 10px;
-  font-style: normal;
-  color: #000;
+    margin-left: 6px;
+    background-color: #f1e810;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-style: normal;
+    color: #000;
 }
 
 .pack_old .item-update,
 .pack_alredy .item-reinstall {
-  display: block !important
+    display: block !important;
 }
 
 .pack_install .item-reinstall,
 .pack_install .item-update {
-  display: none;
+    display: none;
 }
 
 .pack_update .item-reinstall,
 .pack_update .item-install {
-  display: none;
+    display: none;
 }
 
 .pack_reinstall .item-install,
 .pack_reinstall .item-update {
-  display: none;
+    display: none;
 }
 
 .informer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: none;
-  opacity: 0;
-  vertical-align: middle;
-  text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+    opacity: 0;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .loader {
-  background: url("../img/loader.gif") no-repeat scroll center center rgba(255, 255, 255, 0.8);
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  display: none;
-  opacity: 1;
+    background: url("../img/loader.gif") no-repeat scroll center center
+        rgba(255, 255, 255, 0.8);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    display: none;
+    opacity: 1;
 }
 
 .informer div {
-  color: black;
-  font-size: 25px;
-  padding-top: 51px;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
+    color: black;
+    font-size: 25px;
+    padding-top: 51px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .info_block {
-  opacity: 1;
+    opacity: 1;
 }
 
 .blocked .info_block {
-  opacity: 0.3;
+    opacity: 0.3;
 }
 
 .blocked_item {
-  display: none;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
+    display: none;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
 }
 
 .blocked .blocked_item {
-  display: block;
+    display: block;
 }
 
 .types {
-  font-size: 125%;
-  color: rgba(0, 0, 0, 0.5)
+    font-size: 125%;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .warning {
-  color: #ff0000 !important;
-  padding-left: 20px;
-  margin: 6px 20px 6px 0px;
+    color: #ff0000 !important;
+    padding-left: 20px;
+    margin: 6px 20px 6px 0px;
 }
 
 .info span {
-  color: #ccc;
+    color: #ccc;
 }
 
 .info span strong {
-  color: #555;
+    color: #555;
 }
 
 .item_list .catalog_item .item_content:hover {
-  border: 1px solid #3697cd;
+    border: 1px solid #3697cd;
 }
 
 .row-category H3 {
-  margin: 0;
-  padding: 4px 0;
+    margin: 0;
+    padding: 4px 0;
 }
 
 .catalog_thumb {
-  position: relative;
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  margin-bottom: 7px;
-  text-align: center;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    margin-bottom: 7px;
+    text-align: center;
 }
 
 .img-fluid {
-  max-width: 100%;
-  height: 140px;
-  width: auto;
+    max-width: 100%;
+    height: 140px;
+    width: auto;
 }
 
 nav ul li {
-  float: left;
-  list-style: none;
+    float: left;
+    list-style: none;
 }
 
 .paginate li {
-  padding: 0px 3px;
-  margin: 2px;
-  border: 1px solid #AAA;
-  background: #fff;
-  float: left;
+    padding: 0px 3px;
+    margin: 2px;
+    border: 1px solid #aaa;
+    background: #fff;
+    float: left;
 }
 
 .cont {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .box {
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  box-shadow: 0px 0px 3px rgba(119, 117, 117, 0.1);
-  -moz-osx-font-smoothing: grayscale;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 3px rgba(119, 117, 117, 0.1);
+    -moz-osx-font-smoothing: grayscale;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .box h3,
 .box h4 {
-  margin-bottom: 10px;
-  font-size: 14px;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 
 .box ul {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 .mh {
-  min-height: 150px;
-  overflow:hidden;
+    min-height: 150px;
+    overflow: hidden;
 }
 
 .catalog_item {
-  padding-top: 5px;
-  padding-bottom: 20px;
-  overflow: hidden;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    overflow: hidden;
 }
 
 .item_content {
-  min-height: 350px;
-  border: 1px solid #e0e0e0;
-  padding: 10px;
-  overflow: hidden;
-  background: #FFF;
-  position: relative;
+    min-height: 350px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
 }
 
 .grid TD {
-  padding-left: 5px;
+    padding-left: 5px;
 }
 
 .grid TH {
-  padding-left: 5px;
-  font-size: 12px;
+    padding-left: 5px;
+    font-size: 12px;
 }
 
 .info {
-  border-top: 1px solid #ececec;
-  background: #fff;
-  display: block;
-  position: absolute;
-  height: 30px;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  padding-top: 5px;
-  padding-left: 10px;
+    border-top: 1px solid #ececec;
+    background: #fff;
+    display: block;
+    position: absolute;
+    height: 30px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding-top: 5px;
+    padding-left: 10px;
 }
 
 .install_extras {
-  border-top: 1px solid #e0e0e0;
-  background: #fafafa;
-  display: block;
-  position: absolute;
-  height: 75px;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  text-align: left;
-  padding: 7px 9px;
+    border-top: 1px solid #e0e0e0;
+    background: #fafafa;
+    display: block;
+    position: absolute;
+    height: 75px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+    padding: 7px 9px;
 }
 
 .catalog_item.col-lg-12 .install_extras {
-  text-align: right;
+    text-align: right;
 }
 
 .info_extras {
-  display: block;
-  background-color: transparent;
-  position: absolute;
-  height: 28px;
-  right: 10px;
-  bottom: 82px;
-  text-align: right;
-  padding: 0;
-  z-index: 1;
+    display: block;
+    background-color: transparent;
+    position: absolute;
+    height: 28px;
+    right: 10px;
+    bottom: 82px;
+    text-align: right;
+    padding: 0;
+    z-index: 1;
 }
 
 .info .version {
-  overflow: hidden;
-  padding-left: 0px;
+    overflow: hidden;
+    padding-left: 0px;
 }
 
 .info .autor {
-  overflow: hidden;
-  padding-left: 5px;
+    overflow: hidden;
+    padding-left: 5px;
 }
 
 .info .date {
-  overflow: hidden;
-  padding-left: 5px;
+    overflow: hidden;
+    padding-left: 5px;
 }
 
 .info .download {
-  overflow: hidden;
-  padding-left: 5px;
+    overflow: hidden;
+    padding-left: 5px;
 }
 
 .info .version:before {
-  font-family: 'Font Awesome 5 Free';
-  font-style: normal;
-  color: #3697cd;
-  padding: 0 5px 0 0;
-  content: '\f021 ';
-  font-weight: bold;
+    font-family: "Font Awesome\ 5 Free";
+    font-style: normal;
+    color: #3697cd;
+    padding: 0 5px 0 0;
+    content: "\f021 ";
+    font-weight: bold;
 }
 
 .info .autor:before {
-  font-family: 'Font Awesome 5 Free';
-  font-style: normal;
-  color: #3697cd;
-  padding: 0 5px 0 0;
-  content: '\f007';
-  font-weight: bold;
+    font-family: "Font Awesome\ 5 Free";
+    font-style: normal;
+    color: #3697cd;
+    padding: 0 5px 0 0;
+    content: "\f007";
+    font-weight: bold;
 }
 
 .info .date:before {
-  font-family: 'Font Awesome 5 Free';
-  font-style: normal;
-  color: #3697cd;
-  padding: 0 5px 0 0;
-  content: '\f017 ';
-  font-weight: bold;
+    font-family: "Font Awesome\ 5 Free";
+    font-style: normal;
+    color: #3697cd;
+    padding: 0 5px 0 0;
+    content: "\f017 ";
+    font-weight: bold;
 }
 
 .info .download:before {
-  font-family: 'Font Awesome 5 Free';
-  font-style: normal;
-  color: #3697cd;
-  color: #3697cd;
-  padding: 0 5px 0 0;
-  content: '\f019';
-  font-weight: bold;
+    font-family: "Font Awesome\ 5 Free";
+    font-style: normal;
+    color: #3697cd;
+    color: #3697cd;
+    padding: 0 5px 0 0;
+    content: "\f019";
+    font-weight: bold;
 }
 
 .descript {
-  min-height: 36px;
-  display: block;
-  margin-bottom: -15px;
-  line-height: 1.25em;
-  opacity: .6;
+    min-height: 36px;
+    display: block;
+    margin-bottom: -15px;
+    line-height: 1.25em;
+    opacity: 0.6;
 }
 
 .sidebar2 {
-  padding-left: 5px;
+    padding-left: 5px;
 }
 
 .cont2 {
-  padding-right: 10px;
+    padding-right: 10px;
 }
 
 .list-tools {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 input[type="email"],
@@ -383,13 +388,13 @@ input[type="text"],
 input[type="url"],
 textarea,
 select {
-  appearance: none;
-  outline: none;
-  height: 24px;
-  background: #fbfbfb;
-  border-color: #d4d4d4!important;
-  border-width: 1px!important;
-  border: solid;
+    appearance: none;
+    outline: none;
+    height: 24px;
+    background: #fbfbfb;
+    border-color: #d4d4d4 !important;
+    border-width: 1px !important;
+    border: solid;
 }
 
 input[type="email"]:focus,
@@ -399,132 +404,132 @@ input[type="text"]:focus,
 input[type="url"]:focus,
 textarea:focus,
 select:focus {
-  outline: none;
-  background: #fff;
-  border-color: #3697cd;
+    outline: none;
+    background: #fff;
+    border-color: #3697cd;
 }
 
 input#store_search {
-  padding: 4px;
-  padding-left: 6px;
-  height: 28px;
+    padding: 4px;
+    padding-left: 6px;
+    height: 28px;
 }
 
 input#store_search:focus {
-  border-color: #3697cd!important;
+    border-color: #3697cd !important;
 }
 
 .error {
-  color: red;
+    color: red;
 }
 
 .cart_list input {
-  width: 100%;
-  height: 30px;
-  margin-bottom: 7px;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 7px;
 }
 
 #loading {
-  background: url(../img/loading.png);
-  display: block;
-  width: 39px;
-  height: 39px;
-  position: fixed;
-  z-index: 100;
-  left: 48%;
-  top: 47%;
+    background: url(../img/loading.png);
+    display: block;
+    width: 39px;
+    height: 39px;
+    position: fixed;
+    z-index: 100;
+    left: 48%;
+    top: 47%;
 }
 
 body,
 .wrapper {
-  height: auto;
+    height: auto;
 }
 
 .wrapper {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .loginbut {
-  margin: 5px 0;
-  width: 100%;
-  text-align: center;
-  display: block;
-  padding-left: 0px!important;
-  padding-right: 0px!important;
+    margin: 5px 0;
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 .loginul {
-  margin: 0px!important;
-  padding: 0px!important;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 .row-category h3 {
-  padding: 0px!important;
+    padding: 0px !important;
 }
 
 .text-info {
-  font-size: 2em;
-  cursor: pointer;
+    font-size: 2em;
+    cursor: pointer;
 }
 
 .bt-active,
 .dark .bt-active {
-  color: #3697cd;
-  box-shadow: none;
+    color: #3697cd;
+    box-shadow: none;
 }
 
 .hidden {
-  display: none !important;
-  visibility: hidden !important;
+    display: none !important;
+    visibility: hidden !important;
 }
 
 /*liststyle*/
 
 .catalog_item.liststyle {
-  padding-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 .catalog_item.liststyle .item_content {
-  min-height: 120px;
+    min-height: 120px;
 }
 
 .catalog_item.liststyle .descript {
-  margin-top: 4px;
+    margin-top: 4px;
 }
 
 .catalog_item.liststyle .info_extras {
-  display: block;
-  background: transparent;
-  position: absolute;
-  height: 28px;
-  width: 100%;
-  right: 0;
-  bottom: 2px;
-  text-align: right;
-  padding: 0px 3px;
-  z-index: 2;
+    display: block;
+    background: transparent;
+    position: absolute;
+    height: 28px;
+    width: 100%;
+    right: 0;
+    bottom: 2px;
+    text-align: right;
+    padding: 0px 3px;
+    z-index: 2;
 }
 
 .catalog_item.liststyle .catalog_thumb,
 .catalog_item.liststyle .info {
-  display: none !important;
-  visibility: hidden !important;
+    display: none !important;
+    visibility: hidden !important;
 }
 
 .catalog_item.liststyle .install_extras {
-  border-top: 1px solid #e0e0e0;
-  background: #fff;
-  display: block;
-  position: absolute;
-  height: 45px;
-  left: 0;
-  bottom: 0;
-  text-align: left;
-  padding: 7px;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
+    display: block;
+    position: absolute;
+    height: 45px;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+    padding: 7px;
 }
 
 /*.catalog_item.liststyle .row-category h3:before {*/
-/*  font-family: 'Font Awesome 5 Free';*/
+/*  font-family: 'Font Awesome\ 5 Free';*/
 /*  font-style: normal;*/
 /*  color: #444;*/
 /*  padding: 0 12px 0 5px;*/
@@ -533,168 +538,437 @@ body,
 /*}*/
 
 .catalog_item.liststyle .catalog_info .info_extras {
-  position: absolute;
-  width: auto;
-  height: 37px;
-  left: auto;
-  right: 6px;
-  bottom: -2px;
+    position: absolute;
+    width: auto;
+    height: 37px;
+    left: auto;
+    right: 6px;
+    bottom: -2px;
 }
 
 #hide-side {
-  min-width: 40px;
-  margin-right:8px;
+    min-width: 40px;
+    margin-right: 8px;
 }
 
-.darkness .box, .darkness .item_content, .darkness .install_extras, .darkness .info, .darkness .catalog_item.liststyle .install_extras{
-  border: 1px solid #414449;
-  background: #202329;
+.darkness .box,
+.darkness .item_content,
+.darkness .install_extras,
+.darkness .info,
+.darkness .catalog_item.liststyle .install_extras {
+    border: 1px solid #414449;
+    background: #202329;
 }
-.darkness #store_search{
-  border: #414449 1px solid!important;
+.darkness #store_search {
+    border: #414449 1px solid !important;
 }
 
-
-
-
-.list-tools input#store_search{height:42px; margin-right:8px; text-indent:8px;}
-.list-tools .btn, 
-.list-tools button:not(.btn), 
-.list-tools input[type="button"]:not(.btn), 
-.list-tools input[type="submit"]:not(.btn){padding:1em;}
-
+.list-tools input#store_search {
+    height: 42px;
+    margin-right: 8px;
+    text-indent: 8px;
+}
+.list-tools .btn,
+.list-tools button:not(.btn),
+.list-tools input[type="button"]:not(.btn),
+.list-tools input[type="submit"]:not(.btn) {
+    padding: 1em;
+}
 
 /* RESTYLING EXTRAS */
 
 /* Give color to types of Extras */
-.type-snippets .catalog_thumb{background:#69ace0;}
-.type-modules .catalog_thumb{background:#f18048;}
-.type-plugins .catalog_thumb{background:#599f46;}
-.type-package .catalog_thumb{background:#a1c855;}
-.type-core .catalog_thumb{background:#76b94f;}
+.type-snippets .catalog_thumb {
+    background: #69ace0;
+}
+.type-modules .catalog_thumb {
+    background: #f18048;
+}
+.type-plugins .catalog_thumb {
+    background: #599f46;
+}
+.type-package .catalog_thumb {
+    background: #a1c855;
+}
+.type-core .catalog_thumb {
+    background: #76b94f;
+}
 
-.catalog_thumb img{display:none;}
-.catalog_thumb{height:120px; background:#454f59; position:relative; border-color:#fff;}
-.catalog_thumb:before{font-family:'Font Awesome 5 Free'; content:'\f058'; font-weight:600; color:#fff; z-index:1; position:absolute; left:0; right:0; top:30px; line-height:50px; font-size:50px; text-align:center;}
-.catalog_thumb:after{display:block; color:#fff; margin-top:88px; font-size:12px; line-height:12px; padding:0 10px;}
+.catalog_thumb img {
+    display: none;
+}
+.catalog_thumb {
+    height: 120px;
+    background: #454f59;
+    position: relative;
+    border-color: #fff;
+}
+.catalog_thumb:before {
+    font-family: "Font Awesome\ 5 Free";
+    content: "\f058";
+    font-weight: 600;
+    color: #fff;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    line-height: 50px;
+    font-size: 50px;
+    text-align: center;
+}
+.catalog_thumb:after {
+    display: block;
+    color: #fff;
+    margin-top: 88px;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 0 10px;
+}
 
 /* Add FontAwesome icons */
-.type-chunk .catalog_thumb:before{content:'\f009';}
-.type-snippets .catalog_thumb:before{content:'\f121';}
-.type-modules .catalog_thumb:before{content:'\f1b3';}
-.type-plugins .catalog_thumb:before{content:'\f1e6';}
-.type-package .catalog_thumb:before{content:'\f187';}
-.type-core .catalog_thumb:before{content:'\f7a2';}
+.type-chunk .catalog_thumb:before {
+    content: "\f009";
+}
+.type-snippets .catalog_thumb:before {
+    content: "\f121";
+}
+.type-modules .catalog_thumb:before {
+    content: "\f1b3";
+}
+.type-plugins .catalog_thumb:before {
+    content: "\f1e6";
+}
+.type-package .catalog_thumb:before {
+    content: "\f187";
+}
+.type-core .catalog_thumb:before {
+    content: "\f7a2";
+}
 
 /* Deprecated */
-.catalog_item.deprecated-1 .catalog_thumb{background:#d94444!important;}
-.catalog_item.deprecated-1 .catalog_thumb:after{content:'Deprecated!';}
-.catalog_item.deprecated-1 .catalog_thumb:before{content:'\f057';}
+.catalog_item.deprecated-1 .catalog_thumb {
+    background: #d94444 !important;
+}
+.catalog_item.deprecated-1 .catalog_thumb:after {
+    content: "Deprecated!";
+}
+.catalog_item.deprecated-1 .catalog_thumb:before {
+    content: "\f057";
+}
 
-.item-anythingRating .catalog_thumb:before{content:'\f005';}
-.item-AutoSplitBigArticle .catalog_thumb:before{content:'\f1ea';}
-.item-Breadcrumbs .catalog_thumb:before{content:'\f7ec';}
-.item-DLLastViews .catalog_thumb:before{content:'\f06e';}
-.item-DocInfo .catalog_thumb:before{content:'\f05a';}
-.item-DocLister .catalog_thumb:before{content:'\f03a';}
-.item-EasyPoll .catalog_thumb:before{content:'\f086';}
-.item-eFilter .catalog_thumb:before{content:'\f0b0';}
-.item-evoSearch .catalog_thumb:before{content:'\f002';}
-.item-FirstChildRedirect .catalog_thumb:before{content:'\f122';}
-.item-FirstWord .catalog_thumb:before{content:'\f033';}
-.item-HideContent .catalog_thumb:before{content:'\f070';}
-.item-ListIndexer .catalog_thumb:before{content:'\f0cb';}
-.item-MassiveMove .catalog_thumb:before{content:'\f31e';}
-.item-MultiCategories .catalog_thumb:before{content:'\f022';}
-.item-OpenGraphTags .catalog_thumb:before{content:'\f292';}
-.item-prevnextPage .catalog_thumb:before{content:'\f362';}
-.item-Quill .catalog_thumb:before{content:'\f1cd';}
-.item-sape_context .catalog_thumb:before{content:'\f0c1';}
-.item-sitemap .catalog_thumb:before{content:'\f0e8';}
-.item-summary .catalog_thumb:before{content:'\f022';}
-.item-tagLinks .catalog_thumb:before{content:'\f02c';}
-.item-TOC .catalog_thumb:before{content:'\f13d';}
-.item-TvTable .catalog_thumb:before{content:'\f0ce';}
-.item-TvTagCloud .catalog_thumb:before{content:'\f0c2';}
-.item-UltimateParent .catalog_thumb:before{content:'\f968';}
-.item-JoCo .catalog_thumb:before{content:'\f086';}
-.item-Jot .catalog_thumb:before{content:'\f086';}
-.item-JotX .catalog_thumb:before{content:'\f086';}
-.item-Loginza .catalog_thumb:before{content:'\f2f6';}
-.item-MemberCheck .catalog_thumb:before{content:'\f500';}
-.item-Personalize .catalog_thumb:before{content:'\f4fc';}
-.item-Protect .catalog_thumb:before{content:'\f505';}
-.item-userAuth .catalog_thumb:before{content:'\f4fc';}
-.item-UserInfo .catalog_thumb:before{content:'\f2b9';}
-.item-WebLogin .catalog_thumb:before{content:'\f2f6';}
-.item-WebloginPE .catalog_thumb:before{content:'\f2f6';}
-.item-Commerce .catalog_thumb:before{content:'\f54e';}
-.item-Shopkeeper .catalog_thumb:before{}
-.item-TSVshop .catalog_thumb:before{}
-.item-AlwaysStay .catalog_thumb:before{content:'\f14a';}
-.item-CfgTv .catalog_thumb:before{content:'\f0c7';}
-.item-ClientSettings .catalog_thumb:before{content:'\f085';}
-.item-Collection .catalog_thumb:before{content:'\f022';}
-.item-customSettings .catalog_thumb:before{content:'\f0ae';}
-.item-customTemplate .catalog_thumb:before{content:'\f1ea';}
-.item-diffplugin4modx .catalog_thumb:before{content:'\f02e';}
-.item-Doc.Finder .catalog_thumb:before{content:'\f002';}
-.item-Evo.File .catalog_thumb:before{content:'\f0ae';}
-.item-evoBabel .catalog_thumb:before{content:'\f7a2';}
-.item-EvoDashboard .catalog_thumb:before{content:'\f3fd';}
-.item-globalPlaceholders .catalog_thumb:before{content:'\f7a2';}
-.item-globalSettings .catalog_thumb:before{content:'\f7a2';}
-.item-ManagerColors .catalog_thumb:before{content:'\f53f';}
-.item-ManagerManager .catalog_thumb:before{content:'\f0ae';}
-.item-managerNav .catalog_thumb:before{content:'\f0c9';}
-.item-markItUp .catalog_thumb:before{content:'\f0cd';}
-.item-PageBuilder .catalog_thumb:before{content:'\f1b3';}
-.item-StaticElements .catalog_thumb:before{content:'\f550';}
-.item-SypexDumper .catalog_thumb:before{content:'\f0c7';}
-.item-systemField .catalog_thumb:before{content:'\f0c8';}
-.item-templatesEdit3 .catalog_thumb:before{content:'\f682';}
-.item-TinyMCE3 .catalog_thumb:before{}
-.item-TinyMCE4 .catalog_thumb:before{content:'\f1dd';}
-.item-Widget.Manager .catalog_thumb:before{content:'\f0ae';}
-.item-YAMS .catalog_thumb:before{content:'\f7a2';}
-.item-ZoomTree .catalog_thumb:before{content:'\f065';}
-.item-directResize .catalog_thumb:before{content:'\f302';}
-.item-FlexSlider-MultiTV .catalog_thumb:before{content:'\f302';}
-.item-FlickrGallery .catalog_thumb:before{content:'\f302';}
-.item-inWidget .catalog_thumb:before{content:'\f87c';}
-.item-picasa .catalog_thumb:before{content:'\f030';}
-.item-SimpleGallery .catalog_thumb:before{content:'\f302';}
-.item-morephoto .catalog_thumb:before{content:'\f302';}
-.item-SimpleTube .catalog_thumb:before{content:'\f03d';}
-.item-aDate .catalog_thumb:before{content:'\f073';}
-.item-ajaxSubmit .catalog_thumb:before{content:'\f1d8';}
-.item-alterTitle .catalog_thumb:before{content:'\f1dc';}
-.item-AutoEvoBackup .catalog_thumb:before{content:'\f0c7';}
-.item-CacheAccelerator .catalog_thumb:before{content:'\f3fd';}
-.item-Console .catalog_thumb:before{content:'\f120';}
-.item-CssJs .catalog_thumb:before{content:'\f121';}
-.item-desire-for-Modx-Evo .catalog_thumb:before{}
-.item-devStat .catalog_thumb:before{content:'\f1c0';}
-.item-EvoTwig .catalog_thumb:before{content:'\f121';}
-.item-Fancybox .catalog_thumb:before{content:'\f49e';}
-.item-HtmlInLine .catalog_thumb:before{content:'\f121';}
-.item-isMobile .catalog_thumb:before{content:'\f3cd';}
-.item-MinifyX .catalog_thumb:before{content:'\f121';}
-.item-MODxLetters .catalog_thumb:before{content:'\f658';}
-.item-multiCurrency .catalog_thumb:before{content:'\f53a';}
-.item-PHx .catalog_thumb:before{content:'\f121';}
-.item-splitPagination .catalog_thumb:before{content:'\f051';}
-.item-multiTV .catalog_thumb:before{content:'\f022';}
-.item-PlaceTV .catalog_thumb:before{content:'\f5a0';}
-.item-EvoFLAT .catalog_thumb:before{}
-.item-EvoRE3 .catalog_thumb:before{}
-.item-evoCheck .catalog_thumb:before{content:'\f46c';}
-.item-DashboardLastWebUsers Widget .catalog_thumb:before{content:'\f015';}
-.item-GoogleAnalitycsDashboardWidget .catalog_thumb:before{content:'\f201';}
-.item-ManagerNote .catalog_thumb:before{content:'\f658';}
-.item-Yandex .catalog_thumb:before{content:'\f414';}
-.item-Latest .catalog_thumb:before{content:'\f086';}
-.item-Share .catalog_thumb:before{content:'\f164';}
-.item-FormLister .catalog_thumb:before{content:'\f1d8';}
-.item-Blade .catalog_thumb:before{content:'\f121';}
-.item-bDebug .catalog_thumb:before{content:'\f188';}
+.item-anythingRating .catalog_thumb:before {
+    content: "\f005";
+}
+.item-AutoSplitBigArticle .catalog_thumb:before {
+    content: "\f1ea";
+}
+.item-Breadcrumbs .catalog_thumb:before {
+    content: "\f7ec";
+}
+.item-DLLastViews .catalog_thumb:before {
+    content: "\f06e";
+}
+.item-DocInfo .catalog_thumb:before {
+    content: "\f05a";
+}
+.item-DocLister .catalog_thumb:before {
+    content: "\f03a";
+}
+.item-EasyPoll .catalog_thumb:before {
+    content: "\f086";
+}
+.item-eFilter .catalog_thumb:before {
+    content: "\f0b0";
+}
+.item-evoSearch .catalog_thumb:before {
+    content: "\f002";
+}
+.item-FirstChildRedirect .catalog_thumb:before {
+    content: "\f122";
+}
+.item-FirstWord .catalog_thumb:before {
+    content: "\f033";
+}
+.item-HideContent .catalog_thumb:before {
+    content: "\f070";
+}
+.item-ListIndexer .catalog_thumb:before {
+    content: "\f0cb";
+}
+.item-MassiveMove .catalog_thumb:before {
+    content: "\f31e";
+}
+.item-MultiCategories .catalog_thumb:before {
+    content: "\f022";
+}
+.item-OpenGraphTags .catalog_thumb:before {
+    content: "\f292";
+}
+.item-prevnextPage .catalog_thumb:before {
+    content: "\f362";
+}
+.item-Quill .catalog_thumb:before {
+    content: "\f1cd";
+}
+.item-sape_context .catalog_thumb:before {
+    content: "\f0c1";
+}
+.item-sitemap .catalog_thumb:before {
+    content: "\f0e8";
+}
+.item-summary .catalog_thumb:before {
+    content: "\f022";
+}
+.item-tagLinks .catalog_thumb:before {
+    content: "\f02c";
+}
+.item-TOC .catalog_thumb:before {
+    content: "\f13d";
+}
+.item-TvTable .catalog_thumb:before {
+    content: "\f0ce";
+}
+.item-TvTagCloud .catalog_thumb:before {
+    content: "\f0c2";
+}
+.item-UltimateParent .catalog_thumb:before {
+    content: "\f968";
+}
+.item-JoCo .catalog_thumb:before {
+    content: "\f086";
+}
+.item-Jot .catalog_thumb:before {
+    content: "\f086";
+}
+.item-JotX .catalog_thumb:before {
+    content: "\f086";
+}
+.item-Loginza .catalog_thumb:before {
+    content: "\f2f6";
+}
+.item-MemberCheck .catalog_thumb:before {
+    content: "\f500";
+}
+.item-Personalize .catalog_thumb:before {
+    content: "\f4fc";
+}
+.item-Protect .catalog_thumb:before {
+    content: "\f505";
+}
+.item-userAuth .catalog_thumb:before {
+    content: "\f4fc";
+}
+.item-UserInfo .catalog_thumb:before {
+    content: "\f2b9";
+}
+.item-WebLogin .catalog_thumb:before {
+    content: "\f2f6";
+}
+.item-WebloginPE .catalog_thumb:before {
+    content: "\f2f6";
+}
+.item-Commerce .catalog_thumb:before {
+    content: "\f54e";
+}
+.item-Shopkeeper .catalog_thumb:before {
+}
+.item-TSVshop .catalog_thumb:before {
+}
+.item-AlwaysStay .catalog_thumb:before {
+    content: "\f14a";
+}
+.item-CfgTv .catalog_thumb:before {
+    content: "\f0c7";
+}
+.item-ClientSettings .catalog_thumb:before {
+    content: "\f085";
+}
+.item-Collection .catalog_thumb:before {
+    content: "\f022";
+}
+.item-customSettings .catalog_thumb:before {
+    content: "\f0ae";
+}
+.item-customTemplate .catalog_thumb:before {
+    content: "\f1ea";
+}
+.item-diffplugin4modx .catalog_thumb:before {
+    content: "\f02e";
+}
+.item-Doc.Finder .catalog_thumb:before {
+    content: "\f002";
+}
+.item-Evo.File .catalog_thumb:before {
+    content: "\f0ae";
+}
+.item-evoBabel .catalog_thumb:before {
+    content: "\f7a2";
+}
+.item-EvoDashboard .catalog_thumb:before {
+    content: "\f3fd";
+}
+.item-globalPlaceholders .catalog_thumb:before {
+    content: "\f7a2";
+}
+.item-globalSettings .catalog_thumb:before {
+    content: "\f7a2";
+}
+.item-ManagerColors .catalog_thumb:before {
+    content: "\f53f";
+}
+.item-ManagerManager .catalog_thumb:before {
+    content: "\f0ae";
+}
+.item-managerNav .catalog_thumb:before {
+    content: "\f0c9";
+}
+.item-markItUp .catalog_thumb:before {
+    content: "\f0cd";
+}
+.item-PageBuilder .catalog_thumb:before {
+    content: "\f1b3";
+}
+.item-StaticElements .catalog_thumb:before {
+    content: "\f550";
+}
+.item-SypexDumper .catalog_thumb:before {
+    content: "\f0c7";
+}
+.item-systemField .catalog_thumb:before {
+    content: "\f0c8";
+}
+.item-templatesEdit3 .catalog_thumb:before {
+    content: "\f682";
+}
+.item-TinyMCE3 .catalog_thumb:before {
+}
+.item-TinyMCE4 .catalog_thumb:before {
+    content: "\f1dd";
+}
+.item-Widget.Manager .catalog_thumb:before {
+    content: "\f0ae";
+}
+.item-YAMS .catalog_thumb:before {
+    content: "\f7a2";
+}
+.item-ZoomTree .catalog_thumb:before {
+    content: "\f065";
+}
+.item-directResize .catalog_thumb:before {
+    content: "\f302";
+}
+.item-FlexSlider-MultiTV .catalog_thumb:before {
+    content: "\f302";
+}
+.item-FlickrGallery .catalog_thumb:before {
+    content: "\f302";
+}
+.item-inWidget .catalog_thumb:before {
+    content: "\f87c";
+}
+.item-picasa .catalog_thumb:before {
+    content: "\f030";
+}
+.item-SimpleGallery .catalog_thumb:before {
+    content: "\f302";
+}
+.item-morephoto .catalog_thumb:before {
+    content: "\f302";
+}
+.item-SimpleTube .catalog_thumb:before {
+    content: "\f03d";
+}
+.item-aDate .catalog_thumb:before {
+    content: "\f073";
+}
+.item-ajaxSubmit .catalog_thumb:before {
+    content: "\f1d8";
+}
+.item-alterTitle .catalog_thumb:before {
+    content: "\f1dc";
+}
+.item-AutoEvoBackup .catalog_thumb:before {
+    content: "\f0c7";
+}
+.item-CacheAccelerator .catalog_thumb:before {
+    content: "\f3fd";
+}
+.item-Console .catalog_thumb:before {
+    content: "\f120";
+}
+.item-CssJs .catalog_thumb:before {
+    content: "\f121";
+}
+.item-desire-for-Modx-Evo .catalog_thumb:before {
+}
+.item-devStat .catalog_thumb:before {
+    content: "\f1c0";
+}
+.item-EvoTwig .catalog_thumb:before {
+    content: "\f121";
+}
+.item-Fancybox .catalog_thumb:before {
+    content: "\f49e";
+}
+.item-HtmlInLine .catalog_thumb:before {
+    content: "\f121";
+}
+.item-isMobile .catalog_thumb:before {
+    content: "\f3cd";
+}
+.item-MinifyX .catalog_thumb:before {
+    content: "\f121";
+}
+.item-MODxLetters .catalog_thumb:before {
+    content: "\f658";
+}
+.item-multiCurrency .catalog_thumb:before {
+    content: "\f53a";
+}
+.item-PHx .catalog_thumb:before {
+    content: "\f121";
+}
+.item-splitPagination .catalog_thumb:before {
+    content: "\f051";
+}
+.item-multiTV .catalog_thumb:before {
+    content: "\f022";
+}
+.item-PlaceTV .catalog_thumb:before {
+    content: "\f5a0";
+}
+.item-EvoFLAT .catalog_thumb:before {
+}
+.item-EvoRE3 .catalog_thumb:before {
+}
+.item-evoCheck .catalog_thumb:before {
+    content: "\f46c";
+}
+.item-DashboardLastWebUsers Widget .catalog_thumb:before {
+    content: "\f015";
+}
+.item-GoogleAnalitycsDashboardWidget .catalog_thumb:before {
+    content: "\f201";
+}
+.item-ManagerNote .catalog_thumb:before {
+    content: "\f658";
+}
+.item-Yandex .catalog_thumb:before {
+    content: "\f414";
+}
+.item-Latest .catalog_thumb:before {
+    content: "\f086";
+}
+.item-Share .catalog_thumb:before {
+    content: "\f164";
+}
+.item-FormLister .catalog_thumb:before {
+    content: "\f1d8";
+}
+.item-Blade .catalog_thumb:before {
+    content: "\f121";
+}
+.item-bDebug .catalog_thumb:before {
+    content: "\f188";
+}

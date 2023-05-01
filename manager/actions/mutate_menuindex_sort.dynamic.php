@@ -166,7 +166,7 @@ $pagetitle = empty($id) ? $modx->getConfig('site_name') : $pagetitle;
 </script>
 
 <h1>
-    <i class="<?= $_style['icon_sort_num_asc'] ?>"></i><?= ($pagetitle ? $modx->getPhpCompat()->entities($pagetitle) . '<small>(' . $id . ')</small>' : $_lang['sort_menuindex']) ?>
+    <i class="<?= $_style['icon_sort_num_asc'] ?>"></i> <?= ($pagetitle ? $modx->getPhpCompat()->entities($pagetitle) . '<small>(' . $id . ')</small>' : $_lang['sort_menuindex']) ?>
 </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.dynamic.save') ?>

@@ -2,21 +2,21 @@
 @section('content')
     @push('scripts.top')
         <script>
-          var actions = {
-            save: function() {
-              documentDirty = false;
-              document.userform.save.click();
-            },
-            cancel: function() {
-              documentDirty = false;
-              document.location.href = 'index.php?a=2';
-            }
-          };
+            var actions = {
+                save: function() {
+                    documentDirty = false;
+                    document.userform.save.click();
+                },
+                cancel: function() {
+                    documentDirty = false;
+                    document.location.href = 'index.php?a=2';
+                }
+            };
         </script>
     @endpush
 
     <h1>
-        <i class="{{ $_style['icon_lock'] }}"></i>{{ ManagerTheme::getLexicon('change_password') }}
+        <i class="{{ $_style['icon_lock'] }}"></i> {{ ManagerTheme::getLexicon('change_password') }}
     </h1>
 
     @include('manager::partials.actionButtons', $actionButtons)
@@ -30,13 +30,13 @@
                     'name' => 'password',
                     'type' => 'password',
                     'label' => ManagerTheme::getLexicon('change_password_new'),
-                    'value' => ''
+                    'value' => '',
                 ])
                 @include('manager::form.input', [
                     'name' => 'password_confirmation',
                     'type' => 'password',
                     'label' => ManagerTheme::getLexicon('change_password_confirm'),
-                    'value' => ''
+                    'value' => '',
                 ])
                 <input type="submit" name="save" style="display:none">
             </form>

@@ -6,7 +6,7 @@
         $_PAGE = [
             'vs' => [],
         ];
-
+        
         // get and save search string
         if (get_by_key($_REQUEST, 'op') === 'reset') {
             $sqlQuery = $query = '';
@@ -18,11 +18,11 @@
             }
             $_PAGE['vs']['search'] = $query;
         }
-
+        
         // get & save listmode
         $listmode = isset($_REQUEST['listmode']) ? $_REQUEST['listmode'] : get_by_key($_PAGE, 'vs.lm');
         $_PAGE['vs']['lm'] = $listmode;
-
+        
         // context menu
         $cm = new \EvolutionCMS\Support\ContextMenu('cntxm', 150);
         $cm->addItem(ManagerTheme::getLexicon('view_log'), 'js:menuAction(1)', $_style['icon_eye']);
@@ -99,7 +99,7 @@
         <input type="hidden" name="op" value="" />
 
         <h1>
-            <i class="{{ $_style['icon_info_triangle'] }}"></i>{{ ManagerTheme::getLexicon('eventlog_viewer') }}<i
+            <i class="{{ $_style['icon_info_triangle'] }}"></i> {{ ManagerTheme::getLexicon('eventlog_viewer') }} <i
                 class="{{ $_style['icon_question_circle'] }} help"></i>
         </h1>
 
@@ -146,7 +146,7 @@
                                 $join->on('users.id', '=', 'event_log.user');
                             })
                             ->orderBy('createdon', 'DESC');
-
+                        
                         if ($sqlQuery != '') {
                             if (is_numeric($sqlQuery)) {
                                 $eventLog = $eventLog->where('eventid', $sqlQuery);
