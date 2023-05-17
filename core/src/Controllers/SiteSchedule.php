@@ -35,7 +35,7 @@ class SiteSchedule extends AbstractController implements ManagerTheme\PageContro
      */
     protected function publishDocuments()
     {
-        return Models\SiteContent::publishDocuments($this->managerTheme->getCore()->timestamp())
+        return Models\SiteContent::where('pub_date', '>', $this->managerTheme->getCore()->timestamp())
             ->orderBy('pub_date', 'asc')
             ->get();
     }
@@ -45,7 +45,7 @@ class SiteSchedule extends AbstractController implements ManagerTheme\PageContro
      */
     protected function unPublishDocuments()
     {
-        return Models\SiteContent::unPublishDocuments($this->managerTheme->getCore()->timestamp())
+        return Models\SiteContent::where('unpub_date', '>', $this->managerTheme->getCore()->timestamp())
             ->orderBy('unpub_date', 'asc')
             ->get();
     }

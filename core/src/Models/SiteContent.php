@@ -414,10 +414,7 @@ class SiteContent extends Eloquent\Model
     {
         return $builder->where('pub_date', '<=', $time)
             ->where('pub_date', '>', 0)
-            ->where(function (Eloquent\Builder $query) use ($time) {
-                $query->where('unpub_date', '>', $time)
-                    ->orWhere('unpub_date', '=', 0);
-            })->where('published', '=', 0);
+            ->where('published', '=', 0);
     }
 
     /**
