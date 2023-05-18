@@ -16,6 +16,7 @@ use EvolutionCMS\Providers\TracyServiceProvider;
  */
 class ExceptionHandler
 {
+    protected $container;
     /**
      * Create a new exception handler instance.
      *
