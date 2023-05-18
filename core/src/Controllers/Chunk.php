@@ -1,12 +1,15 @@
 <?php namespace EvolutionCMS\Controllers;
 
+use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteHtmlsnippet;
 use Illuminate\Support\Collection;
 
-class Chunk extends AbstractController implements ManagerTheme\PageControllerInterface
+class Chunk extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.chunk';
+    protected string $view = 'page.chunk';
 
     protected int $elementType = 3;
 
@@ -17,7 +20,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
         'OnRichTextEditorInit'
     ];
 
-    /** @var Models\SiteHtmlsnippet|null */
+    /** @var SiteHtmlsnippet|null */
     private $object;
 
     protected $which_editor;
@@ -28,10 +31,10 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
     public function canView(): bool
     {
         if($this->getIndex() == 77) {
-            return $this->managerTheme->getCore()->hasPermission('new_chunk');
+            return ManagerTheme::getCore()->hasPermission('new_chunk');
         }
         if($this->getIndex() == 78) {
-            return $this->managerTheme->getCore()->hasPermission('edit_chunk');
+            return ManagerTheme::getCore()->hasPermission('edit_chunk');
         }
         return false;
     }
@@ -41,7 +44,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
      */
     public function process() : bool
     {
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
         $this->parameters = [
@@ -58,31 +61,31 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
     }
 
     /**
-     * @return Models\SiteHtmlsnippet
+     * @return SiteHtmlsnippet
      */
     protected function parameterData()
     {
         $id = $this->getElementId();
 
-        /** @var Models\SiteHtmlsnippet $data */
-        $data = Models\SiteHtmlsnippet::firstOrNew(['id' => $id]);
+        /** @var SiteHtmlsnippet $data */
+        $data = SiteHtmlsnippet::firstOrNew(['id' => $id]);
 
         if ($data->exists) {
             if (empty($data->count())) {
-                $this->managerTheme->alertAndQuit('Chunk not found for id ' . $id . '.', false);
+                ManagerTheme::alertAndQuit('Chunk not found for id ' . $id . '.', false);
             }
 
             $_SESSION['itemname'] = $data->name;
             if ($data->locked === 1 && $_SESSION['mgrRole'] != 1) {
-                $this->managerTheme->alertAndQuit('error_no_privileges');
+                ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = $this->managerTheme->getLexicon("new_htmlsnippet");
+            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_htmlsnippet");
         }
 
-        $values = $this->managerTheme->loadValuesFromSession($_POST);
+        $values = ManagerTheme::loadValuesFromSession($_POST);
 
         if (!empty($values)) {
             $data->fill($values);
@@ -99,7 +102,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::orderBy('rank', 'ASC')
+        return Category::orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
     }
@@ -135,7 +138,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function callEventOnRichTextEditorRegister()
     {
-        $out = $this->managerTheme->getCore()->invokeEvent('OnRichTextEditorRegister', [
+        $out = ManagerTheme::getCore()->invokeEvent('OnRichTextEditorRegister', [
             'controller' => $this
         ]);
         if (empty($out) && !is_array($out)) {
@@ -155,7 +158,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
             $editor = 'none';
         }
 
-        $out = $this->managerTheme->getCore()->invokeEvent('OnRichTextEditorInit', [
+        $out = ManagerTheme::getCore()->invokeEvent('OnRichTextEditorInit', [
             'editor' => $editor,
             'elements' => ['post'],
             'controller' => $this
@@ -170,7 +173,7 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
 
     protected function callEventDefault($name)
     {
-        $out = $this->managerTheme->getCore()->invokeEvent($name, [
+        $out = ManagerTheme::getCore()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -185,10 +188,10 @@ class Chunk extends AbstractController implements ManagerTheme\PageControllerInt
     {
         return [
             'select' => 1,
-            'save' => $this->managerTheme->getCore()->hasPermission('save_chunk'),
-            'new' => $this->managerTheme->getCore()->hasPermission('new_chunk'),
-            'duplicate' => !empty($this->object->getKey()) && $this->managerTheme->getCore()->hasPermission('new_chunk'),
-            'delete' => !empty($this->object->getKey()) && $this->managerTheme->getCore()->hasPermission('delete_chunk'),
+            'save' => ManagerTheme::getCore()->hasPermission('save_chunk'),
+            'new' => ManagerTheme::getCore()->hasPermission('new_chunk'),
+            'duplicate' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('new_chunk'),
+            'delete' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_chunk'),
             'cancel' => 1
         ];
     }

@@ -1,12 +1,15 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteModule;
+use EvolutionCMS\Models\SitePlugin;
 use Illuminate\Support\Collection;
 
-class Plugin extends AbstractController implements ManagerTheme\PageControllerInterface
+class Plugin extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.plugin';
+    protected string $view = 'page.plugin';
 
     protected int $elementType = 5;
 
@@ -15,7 +18,7 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
         'OnPluginFormRender'
     ];
 
-    /** @var Models\SitePlugin|null */
+    /** @var SitePlugin|null */
     private $object;
 
     protected $internal;
@@ -27,11 +30,11 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     {
         switch ($this->getIndex()) {
             case 101:
-                $out = $this->managerTheme->getCore()->hasPermission('new_plugin');
+                $out = ManagerTheme::getCore()->hasPermission('new_plugin');
                 break;
 
             case 102:
-                $out = $this->managerTheme->getCore()->hasPermission('edit_plugin');
+                $out = ManagerTheme::getCore()->hasPermission('edit_plugin');
                 break;
 
             default:
@@ -46,7 +49,7 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
      */
     public function process() : bool
     {
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
 
@@ -66,31 +69,31 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     }
 
     /**
-     * @return Models\SitePlugin
+     * @return SitePlugin
      */
     protected function parameterData()
     {
         $id = $this->getElementId();
 
-        /** @var Models\SitePlugin $data */
-        $data = Models\SitePlugin::firstOrNew(['id' => $id]);
+        /** @var SitePlugin $data */
+        $data = SitePlugin::firstOrNew(['id' => $id]);
 
         if ($data->exists) {
             if (empty($data->count())) {
-                $this->managerTheme->alertAndQuit('Plugin not found for id ' . $id . '.', false);
+                ManagerTheme::alertAndQuit('Plugin not found for id ' . $id . '.', false);
             }
 
             $_SESSION['itemname'] = $data->name;
             if ($data->locked === 1 && $_SESSION['mgrRole'] != 1) {
-                $this->managerTheme->alertAndQuit('error_no_privileges');
+                ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = $this->managerTheme->getLexicon("new_snippet");
+            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_snippet");
         }
 
-        $values = $this->managerTheme->loadValuesFromSession($_POST);
+        $values = ManagerTheme::loadValuesFromSession($_POST);
 
         if (!empty($values)) {
             $data->fill($values);
@@ -101,7 +104,7 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::orderBy('rank', 'ASC')
+        return Category::orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
     }
@@ -109,7 +112,7 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     protected function parameterImportParams(): array
     {
 
-        return Models\SiteModule::query()->join('site_module_depobj', function ($join) {
+        return SiteModule::query()->join('site_module_depobj', function ($join) {
             $join->on('site_module_depobj.module', '=', 'site_modules.id');
             $join->on('site_module_depobj.type', '=', \DB::raw(30));
         })->join('site_plugins', 'site_plugins.id', '=', 'site_module_depobj.resource')
@@ -124,8 +127,8 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
         $internal = array();
         if (isset($this->object->plugincode)) {
             $snippetcode = $this->object->plugincode;
-            $parsed = $this->managerTheme->getCore()->parseDocBlockFromString($snippetcode);
-            $out = $this->managerTheme->getCore()->convertDocBlockIntoList($parsed);
+            $parsed = ManagerTheme::getCore()->parseDocBlockFromString($snippetcode);
+            $out = ManagerTheme::getCore()->convertDocBlockIntoList($parsed);
             $internal[0]['events'] = isset($parsed['events']) ? $parsed['events'] : '';
         }
 
@@ -147,7 +150,7 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
 
     private function callEvent($name): string
     {
-        $out = $this->managerTheme->getCore()->invokeEvent($name, [
+        $out = ManagerTheme::getCore()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -162,10 +165,10 @@ class Plugin extends AbstractController implements ManagerTheme\PageControllerIn
     {
         return [
             'select'    => 1,
-            'save'      => $this->managerTheme->getCore()->hasPermission('save_plugin'),
-            'new'       => $this->managerTheme->getCore()->hasPermission('new_plugin'),
-            'duplicate' => !empty($this->object->getKey()) && $this->managerTheme->getCore()->hasPermission('new_plugin'),
-            'delete'    => !empty($this->object->getKey()) && $this->managerTheme->getCore()->hasPermission('delete_plugin'),
+            'save'      => ManagerTheme::getCore()->hasPermission('save_plugin'),
+            'new'       => ManagerTheme::getCore()->hasPermission('new_plugin'),
+            'duplicate' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('new_plugin'),
+            'delete'    => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_plugin'),
             'cancel'    => 1
         ];
     }

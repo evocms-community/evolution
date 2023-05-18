@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS\Providers;
 
 use EvolutionCMS\Console;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Console\Seeds\SeedCommand;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
@@ -147,7 +148,7 @@ class ArtisanServiceProvider extends ServiceProvider
     protected function registerMigrateCommand()
     {
         $this->app->singleton('command.migrate', function ($app) {
-            return new MigrateCommand($app['migrator']);
+            return new MigrateCommand($app['migrator'], $app[Dispatcher::class]);
         });
     }
 

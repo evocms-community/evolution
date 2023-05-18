@@ -1,10 +1,11 @@
 <?php namespace EvolutionCMS\Controllers;
 
+use EvolutionCMS\Facades\ManagerTheme;
 use Illuminate\Support\Arr;
 
 abstract class AbstractResources extends AbstractController
 {
-    protected $noData = false;
+    protected bool $noData = false;
 
     public function setNoData(): self
     {
@@ -65,11 +66,11 @@ abstract class AbstractResources extends AbstractController
 
     private function makeTranslations(array $keys)
     {
-        $out = Arr::only($this->managerTheme->getLexicon(), $keys);
+        $out = Arr::only(ManagerTheme::getLexicon(), $keys);
 
         foreach ($out as &$value) {
             $value = iconv(
-                $this->managerTheme->getCore()->getConfig('modx_charset', 'utf-8')
+                ManagerTheme::getCore()->getConfig('modx_charset', 'utf-8')
                 , 'utf-8'
                 , $value
             );

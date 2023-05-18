@@ -22,7 +22,7 @@ abstract class AbstractPanel implements IBarPanel, TracyPanel
      *
      * @var string
      */
-    protected $viewPath = null;
+    protected string $viewPath = null;
     /**
      * $template.
      *

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent;
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * EvolutionCMS\Models\SiteModule
@@ -35,8 +36,8 @@ use EvolutionCMS\Traits;
  * @property-read mixed $already_edit_info
  * @property-read mixed $is_already_edit
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\EvolutionCMS\Models\SiteModule lockedView()
- *
+ * @method static Builder|SiteModule lockedView()
+ * @method static Builder|SiteModule withoutProtected()
  * @mixin \Eloquent
  */
 class SiteModule extends Eloquent\Model
@@ -118,7 +119,7 @@ class SiteModule extends Eloquent\Model
         return $this->convertTimestamp($this->editedon);
     }
 
-    public function scopeWithoutProtected(Eloquent\Builder $builder)
+    public function scopeWithoutProtected(Builder $builder)
     {
         if ($_SESSION['mgrRole'] != 1 && evolutionCMS()->getConfig('use_udperms')) {
             $builder->leftJoin('site_module_access', 'site_module_access.module', '=', 'site_modules.id')

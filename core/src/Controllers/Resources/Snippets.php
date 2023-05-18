@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteSnippet;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(22,'edit_snippet'), 'duplicate'=>array(98,'new_snippet'), 'remove'=>array(25,'delete_snippet')),
 class Snippets extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.snippets';
+    protected string $view = 'page.resources.snippets';
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Snippets extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'new_snippet',
             'edit_snippet'
         ]);
@@ -64,7 +66,7 @@ class Snippets extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory() : Collection
     {
-        return Models\SiteSnippet::where('category', '=', 0)
+        return SiteSnippet::where('category', '=', 0)
             ->orderBy('name', 'ASC')
             ->lockedView()
             ->get();
@@ -72,8 +74,8 @@ class Snippets extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories() : Collection
     {
-        return Models\Category::with('snippets')
-            ->whereHas('snippets', function (Eloquent\Builder $builder) {
+        return Category::with('snippets')
+            ->whereHas('snippets', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();

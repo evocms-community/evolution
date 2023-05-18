@@ -1,11 +1,11 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
-use Illuminate\Support\Arr;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
 
-class Resources extends AbstractResources implements ManagerTheme\PageControllerInterface
+class Resources extends AbstractResources implements PageControllerInterface
 {
-    protected $view = 'page.resources';
+    protected string $view = 'page.resources';
 
     /**
      * Don't change tab index !!!
@@ -48,13 +48,13 @@ class Resources extends AbstractResources implements ManagerTheme\PageController
         return array_merge(compact('tabs'), parent::getParameters($params), compact('activeTab'));
     }
 
-    protected function makeTab($tabClass, int $index = null) :? ManagerTheme\TabControllerInterface
+    protected function makeTab($tabClass, int $index = null) :? TabControllerInterface
     {
         $tabController = null;
         if (class_exists($tabClass) &&
-            is_a($tabClass, ManagerTheme\TabControllerInterface::class, true)
+            is_a($tabClass, TabControllerInterface::class, true)
         ) {
-            /** @var ManagerTheme\TabControllerInterface $tabController */
+            /** @var TabControllerInterface $tabController */
             $tabController = new $tabClass($this->managerTheme);
             $tabController->setIndex($index);
             if (! $tabController->canView()) {

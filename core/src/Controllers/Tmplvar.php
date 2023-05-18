@@ -1,15 +1,20 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
-use Illuminate\Filesystem\Filesystem;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteTemplate;
+use EvolutionCMS\Models\SiteTmplvar;
+use EvolutionCMS\Models\SiteTmplvarAccess;
+use EvolutionCMS\Models\UserRole;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Finder;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
-class Tmplvar extends AbstractController implements ManagerTheme\PageControllerInterface
+class Tmplvar extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.tmplvar';
+    protected string $view = 'page.tmplvar';
 
     protected int $elementType = 2;
 
@@ -129,7 +134,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
         'OnTVFormRender',
     ];
 
-    /** @var Models\SiteTmplvar|null */
+    /** @var SiteTmplvar|null */
     private $object;
 
     /**
@@ -138,10 +143,10 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     public function canView(): bool
     {
         if ($this->getIndex() == 300) {
-            return $this->managerTheme->getCore()->hasPermission('new_template');
+            return ManagerTheme::getCore()->hasPermission('new_template');
         }
         if ($this->getIndex() == 301) {
-            return $this->managerTheme->getCore()->hasPermission('edit_template');
+            return ManagerTheme::getCore()->hasPermission('edit_template');
         }
 
         return false;
@@ -152,7 +157,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
      */
     public function process(): bool
     {
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
         $this->object = $this->parameterData();
         $this->parameters = [
             'data'              => $this->object,
@@ -177,14 +182,14 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     }
 
     /**
-     * @return Models\SiteTmplvar
+     * @return SiteTmplvar
      */
     protected function parameterData()
     {
         $id = $this->getElementId();
 
-        /** @var Models\SiteTmplvar $data */
-        $data = Models\SiteTmplvar::with('templates')
+        /** @var SiteTmplvar $data */
+        $data = SiteTmplvar::with('templates')
             ->firstOrNew(['id' => $id], [
                 'category' => (int) get_by_key($_REQUEST, 'catid', 0)
             ]);
@@ -192,16 +197,16 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
         if ($id > 0) {
             $_SESSION['itemname'] = $data->caption;
             if ($data->locked === 1 && $_SESSION['mgrRole'] != 1) {
-                $this->managerTheme->alertAndQuit('error_no_privileges');
+                ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = $this->managerTheme->getLexicon('new_template');
+            $_SESSION['itemname'] = ManagerTheme::getLexicon('new_template');
             $data->category = isset($_REQUEST['catid']) ? (int) $_REQUEST['catid'] : 0;
         }
         $data->properties = json_decode($data->properties, true) ?? [];
-        $values = $this->managerTheme->loadValuesFromSession($_POST);
+        $values = ManagerTheme::loadValuesFromSession($_POST);
         if ($values) {
             $data->fill($values);
         }
@@ -211,7 +216,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::orderBy('rank', 'ASC')
+        return Category::orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
     }
@@ -238,13 +243,13 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
             'custom_tv' => 'Custom Input'
         ];
 
-        $finder = Finder\Finder::create()
+        $finder = Finder::create()
             ->in(MODX_BASE_PATH . 'assets/tvs')
             ->depth(0)
             ->notName('/^index\.html$/')
             ->sortByName();
 
-        /** @var Finder\SplFileInfo $ctv */
+        /** @var SplFileInfo $ctv */
         foreach ($finder as $ctv) {
             $filename = $ctv->getFilename();
             $customTvs['custom_tv:' . $filename] = $filename;
@@ -289,7 +294,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 
     protected function parameterTplOutCategory(): Collection
     {
-        return Models\SiteTemplate::with('tvs')
+        return SiteTemplate::with('tvs')
             ->where('category', '=', 0)
             ->orderBy('templatename', 'ASC')
             ->get();
@@ -297,7 +302,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 
     protected function parameterCategoriesWithTpl(): Collection
     {
-        return Models\Category::with('templates.tvs')
+        return Category::with('templates.tvs')
             ->whereHas('templates')
             ->orderBy('rank', 'ASC')
             ->get();
@@ -305,7 +310,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 
     protected function parameterRoles(): Collection
     {
-        return Models\UserRole::with('tvs')->orderBy('name', 'ASC')->get();
+        return UserRole::with('tvs')->orderBy('name', 'ASC')->get();
     }
 
     protected function parameterEvents(): array
@@ -321,7 +326,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
 
     private function callEvent($name): string
     {
-        $out = $this->managerTheme->getCore()->invokeEvent($name, [
+        $out = ManagerTheme::getCore()->invokeEvent($name, [
             'id'          => $this->getElementId(),
             'controller'  => $this,
             'forfrontend' => 1
@@ -337,10 +342,10 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     {
         return [
             'select'    => 1,
-            'save'      => $this->managerTheme->getCore()->hasPermission('save_template'),
-            'new'       => $this->managerTheme->getCore()->hasPermission('new_template'),
-            'duplicate' => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('new_template'),
-            'delete'    => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('delete_template'),
+            'save'      => ManagerTheme::getCore()->hasPermission('save_template'),
+            'new'       => ManagerTheme::getCore()->hasPermission('new_template'),
+            'duplicate' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('new_template'),
+            'delete'    => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('delete_template'),
             'cancel'    => 1
         ];
     }
@@ -358,10 +363,10 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
     private function getGroupsArray()
     {
         $id = $this->getElementId();
-        return Models\SiteTmplvarAccess::where('tmplvarid', $id)->get()->pluck('documentgroup')->toArray();
+        return SiteTmplvarAccess::where('tmplvarid', $id)->get()->pluck('documentgroup')->toArray();
     }
 
-    public function isSelectedTemplate(Models\SiteTemplate $item)
+    public function isSelectedTemplate(SiteTemplate $item)
     {
         return (
             $this->object->templates->contains('id', $item->getKey())
@@ -372,7 +377,7 @@ class Tmplvar extends AbstractController implements ManagerTheme\PageControllerI
         );
     }
 
-    public function isSelectedRole(Models\UserRole $item)
+    public function isSelectedRole(UserRole $item)
     {
         return (
             $this->object->userRoles->contains('id', $item->getKey())

@@ -3,12 +3,15 @@
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Legacy\LogHandler;
+use EvolutionCMS\UserManager\Facades\UserManager;
+use Illuminate\Support\Facades\Lang;
+use EvolutionCMS\Facades\UrlProcessor;
 
-class LogInOut extends AbstractController implements ManagerTheme\PageControllerInterface
+class LogInOut extends AbstractController implements PageControllerInterface
 {
-    protected $view = '';
+    protected string $view = '';
 
     /**
      * {@inheritdoc}
@@ -34,7 +37,7 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
 
     public function logout()
     {
-        \UserManager::logout();
+        UserManager::logout();
         // show login screen
         header('Location: ' . MODX_MANAGER_URL);
         exit();
@@ -54,15 +57,15 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
     {
         if (EvolutionCMS()->getConfig('use_captcha') == 1) {
             if (!isset ($_SESSION['veriword'])) {
-                jsAlert(\Lang::get('global.login_processor_captcha_config'));
+                jsAlert(Lang::get('global.login_processor_captcha_config'));
                 exit();
             } elseif ($_SESSION['veriword'] != $_POST['captcha_code']) {
-                jsAlert(\Lang::get('global.login_processor_bad_code'));
+                jsAlert(Lang::get('global.login_processor_bad_code'));
                 exit();
             }
         }
         try {
-            $user = \UserManager::login($_POST);
+            $user = UserManager::login($_POST);
         } catch (ServiceActionException $exception) {
             jsAlert($exception->getMessage());
             exit();
@@ -72,7 +75,7 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
                 exit();
             }
         }
-        $log = new \EvolutionCMS\Legacy\LogHandler();
+        $log = new LogHandler();
         $log->initAndWriteLog('Logged in', EvolutionCMS()->getLoginUserID('mgr'), $_SESSION['mgrShortname'], '58', '-', 'EVO');
 
         $id = 0;
@@ -84,7 +87,7 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
         }
         $ajax = (int)get_by_key($_POST, 'ajax', 0, 'is_scalar');
         if ($id > 0) {
-            $header = 'Location: ' . \UrlProcessor::makeUrl($id, '', '', 'full');
+            $header = 'Location: ' . UrlProcessor::makeUrl($id, '', '', 'full');
             if ($ajax === 1) {
                 echo $header;
             } else {
@@ -104,7 +107,7 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
     public function loginFromHash()
     {
         try {
-            \UserManager::hashLogin($_GET);
+            UserManager::hashLogin($_GET);
         } catch (ServiceActionException $exception) {
             jsAlert($exception->getMessage());
             exit();

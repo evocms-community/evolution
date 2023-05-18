@@ -1,20 +1,22 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models;
 use EvolutionCMS\Legacy\Permissions;
+use EvolutionCMS\Models\SiteContent;
 use Exception;
 
-class MoveDocument extends AbstractController implements ManagerTheme\PageControllerInterface
+class MoveDocument extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.move_document';
+    protected string $view = 'page.move_document';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('save_document');
+        return ManagerTheme::getCore()->hasPermission('save_document');
     }
 
     public function process() : bool
@@ -37,26 +39,26 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         // first, document cannot be moved to itself
         // second, new parent must be a folder. If not, set it to folder.
         if ($documentID === $newParentID) {
-            $this->managerTheme->alertAndQuit('error_movedocument1');
+            ManagerTheme::alertAndQuit('error_movedocument1');
         }
 
         if ($documentID <= 0 || $newParentID < 0) {
-            $this->managerTheme->alertAndQuit('error_movedocument2');
+            ManagerTheme::alertAndQuit('error_movedocument2');
         }
 
         $document = $this->getDocument($documentID);
 
-        $parents = $this->managerTheme->getCore()->getParentIds($newParentID);
+        $parents = ManagerTheme::getCore()->getParentIds($newParentID);
         if (\in_array($document->getKey(), $parents, true)) {
-            $this->managerTheme->alertAndQuit('error_movedocument2');
+            ManagerTheme::alertAndQuit('error_movedocument2');
         }
 
         // check user has permission to move document to chosen location
-        if ($this->managerTheme->getCore()->getConfig('use_udperms') && $document->parent !== $newParentID) {
+        if (ManagerTheme::getCore()->getConfig('use_udperms') && $document->parent !== $newParentID) {
             $this->checkNewParentPermission($newParentID);
         }
 
-        $evtOut = $this->managerTheme->getCore()->invokeEvent('OnBeforeMoveDocument', [
+        $evtOut = ManagerTheme::getCore()->invokeEvent('OnBeforeMoveDocument', [
             'id' => $document->getKey(),
             'old_parent' => $document->parent,
             'new_parent' => $newParentID
@@ -65,7 +67,7 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         if (\is_array($evtOut) && count($evtOut) > 0) {
             $newParent = (int)array_pop($evtOut);
             if ($newParent === $document->parent) {
-                $this->managerTheme->alertAndQuit('error_movedocument2');
+                ManagerTheme::alertAndQuit('error_movedocument2');
             } else {
                 $newParentID = $newParent;
             }
@@ -73,11 +75,11 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         if ($newParentID > 0) {
             $parentDocument = $this->getDocument($newParentID);
             if ($parentDocument->deleted) {
-                $this->managerTheme->alertAndQuit('error_parent_deleted');
+                ManagerTheme::alertAndQuit('error_parent_deleted');
             };
             $children = allChildren($document->getKey());
             if (\in_array($parentDocument->getKey(), $children, true)) {
-                $this->managerTheme->alertAndQuit('You cannot move a document to a child document!', false);
+                ManagerTheme::alertAndQuit('You cannot move a document to a child document!', false);
             }
 
             $parentDocument->isfolder = true;
@@ -95,14 +97,14 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         // Set the item name for logger
         $_SESSION['itemname'] = $document->pagetitle;
 
-        $this->managerTheme->getCore()->invokeEvent('OnAfterMoveDocument', [
+        ManagerTheme::getCore()->invokeEvent('OnAfterMoveDocument', [
             'id' => $document->getKey(),
             'old_parent'  => $document->parent,
             'new_parent'  => $newParentID
         ]);
 
         // empty cache & sync site
-        $this->managerTheme->getCore()->clearCache('full');
+        ManagerTheme::getCore()->clearCache('full');
 
         header('Location: index.php?a=3&id=' . $document->getKey() . '&r=9');
     }
@@ -114,12 +116,12 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
 
         // check permissions on the document
         $udperms = new Permissions();
-        $udperms->user     = $this->managerTheme->getCore()->getLoginUserID('mgr');
+        $udperms->user     = ManagerTheme::getCore()->getLoginUserID('mgr');
         $udperms->document = $document->getKey();
         $udperms->role     = $_SESSION['mgrRole'];
 
         if (!$udperms->checkPermissions()) {
-            $this->managerTheme->alertAndQuit('access_permission_denied');
+            ManagerTheme::alertAndQuit('access_permission_denied');
         }
 
         // Set the item name for logger
@@ -131,18 +133,18 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
 
     /**
      * @param string|int $id
-     * @return Models\SiteContent
+     * @return SiteContent
      */
-    protected function getDocument($id) : Models\SiteContent
+    protected function getDocument($id) : SiteContent
     {
         try {
             if ($id <= 0) {
                 throw new Exception();
             }
-            /** @var Models\SiteContent $document */
-            $document = Models\SiteContent::withTrashed()->findOrFail($id);
+            /** @var SiteContent $document */
+            $document = SiteContent::withTrashed()->findOrFail($id);
         } catch (Exception $exception) {
-            $this->managerTheme->alertAndQuit('error_no_id');
+            ManagerTheme::alertAndQuit('error_no_id');
         }
 
         return $document;
@@ -151,7 +153,7 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
     protected function checkNewParentPermission($id)
     {
         $udperms           = new Permissions;
-        $udperms->user     = $this->managerTheme->getCore()->getLoginUserID('mgr');
+        $udperms->user     = ManagerTheme::getCore()->getLoginUserID('mgr');
         $udperms->document = $id;
         $udperms->role     = $_SESSION['mgrRole'];
 
@@ -159,6 +161,6 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
             return;
         }
 
-        $this->managerTheme->alertAndQuit('access_permission_parent_denied');
+        ManagerTheme::alertAndQuit('access_permission_parent_denied');
     }
 }

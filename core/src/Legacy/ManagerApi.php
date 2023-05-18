@@ -1,5 +1,7 @@
 <?php namespace EvolutionCMS\Legacy;
 
+use DATEPICKER;
+use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerApiInterface;
 use EvolutionCMS\Models\SystemSetting;
 use EvolutionCMS\Models\UserSetting;
@@ -25,22 +27,21 @@ class ManagerApi implements ManagerApiInterface
      */
     public function __construct()
     {
-        global $action;
-        $this->action = $action; // set action directive
+        $this->action = ManagerTheme::getActionId(); // set action directive
     }
 
     /**
      * @param int $id
      */
-    public function initPageViewState($id = 0)
+    public function initPageViewState(int $id = 0)
     {
         global $_PAGE;
-        $vsid = isset($_SESSION["mgrPageViewSID"]) ? $_SESSION["mgrPageViewSID"] : '';
+        $vsid = $_SESSION['mgrPageViewSID'] ?? '';
         if ($vsid != $this->action) {
-            $_SESSION["mgrPageViewSDATA"] = array(); // new view state
-            $_SESSION["mgrPageViewSID"] = $id > 0 ? $id : $this->action; // set id
+            $_SESSION['mgrPageViewSDATA'] = []; // new view state
+            $_SESSION['mgrPageViewSID'] = $id > 0 ? $id : $this->action; // set id
         }
-        $_PAGE['vs'] = &$_SESSION["mgrPageViewSDATA"]; // restore viewstate
+        $_PAGE['vs'] = &$_SESSION['mgrPageViewSDATA']; // restore viewstate
     }
 
     /**
@@ -48,11 +49,11 @@ class ManagerApi implements ManagerApiInterface
      *
      * @param int $id
      */
-    public function savePageViewState($id = 0)
+    public function savePageViewState(int $id = 0)
     {
         global $_PAGE;
-        $_SESSION["mgrPageViewSDATA"] = $_PAGE['vs'];
-        $_SESSION["mgrPageViewSID"] = $id > 0 ? $id : $this->action;
+        $_SESSION['mgrPageViewSDATA'] = $_PAGE['vs'];
+        $_SESSION['mgrPageViewSID'] = $id > 0 ? $id : $this->action;
     }
 
     /**
@@ -60,10 +61,10 @@ class ManagerApi implements ManagerApiInterface
      *
      * @return bool
      */
-    public function hasFormValues()
+    public function hasFormValues(): bool
     {
-        if (isset($_SESSION["mgrFormValueId"])) {
-            if ($this->action == $_SESSION["mgrFormValueId"]) {
+        if (isset($_SESSION['mgrFormValueId'])) {
+            if ($this->action == $_SESSION['mgrFormValueId']) {
                 return true;
             } else {
                 $this->clearSavedFormValues();
@@ -78,10 +79,10 @@ class ManagerApi implements ManagerApiInterface
      *
      * @param int $id
      */
-    public function saveFormValues($id = 0)
+    public function saveFormValues(int $id = 0)
     {
-        $_SESSION["mgrFormValues"] = $_POST;
-        $_SESSION["mgrFormValueId"] = $id > 0 ? $id : $this->action;
+        $_SESSION['mgrFormValues'] = $_POST;
+        $_SESSION['mgrFormValueId'] = $id > 0 ? $id : $this->action;
     }
 
     /**
@@ -89,13 +90,13 @@ class ManagerApi implements ManagerApiInterface
      *
      * @return bool
      */
-    public function loadFormValues()
+    public function loadFormValues(): bool
     {
         if (!$this->hasFormValues()) {
             return false;
         }
 
-        $p = $_SESSION["mgrFormValues"];
+        $p = $_SESSION['mgrFormValues'];
         $this->clearSavedFormValues();
         foreach ($p as $k => $v) {
             $_POST[$k] = $v;
@@ -110,15 +111,15 @@ class ManagerApi implements ManagerApiInterface
      */
     public function clearSavedFormValues()
     {
-        unset($_SESSION["mgrFormValues"]);
-        unset($_SESSION["mgrFormValueId"]);
+        unset($_SESSION['mgrFormValues']);
+        unset($_SESSION['mgrFormValueId']);
     }
 
     /**
      * @param string $db_value
      * @return string
      */
-    public function getHashType($db_value = '')
+    public function getHashType(string $db_value = ''): string
     { // md5 | v1 | phpass
         $c = substr($db_value, 0, 1);
         if ($c === '$') {
@@ -137,7 +138,7 @@ class ManagerApi implements ManagerApiInterface
      * @param string $seed
      * @return string
      */
-    public function genV1Hash($password, $seed = '1')
+    public function genV1Hash(string $password, string $seed = '1'): string
     { // $seed is user_id basically
         $modx = evolutionCMS();
 
@@ -182,7 +183,7 @@ class ManagerApi implements ManagerApiInterface
      * @param string $uid
      * @return string
      */
-    public function getV1UserHashAlgorithm($uid)
+    public function getV1UserHashAlgorithm(string $uid): string
     {
         $modx = evolutionCMS();
         $tbl_manager_users = $modx->getDatabase()->getFullTableName('users');
@@ -203,7 +204,7 @@ class ManagerApi implements ManagerApiInterface
      * @param string $algorithm
      * @return bool
      */
-    public function checkHashAlgorithm($algorithm = '')
+    public function checkHashAlgorithm(string $algorithm = ''): bool
     {
         $result = false;
         if (!empty($algorithm)) {
@@ -248,9 +249,9 @@ class ManagerApi implements ManagerApiInterface
      * @param string $check_files
      * @return string
      */
-    public function getSystemChecksum($check_files)
+    public function getSystemChecksum(string $check_files): string
     {
-        $_ = array();
+        $_ = [];
         $check_files = trim($check_files);
         $check_files = explode("\n", $check_files);
         foreach ($check_files as $file) {
@@ -293,7 +294,7 @@ class ManagerApi implements ManagerApiInterface
     /**
      * @param string $checksum
      */
-    public function setSystemChecksum($checksum)
+    public function setSystemChecksum(string $checksum)
     {
         SystemSetting::query()->updateOrCreate(['setting_name'=>'sys_files_checksum'],['setting_value'=>$checksum]);
     }
@@ -337,11 +338,9 @@ class ManagerApi implements ManagerApiInterface
      */
     public function getLastUserSetting($key = false)
     {
-        $modx = evolutionCMS();
-
         $rs = UserSetting::where('user', (int)$_SESSION['mgrInternalKey'])->get();
 
-        $usersettings = array();
+        $usersettings = [];
         foreach ($rs as $row) {
             if (substr($row['setting_name'], 0, 6) == '_LAST_') {
                 $name = substr($row['setting_name'], 6);
@@ -352,12 +351,12 @@ class ManagerApi implements ManagerApiInterface
         if ($key === false) {
             return $usersettings;
         } else {
-            return isset($usersettings[$key]) ? $usersettings[$key] : null;
+            return $usersettings[$key] ?? null;
         }
     }
 
     /**
-     * @param array $settings
+     * @param array|string $settings
      * @param string $val
      */
     public function saveLastUserSetting($settings, $val = '')
@@ -366,11 +365,11 @@ class ManagerApi implements ManagerApiInterface
 
         if (!empty($settings)) {
             if (!is_array($settings)) {
-                $settings = array($settings => $val);
+                $settings = [$settings => $val];
             }
 
             foreach ($settings as $key => $val) {
-                $f = array();
+                $f = [];
                 $f['user'] = $_SESSION['mgrInternalKey'];
                 $f['setting_name'] = '_LAST_' . $key;
                 $f['setting_value'] = $val;
@@ -386,11 +385,11 @@ class ManagerApi implements ManagerApiInterface
      * @param $path
      * @return string
      */
-    public function loadDatePicker($path)
+    public function loadDatePicker($path): string
     {
         $modx = evolutionCMS();
         include_once($path);
-        $dp = new \DATEPICKER();
+        $dp = new DATEPICKER();
 
         return $modx->mergeSettingsContent($dp->getDP());
     }

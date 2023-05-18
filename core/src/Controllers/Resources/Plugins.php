@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SitePlugin;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(102,'edit_plugin'), 'duplicate'=>array(105,'new_plugin'), 'remove'=>array(104,'delete_plugin')),
 class Plugins extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.plugins';
+    protected string $view = 'page.resources.plugins';
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Plugins extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'new_plugin',
             'edit_plugin'
         ]);
@@ -65,7 +67,7 @@ class Plugins extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory(): Collection
     {
-        return Models\SitePlugin::where('category', '=', 0)
+        return SitePlugin::where('category', '=', 0)
             ->orderBy('name', 'ASC')
             ->lockedView()
             ->get();
@@ -73,8 +75,8 @@ class Plugins extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::with('plugins')
-            ->whereHas('plugins', function (Eloquent\Builder $builder) {
+        return Category::with('plugins')
+            ->whereHas('plugins', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();
@@ -82,7 +84,7 @@ class Plugins extends AbstractResources implements TabControllerInterface
 
     protected function checkOldPlugins(): bool
     {
-        $p = Models\SitePlugin::disabledAlternative()->get();
+        $p = SitePlugin::disabledAlternative()->get();
         return (bool)$p->count(
             function($alternative){
                 return (int)($alternative->count() > 0);

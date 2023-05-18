@@ -2,11 +2,19 @@
 
 namespace EvolutionCMS\Middleware;
 
-use Closure, ManagerTheme;
+use Closure;
+use EvolutionCMS\Facades\ManagerTheme;
+use Illuminate\Http\Request;
 
 class Manager
 {
-    public function handle($request, Closure $next)
+    /**
+     * @param Request $request
+     * @param Closure $next
+     *
+     * @return mixed|string
+     */
+    public function handle(Request $request, Closure $next)
     {
         // Update last action in table active_users
         global $action;

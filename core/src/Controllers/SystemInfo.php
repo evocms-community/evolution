@@ -1,12 +1,13 @@
 <?php namespace EvolutionCMS\Controllers;
 
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
-use EvolutionCMS\Interfaces\ManagerTheme;
 use Illuminate\Support\Collection;
 
-class SystemInfo extends AbstractController implements ManagerTheme\PageControllerInterface
+class SystemInfo extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.sysinfo';
+    protected string $view = 'page.sysinfo';
 
     /**
      * @var \EvolutionCMS\Interfaces\DatabaseInterface
@@ -16,7 +17,7 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = $this->managerTheme->getCore()->getDatabase();
+        $this->database = ManagerTheme::getCore()->getDatabase();
     }
 
     /**
@@ -24,7 +25,7 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('logs');
+        return ManagerTheme::getCore()->hasPermission('logs');
     }
 
     /**
@@ -82,13 +83,13 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
             'modx_version'       => [
                 'is_lexicon' => true,
                 'data'       => implode(' ', [
-                    $this->managerTheme->getCore()->getVersionData('version'),
-                    $this->managerTheme->getCore()->getVersionData('new_version')
+                    ManagerTheme::getCore()->getVersionData('version'),
+                    ManagerTheme::getCore()->getVersionData('new_version')
                 ])
             ],
             'release_date'       => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getCore()->getVersionData('release_date')
+                'data'       => ManagerTheme::getCore()->getVersionData('release_date')
             ],
             'PHP Version'        => [
                 'data'   => phpversion(),
@@ -96,8 +97,8 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
             ],
             'access_permissions' => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getLexicon(
-                    (bool) $this->managerTheme->getCore()->getConfig('use_udperms') ? 'enabled' : 'disabled'
+                'data'       => ManagerTheme::getLexicon(
+                    (bool) ManagerTheme::getCore()->getConfig('use_udperms') ? 'enabled' : 'disabled'
                 )
             ],
             'servertime'         => [
@@ -106,19 +107,19 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
             ],
             'localtime'          => [
                 'is_lexicon' => true,
-                'data'       => date('H:i:s', time() + $this->managerTheme->getCore()->getConfig('server_offset_time'))
+                'data'       => date('H:i:s', time() + ManagerTheme::getCore()->getConfig('server_offset_time'))
             ],
             'serveroffset'       => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getCore()->getConfig('server_offset_time') / (60 * 60) . ' h'
+                'data'       => ManagerTheme::getCore()->getConfig('server_offset_time') / (60 * 60) . ' h'
             ],
             'database_name'      => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getCore()->getService('config')->get('database.connections.default.database')
+                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.database')
             ],
             'database_server'    => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getCore()->getService('config')->get('database.connections.default.host')
+                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.host')
             ],
             'database_version'   => [
                 'is_lexicon' => true,
@@ -134,7 +135,7 @@ class SystemInfo extends AbstractController implements ManagerTheme\PageControll
             ],
             'table_prefix'       => [
                 'is_lexicon' => true,
-                'data'       => $this->managerTheme->getCore()->getService('config')->get('database.connections.default.prefix')
+                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.prefix')
             ],
             'cfg_base_path'      => [
                 'is_lexicon' => true,

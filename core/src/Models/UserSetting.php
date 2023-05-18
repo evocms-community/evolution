@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent;
 
 /**
- * EvolutionCMS\Models\WebUserSetting
+ * EvolutionCMS\Models\UserSetting
  *
  * @property int $webuser
  * @property string $setting_name

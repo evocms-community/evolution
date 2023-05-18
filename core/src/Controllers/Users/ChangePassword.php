@@ -1,27 +1,26 @@
 <?php namespace EvolutionCMS\Controllers\Users;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\UserManager\Facades\UserManager;
 
-class ChangePassword extends AbstractController implements ManagerTheme\PageControllerInterface
+class ChangePassword extends AbstractController implements PageControllerInterface
 {
-    protected $view = '';
+    protected string $view = '';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('save_password');
+        return ManagerTheme::getCore()->hasPermission('save_password');
     }
 
     public function process() : bool
     {
         try {
-            \UserManager::changeManagerPassword($_POST);
+            UserManager::changeManagerPassword($_POST);
         }catch (ServiceValidationException $exception){
             foreach ($exception->getValidationErrors() as $errors){
                 if(is_array($errors)){

@@ -1,20 +1,23 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\SitePluginEvent;
+use EvolutionCMS\Models\SystemEventname;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
-class PluginPriority extends AbstractController implements ManagerTheme\PageControllerInterface
+class PluginPriority extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.plugin_priority';
+    protected string $view = 'page.plugin_priority';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('save_plugin');
+        return ManagerTheme::getCore()->hasPermission('save_plugin');
     }
 
     /**
@@ -27,11 +30,11 @@ class PluginPriority extends AbstractController implements ManagerTheme\PageCont
         ]);
     }
 
-    protected function getEventsParameter() : Eloquent\Collection
+    protected function getEventsParameter() : Collection
     {
-        return Models\SystemEventname::with(
+        return SystemEventname::with(
             [
-                'plugins' => function (Eloquent\Relations\BelongsToMany $query) {
+                'plugins' => function (BelongsToMany $query) {
                     $query->orderBy('priority');
                 }
             ]
@@ -44,7 +47,7 @@ class PluginPriority extends AbstractController implements ManagerTheme\PageCont
 
         if (isset($_POST['priority']) && is_array($_POST['priority'])) {
             $updateMsg = true;
-            $db        = $this->managerTheme->getCore()->getDatabase();
+            $db        = ManagerTheme::getCore()->getDatabase();
             $tableName = $db->getFullTableName('site_plugin_events');
 
             foreach ($_POST['priority'] as $eventId => $pluginsOrder) {
@@ -54,7 +57,7 @@ class PluginPriority extends AbstractController implements ManagerTheme\PageCont
 
                 if (\count($pluginsOrder) > 0) {
                     foreach ($pluginsOrder as $priority => $pluginId) {
-                        Models\SitePluginEvent::query()
+                        SitePluginEvent::query()
                             ->where('pluginid', intval($pluginId))
                             ->where('evtid', intval($eventId))
                             ->update(['priority' => intval($priority)]);
@@ -63,7 +66,7 @@ class PluginPriority extends AbstractController implements ManagerTheme\PageCont
             }
 
             // empty cache
-            $this->managerTheme->getCore()->clearCache('full');
+            ManagerTheme::getCore()->clearCache('full');
         }
 
         $this->parameters['updateMsg'] = $updateMsg;
