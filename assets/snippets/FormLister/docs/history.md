@@ -1,4 +1,7 @@
 ## History
+### 1.19.8 
+* [Enhancement] Yandex SmartCaptcha (YandexCaptcha).
+
 ### 1.19.6
 * [Fix] Ошибка при выводе сообщений (Core).
 

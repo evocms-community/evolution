@@ -5,7 +5,7 @@
  * Form processor
  *
  * @category    snippet
- * @version     1.19.7
+ * @version     1.19.9
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal    @modx_category Content
  * @internal    @installset base, sample

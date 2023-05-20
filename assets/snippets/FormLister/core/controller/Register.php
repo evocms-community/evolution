@@ -144,7 +144,7 @@ class Register extends Form
             $this->addMessage($this->translate('register.registration_failed'));
         } else {
             $this->user->close();
-            $userdata = $this->user->edit($result)->toArray();
+            $userdata = $this->user->edit((int)$result)->toArray();
             $this->setFields($userdata);
             if ($dob = $this->fromTimestamp($this->getField('dob'))) {
                 $this->setField('dob', $dob);

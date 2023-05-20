@@ -6,6 +6,7 @@ require_once(MODX_BASE_PATH . "assets/snippets/DocLister/lib/jsonHelper.class.ph
 
 use jsonHelper;
 use APIhelpers;
+use Exception;
 
 class Config
 {
@@ -71,8 +72,11 @@ class Config
             if ($this->fs->checkFile($configFile)) {
                 $json = file_get_contents(MODX_BASE_PATH . $configFile);
                 /** @var array $json */
-                $json = jsonHelper::jsonDecode($json, array('assoc' => true), true);
-                $config = array_merge($config, $json);
+                $_json = jsonHelper::jsonDecode($json, array('assoc' => true), true);
+                if(empty($json) || empty($_json)) {
+                    throw new Exception($configFile . ' is empty or has errors');
+                }
+                $config = array_merge($config, $_json);
             }
         }
 

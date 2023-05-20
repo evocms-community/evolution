@@ -174,7 +174,7 @@ class Profile extends Core
         if (isset($fields[$verificationField]) && $this->user->get($verificationField) != $fields[$verificationField]) {
             $fields['verified'] = 0;
         }
-        $result = $this->user->fromArray($fields)->save(true);
+        $result = (int)$this->user->fromArray($fields)->save(true);
         $this->log('Update profile', [
             'data'   => $fields,
             'result' => $result,
