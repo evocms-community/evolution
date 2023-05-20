@@ -174,7 +174,7 @@ if(is_dir($modulePath) && is_readable($modulePath)) {
                 "$modulePath/{$params['filename']}",
                 $params['properties'] ?? '',
                 $params['guid'],
-                (int)$params['shareparams'],
+                (int)($params['shareparams'] ?? 0),
                 $params['modx_category'],
                 array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : []
             );
