@@ -1,4 +1,7 @@
 ## History
+### 1.19.10
+* [Fix] Исправление ошибок.
+
 ### 1.19.8 
 * [Enhancement] Yandex SmartCaptcha (YandexCaptcha).
 

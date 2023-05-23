@@ -78,6 +78,9 @@ class Form extends Core
         } else {
             $subject = $this->getCFGDef($param, '');
         }
+        if($param !== 'subject' && empty($subject)) {
+            $subject = $this->renderSubject();
+        }
 
         return $subject;
     }
