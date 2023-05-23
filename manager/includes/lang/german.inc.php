@@ -1434,7 +1434,7 @@ $_lang["minifyphp_incache_message"] = 'Reduziere PHP-Code innerhalb Snippets und
 
 $_lang["logout_reminder_msg"] = "Erinnerung: Es scheint als haben Sie am [+date+] vergessen sich abzumelden. Bitte beachten Sie in Zukunft, sich nach Beendigung Ihrer Arbeiten abzumelden.";
 
-$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+$_lang["composer_reminder_msg"] = "Es scheint, dass Sie Composer im Stammordner verwenden. Es wird in zukünftigen Versionen deaktiviert. Bitte verwenden Sie Composer im Assets-Ordner.";
 
 $_lang["allow_eval_title"]             = "PHP-eval() in Snippet-Aufrufen erlauben";
 $_lang["allow_eval_msg"]               = "Für Entwickler: Bitte nutzen Sie bei zukünftigen Entwicklungen \$modx-&gt;safeEval() anstelle von eval().";

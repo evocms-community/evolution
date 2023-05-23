@@ -1443,7 +1443,7 @@ $_lang["minifyphp_incache_message"] = 'Minimizza il codice php (snippets e plugi
 
 $_lang["logout_reminder_msg"] = "Promemoria: Sembra che il [+date+] ti sei dimenticato di effettuare il  logout. Si prega di prestare attenzione in futuro nel fare logout quando si ha finito di lavorare.";
 
-$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+$_lang["composer_reminder_msg"] = "Sembra che stiate usando composer nella cartella root. Questa cosa non sarà più possibile nelle versioni future, vi preghiamo di usare composer nella cartella assets.";
 
 $_lang["allow_eval_title"]             = "Utilizza Eval per eseguire il codice PHP nelle chiamate snippet";
 $_lang["allow_eval_msg"]               = "Per gli sviluppatori : Si prega di utilizzare \$modx-&gt;safeEval().";

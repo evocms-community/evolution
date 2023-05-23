@@ -1426,7 +1426,7 @@ $_lang["minifyphp_incache_message"] = 'Стиск PHP коду(сніпетів 
 
 $_lang["logout_reminder_msg"] = "Нагадування: Схоже [+date+] Ви забули вийти із системи. Будь ласка, зверніть увагу в майбутньому, потрібно виходити із системи після того, як закінчили роботу.";
 
-$_lang["composer_reminder_msg"] = "It seems that you use composer in the root folder. It will be disabled in future versions, please use composer in the assets folder.";
+$_lang["composer_reminder_msg"] = "Здається, ви використовуєте композер у кореневій папці. Його буде вимкнено в наступних версіях, використовуйте композер у папці ресурсів.";
 
 $_lang["allow_eval_title"]             = "Використання функції EVAL";
 $_lang["allow_eval_msg"]               = "Для розробників: використовуйте \$modx-&gt;safeEval().";
