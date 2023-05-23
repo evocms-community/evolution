@@ -48,15 +48,15 @@ class MODxMailer extends PHPMailer
         $this->modx = $modx;
         $this->PluginDir = MODX_MANAGER_PATH . 'includes/controls/phpmailer/';
 
-        switch ($modx->config['email_method']) {
+        switch ($modx->getConfig('email_method')) {
             case 'smtp':
                 $this->isSMTP();
-                $this->SMTPSecure = $modx->config['smtp_secure'] === 'none' ? '' : $modx->config['smtp_secure'];
-                $this->Port = $modx->config['smtp_port'];
-                $this->Host = $modx->config['smtp_host'];
-                $this->SMTPAuth = $modx->config['smtp_auth'] === '1' ? true : false;
-                $this->Username = $modx->config['smtp_username'];
-                $this->Password = $modx->config['smtppw'];
+                $this->SMTPSecure = $modx->getConfig('smtp_secure') === 'none' ? '' : $modx->getConfig('smtp_secure');
+                $this->Port = $modx->getConfig('smtp_port');
+                $this->Host = $modx->getConfig('smtp_host');
+                $this->SMTPAuth = $modx->getConfig('smtp_auth') === '1' ? true : false;
+                $this->Username = $modx->getConfig('smtp_username');
+                $this->Password = $modx->getConfig('smtppw');
                 if (10 < strlen($this->Password)) {
                     $this->Password = substr($this->Password, 0, -7);
                     $this->Password = str_replace('%', '=', $this->Password);
@@ -68,20 +68,20 @@ class MODxMailer extends PHPMailer
                 $this->isMail();
         }
 
-        $this->From = $modx->config['emailsender'];
-        if (isset($modx->config['email_sender_method']) && !$modx->config['email_sender_method']) {
-            $this->Sender = $modx->config['emailsender'];
+        $this->From = $modx->getConfig('emailsender');
+        if (!$modx->getConfig('email_sender_method')) {
+            $this->Sender = $modx->getConfig('emailsender');
         }
-        $this->FromName = $modx->config['site_name'];
+        $this->FromName = $modx->getConfig('site_name');
         $this->isHTML(true);
 
-        if (isset($modx->config['mail_charset']) && !empty($modx->config['mail_charset'])) {
-            $mail_charset = $modx->config['mail_charset'];
+        if (!empty($modx->getConfig('mail_charset'))) {
+            $mail_charset = $modx->getConfig('mail_charset');
         } else {
-            if (substr($modx->config['manager_language'], 0, 8) === 'japanese') {
+            if (substr($modx->getConfig('manager_language'), 0, 8) === 'japanese') {
                 $mail_charset = 'jis';
             } else {
-                $mail_charset = $modx->config['modx_charset'];
+                $mail_charset = $modx->getConfig('modx_charset');
             }
         }
 
@@ -110,7 +110,7 @@ class MODxMailer extends PHPMailer
         }
         if (extension_loaded('mbstring')) {
             mb_language($this->mb_language);
-            mb_internal_encoding($modx->config['modx_charset']);
+            mb_internal_encoding($modx->getConfig('modx_charset'));
         }
         $exconf = MODX_MANAGER_PATH . 'includes/controls/phpmailer/config.inc.php';
         if (is_file($exconf)) {
