@@ -75,7 +75,7 @@ class MODxMailer extends PHPMailer
         $this->FromName = $modx->getConfig('site_name');
         $this->isHTML(true);
 
-        if (!empty($modx->getConfig('mail_charset'))) {
+        if (isset($modx->config['mail_charset']) && !empty($modx->config['mail_charset'])) {
             $mail_charset = $modx->getConfig('mail_charset');
         } else {
             if (substr($modx->getConfig('manager_language'), 0, 8) === 'japanese') {
