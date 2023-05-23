@@ -1,6 +1,5 @@
 name: Предложение
 description: Предложите идею для проекта
-title: ""
 labels: ["enhancement"]
 body:
   - type: textarea
