@@ -1,0 +1,52 @@
+name: Ошибка
+description: Сообщите об ошибке, чтобы сделать Evo лучше
+title: "[Bug] "
+labels: ["bug", "not confirmed"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Описание
+      placeholder: Напишите коротко, в чем заключается проблема.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Как воспроизвести.
+      placeholder: Напишите, какие действия приводят к ошибке.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Наблюдаемое поведение
+      placeholder: Что происходит после выполнения описанных выше действий.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ожидаемое поведение
+      placeholder: Что должно происходить после выполнения описанных выше действий.
+  - type: textarea
+    id: related
+    attributes:
+      label: Связанные issue(s)/PR(s)
+      placeholder: Укажите, если это сообщение относится к имеющимся issues или PRs.
+  - type: input
+    id: cms
+    attributes:
+      label: Версия EvoCMS
+  - type: input
+    id: server
+    attributes:
+      label: Версия Apache/nginx
+  - type: input
+    id: php
+    attributes:
+      label: Версия PHP
+  - type: input
+    id: mysql
+    attributes:
+      label: Версия MySQL
+  - type: textarea
+    id: relevant
+    attributes:
+      label: Другая информация
