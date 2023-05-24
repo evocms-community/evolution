@@ -16,7 +16,7 @@ use Illuminate\Database\Console\Migrations\RollbackCommand as MigrateRollbackCom
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 
 use EvolutionCMS\Console\ClearCompiledCommand;
-use EvolutionCMS\Console\VendorPublishCommand;
+use Illuminate\Foundation\Console\VendorPublishCommand;
 use EvolutionCMS\Console\ViewClearCommand;
 use EvolutionCMS\Console\Lists;
 use EvolutionCMS\Console\Packages;
