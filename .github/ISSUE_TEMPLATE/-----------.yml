@@ -1,0 +1,26 @@
+name: Предложение
+description: Предложите идею для проекта
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Описание
+      placeholder: Напишите кратко суть предложения.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Зачем это нужно?
+      placeholder: Какую проблему должно решить это предложение.
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Предлагаемое решение
+      placeholder: Напишите, как именно должна решаться описываемая проблема.
+  - type: textarea
+    id: related
+    attributes:
+      label: Связанные issue(s)/PR(s)
+      placeholder: Укажите, если это сообщение относится к имеющимся issues или PRs.

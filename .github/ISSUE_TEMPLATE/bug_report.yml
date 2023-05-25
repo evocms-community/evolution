@@ -1,0 +1,52 @@
+name: Bug Report
+description: Create a report to help us to improve Evo
+title: "[Bug] "
+labels: ["bug", "not confirmed"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: Quick summary what's this issue about.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce.
+      placeholder: How to reproduce the issue, including custom code if needed.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      placeholder: How it behaved after following steps above.
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: How it should behave after following steps above.
+  - type: textarea
+    id: related
+    attributes:
+      label: Related issue(s)/PR(s)
+      placeholder: Let us know if this is related to any issue/pull request.
+  - type: input
+    id: cms
+    attributes:
+      label: EvoCMS version
+  - type: input
+    id: server
+    attributes:
+      label: Apache/nginx version
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+  - type: input
+    id: mysql
+    attributes:
+      label: MySQL version
+  - type: textarea
+    id: relevant
+    attributes:
+      label: Any relevant information
