@@ -473,7 +473,7 @@ EOF;
 
     /**
      * @param PackageInterface[] $packages
-     * @return array<int, array{0: PackageInterface, 1: string}>
+     * @return non-empty-array<int, array{0: PackageInterface, 1: string|null}>
      */
     public function buildPackageMap(InstallationManager $installationManager, PackageInterface $rootPackage, array $packages)
     {
@@ -485,7 +485,6 @@ EOF;
                 continue;
             }
             $this->validatePackage($package);
-
             $packageMap[] = [
                 $package,
                 $installationManager->getInstallPath($package),
@@ -519,7 +518,7 @@ EOF;
     /**
      * Compiles an ordered list of namespace => path mappings
      *
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap array of array(package, installDir-relative-to-composer.json)
+     * @param non-empty-array<int, array{0: PackageInterface, 1: string|null}> $packageMap array of array(package, installDir-relative-to-composer.json or null for metapackages)
      * @param RootPackageInterface $rootPackage root package instance
      * @param bool|string[] $filteredDevPackages If an array, the list of packages that must be removed. If bool, whether to filter out require-dev packages
      * @return array
@@ -609,7 +608,7 @@ EOF;
     }
 
     /**
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap
+     * @param array<int, array{0: PackageInterface, 1: string|null}> $packageMap
      * @return ?string
      */
     protected function getIncludePathsFile(array $packageMap, Filesystem $filesystem, string $basePath, string $vendorPath, string $vendorPathCode, string $appBaseDirCode)
@@ -618,6 +617,11 @@ EOF;
 
         foreach ($packageMap as $item) {
             [$package, $installPath] = $item;
+
+            // packages that are not installed cannot autoload anything
+            if (null === $installPath) {
+                continue;
+            }
 
             if (null !== $package->getTargetDir() && strlen($package->getTargetDir()) > 0) {
                 $installPath = substr($installPath, 0, -strlen('/'.$package->getTargetDir()));
@@ -712,7 +716,7 @@ EOF;
     }
 
     /**
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap
+     * @param array<int, array{0: PackageInterface, 1: string|null}> $packageMap
      * @param bool|'php-only' $checkPlatform
      * @param string[] $devPackageNames
      * @return ?string
@@ -1145,7 +1149,7 @@ INITIALIZER;
     }
 
     /**
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap
+     * @param array<int, array{0: PackageInterface, 1: string|null}> $packageMap
      * @param string $type one of: 'psr-0'|'psr-4'|'classmap'|'files'
      * @return array<int, string>|array<string, array<string>>|array<string, string>
      */
@@ -1155,6 +1159,11 @@ INITIALIZER;
 
         foreach ($packageMap as $item) {
             [$package, $installPath] = $item;
+
+            // packages that are not installed cannot autoload anything
+            if (null === $installPath) {
+                continue;
+            }
 
             $autoload = $package->getAutoload();
             if ($this->devMode && $package === $rootPackage) {
@@ -1245,10 +1254,8 @@ INITIALIZER;
     /**
      * Filters out dev-dependencies
      *
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap
-     * @return array<int, array{0: PackageInterface, 1: string}>
-     *
-     * @phpstan-param array<int, array{0: PackageInterface, 1: string}> $packageMap
+     * @param array<int, array{0: PackageInterface, 1: string|null}> $packageMap
+     * @return array<int, array{0: PackageInterface, 1: string|null}>
      */
     protected function filterPackageMap(array $packageMap, RootPackageInterface $rootPackage)
     {
@@ -1301,8 +1308,8 @@ INITIALIZER;
      *
      * Packages of equal weight are sorted alphabetically
      *
-     * @param array<int, array{0: PackageInterface, 1: string}> $packageMap
-     * @return array<int, array{0: PackageInterface, 1: string}>
+     * @param array<int, array{0: PackageInterface, 1: string|null}> $packageMap
+     * @return array<int, array{0: PackageInterface, 1: string|null}>
      */
     protected function sortPackageMap(array $packageMap)
     {
