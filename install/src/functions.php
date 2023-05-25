@@ -182,7 +182,7 @@ if (!function_exists('getLangs')) {
         ) {
             $manager_language = $install_language;
         } else {
-            $manager_language = 'english';
+            $manager_language = 'en';
         }
         $langs = [];
         if ($handle = opendir('../core/lang')) {
