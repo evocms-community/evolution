@@ -85,9 +85,9 @@ trait Path
      *
      * @return string
      */
-    public function storagePath()
+    public function storagePath($path = '')
     {
-        return $this->storagePath ?: EVO_STORAGE_PATH;
+        return ($this->storagePath ?: EVO_STORAGE_PATH) . $path;
     }
 
     /**
@@ -304,6 +304,41 @@ trait Path
     }
 
     /**
+     * Set the current application locale.
+     *
+     * @param string $locale
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        $this['config']->set('app.locale', $locale);
+        $this['translator']->setLocale($locale);
+    }
+
+    /**
+     * Get the current application fallback locale.
+     *
+     * @return string
+     */
+    public function getFallbackLocale()
+    {
+        return $this['config']->get('app.fallback_locale');
+    }
+
+    /**
+     * Set the current application fallback locale.
+     *
+     * @param  string  $fallbackLocale
+     * @return void
+     */
+    public function setFallbackLocale($fallbackLocale)
+    {
+        $this['config']->set('app.fallback_locale', $fallbackLocale);
+
+        $this['translator']->setFallback($fallbackLocale);
+    }
+
+    /**
      * Get the application namespace.
      *
      * @return string
@@ -355,18 +390,6 @@ trait Path
     public function routesAreCached()
     {
         return true;
-    }
-
-    /**
-     * Set the current application locale.
-     *
-     * @param string $locale
-     * @return void
-     */
-    public function setLocale($locale)
-    {
-        $this['config']->set('app.locale', $locale);
-        $this['translator']->setLocale($locale);
     }
 
     /**

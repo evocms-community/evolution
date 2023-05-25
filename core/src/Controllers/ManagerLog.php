@@ -1,10 +1,12 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\ManagerLog as ManagerLogModel;
 
-class ManagerLog extends AbstractController implements ManagerTheme\PageControllerInterface
+class ManagerLog extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.managerlog';
+    protected string $view = 'page.managerlog';
 
     private int $amount = 0;
 
@@ -16,10 +18,10 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
         switch ($this->getIndex()) {
             // list
             case 13:
-                return $this->managerTheme->getCore()->hasPermission('logs');
+                return ManagerTheme::getCore()->hasPermission('logs');
             // truncate
             case 55:
-                return $this->managerTheme->getCore()->hasPermission('settings');
+                return ManagerTheme::getCore()->hasPermission('settings');
         }
         return false;
     }
@@ -39,7 +41,7 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
                 break;
             // truncate
             case 55:
-                \EvolutionCMS\Models\ManagerLog::query()->truncate();
+                ManagerLogModel::query()->truncate();
                 header('Location: index.php?a=13');
                 exit();
         }
@@ -48,7 +50,7 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
 
     protected function getFormElements()
     {
-        $logs = \EvolutionCMS\Models\ManagerLog::query()
+        $logs = ManagerLogModel::query()
             ->select('internalKey', 'username', 'action', 'itemid', 'itemname')
             ->distinct()
             ->get()
@@ -105,7 +107,7 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
 
     protected function getItems()
     {
-        $items = \EvolutionCMS\Models\ManagerLog::query()
+        $items = ManagerLogModel::query()
             ->orderBy('timestamp', 'DESC')
             ->orderBy('id', 'DESC');
 
@@ -140,7 +142,7 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
         $grd->pageClass = 'page-item';
         $grd->selPageClass = 'page-item active';
 
-        $grd->noRecordMsg = $this->managerTheme->getLexicon('no_records_found');
+        $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
         $grd->cssClass = 'table data nowrap';
         $grd->columnHeaderClass = 'tableHeader';
         $grd->itemClass = 'tableItem overflow-hidden';
@@ -186,11 +188,11 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
         ];
 
         $grd->columns = implode(',', [
-            $this->managerTheme->getLexicon('mgrlog_username'),
-            $this->managerTheme->getLexicon('mgrlog_action'),
-            $this->managerTheme->getLexicon('mgrlog_itemid'),
-            $this->managerTheme->getLexicon('mgrlog_itemname'),
-            $this->managerTheme->getLexicon('mgrlog_time'),
+            ManagerTheme::getLexicon('mgrlog_username'),
+            ManagerTheme::getLexicon('mgrlog_action'),
+            ManagerTheme::getLexicon('mgrlog_itemid'),
+            ManagerTheme::getLexicon('mgrlog_itemname'),
+            ManagerTheme::getLexicon('mgrlog_time'),
             'IP',
             'USER_AGENT',
         ]);

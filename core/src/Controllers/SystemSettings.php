@@ -1,16 +1,19 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
-use EvolutionCMS\Models;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\SitePlugin;
+use EvolutionCMS\Models\SiteTemplate;
+use EvolutionCMS\Models\SystemSetting;
 use function extension_loaded;
 use function is_array;
 
-class SystemSettings extends AbstractController implements ManagerTheme\PageControllerInterface
+class SystemSettings extends AbstractController implements PageControllerInterface
 {
     /**
      * @var string
      */
-    protected $view = 'page.system_settings';
+    protected string $view = 'page.system_settings';
 
     /**
      * @var array
@@ -35,7 +38,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()
+        return ManagerTheme::getCore()
             ->hasPermission('settings');
     }
 
@@ -53,7 +56,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
             'fileBrowsers' => $this->parameterFileBrowsers(),
             'themes' => $this->parameterThemes(),
             'serverTimes' => $this->parameterServerTimes(),
-            'phxEnabled' => Models\SitePlugin::activePhx()
+            'phxEnabled' => SitePlugin::activePhx()
                 ->count(),
             'langKeys' => $this->parameterLang(),
             'templates' => $this->parameterTemplates(),
@@ -67,7 +70,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
      */
     protected function parameterTemplates(): array
     {
-        $templatesFromDb = Models\SiteTemplate::query()
+        $templatesFromDb = SiteTemplate::query()
             ->select('site_templates.templatename', 'site_templates.id', 'categories.category')
             ->leftJoin('categories', 'site_templates.category', '=', 'categories.id')
             ->orderBy('categories.category', 'ASC')
@@ -81,7 +84,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
         foreach ($templatesFromDb->toArray() as $row) {
             $thisCategory = $row['category'];
             if ($row['category'] == null) {
-                $thisCategory = $this->managerTheme->getLexicon('no_category');
+                $thisCategory = ManagerTheme::getLexicon('no_category');
             }
             if ($thisCategory != $currentCategory) {
                 $i++;
@@ -92,7 +95,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
                     ]
                 ];
             }
-            if ($row['id'] == get_by_key($this->managerTheme->getCore()->config, 'default_template')) {
+            if ($row['id'] == get_by_key(ManagerTheme::getCore()->config, 'default_template')) {
                 $templates['oldTmpId'] = $row['id'];
                 $templates['oldTmpName'] = $row['templatename'];
             }
@@ -186,10 +189,10 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
         // reload system settings from the database.
         // this will prevent user-defined settings from being saved as system setting
         $out = array_merge(
-            $this->managerTheme->getCore()->config,
-            $this->managerTheme->getCore()
+            ManagerTheme::getCore()->config,
+            ManagerTheme::getCore()
                 ->getFactorySettings(),
-            Models\SystemSetting::all()
+            SystemSetting::all()
                 ->pluck('setting_value', 'setting_name')
                 ->toArray()
         );
@@ -241,7 +244,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
      */
     protected function parameterPasswordHash(): array
     {
-        $managerApi = $this->managerTheme->getCore()
+        $managerApi = ManagerTheme::getCore()
             ->getManagerApi();
 
         return [
@@ -298,7 +301,7 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
      */
     private function callEvent(string $name)
     {
-        $out = $this->managerTheme->getCore()
+        $out = ManagerTheme::getCore()
             ->invokeEvent($name);
         if (is_array($out)) {
             $out = implode('', $out);

@@ -3,31 +3,37 @@
 namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Interfaces\ManagerTheme;
-use EvolutionCMS\Models;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\RolePermissions;
+use EvolutionCMS\Models\PermissionsGroups;
+use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\UserAttribute;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Models\UserRole as UserRoleModel;
+use EvolutionCMS\Models\UserRoleVar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class UserRole extends AbstractController implements ManagerTheme\PageControllerInterface
+class UserRole extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.user_roles.user_role';
+    protected string $view = 'page.user_roles.user_role';
 
     protected int $elementType = 8;
     /**
-     * @var Models\UserRole|null
+     * @var UserRoleModel|null
      */
-    private ?Models\UserRole $object;
+    private ?UserRoleModel $object;
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        if (!$this->managerTheme->getCore()->hasPermission('edit_role')) {
+        if (!ManagerTheme::getCore()->hasPermission('edit_role')) {
             return false;
         }
-        if (!$this->managerTheme->getCore()->hasPermission('new_role')) {
+        if (!ManagerTheme::getCore()->hasPermission('new_role')) {
             return false;
         }
 
@@ -43,13 +49,13 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             $id = $this->getElementId();
             $count = UserAttribute::where('role',$id)->count();
             if($id==1){
-                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
+                ManagerTheme::getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
             }
             if($count>0){
-                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
+                ManagerTheme::getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
             }
-            Models\RolePermissions::query()->where('role_id', $id)->delete();
-            Models\UserRole::destroy($id);
+            RolePermissions::query()->where('role_id', $id)->delete();
+            UserRoleModel::destroy($id);
             header('Location: index.php?a=86&tab=0');
         }
 
@@ -69,29 +75,29 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
     {
         $id = $this->getElementId();
         $mode = $this->getIndex();
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
 
-        if (!$this->managerTheme->getCore()->hasPermission('save_role')) {
-            $this->managerTheme->alertAndQuit('error_no_privileges');
+        if (!ManagerTheme::getCore()->hasPermission('save_role')) {
+            ManagerTheme::alertAndQuit('error_no_privileges');
         }
 
         if (!isset($_POST['name']) || $_POST['name'] == '') {
-            $this->managerTheme->getCore()->getManagerApi()->saveFormValues();
-            $this->managerTheme->getCore()->webAlertAndQuit(
+            ManagerTheme::getCore()->getManagerApi()->saveFormValues();
+            ManagerTheme::getCore()->webAlertAndQuit(
                 'Please enter a name for this role!',
                 "index.php?a=$mode" . ($mode == 35 ? "&id=$id" : '')
             );
         }
 
-        $role = Models\UserRole::query()->findOrNew($id);
+        $role = UserRoleModel::query()->findOrNew($id);
         $role->name = $_POST['name'];
         $role->description = $_POST['description'];
         $role->save();
 
         if (isset($_POST['permissions']) && is_array($_POST['permissions'])) {
-            Models\RolePermissions::query()->where('role_id', $role->getKey())->delete();
+            RolePermissions::query()->where('role_id', $role->getKey())->delete();
             foreach ($_POST['permissions'] as $key => $permission) {
-                Models\RolePermissions::query()->create([
+                RolePermissions::query()->create([
                     'role_id' => $role->getKey(),
                     'permission' => $key,
                 ]);
@@ -100,7 +106,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
 
         if ($_POST['tvsDirty'] == 1) {
             // Preserve rankings of already assigned TVs
-            $exists = Models\UserRoleVar::query()
+            $exists = UserRoleVar::query()
                 ->where('roleid', $role->getKey())
                 ->get()
                 ->toArray();
@@ -112,7 +118,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
                 $highest = max($highest, $row['rank']);
             }
 
-            Models\UserRoleVar::query()
+            UserRoleVar::query()
                 ->where('roleid', $role->getKey())
                 ->delete();
 
@@ -127,7 +133,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
                     continue;
                 }
 
-                Models\UserRoleVar::query()
+                UserRoleVar::query()
                     ->create([
                         'roleid' => $role->getKey(),
                         'tmplvarid' => $tvid,
@@ -136,7 +142,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             }
         }
 
-        $this->managerTheme->getCore()->getManagerApi()->clearSavedFormValues();
+        ManagerTheme::getCore()->getManagerApi()->clearSavedFormValues();
 
         if (!empty($_POST['stay'])) {
             $a = $_POST['stay'] == '2' ? '35&id=' . $role->getKey() : '38';
@@ -151,13 +157,13 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
      */
     public function getParameters(array $params = []): array
     {
-        $this->managerTheme->getCore()->getManagerApi()->loadFormValues();
+        ManagerTheme::getCore()->getManagerApi()->loadFormValues();
 
         $id = $this->getElementId();
         $permissionsRole = [];
         if ($id != 0) {
             $permissionsRoleTemp =
-                Models\RolePermissions::query()->where('role_id', $id)->get()->pluck('permission')->toArray();
+                RolePermissions::query()->where('role_id', $id)->get()->pluck('permission')->toArray();
             foreach ($permissionsRoleTemp as $role) {
                 $permissionsRole[$role] = 1;
             }
@@ -168,24 +174,24 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             }
         }
 
-        $this->object = Models\UserRole::with('tvs')->findOrNew($id);
+        $this->object = UserRoleModel::with('tvs')->findOrNew($id);
 
         return [
             'role' => $this->object,
-            'groups' => Models\PermissionsGroups::query()->get(),
+            'groups' => PermissionsGroups::query()->get(),
             'permissionsRole' => $permissionsRole,
             'categories' => $this->parameterCategories(),
             'tvSelected' => $this->parameterTvSelected(),
             'categoriesWithTv' => $this->parameterCategoriesWithTv(
                 $this->object->tvs->reject(
-                    function (Models\SiteTmplvar $item) {
+                    function (SiteTmplvar $item) {
                         return $item->category === 0;
                     }
                 )->pluck('id')->toArray()
             ),
             'tvOutCategory' => $this->parameterTvOutCategory(
                 $this->object->tvs->reject(
-                    function (Models\SiteTmplvar $item) {
+                    function (SiteTmplvar $item) {
                         return $item->category !== 0;
                     }
                 )->pluck('id')->toArray()
@@ -199,7 +205,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
      */
     protected function parameterCategories(): Collection
     {
-        return Models\Category::query()
+        return Category::query()
             ->orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
@@ -220,7 +226,7 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
      */
     protected function parameterTvOutCategory(array $ignore = []): Collection
     {
-        $query = Models\SiteTmplvar::with('userRoles')
+        $query = SiteTmplvar::with('userRoles')
             ->where('category', '=', 0)
             ->orderBy('name', 'ASC');
 
@@ -238,11 +244,11 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
      */
     protected function parameterCategoriesWithTv(array $ignore = []): Collection
     {
-        $query = Models\Category::with('tvs.userRoles')
-            ->whereHas('tvs', function (Eloquent\Builder $builder) use ($ignore) {
+        $query = Category::with('tvs.userRoles')
+            ->whereHas('tvs', function (Builder $builder) use ($ignore) {
                 if (!empty($ignore)) {
                     $builder = $builder->whereNotIn(
-                        (new Models\SiteTmplvar())->getTable() . '.id',
+                        (new SiteTmplvar())->getTable() . '.id',
                         $ignore
                     );
                 }
@@ -261,9 +267,9 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
     {
         return [
             'select' => 1,
-            'save' => $this->managerTheme->getCore()->hasPermission('save_role'),
-            'new' => $this->managerTheme->getCore()->hasPermission('new_role'),
-            'delete' => !empty($this->object->getKey()) && $this->managerTheme->getCore()->hasPermission('delete_role'),
+            'save' => ManagerTheme::getCore()->hasPermission('save_role'),
+            'new' => ManagerTheme::getCore()->hasPermission('new_role'),
+            'delete' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_role'),
             'cancel' => 1,
         ];
     }

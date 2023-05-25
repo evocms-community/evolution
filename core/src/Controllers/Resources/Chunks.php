@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteHtmlsnippet;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(78,'edit_chunk'), 'duplicate'=>array(97,'new_chunk'), 'remove'=>array(80,'delete_chunk')),
 class Chunks extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.chunks';
+    protected string $view = 'page.resources.chunks';
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Chunks extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'new_chunk',
             'edit_chunk'
         ]);
@@ -64,7 +66,7 @@ class Chunks extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory(): Collection
     {
-        return Models\SiteHtmlsnippet::where('category', '=', 0)
+        return SiteHtmlsnippet::where('category', '=', 0)
             ->orderBy('name', 'ASC')
             ->lockedView()
             ->get();
@@ -72,8 +74,8 @@ class Chunks extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::with('chunks')
-            ->whereHas('chunks', function (Eloquent\Builder $builder) {
+        return Category::with('chunks')
+            ->whereHas('chunks', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();

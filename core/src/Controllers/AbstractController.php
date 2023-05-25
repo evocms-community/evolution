@@ -1,24 +1,24 @@
 <?php namespace EvolutionCMS\Controllers;
 
+use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\ControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
-use View;
-use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Facades\View;
 
 abstract class AbstractController implements ControllerInterface
 {
     /**
      * @var string
      */
-    protected $view;
+    protected string $view;
 
     /**
-     * @var ManagerThemeInterface
+     * @var ManagerThemeInterface|null
      */
-    protected $managerTheme;
+    protected ?ManagerThemeInterface $managerTheme;
 
     /** @var int */
-    protected $index;
+    protected int $index;
 
     protected $parameters = [];
 
@@ -27,7 +27,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
+    public function __construct(ManagerThemeInterface $managerTheme = null, array $data = [])
     {
         $this->managerTheme = $managerTheme;
         $this->data = $data;
@@ -46,7 +46,7 @@ abstract class AbstractController implements ControllerInterface
      */
     public function setView($view) : bool
     {
-        if (View::exists($this->managerTheme->getViewName($view))) {
+        if (View::exists(ManagerTheme::getViewName($view))) {
             $this->view = $view;
         }
         return $view === $this->getView();
@@ -62,7 +62,7 @@ abstract class AbstractController implements ControllerInterface
      */
     public function checkLocked(): bool
     {
-        return isset($this->elementType) && !empty($this->managerTheme->getCore()->elementIsLocked($this->elementType, $this->getElementId()));
+        return isset($this->elementType) && !empty(ManagerTheme::getCore()->elementIsLocked($this->elementType, $this->getElementId()));
     }
 
     /**
@@ -86,7 +86,7 @@ abstract class AbstractController implements ControllerInterface
      */
     public function render(array $params = []): string
     {
-        return $this->managerTheme->view(
+        return ManagerTheme::view(
             $this->getView(),
             $this->getParameters($params)
         )->with([

@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS;
 
 use EvolutionCMS\Interfaces\DatabaseInterface;
+use EvolutionCMS\Legacy\ManagerApi;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -650,9 +651,9 @@ abstract class AbstractLaravel extends Container implements ApplicationContract
     }
 
     /**
-     * @return mixed
+     * @return ManagerApi
      */
-    public function getManagerApi()
+    public function getManagerApi(): ManagerApi
     {
         return $this->getService('ManagerAPI');
     }

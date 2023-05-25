@@ -2,10 +2,11 @@
 
 use EvolutionCMS\Interfaces\ManagerTheme;
 use EvolutionCMS\Controllers\AbstractResources;
+use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
 
 class RoleManagment extends AbstractResources implements ManagerTheme\PageControllerInterface
 {
-    protected $view = 'page.role_management';
+    protected string $view = 'page.role_management';
 
     /**
      * Don't change tab index !!!
@@ -46,14 +47,14 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
         return array_merge(compact('tabs'), parent::getParameters($params), compact('activeTab'));
     }
 
-    protected function makeTab($tabClass, int $index = null) :? ManagerTheme\TabControllerInterface
+    protected function makeTab($tabClass, int $index = null) :? TabControllerInterface
     {
 
         $tabController = null;
         if (class_exists($tabClass) &&
-            is_a($tabClass, ManagerTheme\TabControllerInterface::class, true)
+            is_a($tabClass, TabControllerInterface::class, true)
         ) {
-            /** @var ManagerTheme\TabControllerInterface $tabController */
+            /** @var TabControllerInterface $tabController */
             $tabController = new $tabClass($this->managerTheme);
             $tabController->setIndex($index);
             if (! $tabController->canView()) {

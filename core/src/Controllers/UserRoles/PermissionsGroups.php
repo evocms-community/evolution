@@ -1,27 +1,28 @@
 <?php namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Legacy\Permissions;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Permissions as PermissionsModel;
+use EvolutionCMS\Models\PermissionsGroups as PermissionsGroupsModel;
+use EvolutionCMS\Facades\ManagerTheme;
 
-class PermissionsGroups extends AbstractController implements ManagerTheme\PageControllerInterface
+class PermissionsGroups extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.user_roles.permissions_groups';
+    protected string $view = 'page.user_roles.permissions_groups';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('edit_role');
+        return ManagerTheme::getCore()->hasPermission('edit_role');
     }
 
     public function process(): bool
     {
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-            Models\Permissions::query()->where('group_id', $this->getElementId())->delete();
-            Models\PermissionsGroups::query()->where('id', $this->getElementId())->delete();
+            PermissionsModel::query()->where('group_id', $this->getElementId())->delete();
+            PermissionsGroupsModel::query()->where('id', $this->getElementId())->delete();
             header('Location: index.php?a=86&tab=1');
         }
         if (isset($_POST['a'])) {
@@ -35,7 +36,7 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
     public function updateOrCreate()
     {
         $id = $this->getElementId();
-        $group = Models\PermissionsGroups::query()->firstOrNew(['id' => $id]);
+        $group = PermissionsGroupsModel::query()->firstOrNew(['id' => $id]);
         $group->name = $_POST['name'];
         $group->lang_key = $_POST['lang_key'];
         $group->save();
@@ -44,7 +45,7 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
 
     public static function findCategoryOrNew($name)
     {
-        $group = Models\PermissionsGroups::query()->firstOrNew(['name' => $name]);
+        $group = PermissionsGroupsModel::query()->firstOrNew(['name' => $name]);
         $group->save();
         return $group->getKey();
     }
@@ -56,7 +57,7 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
     {
         $id = $this->getElementId();
         return [
-            'groups' => Models\PermissionsGroups::findOrNew($id)
+            'groups' => PermissionsGroupsModel::findOrNew($id)
         ];
     }
 }

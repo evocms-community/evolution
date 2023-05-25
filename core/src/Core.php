@@ -42,6 +42,7 @@ use UrlProcessor;
  * @property Legacy\PasswordHash $phpass
  *      $this->loadExtension('phpass');
  * @property Parser $tpl
+ * @property \EvolutionCMS\Extensions\Router $router
  */
 class Core extends AbstractLaravel implements Interfaces\CoreInterface
 {
@@ -6534,5 +6535,15 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         return false;
+    }
+
+    public function maintenanceMode()
+    {
+        // TODO: Implement maintenanceMode() method.
+    }
+
+    public function terminating($callback)
+    {
+        // TODO: Implement terminating() method.
     }
 }

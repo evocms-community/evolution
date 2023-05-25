@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent;
 use EvolutionCMS\Traits;
 
 /**
- * EvolutionCMS\Models\WebUserAttribute
+ * EvolutionCMS\Models\UserAttribute
  *
  * @property int $id
  * @property int $internalKey

@@ -1,12 +1,13 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
-use EvolutionCMS\Models;
+use EvolutionCMS\Models\SiteContent;
 
-class RefreshSite extends AbstractController implements ManagerTheme\PageControllerInterface
+class RefreshSite extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.refresh_site';
+    protected string $view = 'page.refresh_site';
 
     /**
      * @var \EvolutionCMS\Interfaces\DatabaseInterface
@@ -16,7 +17,7 @@ class RefreshSite extends AbstractController implements ManagerTheme\PageControl
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = $this->managerTheme->getCore()->getDatabase();
+        $this->database = ManagerTheme::getCore()->getDatabase();
     }
 
     /**
@@ -31,7 +32,7 @@ class RefreshSite extends AbstractController implements ManagerTheme\PageControl
     {
         // (un)publishing of documents, version 2!
         // first, publish document waiting to be published
-        $time = $this->managerTheme->getCore()->timestamp();
+        $time = ManagerTheme::getCore()->timestamp();
 
         $this->parameters = [
             'num_rows_pub' => $this->publishDocuments($time),
@@ -39,19 +40,19 @@ class RefreshSite extends AbstractController implements ManagerTheme\PageControl
         ];
 
         ob_start();
-            $this->managerTheme->getCore()->clearCache('full', true);
+            ManagerTheme::getCore()->clearCache('full', true);
             $this->parameters['cache_log'] = ob_get_contents();
         ob_end_clean();
 
         // invoke OnSiteRefresh event
-        $this->managerTheme->getCore()->invokeEvent("OnSiteRefresh");
+        ManagerTheme::getCore()->invokeEvent("OnSiteRefresh");
 
         return true;
     }
 
     protected function publishDocuments(int $time) : int
     {
-        $query = Models\SiteContent::publishDocuments($time);
+        $query = SiteContent::publishDocuments($time);
 
         $count = $query->count();
 
@@ -62,7 +63,7 @@ class RefreshSite extends AbstractController implements ManagerTheme\PageControl
 
     protected function unPublishDocuments(int $time) : int
     {
-        $query = Models\SiteContent::unPublishDocuments($time);
+        $query = SiteContent::unPublishDocuments($time);
 
         $count = $query->count();
 

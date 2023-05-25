@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteHtmlsnippet;
 use EvolutionCMS\Models\SiteModule;
@@ -10,13 +11,13 @@ use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\SiteTmplvarContentvalue;
 
-class Search extends AbstractController implements ManagerTheme\PageControllerInterface
+class Search extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.search';
+    protected string $view = 'page.search';
 
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()
+        return ManagerTheme::getCore()
             ->hasPermission('view_document');
     }
 
@@ -63,7 +64,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
         $idFromAlias = false;
         if (isset($_REQUEST['url']) && $_REQUEST['url'] !== '') {
             $url = $_REQUEST['url'];
-            $friendly_url_suffix = $this->managerTheme->getCore()
+            $friendly_url_suffix = ManagerTheme::getCore()
                 ->getConfig('friendly_url_suffix');
             $base_url = MODX_BASE_URL;
             $site_url = MODX_SITE_URL;
@@ -74,7 +75,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             if (substr($url, 0, 4) === 'http') {
                 $url = preg_replace('@^' . $site_url . '@', '', $url);
             }
-            $idFromAlias = $this->managerTheme->getCore()
+            $idFromAlias = ManagerTheme::getCore()
                 ->getIdFromAlias($url);
         }
 
@@ -127,7 +128,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
         }
 
         // get document groups for current user
-        if (!empty($this->managerTheme->getCore()
+        if (!empty(ManagerTheme::getCore()
             ->getConfig('use_udperms'))) {
             $mgrRole = (isset ($_SESSION['mgrRole']) && $_SESSION['mgrRole'] == 1) ? 1 : 0;
             if ($mgrRole != 1) {
@@ -144,18 +145,18 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
         }
 
         $icons = [
-            'text/plain' => $this->managerTheme->getStyle('icon_document'),
-            'text/html' => $this->managerTheme->getStyle('icon_document'),
-            'text/xml' => $this->managerTheme->getStyle('icon_code_file'),
-            'text/css' => $this->managerTheme->getStyle('icon_code_file'),
-            'text/javascript' => $this->managerTheme->getStyle('icon_code_file'),
-            'image/gif' => $this->managerTheme->getStyle('icon_image'),
-            'image/jpg' => $this->managerTheme->getStyle('icon_image'),
-            'image/png' => $this->managerTheme->getStyle('icon_image'),
-            'application/pdf' => $this->managerTheme->getStyle('icon_pdf'),
-            'application/rss+xml' => $this->managerTheme->getStyle('icon_code_file'),
-            'application/vnd.ms-word' => $this->managerTheme->getStyle('icon_word'),
-            'application/vnd.ms-excel' => $this->managerTheme->getStyle('icon_excel'),
+            'text/plain' => ManagerTheme::getStyle('icon_document'),
+            'text/html' => ManagerTheme::getStyle('icon_document'),
+            'text/xml' => ManagerTheme::getStyle('icon_code_file'),
+            'text/css' => ManagerTheme::getStyle('icon_code_file'),
+            'text/javascript' => ManagerTheme::getStyle('icon_code_file'),
+            'image/gif' => ManagerTheme::getStyle('icon_image'),
+            'image/jpg' => ManagerTheme::getStyle('icon_image'),
+            'image/png' => ManagerTheme::getStyle('icon_image'),
+            'application/pdf' => ManagerTheme::getStyle('icon_pdf'),
+            'application/rss+xml' => ManagerTheme::getStyle('icon_code_file'),
+            'application/vnd.ms-word' => ManagerTheme::getStyle('icon_word'),
+            'application/vnd.ms-excel' => ManagerTheme::getStyle('icon_excel'),
         ];
 
         if(!empty($articul_id)){
@@ -170,11 +171,11 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
         foreach ($results as &$result) {
             $result['iconClass'] = '';
             if ($result['type'] == 'reference') {
-                $result['iconClass'] .= $this->managerTheme->getStyle('tree_linkgo');
+                $result['iconClass'] .= ManagerTheme::getStyle('tree_linkgo');
             } elseif ($result['isfolder'] == 0) {
-                $result['iconClass'] .= isset($result['contenttype'], $icons[$result['contenttype']]) ? $icons[$result['contenttype']] : $this->managerTheme->getStyle('icon_document');
+                $result['iconClass'] .= isset($result['contenttype'], $icons[$result['contenttype']]) ? $icons[$result['contenttype']] : ManagerTheme::getStyle('icon_document');
             } else {
-                $result['iconClass'] .= $this->managerTheme->getStyle('icon_folder');
+                $result['iconClass'] .= ManagerTheme::getStyle('icon_folder');
             }
 
             $result['rowClass'] = '';
@@ -186,8 +187,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             if (function_exists('mb_strlen') && function_exists('mb_substr')) {
-                $result['pagetitle'] = mb_strlen($result['pagetitle'], $this->managerTheme->getCharset()) > 70 ? mb_substr($result['pagetitle'], 0, 70, $this->managerTheme->getCharset()) . "..." : $result['pagetitle'];
-                $result['description'] = mb_strlen($result['description'], $this->managerTheme->getCharset()) > 70 ? mb_substr($result['description'], 0, 70, $this->managerTheme->getCharset()) . "..." : $result['description'];
+                $result['pagetitle'] = mb_strlen($result['pagetitle'], ManagerTheme::getCharset()) > 70 ? mb_substr($result['pagetitle'], 0, 70, ManagerTheme::getCharset()) . "..." : $result['pagetitle'];
+                $result['description'] = mb_strlen($result['description'], ManagerTheme::getCharset()) > 70 ? mb_substr($result['description'], 0, 70, ManagerTheme::getCharset()) . "..." : $result['description'];
             } else {
                 $result['pagetitle'] = strlen($result['pagetitle']) > 20 ? substr($result['pagetitle'], 0, 20) . '...' : $result['pagetitle'];
                 $result['description'] = strlen($result['description']) > 35 ? substr($result['description'], 0, 35) . '...' : $result['description'];
@@ -205,7 +206,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
         $templates[] = [
             'value' => '',
-            'title' => $this->managerTheme->getLexicon('none'),
+            'title' => ManagerTheme::getLexicon('none'),
             'selected' => ''
         ];
 
@@ -219,7 +220,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                      ->toArray() as $row) {
             $templates[] = [
                 'value' => $row['id'],
-                'title' => htmlspecialchars($row['templatename'], ENT_QUOTES, $this->managerTheme->getCore()
+                'title' => htmlspecialchars($row['templatename'], ENT_QUOTES, ManagerTheme::getCore()
                         ->getConfig('modx_charset')) . ' (' . $row['id'] . ')',
                 'selected' => $row['id'] == $templateid ? ' selected' : ''
             ];
@@ -236,9 +237,9 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
         if ($searchfields != '') {
             //docs
-            if ($this->managerTheme->getCore()
-                    ->hasPermission('new_document') && $this->managerTheme->getCore()
-                    ->hasPermission('edit_document') && $this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
+                    ->hasPermission('new_document') && ManagerTheme::getCore()
+                    ->hasPermission('edit_document') && ManagerTheme::getCore()
                     ->hasPermission('save_document')) {
 
                 $results = $this->getResults();
@@ -247,8 +248,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['content'] = [
-                        'class' => $this->managerTheme->getStyle('icon_sitemap'),
-                        'title' => $this->managerTheme->getLexicon('manage_documents') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_sitemap'),
+                        'title' => ManagerTheme::getLexicon('manage_documents') . ' (' . $count . ')'
                     ];
                     foreach ($results as $row) {
                         $output['content']['results'][] = [
@@ -262,7 +263,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //templates
-            if ($this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
                 ->hasPermission('edit_template')) {
 
                 $results = SiteTemplate::query()
@@ -276,8 +277,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['templates'] = [
-                        'class' => $this->managerTheme->getStyle('icon_template'),
-                        'title' => $this->managerTheme->getLexicon('manage_templates') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_template'),
+                        'title' => ManagerTheme::getLexicon('manage_templates') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -292,10 +293,10 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //tvs
-            if ($this->managerTheme->getCore()
-                    ->hasPermission('edit_template') && $this->managerTheme->getCore()
-                    ->hasPermission('edit_snippet') && $this->managerTheme->getCore()
-                    ->hasPermission('edit_chunk') && $this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
+                    ->hasPermission('edit_template') && ManagerTheme::getCore()
+                    ->hasPermission('edit_snippet') && ManagerTheme::getCore()
+                    ->hasPermission('edit_chunk') && ManagerTheme::getCore()
                     ->hasPermission('edit_plugin')) {
 
                 $results = SiteTmplvar::query()
@@ -313,8 +314,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['tmplvars'] = [
-                        'class' => $this->managerTheme->getStyle('icon_tv'),
-                        'title' => $this->managerTheme->getLexicon('settings_templvars') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_tv'),
+                        'title' => ManagerTheme::getLexicon('settings_templvars') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -329,7 +330,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //Chunks
-            if ($this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
                 ->hasPermission('edit_chunk')) {
 
                 $results = SiteHtmlsnippet::query()
@@ -343,8 +344,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['htmlsnippets'] = [
-                        'class' => $this->managerTheme->getStyle('icon_chunk'),
-                        'title' => $this->managerTheme->getLexicon('manage_htmlsnippets') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_chunk'),
+                        'title' => ManagerTheme::getLexicon('manage_htmlsnippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -359,7 +360,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //Snippets
-            if ($this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
                 ->hasPermission('edit_snippet')) {
 
                 $results = SiteSnippet::query()
@@ -375,8 +376,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['snippets'] = [
-                        'class' => $this->managerTheme->getStyle('icon_code'),
-                        'title' => $this->managerTheme->getLexicon('manage_snippets') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_code'),
+                        'title' => ManagerTheme::getLexicon('manage_snippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -391,7 +392,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //plugins
-            if ($this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
                 ->hasPermission('edit_plugin')) {
 
                 $results = SitePlugin::query()
@@ -407,8 +408,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['plugins'] = [
-                        'class' => $this->managerTheme->getStyle('icon_plugin'),
-                        'title' => $this->managerTheme->getLexicon('manage_plugins') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_plugin'),
+                        'title' => ManagerTheme::getLexicon('manage_plugins') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -423,7 +424,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             }
 
             //modules
-            if ($this->managerTheme->getCore()
+            if (ManagerTheme::getCore()
                 ->hasPermission('edit_module')) {
 
                 $results = SiteModule::query()
@@ -440,8 +441,8 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
 
                 if ($count) {
                     $output['modules'] = [
-                        'class' => $this->managerTheme->getStyle('icon_cogs'),
-                        'title' => $this->managerTheme->getLexicon('modules') . ' (' . $count . ')'
+                        'class' => ManagerTheme::getStyle('icon_cogs'),
+                        'title' => ManagerTheme::getLexicon('modules') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -488,10 +489,10 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
             ), array(
                 '\(',
                 '\)'
-            ), entities(trim($search), $this->managerTheme->getCore()
+            ), entities(trim($search), ManagerTheme::getCore()
                 ->getConfig('modx_charset'))) . ')!isu';
 
-        return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, $this->managerTheme->getCore()
+        return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, ManagerTheme::getCore()
             ->getConfig('modx_charset')));
     }
 }

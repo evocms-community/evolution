@@ -73,7 +73,7 @@ class Cache
         $q1 = array("\\", "\"", "\r", "\n", "\$");
         $q2 = array("\\\\", "\\\"", "\\r", "\\n", "\\$");
 
-        return str_replace($q1, $q2, $s);
+        return str_replace($q1, $q2, (string)$s);
     }
 
     /**
