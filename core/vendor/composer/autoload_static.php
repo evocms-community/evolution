@@ -20,7 +20,6 @@ class ComposerStaticInit1531aed25098be51d13e4658b4d8efd0
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
@@ -166,7 +165,6 @@ class ComposerStaticInit1531aed25098be51d13e4658b4d8efd0
         array (
             'ExecWithFallback\\' => 17,
             'EvolutionCMS\\UserManager\\' => 25,
-            'EvolutionCMS\\Salo\\' => 18,
             'EvolutionCMS\\DocumentManager\\' => 29,
             'EvolutionCMS\\' => 13,
             'Egulias\\EmailValidator\\' => 23,
@@ -385,8 +383,8 @@ class ComposerStaticInit1531aed25098be51d13e4658b4d8efd0
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -513,10 +511,6 @@ class ComposerStaticInit1531aed25098be51d13e4658b4d8efd0
         'EvolutionCMS\\UserManager\\' => 
         array (
             0 => __DIR__ . '/..' . '/evocms-services/user-manager/src',
-        ),
-        'EvolutionCMS\\Salo\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/evolution-cms/salo/src',
         ),
         'EvolutionCMS\\DocumentManager\\' => 
         array (
@@ -1770,9 +1764,6 @@ class ComposerStaticInit1531aed25098be51d13e4658b4d8efd0
         'EvolutionCMS\\Providers\\TemplateProcessorServiceProvider' => __DIR__ . '/../..' . '/src/Providers/TemplateProcessorServiceProvider.php',
         'EvolutionCMS\\Providers\\TracyServiceProvider' => __DIR__ . '/../..' . '/src/Providers/TracyServiceProvider.php',
         'EvolutionCMS\\Providers\\UrlProcessorServiceProvider' => __DIR__ . '/../..' . '/src/Providers/UrlProcessorServiceProvider.php',
-        'EvolutionCMS\\Salo\\Console\\InstallCommand' => __DIR__ . '/..' . '/evolution-cms/salo/src/Console/InstallCommand.php',
-        'EvolutionCMS\\Salo\\Console\\PublishCommand' => __DIR__ . '/..' . '/evolution-cms/salo/src/Console/PublishCommand.php',
-        'EvolutionCMS\\Salo\\SaloServiceProvider' => __DIR__ . '/..' . '/evolution-cms/salo/src/SaloServiceProvider.php',
         'EvolutionCMS\\ServiceProvider' => __DIR__ . '/../..' . '/src/ServiceProvider.php',
         'EvolutionCMS\\Services\\AuthServices' => __DIR__ . '/../..' . '/src/Services/AuthServices.php',
         'EvolutionCMS\\Services\\ConfigService' => __DIR__ . '/../..' . '/src/Services/ConfigService.php',
