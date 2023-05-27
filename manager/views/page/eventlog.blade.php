@@ -111,13 +111,14 @@
             <!-- load modules -->
             <div class="container container-body">
                 <div class="row searchbar form-group">
-                    <div class="col-sm-6 input-group">
-                        <div class="input-group-btn">
+                    <div class="col-2 col-sm-6">
+                        <div class="input-group input-group-btn">
                             <a class="btn btn-danger btn-sm" href="index.php?a=116&cls=1"><i
-                                    class="{{ $_style['icon_trash'] }}"></i> {{ ManagerTheme::getLexicon('clear_log') }}</a>
+                                    class="{{ $_style['icon_trash'] }}"></i>
+                                <span>{{ ManagerTheme::getLexicon('clear_log') }}</span></a>
                         </div>
                     </div>
-                    <div class="col-sm-6 ">
+                    <div class="col-10 col-sm-6">
                         <div class="input-group float-right w-auto">
                             <input class="form-control form-control-sm" name="search" type="text" value="<?= $query ?>"
                                 placeholder="{{ ManagerTheme::getLexicon('search') }}" />

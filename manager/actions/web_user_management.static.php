@@ -11,7 +11,7 @@ $query = [
     'role' => isset($_REQUEST['role']) && is_scalar($_REQUEST['role']) ? $_REQUEST['role'] : '',
 ];
 
-$page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] - 1 : 0;
+$page = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] - 1 : 0;
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : '';
 
@@ -29,7 +29,7 @@ switch ($op) {
 }
 
 // context menu
-$cm = new \EvolutionCMS\Support\ContextMenu("cntxm", 150);
+$cm = new \EvolutionCMS\Support\ContextMenu ("cntxm", 150);
 $cm->addItem(ManagerTheme::getLexicon('edit'), "js:menuAction(1)", $_style["icon_edit"], (!$modx->hasPermission('edit_user') ? 1 : 0));
 $cm->addItem(ManagerTheme::getLexicon('delete'), "js:menuAction(2)", $_style["icon_trash"], (!$modx->hasPermission('delete_user') ? 1 : 0));
 echo $cm->render();
@@ -38,7 +38,7 @@ echo $cm->render();
 $role_options = '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . ManagerTheme::getLexicon('no_user_role') . '</option>';
 $roles = \EvolutionCMS\Models\UserRole::query()->select('id', 'name')->get()->toArray();
 foreach ($roles as $row) {
-    $role_options .= '<option value="'.$row['id'].'" '.($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '').'>'.e($row['name']).'</option>';
+    $role_options .= '<option value="' . $row['id'] . '" ' . ($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '') . '>' . e($row['name']) . '</option>';
 }
 
 // prepare data
@@ -51,9 +51,9 @@ $managerUsers = \EvolutionCMS\Models\User::query()
 if ($query['search'] != '') {
     $val = $query['search'];
     $managerUsers = $managerUsers->where(function ($q) use ($val) {
-        $q->where('users.username', 'LIKE', $val.'%')
-            ->orWhere('user_attributes.fullname', 'LIKE', '%'.$val.'%')
-            ->orWhere('user_attributes.email', 'LIKE', '%'.$val.'%');
+        $q->where('users.username', 'LIKE', $val . '%')
+            ->orWhere('user_attributes.fullname', 'LIKE', '%' . $val . '%')
+            ->orWhere('user_attributes.email', 'LIKE', '%' . $val . '%');
     });
 }
 if ($query['role'] != '') {
@@ -84,7 +84,7 @@ if ($numRecords > 0) {
         '',
         'right" nowrap="nowrap,right,center',
     ];
-    $table = new \EvolutionCMS\Support\MakeTable();
+    $table = new \EvolutionCMS\Support\MakeTable ();
     $table->setTableClass($tableClass);
     $table->setColumnHeaderClass($columnHeaderClass);
     // $modx->getMakeTable()->setRowHeaderClass($rowHeaderClass);
@@ -101,7 +101,7 @@ if ($numRecords > 0) {
         'user_logincount' => ManagerTheme::getLexicon('user_logincount'),
         'user_block' => ManagerTheme::getLexicon('user_block'),
     ];
-    $tbWidth = [ '1%', '', '', '', '1%', '1%', '1%' ];
+    $tbWidth = ['1%', '', '', '', '1%', '1%', '1%'];
     $table->setColumnWidths($tbWidth);
 
     $listDocs = [];
@@ -110,13 +110,13 @@ if ($numRecords > 0) {
         $blocked_title = '';
         if ($el['blocked']) {
             if ($el['blockedafter']) {
-                $blocked_title .= ManagerTheme::getLexicon('user_blockedafter').' '.$modx->toDateFormat($el['blockedafter']);
+                $blocked_title .= ManagerTheme::getLexicon('user_blockedafter') . ' ' . $modx->toDateFormat($el['blockedafter']);
             }
             if ($el['blockedafter'] && $el['blockeduntil']) {
                 $blocked_title .= ', ';
             }
             if ($el['blockeduntil']) {
-                $blocked_title .= ManagerTheme::getLexicon('user_blockeduntil').' '.$modx->toDateFormat($el['blockeduntil']);
+                $blocked_title .= ManagerTheme::getLexicon('user_blockeduntil') . ' ' . $modx->toDateFormat($el['blockeduntil']);
             }
         }
 
@@ -128,11 +128,11 @@ if ($numRecords > 0) {
             'role' => e($el['name'] ?: ManagerTheme::getLexicon('no_user_role')),
             'user_prevlogin' => $el['thislogin'] ? $modx->toDateFormat($el['thislogin']) : '-',
             'user_logincount' => $el['logincount'],
-            'user_block' => $el['blocked'] ? ManagerTheme::getLexicon('yes').' <i class="fa fa-question-circle help" data-toggle="tooltip" data-placement="top" title="'.$blocked_title.'"></i>' : '-',
+            'user_block' => $el['blocked'] ? ManagerTheme::getLexicon('yes') . ' <i class="fa fa-question-circle help" data-toggle="tooltip" data-placement="top" title="' . $blocked_title . '"></i>' : '-',
         ];
     }
 
-    $table->createPagingNavigation($numRecords, 'a=99&'.http_build_query($query));
+    $table->createPagingNavigation($numRecords, 'a=99&' . http_build_query($query));
     $output = $table->create($listDocs, $listTableHeader, 'index.php?a=99');
 } else {
     // no documents
@@ -151,7 +151,7 @@ if ($numRecords > 0) {
     };
 
     var selectedItem;
-    var contextm = <?= $cm->getClientScriptObject() ?>;
+    var contextm = <?=$cm->getClientScriptObject()?>;
 
     function showContentMenu(id, e) {
         selectedItem = id;
@@ -195,7 +195,7 @@ if ($numRecords > 0) {
     <input type="hidden" name="op" value="" />
 
     <h1>
-        <i class="<?= $_style['icon_web_user'] ?>"></i> <?php echo ManagerTheme::getLexicon('web_user_management_title') ?> <i class="<?= $_style['icon_question_circle'] ?> help"></i>
+        <i class="<?=$_style['icon_web_user']?>"></i> <?php echo ManagerTheme::getLexicon('web_user_management_title') ?> <i class="<?=$_style['icon_question_circle']?> help"></i>
     </h1>
 
     <div class="container element-edit-message">
@@ -205,12 +205,12 @@ if ($numRecords > 0) {
     <div class="tab-page">
         <div class="container container-body">
             <div class="row searchbar form-group">
-                <div class="col-sm-6 input-group">
-                    <div class="input-group-btn">
-                        <a class="btn btn-success btn-sm" href="index.php?a=87"><i class="<?= $_style['icon_add'] ?>"></i> <?php echo ManagerTheme::getLexicon('new_web_user') ?></a>
+                <div class="col-2 col-sm-6">
+                    <div class="input-group input-group-btn">
+                        <a class="btn btn-success btn-sm" href="index.php?a=87"><i class="<?=$_style['icon_add']?>"></i> <span class="d-none d-sm-inline"><?php echo ManagerTheme::getLexicon('new_web_user') ?></span></a>
                     </div>
                 </div>
-                <div class="col-sm-6 ">
+                <div class="col-10 col-sm-6">
                     <div class="input-group float-right w-auto">
                         <select class="form-control form-control-sm" name="role">
                             <option value=""><?php echo ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
@@ -218,18 +218,18 @@ if ($numRecords > 0) {
                         </select>
                         <input class="form-control form-control-sm" name="search" type="text" value="<?php echo $query['search'] ?>" placeholder="<?php echo ManagerTheme::getLexicon('search') ?>" />
                         <div class="input-group-append">
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php echo ManagerTheme::getLexicon('search') ?>" onclick="searchResource(); return false;"><i class="<?= $_style['icon_search'] ?>"></i></a>
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php echo ManagerTheme::getLexicon('reset') ?>" onclick="resetSearch(); return false;"><i class="<?= $_style['icon_refresh'] ?>"></i></a>
+                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php echo ManagerTheme::getLexicon('search') ?>" onclick="searchResource(); return false;"><i class="<?=$_style['icon_search']?>"></i></a>
+                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php echo ManagerTheme::getLexicon('reset') ?>" onclick="resetSearch(); return false;"><i class="<?=$_style['icon_refresh']?>"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group clearfix">
-                <?php if ($numRecords > 0) : ?>
+                <?php if ($numRecords > 0): ?>
                     <div class="float-xs-left">
                         <span class="publishedDoc"><?php echo $numRecords . ' ' . ManagerTheme::getLexicon('resources_in_container') ?></span>
                     </div>
-                <?php endif; ?>
+                <?php endif;?>
             </div>
             <div class="row">
                 <div class="table-responsive">

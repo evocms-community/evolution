@@ -277,7 +277,6 @@ input[name="ta"].inputBox + .CodeMirror + input[type="button"],
 #_actions .btn-group .btn .fa,
 #_actions .btn-group .btn .far,
 #_actions .btn-group .btn .fas {
-    display: none;
     width: 1em;
     font-size: 1em;
     text-align: center;

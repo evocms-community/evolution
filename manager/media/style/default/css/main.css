@@ -528,7 +528,6 @@ div#tabCategory.tab-page ul li ul li {
 }
 .rTableRow {
     display: table-row;
-    padding: 0;
 }
 .rTableHeading {
     display: table-header-group;
@@ -545,6 +544,7 @@ div#tabCategory.tab-page ul li ul li {
 .rTableHead {
     display: table-cell;
     padding: 0;
+    vertical-align: middle;
 }
 .lockCell {
     width: 2.5em;

@@ -293,7 +293,7 @@ function document_onload() {
         actionStay['stay2'] = '<i class="' + evo.style.icon_pencil + '"></i>';
         actionStay['stay3'] = '<i class="' + evo.style.icon_reply + '"></i>';
         if (actionSelect.value) {
-            actionSaveButton.innerHTML += '<i class="' + evo.style.icon_plus + '"></i><span> + </span>' + actionStay['stay' + actionSelect.value] + '<span>' + actionSelect.children['stay' + actionSelect.value].innerHTML + '</span>';
+            actionSaveButton.innerHTML += ' <i class="' + evo.style.icon_plus + '"></i> ' + actionStay['stay' + actionSelect.value] + ' <span>' + actionSelect.children['stay' + actionSelect.value].innerHTML + '</span>';
         }
         var actionSelectNewOption = null, actionSelectOptions = actionSelect.children, div = document.createElement('div');
         div.className = 'dropdown-menu';
