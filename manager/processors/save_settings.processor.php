@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\File;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
@@ -10,7 +12,12 @@ $data = $_POST + $defaultSettings;
 
 // lose the POST now, gets rid of quirky issue with Safari 3 - see FS#972
 unset($_POST);
-
+if(File::missing(MODX_MANAGER_PATH . '.htaccess')) {
+    $sample_htaccess = File::get(MODX_MANAGER_PATH . 'ht.access');
+    if(!empty($sample_htaccess)) {
+        File::put(MODX_MANAGER_PATH . '.htaccess', str_replace('/manager/', '/' . MGR_DIR . '/', $sample_htaccess));
+    }
+}
 if ($data['friendly_urls'] === '1' && strpos($_SERVER['SERVER_SOFTWARE'], 'IIS') === false) {
     $htaccess = MODX_BASE_PATH . '.htaccess';
     $sample_htaccess = MODX_BASE_PATH . 'ht.access';

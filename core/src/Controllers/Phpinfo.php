@@ -1,19 +1,18 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerThemeInterface;
-use EvolutionCMS\Interfaces\ManagerTheme;
-use Illuminate\Support\Collection;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 
-class Phpinfo extends AbstractController implements ManagerTheme\PageControllerInterface
+class Phpinfo extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.phpinfo';
+    protected string $view = 'page.phpinfo';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('logs');
+        return ManagerTheme::getCore()->hasPermission('logs');
     }
 
     /**

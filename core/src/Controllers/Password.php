@@ -1,18 +1,18 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 
-class Password extends AbstractController implements ManagerTheme\PageControllerInterface
+class Password extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.password';
+    protected string $view = 'page.password';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('change_password');
+        return ManagerTheme::getCore()->hasPermission('change_password');
     }
 
     public function getParameters(array $params = []): array

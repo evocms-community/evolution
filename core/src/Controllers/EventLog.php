@@ -1,16 +1,17 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 
-class EventLog extends AbstractController implements ManagerTheme\PageControllerInterface
+class EventLog extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.eventlog';
+    protected string $view = 'page.eventlog';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('view_eventlog');
+        return ManagerTheme::getCore()->hasPermission('view_eventlog');
     }
 }

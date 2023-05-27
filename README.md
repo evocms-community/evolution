@@ -25,7 +25,7 @@ Most significant, though, is **Evolution CMS's** ability to empower you to quick
 
 ## Install
 You can use the single click installer: [Evolution CMS Installer](https://github.com/evocms-community/installer)
-Evolution CMS 3.0 requires **PHP >= 7.4**
+Evolution CMS requires **PHP >= 7.4**, 8.1 is recommended.
 
 ## Docker
 To run **Evolution CMS** using docker make **docker-compose up -d** command in your terminal. Additional configs and access parameters you can find in **docker-compose.yml** file and **docker** folder 

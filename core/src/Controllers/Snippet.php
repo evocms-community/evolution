@@ -1,12 +1,15 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteModule;
+use EvolutionCMS\Models\SiteSnippet;
 use Illuminate\Support\Collection;
 
-class Snippet extends AbstractController implements ManagerTheme\PageControllerInterface
+class Snippet extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.snippet';
+    protected string $view = 'page.snippet';
 
     protected int $elementType = 4;
 
@@ -15,7 +18,7 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
         'OnSnipFormRender'
     ];
 
-    /** @var Models\SiteSnippet|null */
+    /** @var SiteSnippet|null */
     private $object;
 
     /**
@@ -25,11 +28,11 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
     {
         switch ($this->getIndex()) {
             case 22:
-                $out = $this->managerTheme->getCore()->hasPermission('edit_snippet');
+                $out = ManagerTheme::getCore()->hasPermission('edit_snippet');
                 break;
 
             case 23:
-                $out = $this->managerTheme->getCore()->hasPermission('new_snippet');
+                $out = ManagerTheme::getCore()->hasPermission('new_snippet');
                 break;
 
             default:
@@ -44,7 +47,7 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
      */
     public function process(): bool
     {
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
 
@@ -63,31 +66,31 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
     }
 
     /**
-     * @return Models\SiteSnippet
+     * @return SiteSnippet
      */
     protected function parameterData()
     {
         $id = $this->getElementId();
 
-        /** @var Models\SiteSnippet $data */
-        $data = Models\SiteSnippet::firstOrNew(['id' => $id]);
+        /** @var SiteSnippet $data */
+        $data = SiteSnippet::firstOrNew(['id' => $id]);
 
         if ($data->exists) {
             if (empty($data->count())) {
-                $this->managerTheme->alertAndQuit('Snippet not found for id ' . $id . '.', false);
+                ManagerTheme::alertAndQuit('Snippet not found for id ' . $id . '.', false);
             }
 
             $_SESSION['itemname'] = $data->name;
             if ($data->locked === 1 && $_SESSION['mgrRole'] != 1) {
-                $this->managerTheme->alertAndQuit('error_no_privileges');
+                ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = $this->managerTheme->getLexicon("new_snippet");
+            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_snippet");
         }
 
-        $values = $this->managerTheme->loadValuesFromSession($_POST);
+        $values = ManagerTheme::loadValuesFromSession($_POST);
 
         if (!empty($values)) {
             $data->fill($values);
@@ -98,14 +101,14 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::orderBy('rank', 'ASC')
+        return Category::orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
     }
 
     protected function parameterImportParams()
     {
-        return Models\SiteModule::query()->join('site_module_depobj', function ($join) {
+        return SiteModule::query()->join('site_module_depobj', function ($join) {
             $join->on('site_module_depobj.module', '=', 'site_modules.id');
             $join->on('site_module_depobj.type', '=', \DB::raw(40));
         })->join('site_snippets', 'site_snippets.id', '=', 'site_module_depobj.resource')
@@ -120,8 +123,8 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
             return '';
         }
 
-        return $this->managerTheme->getCore()->convertDocBlockIntoList(
-            $this->managerTheme->getCore()->parseDocBlockFromString(
+        return ManagerTheme::getCore()->convertDocBlockIntoList(
+            ManagerTheme::getCore()->parseDocBlockFromString(
                 $this->object->snippet
             )
         );
@@ -140,7 +143,7 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
 
     private function callEvent($name): string
     {
-        $out = $this->managerTheme->getCore()->invokeEvent($name, [
+        $out = ManagerTheme::getCore()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -156,10 +159,10 @@ class Snippet extends AbstractController implements ManagerTheme\PageControllerI
     {
         return [
             'select' => 1,
-            'save' => $this->managerTheme->getCore()->hasPermission('save_snippet'),
-            'new' => $this->managerTheme->getCore()->hasPermission('new_snippet'),
-            'duplicate' => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('new_snippet'),
-            'delete' => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('delete_snippet'),
+            'save' => ManagerTheme::getCore()->hasPermission('save_snippet'),
+            'new' => ManagerTheme::getCore()->hasPermission('new_snippet'),
+            'duplicate' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('new_snippet'),
+            'delete' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('delete_snippet'),
             'cancel' => 1
         ];
     }

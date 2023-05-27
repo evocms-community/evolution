@@ -1,7 +1,11 @@
 <?php namespace EvolutionCMS\Models;
 
-use Illuminate\Database\Eloquent;
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * EvolutionCMS\Models\SiteTmplvar
@@ -15,6 +19,7 @@ use EvolutionCMS\Traits;
  * @property int $category
  * @property int $locked
  * @property string $elements
+ * @property string $properties
  * @property int $rank
  * @property string $display
  * @property string $display_params
@@ -26,7 +31,8 @@ use EvolutionCMS\Traits;
  * @property null|Category $categories
  *
  * BelongsToMany
- * @property Eloquent\Collection $templates
+ * @property Collection|SiteTemplate[] $templates
+ * @property Collection|UserRole[] $userRoles
  *
  * Virtual
  * @property-read \Carbon\Carbon $created_at
@@ -36,11 +42,11 @@ use EvolutionCMS\Traits;
  * @property-read mixed $already_edit_info
  * @property-read mixed $is_already_edit
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\EvolutionCMS\Models\SiteTmplvar lockedView()
+ * @method static Builder|SiteTmplvar lockedView()
  *
  * @mixin \Eloquent
  */
-class SiteTmplvar extends Eloquent\Model
+class SiteTmplvar extends Model
 {
     use Traits\Models\ManagerActions,
         Traits\Models\LockedElements,
@@ -87,7 +93,7 @@ class SiteTmplvar extends Eloquent\Model
         ]
     ];
 
-    public function categories() : Eloquent\Relations\BelongsTo
+    public function categories() : BelongsTo
     {
         return $this->belongsTo(Category::class, 'category', 'id');
     }
@@ -103,9 +109,9 @@ class SiteTmplvar extends Eloquent\Model
     }
 
     /**
-     * @return Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function templates() : Eloquent\Relations\BelongsToMany
+    public function templates() : BelongsToMany
     {
         return $this->belongsToMany(
             SiteTemplate::class,
@@ -117,9 +123,9 @@ class SiteTmplvar extends Eloquent\Model
     }
 
     /**
-     * @return Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function userRoles() : Eloquent\Relations\BelongsToMany
+    public function userRoles() : BelongsToMany
     {
         return $this->belongsToMany(
             UserRole::class,

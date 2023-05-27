@@ -17,7 +17,7 @@ class Panel extends AbstractPanel
      *
      * @var array
      */
-    protected $views = [];
+    protected string $views = [];
     /**
      * subscribe.
      */

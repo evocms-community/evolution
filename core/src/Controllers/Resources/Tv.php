@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteTmplvar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(301,'edit_template'), 'duplicate'=>array(304,'edit_template'), 'remove'=>array(303,'edit_template')),
 class Tv extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.tv';
+    protected string $view = 'page.resources.tv';
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Tv extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'new_template',
             'edit_template',
             'new_role',
@@ -66,7 +68,7 @@ class Tv extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory(): Collection
     {
-        return Models\SiteTmplvar::with('templates')
+        return SiteTmplvar::with('templates')
             ->where('category', '=', 0)
             ->orderBy('name', 'ASC')
             ->lockedView()
@@ -75,8 +77,8 @@ class Tv extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::with('tvs.templates', 'tvs.userRoles')
-            ->whereHas('tvs', function (Eloquent\Builder $builder) {
+        return Category::with('tvs.templates', 'tvs.userRoles')
+            ->whereHas('tvs', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();

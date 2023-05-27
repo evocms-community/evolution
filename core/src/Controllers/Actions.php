@@ -2,27 +2,29 @@
 
 namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use Illuminate\Http\Response;
+use EvolutionCMS\Tracy\Debugger;
+use Illuminate\Support\Facades\Response as ResponseFacade;
 
-class Actions extends AbstractController implements ManagerTheme\PageControllerInterface
+class Actions extends AbstractController implements PageControllerInterface
 {
     public function handleAction()
     {
-        global $action;
         // Update last action in table active_users
-        $action = $this->managerTheme->getActionId();
+        $action = ManagerTheme::getActionId();
 
         $output = '';
 
         if ($action === null) {
-            $_style = $this->managerTheme->getStyle();
+            $_style = ManagerTheme::getStyle();
             // first we check to see if this is a frameset request
-            \EvolutionCMS\Tracy\Debugger::$showBar = false;
+            Debugger::$showBar = false;
             // this looks to be a top-level frameset request, so let's serve up a frameset
-            $output = $this->managerTheme->handle(1, ['frame' => 1]);
+            $output = ManagerTheme::handle(1, ['frame' => 1]);
         } else {
-            $output = $this->managerTheme->handle($action);
+            $output = ManagerTheme::handle($action);
         }
 
         if ($output instanceof Response) {
@@ -33,7 +35,7 @@ class Actions extends AbstractController implements ManagerTheme\PageControllerI
             return strpos($header, 'Location') === 0;
         }, 0);
 
-        return response()->make($output)->setStatusCode($isRedirect ? 302 : 200);
+        return ResponseFacade::make($output, $isRedirect ? 302 : 200);
     }
 
     /**

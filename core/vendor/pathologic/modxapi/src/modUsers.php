@@ -294,7 +294,7 @@ class modUsers extends MODxAPI
             LEFT JOIN {$this->makeTable('users')} as user ON user.id=attribute.internalKey
             WHERE {$find}='{$this->escape($id)}'
         ");
-        $this->field = $this->modx->db->getRow($result);
+        $this->field = $this->modx->db->getRow($result) ?: [];
     }
 
     /**

@@ -1,27 +1,29 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Interfaces\ManagerTheme;
-use EvolutionCMS\Models;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\DocumentgroupName;
+use EvolutionCMS\Models\MembergroupName;
 
-class WebAccessPermissions extends AbstractController implements ManagerTheme\PageControllerInterface
+class WebAccessPermissions extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.web_access_permissions';
+    protected string $view = 'page.web_access_permissions';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('manage_groups');
+        return ManagerTheme::getCore()->hasPermission('manage_groups');
     }
 
     public function process() : bool
     {
-        $this->parameters['userGroups'] = Models\MembergroupName::with(['users', 'documentGroups'])
+        $this->parameters['userGroups'] = MembergroupName::with(['users', 'documentGroups'])
             ->orderBy('name', 'ASC')
             ->get();
 
-        $this->parameters['documentGroups'] = Models\DocumentgroupName::with('documents')
+        $this->parameters['documentGroups'] = DocumentgroupName::with('documents')
             ->orderBy('name', 'ASC')
             ->get();
 

@@ -1,13 +1,16 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteTemplate;
+use EvolutionCMS\Models\SiteTmplvar;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent;
 
-class Template extends AbstractController implements ManagerTheme\PageControllerInterface
+class Template extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.template';
+    protected string $view = 'page.template';
 
     protected int $elementType = 1;
 
@@ -16,7 +19,7 @@ class Template extends AbstractController implements ManagerTheme\PageController
         'OnTempFormRender'
     ];
 
-    /** @var Models\SiteTemplate|null */
+    /** @var SiteTemplate|null */
     private $object;
 
     /**
@@ -25,10 +28,10 @@ class Template extends AbstractController implements ManagerTheme\PageController
     public function canView(): bool
     {
         if($this->getIndex() == 16) {
-            return $this->managerTheme->getCore()->hasPermission('edit_template');
+            return ManagerTheme::getCore()->hasPermission('edit_template');
         }
         if($this->getIndex() == 19) {
-            return $this->managerTheme->getCore()->hasPermission('new_template');
+            return ManagerTheme::getCore()->hasPermission('new_template');
         }
         return false;
     }
@@ -38,7 +41,7 @@ class Template extends AbstractController implements ManagerTheme\PageController
      */
     public function process() : bool
     {
-        $this->managerTheme->getCore()->lockElement($this->elementType, $this->getElementId());
+        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
         $this->parameters = [
@@ -48,13 +51,13 @@ class Template extends AbstractController implements ManagerTheme\PageController
             'tvSelected'       => $this->parameterTvSelected(),
             'categoriesWithTv' => $this->parameterCategoriesWithTv(
                 $this->object->tvs->reject(
-                    function (Models\SiteTmplvar $item) {
+                    function (SiteTmplvar $item) {
                         return $item->category === 0;
                     })->pluck('id')->toArray()
             ),
             'tvOutCategory'    => $this->parameterTvOutCategory(
                 $this->object->tvs->reject(
-                    function (Models\SiteTmplvar $item) {
+                    function (SiteTmplvar $item) {
                         return $item->category !== 0;
                     })->pluck('id')->toArray()
             ),
@@ -67,14 +70,14 @@ class Template extends AbstractController implements ManagerTheme\PageController
     }
 
     /**
-     * @return Models\SiteTemplate
+     * @return SiteTemplate
      */
     protected function parameterData()
     {
         $id = $this->getElementId();
 
-        /** @var Models\SiteTemplate $data */
-        $data = Models\SiteTemplate::with('tvs')
+        /** @var SiteTemplate $data */
+        $data = SiteTemplate::with('tvs')
             ->firstOrNew(['id'   => $id], [
                     'category'   => (int)get_by_key($_REQUEST, 'catid', 0),
                     'selectable' => 1
@@ -82,18 +85,18 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
         if ($id > 0) {
             if (!$data->exists) {
-                $this->managerTheme->alertAndQuit('No database record has been found for this template.');
+                ManagerTheme::alertAndQuit('No database record has been found for this template.');
             }
 
             $_SESSION['itemname'] = $data->templatename;
             if ($data->locked == 1 && $_SESSION['mgrRole'] != 1) {
-                $this->managerTheme->alertAndQuit('error_no_privileges');
+                ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } else {
-            $_SESSION['itemname'] = $this->managerTheme->getLexicon("new_template");
+            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_template");
         }
 
-        $values = $this->managerTheme->loadValuesFromSession($_POST);
+        $values = ManagerTheme::loadValuesFromSession($_POST);
 
         if ($values) {
             $data->fill($values);
@@ -104,7 +107,7 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
     protected function parameterCategories(): Collection
     {
-        return Models\Category::orderBy('rank', 'ASC')
+        return Category::orderBy('rank', 'ASC')
             ->orderBy('category', 'ASC')
             ->get();
     }
@@ -116,7 +119,7 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
     protected function parameterTvOutCategory(array $ignore = []): Collection
     {
-        $query = Models\SiteTmplvar::with('templates')
+        $query = SiteTmplvar::with('templates')
             ->where('category', '=', 0)
             ->orderBy('name', 'ASC');
 
@@ -129,14 +132,14 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
     protected function parameterCategoriesWithTv(array $ignore = []): Collection
     {
-        $query = Models\Category::with('tvs.templates')
+        $query = Category::with('tvs.templates')
             ->whereHas('tvs', function(Eloquent\Builder $builder) use
             (
                 $ignore
             ) {
                 if (!empty($ignore)) {
                     $builder = $builder->whereNotIn(
-                        (new Models\SiteTmplvar)->getTable() . '.id'
+                        (new SiteTmplvar)->getTable() . '.id'
                         , $ignore
                     );
                 }
@@ -160,7 +163,7 @@ class Template extends AbstractController implements ManagerTheme\PageController
 
     private function callEvent($name): string
     {
-        $out = $this->managerTheme->getCore()->invokeEvent($name, [
+        $out = ManagerTheme::getCore()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -175,10 +178,10 @@ class Template extends AbstractController implements ManagerTheme\PageController
     {
         return [
             'select'    => 1,
-            'save'      => $this->managerTheme->getCore()->hasPermission('save_template'),
-            'new'       => $this->managerTheme->getCore()->hasPermission('new_template'),
-            'duplicate' => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('new_template'),
-            'delete'    => $this->object->getKey() && $this->managerTheme->getCore()->hasPermission('delete_template'),
+            'save'      => ManagerTheme::getCore()->hasPermission('save_template'),
+            'new'       => ManagerTheme::getCore()->hasPermission('new_template'),
+            'duplicate' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('new_template'),
+            'delete'    => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('delete_template'),
             'cancel'    => 1
         ];
     }

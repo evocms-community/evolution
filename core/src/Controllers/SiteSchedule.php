@@ -1,18 +1,20 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\SiteContent;
+use Illuminate\Database\Eloquent\Collection;
 
-class SiteSchedule extends AbstractController implements ManagerTheme\PageControllerInterface
+class SiteSchedule extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.site_schedule';
+    protected string $view = 'page.site_schedule';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('view_eventlog');
+        return ManagerTheme::getCore()->hasPermission('view_eventlog');
     }
 
     /**
@@ -31,21 +33,21 @@ class SiteSchedule extends AbstractController implements ManagerTheme\PageContro
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     protected function publishDocuments()
     {
-        return Models\SiteContent::where('pub_date', '>', $this->managerTheme->getCore()->timestamp())
+        return SiteContent::where('pub_date', '>', ManagerTheme::getCore()->timestamp())
             ->orderBy('pub_date', 'asc')
             ->get();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     protected function unPublishDocuments()
     {
-        return Models\SiteContent::where('unpub_date', '>', $this->managerTheme->getCore()->timestamp())
+        return SiteContent::where('unpub_date', '>', ManagerTheme::getCore()->timestamp())
             ->orderBy('unpub_date', 'asc')
             ->get();
     }

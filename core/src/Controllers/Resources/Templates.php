@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteTemplate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array( 'edit'=>array(16,'edit_template'), 'duplicate'=>array(96,'new_template'), 'remove'=>array(21,'delete_template') ),
 class Templates extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.templates';
+    protected string $view = 'page.resources.templates';
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Templates extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'new_template',
             'edit_template'
         ]);
@@ -64,7 +66,7 @@ class Templates extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory() : Collection
     {
-        return Models\SiteTemplate::where('category', '=', 0)
+        return SiteTemplate::where('category', '=', 0)
             ->orderBy('templatename', 'ASC')
             ->lockedView()
             ->get();
@@ -72,8 +74,8 @@ class Templates extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories() : Collection
     {
-        return Models\Category::with('templates')
-            ->whereHas('templates', function (Eloquent\Builder $builder) {
+        return Category::with('templates')
+            ->whereHas('templates', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();

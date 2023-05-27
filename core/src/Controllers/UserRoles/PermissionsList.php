@@ -1,14 +1,13 @@
 <?php namespace EvolutionCMS\Controllers\UserRoles;
 
-use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Models\PermissionsGroups;
+use EvolutionCMS\Facades\ManagerTheme;
 
 class PermissionsList extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.user_roles.permission_list';
+    protected string $view = 'page.user_roles.permission_list';
 
     /**
      * {@inheritdoc}
@@ -27,7 +26,7 @@ class PermissionsList extends AbstractResources implements TabControllerInterfac
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('edit_user');
+        return ManagerTheme::getCore()->hasPermission('edit_user');
     }
 
     /**
@@ -39,7 +38,7 @@ class PermissionsList extends AbstractResources implements TabControllerInterfac
 
 
         return array_merge([
-            'groups' => Models\PermissionsGroups::orderBy('id')->get(),
+            'groups' => PermissionsGroups::orderBy('id')->get(),
         ], $params);
 
     }

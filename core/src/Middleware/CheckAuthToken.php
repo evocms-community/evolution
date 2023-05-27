@@ -3,10 +3,12 @@
 use Carbon\Carbon;
 use Closure;
 use EvolutionCMS\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class CheckAuthToken
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $headers = getallheaders();
         if (isset($headers['authorization'])) {
@@ -17,7 +19,7 @@ class CheckAuthToken
 
         $user = User::query()->where('access_token', $token)->where('valid_to', '>', Carbon::now())->first();
         if (is_null($user)) {
-            return \Response::json(['errors' => ['token' => ['invalid token']]], '403');
+            return Response::json(['errors' => ['token' => ['invalid token']]], '403');
         }
         $request->attributes->add(['user' => $user]);
         return $next($request);

@@ -254,10 +254,16 @@ evo.collapse = function (a, b) {
                 if (this.nextElementSibling.classList.contains('in')) {
                     this.nextElementSibling.classList.remove('in');
                     this.classList.add('collapsed');
+
+                    this.querySelector('i').classList.add('fa-rotate-270');
                 } else {
                     this.nextElementSibling.classList.add('in');
                     this.classList.remove('collapsed');
+
+                    this.querySelector('i').classList.remove('fa-rotate-270');
                 }
+
+                return false;
             };
         }
     }

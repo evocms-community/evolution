@@ -1,15 +1,17 @@
 <?php namespace EvolutionCMS\Controllers\Resources;
 
-use EvolutionCMS\Models;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
+use EvolutionCMS\Models\Category;
+use EvolutionCMS\Models\SiteModule;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
+use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(108,'edit_module'), 'duplicate'=>array(111,'new_module'), 'remove'=>array(110,'delete_module')),
 class Modules extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.resources.modules';
+    protected string $view = 'page.resources.modules';
     /**
      * {@inheritdoc}
      */
@@ -27,7 +29,7 @@ class Modules extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasAnyPermissions([
+        return ManagerTheme::getCore()->hasAnyPermissions([
             'exec_module',
             'new_module',
             'edit_module',
@@ -67,7 +69,7 @@ class Modules extends AbstractResources implements TabControllerInterface
 
     protected function parameterOutCategory() : Collection
     {
-        return Models\SiteModule::where('category', '=', 0)
+        return SiteModule::where('category', '=', 0)
             ->orderBy('name', 'ASC')
             ->lockedView()
             ->get();
@@ -75,8 +77,8 @@ class Modules extends AbstractResources implements TabControllerInterface
 
     protected function parameterCategories() : Collection
     {
-        return Models\Category::with('modules')
-            ->whereHas('modules', function (Eloquent\Builder $builder) {
+        return Category::with('modules')
+            ->whereHas('modules', function (Builder $builder) {
                 return $builder->lockedView();
             })->orderBy('rank', 'ASC')
             ->get();
@@ -84,10 +86,10 @@ class Modules extends AbstractResources implements TabControllerInterface
 
     protected function parameterActionName() : string
     {
-        if ($this->managerTheme->getCore()->hasPermission('edit_module')) {
+        if (ManagerTheme::getCore()->hasPermission('edit_module')) {
             return 'actions.edit';
         }
-        if ($this->managerTheme->getCore()->hasPermission('exec_module')) {
+        if (ManagerTheme::getCore()->hasPermission('exec_module')) {
             return 'actions.run';
         }
         return '';

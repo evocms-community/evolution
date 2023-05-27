@@ -169,9 +169,9 @@ class ClosureTable extends Eloquent
      *
      * @return int
      */
-    public function getAncestorAttribute()
+    public function getAncestorAttribute(): int
     {
-        return $this->getAttributeFromArray($this->getAncestorColumn());
+        return (int)$this->getAttributeFromArray($this->getAncestorColumn());
     }
 
     /**
@@ -209,9 +209,9 @@ class ClosureTable extends Eloquent
      *
      * @return int
      */
-    public function getDescendantAttribute()
+    public function getDescendantAttribute(): int
     {
-        return $this->getAttributeFromArray($this->getDescendantColumn());
+        return (int)$this->getAttributeFromArray($this->getDescendantColumn());
     }
 
     /**
@@ -249,9 +249,9 @@ class ClosureTable extends Eloquent
      *
      * @return int
      */
-    public function getDepthAttribute()
+    public function getDepthAttribute(): int
     {
-        return $this->getAttributeFromArray($this->getDepthColumn());
+        return (int)$this->getAttributeFromArray($this->getDepthColumn());
     }
 
     /**

@@ -377,7 +377,7 @@ class modResource extends MODxAPI
             $this->markAllEncode();
             $this->newDoc = false;
             $result = $this->query("SELECT * from {$this->makeTable('site_content')} where `id`=" . (int) $id);
-            $this->fromArray($this->modx->db->getRow($result));
+            $this->fromArray($this->modx->db->getRow($result) ?: []);
             $result = $this->query("SELECT * from {$this->makeTable('site_tmplvar_contentvalues')} where `contentid`=" . (int) $id);
             while ($row = $this->modx->db->getRow($result)) {
                 $this->field[$this->tvid[$row['tmplvarid']]] = $row['value'];

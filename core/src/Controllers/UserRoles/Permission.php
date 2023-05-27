@@ -1,25 +1,26 @@
 <?php namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\Permissions;
+use EvolutionCMS\Facades\ManagerTheme;
 
-class Permission extends AbstractController implements ManagerTheme\PageControllerInterface
+class Permission extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.user_roles.permission';
+    protected string $view = 'page.user_roles.permission';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('edit_role');
+        return ManagerTheme::getCore()->hasPermission('edit_role');
     }
 
     public function process() : bool
     {
         if(isset($_GET['action']) && $_GET['action'] == 'delete' ){
-            Models\Permissions::query()->where('id', $this->getElementId())->delete();
+            Permissions::query()->where('id', $this->getElementId())->delete();
             header('Location: index.php?a=86&tab=2');
         }
         if (isset($_POST['a'])) {
@@ -40,7 +41,7 @@ class Permission extends AbstractController implements ManagerTheme\PageControll
             $_POST['disabled'] = 0;
         }
         $id = $this->getElementId();
-        $group = Models\Permissions::findOrNew($id);
+        $group = Permissions::findOrNew($id);
         $group->name = $_POST['name'];
         $group->lang_key = $_POST['lang_key'];
         $group->key = $_POST['key'];
@@ -58,8 +59,8 @@ class Permission extends AbstractController implements ManagerTheme\PageControll
     {
         $id = $this->getElementId();
         return [
-            'permission' => Models\Permissions::findOrNew($id),
-            'categories' => Models\PermissionsGroups::query()->select('id', 'name as category')
+            'permission' => Permissions::findOrNew($id),
+            'categories' => Model::query()->select('id', 'name as category')
         ];
     }
 }

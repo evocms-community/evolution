@@ -1,15 +1,13 @@
 <?php namespace EvolutionCMS\Controllers\UserRoles;
 
-use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
-use Illuminate\Support\Collection;
+use EvolutionCMS\Models\UserRole;
+use EvolutionCMS\Facades\ManagerTheme;
 
 class RoleList extends AbstractResources implements TabControllerInterface
 {
-    protected $view = 'page.user_roles.role_management';
+    protected string $view = 'page.user_roles.role_management';
 
     /**
      * {@inheritdoc}
@@ -28,7 +26,7 @@ class RoleList extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('edit_user');
+        return ManagerTheme::getCore()->hasPermission('edit_user');
     }
 
     /**
@@ -40,7 +38,7 @@ class RoleList extends AbstractResources implements TabControllerInterface
 
 
         return array_merge([
-            'roles' => Models\UserRole::orderBy('name')->get(),
+            'roles' => UserRole::orderBy('name')->get(),
         ], $params);
 
     }
