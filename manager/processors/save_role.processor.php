@@ -26,7 +26,6 @@ $fields = array(
 	'empty_trash' => $empty_trash,
 	'action_ok' => $action_ok,
 	'logout' => $logout,
-	'help' => $help,
 	'messages' => $messages,
 	'new_user' => $new_user,
 	'edit_user' => $edit_user,
