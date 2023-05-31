@@ -217,7 +217,7 @@ class EXPORT_SITE
         if ($alias === '') {
             $filename = $prefix . $docid . $suffix;
         } else {
-            if ($modx->config['suffix_mode'] === '1' && strpos($alias, '.') !== false) {
+            if ($modx->getConfig('suffix_mode') === '1' && strpos($alias, '.') !== false) {
                 $suffix = '';
             }
             $filename = $prefix . $alias . $suffix;

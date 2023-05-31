@@ -122,7 +122,7 @@ function run() {
 	$mtime = $mtime[1] + $mtime[0];
 	$importstart = $mtime;
 
-	if($_POST['reset'] == 'on') {
+	if(isset($_POST['reset']) && $_POST['reset'] == 'on') {
 		$modx->db->truncate($tbl_site_content);
 		$modx->db->query("ALTER TABLE {$tbl_site_content} AUTO_INCREMENT = 1");
 	}
@@ -158,7 +158,7 @@ function run() {
 	$totaltime = ($importend - $importstart);
 	$output .= sprintf('<p>' . $_lang['import_site_time'] . '</p>', round($totaltime, 3));
 
-	if($_POST['convert_link'] == 'on') {
+	if(isset($_POST['convert_link']) && $_POST['convert_link'] == 'on') {
 		convertLink();
 	}
 
@@ -303,7 +303,7 @@ function importFiles($parent, $filedir, $files, $mode) {
 				if($filename == 'index.html') {
 					$is_site_start = true;
 				}
-				if($is_site_start == true && $_POST['reset'] == 'on') {
+				if($is_site_start == true && isset($_POST['reset']) && $_POST['reset'] == 'on') {
 					$modx->db->update(array('setting_value' => $newid), $tbl_system_settings, "setting_name='site_start'");
 					$modx->db->update(array('menuindex' => 0), $tbl_site_content, "id='{$newid}'");
 				}

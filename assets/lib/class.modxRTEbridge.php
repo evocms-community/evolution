@@ -841,7 +841,7 @@ class modxRTEbridge
         foreach($this->themeConfig  as $param=>$arr) {
             if (isset($arr['force'])) $p['tc.' . $param] = $arr['force'];
             elseif (isset($arr['bridged'])) $p['tc.' . $param] = $arr['bridged'];
-            else $p['tc.' . $param] = $arr['value'];
+            elseif(isset($arr['value'])) $p['tc.' . $param] = $arr['value'];
         }
         foreach($this->gSettingsDefaultValues as $param=>$value) { $p['gd.'.$param] = is_array($value) ? implode(',',$value) : $value; }
         foreach($this->langArr as $param=>$value)      { $p['l.'.$param] = $value; }

@@ -23,7 +23,7 @@ elseif($modx->config['rb_base_dir'] === $export_dir . '/')
 elseif(!is_writable($export_dir))
 	return $_lang['export_site_target_unwritable'];
 
-$modx->export->generate_mode = $_POST['generate_mode'];
+$modx->export->generate_mode = $_POST['generate_mode'] ?? 'crawl';
 
 $modx->export->setExportDir($export_dir);
 $modx->export->removeDirectoryAll($export_dir);
@@ -40,7 +40,7 @@ if($ignore_ids!==$_POST['ignore_ids']
 	$modx->clearCache('full');
 }
 
-$total = $modx->export->getTotal($_POST['ignore_ids'], $modx->config['export_includenoncache']);
+$total = $modx->export->getTotal($_POST['ignore_ids'], $modx->getConfig('export_includenoncache'));
 
 $output = sprintf($_lang['export_site_numberdocs'], $total);
 $modx->export->total = $total;
