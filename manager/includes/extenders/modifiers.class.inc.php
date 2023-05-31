@@ -279,7 +279,7 @@ class MODIFIERS {
         else
             $value = $this->getValueFromPreset($key, $value, $cmd, $opt);
 
-        $value = str_replace('[+key+]', $key, $value);
+        $value = str_replace('[+key+]', $key, $value ?? '');
 
         return $value;
     }

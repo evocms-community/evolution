@@ -53,7 +53,8 @@ class DocManagerBackend {
 	}
 
 	function changeTemplateVariables($pids) {
-		$updateError = '';
+		$updated = false;
+        $updateError = '';
 
 		/*
         $ignoreList = array();
@@ -270,8 +271,6 @@ class DocManagerBackend {
 	}
 
 	function changeOther($pids) {
-		session_start();
-
 		/* misc document settings */
 		switch ($_POST['setoption']) {
 			case 1:
@@ -371,7 +370,7 @@ class DocManagerBackend {
 	}
 
     function processRange($pids, $column, $returnval = 1) {
-		$values = array();
+		$values = $idarray = array();
 		$error = '';
 
 		if (trim($pids) <> '') {
@@ -380,7 +379,7 @@ class DocManagerBackend {
 			$error .= $this->dm->lang['DM_process_novalues'];
 		}
 		$pids = '';
-
+        $i = 0;
 		/* parse values, and check for invalid entries */
 		foreach ($values as $key => $value) {
 			/* value is a range */
@@ -460,7 +459,7 @@ class DocManagerBackend {
 		return $results;
 	}
 
-    function getTemplateVarIds($tvNames = array (), $documentId, $ignoreList=array()) {
+    function getTemplateVarIds($tvNames, $documentId, $ignoreList=array()) {
 		$output = array ();
 		if (count($tvNames) > 0) {
 			foreach ($tvNames as $name => $value) {
