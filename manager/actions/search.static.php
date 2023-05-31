@@ -27,8 +27,9 @@ if (isset($_REQUEST['searchid'])) {
 
     <div class="tab-page">
         <div class="container container-body">
-            <form name="searchform" method="post" action="index.php?ajax=0" enctype="multipart/form-data" class="form-group">
+            <form name="searchform" method="post" action="index.php" enctype="multipart/form-data" class="form-group">
                 <input type="hidden" name="a" value="71">
+                <input type="hidden" name="ajax" value="0">
                 <div class="row form-row">
                     <div class="col-md-3 col-lg-2"><?= $_lang['search_criteria_top'] ?></div>
                     <div class="col-md-9 col-lg-10">
@@ -215,7 +216,7 @@ if (isset($_REQUEST['submitok'])) {
     <div class="tab-page">
         <div class="container container-body">
             <?php
-            if (isset($_GET['ajax']) && $_GET['ajax'] != 1) {
+            if (isset($_POST['ajax']) && $_POST['ajax'] != 1) {
 
                 if ($limit < 1) {
                     echo $_lang['search_empty'];

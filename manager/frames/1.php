@@ -298,7 +298,8 @@ $which_browser = $which_browser ?? 'mcpuk';
                 <div class="cell" data-evocp="bgmColor">
                     <ul id="settings" class="nav">
                         <li id="searchform">
-                            <form action="index.php?a=71" method="post" target="main">
+                            <form action="index.php?a=71" method="post" target="mainsearch">
+                                <input type="hidden" value="0" name="ajax"" />
                                 <input type="hidden" value="Search" name="submitok" />
                                 <label for="searchid" class="label_searchid">
                                     <?= $_style['menu_search'] ?>
