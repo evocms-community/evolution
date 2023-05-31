@@ -27,7 +27,7 @@ if (isset($_REQUEST['searchid'])) {
 
     <div class="tab-page">
         <div class="container container-body">
-            <form name="searchform" method="post" action="index.php" enctype="multipart/form-data" class="form-group">
+            <form name="searchform" method="post" action="index.php?ajax=0" enctype="multipart/form-data" class="form-group">
                 <input type="hidden" name="a" value="71">
                 <div class="row form-row">
                     <div class="col-md-3 col-lg-2"><?= $_lang['search_criteria_top'] ?></div>
@@ -246,9 +246,9 @@ if (isset($_REQUEST['submitok'])) {
                             'text/plain' => $_style["tree_page"],
                             'text/xml' => $_style["tree_page_xml"],
                             'text/javascript' => $_style["tree_page_js"],
-                            'image/gif' => $_style["tree_page_gif"],
-                            'image/jpg' => $_style["tree_page_jpg"],
-                            'image/png' => $_style["tree_page_png"]
+                            //'image/gif' => $_style["tree_page_gif"],
+                            //'image/jpg' => $_style["tree_page_jpg"],
+                            //'image/png' => $_style["tree_page_png"]
                         );
 
                         while ($row = $modx->db->getRow($rs)) {
