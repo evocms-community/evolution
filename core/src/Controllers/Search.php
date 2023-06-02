@@ -52,6 +52,7 @@ class Search extends AbstractController implements PageControllerInterface
         $results = null;
 
         $searchQuery = SiteContent::query()
+            ->withTrashed()
             ->select('site_content.id', 'pagetitle', 'longtitle', 'description', 'introtext', 'menutitle', 'deleted', 'published', 'isfolder', 'type');
 
         $searchfields = trim(get_by_key($_REQUEST, 'searchfields', '', 'is_scalar'));

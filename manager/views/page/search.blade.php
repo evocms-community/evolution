@@ -11,6 +11,16 @@
             }
           };
         </script>
+        <style>
+            .deletedNode a {
+                color: #a52a2a;
+                text-decoration: line-through;
+            }
+            .unpublishedNode a {
+                color: #818a91;
+                font-style: italic;
+            }
+        </style>
     @endpush
 
     <h1>
