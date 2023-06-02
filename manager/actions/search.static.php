@@ -18,7 +18,16 @@ if (isset($_REQUEST['searchid'])) {
         }
       };
     </script>
-
+    <style>
+        .deletedNode a {
+            color: #a52a2a;
+            text-decoration: line-through;
+        }
+        .unpublishedNode a {
+            color: #818a91;
+            font-style: italic;
+        }
+    </style>
     <h1>
         <i class="fa fa-search"></i><?= $_lang['search_criteria'] ?>
     </h1>
