@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Tämä kohde on poistettu';
 $_lang["search_results"] = 'Haun tulokset';
 $_lang["search_results_returned_desc"] = 'Kuvaus';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Haulla löytyi <strong>%s</strong> sivua. Jos hakutuloksia on paljon, yritä käyttää tarkempia hakuehtoja. <p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Otsikko';
 $_lang["search_view_docdata"] = 'Näytä tämä kohde';
 $_lang["security"] = 'Käyttäjät';
@@ -1016,41 +1016,45 @@ $_lang["sys_alert"] = 'Järjestelmähälytys';
 $_lang["sysinfo_activity_message"] = 'Lista viimeksi muokatuista sivuista.';
 $_lang["sysinfo_userid"] = 'Käyttäjä';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hei [+uid+]
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Tässä ovat kirjautumistiedot henkilölle [+sname+] Sisällönhallintajärjestelmä:
+Here are your login details for [+sname+] Content Manager:
 
-Käyttäjänimi: [+uid+]
-Salasana: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Kun olet kirjautunut Sisällönhallintajärjestelmään, voit muuttaa salasanasi.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Terveisin,
-Sivuston Ylläpitäjä';
-$_lang["system_email_webreminder"] = 'Hei [+uid+]
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Aktivoidaksesi uuden salasanasi, napsauta linkkiä:
+To activate your new password click the following link:
 
 [+surl+]
 
-Jos toiminto onnistuu, voit käyttää seuraavaa salasanaa kirjautuaksesi sisään:
+If successful you can use the following password to login:
 
-Salasana:[+pwd+]
-Jos et tilannut tätä sähköpostiviestiä, älä HUOMAAi tätä.
+Password:[+pwd+]
 
-Terveisin,
-Sivuston Ylläpitäjä';
-$_lang["system_email_websignup"] = 'Hei [+uid+] 
+If you did not request this email then please ignore it.
 
-Tässä ovat kirjautumistiedot henkilölle [+sname+]:
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Käyttäjänimi: [+uid+]
-Salasana: [+pwd+]
+Here are your login details for [+sname+]:
 
-Kun olet kirjautunut Sisällönhallintajärjestelmään, voit muuttaa salasanasi.
+Username: [+uid+]
+Password: [+pwd+]
 
-Terveisin,
-Sivuston Ylläpitäjä';
+Once you log into [+sname+] ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Katso taulun tarkempi selitysteksti viemällä hiiren osoitin taulun nimen päälle. Kaikissa tauluissa ei ole selitystekstiä.';
 $_lang["table_prefix"] = 'Taulun etuliite';
 $_lang["tag"] = 'Metatiedon tyyppi';

@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Denna post har tagits bort';
 $_lang["search_results"] = 'Sökresultat';
 $_lang["search_results_returned_desc"] = 'Beskrivning';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Din sökning returnerade <b>%s</b> resurser. Försök att göra en mer specifik sökning om du får många träffar. De två kolumnerna längst till vänster låter dig hitta resursen i webbplatsträdet eller visa resursen. De två kolumnerna till höger visar om resursen har tagits bort och vilken publiceringsstatus den har.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Visa denna post';
 $_lang["security"] = 'Säkerhet';
@@ -1016,42 +1016,45 @@ $_lang["sys_alert"] = 'Systemlarm';
 $_lang["sysinfo_activity_message"] = 'Denna lista visar vilka resurser som nyligen redigerats av dina användare.';
 $_lang["sysinfo_userid"] = 'Användare';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hej [+uid+]!
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Här kommer dina inloggningsuppgifter för [+sname+] innehållshanterare.
+Here are your login details for [+sname+] Content Manager:
 
-Användarnamn: [+uid+]
-Lösenord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Du kan ändra ditt lösenord när du loggat in i innehålshanteraren ([+surl+]).
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Vänliga hälsningar
-Webmastern';
-$_lang["system_email_webreminder"] = 'Hej [+uid+]!
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Klicka på följande länk för att aktivera ditt nya lösenord:
+To activate your new password click the following link:
 
 [+surl+]
 
-Om allt går bra använder du följande lösenord för att logga in:
+If successful you can use the following password to login:
 
-Lösenord:[+pwd+]
+Password:[+pwd+]
 
-Om du inte har bett om det här brevet så kan du strunta i det.
+If you did not request this email then please ignore it.
 
-Vänliga hälsningar
-Webmastern';
-$_lang["system_email_websignup"] = 'Hej [+uid+]!
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Här kommer dina inloggningsuppgifter för [+sname+].
+Here are your login details for [+sname+]:
 
-Användarnamn: [+uid+]
-Lösenord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Du kan ändra ditt lösenord när du loggat in i [+sname+] ([+surl+]).
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Vänliga hälsningar
-Webmastern';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Placera markören över ett tabellnamn för att se en kort beskrivning av tabellens funktion (gäller dock inte alla tabellnamn).';
 $_lang["table_prefix"] = 'Tabellprefix';
 $_lang["tag"] = 'Tagg';

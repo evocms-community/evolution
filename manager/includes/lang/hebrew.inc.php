@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'פריט זה נמחק';
 $_lang["search_results"] = 'תוצאות חיפוש';
 $_lang["search_results_returned_desc"] = 'תיאור';
 $_lang["search_results_returned_id"] = 'זיהוי';
-$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> documents. If a lot of results are being returned, try to enter a more specific search. The two left-most columns will allow you to find the document in the tree or view the document. The two right most columns show, respectively, if a document has been deleted and what it\'s published status is.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'כותרת';
 $_lang["search_view_docdata"] = 'הצג פריט זה';
 $_lang["security"] = 'אבטחה';
@@ -1016,7 +1016,9 @@ $_lang["sys_alert"] = 'התרעת מערכת';
 $_lang["sysinfo_activity_message"] = 'This list show which documents have been recently edited by your users.';
 $_lang["sysinfo_userid"] = 'User';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hello [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
 Here are your login details for [+sname+] Content Manager:
 
@@ -1026,7 +1028,8 @@ Password: [+pwd+]
 Once you log into the Content Manager ([+surl+]), you can change your password.
 
 Regards,
-Site Administrator';
+Site Administrator
+</html>';
 $_lang["system_email_webreminder"] = 'Hello [+uid+]
 
 To activate your new password click the following link:
@@ -1039,9 +1042,9 @@ Password:[+pwd+]
 
 If you did not request this email then please ignore it.
 
-Regrads,
+Regards,
 Site Administrator';
-$_lang["system_email_websignup"] = 'Hello [+uid+] 
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
 Here are your login details for [+sname+]:
 

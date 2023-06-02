@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Este artículo ha sido borrado';
 $_lang["search_results"] = 'Resultados de la búsqueda';
 $_lang["search_results_returned_desc"] = 'Descripción';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Tu criterio de búsqueda regresó <b>%s</b> documentos.  Si se han encontrado demasiados resultados, intenta ingresar una búsqueda más especifica.  Las dos columnas a la izquierda te  permiten encontrar el documento en el árbol o ver el documento. Las dos columnas a la derecha muestran, respectivamente, si un documento ha sido borrado y cuál es su estado de publicación.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Título';
 $_lang["search_view_docdata"] = 'Ver este artículo';
 $_lang["security"] = 'Seguridad';
@@ -1016,45 +1016,45 @@ $_lang["sys_alert"] = 'Alerta de Sistema';
 $_lang["sysinfo_activity_message"] = 'Esta lista muestra qué documentos han sido editados recientemente por tus usuarios.';
 $_lang["sysinfo_userid"] = 'Usuario';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hola [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
 <html>
-Hello [+uid+] 
+Hello [+uid+]
 
-Aquí tienes los detalles de inicio de sesión para el Administrador de Contenido de [+sname+]:
+Here are your login details for [+sname+] Content Manager:
 
-Usuario: [+uid+]
-Contraseña: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Una vez que has ingresado al Administrador de Contenido de ([+surl+]), puedes cambiar tu contraseña.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Saludos,
-El Administrador
+Regards,
+Site Administrator
 </html>';
-$_lang["system_email_webreminder"] = 'Hola [+uid+]
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Para activar tu contraseña nueva haz clic en el siguiente enlace:
+To activate your new password click the following link:
 
 [+surl+]
 
-Si tienes éxito puedes usar la siguiente contraseña para ingresar:
+If successful you can use the following password to login:
 
-Contraseña:[+pwd+]
+Password:[+pwd+]
 
-Si no solicitaste este email entonces por favor ignóralo.
+If you did not request this email then please ignore it.
 
-Saludos,
-El Administrador';
-$_lang["system_email_websignup"] = 'Hola [+uid+] 
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Aquí tienes los detalles de ingreso para [+sname+]:
+Here are your login details for [+sname+]:
 
-Nombre de usuario: [+uid+]
-Contraseña: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Una vez que ingreses a [+sname+] ([+surl+]), puedes cambiar tu contraseña.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Saludos,
-El Administrador';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Pasa el ratón sobre el nombre de la tabla para ver una corta descripción de su función (no todas las tablas tienen <i>comentarios</i> configurados).';
 $_lang["table_prefix"] = 'Prefijo de tabla';
 $_lang["tag"] = 'Etiqueta';

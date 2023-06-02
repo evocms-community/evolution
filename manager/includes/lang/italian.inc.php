@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Questo elemento è stato eliminato';
 $_lang["search_results"] = 'Risultati della ricerca';
 $_lang["search_results_returned_desc"] = 'Descrizione';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'I criteri di ricerca hanno restituito <b>%s</b> Risorse. Se i risultati sono troppi, provate con una ricerca più specifica. Le due colonne più a sinistra permettono di trovare la Risorsa nella struttura ad albero o di visualizzarla. Le due colonne più a destra mostrano, rispettivamente, se una Risorsa è stata eliminata e qual\'è il suo stato di pubblicazione.';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titolo';
 $_lang["search_view_docdata"] = 'Visualizza questo elemento';
 $_lang["security"] = 'Utenti';
@@ -1026,44 +1026,43 @@ $_lang["sysinfo_userid"] = 'Utente';
 $_lang["system"] = 'Sistema';
 $_lang["system_email_signup"] = '<!doctype html>
 <html>
-Salve [+uid+]
+Hello [+uid+]
 
-qui ci sono le credenziali di autenticazione per il sistema di gestione dei contenuti di [+sname+] :
+Here are your login details for [+sname+] Content Manager:
 
 Username: [+uid+]
 Password: [+pwd+]
 
-Quando ti sarai autenticato nel sistema di gestione ([+surl+]), potrai cambiare la tua password.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Cordiali Saluti,
-
- l\'amministratore del Sito
+Regards,
+Site Administrator
 </html>';
-$_lang["system_email_webreminder"] = 'Salve [+uid+]
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Per attivare la tua password clicca sul link sottostante:
+To activate your new password click the following link:
 
 [+surl+]
 
-In seguito potrai usare la seguente password per accedere:
+If successful you can use the following password to login:
 
 Password:[+pwd+]
 
-e non hai richiesto questa mail, ignorala.
+If you did not request this email then please ignore it.
 
-Cordiali Saluti,
-l\'amministratore del Sito';
-$_lang["system_email_websignup"] = 'Salve [+uid+]
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-qui ci sono le credenziali di autenticazione per  [+sname+]:
+Here are your login details for [+sname+]:
 
-Nome utente: [+uid+]
+Username: [+uid+]
 Password: [+pwd+]
 
-Quando ti sarai autenticato in [+sname+] ([+surl+]), potrai cambiare la tua password.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Cordiali Saluti,
- l\'amministratore del Sito';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Portate il cursore sopra il nome di una tabella per vedere una breve descrizione della funzione della tabella (non tutte le tabelle hanno dei <i>commenti</i> impostati o tradotti).';
 $_lang["table_prefix"] = 'Prefisso Tabella';
 $_lang["tag"] = 'Tag';

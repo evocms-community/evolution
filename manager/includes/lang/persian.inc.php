@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'این مورد حذف شده است';
 $_lang["search_results"] = 'نتایج جستجو';
 $_lang["search_results_returned_desc"] = 'توضیحات';
 $_lang["search_results_returned_id"] = 'ردیف';
-$_lang["search_results_returned_msg"] = 'حاصل جستجوی مورد نظر شما <b>%s</b> پرونده است. اگر نتایج جستجو بسیار زیاد است, جستجوی خود را جزیی و دقیق تر کنید. دو ستون آخر شما را قادر به یافتن پرونده در داخل درختی یا نمایش آن می کند. دو ستون سمت راست, حالتهای فعلی پرونده را, اگر پرونده حذف شده و حالت انتشار آنرا نمایش می دهد.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'عنوان';
 $_lang["search_view_docdata"] = 'مشاهده و مرور این مورد';
 $_lang["security"] = 'حراست';
@@ -1016,42 +1016,45 @@ $_lang["sys_alert"] = 'اخطار سیستم';
 $_lang["sysinfo_activity_message"] = 'این فهرست نمایانگر پرونده هایی است که اخیرا توسط کاربران شما ویرایش شده است';
 $_lang["sysinfo_userid"] = 'کاربر';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'با سلام [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-جزییات حساب کاربر شما در [+sname+] :
+Here are your login details for [+sname+] Content Manager:
 
-نام کاربری: [+uid+]
-کلمه ی عبور: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-پس از یک بار ورود حساب کاربری خود در وبگاه ([+surl+]), شما قادر به تغییر کلمه ی عبور خود خواهید بود.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-با احترام,
-مدیریت وبگاه';
-$_lang["system_email_webreminder"] = 'با سلام [+uid+]
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-برای فعالسازی کلمه ی عبور جدید خود روی لینک زیر کلیک کنید:
+To activate your new password click the following link:
 
 [+surl+]
 
-در صورتیکه این کار موفقیت آمیز بود شما میتوانید از کلمه عبور جدیدی که در زیر آمده استفاده کنید:
+If successful you can use the following password to login:
 
-کلمه ی عبور:[+pwd+]
+Password:[+pwd+]
 
-اگر شما ارسال این ایمیل را درخواست نکرده اید کافیست به آن توجهی نکنید.
+If you did not request this email then please ignore it.
 
-با اترام,
-مدیریت وبگاه';
-$_lang["system_email_websignup"] = 'با سلام [+uid+] 
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-اطلاعات حساب کاربری شما در وبگاه [+sname+]:
+Here are your login details for [+sname+]:
 
-نام کاربری: [+uid+]
-کلمه ی عبور: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-پس از ورود به حساب کاربری خود در وبگاه [+sname+] ([+surl+]), شما قادر به تغییر کلمه ی عبور خود خواهید بود.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-با احترام,
-مدیریت وبگاه';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'برای مشاهده ی توضیح مختصری از قابلیت هر جدول نشانگر موس را روی اسم جدول هدایت کنید (همه ی جدول ها <i>توضیح و تشریح</i> ندارند).';
 $_lang["table_prefix"] = 'پیشفرض جدول';
 $_lang["tag"] = 'تگ یا بر چسب';

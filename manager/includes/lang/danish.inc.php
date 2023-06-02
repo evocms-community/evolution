@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Dette er blevet slettet';
 $_lang["search_results"] = 'Søgeresultater';
 $_lang["search_results_returned_desc"] = 'Beskrivelse';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Søgningen resulterede i <b>%s</b> ressourcer. Prøv at søge mere specifikt hvis der er mange resultater. I de to kolonner til venstre kan man se eller finde den enkelte ressouce i website træet. I de to kolonner til højre kan man se om ressourcen er slettet og dennes status<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Se denne';
 $_lang["security"] = 'Sikkerhed';
@@ -1016,44 +1016,45 @@ $_lang["sys_alert"] = 'System advarsel';
 $_lang["sysinfo_activity_message"] = 'Denne liste viser hvilke ressourcer der fornyligt er blevet redigeret af brugerne.';
 $_lang["sysinfo_userid"] = 'Bruger';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hej [+uid+], 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Her er oplysningerne om log ind i [+sname+]s CMS:
+Here are your login details for [+sname+] Content Manager:
 
-Brugernavn: [+uid+]
-Kodeord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-(Husk at der er forskel på store og små karakterer i ovenstående).
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Når du er logget ind i CMS\'et på ([+surl+]), kan du ændre dit kodeord.
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Med venlig hilsen,
-Website administratoren';
-$_lang["system_email_webreminder"] = 'Hej [+uid+]
-
-For at aktivere dit nye kodeord, skal du klikke her:
+To activate your new password click the following link:
 
 [+surl+]
 
-Efterfølgende kan du bruge dette kodeord til at logge ind:
+If successful you can use the following password to login:
 
 Password:[+pwd+]
 
-Hvis du ikke har bedt om et nyt kodeord, skal du bare ignorere denne e-mail.
+If you did not request this email then please ignore it.
 
-Hilsen,
-Websitets administrator';
-$_lang["system_email_websignup"] = 'Hej [+uid+]
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Her er dine oplysninger om log ind i [+sname+]:
+Here are your login details for [+sname+]:
 
-Brugernavn: [+uid+]
-Kodeord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Når du er logget ind i [+sname+] ([+surl+]), kan du eventuelt selv skifte dit kodeord.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Hilsen,
-Websitets administrator';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Hold musen henover et navn i tabellen for at se en kort beskrivelse af tabellens funktion (Det er dog ikke alle tabeller der har denne beskrivelse).';
 $_lang["table_prefix"] = 'Tabel præfiks';
 $_lang["tag"] = 'Tag';

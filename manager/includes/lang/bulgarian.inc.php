@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Темата е изтрита';
 $_lang["search_results"] = 'Резултати от търсенето';
 $_lang["search_results_returned_desc"] = 'Описание';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Търсенето откри <b>%s</b> документа. В случай, че върнатите резултати са много, опитайте се да детайлизирате търсенето. Двете най-леви колони ви дават възможност да намерите документа в дървото или да го разгледате. Двете най-десни колони, съответно, показват дали документа е бил изтрит и неговия статус - публикуван или непубликуван.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Заглавие';
 $_lang["search_view_docdata"] = 'Преглед на тема';
 $_lang["security"] = 'Сигурност';
@@ -1016,42 +1016,45 @@ $_lang["sys_alert"] = 'Системен сигнал';
 $_lang["sysinfo_activity_message"] = 'Този списък показва кои документи са били редактирани напоследък от потребителите.';
 $_lang["sysinfo_userid"] = 'Потребител';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Здравей [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Въведи потребителско име и парола, за да влезеш в Мениджъра на [+sname+]:
+Here are your login details for [+sname+] Content Manager:
 
-Потребителско име: [+uid+]
-Парола: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Веднага след влизането си в Мениджъра ([+surl+]), можеш да смениш паролата.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-С уважение,
-Администратор';
-$_lang["system_email_webreminder"] = 'Здравей [+uid+]
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-За да активираш новата си парола, щракни на следния линк:
+To activate your new password click the following link:
 
 [+surl+]
 
-Ако всичко е нормално, можеш да използващ следната парола за влизане:
+If successful you can use the following password to login:
 
-Парола:[+pwd+]
+Password:[+pwd+]
 
-В случай, че този емейл не е за теб, просто го игнорирай.
+If you did not request this email then please ignore it.
 
-С уважение,
-Администратор';
-$_lang["system_email_websignup"] = 'Здравей [+uid+] 
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Ето детайлите за акаунта ти в [+sname+]:
+Here are your login details for [+sname+]:
 
-Потребителско име: [+uid+]
-Парола: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Веднъж след като влезеш в [+sname+] ([+surl+]), можеш да смениш паролата си.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-С уважение,
-Администратор';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Постави курсора на мишката върху името на таблицата, за да видиш кратко описание на функцията на таблицата (не всички таблици съдържат <i>коментари</i>).';
 $_lang["table_prefix"] = 'Префикс на таблицата';
 $_lang["tag"] = 'Таг';

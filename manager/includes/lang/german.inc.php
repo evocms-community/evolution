@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Diese Ressource wurde gelöscht';
 $_lang["search_results"] = 'Suchergebnisse';
 $_lang["search_results_returned_desc"] = 'Beschreibung';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Ihre Suchanfrage ergab <b>%s</b> Treffer. Wenn zu viele Ergebnisse gefunden wurden, versuchen Sie die Suche zu verfeinern. Das erste Symbol in jeder Spalte zeigt Ihnen die Ressource-Postion im Baum an. Ganz rechts können Sie den Ressource-Status ablesen.';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Diese Ressource anzeigen';
 $_lang["security"] = 'Benutzer';
@@ -1018,43 +1018,43 @@ $_lang["sysinfo_userid"] = 'Benutzer';
 $_lang["system"] = 'System';
 $_lang["system_email_signup"] = '<!doctype html>
 <html>
-Hallo [+uid+]
+Hello [+uid+]
 
-hier sind Ihren Anmeldedetails für [+sname+] :
+Here are your login details for [+sname+] Content Manager:
 
-Benutzername: [+uid+]
-Passwort: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Sobald Sie sich im Manager ([+surl+]) angemeldet haben, können Sie Ihr Passwort ändern.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Mit freundlichen Grüßen,
-Ihr Website-Administrator
+Regards,
+Site Administrator
 </html>';
-$_lang["system_email_webreminder"] = 'Hallo [+uid+]!
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Um Ihr neues Passwort zu aktivieren, klicken Sie bitte auf folgenden Link
+To activate your new password click the following link:
 
 [+surl+]
 
-Wenn alles erfolgreich war, können Sie danach das folgende Passwort zum Anmelden verwenden:
+If successful you can use the following password to login:
 
-Passwort: [+pwd+]
+Password:[+pwd+]
 
-Wenn Sie diese E-Mail unverlangt bekommen, ignorieren Sie sie bitte einfach.
+If you did not request this email then please ignore it.
 
-Mit freundlichen Grüßen
-Ihr Website-Administrator';
-$_lang["system_email_websignup"] = 'Hallo [+uid+]!
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Hier sind Ihre Anmeldendaten für [+sname+]:
+Here are your login details for [+sname+]:
 
-Benutzername: [+uid+]
-Passwort: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Sobald Sie sich in Ihrem Account ([+surl+]) angemeldet haben, können Sie Ihr Passwort ändern.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Mit freundlichen Grüßen
-Ihr Website-Administrator';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Wenn Sie mit dem Mauszeiger über einen Tabellennamen fahren, wird Ihnen (sofern verfügbar) eine kurze Beschreibung der Funktion dieser Tabelle angezeigt.';
 $_lang["table_prefix"] = 'Tabellen-Präfix';
 $_lang["tag"] = 'Tag';

@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Dit item is verwijderd';
 $_lang["search_results"] = 'Zoekresultaten';
 $_lang["search_results_returned_desc"] = 'Beschrijving';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Uw zoekcriteria hebben <b>%s</b> Pagina\'s opgeleverd. Als het teveel resultaten heeft opgeleverd, probeer dan een specifiekere zoekopdracht. Met de twee linker kolommen kunt u het bestand in de Website boomstructuur vinden of de Pagina bekijken. De twee meest rechtse kolommen geven aan of een Pagina verwijderd is en wat de publicatiestatus is.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Geef dit item weer';
 $_lang["security"] = 'Gebruikers';
@@ -1018,43 +1018,43 @@ $_lang["sysinfo_userid"] = 'Gebruiker';
 $_lang["system"] = 'Systeem';
 $_lang["system_email_signup"] = '<!doctype html>
 <html>
-Hallo [+uid+]
+Hello [+uid+]
 
-Hier zijn uw inloggegevens voor [+sname+] Content Manager:
+Here are your login details for [+sname+] Content Manager:
 
-Gebruikersnaam: [+uid+]
-Wachtwoord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Zodra u zich aanmeldt bij Content Manager ([+surl+]), kunt u uw wachtwoord wijzigen.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-Met vriendelijke groet,
-Website Admin
+Regards,
+Site Administrator
 </html>';
-$_lang["system_email_webreminder"] = 'Hallo [+uid+]
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Klik op de volgende link om uw nieuwe wachtwoord te activeren:
+To activate your new password click the following link:
 
 [+surl+]
 
-Als dit lukt, kunt u het volgende wachtwoord gebruiken om in te loggen:
+If successful you can use the following password to login:
 
-Wachtwoord:[+pwd+]
+Password:[+pwd+]
 
-Als u deze e-mail niet heeft aangevraagd, negeert u deze.
+If you did not request this email then please ignore it.
 
-Met vriendelijke groet,
-Website Admin';
-$_lang["system_email_websignup"] = 'Hallo [+uid+]
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Hier zijn uw inloggegevens voor [+sname+]:
+Here are your login details for [+sname+]:
 
-Gebruikersnaam: [+uid+]
-Wachtwoord: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Nadat u zich hebt aangemeld bij [+sname+] ([+surl+]), kunt u uw wachtwoord wijzigen.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Met vriendelijke groet,
-Website Admin';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Beweeg de muiscursor over een tabelnaam om een korte beschrijving te zien van de funktie van de tabel (niet voor alle tabellen is <i>informatie</i> beschikbaar).';
 $_lang["table_prefix"] = 'Tabel voorvoegsel (prefix)';
 $_lang["tag"] = 'Tag';

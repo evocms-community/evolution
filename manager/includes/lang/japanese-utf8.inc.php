@@ -932,7 +932,7 @@ $_lang["search_item_deleted"] = 'このアイテムは削除されています';
 $_lang["search_results"] = '検索結果';
 $_lang["search_results_returned_desc"] = '説明';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = '<strong>%s</strong>件のデータが見つかりました。';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'タイトル';
 $_lang["search_view_docdata"] = 'このアイテムを表示';
 $_lang["security"] = 'ユーザー管理';
@@ -1025,42 +1025,45 @@ $_lang["sys_alert"] = 'システム警告';
 $_lang["sysinfo_activity_message"] = '最近編集されたリソースの一覧';
 $_lang["sysinfo_userid"] = 'ユーザー';
 $_lang["system"] = 'システム';
-$_lang["system_email_signup"] = 'こんにちは [+uid+] さん
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-「[+sname+] ( [+surl+] )」の管理画面へのログイン情報について下記のとおりお知らせします。
+Here are your login details for [+sname+] Content Manager:
 
-ログイン名: [+uid+]
-パスワード: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-管理画面にログインすれば、パスワードを自由に変更できます。
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-以上、よろしくお願いします。
-サイト管理者より';
-$_lang["system_email_webreminder"] = 'こんにちは [+uid+] さん
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-パスワードを有効にするためには、下記のリンクをクリックしてください。
+To activate your new password click the following link:
 
 [+surl+]
 
-処理完了後、下記のパスワードをログインに使用できるようになります。
+If successful you can use the following password to login:
 
-パスワード:[+pwd+]
+Password:[+pwd+]
 
-このメールに覚えが無いときは無視して下さい。
+If you did not request this email then please ignore it.
 
-以上、よろしくお願いします。
-サイト管理者より';
-$_lang["system_email_websignup"] = 'こんにちは [+uid+] さん
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-「[+sname+] ( [+surl+] )」へのログイン情報について下記のとおりお知らせします。
+Here are your login details for [+sname+]:
 
-ログイン名: [+uid+]
-パスワード: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
- [+sname+]へログインすれば、自分のパスワードは自由に変更できます。
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-以上、よろしくお願いします。
-サイト管理者より';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'ここで取得したSQLファイルを用いて、サイトをリストアできます。「DROP文を生成」にチェックを入れておくと、インポート時にテーブルを作り直すため、より確実にサイトを再現できます。<br /><strong style="color:red;">【注意1】</strong>SQLファイルのサイズが大き過ぎるとリストア(インポート)に失敗しやすくなるためご注意ください。特に_event_logテーブルと_manager_logテーブルが肥大の原因になっていることが多いです。「データサイズ」のリンクをクリックしてログをリセットするか、これら2つのテーブルをバックアップ対象から外すとよいでしょう。それでもまだ大きい場合は<a href="http://www.google.com/search?hl=ja&q=BigDump" target="_blank">BigDump</a>などのツールを試してみてください。<br /><strong style="color:red;">【注意2】</strong> データをリストアする時、リストア元とリストア先のEVOのバージョンが違う場合は注意が必要です。リストアすると、拡張機能のバージョンも元の状態に戻ります。問題を回避するには、EVOのバージョンを揃えてリストアするか、リストア後にもう一度EVOをインストーラを用いて最新状態にアップデートするとよいでしょう。';
 $_lang["table_prefix"] = 'テーブルプレフィックス';
 $_lang["tag"] = 'タグ';

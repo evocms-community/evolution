@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = '本项以被删除';
 $_lang["search_results"] = '搜索结果';
 $_lang["search_results_returned_desc"] = '描述';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = '搜索结果返回 <b>%s</b> 文件，如果返回结果太多，请限制您的搜索条件， The two left-most columns will allow you to find the document in the tree or view the document. The two right most columns show, respectively, if a document has been deleted and what it\'s published status is.<p />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = '标题';
 $_lang["search_view_docdata"] = '查阅本项';
 $_lang["security"] = '保密机密';
@@ -1016,42 +1016,45 @@ $_lang["sys_alert"] = '系统警报';
 $_lang["sysinfo_activity_message"] = '这个列表显示了最近有哪些文档被你的用户编辑过。';
 $_lang["sysinfo_userid"] = '用户';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Hello [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-这是你的内容管理登陆细节 [+sname+] :
+Here are your login details for [+sname+] Content Manager:
 
-用户名: [+uid+]
-密码: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-你可以登陆内容管理 ([+surl+]),来改变你的密码.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-谢谢,
-网站管理员';
+Regards,
+Site Administrator
+</html>';
 $_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-点下面的连接来激活你的新密码:
+To activate your new password click the following link:
 
 [+surl+]
 
-如果成功，你就可以用以下的密码来登陆:
+If successful you can use the following password to login:
 
-密码:[+pwd+]
+Password:[+pwd+]
 
-如果你不需要这个EMAIL，请忽略它.
+If you did not request this email then please ignore it.
 
-谢谢,
-网站管理员';
-$_lang["system_email_websignup"] = 'Hello [+uid+] 
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-这是你的登陆细节 [+sname+]:
+Here are your login details for [+sname+]:
 
-用户名: [+uid+]
-密码: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-你可以点这个登陆 [+sname+] ([+surl+]), 在那里也可以改变你的密码.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-谢谢,
-网站管理员';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Hover the mouse cursor over a table\'s name to see a short description of the table\'s function (not all tables have <i>comments</i> set).';
 $_lang["table_prefix"] = 'Table prefix';
 $_lang["tag"] = '标签';

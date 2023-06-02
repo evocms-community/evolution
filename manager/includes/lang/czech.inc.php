@@ -927,7 +927,7 @@ $_lang["search_item_deleted"] = 'Tento dokument byl smazán';
 $_lang["search_results"] = 'Výsledky vyhledávání';
 $_lang["search_results_returned_desc"] = 'Popis';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Vaše vyhledávací kritéria vrací <b>%s</b> dokumentů. Jestliže máte mnoho výsledků, zkuste vložit více specifické slovo. ';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Nadpis';
 $_lang["search_view_docdata"] = 'Zobrazit tuto položku';
 $_lang["security"] = 'Zabezpečení';
@@ -1020,42 +1020,45 @@ $_lang["sys_alert"] = 'Výstraha systému';
 $_lang["sysinfo_activity_message"] = 'Tento výpis informuje, které dokumenty byli nedávno upravované uživateli.';
 $_lang["sysinfo_userid"] = 'Uživatel';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Dobrý den [+uid+]
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Zde jsou podrobnosti k vašemu přihlášení pro [+sname+] do správce obsahu:
+Here are your login details for [+sname+] Content Manager:
 
-Uživatel: [+uid+]
-Heslo: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Při prvním přihlášení si můžete změnit heslo.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-S pozdravem,
-správce stránek';
-$_lang["system_email_webreminder"] = 'Dobrý den [+uid+]
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-K aktivaci nového hesla klikněte na následující odkaz:
+To activate your new password click the following link:
 
 [+surl+]
 
-Jestliže vše proběhlo v pořádku, můžete užívat následující heslo k přihlášení:
+If successful you can use the following password to login:
 
-Heslo:[+pwd+]
+Password:[+pwd+]
 
-Jestliže jste si tento e-mail nevyžádali, tak ho prosím ignorujte.
+If you did not request this email then please ignore it.
 
-S pozdravem,
-správce stránek';
-$_lang["system_email_websignup"] = 'Dobrý den [+uid+]
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Zde jsou podrobnosti k vašemu přihlášení do [+sname+]:
+Here are your login details for [+sname+]:
 
-Uživatel: [+uid+]
-Heslo: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Při prvním přihlášení do [+sname+] si můžete změnit heslo.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-S pozdravem,
-správce stránek';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Zastavením kurzoru myši nad jménem tabulky zobrazí se krátký popis funkce tabulky (ne všechny tabulky mají nastaveny <i>komentáře</i>).';
 $_lang["table_prefix"] = 'Předpona tabulek';
 $_lang["tag"] = 'Značka';

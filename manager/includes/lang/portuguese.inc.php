@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'pt'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'MODX é um <a href=\'http://modx.com/\' target=\'_blank\'>Sistema em PHP para Gestão de Conteúdos</a> (em Inglês).';
@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Este item foi apagado';
 $_lang["search_results"] = 'Resultados da procura';
 $_lang["search_results_returned_desc"] = 'Descrição';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Os critérios da sua procura retornaram <b>%s</b> documentos. Se estiver a obter demasiados resultados, tente indicar uma procura mais específica. As duas colunas mais à esquerda permitem que encontre o documento na árvore ou ver o documento. As duas colunas mais à direita mostram, respectivamente, se um documento foi apagado e qual o seu estado de publicação<br />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Título';
 $_lang["search_view_docdata"] = 'Ver este item';
 $_lang["security"] = 'Segurança';
@@ -1016,42 +1016,45 @@ $_lang["sys_alert"] = 'Alerta do Sistema';
 $_lang["sysinfo_activity_message"] = 'Esta lista mostra quais os documentos que foram recentemente editados pelos seus utilizadores.';
 $_lang["sysinfo_userid"] = 'Utilizador';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Olá [+uid+] 
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Aqui estão os seus detalhes para aceder ao Gestor de Conteúdos de [+sname+] :
+Here are your login details for [+sname+] Content Manager:
 
 Username: [+uid+]
-Senha: [+pwd+]
+Password: [+pwd+]
 
-Assim que entrar no Gestor de Conteúdos ([+surl+]), pode alterar a sua senha.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-ACumprimentos,
-O Administrador [+sname+]';
-$_lang["system_email_webreminder"] = 'Olá [+uid+]
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Para activar a sua nova senha, clique no seguinte link:
+To activate your new password click the following link:
 
 [+surl+]
 
-Pode usar a seguinte senha para aceder:
+If successful you can use the following password to login:
 
-Senha:[+pwd+]
+Password:[+pwd+]
 
-Se não pediu este email, por favor ignore-o.
+If you did not request this email then please ignore it.
 
-Cumprimentos,
-O Administrador [+sname+]';
-$_lang["system_email_websignup"] = 'Olá [+uid+] 
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Aqui estão seus detalhes para aceder a [+sname+]:
+Here are your login details for [+sname+]:
 
-Login: [+uid+]
-Senha: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Uma vez que entrar como [+sname+] ([+surl+]), pode alterar sua senha.
+Once you log into [+sname+] ([+surl+]), you can change your password.
 
-Cumprimentos,
-O Administrador [+sname+]';
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Passe o cursor do rato sobre o nome da tabela para ver uma curta descrição da função da tabela (<i>nem todas as tabelas têm comentários activos</i>).';
 $_lang["table_prefix"] = 'Prefixo da Tabela';
 $_lang["tag"] = 'Etiqueta (Tag)';

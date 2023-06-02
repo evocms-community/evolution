@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Cet enregistrement a été supprimé';
 $_lang["search_results"] = 'Résultats de recherche';
 $_lang["search_results_returned_desc"] = 'Description';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Vos critères de recherche ont permis de trouver <b>%s</b> Ressources. Si un trop grand nombre de fichiers sont trouvés, essayez de choisir des critères plus spécifiques. Les deux colonnes à l\'extrême gauche vous permettront de trouver la Ressource dans l\'Arbre du Site ou de l\'afficher. Les colonnes de droite montrent, respectivement, si une Ressource a été supprimée et quel est son statut de publication.<br />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Titre';
 $_lang["search_view_docdata"] = 'Afficher cet Élément';
 $_lang["security"] = 'Sécurité';
@@ -1016,9 +1016,45 @@ $_lang["sys_alert"] = 'Alerte système';
 $_lang["sysinfo_activity_message"] = 'Cette liste affiche les Ressources ayant été récemment éditées par vos utilisateurs.';
 $_lang["sysinfo_userid"] = 'Utilisateur';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Bonjour [+uid+] \n\nVoici vos paramètres de connexion pour le Gestionnaire de Contenu de [+sname+]:\n\nNom d\'utilisateur: [+uid+]\nMot de passe: [+pwd+]\n\nUne fois connecté au Gestionnaire de Contenu ([+surl+]), vous pourrez changer votre mot de passe.\n\nSalutations, \nL\'administrateur du site';
-$_lang["system_email_webreminder"] = 'Bonjour [+uid+]\n\nPour activer votre nouveau mot de passe, cliquez sur le lien suivant:\n\n[+surl+]\n\nSi tout se passe normalement, vous pourrez utiliser le mot de passe suivant pour vous identifier:\n\nMot de passe:[+pwd+]\n\nSi vous n\'aviez pas demandé cet email, alors n\'en tenez pas compte.\n\nSalutations,\nL\'administrateur du site';
-$_lang["system_email_websignup"] = 'Bonjour [+uid+] \n\nVoici vos paramètres de connexion pour [+sname+]:\n\nNom d\'utilisateur: [+uid+]\nMot de passe: [+pwd+]\n\nUne fois connecté en tant que [+sname+] ([+surl+]), vous pourrez changer votre mot de passe.\n\nSalutations,\nL\'administrateur du site';
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
+
+Here are your login details for [+sname+] Content Manager:
+
+Username: [+uid+]
+Password: [+pwd+]
+
+Once you log into the Content Manager ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
+
+To activate your new password click the following link:
+
+[+surl+]
+
+If successful you can use the following password to login:
+
+Password:[+pwd+]
+
+If you did not request this email then please ignore it.
+
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
+
+Here are your login details for [+sname+]:
+
+Username: [+uid+]
+Password: [+pwd+]
+
+Once you log into [+sname+] ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Passez le curseur de la souris sur un nom de table pour voir une courte description de sa fonction (toutes les tables n\'en disposent pas).';
 $_lang["table_prefix"] = 'Préfixe de la table';
 $_lang["tag"] = 'Balise';

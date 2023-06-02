@@ -923,7 +923,7 @@ $_lang["search_item_deleted"] = 'Видалено';
 $_lang["search_results"] = 'Результати пошуку';
 $_lang["search_results_returned_desc"] = 'Опис';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'За вашим запитом знайдено <b>%s</b> ресурсів. Якщо знайдено дуже багато ресурсів, спробуйте сформувати більш специфічний запит. Дві крайні колонки зліва дозволять знайти ресурс у дереві сайту або переглянути ресурс. Дві крайні колонки справа показують, відповідно, чи був ресурс позначений видалення і чи опублікований он.';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Заголовок';
 $_lang["search_view_docdata"] = 'Переглянути';
 $_lang["security"] = 'Менеджери';
@@ -1016,37 +1016,45 @@ $_lang["sys_alert"] = 'Системне попередження';
 $_lang["sysinfo_activity_message"] = 'Цей список показує останні створені/відредаговані ресурси.';
 $_lang["sysinfo_userid"] = 'Користувач';
 $_lang["system"] = 'Службове';
-$_lang["system_email_signup"] = 'Здрастуйте, [+uid+]!
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
 
-Ваші дані для авторизації в системі керування сайтом [+sname+]:
+Here are your login details for [+sname+] Content Manager:
 
-Ім\'я користувача: [+uid+]
-Пароль: [+pwd+]
+Username: [+uid+]
+Password: [+pwd+]
 
-Після успішної авторизації в системі керування сайтом ([+surl+]), ви зможете змінити свій пароль.
+Once you log into the Content Manager ([+surl+]), you can change your password.
 
-З повагою адміністрація';
-$_lang["system_email_webreminder"] = 'Здрастуйте, [+uid+]!
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
 
-Щоб активувати новий пароль, перейдіть за наступним посиланням:
+To activate your new password click the following link:
 
 [+surl+]
 
-Пізніше ви зможете використовувати наступний пароль для авторизації: [+ pwd+]
+If successful you can use the following password to login:
 
-Якщо цей лист прийшов до вас помилково, будь ласка, проігноруйте його.
+Password:[+pwd+]
 
-З повагою адміністрація';
-$_lang["system_email_websignup"] = 'Здрастуйте, [+uid+]!
+If you did not request this email then please ignore it.
 
-Ваші дані для авторизації на [+sname+]:
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
 
-Ім\'я користувача: [+uid+]
-Пароль: [+pwd+]
+Here are your login details for [+sname+]:
 
-Після успішної авторизації на [+sname+] ([+surl+]), ви зможете змінити свій пароль.
+Username: [+uid+]
+Password: [+pwd+]
 
-З повагою адміністрація';
+Once you log into [+sname+] ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Затримайте вказівник миші над рядком таблиці, щоб побачити коротке пояснення призначення таблиці (коментарі є не всі таблиці).';
 $_lang["table_prefix"] = 'Префікс таблиць бази даних';
 $_lang["tag"] = 'Тег';

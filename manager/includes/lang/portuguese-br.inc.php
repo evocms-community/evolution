@@ -924,7 +924,7 @@ $_lang["search_item_deleted"] = 'Este item foi apagado';
 $_lang["search_results"] = 'Resultados da procura';
 $_lang["search_results_returned_desc"] = 'Descrição';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Os critérios da sua procura retornaram <b>%s</b> documentos. Se estiver a obter demasiados resultados, tente indicar uma procura mais específica. As duas colunas mais à esquerda permitem que encontre o documento na árvore ou ver o documento. As duas colunas mais à direita mostram, respectivamente, se um documento foi apagado e qual o seu estado de publicação<br />';
+$_lang["search_results_returned_msg"] = 'Your search criteria returned <b>%s</b> Resources. If a lot of results are being returned, try to enter a more specific search.';
 $_lang["search_results_returned_title"] = 'Título';
 $_lang["search_view_docdata"] = 'Ver este item';
 $_lang["security"] = 'Segurança';
@@ -1017,9 +1017,45 @@ $_lang["sys_alert"] = 'Alerta do Sistema';
 $_lang["sysinfo_activity_message"] = 'Esta lista mostra quais os documentos que foram recentemente editados pelos seus usuários.';
 $_lang["sysinfo_userid"] = 'Usuário';
 $_lang["system"] = 'System';
-$_lang["system_email_signup"] = 'Olá [+uid+] \n\nAqui estão os seus detalhes para entrar ao Gestor de Conteúdos de [+sname+] :\n\nUsername: [+uid+]\nSenha: [+pwd+]\n\nAssim que entrar no Gestor de Conteúdos ([+surl+]), pode alterar a sua senha.\n\nACumprimentos,\nO Administrador [+sname+]';
-$_lang["system_email_webreminder"] = 'Olá [+uid+]\n\nPara ativar a sua nova senha, clique no seguinte link:\n\n[+surl+]\n\nPode usar a seguinte senha para entrar:\n\nSenha:[+pwd+]\n\nSe não pediu este email, por favor ignore-o.\n\nCumprimentos,\nO Administrador [+sname+]';
-$_lang["system_email_websignup"] = 'Olá [+uid+] \n\nAqui estão seus detalhes para entrar a [+sname+]:\n\nLogin: [+uid+]\nSenha: [+pwd+]\n\nUma vez que entrar como [+sname+] ([+surl+]), pode alterar sua senha.\n\nCumprimentos,\nO Administrador [+sname+]';
+$_lang["system_email_signup"] = '<!doctype html>
+<html>
+Hello [+uid+]
+
+Here are your login details for [+sname+] Content Manager:
+
+Username: [+uid+]
+Password: [+pwd+]
+
+Once you log into the Content Manager ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator
+</html>';
+$_lang["system_email_webreminder"] = 'Hello [+uid+]
+
+To activate your new password click the following link:
+
+[+surl+]
+
+If successful you can use the following password to login:
+
+Password:[+pwd+]
+
+If you did not request this email then please ignore it.
+
+Regards,
+Site Administrator';
+$_lang["system_email_websignup"] = 'Hello [+uid+]
+
+Here are your login details for [+sname+]:
+
+Username: [+uid+]
+Password: [+pwd+]
+
+Once you log into [+sname+] ([+surl+]), you can change your password.
+
+Regards,
+Site Administrator';
 $_lang["table_hoverinfo"] = 'Passe o cursor do rato sobre o nome da tabela para ver uma curta descrição da função da tabela (<i>nem todas as tabelas têm comentários activos</i>).';
 $_lang["table_prefix"] = 'Prefixo da Tabela';
 $_lang["tag"] = 'Etiqueta (Tag)';
