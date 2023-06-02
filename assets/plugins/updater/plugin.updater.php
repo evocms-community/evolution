@@ -21,6 +21,7 @@ $wdgVisibility = isset($wdgVisibility) ? $wdgVisibility : '';
 $ThisRole = isset($ThisRole) ? $ThisRole : '';
 $ThisUser = isset($ThisUser) ? $ThisUser : '';
 $version = isset($version) ? $version : 'evocms-community/evolution';
+$version = str_replace('evolution-cms/evolution', 'evocms-community/evolution', $version);
 $type = isset($type) ? $type : 'tags';
 $showButton = isset($showButton) ? $showButton : 'AdminOnly';
 $result = '';
