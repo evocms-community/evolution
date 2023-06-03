@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'ru'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS — это платформа для создания сайтов на языке PHP и система управления контентом, распространяемая под лицензией <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -890,7 +890,7 @@ $_lang["search_item_deleted"] = 'Удалено';
 $_lang["search_results"] = 'Результаты поиска';
 $_lang["search_results_returned_desc"] = 'Описание';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'По вашему запросу найдено <b>%s</b> ресурсов. Если найдено слишком много ресурсов, попробуйте сформировать более специфический запрос. Две крайние колонки слева позволят найти ресурс в дереве сайта либо просмотреть ресурс. Две крайние колонки справа показывают, соответственно, был ли ресурс помечен на удаление и опубликован ли он.';
+$_lang["search_results_returned_msg"] = 'По вашему запросу найдено <b>%s</b> ресурсов. Если найдено слишком много ресурсов, попробуйте сформировать более специфический запрос.';
 $_lang["search_results_returned_title"] = 'Заголовок';
 $_lang["search_view_docdata"] = 'Просмотреть';
 $_lang["security"] = 'Менеджеры';

@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'uk'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS - це <a href="https://evo-cms.com/" target="_blank">PHP Application Framework і система керування вмістом</a> ліцензія <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Вилучено';
 $_lang["search_results"] = 'Результати пошуку';
 $_lang["search_results_returned_desc"] = 'Опис';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'По вашому запиту знайдено <b>%s</b> ресурсів. Якщо знайдено занадто багато ресурсів, спробуйте сформувати більш специфічний запит. Дві крайні колонки зліва дозволять знайти ресурс в дереві сайту або Переглядеть ресурс. Дві крайні колонки праворуч показують, відповідно, чи був ресурс позначений на видалення і опублікований він.';
+$_lang["search_results_returned_msg"] = 'По вашому запиту знайдено <b>%s</b> ресурсів. Якщо знайдено занадто багато ресурсів, спробуйте сформувати більш специфічний запит.';
 $_lang["search_results_returned_title"] = 'Заголовок';
 $_lang["search_view_docdata"] = 'Переглянути';
 $_lang["security"] = 'Менеджери';

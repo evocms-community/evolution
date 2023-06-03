@@ -181,6 +181,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'evolution-cms/salo' => array(
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'reference' => 'e907fd1bb9a00d3395cab2a3aefce25c914cf447',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../evolution-cms/salo',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.1',
             'version' => '1.1.1.0',

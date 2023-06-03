@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'nl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is een <a href="https://evo-cms.com/" target="_blank">PHP Application Framework en Content Management System</a> gelicenseerd onder <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Dit item is verwijderd';
 $_lang["search_results"] = 'Zoekresultaten';
 $_lang["search_results_returned_desc"] = 'Beschrijving';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Uw zoekcriteria hebben <b>%s</b> Pagina\'s opgeleverd. Als het teveel resultaten heeft opgeleverd, probeer dan een specifiekere zoekopdracht. Met de twee linker kolommen kunt u het bestand in de Website boomstructuur vinden of de Pagina bekijken. De twee meest rechtse kolommen geven aan of een Pagina verwijderd is en wat de publicatiestatus is.<p />';
+$_lang["search_results_returned_msg"] = 'Uw zoekcriteria hebben <b>%s</b> Pagina\'s opgeleverd. Als het teveel resultaten heeft opgeleverd, probeer dan een specifiekere zoekopdracht.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Geef dit item weer';
 $_lang["security"] = 'Gebruikers';

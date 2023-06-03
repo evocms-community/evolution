@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'pl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Ta pozycja została usunięta';
 $_lang["search_results"] = 'Wyniki wyszukiwania';
 $_lang["search_results_returned_desc"] = 'Opis';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Twoje kryteria wyszukiwania zwróciły <b>%s</b> dokumentów. Jeżeli wyników wyszukiwania jest bardzo dużo, spróbuj wpisać bardziej szczegółowe kryteria wyszukiwania. Dwie kolumny z lewej pozwolą ci znaleźć dokument w drzewie lub wyświetlić jego zawartość. Dwie kolumny po prawej pokażą odpowiednio, czy dokument został usunięty oraz czy jest opublikowany.<p />';
+$_lang["search_results_returned_msg"] = 'Twoje kryteria wyszukiwania zwróciły <b>%s</b> dokumentów. Jeżeli wyników wyszukiwania jest bardzo dużo, spróbuj wpisać bardziej szczegółowe kryteria wyszukiwania.';
 $_lang["search_results_returned_title"] = 'Tytuł';
 $_lang["search_view_docdata"] = 'Zobacz tą pozycję';
 $_lang["security"] = 'Użytkownicy ';

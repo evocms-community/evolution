@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'be'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS - гэта <a href="https://evo-cms.com/" target="_blank">PHP-прылажэнне і сістэма кіравання кантэнтам</a>, якая дзейнічае пад ліцэнзіяй <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.</a>';
@@ -887,7 +887,7 @@ $_lang["search_item_deleted"] = 'Гэты элемент быў выдалены
 $_lang["search_results"] = 'Вынікі пошуку';
 $_lang["search_results_returned_desc"] = 'Апісанне';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Вашы крытэрыі пошуку вярнулі <b>%s</b> рэсурсаў. Калі вяртаецца шмат вынікаў, паспрабуйце ўвесці больш канкрэтны пошук. Дзве крайнія левыя калонкі дазволяць вам знайсці рэсурс у дрэве сайта або праглядзець рэсурс. Два крайнія правыя слупкі адпаведна паказваюць, ці быў рэсурс выдалены і які яго статус апублікаваны.';
+$_lang["search_results_returned_msg"] = 'Вашы крытэрыі пошуку вярнулі <b>%s</b> рэсурсаў. Калі вяртаецца шмат вынікаў, паспрабуйце ўвесці больш канкрэтны пошук.';
 $_lang["search_results_returned_title"] = 'Назва';
 $_lang["search_view_docdata"] = 'Паглядзець гэты прадмет';
 $_lang["security"] = 'Карыстальнікі';

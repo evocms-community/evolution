@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'fr'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS est un <a href="https://evo-cms.com/" target="_blank">Framework d’application PHP et un système de gestion de contenu</a> sous license <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Cet enregistrement a été supprimé';
 $_lang["search_results"] = 'Résultats de recherche';
 $_lang["search_results_returned_desc"] = 'Description';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Vos critères de recherche ont permis de trouver <b>%s</b> Ressources. Si un trop grand nombre de fichiers sont trouvés, essayez de choisir des critères plus spécifiques. Les deux colonnes à l\'extrême gauche vous permettront de trouver la Ressource dans l\'Arbre du Site ou de l\'afficher. Les colonnes de droite montrent, respectivement, si une Ressource a été supprimée et quel est son statut de publication.<br />';
+$_lang["search_results_returned_msg"] = 'Vos critères de recherche ont permis de trouver <b>%s</b> Ressources. Si un trop grand nombre de fichiers sont trouvés, essayez de choisir des critères plus spécifiques.';
 $_lang["search_results_returned_title"] = 'Titre';
 $_lang["search_view_docdata"] = 'Afficher cet Élément';
 $_lang["security"] = 'Sécurité';

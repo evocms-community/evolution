@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'bg'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Темата е изтрита';
 $_lang["search_results"] = 'Резултати от търсенето';
 $_lang["search_results_returned_desc"] = 'Описание';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Търсенето откри <b>%s</b> документа. В случай, че върнатите резултати са много, опитайте се да детайлизирате търсенето. Двете най-леви колони ви дават възможност да намерите документа в дървото или да го разгледате. Двете най-десни колони, съответно, показват дали документа е бил изтрит и неговия статус - публикуван или непубликуван.<p />';
+$_lang["search_results_returned_msg"] = 'Търсенето откри <b>%s</b> документа. В случай, че върнатите резултати са много, опитайте се да детайлизирате търсенето.';
 $_lang["search_results_returned_title"] = 'Заглавие';
 $_lang["search_view_docdata"] = 'Преглед на тема';
 $_lang["security"] = 'Сигурност';

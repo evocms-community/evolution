@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f03482e7c67c499cfb355a864ddf48cf",
+    "content-hash": "c0757d37afb98a1e329949ae6733b2ff",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1316,6 +1316,60 @@
                 "source": "https://github.com/evocms-community/UserManager/tree/1.0.20"
             },
             "time": "2023-01-30T23:21:10+00:00"
+        },
+        {
+            "name": "evolution-cms/salo",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ser1ous/salo.git",
+                "reference": "e907fd1bb9a00d3395cab2a3aefce25c914cf447"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ser1ous/salo/zipball/e907fd1bb9a00d3395cab2a3aefce25c914cf447",
+                "reference": "e907fd1bb9a00d3395cab2a3aefce25c914cf447",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0|^9.0|^10.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^7.3|^8.0"
+            },
+            "bin": [
+                "bin/salo"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "EvolutionCMS\\Salo\\SaloServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EvolutionCMS\\Salo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Docker files for running a basic evo application.",
+            "keywords": [
+                "docker",
+                "evo"
+            ],
+            "support": {
+                "issues": "https://github.com/Ser1ous/salo/issues",
+                "source": "https://github.com/Ser1ous/salo/tree/1.0.3"
+            },
+            "time": "2023-05-10T18:23:54+00:00"
         },
         {
             "name": "graham-campbell/result-type",

@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'sv'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Denna post har tagits bort';
 $_lang["search_results"] = 'Sökresultat';
 $_lang["search_results_returned_desc"] = 'Beskrivning';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Din sökning returnerade <b>%s</b> resurser. Försök att göra en mer specifik sökning om du får många träffar. De två kolumnerna längst till vänster låter dig hitta resursen i webbplatsträdet eller visa resursen. De två kolumnerna till höger visar om resursen har tagits bort och vilken publiceringsstatus den har.<p />';
+$_lang["search_results_returned_msg"] = 'Din sökning returnerade <b>%s</b> resurser. Försök att göra en mer specifik sökning om du får många träffar.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Visa denna post';
 $_lang["security"] = 'Säkerhet';

@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'es'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS es <a href="https://evo-cms.com/" target="_blank">un marco de aplicación PHP y un sistema de gestión de contenido</a> con la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -907,7 +907,7 @@ $_lang["search_item_deleted"] = 'Este artículo ha sido borrado';
 $_lang["search_results"] = 'Resultados de búsqueda';
 $_lang["search_results_returned_desc"] = 'Descripción';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Su criterio de búsqueda regresó <b>%s</b> recursos. Si se han encontrado demasiados resultados, intente usted ingresar una búsqueda más especifica. Las dos columnas a la izquierda le  permiten encontrar el recurso en el árbol o ver el recurso. Las dos columnas a la derecha muestran, respectivamente, si un recurso ha sido borrado y cuál es su estado de publicación.<p />';
+$_lang["search_results_returned_msg"] = 'Su criterio de búsqueda regresó <b>%s</b> recursos. Si se han encontrado demasiados resultados, intente usted ingresar una búsqueda más especifica.';
 $_lang["search_results_returned_title"] = 'Título';
 $_lang["search_view_docdata"] = 'Ver este artículo';
 $_lang["security"] = 'Usuarios';

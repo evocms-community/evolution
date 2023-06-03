@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'zh'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = '本项以被删除';
 $_lang["search_results"] = '搜索结果';
 $_lang["search_results_returned_desc"] = '描述';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = '搜索结果返回 <b>%s</b> 文件，如果返回结果太多，请限制您的搜索条件， The two left-most columns will allow you to find the document in the tree or view the document. The two right most columns show, respectively, if a document has been deleted and what it\'s published status is.<p />';
+$_lang["search_results_returned_msg"] = '搜索结果返回 <b>%s</b> 文件，如果返回结果太多，请限制您的搜索条件，';
 $_lang["search_results_returned_title"] = '标题';
 $_lang["search_view_docdata"] = '查阅本项';
 $_lang["security"] = '保密机密';

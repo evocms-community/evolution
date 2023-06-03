@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'nn'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -889,7 +889,7 @@ $_lang["search_item_deleted"] = 'Denne posten har blitt fjernet';
 $_lang["search_results"] = 'Søkeresultat';
 $_lang["search_results_returned_desc"] = 'Beskrivelse';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Ditt søk returnerte <b>%s</b> dokumenter. Prøv å skrive et mer spesifikt søk hvis du får mange treff. De to kolonnene lengst til venstre lar deg finne dokumentet i treet eller vise dokumentet. De to kolonnene til høyre viser om dokumentet har blitt fjernet og hvilken publiseringsstatus dokumentet har.<p />';
+$_lang["search_results_returned_msg"] = 'Ditt søk returnerte <b>%s</b> dokumenter. Prøv å skrive et mer spesifikt søk hvis du får mange treff.';
 $_lang["search_results_returned_title"] = 'Tittel';
 $_lang["search_view_docdata"] = 'Vis denne posten';
 $_lang["security"] = 'Sikkerhet';
