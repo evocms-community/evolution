@@ -25,7 +25,7 @@ $cacheable = (int) $_POST['cacheable'];
 $syncsite = (int) $_POST['syncsite'];
 $pub_date = $_POST['pub_date'];
 $unpub_date = $_POST['unpub_date'];
-$document_groups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on') ? [] : $_POST['docgroups'];
+$document_groups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on') ? [] : ($_POST['docgroups'] ?? []);
 $type = $modx->db->escape($_POST['type']);
 $contentType = $modx->db->escape($_POST['contentType']);
 $contentdispo = (int) $_POST['content_dispo'];
@@ -259,7 +259,7 @@ if ($actionToTake != "new") {
 
 // check to see if the user is allowed to save the document in the place he wants to save it in
 if ($use_udperms == 1) {
-    if ($existingDocument['parent'] != $parent) {
+    if (isset($existingDocument) && $existingDocument['parent'] != $parent) {
         include_once MODX_MANAGER_PATH . "processors/user_documents_permissions.class.php";
         $udperms = new udperms();
         $udperms->user = $modx->getLoginUserID();
