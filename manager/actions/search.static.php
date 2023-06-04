@@ -291,20 +291,20 @@ if (isset($_REQUEST['submitok'])) {
                                 if (function_exists('mb_strlen') && function_exists('mb_substr')) {
                                     ?>
                                     <td<?= $tdClass ?>>
-                                        <a href="index.php?a=27&id=<?= $row['id'] ?>"><?= mb_strlen($row['pagetitle'],
+                                        <a href="index.php?a=27&id=<?= $row['id'] ?>"><?= htmlspecialchars(mb_strlen($row['pagetitle'],
                                                 $modx_manager_charset) > 70 ? mb_substr($row['pagetitle'], 0, 70,
-                                                    $modx_manager_charset) . "..." : $row['pagetitle'] ?></a>
+                                                    $modx_manager_charset) . "..." : $row['pagetitle']) ?></a>
                                     </td>
-                                    <td<?= $tdClass ?>><?= mb_strlen($row['description'],
+                                    <td<?= $tdClass ?>><?= htmlspecialchars(mb_strlen($row['description'],
                                             $modx_manager_charset) > 70 ? mb_substr($row['description'], 0, 70,
-                                                $modx_manager_charset) . "..." : $row['description'] ?></td>
+                                                $modx_manager_charset) . "..." : $row['description']) ?></td>
                                     <?php
                                 } else {
                                     ?>
-                                    <td<?= $tdClass ?>><?= strlen($row['pagetitle']) > 20 ? substr($row['pagetitle'], 0,
-                                                20) . '...' : $row['pagetitle'] ?></td>
-                                    <td<?= $tdClass ?>><?= strlen($row['description']) > 35 ? substr($row['description'],
-                                                0, 35) . '...' : $row['description'] ?></td>
+                                    <td<?= $tdClass ?>><?= htmlspecialchars(strlen($row['pagetitle']) > 20 ? substr($row['pagetitle'], 0,
+                                                20) . '...' : $row['pagetitle']) ?></td>
+                                    <td<?= $tdClass ?>><?= htmlspecialchars(strlen($row['description']) > 35 ? substr($row['description'],
+                                                0, 35) . '...' : $row['description']) ?></td>
                                     <?php
                                 }
                                 ?>
