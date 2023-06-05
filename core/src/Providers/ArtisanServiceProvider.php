@@ -14,6 +14,7 @@ use Illuminate\Database\Console\Migrations\InstallCommand as MigrateInstallComma
 use Illuminate\Database\Console\Migrations\RefreshCommand as MigrateRefreshCommand;
 use Illuminate\Database\Console\Migrations\RollbackCommand as MigrateRollbackCommand;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
+use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 
 use EvolutionCMS\Console\ClearCompiledCommand;
 use Illuminate\Foundation\Console\VendorPublishCommand;
@@ -72,6 +73,7 @@ class ArtisanServiceProvider extends ServiceProvider
     protected $devCommands = [
         'VendorPublish' => 'command.vendor.publish',
         'MigrateMake' => 'command.migrate.make',
+        'SeederMake' => 'command.seeder.make',
     ];
 
     /**
@@ -137,6 +139,16 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.clear-compiled', function () {
             return new ClearCompiledCommand;
+        });
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerSeederMakeCommand()
+    {
+        $this->app->singleton('command.seeder.make', function ($app) {
+            return new SeederMakeCommand($app['files']);
         });
     }
 
