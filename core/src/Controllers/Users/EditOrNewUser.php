@@ -22,6 +22,9 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
     {
         $userData = $_POST;
         $id = false;
+        if(!empty($userData['newrole'])) {
+            return true;
+        }
         if (isset($userData['id'])) {
             $id = $userData['id'];
         }
