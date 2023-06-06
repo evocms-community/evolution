@@ -1,5 +1,6 @@
 <?php
 use EvolutionCMS\Models\SiteTmplvar;
+use Illuminate\Support\Facades\Request;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
@@ -112,8 +113,18 @@ if ($modx->getManagerApi()->hasFormValues()) {
     }
     extract($usersettings, EXTR_OVERWRITE);
 }
-if(isset($_REQUEST['newrole'])) {
-    $userdata['role'] = $_REQUEST['newrole'];
+
+if (isset($_REQUEST['newrole'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $query['a'] = $modx->getManagerApi()->action;
+        if ($user) {
+            $query['id'] = $user;
+        }
+        $query['newrole'] = $_REQUEST['newrole'];
+        redirect('index.php?' . http_build_query($query))->send();
+    } else {
+        $userdata['role'] = $_REQUEST['newrole'];
+    }
 }
 
 // include the country list language file
