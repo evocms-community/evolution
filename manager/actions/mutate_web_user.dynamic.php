@@ -83,7 +83,6 @@ if ($modx->getManagerApi()->action == '88') {
 } else {
     $_SESSION['itemname'] = $_lang["new_web_user"];
 }
-
 // avoid doubling htmlspecialchars (already encoded in DB)
 foreach ($userdata as $key => $val) {
     $userdata[$key] = html_entity_decode($val ?? '', ENT_NOQUOTES, $modx->getConfig('modx_charset'));
@@ -112,6 +111,19 @@ if ($modx->getManagerApi()->hasFormValues()) {
         $usersettings['allowed_days'] = '';
     }
     extract($usersettings, EXTR_OVERWRITE);
+}
+
+if (isset($_REQUEST['newrole'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $query['a'] = $modx->getManagerApi()->action;
+        if ($user) {
+            $query['id'] = $user;
+        }
+        $query['newrole'] = $_REQUEST['newrole'];
+        redirect('index.php?' . http_build_query($query))->send();
+    } else {
+        $userdata['role'] = $_REQUEST['newrole'];
+    }
 }
 
 // include the country list language file
@@ -212,6 +224,54 @@ function showHide(what, onoff) {
     }
 };
 
+var curRole = -1;
+var curRoleIndex = 0;
+
+function storeCurRole() {
+    var dropRole = document.getElementById('role');
+    if(dropRole) {
+        for(var i = 0; i < dropRole.length; i++) {
+            if(dropRole[i].selected) {
+                curRole = dropRole[i].value;
+                curRoleIndex = i;
+            }
+        }
+    }
+}
+
+var newRole;
+
+function roleWarning() {
+    var dropRole = document.getElementById('role');
+    if(dropRole) {
+        for(var i = 0; i < dropRole.length; i++) {
+            if(dropRole[i].selected) {
+                newRole = dropRole[i].value;
+                break;
+            }
+        }
+    }
+    if(curRole === newRole) {
+        return;
+    }
+
+    if(documentDirty === true) {
+        if(confirm('<?= $_lang['tmplvar_change_template_msg']?>')) {
+            documentDirty = false;
+            document.userform.a.value = <?= $user ? 88 : 87 ?>;
+            document.userform.newrole.value = newRole;
+            document.userform.submit();
+        } else {
+            dropRole[curRoleIndex].selected = true;
+        }
+    }
+    else {
+        document.userform.a.value = <?= $user ? 88 : 87 ?>;;
+        document.userform.newrole.value = newRole;
+        document.userform.submit();
+    }
+}
+
 var actions = {
     save: function() {
         documentDirty = false;
@@ -252,6 +312,7 @@ if (is_array($evtOut)) {
     <input type="hidden" name="a" value="89">
     <input type="hidden" name="mode" value="<?php echo $modx->getManagerApi()->action; ?>" />
     <input type="hidden" name="id" value="<?php echo $user ?>" />
+    <input type="hidden" name="newrole" value="" />
     <input type="hidden" name="blockedmode" value="<?php echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) || ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) || $userdata['failedlogins'] > $modx->getConfig('failed_login_attempts')) ? "1" : "0" ?>" />
 
     <h1>
@@ -356,7 +417,7 @@ if (!$modx->hasPermission('save_role')) {
     $roles = $roles->where('id', '!=', 1);
 }
 ?>
-                            <select name="role" class="inputBox" onChange='documentDirty=true;' style="width:300px">
+                            <select name="role" id="role" class="inputBox" onChange="roleWarning();" style="width:300px">
                                 <option value="0" <?php $userdata['role'] == 0 ? "selected='selected'" : ''?>><?php echo $_lang['no_user_role']; ?></option>
 <?php
 foreach ($roles->get()->toArray() as $row) {
@@ -1071,3 +1132,6 @@ if (is_array($evtOut)) {
     </div>
     <input type="submit" name="save" style="display:none">
 </form>
+<script type="text/javascript">
+    storeCurRole();
+</script>
