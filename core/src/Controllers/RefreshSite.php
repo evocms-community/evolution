@@ -56,7 +56,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
 
         $count = $query->count();
 
-        $query->update(['published' => 1]);
+        $query->update(['published' => 1, 'pub_date' => 0]);
 
         return $count;
     }
@@ -67,7 +67,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
 
         $count = $query->count();
 
-        $query->update(['published' => 0]);
+        $query->update(['published' => 0, 'unpub_date' => 0]);
 
         return $count;
     }
