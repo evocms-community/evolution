@@ -23,12 +23,16 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
     {
         $userData = $_POST;
         $id = false;
+        if(!empty($userData['newrole'])) {
+            return true;
+        }
         if (isset($userData['id'])) {
             $id = $userData['id'];
         }
         if ($userData['newpassword'] == 1) {
             if ($userData['passwordgenmethod'] == 'g') {
                 $userData['password_confirmation'] = $userData['password'] = generate_password(8);
+
             } else {
                 $userData['password'] = $userData['specifiedpassword'];
                 $userData['password_confirmation'] = $userData['confirmpassword'];
@@ -68,7 +72,8 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
         $tvs = SiteTmplvar::query()->distinct()
             ->select('site_tmplvars.*', 'user_values.value')
             ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
-            ->leftJoin('user_values', function ($query) use ($user) {
+            ->leftJoin('user_values', function($query) use ($user) {
+
                 $query->on('user_values.userid', '=', \DB::raw($user->id));
                 $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
             })
@@ -84,20 +89,24 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
                 $value = $userData["tv" . $row['id']];
 
                 switch ($row['type']) {
-                    case 'url':
+
+                    case 'url': {
                         if ($userData["tv" . $row['id'] . '_prefix'] != '--') {
                             $value = str_replace([
                                 "feed://",
                                 "ftp://",
                                 "http://",
                                 "https://",
-                                "mailto:",
+                                "mailto:"
                             ], "", $value);
                             $value = $userData["tv" . $row['id'] . '_prefix'] . $value;
                         }
                         break;
+                    }
 
                     default:
+                    {
+
                         if (is_array($value)) {
                             // handles checkboxes & multiple selects elements
                             $feature_insert = [];
@@ -106,7 +115,9 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
                             }
                             $value = implode("||", $feature_insert);
                         }
+
                         break;
+                    }
                 }
             }
 
@@ -144,21 +155,18 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
         } else {
             $this->parameters['url'] = "index.php?a=99";
         }
-
         $this->parameters['cancel_url'] = "index.php?a=99";
-
         if ($userData['passwordnotifymethod'] == 'e') {
             $websignupemail_message = EvolutionCMS()->getConfig('websignupemail_message');
             $site_url = EvolutionCMS()->getConfig('site_url');
             sendMailMessageForUser($user->attributes->email, $user->username, $userData['password'], $user->attributes->fullname, $websignupemail_message, $site_url);
-        }
 
+        }
         if ($userData['passwordnotifymethod'] == 's' && $userData['newpassword'] == 1) {
             $this->parameters['username'] = $user->username;
             $this->parameters['password'] = $userData['password'];
             return true;
         }
-
         header("Location: " . $this->parameters['url']);
         exit();
     }
