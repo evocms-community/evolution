@@ -131,15 +131,19 @@ if (!empty($site_hostnames[0]) && !in_array($site_hostname, $site_hostnames)) {
 // assign site_url
 if (!defined('MODX_SITE_URL')) {
     $secured = (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https');
+    $user_port = isset($_SERVER['HTTP_X_FORWARDED_PORT']) ? $_SERVER['HTTP_X_FORWARDED_PORT'] : $_SERVER['SERVER_PORT']; // Store the port number used by users to connect to the site on the front-end
 //  $site_url = ((isset ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $_SERVER['SERVER_PORT'] == $https_port || $secured) ? 'https://' : 'http://';
-    $site_url = ((isset ($_SERVER['HTTPS']) && ( (strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS']) == '1')) || $_SERVER['SERVER_PORT'] == $https_port || $secured) ? 'https://' : 'http://';
+//  $site_url = ((isset ($_SERVER['HTTPS']) && ( (strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS']) == '1')) || $_SERVER['SERVER_PORT'] == $https_port || $secured) ? 'https://' : 'http://';
+// Replace any occurrence of $_SERVER['SERVER_PORT'] with $user_port from now on
+    $site_url = ((isset ($_SERVER['HTTPS']) && ( (strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS']) == '1')) || $user_port == $https_port || $secured) ? 'https://' : 'http://';
   
     $site_url .= $site_hostname;
-    if ($_SERVER['SERVER_PORT'] != 80) {
-        $site_url = str_replace(':' . $_SERVER['SERVER_PORT'], '', $site_url);
-    } // remove port from HTTP_HOST  
+    if ($user_port != 80) {
+        $site_url = str_replace(':' . $user_port, '', $site_url);
+    } // remove port from HTTP_HOSTe port from HTTP_HOST
 
-    $site_url .= ($_SERVER['SERVER_PORT'] == 80 || (isset ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $_SERVER['SERVER_PORT'] == $https_port) ? '' : ':' . $_SERVER['SERVER_PORT'];
+//  $site_url .= ($_SERVER['SERVER_PORT'] == 80 || (isset ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $_SERVER['SERVER_PORT'] == $https_port) ? '' : ':' . $_SERVER['SERVER_PORT'];
+    $site_url .= ($user_port == 80 || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $user_port == $https_port) ? '' : ':' . $user_port;
     $site_url .= $base_url;
 
     define('MODX_SITE_URL', $site_url);
