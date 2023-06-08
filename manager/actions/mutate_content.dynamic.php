@@ -893,8 +893,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 											</div>
 											<div id="content_body">
 												<?php
+												$htmlContent = isset($content['content']) ? $content['content'] : '';
 												if(((isset($content['richtext']) && $content['richtext'] == 1) || $modx->manager->action == '4') && $use_editor == 1) {
-													$htmlContent = isset($content['content']) ? $content['content'] : '';
 													?>
 													<div class="section-editor clearfix">
 														<textarea id="ta" name="ta" onchange="documentDirty=true;"><?= $modx->htmlspecialchars($htmlContent) ?></textarea>
@@ -906,7 +906,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 													$richtexteditorIds[$modx->config['which_editor']][] = 'ta';
 													$richtexteditorOptions[$modx->config['which_editor']]['ta'] = '';
 												} else {
-													echo "\t" . '<div><textarea class="phptextarea" id="ta" name="ta" rows="20" wrap="soft" onchange="documentDirty=true;">', $modx->htmlspecialchars($content['content']), '</textarea></div>' . "\n";
+													echo "\t" . '<div><textarea class="phptextarea" id="ta" name="ta" rows="20" wrap="soft" onchange="documentDirty=true;">', $modx->htmlspecialchars($htmlContent), '</textarea></div>' . "\n";
 												}
 												?>
 											</div>
