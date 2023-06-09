@@ -140,7 +140,7 @@ if (!defined('MODX_SITE_URL')) {
     $site_url .= $site_hostname;
     if ($user_port != 80) {
         $site_url = str_replace(':' . $user_port, '', $site_url);
-    } // remove port from HTTP_HOSTe port from HTTP_HOST
+    } // remove port from HTTP_HOST
 
 //  $site_url .= ($_SERVER['SERVER_PORT'] == 80 || (isset ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $_SERVER['SERVER_PORT'] == $https_port) ? '' : ':' . $_SERVER['SERVER_PORT'];
     $site_url .= ($user_port == 80 || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $user_port == $https_port) ? '' : ':' . $user_port;
