@@ -129,12 +129,14 @@ if (!defined('MODX_MANAGER_PATH')) {
     define('MODX_MANAGER_PATH', env('MODX_MANAGER_PATH', MODX_BASE_PATH . MGR_DIR . '/'));
 }
 
+$server_port = isset($_SERVER['HTTP_X_FORWARDED_PORT']) ? (int)$_SERVER['HTTP_X_FORWARDED_PORT'] : (int)($_SERVER['SERVER_PORT'] ?? 80);
+
 if (!defined('MODX_SITE_URL')) {
     // check for valid hostnames
     $site_hostname = 'localhost';
     if (!is_cli()) {
         $site_hostname = str_replace(
-            ':' . $_SERVER['SERVER_PORT'],
+            ':' . $server_port,
             '',
             get_by_key($_SERVER, 'HTTP_HOST', $site_hostname)
         );
@@ -145,13 +147,9 @@ if (!defined('MODX_SITE_URL')) {
     }
     unset($site_hostnames);
 
-    if (!isset($_SERVER['SERVER_PORT'])) {
-        $_SERVER['SERVER_PORT'] = 80;
-    }
-
     // assign site_url
     if ((isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on') ||
-        $_SERVER['SERVER_PORT'] == HTTPS_PORT ||
+        $server_port == HTTPS_PORT ||
         (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
     ) {
         $site_url = 'https://' . $site_hostname;
@@ -160,11 +158,11 @@ if (!defined('MODX_SITE_URL')) {
     }
     unset($site_hostname);
 
-    if ($_SERVER['SERVER_PORT'] !== 80) { // remove port from HTTP_HOST
-        $site_url = str_replace(':' . $_SERVER['SERVER_PORT'], '', $site_url);
+    if ($server_port !== 80) { // remove port from HTTP_HOST
+        $site_url = str_replace(':' . $server_port, '', $site_url);
     }
 
-    if (!in_array((int)$_SERVER['SERVER_PORT'], [80, (int)HTTPS_PORT], true) &&
+    if (!in_array($server_port, [80, (int)HTTPS_PORT], true) &&
         strtolower(get_by_key($_SERVER, 'HTTPS', 'off'))
     ) {
         $site_url .= ':' . $_SERVER['SERVER_PORT'];
