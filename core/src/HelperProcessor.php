@@ -24,19 +24,30 @@ class HelperProcessor
     {
         return str_replace('assets/images', '', $pathinfo['dirname']);
     }
-
-    public function phpThumb($input = '', $options = '', $webp = true)
+    
+    /**
+     * @param string $input
+     * @param string $options
+     * @param bool|array $params boolean value here means webp = true or false for backward compatibility
+     * @return string
+     */
+    public function phpThumb($input = '', $options = '', $params = true)
     {
         if (!empty($input) && strtolower(substr($input, -4)) == '.svg') {
             return $input;
         }
-
+        if(is_bool($params)) {
+            $params = ['webp' => $params];
+        } elseif(!is_array($params)) {
+            $params = ['webp' => true];
+        }
+        
         $newFolderAccessMode = $this->core->getConfig('new_folder_permissions');
-        $newFolderAccessMode = empty($new) ? 0777 : octdec($newFolderAccessMode);
+        $newFolderAccessMode = empty($newFolderAccessMode) ? 0777 : octdec($newFolderAccessMode);
 
         $defaultCacheFolder = 'assets/cache/';
-        $cacheFolder = isset($cacheFolder) ? $cacheFolder : $defaultCacheFolder . 'images';
-        $phpThumbNoImagePath = isset($phpThumbNoImagePath) ? $phpThumbNoImagePath : 'assets/images/';
+        $cacheFolder = isset($params['cacheFolder']) ? $params['cacheFolder'] : $defaultCacheFolder . 'images';
+        $phpThumbNoImagePath = isset($params['phpThumbNoImagePath']) ? $params['phpThumbNoImagePath'] : 'assets/images/';
 
         /**
          * @see: https://github.com/kalessil/phpinspectionsea/blob/master/docs/probable-bugs.md#mkdir-race-condition
@@ -116,7 +127,7 @@ class HelperProcessor
             }
         }
 
-        if (isset($webp) && $webp && class_exists('\WebPConvert\WebPConvert')) {
+        if (isset($params['webp']) && $params['webp'] && class_exists('\WebPConvert\WebPConvert')) {
             if( isset( $_SERVER['HTTP_ACCEPT'] ) && strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false && pathinfo($outputFilename, PATHINFO_EXTENSION) != 'gif') {
                 if (file_exists($outputFilename . '.webp')) {
                     $fNameSuf .= '.webp';
