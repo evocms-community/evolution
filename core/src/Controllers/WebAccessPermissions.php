@@ -1,12 +1,10 @@
 <?php namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Models\User;
-use Illuminate\Support\Facades\URL;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\MembergroupName;
 use EvolutionCMS\Models\DocumentgroupName;
-use League\CommonMark\Node\Block\Document;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\MemberGroup;
