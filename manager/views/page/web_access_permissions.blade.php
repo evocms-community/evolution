@@ -72,35 +72,12 @@
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $userGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <input class="btn btn-success" type="button" value="{{ ManagerTheme::getLexicon('users_list') }}" onclick="$('#access_permissions_users_table').toggleClass('d-none');"/>
+                                        <a target="main" class="btn btn-success" href="?a=91&list=users&id={{ $userGroup->getKey() }}&tab=0">{{ ManagerTheme::getLexicon('users_list') }}</a>
                                         <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
                                         <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $userGroup->getKey() }}, 'usergroup');" />
                                     </div>
                                 </div>
                             </form>
-                            <div id="access_permissions_users_table" class="d-none">
-                                @if($userGroup->users->count() === 0)
-                                    <i>{{ ManagerTheme::getLexicon('access_permissions_no_users_in_group') }}</i>
-                                @else
-                                    <?php /** @var EvolutionCMS\Models\ManagerUser $user */?>
-                                    <table class="table data">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 1%">ID</th>
-                                                <th>{{ ManagerTheme::getLexicon('user') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($userGroup->users as $user)
-                                            <tr>
-                                                <td>{{ $user->getKey() }}</td>
-                                                <td><a href="index.php?a=88&id={{ $user->getKey() }}">{{ $user->username }}</a></td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                @endif
-                            </div>
                         </div>
                     @endforeach
                 @endif
@@ -139,35 +116,13 @@
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $documentGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <input class="btn btn-success" type="button" value="{{ ManagerTheme::getLexicon('documents_list') }}" onclick="$('#access_permissions_resources_table').toggleClass('d-none');"/>
+                                        <a target="main" class="btn btn-success" href="?a=91&list=documents&id={{ $documentGroup->getKey() }}&tab=1">{{ ManagerTheme::getLexicon('documents_list') }}</a>
                                         <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
                                         <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $documentGroup->getKey() }},'documentgroup');" />
                                     </div>
                                 </div>
                             </form>
-                            <div id="access_permissions_resources_table" class="d-none">
-                                @if($documentGroup->documents->count() === 0)
-                                    <i>{{ ManagerTheme::getLexicon('access_permissions_no_resources_in_group') }}</i>
-                                @else
-                                    <?php /** @var EvolutionCMS\Models\SiteContent $document */?>
-                                    <table class="table data">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 1%">ID</th>
-                                                <th>{{ ManagerTheme::getLexicon('resource') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($documentGroup->documents as $document)
-                                            <tr>
-                                                <td>{{ $document->getKey() }}</td>
-                                                <td><a href="index.php?a=3&id={{ $document->getKey() }}">{{ $document->pagetitle }}</a></td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                @endif
-                            </div>
+
                         </div>
                     @endforeach
                 @endif

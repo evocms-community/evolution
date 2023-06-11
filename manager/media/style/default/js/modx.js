@@ -1667,7 +1667,7 @@
                     modx.title(this.txt);
                     modx.tabs.selected = this.tab;
                     w.main = this.page.firstElementChild.contentWindow;
-                    if (this.getTab && this.action === 76 && !~w.main.frameElement.contentDocument.location.href.indexOf(this.url)) {
+                    if (this.getTab && (this.action === 76 || this.action === 91) && !~w.main.frameElement.contentDocument.location.href.indexOf(this.url)) {
                         w.main.frameElement.src = this.url;
                     } else {
                         w.history.replaceState(null, w.main.document.title, modx.getActionFromUrl(this.url, 2) ? modx.MODX_MANAGER_URL : '#' + this.url);
