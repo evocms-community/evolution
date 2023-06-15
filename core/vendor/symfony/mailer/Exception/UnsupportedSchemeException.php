@@ -28,6 +28,10 @@ class UnsupportedSchemeException extends LogicException
             'class' => Bridge\Infobip\Transport\InfobipTransportFactory::class,
             'package' => 'symfony/infobip-mailer',
         ],
+        'mailersend' => [
+            'class' => Bridge\MailerSend\Transport\MailerSendTransportFactory::class,
+            'package' => 'symfony/mailersend-mailer',
+        ],
         'mailgun' => [
             'class' => Bridge\Mailgun\Transport\MailgunTransportFactory::class,
             'package' => 'symfony/mailgun-mailer',
@@ -70,7 +74,7 @@ class UnsupportedSchemeException extends LogicException
         }
         $package = self::SCHEME_TO_PACKAGE_MAP[$provider] ?? null;
         if ($package && !class_exists($package['class'])) {
-            parent::__construct(sprintf('Unable to send emails via "%s" as the bridge is not installed; try running "composer require %s".', $provider, $package['package']));
+            parent::__construct(sprintf('Unable to send emails via "%s" as the bridge is not installed. Try running "composer require %s".', $provider, $package['package']));
 
             return;
         }

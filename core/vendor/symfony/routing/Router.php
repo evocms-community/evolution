@@ -116,6 +116,8 @@ class Router implements RouterInterface, RequestMatcherInterface
      *   * strict_requirements:    Configure strict requirement checking for generators
      *                             implementing ConfigurableRequirementsInterface (default is true)
      *
+     * @return void
+     *
      * @throws \InvalidArgumentException When unsupported option is provided
      */
     public function setOptions(array $options)
@@ -149,6 +151,8 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Sets an option.
      *
+     * @return void
+     *
      * @throws \InvalidArgumentException
      */
     public function setOption(string $key, mixed $value)
@@ -174,11 +178,17 @@ class Router implements RouterInterface, RequestMatcherInterface
         return $this->options[$key];
     }
 
+    /**
+     * @return RouteCollection
+     */
     public function getRouteCollection()
     {
         return $this->collection ??= $this->loader->load($this->resource, $this->options['resource_type']);
     }
 
+    /**
+     * @return void
+     */
     public function setContext(RequestContext $context)
     {
         $this->context = $context;
@@ -198,6 +208,8 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     /**
      * Sets the ConfigCache factory to use.
+     *
+     * @return void
      */
     public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory)
     {
@@ -302,6 +314,9 @@ class Router implements RouterInterface, RequestMatcherInterface
         return $this->generator;
     }
 
+    /**
+     * @return void
+     */
     public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
     {
         $this->expressionLanguageProviders[] = $provider;

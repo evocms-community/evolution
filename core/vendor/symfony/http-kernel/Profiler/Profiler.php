@@ -46,6 +46,8 @@ class Profiler implements ResetInterface
 
     /**
      * Disables the profiler.
+     *
+     * @return void
      */
     public function disable()
     {
@@ -54,6 +56,8 @@ class Profiler implements ResetInterface
 
     /**
      * Enables the profiler.
+     *
+     * @return void
      */
     public function enable()
     {
@@ -98,7 +102,7 @@ class Profiler implements ResetInterface
         }
 
         if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', ['configured_storage' => \get_class($this->storage)]);
+            $this->logger->warning('Unable to store the profiler information.', ['configured_storage' => $this->storage::class]);
         }
 
         return $ret;
@@ -106,6 +110,8 @@ class Profiler implements ResetInterface
 
     /**
      * Purges all data from the storage.
+     *
+     * @return void
      */
     public function purge()
     {
@@ -162,6 +168,9 @@ class Profiler implements ResetInterface
         return $profile;
     }
 
+    /**
+     * @return void
+     */
     public function reset()
     {
         foreach ($this->collectors as $collector) {
@@ -182,6 +191,8 @@ class Profiler implements ResetInterface
      * Sets the Collectors associated with this profiler.
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
+     *
+     * @return void
      */
     public function set(array $collectors = [])
     {
@@ -193,6 +204,8 @@ class Profiler implements ResetInterface
 
     /**
      * Adds a Collector.
+     *
+     * @return void
      */
     public function add(DataCollectorInterface $collector)
     {

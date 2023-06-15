@@ -1,0 +1,16 @@
+{
+    "name": "mnoskov/evocms-directory",
+    "description": "Directory module for evocms 3.x",
+    "autoload": {
+        "psr-4": {
+            "EvolutionCMS\\Directory\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EvolutionCMS\\Directory\\DirectoryServiceProvider"
+            ]
+        }
+    }
+}

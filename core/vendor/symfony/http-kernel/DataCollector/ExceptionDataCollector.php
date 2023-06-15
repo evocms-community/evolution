@@ -22,16 +22,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ExceptionDataCollector extends DataCollector
 {
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         if (null !== $exception) {
             $this->data = [
-                'exception' => FlattenException::createFromThrowable($exception),
+                'exception' => FlattenException::createWithDataRepresentation($exception),
             ];
         }
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }
