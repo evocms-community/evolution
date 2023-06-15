@@ -1,21 +1,22 @@
 <?php namespace EvolutionCMS\Controllers\Users;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Models;
-use EvolutionCMS\Interfaces\ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Models\SiteTmplvar;
+use EvolutionCMS\UserManager\Facades\UserManager;
 
-class EditOrNewUser extends AbstractController implements ManagerTheme\PageControllerInterface
+class EditOrNewUser extends AbstractController implements PageControllerInterface
 {
-    protected $view = 'page.users.message_after_save';
+    protected string $view = 'page.users.message_after_save';
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        return $this->managerTheme->getCore()->hasPermission('save_user');
+        return ManagerTheme::getCore()->hasPermission('save_user');
     }
 
     public function process(): bool
@@ -46,9 +47,9 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
         }
         try {
             if ($userData['mode'] == 87) {
-                $user = \UserManager::create($userData);
+                $user = UserManager::create($userData);
             } else {
-                $user = \UserManager::edit($userData);
+                $user = UserManager::edit($userData);
                 if (isset($userData['password'])) {
                     $userData['clearPassword'] = $userData['password'];
                     $user->password = EvolutionCMS()->getPasswordHash()->HashPassword($userData['password']);
@@ -56,7 +57,7 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
                     $user->save();
                 }
             }
-        } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
+        } catch (ServiceValidationException $exception) {
             foreach ($exception->getValidationErrors() as $errors) {
                 foreach ($errors as $error) {
                     webAlertAndQuit($error, $userData['mode'], $id);
@@ -68,7 +69,7 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
 
         $userData['id'] = $user->getKey();
 
-        $tvs = \EvolutionCMS\Models\SiteTmplvar::query()->distinct()
+        $tvs = SiteTmplvar::query()->distinct()
             ->select('site_tmplvars.*', 'user_values.value')
             ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
             ->leftJoin('user_values', function($query) use ($user) {
@@ -130,22 +131,22 @@ class EditOrNewUser extends AbstractController implements ManagerTheme\PageContr
 
         // Save User Values
         $values['id'] = $user->getKey();
-        \UserManager::saveValues($values);
+        UserManager::saveValues($values);
 
         // Save User Settings
-        \UserManager::clearSettings($userData);
-        \UserManager::saveSettings($userData);
+        UserManager::clearSettings($userData);
+        UserManager::saveSettings($userData);
 
         if (isset($userData['role'])
             && $userData['role'] != $user->attributes->role
             && EvolutionCMS()->hasPermission('save_role')) {
-            \UserManager::setRole(['id' => $user->getKey(), 'role' => $userData['role']]);
+            UserManager::setRole(['id' => $user->getKey(), 'role' => $userData['role']]);
         }
 
         if (isset($userData['user_groups']) && is_array($userData['user_groups'])) {
-            \UserManager::setGroups(['id' => $user->getKey(), 'groups' => $userData['user_groups']]);
+            UserManager::setGroups(['id' => $user->getKey(), 'groups' => $userData['user_groups']]);
         } else {
-            \UserManager::setGroups(['id' => $user->getKey(), 'groups' => []]);
+            UserManager::setGroups(['id' => $user->getKey(), 'groups' => []]);
         }
 
         if ($userData['stay'] != '') {
