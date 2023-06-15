@@ -33,6 +33,8 @@ $_lang["access_permissions_links"] = 'Связи групп пользовате
 $_lang["access_permissions_links_tab"] = 'Здесь можно определить, какие группы пользователей имеют доступ (то есть создавать и редактировать) к группам ресурсов. Чтобы привязать группу ресурсов к пользовательской группе, выберите группу из списка и нажмите \'Выполнить\'. Чтобы удалить привязку к группе, нажмите \'Удалить\'.';
 $_lang["access_permissions_no_resources_in_group"] = 'Нет ресурсов.';
 $_lang["access_permissions_no_users_in_group"] = 'Нет пользователей.';
+$_lang["users_list"] = 'Список пользователей';
+$_lang["documents_list"] = 'Список ресурсов';
 $_lang["access_permissions_off"] = '<span class="warning">Права доступа не активированы.</span> Это означает, что никакие изменения не вступят в силу, до тех пор пока вы не измените настройки.';
 $_lang["access_permissions_resource_groups"] = 'Группы ресурсов';
 $_lang["access_permissions_resources_in_group"] = '<b>ресурсов в группе:</b> ';

@@ -33,6 +33,8 @@ $_lang["access_permissions_links"] = 'User/Resource Group links';
 $_lang["access_permissions_links_tab"] = 'Specify which User Groups are given access (i.e. can edit or create children) to the Resource Groups. To link a Resource Group to a User Group, select the appropriate groups from the drop down menus, and click on \'Submit\'. To remove the link for a certain group, press \'Remove\'. This will immediately remove the link.';
 $_lang["access_permissions_no_resources_in_group"] = 'None.';
 $_lang["access_permissions_no_users_in_group"] = 'None.';
+$_lang["users_list"] = 'Users list';
+$_lang["documents_list"] = 'Resources list';
 $_lang["access_permissions_off"] = '<span class="warning">Access Permissions are not activated.</span> This means any changes made here will not have any effect until Access Permissions are activated in your Configuration.';
 $_lang["access_permissions_resource_groups"] = 'Resource Groups';
 $_lang["access_permissions_resources_in_group"] = '<b>Resources in group:</b> ';
