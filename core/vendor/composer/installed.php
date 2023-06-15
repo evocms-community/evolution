@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'composer/ca-bundle' => array(
-            'pretty_version' => '1.3.5',
-            'version' => '1.3.5.0',
-            'reference' => '74780ccf8c19d6acb8d65c5f39cd72110e132bbd',
+            'pretty_version' => '1.3.6',
+            'version' => '1.3.6.0',
+            'reference' => '90d087e988ff194065333d16bc5cf649872d9cdb',
             'type' => 'library',
             'install_path' => __DIR__ . '/./ca-bundle',
             'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'composer/composer' => array(
-            'pretty_version' => '2.5.7',
-            'version' => '2.5.7.0',
-            'reference' => 'd477018d3f2ebd76dede3d3988a0b1a7add4d81e',
+            'pretty_version' => '2.5.8',
+            'version' => '2.5.8.0',
+            'reference' => '4c516146167d1392c8b9b269bb7c24115d262164',
             'type' => 'library',
             'install_path' => __DIR__ . '/./composer',
             'aliases' => array(),
@@ -515,9 +515,9 @@
             'dev_requirement' => false,
         ),
         'predis/predis' => array(
-            'pretty_version' => 'v2.1.2',
-            'version' => '2.1.2.0',
-            'reference' => 'a77a43913a74f9331f637bb12867eb8e274814e5',
+            'pretty_version' => 'v2.2.0',
+            'version' => '2.2.0.0',
+            'reference' => '33b70b971a32b0d28b4f748b0547593dce316e0d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../predis/predis',
             'aliases' => array(),
