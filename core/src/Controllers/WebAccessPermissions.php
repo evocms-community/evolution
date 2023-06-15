@@ -48,7 +48,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
                     if(isset($search) && $search) {
                         $list = $list->where('username', 'LIKE', '%'.$search.'%');
                     }
-                    $list = $list->paginate(1);
+                    $list = $list->paginate(15);
                 break;
 
                 case 'documents':
@@ -68,7 +68,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
                     if(isset($search) && $search) {
                         $list = $list->where('pagetitle', 'LIKE', '%'.$search.'%');
                     }
-                    $list = $list->paginate(1);
+                    $list = $list->paginate(15);
                 break;
 
                 default:
