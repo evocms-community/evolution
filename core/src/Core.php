@@ -5457,7 +5457,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function stripTags($html, $allowed = '')
     {
-        $t = strip_tags($html, $allowed);
+        $t = strip_tags((string)$html, $allowed);
         $t = preg_replace('~\[\*(.*?)\*\]~', '', $t); //tv
         $t = preg_replace('~\[\[(.*?)\]\]~', '', $t); //snippet
         $t = preg_replace('~\[\!(.*?)\!\]~', '', $t); //snippet
