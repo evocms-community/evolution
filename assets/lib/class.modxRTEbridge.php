@@ -117,7 +117,7 @@ class modxRTEbridge
 
         // Set TV-options
         $this->tvOptions = $tvOptions;
-
+        unset($modx->event->params['options']);
         // Set pluginParams
         $this->editorKey                      = $editorKey;
         $this->theme                          = isset($this->modxParams['theme']) ? $this->modxParams['theme'] : 'base';
