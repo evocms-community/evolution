@@ -117,11 +117,11 @@ class modxRTEbridge
 
         // Set TV-options
         $this->tvOptions = $tvOptions;
-        unset($modx->event->params['options']);
         // Set pluginParams
         $this->editorKey                      = $editorKey;
         $this->theme                          = isset($this->modxParams['theme']) ? $this->modxParams['theme'] : 'base';
         $this->pluginParams                   = isset($modx->event->params) ? $modx->event->params : array();
+        unset($this->pluginParams['options']);
         $this->pluginParams['pluginName']     = $modx->event->activePlugin;
         $this->pluginParams['editorLabel']    = isset($bridgeConfig['editorLabel']) ? $bridgeConfig['editorLabel'] : 'No editorLabel set for "' . $editorKey . '"';
         $this->pluginParams['editorVersion']  = isset($bridgeConfig['editorVersion']) ? $bridgeConfig['editorVersion'] : 'No editorVersion set';
