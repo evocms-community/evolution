@@ -82,7 +82,7 @@
     </form>
 </div>
 <p class="loginLicense"></p>
-<div class="gpl">&copy; 2005-2022 by the <a href="https://evocms.ru/" target="_blank">EVO</a>. <strong>EVO</strong>&trade; is licensed under the GPL.</div>
+<div class="gpl">&copy; 2005-2023 by the <a href="https://evo-cms.com/" target="_blank">EVO</a>. <strong>EVO</strong>&trade; is licensed under the GPL.</div>
 </body>
 <script type="text/javascript">
     /* <![CDATA[ */
