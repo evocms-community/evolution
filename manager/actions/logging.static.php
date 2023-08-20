@@ -76,7 +76,7 @@ $logs = $modx->db->makeArray($rs);
                             // get all users currently in the log
                             $logs_user = record_sort(array_unique_multi($logs, 'internalKey'), 'username');
                             foreach ($logs_user as $row) {
-                                $selectedtext = $row['internalKey'] == $_REQUEST['searchuser'] ? ' selected="selected"' : '';
+                                $selectedtext = isset($_REQUEST['searchuser']) && $row['internalKey'] == $_REQUEST['searchuser'] ? ' selected="selected"' : '';
                                 echo "\t\t" . '<option value="' . $row['internalKey'] . '"' . $selectedtext . '>' . $row['username'] . "</option>\n";
                             }
                             ?>
@@ -97,7 +97,7 @@ $logs = $modx->db->makeArray($rs);
                                 if ($action == 'Idle') {
                                     continue;
                                 }
-                                $selectedtext = $row['action'] == $_REQUEST['action'] ? ' selected="selected"' : '';
+                                $selectedtext = isset($_REQUEST['action']) && $row['action'] == $_REQUEST['action'] ? ' selected="selected"' : '';
                                 echo "\t\t" . '<option value="' . $row['action'] . '"' . $selectedtext . '>' . $row['action'] . ' - ' . $action . "</option>\n";
                             }
                             ?>
@@ -113,7 +113,7 @@ $logs = $modx->db->makeArray($rs);
                             // get all itemid currently in logging
                             $logs_items = record_sort(array_unique_multi($logs, 'itemid'), 'itemid');
                             foreach ($logs_items as $row) {
-                                $selectedtext = $row['itemid'] == $_REQUEST['itemid'] ? ' selected="selected"' : '';
+                                $selectedtext = isset($_REQUEST['itemid']) && $row['itemid'] == $_REQUEST['itemid'] ? ' selected="selected"' : '';
                                 echo "\t\t" . '<option value="' . $row['itemid'] . '"' . $selectedtext . '>' . $row['itemid'] . "</option>\n";
                             }
                             ?>
@@ -129,7 +129,7 @@ $logs = $modx->db->makeArray($rs);
                             // get all itemname currently in logging
                             $logs_names = record_sort(array_unique_multi($logs, 'itemname'), 'itemname');
                             foreach ($logs_names as $row) {
-                                $selectedtext = $row['itemname'] == $_REQUEST['itemname'] ? ' selected="selected"' : '';
+                                $selectedtext = isset($_REQUEST['itemname']) && $row['itemname'] == $_REQUEST['itemname'] ? ' selected="selected"' : '';
                                 echo "\t\t" . '<option value="' . $modx->htmlspecialchars($row['itemname']) . '"' . $selectedtext . '>' . $modx->htmlspecialchars($row['itemname']) . "</option>\n";
                             }
                             ?>
