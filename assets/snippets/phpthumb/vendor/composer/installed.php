@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'james-heinrich/phpthumb' => array(
-            'pretty_version' => 'v1.7.20',
-            'version' => '1.7.20.0',
-            'reference' => '6c642aad3fa33ce88fe1307feaa6316edfc9ed76',
+            'pretty_version' => 'v1.7.21',
+            'version' => '1.7.21.0',
+            'reference' => '7ee966b38ddd7eb4d8091389aa514604710711c8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../james-heinrich/phpthumb',
             'aliases' => array(),
