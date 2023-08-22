@@ -8,6 +8,8 @@ class SqlParser {
 	var $mode, $fileManagerPath, $imgPath, $imgUrl;
     var $connection_charset, $connection_method;
     public $database_collation;
+    public $ignoreDuplicateErrors;
+    public $autoTemplateLogic;
 
 	public function __construct() {
 		$adminname='';
