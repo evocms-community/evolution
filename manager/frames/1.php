@@ -155,7 +155,7 @@ $which_browser = $which_browser ?? 'mcpuk';
           groups: <?= json_encode($modx->getUserDocGroups()) ?>
         },
         config: {
-          manager_title: '<?= $site_name ?> (EVO CMS Manager)',
+          manager_title: '<?= htmlspecialchars($site_name) ?> (EVO CMS Manager)',
           mail_check_timeperiod: <?= $modx->config['mail_check_timeperiod'] ?>,
           menu_height: <?= (int)$menu_height ?>,
           tree_width: <?= (int)$tree_width ?>,
