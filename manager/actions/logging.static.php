@@ -187,26 +187,26 @@ $logs = $modx->db->makeArray($rs);
 if (isset($_REQUEST['log_submit'])) {
     // get the selections the user made.
     $sqladd = array();
-    if ($_REQUEST['searchuser'] != 0) {
+    if (isset($_REQUEST['searchuser']) && $_REQUEST['searchuser'] != 0) {
         $sqladd[] = "internalKey='" . (int)$_REQUEST['searchuser'] . "'";
     }
-    if ($_REQUEST['action'] != 0) {
+    if (isset($_REQUEST['action']) && $_REQUEST['action'] != 0) {
         $sqladd[] = "action=" . (int)$_REQUEST['action'];
     }
-    if ($_REQUEST['itemid'] != 0 && $_REQUEST['itemid'] == "-") {
+    if (isset($_REQUEST['itemid']) && $_REQUEST['itemid'] != 0 && $_REQUEST['itemid'] == "-") {
         $sqladd[] = "itemid='" . (int)$_REQUEST['itemid'] . "'";
     }
-    if ($_REQUEST['itemname'] != '0') {
+    if (isset($_REQUEST['itemname']) && $_REQUEST['itemname'] != '0') {
         $sqladd[] = "itemname='" . $modx->db->escape($_REQUEST['itemname']) . "'";
     }
-    if ($_REQUEST['message'] != "") {
+    if (isset($_REQUEST['message']) && $_REQUEST['message'] != "") {
         $sqladd[] = "message LIKE '%" . $modx->db->escape($_REQUEST['message']) . "%'";
     }
     // date stuff
-    if ($_REQUEST['datefrom'] != "") {
+    if (isset($_REQUEST['datefrom']) && $_REQUEST['datefrom'] != "") {
         $sqladd[] = "timestamp>" . $modx->toTimeStamp($_REQUEST['datefrom']);
     }
-    if ($_REQUEST['dateto'] != "") {
+    if (isset($_REQUEST['dateto']) && $_REQUEST['dateto'] != "") {
         $sqladd[] = "timestamp<" . $modx->toTimeStamp($_REQUEST['dateto']);
     }
 
@@ -218,9 +218,9 @@ if (isset($_REQUEST['log_submit'])) {
     }
 
     // Number of result to display on the page, will be in the LIMIT of the sql query also
-    $int_num_result = is_numeric($_REQUEST['nrresults']) ? $_REQUEST['nrresults'] : $number_of_logs;
+    $int_num_result = isset($_REQUEST['nrresults']) && is_numeric($_REQUEST['nrresults']) ? $_REQUEST['nrresults'] : $number_of_logs;
 
-    $extargv = "&a=13&searchuser=" . $_REQUEST['searchuser'] . "&action=" . $_REQUEST['action'] . "&itemid=" . $_REQUEST['itemid'] . "&itemname=" . $_REQUEST['itemname'] . "&message=" . $_REQUEST['message'] . "&dateto=" . $_REQUEST['dateto'] . "&datefrom=" . $_REQUEST['datefrom'] . "&nrresults=" . $int_num_result . "&log_submit=" . $_REQUEST['log_submit']; // extra argv here (could be anything depending on your page)
+    $extargv = "&a=13&searchuser=" . ($_REQUEST['searchuser'] ?? '') . "&action=" . ($_REQUEST['action'] ?? '') . "&itemid=" . ($_REQUEST['itemid'] ?? '') . "&itemname=" . ($_REQUEST['itemname'] ?? '') . "&message=" . ($_REQUEST['message'] ?? '') . "&dateto=" . ($_REQUEST['dateto'] ?? '') . "&datefrom=" . ($_REQUEST['datefrom'] ?? '') . "&nrresults=" . $int_num_result . "&log_submit=" . ($_REQUEST['log_submit'] ?? ''); // extra argv here (could be anything depending on your page)
 
     // build the sql
     $limit = $num_rows = $modx->db->getValue($modx->db->select('COUNT(*)', $modx->getFullTableName('manager_log'), (!empty($sqladd) ? implode(' AND ', $sqladd) : '')));
