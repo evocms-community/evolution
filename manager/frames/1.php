@@ -121,7 +121,7 @@ $which_browser = $which_browser ?? 'mcpuk';
 <!DOCTYPE html>
 <html <?= (isset($modx_textdir) && $modx_textdir ? 'dir="rtl" lang="' : 'lang="') . $mxla . '" xml:lang="' . $mxla . '"' ?>>
 <head>
-    <title><?= $site_name ?> (EVO CMS Manager)</title>
+    <title><?= htmlspecialchars($site_name, ENT_QUOTES, $modx->getConfig('modx_charset')) ?> (EVO CMS Manager)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?= $modx_manager_charset ?>" />
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
     <meta name="theme-color" content="#1d2023" />
@@ -155,7 +155,7 @@ $which_browser = $which_browser ?? 'mcpuk';
           groups: <?= json_encode($modx->getUserDocGroups()) ?>
         },
         config: {
-          manager_title: '<?= htmlspecialchars($site_name, ENT_QUOTES) ?> (EVO CMS Manager)',
+          manager_title: '<?= htmlspecialchars($site_name, ENT_QUOTES, $modx->getConfig('modx_charset')) ?> (EVO CMS Manager)',
           mail_check_timeperiod: <?= $modx->config['mail_check_timeperiod'] ?>,
           menu_height: <?= (int)$menu_height ?>,
           tree_width: <?= (int)$tree_width ?>,
