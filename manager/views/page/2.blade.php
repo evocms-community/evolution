@@ -82,7 +82,7 @@
 
     if (!$modx->getConfig('site_status') && $modx->hasPermission('settings')) {
         $ph['show_site_status'] = 'block';
-        $ph['site_status_msg'] = $modx->getConfig('site_unavailable_message') . ' ' . __('global.update_settings_from_language') . ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
+        $ph['site_status_msg'] = strip_tags($modx->getConfig('site_unavailable_message')) . ' ' . __('global.update_settings_from_language') . ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
     } else {
         $ph['show_site_status'] = 'none';
     }
