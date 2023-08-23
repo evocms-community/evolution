@@ -22,8 +22,8 @@ class SiteContentTableSeeder extends Seeder
             [
                 'type'            => 'document',
                 'contentType'     => 'text/html',
-                'pagetitle'       => 'Evolution CMS Install Success',
-                'longtitle'       => 'Welcome to the Evolution CMS Content Management System',
+                'pagetitle'       => 'Evolution CMS Community Install Success',
+                'longtitle'       => 'Welcome to the Evolution CMS Community',
                 'description'     => '',
                 'alias'           => 'minimal-base',
                 'link_attributes' => '',
@@ -34,11 +34,11 @@ class SiteContentTableSeeder extends Seeder
                 'isfolder'        => 0,
                 'introtext'       => '',
                 'content'         => '<h3>Install Successful!</h3>
-<p>You have successfully installed Evolution CMS.</p>
+<p>You have successfully installed Evolution CMS Community.</p>
 
 <h3>Getting Help</h3>
-<p>The <a href="http://evo.im/" target="_blank">Evolution CMS Community</a> provides a great starting point to learn all things Evolution CMS, or you can also <a href="http://evo.im/">see some great learning resources</a> (books, tutorials, blogs and screencasts).</p>
-<p>Welcome to Evolution CMS!</p>
+<p>The <a href="http://evo-cms.com/" target="_blank">Evolution CMS Community</a> provides a great starting point to learn all things Evolution CMS, or you can also <a href="http://evo-cms.com/">see some great learning resources</a> (books, tutorials, blogs and screencasts).</p>
+<p>Welcome to Evolution CMS Community!</p>
 ',
                 'richtext'        => 1,
                 'template'        => 1,
