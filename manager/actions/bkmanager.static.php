@@ -598,7 +598,7 @@ class Mysqldumper
         $output .= "# Server version: " . $modx->getDatabase()->getVersion() . $lf;
         $output .= "# PHP Version: " . phpversion() . $lf;
         $output .= "# Database: `{$this->dbname}`{$lf}";
-        $output .= "# Description: " . trim($_REQUEST['backup_title']) . "{$lf}";
+        $output .= "# Description: " . trim($_REQUEST['backup_title'] ?? '') . "{$lf}";
         $output .= "#";
         $output .= "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
         $output .= "SET @old_sql_mode := @@sql_mode;{$lf}";
