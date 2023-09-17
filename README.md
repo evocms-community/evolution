@@ -27,6 +27,18 @@ Most significant, though, is **Evolution CMS's** ability to empower you to quick
 You can use the single click installer: [Evolution CMS Installer](https://github.com/evocms-community/installer)
 Evolution CMS requires **PHP >= 7.4**, 8.1 is recommended.
 
+To install the latest version with Composer:
+1. Go to the site root folder.
+2. Run:
+```
+composer create-project evocms/evolution .
+```
+3. Run:
+```
+php ./install/cli-install.php --typeInstall=1 --databaseType=mysql --databaseServer=localhost --database=db_name --databaseUser=db_user --databasePassword=db_password  --tablePrefix=evo_ --cmsAdmin=admin --cmsAdminEmail=evoadmin@sitename.com --cmsPassword=123456 --language=en --removeInstall=y
+```
+Or open sitename.com/install/ in the browser.
+
 ## Docker
 To run **Evolution CMS** using docker make **docker-compose up -d** command in your terminal. Additional configs and access parameters you can find in **docker-compose.yml** file and **docker** folder 
 
