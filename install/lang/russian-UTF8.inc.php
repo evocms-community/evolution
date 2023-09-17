@@ -116,7 +116,7 @@ $_lang["installing_demo_site"] = 'Установка примера веб-са�
 $_lang["language_code"] = 'ru';
 $_lang["loading"] = 'Загружается...';
 $_lang["modules"] = 'Модули';
-$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] <a href="http://evo.im/" target="_blank" style="color: green; text-decoration:underline">EVO</a> Content Mangement Framework (CMF) project. Все права защищены. EVO лицензирован GNU GPL.';
+$_lang["modx_footer1"] = '&copy; 2005-[+current_year+] <a href="http://evo.im/" target="_blank" style="color: green; text-decoration:underline">EVO</a> Content Management Framework (CMF) project. Все права защищены. EVO лицензирован GNU GPL.';
 $_lang["modx_footer2"] = 'EVO &mdash; свободное программное обеспечение. Мы поощряем вас быть творческими и использовать EVO как вы считаете целесообразным. Если вы внесете изменения и решите распространять ваш измененный вариант EVO, то должны сохранять и распространять исходный код бесплатно.';
 $_lang["modx_install"] = 'EVO &raquo; Установка';
 $_lang["modx_requires_php"] = ', а EVO необходим PHP [+min_version+] или более поздний';
