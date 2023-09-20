@@ -368,7 +368,9 @@ function reset_path(elementName) {
 }
 
 function document_onunload(e) {
-    if (!dontShowWorker) {
+    if (top !== window.top
+        && !dontShowWorker
+    ) {
         top.mainMenu.work();
     }
 }
