@@ -218,7 +218,7 @@ class SiteContent extends Eloquent\Model
             $entity->closure->insertNode($ancestor, $descendant);
         });
 
-        static::saved(static function (SiteContent $entity) {
+        static::updated(static function (SiteContent $entity) {
             $parentIdChanged = $entity->isDirty($entity->getParentIdColumn());
 
             if ($parentIdChanged || $entity->isDirty($entity->getPositionColumn())) {
