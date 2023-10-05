@@ -57,6 +57,7 @@
     @endpush
 
     <form name="mutate" method="post" action="index.php">
+        @csrf
         {!! get_by_key($events, 'OnSnipFormPrerender') !!}
         <input type="hidden" name="a" value="24">
         <input type="hidden" name="id" value="{{ $data->getKey() }}">

@@ -98,6 +98,7 @@
     @endpush
 
     <form name="mutate" method="post" action="index.php" enctype="multipart/form-data">
+        @csrf
         {!! get_by_key($events, 'OnPluginFormPrerender') !!}
 
         <input type="hidden" name="a" value="103">

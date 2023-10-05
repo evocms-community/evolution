@@ -188,6 +188,7 @@
                         <ul id="settings" class="nav">
                             <li id="searchform">
                                 <form action="index.php?a=71" method="post" target="main">
+                                    @csrf
                                     <input type="hidden" value="Search" name="submitok" />
                                     <label for="searchid" class="label_searchid">
                                         <i class="{{ $_style['icon_search'] }}"></i>
@@ -389,6 +390,7 @@
             }
             ?>
             <form name="sortFrm" id="sortFrm">
+                @csrf
                 <div class="form-group">
                     <input type="hidden" name="dt"
                         value="<?= isset($_REQUEST['dt']) ? htmlspecialchars($_REQUEST['dt']) : '' ?>" />

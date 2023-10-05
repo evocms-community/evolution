@@ -1,6 +1,7 @@
 @extends('manager::template.page')
 @section('content')
     <form name="userform" method="post" action="index.php" enctype="multipart/form-data">
+        @csrf
         <input type="hidden" name="a" value="135">
         <input type="hidden" name="mode" value="<?= app()->getManagerApi()->action ?>">
         <input type="hidden" name="id" value="<?= isset($_GET['id']) ? (int) $_GET['id'] : '' ?>">

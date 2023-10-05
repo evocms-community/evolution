@@ -70,6 +70,7 @@
     @endpush
 
     <form name="mutate" method="post" action="index.php">
+        @csrf
         {!! get_by_key($events, 'OnTempFormPrerender') !!}
 
         <input type="hidden" name="a" value="20">
