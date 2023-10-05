@@ -12,7 +12,7 @@ var _GET = decodeURIComponent(window.location.search.slice(1))
 
 function link(){
 	mass = location.href.split('?');
-	return mass[0]+'?id='+_GET['id']+'&a='+_GET['a'];
+	return mass[0]+'?id='+_GET['id']+'&a='+_GET['a'] + '&_token=' + _token;
 }
 
 function store_search(val){
