@@ -33,9 +33,6 @@ class HelperProcessor
      */
     public function phpThumb($input = '', $options = '', $params = true)
     {
-        if (!empty($input) && strtolower(substr($input, -4)) == '.svg') {
-            return $input;
-        }
         if(is_bool($params)) {
             $params = ['webp' => $params];
         } elseif(!is_array($params)) {
