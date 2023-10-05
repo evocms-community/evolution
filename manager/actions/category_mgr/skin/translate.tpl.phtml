@@ -1,5 +1,8 @@
 <form id="category-translation-form" action="<?php echo $view->get('url'); ?>" method="post">
-  <fieldset>
+    <?php
+        echo csrf_field()->toHtml();
+    ?>
+    <fieldset>
     <legend><?php echo $view->txt('cm_translate_module_phrases'); ?></legend>
     <table id="category-translation" class="grid" cellpadding="1" cellspacing="1">
       <thead>
@@ -16,14 +19,14 @@
           </td>
           <td class="translation <?php echo ($i%2===0)?'gridItem':'gridAltItem'; ?>">
             <textarea  rows="2" cols="80" name="<?php echo $view->get('request_key'); ?>[translate][data][<?php echo urlencode($native) ?>]"><?php echo $translation; ?></textarea>
-          </td>           
+          </td>
         </tr>
         <?php $i++; endforeach; ?>
       </tbody>
       <tfoot>
         <tr>
           <td colspan="4" class="submit">
-            <input type="submit" name="<?php echo $view->get('request_key'); ?>[translate][submit]" value="<?php echo $view->txt('cm_translate_phrases'); ?>" />    
+            <input type="submit" name="<?php echo $view->get('request_key'); ?>[translate][submit]" value="<?php echo $view->txt('cm_translate_phrases'); ?>" />
           </td>
         </tr>
       </tfoot>

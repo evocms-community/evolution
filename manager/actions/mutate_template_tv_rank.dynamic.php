@@ -156,6 +156,9 @@ if ($templateVars->count() > 0) {
 </div>
 
 <form action="" method="post" name="sortableListForm">
+    <?php
+        echo csrf_field()->toHtml();
+    ?>
     <input type="hidden" name="listSubmitted" value="true"/>
     <input type="hidden" id="list" name="list" value=""/>
 </form>

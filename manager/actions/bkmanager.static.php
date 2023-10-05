@@ -284,6 +284,9 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
             <div class="container container-body">
                 <form name="frmdb" method="post">
+                    <?php
+                        echo csrf_field()->toHtml();
+                    ?>
                     <input type="hidden" name="mode" value=""/>
                     <p>
                         <a href="javascript:;" class="btn btn-primary" onclick="backup();return false;"> <i
@@ -420,6 +423,9 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?= $_lang["bkmgr_restore_msg"] ?>
                 </div>
                 <form method="post" name="mutate" enctype="multipart/form-data" action="index.php">
+                    <?php
+                        echo csrf_field()->toHtml();
+                    ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="restore1"/>
                     <?php
@@ -506,6 +512,9 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?= parsePlaceholder($_lang["bkmgr_snapshot_msg"], array('snapshot_path' => "snapshot_path={$modx->getConfig('snapshot_path')}")) ?>
                 </div>
                 <form method="post" name="snapshot" action="index.php">
+                    <?php
+                        echo csrf_field()->toHtml();
+                    ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="snapshot"/>
                     <?= $_lang["description"] ?>
@@ -523,6 +532,9 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <b><?= $_lang["bkmgr_snapshot_list_title"] ?></b>
                 </div>
                 <form method="post" name="restore2" action="index.php">
+                    <?php
+                        echo csrf_field()->toHtml();
+                    ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="restore2"/>
                     <input type="hidden" name="filename" value=""/>

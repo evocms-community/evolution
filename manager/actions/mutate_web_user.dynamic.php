@@ -302,7 +302,10 @@ function evoRenderTvImageCheck(a) {
 </script>
 
 <form name="userform" method="post" action="index.php">
-<?php
+    <?php
+        echo csrf_field()->toHtml();
+    ?>
+    <?php
 // invoke OnWUsrFormPrerender event
 $evtOut = $modx->invokeEvent("OnUserFormPrerender", array("id" => $user));
 if (is_array($evtOut)) {

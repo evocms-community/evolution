@@ -192,6 +192,9 @@ if ($numRecords > 0) {
 </script>
 
 <form name="resource" method="post" action="?a=99">
+    <?php
+        echo csrf_field()->toHtml();
+    ?>
     <input type="hidden" name="op" value="" />
 
     <h1>

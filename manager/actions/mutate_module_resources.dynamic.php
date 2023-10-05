@@ -172,6 +172,9 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 </script>
 
 <form name="mutate" method="post" action="index.php">
+    <?php
+        echo csrf_field()->toHtml();
+    ?>
     <input type="hidden" name="a" value="113">
     <input type="hidden" name="op" value=""/>
     <input type="hidden" name="rt" value=""/>

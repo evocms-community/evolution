@@ -502,6 +502,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     </script>
     <form name="mutate" id="mutate" class="content" method="post" enctype="multipart/form-data" action="index.php" onsubmit="documentDirty=false;">
         <?php
+            echo csrf_field()->toHtml();
+        ?>
+        <?php
         // invoke OnDocFormPrerender event
         $evtOut = $modx->invokeEvent('OnDocFormPrerender', array(
             'id' => $id,
