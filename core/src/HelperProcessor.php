@@ -39,8 +39,8 @@ class HelperProcessor
             $params = ['webp' => true];
         }
 
-        $phpThumbNoImagePath = $params['phpThumbNoImagePath'] ?? 'assets/images/';
-        $params['noImage'] = $params['noImage'] ?? ($phpThumbNoImagePath . 'noimage.png');
+        $phpThumbNoImagePath = $params['phpThumbNoImagePath'] ?? 'assets/snippets/phpthumb/';
+        $params['noImage'] = $params['noImage'] ?? ($phpThumbNoImagePath . 'noimage.svg');
 
         $newFolderAccessMode = $this->core->getConfig('new_folder_permissions');
         $newFolderAccessMode = empty($newFolderAccessMode) ? 0777 : octdec($newFolderAccessMode);
