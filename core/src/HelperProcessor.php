@@ -24,7 +24,7 @@ class HelperProcessor
     {
         return str_replace('assets/images', '', $pathinfo['dirname']);
     }
-    
+
     /**
      * @param string $input
      * @param string $options
@@ -41,13 +41,15 @@ class HelperProcessor
         } elseif(!is_array($params)) {
             $params = ['webp' => true];
         }
-        
+
+        $phpThumbNoImagePath = $params['phpThumbNoImagePath'] ?? 'assets/images/';
+        $params['noImage'] = $params['noImage'] ?? ($phpThumbNoImagePath . 'noimage.png');
+
         $newFolderAccessMode = $this->core->getConfig('new_folder_permissions');
         $newFolderAccessMode = empty($newFolderAccessMode) ? 0777 : octdec($newFolderAccessMode);
 
         $defaultCacheFolder = 'assets/cache/';
-        $cacheFolder = isset($params['cacheFolder']) ? $params['cacheFolder'] : $defaultCacheFolder . 'images';
-        $phpThumbNoImagePath = isset($params['phpThumbNoImagePath']) ? $params['phpThumbNoImagePath'] : 'assets/images/';
+        $cacheFolder = $params['cacheFolder'] ?? ($defaultCacheFolder . 'images');
 
         /**
          * @see: https://github.com/kalessil/phpinspectionsea/blob/master/docs/probable-bugs.md#mkdir-race-condition
@@ -62,7 +64,7 @@ class HelperProcessor
         }
 
         if (empty($input) || !file_exists(MODX_BASE_PATH . $input)) {
-            $input = isset($noImage) ? $noImage : $phpThumbNoImagePath . 'noimage.png';
+            $input = $params['noImage'];
         }
 
         /**
@@ -77,6 +79,9 @@ class HelperProcessor
 
         $path_parts = pathinfo($input);
         $ext = strtolower($path_parts['extension']);
+
+        if($ext == 'svg') return $input;
+
         $options = 'f=' . (in_array($ext, array('png', 'gif', 'jpeg')) ? $ext : 'jpg&q=85') . '&' .
             strtr($options, array(',' => '&', '_' => '=', '{' => '[', '}' => ']'));
 
