@@ -537,7 +537,7 @@
 <div class="page">
     <div class="tab-page loginbox [+login_form_style_class+]">
         <form method="post" name="loginfrm" id="loginfrm" class="container container-body" action="?a=0">
-
+            [+csrf+]
             <!-- OnManagerLoginFormPrerender -->
             [+OnManagerLoginFormPrerender+]
 
@@ -620,7 +620,7 @@
                 }
             }
         };
-        xhr.send('ajax=1&username=' + encodeURIComponent(form.username.value) + '&password=' + encodeURIComponent(form.password.value) + (form.captcha_code ? '&captcha_code=' + encodeURIComponent(form.captcha_code.value) : '') + '&rememberme=' + form.rememberme.value);
+        xhr.send('ajax=1&_token=' + encodeURIComponent(form._token.value) + '&username=' + encodeURIComponent(form.username.value) + '&password=' + encodeURIComponent(form.password.value) + (form.captcha_code ? '&captcha_code=' + encodeURIComponent(form.captcha_code.value) : '') + '&rememberme=' + form.rememberme.value);
         e.preventDefault();
     };
     /* ]]> */

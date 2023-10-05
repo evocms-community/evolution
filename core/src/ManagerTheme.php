@@ -626,8 +626,8 @@ class ManagerTheme implements ManagerThemeInterface
             'manager_theme_url' => $this->getThemeUrl(),
             'manager_theme_style' => $this->getThemeStyle(),
             'manager_path' => MGR_DIR,
+            'csrf' => csrf_field()->toHtml()
         ];
-
         // set login logo image
         $logo = $this->getCore()->getConfig('login_logo', '');
         if ($logo !== '') {
