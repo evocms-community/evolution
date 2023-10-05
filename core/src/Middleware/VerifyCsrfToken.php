@@ -6,10 +6,10 @@ class VerifyCsrfToken
 {
     public function handle($request, Closure $next)
     {
-        if ($request->has('_token') && isset($_SESSION['_token']) && $_SESSION['_token'] !== $request->input('_token')) {
+        if(in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']) || (isset($_SESSION['_token']) && $_SESSION['_token'] == $request->input('_token'))) {
+            return $next($request);
+        } else {
             return \Response::json(['error' => 'CSRF token mismatch'], '403');
-
         }
-        return $next($request);
     }
 }
