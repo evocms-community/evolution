@@ -120,6 +120,7 @@ if (isset($_REQUEST['newrole'])) {
             $query['id'] = $user;
         }
         $query['newrole'] = $_REQUEST['newrole'];
+        $modx->getManagerApi()->saveFormValues(87);
         redirect('index.php?' . http_build_query($query))->send();
     } else {
         $userdata['role'] = $_REQUEST['newrole'];
