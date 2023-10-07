@@ -5,10 +5,6 @@ if (!defined('MODX_BASE_PATH')) {
     die('What are you doing? Get out of here!');
 }
 
-if (!empty($input) && strtolower(substr($input, -4)) == '.svg') {
-    return $input;
-}
-
 $newFolderAccessMode = $modx->getConfig('new_folder_permissions');
 $newFolderAccessMode = empty($new) ? 0777 : octdec($newFolderAccessMode);
 
@@ -29,7 +25,7 @@ if (!empty($input)) {
 }
 
 if (empty($input) || !file_exists(MODX_BASE_PATH . $input)) {
-    $input = isset($noImage) ? $noImage : $phpThumbPath . 'noimage.png';
+    $input = isset($noImage) ? $noImage : $phpThumbPath . 'noimage.svg';
 }
 
 /**
@@ -46,6 +42,9 @@ $path_parts = pathinfo($input);
 $tmpImagesFolder = str_replace('assets/images', '', $path_parts['dirname']);
 $tmpImagesFolder = explode('/', $tmpImagesFolder);
 $ext = strtolower($path_parts['extension']);
+
+if($ext == 'svg') return $input;
+
 $options = 'f=' . (in_array($ext, array('png', 'gif', 'jpeg')) ? $ext : 'jpg&q=85') . '&' .
     strtr($options, array(',' => '&', '_' => '=', '{' => '[', '}' => ']'));
 
