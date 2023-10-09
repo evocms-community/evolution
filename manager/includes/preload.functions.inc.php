@@ -114,7 +114,7 @@ if(! function_exists('csrf_token')) {
 }
 
 if(! function_exists('csrf_field')) {
-    function csrf_token()
+    function csrf_field()
     {
         return '<input type="hidden" name="_token" value="' . csrf_token() . '">';
     }
