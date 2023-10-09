@@ -91,3 +91,31 @@ function removeInvalidCmsSessionIds($session_name)
     removeInvalidCmsSessionFromStorage($_GET, $session_name);
     removeInvalidCmsSessionFromStorage($_POST, $session_name);
 }
+
+if(! function_exists('csrf_token')) {
+    function csrf_token()
+    {
+        if (isset($_SESSION)) {
+            if (empty($_SESSION['_token'])) {
+                $string = '';
+                while (($len = strlen($string)) < 40) {
+                    $size = 40 - $len;
+                    $bytes = random_bytes($size);
+                    $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+                }
+                $_SESSION['_token'] = $string;
+            }
+
+            return $_SESSION['_token'];
+        }
+
+        throw new RuntimeException('Application session store not set.');
+    }
+}
+
+if(! function_exists('csrf_field')) {
+    function csrf_token()
+    {
+        return '<input type="hidden" name="_token" value="' . csrf_token() . '">';
+    }
+}
