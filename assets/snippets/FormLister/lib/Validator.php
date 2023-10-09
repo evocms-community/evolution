@@ -310,7 +310,7 @@ class Validator
      */
     protected static function getLength($string)
     {
-        return strlen(utf8_decode($string));
+        return mb_strlen($string);
     }
 
     /**

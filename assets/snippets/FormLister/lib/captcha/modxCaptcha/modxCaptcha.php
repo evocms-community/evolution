@@ -87,7 +87,7 @@ class ModxCaptcha
         }
         $dir->close();
         $text_font = (string)$fontstmp[array_rand($fontstmp)];
-        $chars = str_split($this->word);
+        $chars = mb_str_split($this->word);
         $_chars = array();
         $maxWidth = $this->im_width / count($chars);
         $text_size = round(max($maxWidth, $this->im_height) * 3 /4.5 );
