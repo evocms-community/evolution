@@ -1,27 +1,30 @@
 <?php
-if(!function_exists('import_sql')) {
+
+if (!function_exists('import_sql')) {
     /**
      * @param string $source
      * @param string $result_code
      */
-    function import_sql($source, $result_code = 'import_ok')
+    function import_sql(string $source, string $result_code = 'import_ok')
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         global $e;
 
         $rs = null;
-        if ($modx->getLockedElements() !== array()) {
-            $modx->webAlertAndQuit("At least one Resource is still locked or edited right now by any user. Remove locks or ask users to log out before proceeding.");
+        if ($modx->getLockedElements() !== []) {
+            $modx->webAlertAndQuit(
+                "At least one Resource is still locked or edited right now by any user. Remove locks or ask users to log out before proceeding."
+            );
         }
 
         $settings = getSettings();
 
         if (strpos($source, "\r") !== false) {
-            $source = str_replace(array(
+            $source = str_replace([
                 "\r\n",
                 "\n",
-                "\r"
-            ), "\n", $source);
+                "\r",
+            ], "\n", $source);
         }
         $sql_array = preg_split('@;[ \t]*\n@', $source);
         foreach ($sql_array as $sql_entry) {
@@ -31,8 +34,6 @@ if(!function_exists('import_sql')) {
             }
 
             $rs = $modx->getDatabase()->query($sql_entry);
-
-
         }
         restoreSettings($settings);
 
@@ -44,7 +45,12 @@ if(!function_exists('import_sql')) {
 }
 
 if (!function_exists('import_sql_from_file')) {
-    function import_sql_from_file($path, $result_code = 'import_ok')
+    /**
+     * @param $path
+     *
+     * @return false|void
+     */
+    function import_sql_from_file($path)
     {
         if (!file_exists($path)) {
             return false;
@@ -54,29 +60,29 @@ if (!function_exists('import_sql_from_file')) {
         while (($buffer = fgets($fp)) !== false) {
             $output .= $buffer . "\n";
             if (strlen($output) > 5040000 && $buffer === "\n") {
-
                 import_sql($output);
                 $output = '';
             }
         }
 
-        if(!empty($output)){
+        if (!empty($output)) {
             import_sql($output);
         }
     }
 }
 
-if(!function_exists('dumpSql')) {
+if (!function_exists('dumpSql')) {
     /**
-     * @param string $dumpstring
-     * @return bool
+     * @param $dumpTempFilePath
+     *
+     * @return void
      */
     function dumpSql($dumpTempFilePath)
     {
         if (ob_get_level()) {
             ob_end_clean();
         }
-        $modx = evolutionCMS();
+        $modx = evo();
         $today = $modx->toDateFormat(time(), 'dateOnly');
         $today = str_replace('/', '-', $today);
         $today = strtolower($today);
@@ -86,7 +92,7 @@ if(!function_exists('dumpSql')) {
             header('Cache-Control: private');
             header('Pragma: cache');
             header('Content-type: application/download');
-            header("Content-Length: {$size}");
+            header("Content-Length: $size");
             header("Content-Disposition: attachment; filename={$today}_database_backup.sql");
         }
         readfile($dumpTempFilePath);
@@ -95,30 +101,33 @@ if(!function_exists('dumpSql')) {
     }
 }
 
-if(!function_exists('snapshot')) {
+if (!function_exists('snapshot')) {
     /**
-     * @param string $dumpstring
+     * @param $dumpTempFilePath
+     * @param $snapshotFile
+     *
      * @return bool
      */
-    function snapshot($dumpTempFilePath,$snapshootFile)
+    function snapshot($dumpTempFilePath, $snapshotFile): bool
     {
-        rename($dumpTempFilePath, $snapshootFile);
+        rename($dumpTempFilePath, $snapshotFile);
+
         return true;
     }
 }
 
-if(!function_exists('getSettings')) {
+if (!function_exists('getSettings')) {
     /**
      * @return array
      */
-    function getSettings()
+    function getSettings(): array
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $tbl_system_settings = $modx->getDatabase()->getFullTableName('system_settings');
 
         $rs = $modx->getDatabase()->select('setting_name, setting_value', $tbl_system_settings);
 
-        $settings = array();
+        $settings = [];
         while ($row = $modx->getDatabase()->getRow($rs)) {
             switch ($row['setting_name']) {
                 case 'rb_base_dir':
@@ -134,35 +143,36 @@ if(!function_exists('getSettings')) {
     }
 }
 
-if(!function_exists('restoreSettings')) {
+if (!function_exists('restoreSettings')) {
     /**
      * @param array $settings
      */
-    function restoreSettings($settings)
+    function restoreSettings(array $settings)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $tbl_system_settings = $modx->getDatabase()->getFullTableName('system_settings');
 
         foreach ($settings as $k => $v) {
-            $modx->getDatabase()->update(array('setting_value' => $v), $tbl_system_settings, "setting_name='{$k}'");
+            $modx->getDatabase()->update(['setting_value' => $v], $tbl_system_settings, "setting_name='$k'");
         }
     }
 }
 
-if(!function_exists('parsePlaceholder')) {
+if (!function_exists('parsePlaceholder')) {
     /**
      * @param string $tpl
      * @param array $ph
+     *
      * @return string
      */
-    function parsePlaceholder($tpl = '', $ph = array())
+    function parsePlaceholder(string $tpl = '', array $ph = []): string
     {
         if (empty($ph) || empty($tpl)) {
             return $tpl;
         }
 
         foreach ($ph as $k => $v) {
-            $k = "[+{$k}+]";
+            $k = "[+$k+]";
             $tpl = str_replace($k, $v, $tpl);
         }
 

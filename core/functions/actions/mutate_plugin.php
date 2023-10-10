@@ -1,10 +1,12 @@
 <?php
+
 if (!function_exists('bold')) {
     /**
      * @param bool $cond
+     *
      * @return string
      */
-    function bold($cond = false)
+    function bold(bool $cond = false): string
     {
         return ($cond !== false) ? ' style="background-color:#777;color:#fff;"' : '';
     }
@@ -12,14 +14,14 @@ if (!function_exists('bold')) {
 
 
 if (!function_exists('echoEventRows')) {
-    function echoEventRows(&$evtnames)
+    function echoEventRows(&$eventNames)
     {
         echo '<div class="row form-row">
                 <div class="col-sm-6 col-md-4 col-lg-3">' .
-                    implode('</div><div class="col-sm-6 col-md-4 col-lg-3">', $evtnames) .
+                    implode('</div><div class="col-sm-6 col-md-4 col-lg-3">', $eventNames) .
                 '</div>' .
         '</div>';
 
-        $evtnames = array();
+        $eventNames = [];
     }
 }

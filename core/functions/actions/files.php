@@ -1,10 +1,14 @@
 <?php
-if(!function_exists('add_dot')) {
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+if (!function_exists('add_dot')) {
     /**
      * @param array $array
+     *
      * @return array
      */
-    function add_dot($array)
+    function add_dot(array $array): array
     {
         $count = count($array);
         for ($i = 0; $i < $count; $i++) {
@@ -15,47 +19,52 @@ if(!function_exists('add_dot')) {
     }
 }
 
-if(!function_exists('determineIcon')) {
+if (!function_exists('determineIcon')) {
     /**
      * @param string $file
      * @param string $selFile
      * @param string $mode
+     *
      * @return string
      */
-    function determineIcon($file, $selFile, $mode)
+    function determineIcon(string $file, string $selFile, string $mode): string
     {
         $_style = ManagerTheme::getStyle();
 
-        $icons = array(
+        $icons = [
             'default' => $_style['icon_file'],
-            'edit'    => $_style['icon_edit'],
-            'view'    => $_style['icon_eye']
-        );
+            'edit' => $_style['icon_edit'],
+            'view' => $_style['icon_eye'],
+        ];
+
         $icon = $icons['default'];
+
         if ($file == $selFile) {
-            $icon = isset($icons[$mode]) ? $icons[$mode] : $icons['default'];
+            $icon = $icons[$mode] ?? $icons['default'];
         }
 
         return '<i class="' . $icon . ' FilesPage"></i>';
     }
 }
 
-if(!function_exists('markRow')) {
+if (!function_exists('markRow')) {
     /**
      * @param string $file
      * @param string $selFile
      * @param string $mode
+     *
      * @return string
      */
-    function markRow($file, $selFile, $mode)
+    function markRow(string $file, string $selFile, string $mode): string
     {
-        $classNames = array(
+        $classNames = [
             'default' => '',
-            'edit'    => 'editRow',
-            'view'    => 'viewRow'
-        );
+            'edit' => 'editRow',
+            'view' => 'viewRow',
+        ];
+
         if ($file == $selFile) {
-            $class = isset($classNames[$mode]) ? $classNames[$mode] : $classNames['default'];
+            $class = $classNames[$mode] ?? $classNames['default'];
 
             return ' class="' . $class . '"';
         }
@@ -64,91 +73,164 @@ if(!function_exists('markRow')) {
     }
 }
 
-if(!function_exists('ls')) {
+if (!function_exists('ls')) {
     /**
-     * @param string $curpath
+     * @param string $currentPath
      * @param array $options
+     *
+     * @return array|void
      */
-    function ls($curpath, array $options = [])
+    function ls(string $currentPath, array $options = [])
     {
-        extract($options, EXTR_OVERWRITE);
+        extract($options);
 
         $_lang = ManagerTheme::getLexicon();
         $_style = ManagerTheme::getStyle();
-        $dircounter = 0;
-        $filecounter = 0;
-        $filesizes = 0;
-        $dirs_array = array();
-        $files_array = array();
-        $curpath = str_replace('//', '/', $curpath . '/');
+        $dirCounter = 0;
+        $fileCounter = 0;
+        $fileSizes = 0;
+        $dirs_array = [];
+        $files_array = [];
+        $currentPath = str_replace('//', '/', $currentPath . '/');
 
-        if (!is_dir($curpath)) {
-            echo 'Invalid path "', $curpath, '"<br />';
+        if (!is_dir($currentPath)) {
+            echo 'Invalid path "', $currentPath, '"<br />';
 
             return;
         }
-        $dir = scandir($curpath);
+        $dir = scandir($currentPath);
 
         // first, get info
         foreach ($dir as $file) {
-            $newpath = $curpath . $file;
+            $newPath = $currentPath . $file;
             if ($file === '..' || $file === '.') {
                 continue;
             }
-            if (is_dir($newpath)) {
-                $dirs_array[$dircounter]['dir'] = $newpath;
-                $dirs_array[$dircounter]['stats'] = lstat($newpath);
-                if ($file === '..' || $file === '.') {
+            if (is_dir($newPath)) {
+                $dirs_array[$dirCounter]['dir'] = $newPath;
+                $dirs_array[$dirCounter]['stats'] = lstat($newPath);
+                if ($file == '..' || $file == '.') {
                     continue;
-                } elseif (!in_array($file, $excludes) && !in_array($newpath, $protected_path)) {
-                    $dirs_array[$dircounter]['text'] = '<i class="' . $_style['icon_folder'] . ' FilesFolder"></i> <a href="index.php?a=31&mode=drill&path=' . urlencode($newpath) . '"><b>' . $file . '</b></a>';
+                } elseif (!in_array($file, $excludes) && !in_array($newPath, $protected_path)) {
+                    $dirs_array[$dirCounter]['text'] = '<i class="' . $_style['icon_folder'] .
+                        ' FilesFolder"></i> <a href="index.php?a=31&mode=drill&path=' . urlencode($newPath) . '"><b>' .
+                        $file . '</b></a>';
 
-                    $dfiles = scandir($newpath);
-                    foreach ($dfiles as $i => $infile) {
+                    $deletedFiles = scandir($newPath);
+                    foreach ($deletedFiles as $i => $infile) {
                         switch ($infile) {
                             case '..':
                             case '.':
-                                unset($dfiles[$i]);
+                            unset($deletedFiles[$i]);
                                 break;
                         }
                     }
-                    $file_exists = (0 < count($dfiles)) ? 'file_exists' : '';
+                    $file_exists = (0 < count($deletedFiles)) ? 'file_exists' : '';
 
-                    $dirs_array[$dircounter]['delete'] = is_writable($curpath) ? '<a href="javascript: deleteFolder(\'' . urlencode($file) . '\',\'' . $file_exists . '\');"><i class="' . $_style['icon_trash'] . '" title="' . $_lang['file_delete_folder'] . '"></i></a>' : '';
+                    $dirs_array[$dirCounter]['delete'] =
+                        is_writable($currentPath) ? '<a href="javascript: deleteFolder(\'' . urlencode($file) .
+                            '\',\'' .
+                            $file_exists . '\');"><i class="' . $_style['icon_trash'] . '" title="' .
+                            $_lang['file_delete_folder'] . '"></i></a>' : '';
                 } else {
-                    $dirs_array[$dircounter]['text'] = '<span><i class="' . $_style['icon_folder'] . ' FilesDeletedFolder"></i> ' . $file . '</span>';
-                    $dirs_array[$dircounter]['delete'] = is_writable($curpath) ? '<span class="disabled"><i class="' . $_style['icon_trash'] . '" title="' . $_lang['file_delete_folder'] . '"></i></span>' : '';
+                    $dirs_array[$dirCounter]['text'] =
+                        '<span><i class="' . $_style['icon_folder'] . ' FilesDeletedFolder"></i> ' . $file . '</span>';
+                    $dirs_array[$dirCounter]['delete'] =
+                        is_writable($currentPath) ? '<span class="disabled"><i class="' . $_style['icon_trash'] .
+                            '" title="' . $_lang['file_delete_folder'] . '"></i></span>' : '';
                 }
 
-                $dirs_array[$dircounter]['rename'] = is_writable($curpath) ? '<a href="javascript:renameFolder(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_i_cursor'] . '" title="' . $_lang['rename'] . '"></i></a> ' : '';
+                $dirs_array[$dirCounter]['rename'] =
+                    is_writable($currentPath) ? '<a href="javascript:renameFolder(\'' . urlencode($file) .
+                        '\');"><i class="' . $_style['icon_i_cursor'] . '" title="' . $_lang['rename'] . '"></i></a> '
+                        : '';
 
                 // increment the counter
-                $dircounter++;
+                $dirCounter++;
             } else {
-                $type = getExtension($newpath);
-                $files_array[$filecounter]['file'] = $newpath;
-                $files_array[$filecounter]['stats'] = lstat($newpath);
-                $files_array[$filecounter]['text'] = determineIcon($newpath, get_by_key($_REQUEST, 'path', ''), get_by_key($_REQUEST, 'mode', '')) . ' ' . $file;
-                $files_array[$filecounter]['view'] = (in_array($type,
-                    $viewablefiles)) ? '<a href="javascript:;" onclick="viewfile(\'' . $webstart_path . substr($newpath,
+                $type = getExtension($newPath);
+                $files_array[$fileCounter]['file'] = $newPath;
+                $files_array[$fileCounter]['stats'] = lstat($newPath);
+                $files_array[$fileCounter]['text'] =
+                    determineIcon($newPath, get_by_key($_REQUEST, 'path', ''), get_by_key($_REQUEST, 'mode', '')) .
+                    ' ' . $file;
+                $files_array[$fileCounter]['view'] = (in_array(
+                    $type,
+                    $viewablefiles
+                ))
+                    ? '<a href="javascript:;" onclick="viewfile(\'' . $webstart_path . substr(
+                        $newPath,
                         $len,
-                        strlen($newpath)) . '\');"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>' : (($enablefiledownload && in_array($type,
-                        $uploadablefiles)) ? '<a href="' . $webstart_path . implode('/', array_map('rawurlencode',
-                        explode('/', substr($newpath, $len,
-                            strlen($newpath))))) . '" style="cursor:pointer;" download><i class="' . $_style['icon_download'] . '" title="' . $_lang['file_download_file'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></span>');
-                $files_array[$filecounter]['view'] = (in_array($type,
-                    $inlineviewablefiles)) ? '<a href="index.php?a=31&mode=view&path=' . urlencode($newpath) . '"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>' : $files_array[$filecounter]['view'];
-                $files_array[$filecounter]['unzip'] = ($enablefileunzip && $type == '.zip') ? '<a href="javascript:unzipFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_archive'] . '" title="' . $_lang['file_download_unzip'] . '"></i></a>' : '';
-                $files_array[$filecounter]['edit'] = (in_array($type,
-                        $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="index.php?a=31&mode=edit&path=' . urlencode($newpath) . '#file_editfile"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></span>';
-                $files_array[$filecounter]['duplicate'] = (in_array($type,
-                        $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="javascript:duplicateFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_clone'] . '" title="' . $_lang['duplicate'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_clone'] . '" align="absmiddle" title="' . $_lang['duplicate'] . '"></i></span>';
-                $files_array[$filecounter]['rename'] = (in_array($type,
-                        $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="javascript:renameFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' . $_lang['rename'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' . $_lang['rename'] . '"></i></span>';
-                $files_array[$filecounter]['delete'] = is_writable($curpath) && is_writable($newpath) ? '<a href="javascript:deleteFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_trash'] . '" title="' . $_lang['file_delete_file'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_trash'] . '" title="' . $_lang['file_delete_file'] . '"></i></span>';
+                        strlen($newPath)
+                    ) . '\');"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>'
+                    : (($enablefiledownload && in_array(
+                            $type,
+                            $uploadablefiles
+                        ))
+                        ? '<a href="' . $webstart_path . implode(
+                            '/',
+                            array_map(
+                                'rawurlencode',
+                                explode(
+                                    '/',
+                                    substr(
+                                        $newPath,
+                                        $len,
+                                        strlen($newPath)
+                                    )
+                                )
+                            )
+                        ) . '" style="cursor:pointer;" download><i class="' . $_style['icon_download'] . '" title="' .
+                        $_lang['file_download_file'] . '"></i></a>'
+                        : '<span class="disabled"><i class="' . $_style['icon_eye'] . '" title="' .
+                        $_lang['files_viewfile'] . '"></i></span>');
+                $files_array[$fileCounter]['view'] = (in_array(
+                    $type,
+                    $inlineviewablefiles
+                )) ? '<a href="index.php?a=31&mode=view&path=' . urlencode($newPath) . '"><i class="' .
+                    $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>'
+                    : $files_array[$fileCounter]['view'];
+                $files_array[$fileCounter]['unzip'] =
+                    ($enablefileunzip && $type == '.zip') ? '<a href="javascript:unzipFile(\'' . urlencode($file) .
+                        '\');"><i class="' . $_style['icon_archive'] . '" title="' . $_lang['file_download_unzip'] .
+                        '"></i></a>' : '';
+                $files_array[$fileCounter]['edit'] = (in_array(
+                        $type,
+                        $editablefiles
+                    ) && is_writable($currentPath) && is_writable($newPath))
+                    ? '<a href="index.php?a=31&mode=edit&path=' .
+                    urlencode($newPath) . '#file_editfile"><i class="' . $_style['icon_edit'] . '" title="' .
+                    $_lang['files_editfile'] . '"></i></a>'
+                    : '<span class="disabled"><i class="' . $_style['icon_edit'] . '" title="' .
+                    $_lang['files_editfile'] . '"></i></span>';
+                $files_array[$fileCounter]['duplicate'] = (in_array(
+                        $type,
+                        $editablefiles
+                    ) && is_writable($currentPath) && is_writable($newPath))
+                    ? '<a href="javascript:duplicateFile(\'' .
+                    urlencode($file) . '\');"><i class="' . $_style['icon_clone'] . '" title="' . $_lang['duplicate'] .
+                    '"></i></a>'
+                    : '<span class="disabled"><i class="' . $_style['icon_clone'] . '" align="absmiddle" title="' .
+                    $_lang['duplicate'] . '"></i></span>';
+                $files_array[$fileCounter]['rename'] = (in_array(
+                        $type,
+                        $editablefiles
+                    ) && is_writable($currentPath) && is_writable($newPath))
+                    ? '<a href="javascript:renameFile(\'' .
+                    urlencode($file) . '\');"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' .
+                    $_lang['rename'] . '"></i></a>'
+                    : '<span class="disabled"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' .
+                    $_lang['rename'] . '"></i></span>';
+                $files_array[$fileCounter]['delete'] =
+                    is_writable($currentPath) && is_writable($newPath)
+                        ? '<a href="javascript:deleteFile(\'' .
+                        urlencode($file) . '\');"><i class="' . $_style['icon_trash'] . '" title="' .
+                        $_lang['file_delete_file'] . '"></i></a>'
+                        : '<span class="disabled"><i class="' . $_style['icon_trash'] . '" title="' .
+                        $_lang['file_delete_file'] . '"></i></span>';
 
                 // increment the counter
-                $filecounter++;
+                $fileCounter++;
             }
         }
 
@@ -156,10 +238,10 @@ if(!function_exists('ls')) {
         $folders = count($dirs_array);
         sort($dirs_array); // sorting the array alphabetically (Thanks pxl8r!)
         for ($i = 0; $i < $folders; $i++) {
-            $filesizes += $dirs_array[$i]['stats']['7'];
+            $fileSizes += $dirs_array[$i]['stats']['7'];
             echo '<tr>';
             echo '<td>' . $dirs_array[$i]['text'] . '</td>';
-            echo '<td class="text-nowrap">' . evolutionCMS()->toDateFormat($dirs_array[$i]['stats']['9']) . '</td>';
+            echo '<td class="text-nowrap">' . evo()->toDateFormat($dirs_array[$i]['stats']['9']) . '</td>';
             echo '<td class="text-right">' . nicesize($dirs_array[$i]['stats']['7']) . '</td>';
             echo '<td class="actions text-right">';
             echo $dirs_array[$i]['rename'];
@@ -172,10 +254,11 @@ if(!function_exists('ls')) {
         $files = count($files_array);
         sort($files_array); // sorting the array alphabetically (Thanks pxl8r!)
         for ($i = 0; $i < $files; $i++) {
-            $filesizes += $files_array[$i]['stats']['7'];
-            echo '<tr ' . markRow($files_array[$i]['file'], get_by_key($_REQUEST, 'path'), get_by_key($_REQUEST, 'mode')) . '>';
+            $fileSizes += $files_array[$i]['stats']['7'];
+            echo '<tr ' .
+                markRow($files_array[$i]['file'], get_by_key($_REQUEST, 'path'), get_by_key($_REQUEST, 'mode')) . '>';
             echo '<td>' . $files_array[$i]['text'] . '</td>';
-            echo '<td class="text-nowrap">' . evolutionCMS()->toDateFormat($files_array[$i]['stats']['9']) . '</td>';
+            echo '<td class="text-nowrap">' . evo()->toDateFormat($files_array[$i]['stats']['9']) . '</td>';
             echo '<td class="text-right">' . nicesize($files_array[$i]['stats']['7']) . '</td>';
             echo '<td class="actions text-right">';
             echo $files_array[$i]['unzip'];
@@ -188,16 +271,17 @@ if(!function_exists('ls')) {
             echo '</tr>';
         }
 
-        return compact('filesizes', 'files', 'folders');
+        return compact('fileSizes', 'files', 'folders');
     }
 }
 
-if(!function_exists('removeLastPath')) {
+if (!function_exists('removeLastPath')) {
     /**
      * @param string $string
+     *
      * @return bool|string
      */
-    function removeLastPath($string)
+    function removeLastPath(string $string)
     {
         $pos = strrpos($string, '/');
         if ($pos !== false) {
@@ -210,14 +294,15 @@ if(!function_exists('removeLastPath')) {
     }
 }
 
-if(!function_exists('getExtension')) {
+if (!function_exists('getExtension')) {
     /**
      * @param string $string
+     *
      * @return bool|string
      *
      * @TODO: not work if $string contains folder name with dot
      */
-    function getExtension($string)
+    function getExtension(string $string)
     {
         $pos = strrpos($string, '.');
         if ($pos !== false) {
@@ -231,57 +316,55 @@ if(!function_exists('getExtension')) {
     }
 }
 
-if(!function_exists('checkExtension')) {
+if (!function_exists('checkExtension')) {
     /**
      * @param string $path
+     *
      * @return bool
      */
-    function checkExtension($path = '')
+    function checkExtension(string $path = ''): bool
     {
-
-        $upload_files = explode(',', evolutionCMS()->getConfig('upload_files', ''));
-        $upload_images = explode(',', evolutionCMS()->getConfig('upload_images', ''));
-        $upload_media = explode(',', evolutionCMS()->getConfig('upload_media', ''));
+        $upload_files = explode(',', evo()->getConfig('upload_files', ''));
+        $upload_images = explode(',', evo()->getConfig('upload_images', ''));
+        $upload_media = explode(',', evo()->getConfig('upload_media', ''));
         // now merge them
-        $uploadablefiles = array_merge($upload_files, $upload_images, $upload_media);
-        $uploadablefiles = add_dot($uploadablefiles);
+        $uploadFiles = array_merge($upload_files, $upload_images, $upload_media);
+        $uploadFiles = add_dot($uploadFiles);
 
-        if (in_array(getExtension($path), $uploadablefiles)) {
-            return true;
-        } else {
-            return false;
-        }
+        return in_array(getExtension($path), $uploadFiles);
     }
 }
 
-if(!function_exists('mkdirs')) {
+if (!function_exists('mkdirs')) {
     /**
      * recursive mkdir function
      *
      * @param string $strPath
      * @param int $mode
+     *
      * @return bool
      */
-    function mkdirs($strPath, $mode)
+    function mkdirs(string $strPath, int $mode): bool
     {
         if (is_dir($strPath)) {
             return true;
         }
+
         $pStrPath = dirname($strPath);
         if (!mkdirs($pStrPath, $mode)) {
             return false;
         }
 
-        return @mkdir($strPath);
+        return mkdir($strPath);
     }
 }
 
-if(!function_exists('logFileChange')) {
+if (!function_exists('logFileChange')) {
     /**
      * @param string $type
      * @param string $filename
      */
-    function logFileChange($type, $filename)
+    function logFileChange(string $type, string $filename)
     {
         //global $_lang;
 
@@ -312,15 +395,16 @@ if(!function_exists('logFileChange')) {
     }
 }
 
-if(!function_exists('unzip')) {
+if (!function_exists('unzip')) {
     /**
      * by patrick_allaert - php user notes
      *
      * @param string $file
      * @param string $path
+     *
      * @return bool|int
      */
-    function unzip($file, $path)
+    function unzip(string $file, string $path)
     {
         global $newfolderaccessmode, $token_check;
 
@@ -345,10 +429,10 @@ if(!function_exists('unzip')) {
                     $complete_name = $path . str_replace('\\', '/', $zip_entry_name);
                     if (!file_exists($complete_path)) {
                         $tmp = '';
-                        foreach (explode('/', $complete_path) AS $k) {
+                        foreach (explode('/', $complete_path) as $k) {
                             $tmp .= $k . '/';
                             if (!is_dir($tmp)) {
-                                mkdir($tmp, 0777);
+                                mkdir($tmp);
                             }
                         }
                     }
@@ -367,12 +451,13 @@ if(!function_exists('unzip')) {
     }
 }
 
-if(!function_exists('rrmdir')) {
+if (!function_exists('rrmdir')) {
     /**
      * @param string $dir
+     *
      * @return bool
      */
-    function rrmdir($dir)
+    function rrmdir(string $dir): bool
     {
         foreach (glob($dir . '/*') as $file) {
             if (is_dir($file)) {
@@ -386,77 +471,81 @@ if(!function_exists('rrmdir')) {
     }
 }
 
-if(!function_exists('fileupload')) {
+if (!function_exists('fileupload')) {
     /**
      * @return string
      */
-    function fileupload()
+    function fileupload(): string
     {
-        $modx = evolutionCMS();
-        $startpath = is_dir($_REQUEST['path']) ? $_REQUEST['path'] : removeLastPath($_REQUEST['path']);
-        $filemanager_path = evolutionCMS()->getConfig('filemanager_path', MODX_BASE_PATH);
-        $new_file_permissions = octdec(evolutionCMS()->getConfig('new_file_permissions', '0666'));
+        $modx = evo();
+        $startPath = is_dir($_REQUEST['path']) ? $_REQUEST['path'] : removeLastPath($_REQUEST['path']);
+        $filemanager_path = evo()->getConfig('filemanager_path', MODX_BASE_PATH);
+        $new_file_permissions = octdec(evo()->getConfig('new_file_permissions', '0666'));
         global $_lang, $uploadablefiles;
         $msg = '';
         foreach ($_FILES['userfile']['name'] as $i => $name) {
             if (empty($_FILES['userfile']['tmp_name'][$i])) {
                 continue;
             }
-            $userfile = array();
+            $userFile = [];
 
-            $userfile['tmp_name'] = $_FILES['userfile']['tmp_name'][$i];
-            $userfile['error'] = $_FILES['userfile']['error'][$i];
+            $userFile['tmp_name'] = $_FILES['userfile']['tmp_name'][$i];
+            $userFile['error'] = $_FILES['userfile']['error'][$i];
             $name = $_FILES['userfile']['name'][$i];
             if ($modx->getConfig('clean_uploaded_filename') == 1) {
-                $nameparts = explode('.', $name);
-                $nameparts = array_map(array(
+                $nameParts = explode('.', $name);
+                $nameParts = array_map([
                     $modx,
-                    'stripAlias'
-                ), $nameparts, array('file_manager'));
-                $name = implode('.', $nameparts);
+                    'stripAlias',
+                ], $nameParts, ['file_manager']);
+                $name = implode('.', $nameParts);
             }
-            $userfile['name'] = $name;
-            $userfile['type'] = $_FILES['userfile']['type'][$i];
+            $userFile['name'] = $name;
+            $userFile['type'] = $_FILES['userfile']['type'][$i];
 
             // this seems to be an upload action.
-            $path = MODX_SITE_URL . substr($startpath, strlen($filemanager_path), strlen($startpath));
-            $path = rtrim($path, '/') . '/' . $userfile['name'];
+            $path = MODX_SITE_URL . substr($startPath, strlen($filemanager_path), strlen($startPath));
+            $path = rtrim($path, '/') . '/' . $userFile['name'];
             $msg .= $path;
-            if ($userfile['error'] == 0) {
-                $img = (strpos($userfile['type'],
-                        'image') !== false) ? '<br /><img src="' . $path . '" height="75" />' : '';
-                $msg .= "<p>" . $_lang['files_file_type'] . $userfile['type'] . ", " . nicesize(filesize($userfile['tmp_name'])) . $img . '</p>';
+            if ($userFile['error'] == 0) {
+                $img = (strpos(
+                        $userFile['type'],
+                        'image'
+                    ) !== false) ? '<br /><img src="' . $path . '" height="75" />' : '';
+                $msg .= "<p>" . $_lang['files_file_type'] . $userFile['type'] . ", " .
+                    nicesize(filesize($userFile['tmp_name'])) . $img . '</p>';
             }
 
-            $userfilename = $userfile['tmp_name'];
+            $userFilename = $userFile['tmp_name'];
 
-            if (is_uploaded_file($userfilename)) {
+            if (is_uploaded_file($userFilename)) {
                 // file is uploaded file, process it!
-                if (!checkExtension($userfile['name'])) {
+                if (!checkExtension($userFile['name'])) {
                     $msg .= '<p><span class="warning">' . $_lang['files_filetype_notok'] . '</span></p>';
                 } else {
-                    if (@move_uploaded_file($userfile['tmp_name'], $_POST['path'] . '/' . $userfile['name'])) {
+                    if (@move_uploaded_file($userFile['tmp_name'], $_POST['path'] . '/' . $userFile['name'])) {
                         // Ryan: Repair broken permissions issue with file manager
                         if (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
-                            @chmod($_POST['path'] . "/" . $userfile['name'], $new_file_permissions);
+                            @chmod($_POST['path'] . "/" . $userFile['name'], $new_file_permissions);
                         }
                         // Ryan: End
                         $msg .= '<p><span class="success">' . $_lang['files_upload_ok'] . '</span></p><hr/>';
 
                         // invoke OnFileManagerUpload event
-                        $modx->invokeEvent('OnFileManagerUpload', array(
+                        $modx->invokeEvent('OnFileManagerUpload', [
                             'filepath' => $_POST['path'],
-                            'filename' => $userfile['name']
-                        ));
+                            'filename' => $userFile['name'],
+                        ]);
                         // Log the change
-                        logFileChange('upload', $_POST['path'] . '/' . $userfile['name']);
+                        logFileChange('upload', $_POST['path'] . '/' . $userFile['name']);
                     } else {
-                        $msg .= '<p><span class="warning">' . $_lang['files_upload_copyfailed'] . '</span> ' . $_lang["files_upload_permissions_error"] . '</p>';
+                        $msg .= '<p><span class="warning">' . $_lang['files_upload_copyfailed'] . '</span> ' .
+                            $_lang["files_upload_permissions_error"] . '</p>';
                     }
                 }
             } else {
                 $msg .= '<br /><span class="warning"><b>' . $_lang['files_upload_error'] . ':</b>';
-                switch ($userfile['error']) {
+                switch ($userFile['error']) {
                     case 0: //no error; possible file attack!
                         $msg .= $_lang['files_upload_error0'];
                         break;
@@ -484,11 +573,11 @@ if(!function_exists('fileupload')) {
     }
 }
 
-if(!function_exists('textsave')) {
+if (!function_exists('textsave')) {
     /**
      * @return string
      */
-    function textsave()
+    function textsave(): string
     {
         global $_lang;
 
@@ -510,18 +599,18 @@ if(!function_exists('textsave')) {
     }
 }
 
-if(!function_exists('delete_file')) {
+if (!function_exists('delete_file')) {
     /**
      * @return string
      */
-    function delete_file()
+    function delete_file(): string
     {
         global $_lang;
 
         $msg = sprintf($_lang['deleting_file'], str_replace('\\', '/', $_REQUEST['path']));
 
         $file = $_REQUEST['path'];
-        if (!evolutionCMS()->hasPermission('file_manager') || !@unlink($file)) {
+        if (!evo()->hasPermission('file_manager') || !@unlink($file)) {
             $msg .= '<span class="warning"><b>' . $_lang['file_not_deleted'] . '</b></span><br /><br />';
         } else {
             $msg .= '<span class="success"><b>' . $_lang['file_deleted'] . '</b></span><br /><br />';
@@ -534,16 +623,17 @@ if(!function_exists('delete_file')) {
     }
 }
 
-if(!function_exists('parsePlaceholder')) {
+if (!function_exists('parsePlaceholder')) {
     /**
      * @param string $tpl
      * @param array $ph
+     *
      * @return string
      */
-    function parsePlaceholder($tpl, $ph)
+    function parsePlaceholder(string $tpl, array $ph): string
     {
         foreach ($ph as $k => $v) {
-            $k = "[+{$k}+]";
+            $k = "[+$k+]";
             $tpl = str_replace($k, $v, $tpl);
         }
 
@@ -551,38 +641,39 @@ if(!function_exists('parsePlaceholder')) {
     }
 }
 
-if(!function_exists('checkToken')) {
+if (!function_exists('checkToken')) {
     /**
      * @return bool
      */
-    function checkToken()
+    function checkToken(): bool
     {
-        if (isset($_POST['token']) && !empty($_POST['token'])) {
+        if (!empty($_POST['token'])) {
             $token = $_POST['token'];
-        } elseif (isset($_GET['token']) && !empty($_GET['token'])) {
+        } elseif (!empty($_GET['token'])) {
             $token = $_GET['token'];
         } else {
             $token = false;
         }
 
-        if (isset($_SESSION['token']) && !empty($_SESSION['token']) && $_SESSION['token'] === $token) {
+        if (!empty($_SESSION['token']) && $_SESSION['token'] === $token) {
             $rs = true;
         } else {
             $rs = false;
         }
+
         $_SESSION['token'] = '';
 
         return $rs;
     }
 }
 
-if(!function_exists('makeToken')) {
+if (!function_exists('makeToken')) {
     /**
      * @return string
      */
-    function makeToken()
+    function makeToken(): string
     {
-        $newToken = uniqid('');
+        $newToken = uniqid();
         $_SESSION['token'] = $newToken;
 
         return $newToken;

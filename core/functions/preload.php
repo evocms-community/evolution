@@ -1,10 +1,12 @@
 <?php
 
+use suffi\RedisSessionHandler\RedisSessionHandler;
+
 if (!function_exists('evolutionCMS')) {
     /**
      * @return DocumentParser
      */
-    function evolutionCMS()
+    function evolutionCMS(): DocumentParser
     {
         if (!defined('MODX_CLASS')) {
             if (!class_exists('\DocumentParser')) {
@@ -24,17 +26,16 @@ if (!function_exists('evolutionCMS')) {
             }
         }
 
-        if (IN_MANAGER_MODE == true && IN_INSTALL_MODE == false  && MODX_API_MODE != true) {
+        if (IN_MANAGER_MODE && !IN_INSTALL_MODE && !MODX_API_MODE) {
             // attempt to foil some simple types of CSRF attacks
-            if ((int)$modx->getConfig('validate_referer') !== 0) {
+            if ((int) $modx->getConfig('validate_referer') !== 0) {
                 if (isset($_SERVER['HTTP_REFERER'])) {
-
                     $referer = $_SERVER['HTTP_REFERER'];
 
                     if (!empty($referer)) {
                         if (!preg_match('/^' . preg_quote(MODX_SITE_URL, '/') . '/i', $referer)) {
                             $modx->webAlertAndQuit(
-                                "A possible CSRF attempt was detected from referer: {$referer}.",
+                                "A possible CSRF attempt was detected from referer: $referer.",
                                 "/" . MGR_DIR . "/index.php"
                             );
                         }
@@ -45,14 +46,12 @@ if (!function_exists('evolutionCMS')) {
                         );
                     }
                 } else {
-
                     if (mb_strtoupper($_SERVER['REQUEST_METHOD']) !== 'GET') {
                         $modx->webAlertAndQuit(
                             "A possible CSRF attempt was detected. No referer was provided by the server.",
                             "/" . MGR_DIR . "/index.php"
                         );
                     }
-
                 }
             }
         }
@@ -65,7 +64,7 @@ if (!function_exists('evo')) {
     /**
      * @return DocumentParser
      */
-    function evo()
+    function evo(): DocumentParser
     {
         return evolutionCMS();
     }
@@ -75,7 +74,7 @@ if (!function_exists('genEvoSessionName')) {
     /**
      * @return string
      */
-    function genEvoSessionName()
+    function genEvoSessionName(): string
     {
         $_ = crc32(__FILE__);
         $_ = sprintf('%u', $_);
@@ -87,6 +86,7 @@ if (!function_exists('genEvoSessionName')) {
 if (!function_exists('startCMSSession')) {
     /**
      * @return void
+     * @throws RedisException
      */
     function startCMSSession()
     {
@@ -104,30 +104,30 @@ if (!function_exists('startCMSSession')) {
             $secure = ($_SERVER['SERVER_PORT'] == HTTPS_PORT);
         }
         session_set_cookie_params(
-            0
-            , $session_cookie_path ? $session_cookie_path : MODX_BASE_URL
-            , $session_cookie_domain ? $session_cookie_domain : ''
-            , $secure
-            , true
+            0,
+            $session_cookie_path ?: MODX_BASE_URL,
+            $session_cookie_domain ?: '',
+            $secure,
+            true
         );
 
         if (SESSION_STORAGE == 'redis' && class_exists('Redis')) {
             $redis = new Redis();
-            if ($redis->connect(env('REDIS_HOST', '127.0.0.1'),
+            if ($redis->connect(
+                    env('REDIS_HOST', '127.0.0.1'),
                     env('REDIS_PORT', 6379),
                     env('REDIS_TIMEOUT', 60),
-                    NULL,
+                    null,
                     0,
                     0,
-                    ['auth' => [env('REDIS_USER', null), env('REDIS_PASS', null)]])
-                && $redis->select(env('REDIS_SESSION_DATABASE', 0))) {
+                    ['auth' => [env('REDIS_USER'), env('REDIS_PASS')]]
+                )
+                && $redis->select(env('REDIS_SESSION_DATABASE', 0))
+            ) {
                 try {
-                    $handler = new \suffi\RedisSessionHandler\RedisSessionHandler($redis);
+                    $handler = new RedisSessionHandler($redis);
                     session_set_save_handler($handler);
-                } catch (RedisException $exception) {
-
-                } catch (\Exception $exception) {
-
+                } catch (RedisException|\Exception $exception) {
                 }
             }
         }
@@ -137,15 +137,16 @@ if (!function_exists('startCMSSession')) {
 
         if (isset($_SESSION[$key]) && is_numeric($_SESSION[$key])) {
             setcookie(
-                session_name()
-                , session_id()
-                , (int)$_SESSION[$key] ? $_SERVER['REQUEST_TIME'] + (int)$_SESSION[$key] : 0
-                , $session_cookie_path ? $session_cookie_path : MODX_BASE_URL
-                , $session_cookie_domain ? $session_cookie_domain : ''
-                , $secure
-                , true
+                session_name(),
+                session_id(),
+                (int) $_SESSION[$key] ? $_SERVER['REQUEST_TIME'] + (int) $_SESSION[$key] : 0,
+                $session_cookie_path ?: MODX_BASE_URL,
+                $session_cookie_domain ?: '',
+                $secure,
+                true
             );
         }
+
         if (!isset($_SESSION['modx.session.created.time'])) {
             $_SESSION['modx.session.created.time'] = $_SERVER['REQUEST_TIME'];
         }
@@ -156,6 +157,7 @@ if (!function_exists('removeInvalidCmsSessionFromStorage')) {
     /**
      * @param $storage
      * @param $session_name
+     *
      * @return void
      */
     function removeInvalidCmsSessionFromStorage(&$storage, $session_name)
@@ -169,6 +171,7 @@ if (!function_exists('removeInvalidCmsSessionFromStorage')) {
 if (!function_exists('removeInvalidCmsSessionIds')) {
     /**
      * @param $session_name
+     *
      * @return void
      */
     function removeInvalidCmsSessionIds($session_name)
@@ -188,9 +191,10 @@ if (!function_exists('modx_sanitize_gpc')) {
     /**
      * @param array|string $values
      * @param int $depth
+     *
      * @return array|string
      */
-    function modx_sanitize_gpc(&$values, $depth = 0)
+    function modx_sanitize_gpc(&$values, int $depth = 0)
     {
         if (200 < $depth) {
             exit('GPC Array nested too deep!');
@@ -216,9 +220,10 @@ if (!function_exists('modx_sanitize_gpc')) {
 if (!function_exists('getSanitizedValue')) {
     /**
      * @param string $value
+     *
      * @return string
      */
-    function getSanitizedValue($value = '')
+    function getSanitizedValue(string $value = ''): string
     {
         if (empty($value)) {
             return $value;
@@ -236,18 +241,20 @@ if (!function_exists('getSanitizedValue')) {
             );
             $value = str_replace($bracket, $sanitizedBracket, $value);
         }
-        $value = str_ireplace('<script', 'sanitized_by_modx<s cript', $value);
-        $value = preg_replace('/&#(\d+);/', 'sanitized_by_modx& #$1', $value);
 
-        return $value;
+        $value = str_ireplace('<script', 'sanitized_by_modx<s cript', $value);
+
+        return preg_replace('/&#(\d+);/', 'sanitized_by_modx& #$1', $value);
     }
 }
+
 if (!function_exists('removeSanitizeSeed')) {
     /**
      * @param string $string
+     *
      * @return string
      */
-    function removeSanitizeSeed($string = '')
+    function removeSanitizeSeed(string $string = ''): string
     {
         if (!$string || strpos($string, MODX_SANITIZE_SEED) === false) {
             return $string;

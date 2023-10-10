@@ -1,8 +1,14 @@
 <?php
 
+use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\SiteModuleAccess;
+use EvolutionCMS\Models\SitePluginEvent;
 use EvolutionCMS\Models\SiteTmplvarAccess;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-
+use EvolutionCMS\Models\SystemEventname;
+use EvolutionCMS\Models\User;
+use EvolutionCMS\Models\UserAttribute;
+use EvolutionCMS\Models\UserRoleVar;
 
 if (!function_exists('evalModule')) {
     /**
@@ -10,11 +16,12 @@ if (!function_exists('evalModule')) {
      *
      * @param string $moduleCode
      * @param array $params
+     *
      * @return string
      */
-    function evalModule($moduleCode, $params)
+    function evalModule(string $moduleCode, array $params): string
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $modx->event->params = &$params; // store params inside event object
         if (is_array($params)) {
             extract($params, EXTR_SKIP);
@@ -28,6 +35,7 @@ if (!function_exists('evalModule')) {
             switch ($error_info['type']) {
                 case E_NOTICE :
                     $error_level = 1;
+                    break;
                 case E_USER_NOTICE :
                     break;
                 case E_DEPRECATED :
@@ -40,15 +48,15 @@ if (!function_exists('evalModule')) {
             }
             if ($modx->getConfig('error_reporting') >= 99 || 2 < $error_level) {
                 $modx->messageQuit(
-                    'PHP Parse Error'
-                    , ''
-                    , true
-                    , $error_info['type']
-                    , $error_info['file']
-                    , $_SESSION['itemname'] . ' - Module'
-                    , $error_info['message']
-                    , $error_info['line']
-                    , $msg
+                    'PHP Parse Error',
+                    '',
+                    true,
+                    $error_info['type'],
+                    $error_info['file'],
+                    $_SESSION['itemname'] . ' - Module',
+                    $error_info['message'],
+                    $error_info['line'],
+                    $msg
                 );
                 $modx->event->alert(
                     'An error occurred while loading. Please see the event log for more information<p>' . $msg . '</p>'
@@ -64,14 +72,15 @@ if (!function_exists('evalModule')) {
 if (!function_exists('allChildren')) {
     /**
      * @param int $currDocID
+     *
      * @return array
      */
-    function allChildren($currDocID)
+    function allChildren(int $currDocID): array
     {
-        $children = array();
+        $children = [];
         $found = collect();
 
-        $docs = EvolutionCMS\Models\SiteContent::withTrashed()
+        $docs = SiteContent::withTrashed()
             ->where('parent', '=', $currDocID)
             ->pluck('id')
             ->toArray();
@@ -91,9 +100,9 @@ if (!function_exists('jsAlert')) {
      *
      * @param string $msg
      */
-    function jsAlert($msg)
+    function jsAlert(string $msg)
     {
-        if ((int)get_by_key($_POST, 'ajax', 0) !== 1) {
+        if ((int) get_by_key($_POST, 'ajax', 0) !== 1) {
             echo '<script>window.setTimeout("alert(\'' . addslashes($msg) . '\')",10);history.go(-1)</script>';
         } else {
             echo $msg . "\n";
@@ -106,11 +115,12 @@ if (!function_exists('login')) {
      * @param string $username
      * @param string $givenPassword
      * @param string $dbasePassword
+     *
      * @return bool
      */
-    function login($username, $givenPassword, $dbasePassword)
+    function login(string $username, string $givenPassword, string $dbasePassword)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         return $modx->getPasswordHash()->CheckPassword($givenPassword, $dbasePassword);
     }
@@ -122,11 +132,12 @@ if (!function_exists('loginV1')) {
      * @param string $givenPassword
      * @param string $dbasePassword
      * @param string $username
+     *
      * @return bool
      */
-    function loginV1($internalKey, $givenPassword, $dbasePassword, $username)
+    function loginV1(int $internalKey, string $givenPassword, string $dbasePassword, string $username): bool
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         $user_algo = $modx->getManagerApi()->getV1UserHashAlgorithm($internalKey);
 
@@ -155,15 +166,15 @@ if (!function_exists('loginMD5')) {
      * @param string $givenPassword
      * @param string $dbasePassword
      * @param string $username
+     *
      * @return bool
      */
-    function loginMD5($internalKey, $givenPassword, $dbasePassword, $username)
+    function loginMD5(int $internalKey, string $givenPassword, string $dbasePassword, string $username): bool
     {
-        $modx = evolutionCMS();
-
         if ($dbasePassword != md5($givenPassword)) {
             return false;
         }
+
         updateNewHash($username, $givenPassword);
 
         return true;
@@ -175,14 +186,13 @@ if (!function_exists('updateNewHash')) {
      * @param string $username
      * @param string $password
      */
-    function updateNewHash($username, $password)
+    function updateNewHash(string $username, string $password)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
-        $field = array();
+        $field = [];
         $field['password'] = $modx->getPasswordHash()->HashPassword($password);
-        \EvolutionCMS\Models\User::where('username', $username)->update($field);
-
+        User::query()->where('username', $username)->update($field);
     }
 }
 
@@ -192,27 +202,27 @@ if (!function_exists('saveUserGroupAccessPermissons')) {
      */
     function saveUserGroupAccessPermissons()
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         global $id, $newid;
         global $use_udperms;
 
         if ($newid) {
             $id = $newid;
         }
+
         $usrgroups = get_by_key($_POST, 'usrgroups', []);
 
         // check for permission update access
         if ($use_udperms == 1) {
             // delete old permissions on the module
-            \EvolutionCMS\Models\SiteModuleAccess::where('module', $id)->delete();
+            SiteModuleAccess::query()->where('module', $id)->delete();
 
             if (is_array($usrgroups)) {
                 foreach ($usrgroups as $value) {
-                    \EvolutionCMS\Models\SiteModuleAccess::create(array(
-                        'module' => (int)$id,
+                    SiteModuleAccess::query()->create([
+                        'module' => (int) $id,
                         'usergroup' => stripslashes($value),
-                    ));
-
+                    ]);
                 }
             }
         }
@@ -221,37 +231,47 @@ if (!function_exists('saveUserGroupAccessPermissons')) {
 
 if (!function_exists('saveEventListeners')) {
 # Save Plugin Event Listeners
-    function saveEventListeners($id, $sysevents, $mode)
+    /**
+     * @param $id
+     * @param array $sysevents
+     * @param string $mode
+     *
+     * @return void
+     */
+    function saveEventListeners($id, array $sysevents, string $mode)
     {
         // save selected system events
-        $formEventList = array();
+        $formEventList = [];
         foreach ($sysevents as $evtId) {
             if (!preg_match('@^[1-9][0-9]*$@', $evtId)) {
                 $evtId = getEventIdByName($evtId);
             }
             if ($mode == '101') {
-                $prevPriority = \EvolutionCMS\Models\SitePluginEvent::query()->where('evtid', $evtId)->max('priority');
+                $prevPriority = SitePluginEvent::query()->where('evtid', $evtId)->max('priority');
             } else {
-                $prevPriority = \EvolutionCMS\Models\SitePluginEvent::query()->where('evtid', $evtId)
-                    ->where('pluginid', $id)->max('priority');
+                $prevPriority =
+                    SitePluginEvent::query()->where('evtid', $evtId)->where('pluginid', $id)->max('priority');
             }
             if ($mode == '101') {
                 $priority = isset($prevPriority) ? $prevPriority + 1 : 1;
             } else {
-                $priority = isset($prevPriority) ? $prevPriority : 1;
+                $priority = $prevPriority ?? 1;
             }
-            $priority = (int)$priority;
-            $formEventList[] = array('pluginid' => $id, 'evtid' => $evtId, 'priority' => $priority);
+            $priority = (int) $priority;
+            $formEventList[] = ['pluginid' => $id, 'evtid' => $evtId, 'priority' => $priority];
         }
 
-        $evtids = array();
+        $evtids = [];
         foreach ($formEventList as $eventInfo) {
-            \EvolutionCMS\Models\SitePluginEvent::query()->updateOrCreate(['pluginid' => $eventInfo['pluginid'], 'evtid' => $eventInfo['evtid']], ['priority' => $eventInfo['priority']]);
+            SitePluginEvent::query()->updateOrCreate(
+                ['pluginid' => $eventInfo['pluginid'], 'evtid' => $eventInfo['evtid']],
+                ['priority' => $eventInfo['priority']]
+            );
             $evtids[] = $eventInfo['evtid'];
         }
-        $pluginEvents = \EvolutionCMS\Models\SitePluginEvent::query()->where('pluginid', $id)->get();
+        $pluginEvents = SitePluginEvent::query()->where('pluginid', $id)->get();
 
-        $del = array();
+        $del = [];
         foreach ($pluginEvents->toArray() as $row) {
             if (!in_array($row['evtid'], $evtids)) {
                 $del[] = $row['evtid'];
@@ -261,25 +281,24 @@ if (!function_exists('saveEventListeners')) {
         if (empty($del)) {
             return;
         }
-        \EvolutionCMS\Models\SitePluginEvent::query()->where('pluginid', $id)->whereIn('evtid', $del)->delete();
-
+        SitePluginEvent::query()->where('pluginid', $id)->whereIn('evtid', $del)->delete();
     }
 }
 
 if (!function_exists('getEventIdByName')) {
     /**
      * @param string $name
+     *
      * @return string|int
      */
-    function getEventIdByName($name)
+    function getEventIdByName(string $name)
     {
-        $modx = evolutionCMS();
-        static $eventIds = array();
+        static $eventIds = [];
 
         if (isset($eventIds[$name])) {
             return $eventIds[$name];
         }
-        $eventIds = \EvolutionCMS\Models\SystemEventname::query()->pluck('id', 'name')->toArray();
+        $eventIds = SystemEventname::query()->pluck('id', 'name')->toArray();
 
         return $eventIds[$name];
     }
@@ -289,19 +308,18 @@ if (!function_exists('saveTemplateAccess')) {
     /**
      * @param int $id
      */
-    function saveTemplateAccess($id)
+    function saveTemplateAccess(int $id)
     {
-        $modx = evolutionCMS();
         if ($_POST['tvsDirty'] == 1) {
-            $newAssignedTvs = isset($_POST['assignedTv']) ? $_POST['assignedTv'] : '';
+            $newAssignedTvs = $_POST['assignedTv'] ?? '';
 
             // Preserve rankings of already assigned TVs
             $templates = SiteTmplvarTemplate::query()->where('templateid', $id)->get();
-            $ranksArr = array();
+            $ranksArr = [];
             $highest = 0;
             foreach ($templates->toArray() as $row) {
                 $ranksArr[$row['tmplvarid']] = $row['rank'];
-                $highest = $highest < $row['rank'] ? $row['rank'] : $highest;
+                $highest = max($highest, $row['rank']);
             };
             SiteTmplvarTemplate::query()->where('templateid', $id)->delete();
 
@@ -312,11 +330,11 @@ if (!function_exists('saveTemplateAccess')) {
                 if (!$id || !$tvid) {
                     continue;
                 }    // Dont link zeros
-                SiteTmplvarTemplate::create(array(
+                SiteTmplvarTemplate::query()->create([
                     'templateid' => $id,
                     'tmplvarid' => $tvid,
-                    'rank' => isset($ranksArr[$tvid]) ? $ranksArr[$tvid] : $highest += 1 // append TVs to rank
-                ));
+                    'rank' => $ranksArr[$tvid] ?? $highest += 1, // append TVs to rank
+                ]);
             }
         }
     }
@@ -328,27 +346,26 @@ if (!function_exists('saveTemplateVarAccess')) {
      */
     function saveTemplateVarAccess($id)
     {
-        $modx = evolutionCMS();
-        $templates = isset($_POST['template']) ? $_POST['template'] : []; // get muli-templates based on S.BRENNAN mod
+        $templates = $_POST['template'] ?? []; // get muli-templates based on S.BRENNAN mod
 
-        $siteTmlvarTemplates = EvolutionCMS\Models\SiteTmplvarTemplate::where('tmplvarid', '=', $id)->get();
+        $siteTmlvarTemplates = SiteTmplvarTemplate::query()->where('tmplvarid', '=', $id)->get();
 
         $getRankArray = $siteTmlvarTemplates->pluck('rank', 'templateid')->toArray();
         /*foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {
             $getRankArray[$siteTmlvarTemplate->templateid] = $siteTmlvarTemplate->rank;
         }*/
 
-        EvolutionCMS\Models\SiteTmplvarTemplate::where('tmplvarid', '=', $id)->delete();
+        SiteTmplvarTemplate::query()->where('tmplvarid', '=', $id)->delete();
         if (!$templates) {
             return;
         }
-        foreach ($templates as $i => $iValue) {
+        foreach ($templates as $iValue) {
             $field = [
                 'tmplvarid' => $id,
-                'templateid' => $templates[$i],
-                'rank' => get_by_key($getRankArray, $iValue, 0)
+                'templateid' => $iValue,
+                'rank' => get_by_key($getRankArray, $iValue, 0),
             ];
-            EvolutionCMS\Models\SiteTmplvarTemplate::create($field);
+            SiteTmplvarTemplate::query()->create($field);
         }
     }
 }
@@ -359,24 +376,23 @@ if (!function_exists('saveVarRoles')) {
      */
     function saveVarRoles($id)
     {
-        $modx = evolutionCMS();
-        $roles = isset($_POST['role']) ? $_POST['role'] : [];
+        $roles = $_POST['role'] ?? [];
 
-        $exists = EvolutionCMS\Models\UserRoleVar::where('tmplvarid', '=', $id)->get();
+        $exists = UserRoleVar::query()->where('tmplvarid', '=', $id)->get();
 
         $getRankArray = $exists->pluck('rank', 'roleid')->toArray();
 
-        EvolutionCMS\Models\UserRoleVar::where('tmplvarid', '=', $id)->delete();
+        UserRoleVar::query()->where('tmplvarid', '=', $id)->delete();
         if (!$roles) {
             return;
         }
-        foreach ($roles as $i => $iValue) {
+        foreach ($roles as $iValue) {
             $field = [
                 'tmplvarid' => $id,
-                'roleid' => $roles[$i],
-                'rank' => get_by_key($getRankArray, $iValue, 0)
+                'roleid' => $iValue,
+                'rank' => get_by_key($getRankArray, $iValue, 0),
             ];
-            EvolutionCMS\Models\UserRoleVar::create($field);
+            UserRoleVar::query()->create($field);
         }
     }
 }
@@ -384,9 +400,9 @@ if (!function_exists('saveVarRoles')) {
 if (!function_exists('saveDocumentAccessPermissons')) {
     function saveDocumentAccessPermissons($id)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
-        $docgroups = isset($_POST['docgroups']) ? $_POST['docgroups'] : '';
+        $docgroups = $_POST['docgroups'] ?? '';
 
         // check for permission update access
         if ($modx->getConfig('use_udperms') != 1) {
@@ -394,11 +410,11 @@ if (!function_exists('saveDocumentAccessPermissons')) {
         }
 
         // delete old permissions on the tv
-        EvolutionCMS\Models\SiteTmplvarAccess::where('tmplvarid', '=', $id)->delete();
+        SiteTmplvarAccess::query()->where('tmplvarid', '=', $id)->delete();
         if (is_array($docgroups)) {
             foreach ($docgroups as $value) {
                 $field = ['tmplvarid' => $id, 'documentgroup' => stripslashes($value)];
-                EvolutionCMS\Models\SiteTmplvarAccess::create($field);
+                SiteTmplvarAccess::query()->create($field);
             }
         }
     }
@@ -412,17 +428,21 @@ if (!function_exists('sendMailMessageForUser')) {
      * @param string $uid
      * @param string $pwd
      * @param string $ufn
+     * @param $message
+     * @param $url
+     *
+     * @throws \PHPMailer\PHPMailer\Exception
      */
-    function sendMailMessageForUser($email, $uid, $pwd, $ufn, $message, $url)
+    function sendMailMessageForUser(string $email, string $uid, string $pwd, string $ufn, $message, $url)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         global $_lang;
         global $emailsubject, $emailsender;
         $message = sprintf($message, $uid, $pwd); // use old method
         $last_name = '';
         $first_name = '';
         $middle_name = '';
-        $user = \EvolutionCMS\Models\UserAttribute::query()->where('email', $email)->first();
+        $user = UserAttribute::query()->where('email', $email)->first();
         if (!is_null($user)) {
             $last_name = $user->last_name;
             $first_name = $user->first_name;
@@ -430,12 +450,34 @@ if (!function_exists('sendMailMessageForUser')) {
         }
         // replace placeholders
         $message = str_replace(
-            array('[+uid+]', '[+pwd+]', '[+ufn+]', '[+sname+]', '[+saddr+]', '[+semail+]', '[+surl+]', '[+u_first_name+]', '[+u_last_name+]', '[+u_middle_name+]')
-            , array($uid, $pwd, $ufn, $modx->getPhpCompat()->entities($modx->getConfig('site_name')), $emailsender, $emailsender, $url, $first_name, $last_name, $middle_name)
+            [
+                '[+uid+]',
+                '[+pwd+]',
+                '[+ufn+]',
+                '[+sname+]',
+                '[+saddr+]',
+                '[+semail+]',
+                '[+surl+]',
+                '[+u_first_name+]',
+                '[+u_last_name+]',
+                '[+u_middle_name+]',
+            ]
+            , [
+                $uid,
+                $pwd,
+                $ufn,
+                $modx->getPhpCompat()->entities($modx->getConfig('site_name')),
+                $emailsender,
+                $emailsender,
+                $url,
+                $first_name,
+                $last_name,
+                $middle_name,
+            ]
             , $message
         );
 
-        $param = array();
+        $param = [];
         $param['from'] = $modx->getConfig('site_name') . '<' . $emailsender . '>';
         $param['subject'] = $emailsubject;
         $param['body'] = $message;
@@ -449,7 +491,6 @@ if (!function_exists('sendMailMessageForUser')) {
     }
 }
 
-
 if (!function_exists('webAlertAndQuit')) {
     /**
      * Web alert -  sends an alert to web browser
@@ -458,13 +499,13 @@ if (!function_exists('webAlertAndQuit')) {
      * @param $action int
      * @param $id int|bool
      */
-    function webAlertAndQuit($msg, $action, $id = false)
+    function webAlertAndQuit($msg, int $action, $id = false)
     {
-        $modx = EvolutionCMS();
+        $modx = evo();
         $mode = $_POST['mode'];
         $modx->getManagerApi()->saveFormValues($mode);
         $url = 'index.php?a=' . $action;
-        if ($id != false) {
+        if ($id) {
             $url .= '&id=' . $id;
         }
         $modx->webAlertAndQuit($msg, $url);
