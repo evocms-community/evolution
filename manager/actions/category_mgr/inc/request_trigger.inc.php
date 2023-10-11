@@ -43,7 +43,7 @@ if (isset($_POST[$cm->get('request_key')]['categorize']['submit'])) {
     $cm->addMessage(
         sprintf(
             $cm->txt('cm_categorize_x'),
-            $cm->txt($_data['elementsgroup'])
+            $cm->txt($_data['elementsgroup'] ?? '')
         ),
         'categorize'
     );
