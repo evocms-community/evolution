@@ -90,7 +90,7 @@
         optgroup { font-style: normal; font-weight: 500; background-color: #ddd; }
         optgroup option { font-weight: normal; background-color: #fff; }
         input[type=color] { width: 2.308em; height: 2.308em; -webkit-appearance: menulist; -moz-appearance: menupopup }
-        input[type=range] { -webkit-appearance: slider-horizontal; -moz-appearance: initial; }
+        input[type=range] { -moz-appearance: initial; }
         ::-ms-value { border: none; margin: 0; padding: 0 0 1px; line-height: 1 }
         select::-ms-expand { display: none; }
         ::-moz-focus-inner { border: 0; padding: 0; }

@@ -1,13 +1,19 @@
 <?php
 
-class DATEPICKER {
-	function __construct() {
-	}
+use EvolutionCMS\Facades\ManagerTheme;
 
-	function getDP() {
-		$modx = evolutionCMS(); global $_lang;
+class DATEPICKER
+{
+    function __construct()
+    {
+    }
 
-		$tpl = file_get_contents(__DIR__ . '/datepicker.tpl');
-		return $modx->parseText($tpl, $_lang, '[%', '%]');
-	}
+    function getDP()
+    {
+        return evo()->parseText(
+            file_get_contents(__DIR__ . '/datepicker.tpl'),
+            ManagerTheme::getLexicon(),
+            '[%', '%]'
+        );
+    }
 }

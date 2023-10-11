@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -105,14 +110,14 @@
         <input type="hidden" name="mode" value="{{ $action }}">
 
         <h1>
-            <i class="{{ $_style['icon_plugin'] }}"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_plugin') }}"></i>
             @if($data->name)
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
                 {{ ManagerTheme::getLexicon('new_plugin') }}
             @endif
-            <i class="{{ $_style['icon_question_circle'] }} help"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
@@ -123,7 +128,7 @@
 
         <div class="tab-pane" id="pluginPane">
             <script>
-              var tpSnippet = new WebFXTabPane(document.getElementById('pluginPane'), {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }});
+              var tpSnippet = new WebFXTabPane(document.getElementById('pluginPane'), {{ get_by_key(evo()->config, 'remember_last_tab') ? 1 : 0 }});
             </script>
 
             <!-- General -->
@@ -142,14 +147,14 @@
                                 'class' => 'form-control-lg',
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="100"'
                             ]) .
-                            ($modx->hasPermission('save_role')
+                            (evo()->hasPermission('save_role')
                             ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_plugin') . "\n" . ManagerTheme::getLexicon('lock_plugin_msg') .'">' .
                              ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
                                 'checked' => ($data->locked == 1)
                              ]) .
-                             '<i class="' . $_style['icon_lock'] . '"></i>
+                             '<i class="' . ManagerTheme::getStyle('icon_lock') . '"></i>
                              </label>
                              <small class="form-text text-danger hide" id="savingMessage"></small>
                              <script>if (!document.getElementsByName(\'name\')[0].value) document.getElementsByName(\'name\')[0].focus();</script>'
@@ -299,20 +304,20 @@
                         if (isset($data->sysevents) && is_array($data->sysevents)) {
                             $evts = $data->sysevents;
                         } else {
-                            $evts = array();
+                            $evts = [];
                         }
                     }
 
                     // display system events
-                    $evtnames = array();
-                    $services = array(
+                    $evtnames = [];
+                    $services = [
                         "Parser Service Events",
                         "Manager Access Events",
                         "Web Access Service Events",
                         "Cache Service Events",
                         "Template Service Events",
                         "User Defined Events"
-                    );
+                    ];
                     $eventNames = \EvolutionCMS\Models\SystemEventname::query()
                         ->orderBy('service', 'DESC')->orderBy('groupname', 'ASC')->orderBy('name', 'ASC');
 

@@ -4,7 +4,7 @@
   * Sig: 1f4f9aee887c97f618c19a82040a4dad
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "he_IL.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "לא ניתו לערוך סיומות קבצים!",
     "Uploading file {number} of {count}... {progress}" => "מעלה קובץ {number} מתוך {count}... {progress}",
     "Failed to upload {filename}!" => "העלאת הקובץ נכשלה!",
-);
+];
 
 ?>

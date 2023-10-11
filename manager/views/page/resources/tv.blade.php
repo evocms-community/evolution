@@ -1,6 +1,13 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteTmplvar;
+
+?>
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=76&tab={{ $index }}"><i class="{{ $_style['icon_tv'] }}"></i>{{ ManagerTheme::getLexicon('tmplvars') }}</a>
+        <a href="?a=76&tab={{ $index }}"><i
+                    class="{{ ManagerTheme::getStyle('icon_tv') }}"></i>{{ ManagerTheme::getLexicon('tmplvars') }}</a>
     </h2>
 
     <script>tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));</script>
@@ -13,22 +20,24 @@
     <div id="_actions">
         <form class="btn-group form-group form-inline">
             <div class="input-group input-group-sm">
-                <input type="text" class="form-control filterElements-form" id="{{ $tabIndexPageName }}_search" size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}" />
+                <input type="text" class="form-control filterElements-form" id="{{ $tabIndexPageName }}_search"
+                       size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>
                 <div class="input-group-btn">
-                    <a class="btn btn-success" target="main" href="{{ (new EvolutionCMS\Models\SiteTmplvar)->makeUrl('actions.new') }}">
-                        <i class="{{ $_style['icon_add'] }}"></i>
+                    <a class="btn btn-success" target="main" href="{{ (new SiteTmplvar)->makeUrl('actions.new') }}">
+                        <i class="{{ ManagerTheme::getStyle('icon_add') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('new_tmplvars') }}</span>
                     </a>
-                    <a class="btn btn-secondary" href="{{ (new EvolutionCMS\Models\SiteTmplvar)->makeUrl('actions.sort') }}">
-                        <i class="{{ $_style['icon_sort'] }}"></i>
+                    <a class="btn btn-secondary" href="{{ (new SiteTmplvar)->makeUrl('actions.sort') }}">
+                        <i class="{{ ManagerTheme::getStyle('icon_sort') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('template_tv_edit') }}</span>
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" id="{{ $tabIndexPageName }}-help">
-                        <i class="{{ $_style['icon_question_circle'] }}"></i>
+                        <i class="{{ ManagerTheme::getStyle('icon_question_circle') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('help') }}</span>
                     </a>
-                    <a class="btn btn-secondary switchform-btn" href="javascript:;" data-target="switchForm_{{ $tabIndexPageName }}">
-                        <i class="{{ $_style['icon_bars'] }}"></i>
+                    <a class="btn btn-secondary switchform-btn" href="javascript:;"
+                       data-target="switchForm_{{ $tabIndexPageName }}">
+                        <i class="{{ ManagerTheme::getStyle('icon_bars') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('btn_view_options') }}</span>
                     </a>
                 </div>
@@ -69,7 +78,7 @@
 
 @push('scripts.bot')
     <script>
-        initQuicksearch('{{ $tabIndexPageName }}_search', '{{ $tabIndexPageName }}_content');
-        initViews('tv', '{{ $tabIndexPageName }}', '{{ $tabIndexPageName }}_content');
+      initQuicksearch('{{ $tabIndexPageName }}_search', '{{ $tabIndexPageName }}_content');
+      initViews('tv', '{{ $tabIndexPageName }}', '{{ $tabIndexPageName }}_content');
     </script>
 @endpush

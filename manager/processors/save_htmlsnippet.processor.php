@@ -1,9 +1,14 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteHtmlsnippet;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('save_chunk')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('save_chunk')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 if (isset($_GET['disabled'])) {
@@ -11,28 +16,27 @@ if (isset($_GET['disabled'])) {
     $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
-        $chunk = EvolutionCMS\Models\SiteHtmlsnippet::findOrFail($id);
+        $chunk = SiteHtmlsnippet::query()->findOrFail($id);
         // invoke OnBeforeChunkFormSave event
-        $modx->invokeEvent("OnBeforeChunkFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforeChunkFormSave', [
+            'mode' => "upd",
+            'id' => $id,
+        ]);
         $_SESSION['itemname'] = $chunk->name;
         $chunk->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
-        $modx->invokeEvent("OnChunkFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
-        $modx->webAlertAndQuit($_lang["error_no_id"]);
+        evo()->invokeEvent('OnChunkFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
+    } catch (ModelNotFoundException $e) {
+        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
     }
     // empty cache
-    $modx->clearCache('full');
+    evo()->clearCache('full');
 
     // finished emptying cache - redirect
-    $header = "Location: index.php?a=76&tab=2&r=2";
-    header($header);
+    header('Location: index.php?a=76&tab=2&r=2');
     exit;
 }
 
@@ -42,7 +46,7 @@ $name = trim($_POST['name']);
 $description = $_POST['description'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
 $disabled = isset($_POST['disabled']) && $_POST['disabled'] == "on" ? '1' : '0';
-$createdon = $editedon = time() + $modx->config['server_offset_time'];
+$createdon = $editedon = time() + evo()->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
@@ -67,83 +71,122 @@ $editor_name = $_POST['which_editor'] != 'none' ? $_POST['which_editor'] : 'none
 switch ($_POST['mode']) {
     case '77':
         // invoke OnBeforeChunkFormSave event
-        $modx->invokeEvent("OnBeforeChunkFormSave", array(
-            "mode" => "new",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforeChunkFormSave', [
+            'mode' => 'new',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for new chunks
-        if (EvolutionCMS\Models\SiteHtmlsnippet::where('name', '=', $name)->first()) {
-            $modx->getManagerApi()->saveFormValues(77);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=77");
+        if (SiteHtmlsnippet::query()->firstWhere('name', $name)) {
+            evo()->getManagerApi()->saveFormValues(77);
+            evo()->webAlertAndQuit(
+                sprintf(
+                    ManagerTheme::getLexicon('duplicate_name_found_general'),
+                    ManagerTheme::getLexicon('chunk'),
+                    $name
+                ),
+                'index.php?a=77'
+            );
         }
 
         //do stuff to save the new doc
-        $id = EvolutionCMS\Models\SiteHtmlsnippet::create(compact('name', 'description', 'snippet', 'locked', 'category', 'editor_type', 'editor_name', 'disabled', 'createdon', 'editedon'))->getKey();
+        $id = SiteHtmlsnippet::query()
+            ->create(
+                compact(
+                    'name',
+                    'description',
+                    'snippet',
+                    'locked',
+                    'category',
+                    'editor_type',
+                    'editor_name',
+                    'disabled',
+                    'createdon',
+                    'editedon'
+                )
+            )
+            ->getKey();
 
         // invoke OnChunkFormSave event
-        $modx->invokeEvent("OnChunkFormSave", array(
-            "mode" => "new",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnChunkFormSave', [
+            'mode' => 'new',
+            'id' => $id,
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
 
         // empty cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
             $a = ($_POST['stay'] == '2') ? "78&id=$id" : "77";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
         } else {
-            $header = "Location: index.php?a=76&r=2";
-            header($header);
+            $header = 'Location: index.php?a=76&r=2';
         }
+        header($header);
         break;
     case '78':
         // invoke OnBeforeChunkFormSave event
-        $modx->invokeEvent("OnBeforeChunkFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforeChunkFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for chunks
-        if (EvolutionCMS\Models\SiteHtmlsnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
-            $modx->getManagerApi()->saveFormValues(78);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=78&id={$id}");
+        if (SiteHtmlsnippet::query()->where('id', '!=', $id)->where('name', '=', $name)->first()) {
+            evo()->getManagerApi()->saveFormValues(78);
+            evo()->webAlertAndQuit(
+                sprintf(
+                    ManagerTheme::getLexicon('duplicate_name_found_general'),
+                    ManagerTheme::getLexicon('chunk'),
+                    $name
+                ),
+                'index.php?a=78&id=' . $id
+            );
         }
 
         //do stuff to save the edited doc
-        $chunk = EvolutionCMS\Models\SiteHtmlsnippet::find($id);
+        $chunk = SiteHtmlsnippet::query()->find($id);
 
-        $chunk->update(compact('name', 'description', 'snippet', 'locked', 'category', 'editor_type', 'editor_name', 'disabled', 'editedon'));
+        $chunk->update(
+            compact(
+                'name',
+                'description',
+                'snippet',
+                'locked',
+                'category',
+                'editor_type',
+                'editor_name',
+                'disabled',
+                'editedon'
+            )
+        );
 
         // invoke OnChunkFormSave event
-        $modx->invokeEvent("OnChunkFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnChunkFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
 
         // empty cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "78&id=$id" : "77";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $a = ($_POST['stay'] == '2') ? '78&id=' . $id : "77";
+            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
         } else {
-            $modx->unlockElement(3, $id);
-            $header = "Location: index.php?a=76&r=2";
-            header($header);
+            evo()->unlockElement(3, $id);
+            $header = 'Location: index.php?a=76&r=2';
         }
+        header($header);
         break;
     default:
-        $modx->webAlertAndQuit("No operation set in request.");
+        evo()->webAlertAndQuit('No operation set in request.');
 }

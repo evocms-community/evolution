@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS\Support;
 
 use EvolutionCMS\Interfaces\MysqlDumperInterface;
+use PDOStatement;
 
 /**
  * @package  MySQLdumper
@@ -250,10 +251,11 @@ class MysqlDumper implements MysqlDumperInterface
 
     /**
      * @param int $numinarray
-     * @param \mysqli_result $resource
+     * @param PDOStatement $resource
+     *
      * @return array
      */
-    public function result2Array($numinarray = 0, $resource)
+    public function result2Array(int $numinarray, PDOStatement $resource): array
     {
         $modx = evolutionCMS();
         $array = array();
@@ -274,10 +276,11 @@ class MysqlDumper implements MysqlDumperInterface
 
     /**
      * @param string $key
-     * @param \mysqli_result $resource
+     * @param PDOStatement $resource
+     *
      * @return array
      */
-    public function loadObjectList($key = '', $resource)
+    public function loadObjectList(string $key, PDOStatement $resource): array
     {
         $modx = evolutionCMS();
         $array = array();

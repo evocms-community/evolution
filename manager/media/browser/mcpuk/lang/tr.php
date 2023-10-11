@@ -4,7 +4,7 @@
   * translation by: Kursad Olmez <kursad.olmez@gmail.com>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "en_US.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Dosya uzantılarını değiştiremezsiniz!",
     "Uploading file {number} of {count}... {progress}" => "{number} / {count} dosya yükleniyor... {progress}",
     "Failed to upload {filename}!" => "{filename} dosyası yüklenemedi!",
-);
+];
 
 ?>

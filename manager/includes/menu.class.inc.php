@@ -5,7 +5,7 @@
  */
 class EVOmenu extends EvolutionCMS\Support\Menu
 {
-    public function Build($menu, $setting = array())
+    public function Build($menu, $setting = [])
     {
         parent::build($menu, $setting);
     }

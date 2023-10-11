@@ -2,7 +2,7 @@
 
 /** Danish translation by Thomas Schou <thomas@schouweb.dk> **/
 
-$lang = array(
+$lang = [
 
     '_locale' => "da_DK.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -237,6 +237,6 @@ $lang = array(
     "Type" => "Type",
     "Select Thumbnails" => "V�lg Miniaturer",
     "Download files" => "Download filer",
-);
+];
 
 ?>

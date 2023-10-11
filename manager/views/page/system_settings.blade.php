@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -20,16 +25,16 @@
     <form name="settings" method="post" action="index.php">
         <input type="hidden" name="a" value="30">
         <!-- this field is used to check site settings have been entered/ updated after install or upgrade -->
-        <input type="hidden" name="site_id" value="{{ get_by_key($modx->config, 'site_id') }}" />
-        <input type="hidden" name="settings_version" value="{{ $modx->getVersionData('version') }}" />
+        <input type="hidden" name="site_id" value="{{ get_by_key(evo()->config, 'site_id') }}" />
+        <input type="hidden" name="settings_version" value="{{ evo()->getVersionData('version') }}" />
         <h1>
-            <i class="{{ $_style['icon_sliders'] }}"></i>{{ ManagerTheme::getLexicon('settings_title') }}
+            <i class="{{ ManagerTheme::getStyle('icon_sliders') }}"></i>{{ ManagerTheme::getLexicon('settings_title') }}
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
 
-        @if (!get_by_key($modx->config, 'settings_version') ||
-            get_by_key($modx->config, 'settings_version') !== $modx->getVersionData('version'))
+        @if (!get_by_key(evo()->config, 'settings_version') ||
+            get_by_key(evo()->config, 'settings_version') !== evo()->getVersionData('version'))
             <div class="container">
                 <p class="alert alert-warning">{!! ManagerTheme::getLexicon('settings_after_install') !!}</p>
             </div>
@@ -37,7 +42,7 @@
         <div class="tab-pane" id="settingsPane">
             <script>
                 tpSettings = new WebFXTabPane(document.getElementById('settingsPane'),
-                    {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }});
+                    {{ get_by_key(evo()->config, 'remember_last_tab') ? 1 : 0 }});
             </script>
             @include('manager::page.system_settings.general')
             @include('manager::page.system_settings.friendly_urls')

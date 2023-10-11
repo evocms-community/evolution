@@ -1,7 +1,12 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     <h1>
-        <i class="{{ $_style['icon_info_circle'] }}"></i>{{ ManagerTheme::getLexicon('view_sysinfo') }}
+        <i class="{{ ManagerTheme::getStyle('icon_info_circle') }}"></i>{{ ManagerTheme::getLexicon('view_sysinfo') }}
     </h1>
 
     <!-- server -->

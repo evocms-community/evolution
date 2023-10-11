@@ -20,7 +20,8 @@
                 if (modx.getActionFromUrl(href, 2)) {
                     w.history.replaceState(null, d.title, modx.MODX_MANAGER_URL);
                 } else if (modx.getActionFromUrl(href) || modx.main.getQueryVariable('filemanager', href) || /^modules\//.test(href)) {
-                    var url = modx.main.getQueryVariable('filemanager', href) ? modx.MODX_MANAGER_URL + modx.main.getQueryVariable('filemanager', href) + href : href;
+                    var paramFileManager = modx.main.getQueryVariable('filemanager', href);
+                    var url = paramFileManager ? modx.MODX_MANAGER_URL + paramFileManager + href.replace(paramFileManager, '') : href;
                     if (modx.config.global_tabs) {
                         modx.tabs({ url: url, title: 'blank' });
                     } else if (w.main) {

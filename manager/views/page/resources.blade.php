@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 
 @push('scripts.bot')
@@ -12,12 +17,12 @@
 
 @section('content')
     <h1>
-        <i class="{{ $_style['icon_elements'] }}"></i>{{ ManagerTheme::getLexicon('element_management') }}
+        <i class="{{ ManagerTheme::getStyle('icon_elements') }}"></i>{{ ManagerTheme::getLexicon('element_management') }}
     </h1>
 
     <div class="sectionBody">
         <div class="tab-pane" id="resourcesPane">
-            <script type="text/javascript">
+            <script>
                 tpResources = new WebFXTabPane(document.getElementById('resourcesPane'), false);
             </script>
 

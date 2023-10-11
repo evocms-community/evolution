@@ -1,8 +1,13 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @php
         // initialize page view state - the $_PAGE object
-        $modx->getManagerApi()->initPageViewState();
+        evo()->getManagerApi()->initPageViewState();
         $_PAGE = [
             'vs' => [],
         ];
@@ -25,14 +30,14 @@
 
         // context menu
         $cm = new \EvolutionCMS\Support\ContextMenu('cntxm', 150);
-        $cm->addItem(ManagerTheme::getLexicon('view_log'), 'js:menuAction(1)', $_style['icon_eye']);
+        $cm->addItem(ManagerTheme::getLexicon('view_log'), 'js:menuAction(1)', ManagerTheme::getStyle('icon_eye'));
         //$cm->addSeparator();
-        $cm->addItem(ManagerTheme::getLexicon('delete'), 'js:menuAction(2)', $_style['icon_trash'], !$modx->hasPermission('delete_eventlog') ? 1 : 0);
+        $cm->addItem(ManagerTheme::getLexicon('delete'), 'js:menuAction(2)', ManagerTheme::getStyle('icon_trash'), !evo()->hasPermission('delete_eventlog') ? 1 : 0);
         $contextmenu = $cm->render();
     @endphp
     @push('scripts.top')
         {!! $contextmenu !!}
-        <script type="text/javascript">
+        <script>
             function searchResource() {
                 document.resource.op.value = 'srch';
                 document.resource.submit();
@@ -99,8 +104,8 @@
         <input type="hidden" name="op" value="" />
 
         <h1>
-            <i class="{{ $_style['icon_info_triangle'] }}"></i>{{ ManagerTheme::getLexicon('eventlog_viewer') }}<i
-                class="{{ $_style['icon_question_circle'] }} help"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_info_triangle') }}"></i>{{ ManagerTheme::getLexicon('eventlog_viewer') }}<i
+                class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
 
         <div class="container element-edit-message">
@@ -114,7 +119,7 @@
                     <div class="col-sm-6 input-group">
                         <div class="input-group-btn">
                             <a class="btn btn-danger btn-sm" href="index.php?a=116&cls=1"><i
-                                    class="{{ $_style['icon_trash'] }}"></i> {{ ManagerTheme::getLexicon('clear_log') }}</a>
+                                    class="{{ ManagerTheme::getStyle('icon_trash') }}"></i> {{ ManagerTheme::getLexicon('clear_log') }}</a>
                         </div>
                     </div>
                     <div class="col-sm-6 ">
@@ -125,14 +130,14 @@
                                 <a class="btn btn-secondary btn-sm" href="javascript:;"
                                     title="{{ ManagerTheme::getLexicon('search') }}"
                                     onclick="searchResource();return false;"><i
-                                        class="{{ $_style['icon_search'] }}"></i></a>
+                                        class="{{ ManagerTheme::getStyle('icon_search') }}"></i></a>
                                 <a class="btn btn-secondary btn-sm" href="javascript:;"
                                     title="{{ ManagerTheme::getLexicon('reset') }}"
-                                    onclick="resetSearch();return false;"><i class="{{ $_style['icon_refresh'] }}"></i></a>
+                                    onclick="resetSearch();return false;"><i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i></a>
                                 <a class="btn btn-secondary btn-sm" href="javascript:;"
                                     title="{{ ManagerTheme::getLexicon('list_mode') }}"
                                     onclick="changeListMode();return false;"><i
-                                        class="{{ $_style['icon_table'] }}"></i></a>
+                                        class="{{ ManagerTheme::getStyle('icon_table') }}"></i></a>
                             </div>
                         </div>
                     </div>
@@ -161,7 +166,7 @@
                         $grd->pagerStyle = 'white-space: normal;';
                         $grd->pageClass = 'page-item';
                         $grd->selPageClass = 'page-item active';
-                        $grd->prepareResult = ['icon' => [1 => 'text-info ' . $_style['icon_info_circle'], 2 => 'text-warning ' . $_style['icon_info_triangle'], 3 => 'text-danger ' . $_style['icon_cancel']]];
+                        $grd->prepareResult = ['icon' => [1 => 'text-info ' . ManagerTheme::getStyle('icon_info_circle'), 2 => 'text-warning ' . ManagerTheme::getStyle('icon_info_triangle'), 3 => 'text-danger ' . ManagerTheme::getStyle('icon_cancel')]];
                         $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
                         $grd->cssClass = 'table data nowrap';
                         $grd->columnHeaderClass = 'tableHeader';
@@ -171,7 +176,7 @@
                         $grd->columns = ManagerTheme::getLexicon('type') . ' ,' . ManagerTheme::getLexicon('source') . ' ,' . ManagerTheme::getLexicon('date') . ' ,' . ManagerTheme::getLexicon('event_id') . ' ,' . ManagerTheme::getLexicon('sysinfo_userid');
                         $grd->colWidths = '1%,,1%,1%,1%';
                         $grd->colAligns = 'center,,,center,center';
-                        $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . ManagerTheme::getLexicon('click_to_context') . "'><i class='[+icon+]'></i></a>||template:<a href='index.php?a=115&id=[+id+]' title='" . ManagerTheme::getLexicon('click_to_view_details') . "'>[+source+]</a>||date: " . $modx->toDateFormat(null, 'formatOnly') . ' H:i:s';
+                        $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . ManagerTheme::getLexicon('click_to_context') . "'><i class='[+icon+]'></i></a>||template:<a href='index.php?a=115&id=[+id+]' title='" . ManagerTheme::getLexicon('click_to_view_details') . "'>[+source+]</a>||date: " . evo()->toDateFormat(null, 'formatOnly') . ' H:i:s';
                         if ($listmode == '1') {
                             $grd->pageSize = 0;
                         }

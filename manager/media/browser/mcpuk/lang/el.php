@@ -4,7 +4,7 @@
   * author: Spiros Kabasakalis
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "el_GR.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -248,6 +248,6 @@ $lang = array(
     "Question" => "Ερώτηση",
     "Yes" => "Ναι",
     "No" => "Όχι",
-);
+];
 
 ?>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html" />
-	<script type="text/javascript">
+	<script>
 		window.opener.KCFinder = {
 			callBack: function(url) {
 				window.opener.KCFinder = null;

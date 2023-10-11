@@ -1,5 +1,7 @@
 <?php
 
+use EvolutionCMS\Facades\ManagerTheme;
+
 /**
  *    System Alert Message Queue Display file
  *    Written By Raymond Irving, April, 2005
@@ -7,7 +9,6 @@
  *    Used to display system alert messages inside the browser
  *
  */
-
 $sysMsgs = '';
 $limit = isset($SystemAlertMsgQueque) && is_array($SystemAlertMsgQueque) ? count($SystemAlertMsgQueque) : 0;
 for ($i = 0; $i < $limit; $i++) {
@@ -15,7 +16,7 @@ for ($i = 0; $i < $limit; $i++) {
 }
 // reset message queque
 unset($_SESSION['SystemAlertMsgQueque']);
-$_SESSION['SystemAlertMsgQueque'] = array();
+$_SESSION['SystemAlertMsgQueque'] = [];
 $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
 
 if ($sysMsgs != '') : ?>
@@ -24,7 +25,7 @@ if ($sysMsgs != '') : ?>
       document.addEventListener('DOMContentLoaded', function() {
         if (parent.modx) {
           parent.modx.popup({
-            title: '<?=$_lang['sys_alert']; ?>',
+            title: '<?= ManagerTheme::getLexicon('sys_alert'); ?>',
             content: '<?=$sysMsgs?>',
             wrap: document.body,
             type: 'warning',

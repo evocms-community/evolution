@@ -1,21 +1,36 @@
 <?php
 
+use EvolutionCMS\Parser;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+
 if (!function_exists('evo_guest')) {
+    /**
+     * @param $content
+     *
+     * @return mixed|string
+     */
     function evo_guest($content)
     {
-        if(!EvolutionCMS()->getLoginUserID()){
+        if (!evo()->getLoginUserID()) {
             $content = '';
         }
+
         return $content;
     }
 }
 
 if (!function_exists('evo_auth')) {
+    /**
+     * @param $content
+     *
+     * @return mixed|string
+     */
     function evo_auth($content)
     {
-        if (!EvolutionCMS()->getLoginUserID()) {
+        if (!evo()->getLoginUserID()) {
             $content = '';
         }
+
         return $content;
     }
 }
@@ -23,10 +38,13 @@ if (!function_exists('evo_auth')) {
 if (!function_exists('var_debug')) {
     /**
      * Dumps information about a variable in Tracy Debug Bar.
+     *
      * @tracySkipLocation
+     *
      * @param mixed $var
-     * @param string $title
-     * @param array $options
+     * @param null $title
+     * @param array|null $options
+     *
      * @return mixed  variable itself
      */
     function var_debug($var, $title = null, array $options = null)
@@ -36,16 +54,21 @@ if (!function_exists('var_debug')) {
 }
 
 if (!function_exists('evo_parser')) {
+    /**
+     * @param $content
+     *
+     * @return mixed|string
+     */
     function evo_parser($content)
     {
-        $core = evolutionCMS();
+        $core = evo();
         $minParserPasses = $core->minParserPasses;
         $maxParserPasses = $core->maxParserPasses;
 
         $core->minParserPasses = 2;
         $core->maxParserPasses = 10;
 
-        $out = \EvolutionCMS\Parser::getInstance($core)->parseDocumentSource($content, $core);
+        $out = Parser::getInstance($core)->parseDocumentSource($content, $core);
 
         $core->minParserPasses = $minParserPasses;
         $core->maxParserPasses = $maxParserPasses;
@@ -55,6 +78,10 @@ if (!function_exists('evo_parser')) {
 }
 
 if (!function_exists('evo_raw_config_settings')) {
+    /**
+     * @return array
+     * @throws FileNotFoundException
+     */
     function evo_raw_config_settings(): array
     {
         $configFile = config_path('cms/settings.php', !app()->isProduction());
@@ -71,6 +98,11 @@ if (!function_exists('evo_raw_config_settings')) {
 }
 
 if (!function_exists('evo_save_config_settings')) {
+    /**
+     * @param array $config
+     *
+     * @return bool
+     */
     function evo_save_config_settings(array $config = []): bool
     {
         /** @var Illuminate\Filesystem\Filesystem $files */
@@ -86,19 +118,34 @@ if (!function_exists('evo_save_config_settings')) {
 }
 
 if (!function_exists('evo_update_config_settings')) {
+    /**
+     * @param string $key
+     * @param $data
+     *
+     * @return bool
+     * @throws FileNotFoundException
+     */
     function evo_update_config_settings(string $key, $data = null): bool
     {
         $config = evo_raw_config_settings();
         $config[$key] = $data;
+
         return evo_save_config_settings($config);
     }
 }
 
 if (!function_exists('evo_delete_config_settings')) {
-    function evo_delete_config_settings(string $key)
+    /**
+     * @param string $key
+     *
+     * @return bool
+     * @throws FileNotFoundException
+     */
+    function evo_delete_config_settings(string $key): bool
     {
         $config = evo_raw_config_settings();
         unset($config[$key]);
+
         return evo_save_config_settings($config);
     }
 }

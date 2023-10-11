@@ -12,7 +12,7 @@
   *      @link http://kcfinder.sunhater.com
   */
 
-$lang = array(
+$lang = [
     '_locale' => "en_US.UTF-8",
     '_charset' => "utf-8",
 
@@ -20,6 +20,6 @@ $lang = array(
     '_dateTimeFull' => "%A, %B %e, %Y %I:%M %p",
     '_dateTimeMid' => "%a %b %e %Y %I:%M %p",
     '_dateTimeSmall' => "%m/%d/%Y %I:%M %p",
-);
+];
 
 ?>

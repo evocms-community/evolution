@@ -1,78 +1,87 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteTmplvar;
+use EvolutionCMS\Models\SiteTmplvarContentvalue;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('delete_template')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('delete_template')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
-$forced = isset($_GET['force']) ? $_GET['force'] : 0;
+$forced = $_GET['force'] ?? 0;
 
 // check for relations
 if (!$forced) {
-    $siteTmlvarTemplates = EvolutionCMS\Models\SiteTmplvarContentvalue::with('resource')->where('tmplvarid', '=', $id)->get();
+    $siteTmlvarTemplates = SiteTmplvarContentvalue::with('resource')->where('tmplvarid', $id)->get();
 
     $count = $siteTmlvarTemplates->count();
     if ($count > 0) {
-        include_once MODX_MANAGER_PATH . "includes/header.inc.php";
+        include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
         ?>
-        <h1><?php echo $_lang['tmplvars']; ?></h1>
+        <h1><?= ManagerTheme::getLexicon('tmplvars'); ?></h1>
 
         <script>
-            var actions = {
-                delete: function() {
-                    document.location.href = "index.php?id=<?=$id?>&a=303&force=1";
-                },
-                cancel: function() {
-                    window.location.href = 'index.php?a=301&id=<?=$id?>';
-                }
-            };
+          var actions = {
+            delete: function () {
+              document.location.href = "index.php?id=<?=$id?>&a=303&force=1"
+            },
+            cancel: function () {
+              window.location.href = 'index.php?a=301&id=<?=$id?>'
+            }
+          }
         </script>
-        <?php echo $_style['actionbuttons']['dynamic']['canceldelete']; ?>
+        <?php
+        echo ManagerTheme::getStyle('actionbuttons')['dynamic']['canceldelete']; ?>
 
         <div class="tab-page">
             <div class="container container-body">
-                <p><?php echo $_lang['tmplvar_inuse'] ?></p>
+                <p><?php
+                    echo ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
                 <ul>
-<?php
-foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {
-            echo '<li><span style="width: 200px"><a href="index.php?id=' . $siteTmlvarTemplate->resource->id . '&a=27">' . $siteTmlvarTemplate->resource->pagetitle . '</a></span>' . ($siteTmlvarTemplate->resource->description != '' ? ' - ' . $siteTmlvarTemplate->resource->description : '') . '</li>';
-        }
-        ?>
+                    <?php
+                    foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {
+                        echo '<li><span style="width: 200px"><a href="index.php?id=' .
+                            $siteTmlvarTemplate->resource->id . '&a=27">' . $siteTmlvarTemplate->resource->pagetitle .
+                            '</a></span>' . ($siteTmlvarTemplate->resource->description != '' ? ' - ' .
+                                $siteTmlvarTemplate->resource->description : '') . '</li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
         <?php
-include_once MODX_MANAGER_PATH . "includes/footer.inc.php";
+        include_once MODX_MANAGER_PATH . "includes/footer.inc.php";
         exit;
     }
 }
 
 // Set the item name for logger
-$name = EvolutionCMS\Models\SiteTmplvar::findOrFail($id)->name;
+$name = SiteTmplvar::query()->findOrFail($id)->name;
 $_SESSION['itemname'] = $name;
 
 // invoke OnBeforeTVFormDelete event
-$modx->invokeEvent("OnBeforeTVFormDelete", array(
-    "id" => $id,
-));
+evo()->invokeEvent('OnBeforeTVFormDelete', [
+    'id' => $id,
+]);
 
 // delete variable
-EvolutionCMS\Models\SiteTmplvar::destroy($id);
+SiteTmplvar::destroy($id);
 
 // invoke OnTVFormDelete event
-$modx->invokeEvent("OnTVFormDelete", array(
-    "id" => $id,
-));
+evo()->invokeEvent('OnTVFormDelete', [
+    'id' => $id,
+]);
 
 // empty cache
-$modx->clearCache('full');
+evo()->clearCache('full');
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=76&r=2&tab=1";
-header($header);
+header('Location: index.php?a=76&r=2&tab=1');

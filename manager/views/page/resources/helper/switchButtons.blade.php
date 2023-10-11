@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 <form id="switchForm_{{ $id }}" class="form-group form-inline switchForm"
     data-target="{{ $id }}_content" style="display:none">
 

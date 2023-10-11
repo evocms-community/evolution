@@ -49,7 +49,7 @@ select[size="1"]:not(.unstyled), select[name="which_editor"] { width: auto; }
 optgroup { font-style: normal; font-weight: 500; background-color: #ddd; }
 optgroup option { font-weight: normal; background-color: #fff; }
 input[type=color] { width: 2.308em; height: 2.308em; -webkit-appearance: menulist; -moz-appearance: menupopup }
-input[type=range] { -webkit-appearance: slider-horizontal; -moz-appearance: initial; }
+input[type=range] { -moz-appearance: initial; }
 .input-group-addon { padding: 0.46153846em .75em; font-size: 0.8125rem; border: 1px solid rgba(0, 0, 0, .15); border-radius: .1em; }
 .form-control.dropdown-item:focus, .form-control.dropdown-item:hover { background-color: inherit }
 ::-ms-value { border: none; margin: 0; padding: 0 0 1px; line-height: 1 }
