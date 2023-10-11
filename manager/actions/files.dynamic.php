@@ -500,7 +500,7 @@ if (substr($webStartPath, 0, 1) == '/') {
                 <?php
                 echo ManagerTheme::getLexicon('files_directories') . ': <b>' . $folders . '</b> ';
                 echo ManagerTheme::getLexicon('files_files') . ': <b>' . $files . '</b> ';
-                echo ManagerTheme::getLexicon('files_data') . ': <b><span dir="ltr">' . nicesize($filesizes) .
+                echo ManagerTheme::getLexicon('files_data') . ': <b><span dir="ltr">' . nicesize($fileSizes) .
                     '</span></b> ';
                 echo ManagerTheme::getLexicon('files_dirwritable') . ' <b>' . (is_writable($startPath) == 1
                         ? ManagerTheme::getLexicon('yes') . '.'
