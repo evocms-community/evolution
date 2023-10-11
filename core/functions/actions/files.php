@@ -48,12 +48,12 @@ if (!function_exists('determineIcon')) {
 if (!function_exists('markRow')) {
     /**
      * @param string $file
-     * @param string $selFile
-     * @param string $mode
+     * @param string|null $selFile
+     * @param string|null $mode
      *
      * @return string
      */
-    function markRow(string $file, string $selFile, string $mode): string
+    function markRow(string $file, string $selFile = null, string $mode = null): string
     {
         $classNames = [
             'default' => '',
@@ -154,7 +154,7 @@ if (!function_exists('ls')) {
                     $type,
                     $viewablefiles
                 ))
-                    ? '<a href="javascript:;" onclick="viewfile(\'' . $webstart_path . substr(
+                    ? '<a href="javascript:;" onclick="viewfile(\'' . $webStartPath . substr(
                         $newPath,
                         $len,
                         strlen($newPath)
@@ -163,7 +163,7 @@ if (!function_exists('ls')) {
                             $type,
                             $uploadablefiles
                         ))
-                        ? '<a href="' . $webstart_path . implode(
+                        ? '<a href="' . $webStartPath . implode(
                             '/',
                             array_map(
                                 'rawurlencode',
