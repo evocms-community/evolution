@@ -12,7 +12,7 @@
   *      @link http://kcfinder.sunhater.com
   */
 
-$lang = array(
+$lang = [
     '_locale' => "fa_IR.UTF-8",
     '_charset' => "utf-8",
 
@@ -262,6 +262,6 @@ $lang = array(
     "Uploading file {number} of {count}... {progress}" => "{progress} ...ارسال شد {count} فایل از {number}",
     "Failed to upload {filename}!"  => "! {filename} خطا در ارسال"
 
-);
+];
 
 ?>

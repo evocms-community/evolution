@@ -4,7 +4,7 @@
   * Type some credits if you want
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "et_EE.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Failide laiendit ei saa muuta!",
     "Uploading file {number} of {count}... {progress}" => "Laen üles faili {number} {count}-st... {progress}",
     "Failed to upload {filename}!" => "{filename} üleslaadimine ebaõnnestus!",
-);
+];
 
 ?>

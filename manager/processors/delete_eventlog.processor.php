@@ -1,18 +1,21 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\EventLog;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('delete_eventlog')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('delete_eventlog')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$query = \EvolutionCMS\Models\EventLog::query();
+$query = EventLog::query();
 
-if (isset($_GET['cls']) && $_GET['cls'] == 1) {
-} else {
+if (!(isset($_GET['cls']) && $_GET['cls'] == 1)) {
     $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
     if ($id == 0) {
-        $modx->webAlertAndQuit($_lang["error_no_id"]);
+        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
     }
     $query = $query->where('id', $id);
 }
@@ -21,5 +24,4 @@ if (isset($_GET['cls']) && $_GET['cls'] == 1) {
 
 $query->delete();
 
-$header = "Location: index.php?a=114";
-header($header);
+header('Location: index.php?a=114');

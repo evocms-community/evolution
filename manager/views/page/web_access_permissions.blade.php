@@ -1,14 +1,19 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
-        <script type="text/javascript">
+        <script>
             function deletegroup(groupid, type) {
-                if(confirm("{{ ManagerTheme::getLexicon('confirm_delete_group') }}") === true) {
+                if(confirm('{{ ManagerTheme::getLexicon('confirm_delete_group') }}') === true) {
                     if(type === 'usergroup') {
-                        document.location.href = "index.php?a=92&usergroup=" + groupid + "&operation=delete_user_group";
+                        document.location.href = 'index.php?a=92&usergroup=' + groupid + '&operation=delete_user_group';
                     }
                     else if(type === 'documentgroup') {
-                        document.location.href = "index.php?a=92&documentgroup=" + groupid + "&operation=delete_document_group";
+                        document.location.href = 'index.php?a=92&documentgroup=' + groupid + '&operation=delete_document_group';
                     }
                 }
             }
@@ -21,27 +26,27 @@
         </script>
     @endpush
     <h1>
-        <i class="{{ $_style['icon_web_user_access'] }}"></i>{{ ManagerTheme::getLexicon('web_access_permissions') }}<i class="{{ $_style['icon_question_circle'] }} help"></i>
+        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ ManagerTheme::getLexicon('web_access_permissions') }}<i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
     </h1>
 
     <div class="container element-edit-message">
         <div class="alert alert-info">{{ ManagerTheme::getLexicon('access_permissions_introtext') }}</div>
     </div>
 
-    @if($modx->getConfig('use_udperms') !== true)
+    @if(evo()->getConfig('use_udperms') !== true)
         <div class="container">
             <div class="alert alert-danger">{{ ManagerTheme::getLexicon('access_permissions_off') }}</div>
         </div>
     @endif
 
     <div class="tab-pane" id="wuapPane">
-        <script type="text/javascript">
-            tp1 = new WebFXTabPane(document.getElementById("wuapPane"), true);
+        <script>
+            tp1 = new WebFXTabPane(document.getElementById('wuapPane'), true);
         </script>
 
         <div class="tab-page" id="tabPage1">
             <h2 class="tab">{{ ManagerTheme::getLexicon('web_access_permissions_user_groups') }}</h2>
-            <script type="text/javascript">tp1.addTabPage(document.getElementById("tabPage1"));</script>
+            <script>tp1.addTabPage(document.getElementById('tabPage1'));</script>
 
             <div class="container container-body">
                 <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_users_tab') }}</p>
@@ -86,7 +91,7 @@
 
         <div class="tab-page" id="tabPage2">
             <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions_resource_groups') }}</h2>
-            <script type="text/javascript">tp1.addTabPage(document.getElementById("tabPage2"));</script>
+            <script>tp1.addTabPage(document.getElementById('tabPage2'));</script>
 
             <div class="container container-body">
                 <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_resources_tab') }}</p>
@@ -132,7 +137,7 @@
         @if($documentGroups->count() > 0 && $userGroups->count() > 0)
             <div class="tab-page" id="tabPage3">
                 <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions_links') }}</h2>
-                <script type="text/javascript">tp1.addTabPage(document.getElementById("tabPage3"));</script>
+                <script>tp1.addTabPage(document.getElementById('tabPage3'));</script>
 
                 <div class="container container-body">
                     <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_links_tab') }}</p>

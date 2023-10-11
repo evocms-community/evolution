@@ -1,15 +1,20 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
         <script src="media/script/tablesort.js"></script>
         <script>
-            window.addEventListener("load", (event) => {
+            window.addEventListener('load', () => {
                 evo.collapse('.panel-heading', 'panel-collapse');
             });
         </script>
     @endpush
     <h1>
-        <i class="{{ $_style['icon_calendar'] }}"></i> {{ ManagerTheme::getLexicon('site_schedule') }}
+        <i class="{{ ManagerTheme::getStyle('icon_calendar') }}"></i> {{ ManagerTheme::getLexicon('site_schedule') }}
     </h1>
 
     <div class="tab-page">

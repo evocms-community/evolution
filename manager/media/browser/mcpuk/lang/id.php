@@ -4,7 +4,7 @@
   * -Razi Senseio (Author)
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "id_ID.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Anda tidak bisa mengubah ekstensi file!",
     "Uploading file {number} of {count}... {progress}" => "Mengunggah file {nomor} of {jumlah}... {progress)",
     "Failed to upload {filename}!" => "Gagal untuk mengunggah {nama file}",
-);
+];
 
 ?>

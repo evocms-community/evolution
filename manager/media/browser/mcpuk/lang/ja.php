@@ -9,7 +9,7 @@
   * @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "ja_JP.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -127,6 +127,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "ファイルの拡張子を変更できませんでした！",
     "Uploading file {number} of {count}... {progress}" => "ファイルをアップロード中（{number}/{count}）... {progress}",
     "Failed to upload {filename}!" => "{filename}のアップロードに失敗しました！",
-);
+];
 
 ?>

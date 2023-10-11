@@ -4,7 +4,7 @@
   * Bobby Grossmann
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "sv_SE.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Du kan inte byta namn på en förlängning av filer!",
     "Uploading file {number} of {count}... {progress}" => "Ladda upp fil {number} av {count} ... {progress}",
     "Failed to upload {filename}!" => "Uppladdning misslyckad {filename}!",
-);
+];
 
 ?>

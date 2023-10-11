@@ -1,10 +1,15 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
-        <script type="text/javascript">
+        <script>
             var actions = {
                 delete: function() {
-                    if(confirm("{{ ManagerTheme::getLexicon('confirm_delete_eventlog') }}") === true) {
+                    if(confirm('{{ ManagerTheme::getLexicon('confirm_delete_eventlog') }}') === true) {
                         document.location.href = "index.php?id=" + document.resource.id.value + "&a=116";
                     }
                 },
@@ -33,13 +38,13 @@
                 <div class="container container-body">
                     @switch($log->type)
                         @case(EvolutionCMS\Models\EventLog::TYPE_INFORMATION)
-                            <p><i class="{{ $_style['icon_info_circle'] }} text-info"></i> {{ ManagerTheme::getLexicon('information') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_info_circle') }} text-info"></i> {{ ManagerTheme::getLexicon('information') }}</p>
                             @break
                         @case(EvolutionCMS\Models\EventLog::TYPE_WARNING)
-                            <p><i class="{{ $_style['icon_info_triangle'] }} text-warning"></i> {{ ManagerTheme::getLexicon('warning') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_info_triangle') }} text-warning"></i> {{ ManagerTheme::getLexicon('warning') }}</p>
                             @break
                         @case(EvolutionCMS\Models\EventLog::TYPE_ERROR)
-                            <p><i class="{{ $_style['icon_ban'] }} text-danger"></i> {{ ManagerTheme::getLexicon('error') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_ban') }} text-danger"></i> {{ ManagerTheme::getLexicon('error') }}</p>
                             @break
                         @default:
                             <p>N/A</p>

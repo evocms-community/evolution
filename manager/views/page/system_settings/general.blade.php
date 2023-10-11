@@ -1,18 +1,22 @@
-<!-- Site Settings -->
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?><!-- Site Settings -->
 <div class="tab-page" id="tabPage2">
-    <h2 class="tab">{{ __('global.settings_site') }}</h2>
-    <script type="text/javascript">tpSettings.addTabPage(document.getElementById('tabPage2'));</script>
+    <h2 class="tab">{{ ManagerTheme::getLexicon('settings_site') }}</h2>
+    <script>tpSettings.addTabPage(document.getElementById('tabPage2'))</script>
     <div class="container container-body">
         @include('manager::form.radio', [
             'name' => 'site_status',
-            'label' => __('global.sitestatus_title'),
+            'label' => ManagerTheme::getLexicon('sitestatus_title'),
             'small' => '[(site_status)]',
             'value' => $settings['site_status'],
             'options' => [
-                1 =>  __('global.online'),
-                0 => __('global.offline'),
+                1 =>  ManagerTheme::getLexicon('online'),
+                0 => ManagerTheme::getLexicon('offline'),
             ],
-            'comment' => (isset($disabledSettings['site_status']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['site_status']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['site_status'] ?? null
         ])
 
@@ -20,12 +24,12 @@
 
         @include('manager::form.input', [
             'name' => 'site_name',
-            'label' => __('global.sitename_title'),
+            'label' => ManagerTheme::getLexicon('sitename_title'),
             'small' => '[(site_name)]',
             'value' => $settings['site_name'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
-            'comment' => (isset($disabledSettings['site_name']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.sitename_message'),
+            'comment' => (isset($disabledSettings['site_name']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('sitename_message'),
             'disabled' => $disabledSettings['site_name'] ?? null
         ])
 
@@ -33,12 +37,12 @@
 
         @include('manager::form.input', [
             'name' => 'site_start',
-            'label' => __('global.sitestart_title'),
+            'label' => ManagerTheme::getLexicon('sitestart_title'),
             'small' => '[(site_start)]',
             'value' => $settings['site_start'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
-            'comment' => (isset($disabledSettings['site_start']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.sitestart_message'),
+            'comment' => (isset($disabledSettings['site_start']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('sitestart_message'),
             'disabled' => $disabledSettings['site_start'] ?? null
         ])
 
@@ -46,12 +50,12 @@
 
         @include('manager::form.input', [
             'name' => 'error_page',
-            'label' => __('global.errorpage_title'),
+            'label' => ManagerTheme::getLexicon('errorpage_title'),
             'small' => '[(error_page)]',
             'value' => $settings['error_page'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="10"',
-            'comment' => (isset($disabledSettings['error_page']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.errorpage_message'),
+            'comment' => (isset($disabledSettings['error_page']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('errorpage_message'),
             'disabled' => $disabledSettings['error_page'] ?? null
         ])
 
@@ -59,12 +63,12 @@
 
         @include('manager::form.input', [
             'name' => 'unauthorized_page',
-            'label' => __('global.unauthorizedpage_title'),
+            'label' => ManagerTheme::getLexicon('unauthorizedpage_title'),
             'small' => '[(unauthorized_page)]',
             'value' => $settings['unauthorized_page'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="10"',
-            'comment' => (isset($disabledSettings['unauthorized_page']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.unauthorizedpage_message'),
+            'comment' => (isset($disabledSettings['unauthorized_page']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('unauthorizedpage_message'),
             'disabled' => $disabledSettings['unauthorized_page'] ?? null
         ])
 
@@ -72,12 +76,12 @@
 
         @include('manager::form.input', [
             'name' => 'ControllerNamespace',
-            'label' => __('global.controller_namespace'),
+            'label' => ManagerTheme::getLexicon('controller_namespace'),
             'small' => '[(ControllerNamespace)]',
             'value' => (isset($settings['ControllerNamespace']))? $settings['ControllerNamespace'] : '',
             'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
-            'comment' => (isset($disabledSettings['ControllerNamespace']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.controller_namespace_message'),
+            'comment' => (isset($disabledSettings['ControllerNamespace']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('controller_namespace_message'),
             'disabled' => $disabledSettings['ControllerNamespace'] ?? null
         ])
 
@@ -85,12 +89,12 @@
 
         @include('manager::form.input', [
             'name' => 'UpgradeRepository',
-            'label' => __('global.update_repository'),
+            'label' => ManagerTheme::getLexicon('update_repository'),
             'small' => '[(UpgradeRepository)]',
             'value' => (isset($settings['UpgradeRepository']))? $settings['UpgradeRepository'] : '',
             'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
-            'comment' => (isset($disabledSettings['UpgradeRepository']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.update_repository_message'),
+            'comment' => (isset($disabledSettings['UpgradeRepository']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('update_repository_message'),
             'disabled' => $disabledSettings['UpgradeRepository'] ?? null
         ])
 
@@ -98,12 +102,12 @@
 
         @include('manager::form.input', [
             'name' => 'site_unavailable_page',
-            'label' => __('global.siteunavailable_page_title'),
+            'label' => ManagerTheme::getLexicon('siteunavailable_page_title'),
             'small' => '[(site_unavailable_page)]',
             'value' => $settings['site_unavailable_page'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="10"',
-            'comment' => (isset($disabledSettings['site_unavailable_page']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.siteunavailable_page_message'),
+            'comment' => (isset($disabledSettings['site_unavailable_page']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('siteunavailable_page_message'),
             'disabled' => $disabledSettings['site_unavailable_page'] ?? null
         ])
 
@@ -113,15 +117,15 @@
             'name' => 'site_unavailable_message',
             'id' => 'site_unavailable_message_textarea',
             'for' => 'site_unavailable_message_textarea',
-            'label' => __('global.siteunavailable_title') . '<br>' .
-                __('global.update_settings_from_language') .
+            'label' => ManagerTheme::getLexicon('siteunavailable_title') . '<br>' .
+                ManagerTheme::getLexicon('update_settings_from_language') .
                 view('manager::form.selectElement', [
                     'name' => 'reload_site_unavailable',
                     'id' => 'reload_site_unavailable_select',
                     'class' => 'form-control-sm',
                     'attributes' => 'onchange="confirmLangChange(this, \'siteunavailable_message_default\', \'site_unavailable_message_textarea\');"',
                     'first' => [
-                        'text' => __('global.language_title')
+                        'text' => ManagerTheme::getLexicon('language_title')
                     ],
                     'options' => $langKeys,
                     'as' => 'values',
@@ -136,11 +140,11 @@
                 ])
             ,
             'small' => '[(site_unavailable_message)]',
-            'value' => ($settings['site_unavailable_message'] ? $settings['site_unavailable_message'] : __('global.siteunavailable_message_default')),
+            'value' => ($settings['site_unavailable_message'] ? $settings['site_unavailable_message'] : ManagerTheme::getLexicon('siteunavailable_message_default')),
             'attributes' => 'onchange="documentDirty=true;"',
             'rows' => 4,
-            'comment' => (isset($disabledSettings['site_unavailable_message']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.siteunavailable_message'),
+            'comment' => (isset($disabledSettings['site_unavailable_message']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('siteunavailable_message'),
             'disabled' => $disabledSettings['site_unavailable_message'] ?? null
         ])
 
@@ -148,22 +152,22 @@
 
         @include('manager::form.row', [
             'name' => 'default_template',
-            'label' => __('global.defaulttemplate_title'),
+            'label' => ManagerTheme::getLexicon('defaulttemplate_title'),
             'small' => '[(default_template)]',
             'element' => view('manager::form.selectElement', [
                 'name' => 'default_template',
                 'value' => $settings['default_template'],
                 'options' => $templates['items'],
                 'attributes' => 'onchange="documentDirty=true;wrap=document.getElementById(\'template_reset_options_wrapper\');if(this.options[this.selectedIndex].value!=' . $settings['default_template'] . '){wrap.style.display=\'block\';}else{wrap.style.display=\'none\';}" size="1"',
-                'comment' => (isset($disabledSettings['default_template']) ? __('global.setting_from_file') . '<br>' : ''),
+                'comment' => (isset($disabledSettings['default_template']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
                 'disabled' => $disabledSettings['default_template'] ?? null
                 ]) .
                 '<div id="template_reset_options_wrapper" style="display:none;">' .
                     view('manager::form.radio', [
                         'name' => 'reset_template',
                         'options' => [
-                            1 => __('global.template_reset_all'),
-                            2 => sprintf(__('global.template_reset_specific'), $templates['oldTmpName'])
+                            1 => ManagerTheme::getLexicon('template_reset_all'),
+                            2 => sprintf(ManagerTheme::getLexicon('template_reset_specific'), $templates['oldTmpName'])
                         ]
                     ]) .
                 '</div>' .
@@ -172,22 +176,22 @@
                     'name' => 'old_template',
                     'value' => $templates['oldTmpId']
                 ]),
-            'comment' => __('global.defaulttemplate_message')
+            'comment' => ManagerTheme::getLexicon('defaulttemplate_message')
         ])
 
         <div class="split my-1"></div>
 
         @include('manager::form.radio', [
             'name' => 'auto_template_logic',
-            'label' => __('global.defaulttemplate_logic_title'),
+            'label' => ManagerTheme::getLexicon('defaulttemplate_logic_title'),
             'small' => '[(auto_template_logic)]',
             'value' => $settings['auto_template_logic'],
             'options' => [
-                'system' => __('global.defaulttemplate_logic_system_message'),
-                'parent' => __('global.defaulttemplate_logic_parent_message'),
-                'sibling' => __('global.defaulttemplate_logic_sibling_message')
+                'system' => ManagerTheme::getLexicon('defaulttemplate_logic_system_message'),
+                'parent' => ManagerTheme::getLexicon('defaulttemplate_logic_parent_message'),
+                'sibling' => ManagerTheme::getLexicon('defaulttemplate_logic_sibling_message')
             ],
-            'comment' => (isset($disabledSettings['auto_template_logic']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['auto_template_logic']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['auto_template_logic'] ?? null
         ])
 
@@ -195,14 +199,14 @@
 
         @include('manager::form.radio', [
             'name' => 'chunk_processor',
-            'label' => __('global.chunk_processor'),
+            'label' => ManagerTheme::getLexicon('chunk_processor'),
             'small' => '[(chunk_processor)]',
             'value' => $settings['chunk_processor'],
             'options' => [
                 '' => 'DocumentParser',
                 'DLTemplate' => 'DLTemplate'
             ],
-            'comment' => (isset($disabledSettings['chunk_processor']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['chunk_processor']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['chunk_processor'] ?? null
         ])
 
@@ -210,21 +214,21 @@
 
         @include('manager::form.radio', [
             'name' => 'enable_filter',
-            'label' => __('global.enable_filter_title'),
+            'label' => ManagerTheme::getLexicon('enable_filter_title'),
             'small' => '[(enable_filter)]',
             'value' => $settings['enable_filter'],
             'options' => [
                 1 => [
-                    'text' => __('global.yes'),
+                    'text' => ManagerTheme::getLexicon('yes'),
                     'disabled' => $phxEnabled
                 ],
                 0 => [
-                    'text' => __('global.no'),
+                    'text' => ManagerTheme::getLexicon('no'),
                     'disabled' => $phxEnabled
                 ]
             ],
-            'comment' => (isset($disabledSettings['enable_filter']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.enable_filter_message'),
+            'comment' => (isset($disabledSettings['enable_filter']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('enable_filter_message'),
             'disabled' => $disabledSettings['enable_filter'] ?? null
         ])
 
@@ -232,15 +236,15 @@
 
         @include('manager::form.radio', [
             'name' => 'enable_at_syntax',
-            'label' => __('global.enable_at_syntax_title'),
+            'label' => ManagerTheme::getLexicon('enable_at_syntax_title'),
             'small' => '[(enable_at_syntax)]',
             'value' => $settings['enable_at_syntax'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['enable_at_syntax']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.enable_at_syntax_message') .
+            'comment' => (isset($disabledSettings['enable_at_syntax']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('enable_at_syntax_message') .
                 '<ul>
                     <li><a href="https://github.com/modxcms/evolution/wiki/@@IF-@@ELSEIF-@@ELSE-@@ENDIF" target="_blank">@@IF @@ELSEIF @@ELSE @@ENDIF</a></li>
                     <li>&lt;@LITERAL&gt; @{{string}} [*string*] [[string]] &lt;@ENDLITERAL&gt;</li>
@@ -253,15 +257,15 @@
 
         @include('manager::form.radio', [
             'name' => 'publish_default',
-            'label' => __('global.defaultpublish_title'),
+            'label' => ManagerTheme::getLexicon('defaultpublish_title'),
             'small' => '[(publish_default)]',
             'value' => $settings['publish_default'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['publish_default']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.defaultpublish_message'),
+            'comment' => (isset($disabledSettings['publish_default']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('defaultpublish_message'),
             'disabled' => $disabledSettings['publish_default'] ?? null
         ])
 
@@ -269,15 +273,15 @@
 
         @include('manager::form.radio', [
             'name' => 'cache_default',
-            'label' => __('global.defaultcache_title'),
+            'label' => ManagerTheme::getLexicon('defaultcache_title'),
             'small' => '[(cache_default)]',
             'value' => $settings['cache_default'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['cache_default']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.defaultcache_message'),
+            'comment' => (isset($disabledSettings['cache_default']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('defaultcache_message'),
             'disabled' => $disabledSettings['cache_default'] ?? null
         ])
 
@@ -285,15 +289,15 @@
 
         @include('manager::form.radio', [
             'name' => 'search_default',
-            'label' => __('global.defaultsearch_title'),
+            'label' => ManagerTheme::getLexicon('defaultsearch_title'),
             'small' => '[(search_default)]',
             'value' => $settings['search_default'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['search_default']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.defaultsearch_message'),
+            'comment' => (isset($disabledSettings['search_default']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('defaultsearch_message'),
             'disabled' => $disabledSettings['search_default'] ?? null
         ])
 
@@ -301,22 +305,22 @@
 
         @include('manager::form.radio', [
             'name' => 'auto_menuindex',
-            'label' => __('global.defaultmenuindex_title'),
+            'label' => ManagerTheme::getLexicon('defaultmenuindex_title'),
             'small' => '[(auto_menuindex)]',
             'value' => $settings['auto_menuindex'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['auto_menuindex']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.defaultmenuindex_message'),
+            'comment' => (isset($disabledSettings['auto_menuindex']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('defaultmenuindex_message'),
             'disabled' => $disabledSettings['auto_menuindex'] ?? null
         ])
 
         <div class="split my-1"></div>
 
         @include('manager::form.row', [
-            'label' => __('global.custom_contenttype_title'),
+            'label' => ManagerTheme::getLexicon('custom_contenttype_title'),
             'for' => 'txt_custom_contenttype',
             'element' => '
                 <div class="input-group">' .
@@ -327,7 +331,7 @@
                     '<div class="input-group-btn">' .
                         view('manager::form.inputElement', [
                             'type' => 'button',
-                            'value' => __('global.add'),
+                            'value' => ManagerTheme::getLexicon('add'),
                             'attributes' => 'onclick="addContentType();"'
                         ]) .
                     '</div>
@@ -344,7 +348,7 @@
                     view('manager::form.inputElement', [
                         'type' => 'button',
                         'name' => 'removecontenttype',
-                        'value' => __('global.remove'),
+                        'value' => ManagerTheme::getLexicon('remove'),
                         'attributes' => 'onclick="removeContentType()"'
                     ]) .
                 '</div>' .
@@ -353,22 +357,22 @@
                     'name' => 'custom_contenttype',
                     'value' => $settings['custom_contenttype']
                 ]),
-            'comment' => __('global.custom_contenttype_message')
+            'comment' => ManagerTheme::getLexicon('custom_contenttype_message')
         ])
 
         <div class="split my-1"></div>
 
         @include('manager::form.radio', [
             'name' => 'enable_cache',
-            'label' => __('global.enable_cache_title'),
+            'label' => ManagerTheme::getLexicon('enable_cache_title'),
             'small' => '[(enable_cache)]',
             'value' => $settings['enable_cache'],
             'options' => [
-                1 => __('global.enabled'),
-                0 => __('global.disabled'),
-                2 => __('global.disabled_at_login')
+                1 => ManagerTheme::getLexicon('enabled'),
+                0 => ManagerTheme::getLexicon('disabled'),
+                2 => ManagerTheme::getLexicon('disabled_at_login')
             ],
-            'comment' => (isset($disabledSettings['enable_cache']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['enable_cache']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['enable_cache'] ?? null
         ])
 
@@ -376,14 +380,14 @@
 
         @include('manager::form.radio', [
             'name' => 'disable_chunk_cache',
-            'label' => __('global.disable_chunk_cache_title'),
+            'label' => ManagerTheme::getLexicon('disable_chunk_cache_title'),
             'small' => '[(disable_chunk_cache)]',
             'value' => $settings['disable_chunk_cache'] ?? 0,
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no'),
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no'),
             ],
-            'comment' => (isset($disabledSettings['disable_chunk_cache']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['disable_chunk_cache']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['disable_chunk_cache'] ?? null
         ])
 
@@ -391,14 +395,14 @@
 
         @include('manager::form.radio', [
             'name' => 'disable_snippet_cache',
-            'label' => __('global.disable_snippet_cache_title'),
+            'label' => ManagerTheme::getLexicon('disable_snippet_cache_title'),
             'small' => '[(disable_snippet_cache)]',
             'value' => $settings['disable_snippet_cache'] ?? 0,
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no'),
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no'),
             ],
-            'comment' => (isset($disabledSettings['disable_snippet_cache']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['disable_snippet_cache']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['disable_snippet_cache'] ?? null
         ])
 
@@ -406,14 +410,14 @@
 
         @include('manager::form.radio', [
             'name' => 'disable_plugins_cache',
-            'label' => __('global.disable_plugins_cache_title'),
+            'label' => ManagerTheme::getLexicon('disable_plugins_cache_title'),
             'small' => '[(disable_plugins_cache)]',
             'value' => $settings['disable_plugins_cache'] ?? 0,
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no'),
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no'),
             ],
-            'comment' => (isset($disabledSettings['disable_plugins_cache']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['disable_plugins_cache']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['disable_plugins_cache'] ?? null
         ])
 
@@ -421,14 +425,14 @@
 
         @include('manager::form.radio', [
             'name' => 'cache_type',
-            'label' => __('global.cache_type_title'),
+            'label' => ManagerTheme::getLexicon('cache_type_title'),
             'small' => '[(cache_type)]',
             'value' => $settings['cache_type'],
             'options' => [
-                1 => __('global.cache_type_1'),
-                2 => __('global.cache_type_2')
+                1 => ManagerTheme::getLexicon('cache_type_1'),
+                2 => ManagerTheme::getLexicon('cache_type_2')
             ],
-            'comment' => (isset($disabledSettings['cache_type']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['cache_type']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['cache_type'] ?? null
         ])
 
@@ -436,15 +440,15 @@
 
         @include('manager::form.radio', [
             'name' => 'minifyphp_incache',
-            'label' => __('global.minifyphp_incache_title'),
+            'label' => ManagerTheme::getLexicon('minifyphp_incache_title'),
             'small' => '[(minifyphp_incache)]',
             'value' => $settings['minifyphp_incache'],
             'options' => [
-                1 => __('global.enabled'),
-                0 => __('global.disabled')
+                1 => ManagerTheme::getLexicon('enabled'),
+                0 => ManagerTheme::getLexicon('disabled')
             ],
-            'comment' => (isset($disabledSettings['minifyphp_incache']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.minifyphp_incache_message'),
+            'comment' => (isset($disabledSettings['minifyphp_incache']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('minifyphp_incache_message'),
             'disabled' => $disabledSettings['minifyphp_incache'] ?? null
         ])
 
@@ -452,13 +456,13 @@
 
         @include('manager::form.select', [
             'name' => 'server_offset_time',
-            'label' => __('global.serveroffset_title'),
+            'label' => ManagerTheme::getLexicon('serveroffset_title'),
             'small' => '[(server_offset_time)]',
             'value' => $settings['server_offset_time'],
             'options' => $serverTimes,
             'attributes' => 'onChange="documentDirty=true;" size="1"',
-            'comment' => (isset($disabledSettings['server_offset_time']) ? __('global.setting_from_file') . '<br>' : '') .
-                sprintf(__('global.serveroffset_message'), evolutionCMS()->toDateFormat(time(), 'timeOnly'), evolutionCMS()->toDateFormat(time() + $settings['server_offset_time'], 'timeOnly')),
+            'comment' => (isset($disabledSettings['server_offset_time']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                sprintf(ManagerTheme::getLexicon('serveroffset_message'), evo()->toDateFormat(time(), 'timeOnly'), evo()->toDateFormat(time() + $settings['server_offset_time'], 'timeOnly')),
             'disabled' => $disabledSettings['server_offset_time'] ?? null
         ])
 
@@ -466,15 +470,15 @@
 
         @include('manager::form.radio', [
             'name' => 'server_protocol',
-            'label' => __('global.server_protocol_title'),
+            'label' => ManagerTheme::getLexicon('server_protocol_title'),
             'small' => '[(server_protocol)]',
             'value' => $settings['server_protocol'],
             'options' => [
-                'http' => __('global.server_protocol_http'),
-                'https' => __('global.server_protocol_https')
+                'http' => ManagerTheme::getLexicon('server_protocol_http'),
+                'https' => ManagerTheme::getLexicon('server_protocol_https')
             ],
-            'comment' => (isset($disabledSettings['server_protocol']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.server_protocol_message'),
+            'comment' => (isset($disabledSettings['server_protocol']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('server_protocol_message'),
             'disabled' => $disabledSettings['server_protocol'] ?? null
         ])
 
@@ -482,11 +486,11 @@
 
         @include('manager::form.input', [
             'name' => 'rss_url_news',
-            'label' => __('global.rss_url_news_title'),
+            'label' => ManagerTheme::getLexicon('rss_url_news_title'),
             'small' => '[(rss_url_news)]',
             'value' => $settings['rss_url_news'],
             'attributes' => 'onchange="documentDirty=true;" maxlength="350"',
-            'comment' => (isset($disabledSettings['rss_url_news']) ? __('global.setting_from_file') . '<br>' : ''),
+            'comment' => (isset($disabledSettings['rss_url_news']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : ''),
             'disabled' => $disabledSettings['rss_url_news'] ?? null
         ])
 
@@ -494,15 +498,15 @@
 
         @include('manager::form.radio', [
             'name' => 'track_visitors',
-            'label' => __('global.track_visitors_title'),
+            'label' => ManagerTheme::getLexicon('track_visitors_title'),
             'small' => '[(track_visitors)]',
             'value' => $settings['track_visitors'],
             'options' => [
-                1 => __('global.yes'),
-                0 => __('global.no')
+                1 => ManagerTheme::getLexicon('yes'),
+                0 => ManagerTheme::getLexicon('no')
             ],
-            'comment' => (isset($disabledSettings['track_visitors']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.track_visitors_message'),
+            'comment' => (isset($disabledSettings['track_visitors']) ? ManagerTheme::getLexicon('setting_from_file') . '<br>' : '') .
+                ManagerTheme::getLexicon('track_visitors_message'),
             'disabled' => $disabledSettings['track_visitors'] ?? null
         ])
 

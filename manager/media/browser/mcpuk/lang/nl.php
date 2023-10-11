@@ -4,7 +4,7 @@
   * author: Lars Anderson <lars16anderson@users.sourceforge.net>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "nl_NL.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "U kan de extensie van bestanden niet hernoemen!",
     "Uploading file {number} of {count}... {progress}" => "Bestand {number} van de {count} aan het uploaden... {progress}",
     "Failed to upload {filename}!" => "Uploaden van {filename} mislukt!",
-);
+];
 
 ?>

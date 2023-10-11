@@ -29,12 +29,10 @@ if (!function_exists('determineIcon')) {
      */
     function determineIcon(string $file, string $selFile, string $mode): string
     {
-        $_style = ManagerTheme::getStyle();
-
         $icons = [
-            'default' => $_style['icon_file'],
-            'edit' => $_style['icon_edit'],
-            'view' => $_style['icon_eye'],
+            'default' => ManagerTheme::getStyle('icon_file'),
+            'edit' => ManagerTheme::getStyle('icon_edit'),
+            'view' => ManagerTheme::getStyle('icon_eye'),
         ];
 
         $icon = $icons['default'];
@@ -84,8 +82,6 @@ if (!function_exists('ls')) {
     {
         extract($options);
 
-        $_lang = ManagerTheme::getLexicon();
-        $_style = ManagerTheme::getStyle();
         $dirCounter = 0;
         $fileCounter = 0;
         $fileSizes = 0;
@@ -112,7 +108,7 @@ if (!function_exists('ls')) {
                 if ($file == '..' || $file == '.') {
                     continue;
                 } elseif (!in_array($file, $excludes) && !in_array($newPath, $protected_path)) {
-                    $dirs_array[$dirCounter]['text'] = '<i class="' . $_style['icon_folder'] .
+                    $dirs_array[$dirCounter]['text'] = '<i class="' . ManagerTheme::getStyle('icon_folder') .
                         ' FilesFolder"></i> <a href="index.php?a=31&mode=drill&path=' . urlencode($newPath) . '"><b>' .
                         $file . '</b></a>';
 
@@ -130,19 +126,19 @@ if (!function_exists('ls')) {
                     $dirs_array[$dirCounter]['delete'] =
                         is_writable($currentPath) ? '<a href="javascript: deleteFolder(\'' . urlencode($file) .
                             '\',\'' .
-                            $file_exists . '\');"><i class="' . $_style['icon_trash'] . '" title="' .
-                            $_lang['file_delete_folder'] . '"></i></a>' : '';
+                            $file_exists . '\');"><i class="' . ManagerTheme::getStyle('icon_trash') . '" title="' .
+                            ManagerTheme::getLexicon('file_delete_folder') . '"></i></a>' : '';
                 } else {
                     $dirs_array[$dirCounter]['text'] =
-                        '<span><i class="' . $_style['icon_folder'] . ' FilesDeletedFolder"></i> ' . $file . '</span>';
+                        '<span><i class="' . ManagerTheme::getStyle('icon_folder') . ' FilesDeletedFolder"></i> ' . $file . '</span>';
                     $dirs_array[$dirCounter]['delete'] =
-                        is_writable($currentPath) ? '<span class="disabled"><i class="' . $_style['icon_trash'] .
-                            '" title="' . $_lang['file_delete_folder'] . '"></i></span>' : '';
+                        is_writable($currentPath) ? '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_trash') .
+                            '" title="' . ManagerTheme::getLexicon('file_delete_folder') . '"></i></span>' : '';
                 }
 
                 $dirs_array[$dirCounter]['rename'] =
                     is_writable($currentPath) ? '<a href="javascript:renameFolder(\'' . urlencode($file) .
-                        '\');"><i class="' . $_style['icon_i_cursor'] . '" title="' . $_lang['rename'] . '"></i></a> '
+                        '\');"><i class="' . ManagerTheme::getStyle('icon_i_cursor') . '" title="' . ManagerTheme::getLexicon('rename') . '"></i></a> '
                         : '';
 
                 // increment the counter
@@ -162,7 +158,7 @@ if (!function_exists('ls')) {
                         $newPath,
                         $len,
                         strlen($newPath)
-                    ) . '\');"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>'
+                    ) . '\');"><i class="' . ManagerTheme::getStyle('icon_eye') . '" title="' . ManagerTheme::getLexicon('files_viewfile') . '"></i></a>'
                     : (($enablefiledownload && in_array(
                             $type,
                             $uploadablefiles
@@ -180,54 +176,54 @@ if (!function_exists('ls')) {
                                     )
                                 )
                             )
-                        ) . '" style="cursor:pointer;" download><i class="' . $_style['icon_download'] . '" title="' .
-                        $_lang['file_download_file'] . '"></i></a>'
-                        : '<span class="disabled"><i class="' . $_style['icon_eye'] . '" title="' .
-                        $_lang['files_viewfile'] . '"></i></span>');
+                        ) . '" style="cursor:pointer;" download><i class="' . ManagerTheme::getStyle('icon_download') . '" title="' .
+                        ManagerTheme::getLexicon('file_download_file') . '"></i></a>'
+                        : '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_eye') . '" title="' .
+                        ManagerTheme::getLexicon('files_viewfile') . '"></i></span>');
                 $files_array[$fileCounter]['view'] = (in_array(
                     $type,
                     $inlineviewablefiles
                 )) ? '<a href="index.php?a=31&mode=view&path=' . urlencode($newPath) . '"><i class="' .
-                    $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>'
+                    ManagerTheme::getStyle('icon_eye') . '" title="' . ManagerTheme::getLexicon('files_viewfile') . '"></i></a>'
                     : $files_array[$fileCounter]['view'];
                 $files_array[$fileCounter]['unzip'] =
                     ($enablefileunzip && $type == '.zip') ? '<a href="javascript:unzipFile(\'' . urlencode($file) .
-                        '\');"><i class="' . $_style['icon_archive'] . '" title="' . $_lang['file_download_unzip'] .
+                        '\');"><i class="' . ManagerTheme::getStyle('icon_archive') . '" title="' . ManagerTheme::getLexicon('file_download_unzip') .
                         '"></i></a>' : '';
                 $files_array[$fileCounter]['edit'] = (in_array(
                         $type,
                         $editablefiles
                     ) && is_writable($currentPath) && is_writable($newPath))
                     ? '<a href="index.php?a=31&mode=edit&path=' .
-                    urlencode($newPath) . '#file_editfile"><i class="' . $_style['icon_edit'] . '" title="' .
-                    $_lang['files_editfile'] . '"></i></a>'
-                    : '<span class="disabled"><i class="' . $_style['icon_edit'] . '" title="' .
-                    $_lang['files_editfile'] . '"></i></span>';
+                    urlencode($newPath) . '#file_editfile"><i class="' . ManagerTheme::getStyle('icon_edit') . '" title="' .
+                    ManagerTheme::getLexicon('files_editfile') . '"></i></a>'
+                    : '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_edit') . '" title="' .
+                    ManagerTheme::getLexicon('files_editfile') . '"></i></span>';
                 $files_array[$fileCounter]['duplicate'] = (in_array(
                         $type,
                         $editablefiles
                     ) && is_writable($currentPath) && is_writable($newPath))
                     ? '<a href="javascript:duplicateFile(\'' .
-                    urlencode($file) . '\');"><i class="' . $_style['icon_clone'] . '" title="' . $_lang['duplicate'] .
+                    urlencode($file) . '\');"><i class="' . ManagerTheme::getStyle('icon_clone') . '" title="' . ManagerTheme::getLexicon('duplicate') .
                     '"></i></a>'
-                    : '<span class="disabled"><i class="' . $_style['icon_clone'] . '" align="absmiddle" title="' .
-                    $_lang['duplicate'] . '"></i></span>';
+                    : '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_clone') . '" align="absmiddle" title="' .
+                    ManagerTheme::getLexicon('duplicate') . '"></i></span>';
                 $files_array[$fileCounter]['rename'] = (in_array(
                         $type,
                         $editablefiles
                     ) && is_writable($currentPath) && is_writable($newPath))
                     ? '<a href="javascript:renameFile(\'' .
-                    urlencode($file) . '\');"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' .
-                    $_lang['rename'] . '"></i></a>'
-                    : '<span class="disabled"><i class="' . $_style['icon_i_cursor'] . '" align="absmiddle" title="' .
-                    $_lang['rename'] . '"></i></span>';
+                    urlencode($file) . '\');"><i class="' . ManagerTheme::getStyle('icon_i_cursor') . '" align="absmiddle" title="' .
+                    ManagerTheme::getLexicon('rename') . '"></i></a>'
+                    : '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_i_cursor') . '" align="absmiddle" title="' .
+                    ManagerTheme::getLexicon('rename') . '"></i></span>';
                 $files_array[$fileCounter]['delete'] =
                     is_writable($currentPath) && is_writable($newPath)
                         ? '<a href="javascript:deleteFile(\'' .
-                        urlencode($file) . '\');"><i class="' . $_style['icon_trash'] . '" title="' .
-                        $_lang['file_delete_file'] . '"></i></a>'
-                        : '<span class="disabled"><i class="' . $_style['icon_trash'] . '" title="' .
-                        $_lang['file_delete_file'] . '"></i></span>';
+                        urlencode($file) . '\');"><i class="' . ManagerTheme::getStyle('icon_trash') . '" title="' .
+                        ManagerTheme::getLexicon('file_delete_file') . '"></i></a>'
+                        : '<span class="disabled"><i class="' . ManagerTheme::getStyle('icon_trash') . '" title="' .
+                        ManagerTheme::getLexicon('file_delete_file') . '"></i></span>';
 
                 // increment the counter
                 $fileCounter++;
@@ -512,7 +508,7 @@ if (!function_exists('fileupload')) {
                         $userFile['type'],
                         'image'
                     ) !== false) ? '<br /><img src="' . $path . '" height="75" />' : '';
-                $msg .= "<p>" . $_lang['files_file_type'] . $userFile['type'] . ", " .
+                $msg .= "<p>" . ManagerTheme::getLexicon('files_file_type') . $userFile['type'] . ", " .
                     nicesize(filesize($userFile['tmp_name'])) . $img . '</p>';
             }
 
@@ -521,7 +517,7 @@ if (!function_exists('fileupload')) {
             if (is_uploaded_file($userFilename)) {
                 // file is uploaded file, process it!
                 if (!checkExtension($userFile['name'])) {
-                    $msg .= '<p><span class="warning">' . $_lang['files_filetype_notok'] . '</span></p>';
+                    $msg .= '<p><span class="warning">' . ManagerTheme::getLexicon('files_filetype_notok') . '</span></p>';
                 } else {
                     if (@move_uploaded_file($userFile['tmp_name'], $_POST['path'] . '/' . $userFile['name'])) {
                         // Ryan: Repair broken permissions issue with file manager
@@ -529,7 +525,7 @@ if (!function_exists('fileupload')) {
                             @chmod($_POST['path'] . "/" . $userFile['name'], $new_file_permissions);
                         }
                         // Ryan: End
-                        $msg .= '<p><span class="success">' . $_lang['files_upload_ok'] . '</span></p><hr/>';
+                        $msg .= '<p><span class="success">' . ManagerTheme::getLexicon('files_upload_ok') . '</span></p><hr/>';
 
                         // invoke OnFileManagerUpload event
                         $modx->invokeEvent('OnFileManagerUpload', [
@@ -539,30 +535,30 @@ if (!function_exists('fileupload')) {
                         // Log the change
                         logFileChange('upload', $_POST['path'] . '/' . $userFile['name']);
                     } else {
-                        $msg .= '<p><span class="warning">' . $_lang['files_upload_copyfailed'] . '</span> ' .
-                            $_lang["files_upload_permissions_error"] . '</p>';
+                        $msg .= '<p><span class="warning">' . ManagerTheme::getLexicon('files_upload_copyfailed') . '</span> ' .
+                            ManagerTheme::getLexicon('files_upload_permissions_error') . '</p>';
                     }
                 }
             } else {
-                $msg .= '<br /><span class="warning"><b>' . $_lang['files_upload_error'] . ':</b>';
+                $msg .= '<br /><span class="warning"><b>' . ManagerTheme::getLexicon('files_upload_error') . ':</b>';
                 switch ($userFile['error']) {
                     case 0: //no error; possible file attack!
-                        $msg .= $_lang['files_upload_error0'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error0');
                         break;
                     case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
-                        $msg .= $_lang['files_upload_error1'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error1');
                         break;
                     case 2: //uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the html form
-                        $msg .= $_lang['files_upload_error2'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error2');
                         break;
                     case 3: //uploaded file was only partially uploaded
-                        $msg .= $_lang['files_upload_error3'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error3');
                         break;
                     case 4: //no file was uploaded
-                        $msg .= $_lang['files_upload_error4'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error4');
                         break;
                     default: //a default error, just in case!  :)
-                        $msg .= $_lang['files_upload_error5'];
+                        $msg .= ManagerTheme::getLexicon('files_upload_error5');
                         break;
                 }
                 $msg .= '</span><br />';
@@ -581,15 +577,15 @@ if (!function_exists('textsave')) {
     {
         global $_lang;
 
-        $msg = $_lang['editing_file'];
+        $msg = ManagerTheme::getLexicon('editing_file');
         $filename = $_POST['path'];
         $content = $_POST['content'];
 
         // Write $content to our opened file.
         if (file_put_contents($filename, $content) === false) {
-            $msg .= '<span class="warning"><b>' . $_lang['file_not_saved'] . '</b></span><br /><br />';
+            $msg .= '<span class="warning"><b>' . ManagerTheme::getLexicon('file_not_saved') . '</b></span><br /><br />';
         } else {
-            $msg .= '<span class="success"><b>' . $_lang['file_saved'] . '</b></span><br /><br />';
+            $msg .= '<span class="success"><b>' . ManagerTheme::getLexicon('file_saved') . '</b></span><br /><br />';
             $_REQUEST['mode'] = 'edit';
         }
         // Log the change
@@ -607,13 +603,13 @@ if (!function_exists('delete_file')) {
     {
         global $_lang;
 
-        $msg = sprintf($_lang['deleting_file'], str_replace('\\', '/', $_REQUEST['path']));
+        $msg = sprintf(ManagerTheme::getLexicon('deleting_file'), str_replace('\\', '/', $_REQUEST['path']));
 
         $file = $_REQUEST['path'];
         if (!evo()->hasPermission('file_manager') || !@unlink($file)) {
-            $msg .= '<span class="warning"><b>' . $_lang['file_not_deleted'] . '</b></span><br /><br />';
+            $msg .= '<span class="warning"><b>' . ManagerTheme::getLexicon('file_not_deleted') . '</b></span><br /><br />';
         } else {
-            $msg .= '<span class="success"><b>' . $_lang['file_deleted'] . '</b></span><br /><br />';
+            $msg .= '<span class="success"><b>' . ManagerTheme::getLexicon('file_deleted') . '</b></span><br /><br />';
         }
 
         // Log the change

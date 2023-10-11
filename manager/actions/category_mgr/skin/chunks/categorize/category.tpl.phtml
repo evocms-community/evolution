@@ -1,10 +1,23 @@
-<div id="categorize-category-<?php echo $data['id']; ?>" class="categorize_category drop">
-  <div class="inner">
-    <h2><i class="<?= $_style['icon_folder_open'] ?>"></i> <?php echo e($data['category']); ?></h2>
-    <?php if( !empty( $data['elements'] ) ) : ?>
-    <?php foreach( $data['elements'] as $element ) : ?>
-    <?php echo $view->renderView('chunks/categorize/drag_element',$element); ?>
-    <?php endforeach; ?>
-    <?php endif; ?>
-  </div>
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
+<div id="categorize-category-<?= $data['id']; ?>" class="categorize_category drop">
+    <div class="inner">
+        <h2>
+            <i class="<?= ManagerTheme::getStyle('icon_folder_open') ?>"></i>
+            <?= e($data['category']); ?>
+        </h2>
+        <?php
+        if (!empty($data['elements'])) : ?>
+            <?php
+            foreach ($data['elements'] as $element) : ?>
+                <?php
+                echo $view->renderView('chunks/categorize/drag_element', $element); ?>
+            <?php
+            endforeach; ?>
+        <?php
+        endif; ?>
+    </div>
 </div>

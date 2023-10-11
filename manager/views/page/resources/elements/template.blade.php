@@ -1,21 +1,30 @@
-<?php /** @var EvolutionCMS\Models\SiteTemplate $item */ ?>
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+/** @var EvolutionCMS\Models\SiteTemplate $item */
+?>
 <li>
     <div class="rTable">
         <div class="rTableRow">
             @if(!empty($item->isAlreadyEdit))
                 <div class="lockCell">
-                    <?php $rowLock = $item->alreadyEditInfo; ?>
-                    <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
-                        <i class="{{ $_style['icon_eye'] }}"></i>
+                        <?php
+                        $rowLock = $item->alreadyEditInfo; ?>
+                    <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}"
+                          class="editResource" style="cursor:context-menu;">
+                        <i class="{{ ManagerTheme::getStyle('icon_eye') }}"></i>
                     </span>&nbsp;
                 </div>
             @endif
             <div class="mainCell elements_description">
                 <span>
-                    <a class="man_el_name site_templates" target="main" data-type="site_templates" data-id="{{ $item->id }}" data-catid="{{ $item->category }}" href="{{ $item->makeUrl('actions.edit') }}">
-                        <i class="{{ $_style['icon_template'] }}"></i>
+                    <a class="man_el_name site_templates" target="main" data-type="site_templates"
+                       data-id="{{ $item->id }}" data-catid="{{ $item->category }}"
+                       href="{{ $item->makeUrl('actions.edit') }}">
+                        <i class="{{ ManagerTheme::getStyle('icon_template') }}"></i>
                         @if($item->locked)
-                            <i class="{{ $_style['icon_lock'] }}"></i>
+                            <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>
                         @endif
                         {{ $item->name }}
                         <small>({{ $item->id }})</small>
@@ -31,41 +40,46 @@
             </div>
             <div class="btnCell">
                 <ul class="elements_buttonbar">
-                    @if(evolutionCMS()->hasPermission('edit_template'))
-                    <li>
-                        <a href="{{ $item->makeUrl('actions.edit') }}" target="main" title="{{ ManagerTheme::getLexicon('edit_resource') }}">
-                            <i class="{{ $_style['icon_edit'] }}"></i>
-                        </a>
-                    </li>
+                    @if(evo()->hasPermission('edit_template'))
+                        <li>
+                            <a href="{{ $item->makeUrl('actions.edit') }}" target="main"
+                               title="{{ ManagerTheme::getLexicon('edit_resource') }}">
+                                <i class="{{ ManagerTheme::getStyle('icon_edit') }}"></i>
+                            </a>
+                        </li>
                     @endif
-                    @if(evolutionCMS()->hasPermission('edit_template'))
-                    <li>
-                        <a href="javascript:;"
-                           onclick="actionDisableElement(this)"
-                           title="{{ __('global.template_selectable') }}"
-                           data-disabled="{{ !$item->selectable }}"
-                           data-enable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 1]) }}"
-                           data-enable-icon="{{ $_style['icon_disable'] }}"
-                           data-disable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 0]) }}"
-                           data-disable-icon="{{ $_style['icon_enable'] }}"
-                        >
-                            <i class="@if($item->selectable) {{ $_style['icon_enable'] }} @else {{ $_style['icon_disable'] }} @endif"></i>
-                        </a>
-                    </li>
+                    @if(evo()->hasPermission('edit_template'))
+                        <li>
+                            <a href="javascript:;"
+                               onclick="actionDisableElement(this)"
+                               title="{{ ManagerTheme::getLexicon('template_selectable') }}"
+                               data-disabled="{{ !$item->selectable }}"
+                               data-enable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 1]) }}"
+                               data-enable-icon="{{ ManagerTheme::getStyle('icon_disable') }}"
+                               data-disable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 0]) }}"
+                               data-disable-icon="{{ ManagerTheme::getStyle('icon_enable') }}"
+                            >
+                                <i class="@if($item->selectable) {{ ManagerTheme::getStyle('icon_enable') }} @else {{ ManagerTheme::getStyle('icon_disable') }} @endif"></i>
+                            </a>
+                        </li>
                     @endif
-                    @if(evolutionCMS()->hasPermission('new_template'))
-                    <li>
-                        <a href="{{ $item->makeUrl('actions.duplicate') }}" target="main" title="{{ ManagerTheme::getLexicon('resource_duplicate') }}" onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}')">
-                            <i class="{{ $_style['icon_clone'] }}"></i>
-                        </a>
-                    </li>
+                    @if(evo()->hasPermission('new_template'))
+                        <li>
+                            <a href="{{ $item->makeUrl('actions.duplicate') }}" target="main"
+                               title="{{ ManagerTheme::getLexicon('resource_duplicate') }}"
+                               onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}')">
+                                <i class="{{ ManagerTheme::getStyle('icon_clone') }}"></i>
+                            </a>
+                        </li>
                     @endif
-                    @if(evolutionCMS()->hasPermission('delete_template'))
-                    <li>
-                        <a href="{{ $item->makeUrl('actions.delete') }}" target="main" title="{{ ManagerTheme::getLexicon('delete') }}" onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_delete_template') }}')">
-                            <i class="{{ $_style['icon_trash'] }}"></i>
-                        </a>
-                    </li>
+                    @if(evo()->hasPermission('delete_template'))
+                        <li>
+                            <a href="{{ $item->makeUrl('actions.delete') }}" target="main"
+                               title="{{ ManagerTheme::getLexicon('delete') }}"
+                               onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_delete_template') }}')">
+                                <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </div>

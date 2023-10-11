@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     <?php /** @var EvolutionCMS\Models\SiteTmplvar $data */ ?>
@@ -82,13 +87,13 @@
               saveWait('mutate');
             },
             duplicate: function() {
-              if (confirm("{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}") === true) {
+              if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
                 documentDirty = false;
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=304";
               }
             },
             delete: function() {
-              if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}") === true) {
+              if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}') === true) {
                 documentDirty = false;
                 document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=303';
               }
@@ -282,14 +287,14 @@
         <input type="hidden" name="params" value="{{ $data->display_params }}">
 
         <h1>
-            <i class="{{ $_style['icon_tv'] }}"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_tv') }}"></i>
             @if($data->name)
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
                 {{ ManagerTheme::getLexicon('new_tmplvars') }}
             @endif
-            <i class="{{ $_style['icon_question_circle'] }} help"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
@@ -318,14 +323,14 @@
                                 'class' => 'form-control-lg',
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="50"'
                             ]) .
-                            ($modx->hasPermission('save_role')
+                            (evo()->hasPermission('save_role')
                             ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_tmplvars') . "\n" . ManagerTheme::getLexicon('lock_tmplvars_msg') .'">' .
                              ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
                                 'checked' => ($data->locked == 1)
                              ]) .
-                             '<i class="'. $_style['icon_lock'] .'"></i>
+                             '<i class="'. ManagerTheme::getStyle('icon_lock') .'"></i>
                              </label>
                              <small class="form-text text-danger hide" id="savingMessage"></small>
                              <script>if (!document.getElementsByName(\'name\')[0].value) document.getElementsByName(\'name\')[0].focus();</script>'
@@ -411,7 +416,7 @@
                     <div class="row form-row" id="displayparamrow">
                         <label class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('tmplvars_widget_prop') }}<br />
                             <a href="javascript:;" onclick="resetParameters(); return false">
-                                <i class="<?= $_style['icon_refresh'] ?>"
+                                <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"
                                     data-tooltip="{{ ManagerTheme::getLexicon('tmplvars_reset_params') }}"></i>
                             </a>
                         </label>
@@ -537,7 +542,7 @@
                 </div>
             </div>
 
-            @if($modx->getConfig('use_udperms') && $modx->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
+            @if(evo()->getConfig('use_udperms') && evo()->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
                 <div class="tab-page" id="tabAccess">
                     <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions') }}</h2>
                     <script>tpTmplvars.addTabPage(document.getElementById('tabAccess'));</script>

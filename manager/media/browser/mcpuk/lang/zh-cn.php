@@ -7,7 +7,7 @@
   * URL: yutuo.net
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "zh_CN.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -125,6 +125,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "禁止修改文件后缀",
     "Uploading file {number} of {count}... {progress}" => "正在上传文件{number} / {count}... {progress}",
     "Failed to upload {filename}!" => "上传失败{filename}！",
-);
+];
 
 ?>

@@ -4,7 +4,7 @@
   * author: Rostislav Sivak <rsivak@rsivak.com>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "cs_CZ.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Nemůžete přejmenovat příponu souborů!",
     "Uploading file {number} of {count}... {progress}" => "Nahrávám soubor {number} z {count}... {progress}",
     "Failed to upload {filename}!" => "Nepodařilo se nahrát soubor {filename}!",
-);
+];
 
 ?>

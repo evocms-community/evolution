@@ -5,7 +5,7 @@
   * country: Catalunya
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "ca_ES.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -123,6 +123,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "No està permès canviar la extensió al fitxer.",
     "Uploading file {number} of {count}... {progress}" => "Carregant arxiu {number} de {count}... {progress}",
     "Failed to upload {filename}!" => "Error al carregar {filename}",
-);
+];
 
 ?>

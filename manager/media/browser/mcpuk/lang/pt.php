@@ -6,7 +6,7 @@
   * company website: www.framework.pt
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "pt_PT.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -238,6 +238,6 @@ $lang = array(
     "Type" => "Tipo",
     "Select Thumbnails" => "Seleccionar miniaturas",
     "Download files" => "Sacar ficheiros",
-);
+];
 
 ?>

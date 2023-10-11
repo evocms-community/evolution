@@ -1,4 +1,7 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 // get the processor for publishing content
-extract(evolutionCMS()->get('ManagerTheme')->getViewAttributes(), EXTR_OVERWRITE);
-include_once evolutionCMS()->get('ManagerTheme')->getFileProcessor("processors/unpublish_content.processor.php");
+extract(ManagerTheme::getViewAttributes());
+include_once ManagerTheme::getFileProcessor('processors/unpublish_content.processor.php');

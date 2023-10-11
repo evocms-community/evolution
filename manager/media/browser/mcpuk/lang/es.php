@@ -4,7 +4,7 @@
   * Type some credits if you want
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "es_ES.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "¡Usted no puede renombrar la extensión de los archivos!",
     "Uploading file {number} of {count}... {progress}" => "Cargando archivo {number} de {count}... {progress}",
     "Failed to upload {filename}!" => "¡No se pudo cargar el archivo {filename}!",
-);
+];
 
 ?>

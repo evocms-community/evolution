@@ -1,4 +1,7 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 // get the duplicate processor
-extract(evolutionCMS()->get('ManagerTheme')->getViewAttributes(), EXTR_OVERWRITE);
-include_once evolutionCMS()->get('ManagerTheme')->getFileProcessor("processors/duplicate_htmlsnippet.processor.php");
+extract(ManagerTheme::getViewAttributes());
+include_once ManagerTheme::getFileProcessor('processors/duplicate_htmlsnippet.processor.php');

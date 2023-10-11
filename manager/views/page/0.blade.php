@@ -1,4 +1,7 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 /********************************************************************/
 /* default action: show not implemented message                     */
 /********************************************************************/

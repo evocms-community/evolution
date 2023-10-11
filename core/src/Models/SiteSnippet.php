@@ -147,7 +147,8 @@ class SiteSnippet extends Eloquent\Model
             ->where('disabled', '=', 0);
     }
 
-    public function getSourceCodeAttribute(){
-        return '<?php' . "\n" . trim($this->snippet) . "\n";
+    public function getSourceCodeAttribute(): string
+    {
+        return '<?php' . "\n" . trim($this->snippet ?? '') . "\n";
     }
 }

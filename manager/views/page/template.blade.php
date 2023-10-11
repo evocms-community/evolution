@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -12,13 +17,13 @@
                     //saveWait('mutate');
                 },
                 duplicate: function () {
-                    if (confirm("{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}") === true) {
+                    if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
                         documentDirty = false;
                         document.location.href = "index.php?id={{ $data->getKey() }}&a=96";
                     }
                 },
                 delete: function () {
-                    if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_template') }}") === true) {
+                    if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_template') }}') === true) {
                         documentDirty = false;
                         document.location.href = 'index.php?id={{ $data->getKey() }}&a=21';
                     }
@@ -77,13 +82,13 @@
         <input type="hidden" name="mode" value="{{ $action }}">
 
         <h1>
-            <i class="{{ $_style['icon_template'] }}"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_template') }}"></i>
             @if($data->templatename)
                 {{ $data->templatename }}<small>({{ $data->getKey() }})</small>
             @else
                 {{ ManagerTheme::getLexicon('new_template') }}
             @endif
-            <i class="{{ $_style['icon_question_circle'] }} help"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
@@ -94,7 +99,7 @@
 
         <div class="tab-pane" id="templatesPane">
             <script>
-                var tp = new WebFXTabPane(document.getElementById('templatesPane'), {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }});
+                var tp = new WebFXTabPane(document.getElementById('templatesPane'), {{ get_by_key(evo()->config, 'remember_last_tab') ? 1 : 0 }});
             </script>
 
             <div class="tab-page" id="tabTemplate">
@@ -106,7 +111,7 @@
                         @include('manager::form.row', [
                             'for' => 'templatename',
                             'label' => ManagerTheme::getLexicon('template_name'),
-                            'small' => ($data->getKey() == get_by_key($modx->config, 'default_template') ? '<b class="text-danger">' . mb_strtolower(rtrim(ManagerTheme::getLexicon('defaulttemplate_title'), ':'), ManagerTheme::getCharset()) . '</b>' : ''),
+                            'small' => ($data->getKey() == get_by_key(evo()->config, 'default_template') ? '<b class="text-danger">' . mb_strtolower(rtrim(ManagerTheme::getLexicon('defaulttemplate_title'), ':'), ManagerTheme::getCharset()) . '</b>' : ''),
                             'element' => '<div class="form-control-name clearfix">' .
                                 ManagerTheme::view('form.inputElement', [
                                     'name' => 'templatename',
@@ -114,14 +119,14 @@
                                     'class' => 'form-control-lg',
                                     'attributes' => 'onchange="documentDirty=true;"'
                                 ]) .
-                                ($modx->hasPermission('save_role')
+                                (evo()->hasPermission('save_role')
                                 ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_template') . "\n" . ManagerTheme::getLexicon('lock_template_msg') .'">' .
                                  ManagerTheme::view('form.inputElement', [
                                     'type' => 'checkbox',
                                     'name' => 'locked',
                                     'checked' => ($data->locked == 1)
                                  ]) .
-                                 '<i class="' . $_style['icon_lock'] . '"></i>
+                                 '<i class="' . ManagerTheme::getStyle('icon_lock') . '"></i>
                                  </label>
                                  <small class="form-text text-danger hide" id="savingMessage"></small>
                                  <script>if (!document.getElementsByName(\'templatename\')[0].value) document.getElementsByName(\'templatename\')[0].focus();</script>'
@@ -185,7 +190,7 @@
                         </div>
                     </div>
 
-                    @if($modx->hasPermission('save_role'))
+                    @if(evo()->hasPermission('save_role'))
                         <div class="form-group">
                             <label>
                                 @include('manager::form.inputElement', [
@@ -229,7 +234,7 @@
                         <p>{{ ManagerTheme::getLexicon('template_tv_msg') }}</p>
                     @endif
 
-                    @if($modx->hasPermission('save_template') && $data->tvs->count() > 1 && $data->getKey())
+                    @if(evo()->hasPermission('save_template') && $data->tvs->count() > 1 && $data->getKey())
                         <div class="form-group">
                             <a class="btn btn-primary"
                                href="?a=117&id={{ $data->getKey() }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>

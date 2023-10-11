@@ -1,40 +1,44 @@
 <?php
 
 /** This file is part of KCFinder project
-  *
-  *      @desc This file is included first, before each other
-  *   @package KCFinder
-  *   @version 2.54
-  *    @author Pavel Tzonkov <sunhater@sunhater.com>
-  * @copyright 2010-2014 KCFinder Project
-  *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
-  *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
-  *      @link http://kcfinder.sunhater.com
-  *
-  * This file is the place you can put any code (at the end of the file),
-  * which will be executed before any other. Suitable for:
-  *     1. Set PHP ini settings using ini_set()
-  *     2. Custom session save handler with session_set_save_handler()
-  *     3. Any custom integration code. If you use any global variables
-  *        here, they can be accessed in config.php via $GLOBALS array.
-  *        It's recommended to use constants instead.
-  */
+ *
+ * @desc This file is included first, before each other
+ * @package KCFinder
+ * @version 2.54
+ * @author Pavel Tzonkov <sunhater@sunhater.com>
+ * @copyright 2010-2014 KCFinder Project
+ * @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
+ * @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
+ * @link http://kcfinder.sunhater.com
+ *
+ * This file is the place you can put any code (at the end of the file),
+ * which will be executed before any other. Suitable for:
+ *     1. Set PHP ini settings using ini_set()
+ *     2. Custom session save handler with session_set_save_handler()
+ *     3. Any custom integration code. If you use any global variables
+ *        here, they can be accessed in config.php via $GLOBALS array.
+ *        It's recommended to use constants instead.
+ */
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 define('IN_MANAGER_MODE', true);
 define('MODX_API_MODE', true);
-include_once(__DIR__."/../../../../../index.php");
-$mpdx = EvolutionCMS();
+include_once(__DIR__ . "/../../../../../index.php");
+$mpdx = evo();
 
-if(!isset($_SESSION['mgrValidated'])) {
-        die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+if (!isset($_SESSION['mgrValidated'])) {
+    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 $manager_language = ManagerTheme::getLangName();
 $_GET['langCode'] = ManagerTheme::getLang();
 
 // MAGIC AUTOLOAD CLASSES FUNCTION
-function autoloadda9d06472ccb71b84928677ce2a6ca89($class) {
+function autoloadda9d06472ccb71b84928677ce2a6ca89($class)
+{
     static $classes = null;
     if ($classes === null) {
-        $classes = array(
+        $classes = [
             'browser' => '/browser.php',
             'dir' => '/../lib/helper_dir.php',
             'file' => '/../lib/helper_file.php',
@@ -51,13 +55,14 @@ function autoloadda9d06472ccb71b84928677ce2a6ca89($class) {
             'image_imagick' => '/../lib/class_image_imagick.php',
             'image_gmagick' => '/../lib/class_image_gmagick.php',
             'image_gd' => '/../lib/class_image_gd.php',
-            'fastImage' => '/../lib/class_fastImage.php'
-        );
+            'fastImage' => '/../lib/class_fastImage.php',
+        ];
     }
     if (isset($classes[$class])) {
         require __DIR__ . $classes[$class];
     }
 }
+
 spl_autoload_register('autoloadda9d06472ccb71b84928677ce2a6ca89', true);
 
 // CUSTOM SESSION SAVE HANDLER CLASS EXAMPLE
@@ -143,6 +148,5 @@ class SessionSaveHandler {
 new SessionSaveHandler();
 
 */
-
 
 // PUT YOUR ADDITIONAL CODE HERE

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="media/calendar/datepicker.js"></script>
+<script src="media/calendar/datepicker.js"></script>
 <script>
 	var dpOffset = [(datepicker_offset)];
 	var dpformat = '[(datetime_format)] hh:mm:00';

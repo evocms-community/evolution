@@ -4,7 +4,7 @@
   * author: Krzysztof Lorenc
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "pl_PL.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Nie możesz zmienić rozszerzeń plików!",
     "Uploading file {number} of {count}... {progress}" => "Wysyłanie pliku nr {number} spośród {count} ... {progress}",
     "Failed to upload {filename}!" => "Wysyłanie pliku {filename} nie powiodło się!",
-);
+];
 
 ?>

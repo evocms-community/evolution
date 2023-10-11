@@ -339,14 +339,14 @@ class ManagerTheme implements ManagerThemeInterface
     public function getViewAttributes(array $params = [])
     {
         $baseParams = [
-            'modx' => $this->getCore(),
+            //'modx' => $this->getCore(),
             'modx_lang_attribute' => $this->getLang(),
             'modx_manager_charset' => $this->getCharset(),
             'manager_theme' => $this->getTheme(),
             'modx_textdir' => $this->getTextDir(),
             'manager_language' => $this->getLangName(),
-            '_lang' => $this->getLexicon(),
-            '_style' => $this->getStyle(),
+            //'_lang' => $this->getLexicon(),
+            //'_style' => $this->getStyle(),
         ];
 
         return array_merge($baseParams, $params);

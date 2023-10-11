@@ -1,9 +1,14 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SitePlugin;
+use EvolutionCMS\Models\SystemSetting;
+
 /**
  * mutate_settings.ajax.php
  */
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 
 $action = preg_replace('/[^A-Za-z0-9_\-\.\/]/', '', $_POST['action']);
@@ -19,23 +24,23 @@ switch (true) {
     case ($action == 'get' && preg_match('/^[A-z0-9_-]+$/',
             $lang) && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')): {
         include EVO_CORE_PATH . 'lang/' . $lang . '/global.php';
-        $str = isset($key, $_lang, $_lang[$key]) ? $_lang[$key] : "";
+        $str = ManagerTheme::getLexicon($key);
         break;
     }
     case ($action == 'setsetting' && !empty($key) && !empty($value)): {
-        \EvolutionCMS\Models\SystemSetting::query()->updateOrCreate(['setting_name' => $key], ['setting_value' => $value]);
+        SystemSetting::query()->updateOrCreate(['setting_name' => $key], ['setting_value' => $value]);
         $str = "true";
         $emptyCache = true;
         break;
     }
     case ($action == 'updateplugin' && ($key == '_delete_' && !empty($lang))): {
-        \EvolutionCMS\Models\SitePlugin::query()->where('name', $lang)->delete();
+        SitePlugin::query()->where('name', $lang)->delete();
         $str = "true";
         $emptyCache = true;
         break;
     }
     case ($action == 'updateplugin' && (!empty($key) && !empty($lang) && !empty($value))): {
-        \EvolutionCMS\Models\SitePlugin::query()->where('name', $lang)->update([$key => $value]);
+        SitePlugin::query()->where('name', $lang)->update([$key => $value]);
         $str = "true";
         $emptyCache = true;
         break;
@@ -46,7 +51,7 @@ switch (true) {
 }
 
 if ($emptyCache) {
-    $modx->clearCache('full');
+    evo()->clearCache('full');
 }
 
 echo $str;

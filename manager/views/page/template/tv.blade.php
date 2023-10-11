@@ -1,4 +1,9 @@
-<?php /** @var EvolutionCMS\Models\SiteTmplvar $item */ ?>
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+/** @var EvolutionCMS\Models\SiteTmplvar $item */
+?>
 <li>
     <label>
         @include('manager::form.inputElement', [
@@ -16,12 +21,12 @@
     @endif
     @if(!empty($item->isAlreadyEdit))
         <?php $rowLock = $item->alreadyEditInfo; ?>
-        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], __('global.lock_element_type_2')], __('global.lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
-            <i class="{{ $_style['icon_eye'] }}"></i>
+        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
+            <i class="{{ ManagerTheme::getStyle('icon_eye') }}"></i>
         </span>
     @else
         <a href="{{ $item->makeUrl('actions.edit') }}&or={{ $action ?? 0 }}&oid={{ $item->getKey() }}">
-            <i class="{{ $_style['icon_edit'] }}"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_edit') }}"></i>
             @lang('global.edit')
         </a>
     @endif

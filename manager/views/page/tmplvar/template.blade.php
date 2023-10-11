@@ -16,7 +16,7 @@
         @if(!empty($item->locked))
             <em>(@lang('global.locked'))</em>
         @endif
-        @if($item->getKey() == get_by_key($modx->config, 'default_template'))
+        @if($item->getKey() == get_by_key(evo()->config, 'default_template'))
             <em>(@lang('global.defaulttemplate_title'))</em>
         @endif
     </label>

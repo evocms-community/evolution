@@ -85,7 +85,7 @@
 <p class="loginLicense"></p>
 <div class="gpl">&copy; 2005-2022 by the <a href="https://evocms.ru/" target="_blank">Evolution CMS</a>. <strong>Evolution CMS</strong>&trade; is licensed under the GPL.</div>
 </body>
-<script type="text/javascript">
+<script>
     /* <![CDATA[ */
     if(window.frames.length) {
         window.location = self.document.location;

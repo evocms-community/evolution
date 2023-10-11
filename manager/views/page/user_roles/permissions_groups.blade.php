@@ -1,8 +1,13 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     <form name="userform" method="post" action="index.php" enctype="multipart/form-data">
         <input type="hidden" name="a" value="136">
-        <input type="hidden" name="mode" value="<?= app()->getManagerApi()->action ?>">
+        <input type="hidden" name="mode" value="<?= evo()->getManagerApi()->action ?>">
         <input type="hidden" name="id" value="<?= isset($_GET['id']) ? (int)$_GET['id'] : '' ?>">
 
         <h1>
@@ -11,7 +16,7 @@
                 <span>{{$groups->name}}</span>
                 <small>({{$groups->id}})</small>
             @else
-                <span>{{ __('global.groups_permission_title') }}</span>
+                <span>{{ ManagerTheme::getLexicon('groups_permission_title') }}</span>
             @endisset
         </h1>
 
@@ -21,7 +26,7 @@
             <div class="container container-body">
                 <div class="form-group">
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ __('global.cm_category_name') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('cm_category_name') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input class="form-control form-control-lg"
                                    name="name"
@@ -31,7 +36,7 @@
                         </div>
                     </div>
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ __('global.lang_key_desc') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('lang_key_desc') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input name="lang_key"
                                    type="text"
@@ -67,7 +72,7 @@
           document.userform.save.click()
         },
         delete: function () {
-          if (confirm("{{ __('global.confirm_delete_category') }}") === true) {
+          if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_category') }}') === true) {
             document.location.href = 'index.php?id=' + document.userform.id.value + '&a=136&action=delete'
           }
         },

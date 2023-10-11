@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -63,14 +68,14 @@
         <input type="hidden" name="mode" value="{{ $action }}" />
 
         <h1>
-            <i class="{{ $_style['icon_chunk'] }}"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_chunk') }}"></i>
             @if($data->name)
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
                 {{ ManagerTheme::getLexicon('new_htmlsnippet') }}
             @endif
-            <i class="{{ $_style['icon_question_circle'] }} help"></i>
+            <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
@@ -99,14 +104,14 @@
                                 'class' => 'form-control-lg',
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="100"'
                             ]) .
-                            ($modx->hasPermission('save_role')
+                            (evo()->hasPermission('save_role')
                             ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_htmlsnippet') . "\n" . ManagerTheme::getLexicon('lock_htmlsnippet_msg') .'">' .
                             ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
                                 'checked' => ($data->locked == 1)
                             ]) .
-                            '<i class="' . $_style['icon_lock'] . '"></i>
+                            '<i class="' . ManagerTheme::getStyle('icon_lock') . '"></i>
                             </label>
                             <small class="form-text text-danger hide" id="savingMessage"></small>
                             <script>if (!document.getElementsByName(\'name\')[0].value) document.getElementsByName(\'name\')[0].focus();</script>'
@@ -162,7 +167,7 @@
                 <!-- HTML text editor start -->
                 <div class="navbar navbar-editor">
                     <span>{{ ManagerTheme::getLexicon('chunk_code') }}</span>
-                    @if(get_by_key($modx->config, 'use_editor') == 1)
+                    @if(get_by_key(evo()->config, 'use_editor') == 1)
                         <span class="float-right">
                             {{ ManagerTheme::getLexicon('which_editor_title') }}
                             @include('manager::form.selectElement', [
@@ -198,7 +203,7 @@
         <input type="submit" name="save" style="display:none;" />
     </form>
 
-    @if(get_by_key($modx->config, 'use_editor') == 1)
+    @if(get_by_key(evo()->config, 'use_editor') == 1)
         {!! get_by_key($events, 'OnRichTextEditorInit') !!}
     @endif
 @endsection

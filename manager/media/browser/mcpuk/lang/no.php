@@ -5,7 +5,7 @@
   * country: Norway
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "nb_NO.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -237,6 +237,6 @@ $lang = array(
     "Type" => "Type",
     "Select Thumbnails" => "Velg miniatyrbilde",
     "Download files" => "Last ned filer",
-);
+];
 
 ?>
