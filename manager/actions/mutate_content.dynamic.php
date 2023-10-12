@@ -1735,7 +1735,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             ->toArray()
                     );
                     $documentId = (evo()->getManagerApi()->action == '27'
-                        ? $id : (!empty($_REQUEST['pid']) ? (int) $_REQUEST['pid'] : $content['parent']));
+                        ? $id : (!empty($_REQUEST['pid']) ? (int) $_REQUEST['pid'] : $content['parent'] ?? 0));
                     if ($documentId > 0) {
                         // Load up, the permissions from the parent (if new document) or existing document
                         $documentGroups = DocumentGroup::query()->where('document', $documentId)->get();
@@ -1747,7 +1747,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             ->select('documentgroup_names.*', 'document_groups.id as link_id')
                             ->leftJoin('document_groups', function ($join) use ($documentId) {
                                 $join->on('document_groups.document_group', '=', 'documentgroup_names.id');
-                                $join->on('document_groups.document', '=', \DB::raw($documentId));
+                                $join->on('document_groups.document', '=', DB::raw($documentId));
                             })
                             ->orderBy('documentgroup_names.name')
                             ->get();
