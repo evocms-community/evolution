@@ -32,13 +32,11 @@ $count = $siteContents->count();
 if ($count > 0) {
     include MODX_MANAGER_PATH . 'includes/header.inc.php';
     ?>
-    <h1><?php
-        echo ManagerTheme::getLexicon('templates'); ?></h1>
+    <h1><?= ManagerTheme::getLexicon('templates'); ?></h1>
 
     <div class="tab-page">
         <div class="container container-body">
-            <p><?php
-                echo ManagerTheme::getLexicon('template_inuse') ?></p>
+            <p><?= ManagerTheme::getLexicon('template_inuse') ?></p>
             <ul>
                 <?php
                 foreach ($siteContents as $row) {

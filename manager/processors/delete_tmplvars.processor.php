@@ -38,13 +38,11 @@ if (!$forced) {
             }
           }
         </script>
-        <?php
-        echo ManagerTheme::getStyle('actionbuttons')['dynamic']['canceldelete']; ?>
+        <?= ManagerTheme::getStyle('actionbuttons')['dynamic']['canceldelete']; ?>
 
         <div class="tab-page">
             <div class="container container-body">
-                <p><?php
-                    echo ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
+                <p><?= ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
                 <ul>
                     <?php
                     foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {

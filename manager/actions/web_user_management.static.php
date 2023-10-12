@@ -232,14 +232,14 @@ if ($numRecords > 0) {
     <input type="hidden" name="op" value=""/>
 
     <h1>
-        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?php
-        echo ManagerTheme::getLexicon('web_user_management_title') ?> <i
+        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?= ManagerTheme::getLexicon(
+            'web_user_management_title'
+        ) ?> <i
                 class="<?= ManagerTheme::getStyle('icon_question_circle') ?> help"></i>
     </h1>
 
     <div class="container element-edit-message">
-        <div class="alert alert-info"><?php
-            echo ManagerTheme::getLexicon('web_user_management_msg') ?></div>
+        <div class="alert alert-info"><?= ManagerTheme::getLexicon('web_user_management_msg') ?></div>
     </div>
 
     <div class="tab-page">
@@ -248,27 +248,27 @@ if ($numRecords > 0) {
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
                         <a class="btn btn-success btn-sm" href="index.php?a=87"><i
-                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?php
-                            echo ManagerTheme::getLexicon('new_web_user') ?></a>
+                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?= ManagerTheme::getLexicon(
+                                'new_web_user'
+                            ) ?></a>
                     </div>
                 </div>
                 <div class="col-sm-6 ">
                     <div class="input-group float-right w-auto">
                         <select class="form-control form-control-sm" name="role">
-                            <option value=""><?php
-                                echo ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
-                            <?php
-                            echo $role_options ?>
+                            <option value=""><?= ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
+                            <?= $role_options ?>
                         </select>
-                        <input class="form-control form-control-sm" name="search" type="text" value="<?php
-                        echo $query['search'] ?>" placeholder="<?php
-                        echo ManagerTheme::getLexicon('search') ?>"/>
+                        <input class="form-control form-control-sm" name="search" type="text"
+                               value="<?= $query['search'] ?>" placeholder="<?= ManagerTheme::getLexicon('search') ?>"/>
                         <div class="input-group-append">
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php
-                            echo ManagerTheme::getLexicon('search') ?>" onclick="searchResource(); return false;"><i
+                            <a class="btn btn-secondary btn-sm" href="javascript:;"
+                               title="<?= ManagerTheme::getLexicon('search') ?>"
+                               onclick="searchResource(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_search') ?>"></i></a>
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php
-                            echo ManagerTheme::getLexicon('reset') ?>" onclick="resetSearch(); return false;"><i
+                            <a class="btn btn-secondary btn-sm" href="javascript:;"
+                               title="<?= ManagerTheme::getLexicon('reset') ?>"
+                               onclick="resetSearch(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i></a>
                         </div>
                     </div>
@@ -278,16 +278,15 @@ if ($numRecords > 0) {
                 <?php
                 if ($numRecords > 0) : ?>
                     <div class="float-xs-left">
-                        <span class="publishedDoc"><?php
-                            echo $numRecords . ' ' . ManagerTheme::getLexicon('resources_in_container') ?></span>
+                        <span class="publishedDoc"><?= $numRecords . ' ' .
+                            ManagerTheme::getLexicon('resources_in_container') ?></span>
                     </div>
                 <?php
                 endif; ?>
             </div>
             <div class="row">
                 <div class="table-responsive">
-                    <?php
-                    echo $output; ?>
+                    <?= $output; ?>
                 </div>
             </div>
         </div>

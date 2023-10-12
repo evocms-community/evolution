@@ -212,8 +212,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
             $content['id'] . ')</small>' : ManagerTheme::getLexicon('module_resource_title')) ?>
     </h1>
 
-    <?php
-    echo ManagerTheme::getStyle('actionbuttons.dynamic.close') ?>
+    <?= ManagerTheme::getStyle('actionbuttons.dynamic.close') ?>
 
     <div class="section">
         <div class="sectionHeader">

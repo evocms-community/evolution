@@ -13,8 +13,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         if (!empty($data['elements'])) : ?>
             <?php
             foreach ($data['elements'] as $element) : ?>
-                <?php
-                echo $view->renderView('chunks/categorize/drag_element', $element); ?>
+                <?= $view->renderView('chunks/categorize/drag_element', $element); ?>
             <?php
             endforeach; ?>
         <?php

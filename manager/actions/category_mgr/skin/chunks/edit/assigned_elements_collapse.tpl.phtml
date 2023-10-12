@@ -2,7 +2,7 @@
 	<thead>
 	<tr>
 	<?php foreach( $data as $element => $items ) : ?>
-		<td><?php echo $view->txt( $element ); ?></td>
+		<td><?= $view->txt( $element ); ?></td>
 	<?php endforeach; ?>
 	</tr>
 	</thead>
@@ -10,12 +10,12 @@
 	<tr>
 	<?php foreach( $data as $element => $items ) : ?>
 		<?php if( empty( $items ) ) : ?>
-			<td><p class="no_assigned_elements"><?php echo $view->txt( 'none' ); ?></p></td>
+			<td><p class="no_assigned_elements"><?= $view->txt( 'none' ); ?></p></td>
 		<?php else: ?>
 			<td>
 				<ul>
 				<?php foreach( $items as $item ) : ?>
-					<li><?php echo (strtolower($element)==='templates')? e($item['templatename']) : e($item['name']); ?></li>
+					<li><?= (strtolower($element)==='templates')? e($item['templatename']) : e($item['name']); ?></li>
 				<?php endforeach; ?>
 				</ul>
 			</td>

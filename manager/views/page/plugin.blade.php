@@ -322,7 +322,6 @@ use EvolutionCMS\Facades\ManagerTheme;
                         ->orderBy('service', 'DESC')->orderBy('groupname', 'ASC')->orderBy('name', 'ASC');
 
                     if ($eventNames->count() == 0) {
-
                         echo "";
                     } else {
                         $srv = null;

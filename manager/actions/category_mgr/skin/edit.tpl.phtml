@@ -3,19 +3,17 @@
 use EvolutionCMS\Facades\ManagerTheme;
 
 ?>
-<form id="category-edit-form" action="<?php
-echo $view->get('url'); ?>" method="post">
-    <input name="<?php
-    echo $view->get('request_key'); ?>[edit][submit]" type="hidden" value="1"/>
+<form id="category-edit-form" action="<?= $view->get('url'); ?>" method="post">
+    <input name="<?= $view->get('request_key'); ?>[edit][submit]" type="hidden" value="1"/>
     <div class="form-group">
         <a class="btn btn-success btn-sm" href="javascript:;"
            onclick="document.getElementById('category-edit-form').submit();return false;"><i
-                    class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i> <?php
-            echo $view->txt('cm_update_categories'); ?></a>
+                    class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
+            <?= $view->txt('cm_update_categories'); ?></a>
         <a class="btn btn-secondary btn-sm" href="javascript:;" id="edit-help"
            onclick="document.querySelector('#edit-info').classList.toggle('show')"><i
-                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i> <?php
-            echo ManagerTheme::getLexicon('help'); ?></a>
+                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i>
+            <?= ManagerTheme::getLexicon('help'); ?></a>
     </div>
     <p id="edit-info" class="element-edit-message">
         Change category name or delete category from the Manager.
@@ -25,14 +23,10 @@ echo $view->get('url'); ?>" method="post">
             <table id="category-edit" class="table data table-even nowrap">
                 <thead>
                 <tr>
-                    <td width="1%"><?php
-                        echo $view->txt('cm_assigned_elements'); ?></td>
-                    <td><?php
-                        echo $view->txt('cm_edit_name'); ?></td>
-                    <td width="1%"><?php
-                        echo $view->txt('cm_mark_for_deletion'); ?></td>
-                    <td width="1%"><?php
-                        echo $view->txt('cm_delete_now'); ?></td>
+                    <td width="1%"><?= $view->txt('cm_assigned_elements'); ?></td>
+                    <td><?= $view->txt('cm_edit_name'); ?></td>
+                    <td width="1%"><?= $view->txt('cm_mark_for_deletion'); ?></td>
+                    <td width="1%"><?= $view->txt('cm_delete_now'); ?></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,56 +36,31 @@ echo $view->get('url'); ?>" method="post">
                     <tr>
                         <td>
                             <button class="btn btn-secondary collapsed" type="button" data-toggle="collapse"
-                                    data-target="#collapse-edit-<?php
-                                    echo $i; ?>" aria-expanded="false" aria-controls="#collapse-edit-<?php
-                            echo $i; ?>" data-tooltip="#assigned-elements-<?php
-                            echo $category['id']; ?>">
+                                    data-target="#collapse-edit-<?= $i; ?>" aria-expanded="false" aria-controls="#collapse-edit-<?= $i; ?>" data-tooltip="#assigned-elements-<?= $category['id']; ?>">
                                 <i class="<?= ManagerTheme::getStyle('icon_info_circle') ?>"></i>
                             </button>
-                            <div id="assigned-elements-<?php
-                            echo $category['id']; ?>" class="hide"><?php
+                            <div id="assigned-elements-<?= $category['id']; ?>" class="hide"><?php
                                 $view->renderView(
                                     'chunks/edit/assigned_elements',
                                     $view->getAllAssignedElements($category['id'])
                                 ); ?></div>
                         </td>
                         <td>
-                            <input type="hidden" name="<?php
-                            echo $view->get('request_key'); ?>[edit][data][<?php
-                            echo $category['id'] ?>][rank]" value="<?php
-                            echo $category['rank']; ?>"/>
-                            <input type="hidden" name="<?php
-                            echo $view->get('request_key'); ?>[edit][data][<?php
-                            echo $category['id'] ?>][origin]" value="<?php
-                            echo urlencode($category['category']); ?>"/>
-                            <input type="text" name="<?php
-                            echo $view->get('request_key'); ?>[edit][data][<?php
-                            echo $category['id'] ?>][category]" value="<?php
-                            echo e($category['category']); ?>"/>
+                            <input type="hidden" name="<?= $view->get('request_key'); ?>[edit][data][<?= $category['id'] ?>][rank]" value="<?= $category['rank']; ?>"/>
+                            <input type="hidden" name="<?= $view->get('request_key'); ?>[edit][data][<?= $category['id'] ?>][origin]" value="<?= urlencode($category['category']); ?>"/>
+                            <input type="text" name="<?= $view->get('request_key'); ?>[edit][data][<?= $category['id'] ?>][category]" value="<?= e($category['category']); ?>"/>
                         </td>
                         <td class="text-xs-center">
-                            <input type="checkbox" name="<?php
-                            echo $view->get('request_key'); ?>[edit][data][<?php
-                            echo $category['id'] ?>][delete]" value="1"/>
+                            <input type="checkbox" name="<?= $view->get('request_key'); ?>[edit][data][<?= $category['id'] ?>][delete]" value="1"/>
                         </td>
                         <td class="text-xs-center">
-                            <a class="btn btn-outline-danger" onclick="return confirm('<?php
-                            echo $view->txt('are_you_sure'); ?>');" href="<?php
-                            echo $view->get('url'); ?>&amp;<?php
-                            echo $view->get('request_key'); ?>[delete]=<?php
-                            echo $category['id']; ?>&amp;<?php
-                            echo $view->get('request_key'); ?>[category]=<?php
-                            echo urlencode($category['category']); ?>" data-tooltip="<?php
-                            echo htmlspecialchars($category['category']) ?>::<?php
-                            echo sprintf(
+                            <a class="btn btn-outline-danger" onclick="return confirm('<?= $view->txt('are_you_sure'); ?>');" href="<?= $view->get('url'); ?>&amp;<?= $view->get('request_key'); ?>[delete]=<?= $category['id']; ?>&amp;<?= $view->get('request_key'); ?>[category]=<?= urlencode($category['category']); ?>" data-tooltip="<?= htmlspecialchars($category['category']) ?>::<?= sprintf(
                                 $view->txt('cm_delete_element_x_now'),
                                 htmlspecialchars($category['category'])
-                            ); ?>"><i class="<?= ManagerTheme::getStyle('icon_info_triangle') ?>"></i> <?php
-                                echo $view->txt('delete'); ?></a>
+                            ); ?>"><i class="<?= ManagerTheme::getStyle('icon_info_triangle') ?>"></i> <?= $view->txt('delete'); ?></a>
                         </td>
                     </tr>
-                    <tr class="collapse" id="collapse-edit-<?php
-                    echo $i; ?>">
+                    <tr class="collapse" id="collapse-edit-<?= $i; ?>">
                         <td colspan="4">
                             <?php
                             $view->renderView(

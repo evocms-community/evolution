@@ -5,34 +5,28 @@ use EvolutionCMS\Facades\ManagerTheme;
 ?>
 <form action="<?php
 $view->get('url'); ?>" method="post" id="add_form">
-    <input name="<?php
-    echo $view->get('request_key'); ?>[add][submit]" type="hidden" value="1"/>
+    <input name="<?= $view->get('request_key'); ?>[add][submit]" type="hidden" value="1"/>
     <div class="form-group">
         <a class="btn btn-success btn-sm" href="javascript:;"
            onclick="document.getElementById('add_form').submit();return false;"><i
-                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?php
-            echo $view->txt('cm_create_new_category'); ?></a>
+                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
+            <?= $view->txt('cm_create_new_category'); ?></a>
         <a class="btn btn-secondary btn-sm" href="javascript:;" id="add-help"
            onclick="document.querySelector('#add-info').classList.toggle('show')"><i
-                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i> <?php
-            echo ManagerTheme::getLexicon('help'); ?></a>
+                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i>
+            <?= ManagerTheme::getLexicon('help'); ?></a>
     </div>
     <p id="add-info" class="element-edit-message">
-        <?php
-        echo ManagerTheme::getLexicon('cm_add_new_category'); ?>
+        <?= ManagerTheme::getLexicon('cm_add_new_category'); ?>
     </p>
     <div class="row form-row">
         <div class="col-xs-12 col-sm-9">
-            <label><?php
-                echo $view->txt('cm_category_name'); ?></label>
-            <input type="text" class="form-control" name="<?php
-            echo $view->get('request_key'); ?>[add][data][name]"/>
+            <label><?= $view->txt('cm_category_name'); ?></label>
+            <input type="text" class="form-control" name="<?= $view->get('request_key'); ?>[add][data][name]"/>
         </div>
         <div class="col-xs-12 col-sm-3">
-            <label><?php
-                echo $view->txt('cm_category_position'); ?></label>
-            <input type="text" class="form-control" name="<?php
-            echo $view->get('request_key'); ?>[add][data][rank]"/>
+            <label><?= $view->txt('cm_category_position'); ?></label>
+            <input type="text" class="form-control" name="<?= $view->get('request_key'); ?>[add][data][rank]"/>
         </div>
     </div>
 </form>

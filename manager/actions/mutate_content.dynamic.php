@@ -503,7 +503,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
   function evoRenderTvImageCheck (a) {
     var b = document.getElementById('image_for_' + a.target.id),
       c = new Image
-    a.target.value ? (c.src = "<?php echo evo()->getConfig('site_url')?>" + a.target.value, c.onerror = function () {
+    a.target.value ? (c.src = "<?= evo()->getConfig('site_url')?>" + a.target.value, c.onerror = function () {
       b.style.backgroundImage = '', b.setAttribute('data-image', '')
     }, c.onload = function () {
       b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src)
