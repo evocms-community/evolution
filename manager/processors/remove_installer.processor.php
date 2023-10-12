@@ -13,7 +13,7 @@
  */
 if (!function_exists('rmdirRecursive')) {
     /**
-     * rmdirRecursive - detects symbollic links on unix
+     * rmdirRecursive - detects symbolic links on unix
      *
      * @param string $path
      * @param bool $followLinks

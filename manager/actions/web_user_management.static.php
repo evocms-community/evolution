@@ -1,7 +1,10 @@
 <?php
 
 use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\User;
+use EvolutionCMS\Models\UserRole;
 use EvolutionCMS\Support\ContextMenu;
+use EvolutionCMS\Support\MakeTable;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -52,14 +55,14 @@ echo $cm->render();
 $role_options =
     '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . ManagerTheme::getLexicon('no_user_role') .
     '</option>';
-$roles = \EvolutionCMS\Models\UserRole::query()->select('id', 'name')->get()->toArray();
+$roles = UserRole::query()->select('id', 'name')->get()->toArray();
 foreach ($roles as $row) {
     $role_options .= '<option value="' . $row['id'] . '" ' .
         ($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '') . '>' . e($row['name']) . '</option>';
 }
 
 // prepare data
-$managerUsers = \EvolutionCMS\Models\User::query()
+$managerUsers = User::query()
     ->select(
         'users.id',
         'users.username',
@@ -112,7 +115,7 @@ if ($numRecords > 0) {
         '',
         'right" nowrap="nowrap,right,center',
     ];
-    $table = new \EvolutionCMS\Support\MakeTable();
+    $table = new MakeTable();
     $table->setTableClass($tableClass);
     $table->setColumnHeaderClass($columnHeaderClass);
     // evo()->getMakeTable()->setRowHeaderClass($rowHeaderClass);
@@ -152,7 +155,7 @@ if ($numRecords > 0) {
 
         $listDocs[] = [
             'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] .
-                ',event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' .
+                ', event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' .
                 ManagerTheme::getStyle(empty($el['name']) ? 'icon_no_user_role' : 'icon_web_user') . '"></i></a>',
             'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' .
                 ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',

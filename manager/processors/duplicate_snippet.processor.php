@@ -10,12 +10,14 @@ if (!evo()->hasPermission('new_snippet')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 // count duplicates
+/** @var SiteSnippet $snippet */
 $snippet = SiteSnippet::query()->findOrFail($id);
 $name = $snippet->name;
 $count =

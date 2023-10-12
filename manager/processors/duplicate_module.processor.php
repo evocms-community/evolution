@@ -12,10 +12,12 @@ if (!evo()->hasPermission('new_module')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
+
 // count duplicates
 $name = SiteModule::query()->select('name')->findOrFail($id)->name;
 $count =
@@ -46,6 +48,7 @@ $module = SiteModule::query()
     )
     ->findOrFail($id);
 
+/** @var SiteModule $moduleNew */
 $moduleNew = $module->replicate();
 $moduleNew->name .= ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . $count;
 $moduleNew->guid = createGUID();
@@ -57,7 +60,7 @@ $newid = $moduleNew->id;
 SiteModuleDepobj::query()
     ->select('module', 'resource', 'type')
     ->where('module', $id)->get()
-    ->each(function ($item, $key) use ($newid) {
+    ->each(function ($item) use ($newid) {
         $item->module = $newid;
         $item->replicate()->save();
     });

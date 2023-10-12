@@ -11,8 +11,9 @@ if (!evo()->hasPermission('new_plugin')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
@@ -41,6 +42,7 @@ $plugin =
         ])
         ->findOrFail($id);
 
+/** @var SitePlugin $pluginNew */
 $pluginNew = $plugin->replicate();
 $pluginNew->name .= ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . $count;
 $pluginNew->disabled = 1;
@@ -51,7 +53,7 @@ $newid = $pluginNew->id;
 SitePluginEvent::query()
     ->select('pluginid', 'evtid', 'priority')
     ->where('pluginid', $id)->get()
-    ->each(function ($item, $key) use ($newid) {
+    ->each(function ($item) use ($newid) {
         $item->pluginid = $newid;
         $item->replicate()->save();
     });

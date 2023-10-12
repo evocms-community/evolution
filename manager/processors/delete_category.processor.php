@@ -12,8 +12,9 @@ if (!evo()->hasPermission('save_plugin') && !evo()->hasPermission('save_snippet'
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['catId']) ? (int) $_GET['catId'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['catId'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 

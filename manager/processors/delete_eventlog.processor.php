@@ -13,8 +13,8 @@ if (!evo()->hasPermission('delete_eventlog')) {
 $query = EventLog::query();
 
 if (!(isset($_GET['cls']) && $_GET['cls'] == 1)) {
-    $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-    if ($id == 0) {
+    $id = (int) ($_GET['id'] ?? 0);
+    if (!$id) {
         evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
     }
     $query = $query->where('id', $id);

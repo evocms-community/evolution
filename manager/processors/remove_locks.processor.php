@@ -8,7 +8,9 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 
-if (!isset($_GET['id'])) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     if (!evo()->hasPermission('remove_locks')) {
         evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
     }
@@ -20,11 +22,10 @@ if (!isset($_GET['id'])) {
     header('Location: index.php?a=2');
 } else {
     // Remove single locks via AJAX / window.onbeforeunload
-    $type = (int) $_GET['type'];
-    $id = (int) $_GET['id'];
-    $includeAllUsers = evo()->hasPermission('remove_locks'); // Enables usage of "unlock"-ajax-button
-    if ($type && $id) {
-        evo()->unlockElement($type, $id, $includeAllUsers);
+    $type = (int) ($_GET['type'] ?? 0);
+    if ($type) {
+        // Enables usage of "unlock"-ajax-button
+        evo()->unlockElement($type, $id, evo()->hasPermission('remove_locks'));
         echo '1';
         exit;
     } else {

@@ -8,6 +8,7 @@ use EvolutionCMS\Models\User;
 use EvolutionCMS\Models\UserAttribute;
 use EvolutionCMS\Models\UserRole;
 use EvolutionCMS\Models\UserSetting;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -82,7 +83,7 @@ if (evo()->getManagerApi()->action == '88') {
 
     // get user settings
     $usersettings = UserSetting::query()->where('user', $user)->pluck('setting_value', 'setting_name')->toArray();
-    extract($usersettings, EXTR_OVERWRITE);
+    extract($usersettings);
     // get username
     $usernamedata = User::query()->find($user)->toArray();
     if (!$usernamedata) {
@@ -298,9 +299,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
       window.location.href = 'index.php?a=99'
     }
   }
-</script>
 
-<script>
   function evoRenderTvImageCheck (a) {
     var b = document.getElementById('image_for_' + a.target.id),
       c = new Image
@@ -753,17 +752,18 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                     ?>
                 </table>
                 <?php
-                $tvs = SiteTmplvar::query()->select(
-                    'site_tmplvars.*',
-                    'user_values.value',
-                    'user_role_vars.rank as tvrank',
-                    'user_role_vars.rank',
-                    'site_tmplvars.id',
-                    'site_tmplvars.rank'
-                )
+                $tvs = SiteTmplvar::query()
+                    ->select(
+                        'site_tmplvars.*',
+                        'user_values.value',
+                        'user_role_vars.rank as tvrank',
+                        'user_role_vars.rank',
+                        'site_tmplvars.id',
+                        'site_tmplvars.rank'
+                    )
                     ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
                     ->leftJoin('user_values', function ($query) use ($user) {
-                        $query->on('user_values.userid', '=', \DB::raw($user));
+                        $query->on('user_values.userid', '=', DB::raw($user));
                         $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
                     });
                 $group_tvs = evo()->getConfig('group_tvs');
@@ -1246,23 +1246,15 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td>
                             <select name="which_browser" class="inputBox" onChange="documentDirty=true;">
                                 <?php
-                                if (isset($usersettings['which_browser'])) {
-                                    $selected = $usersettings['which_browser'];
-                                } else {
-                                    $selected = '';
-                                }
+                                $selected = $usersettings['which_browser'] ?? '';
                                 echo '<option value="default"' . $selected . '>' .
                                     ManagerTheme::getLexicon('option_default') . "</option>\n";
                                 foreach (glob('media/browser/*', GLOB_ONLYDIR) as $dir) {
                                     $dir = str_replace('\\', '/', $dir);
                                     $browser_name = substr($dir, strrpos($dir, '/') + 1);
-                                    if (isset($usersettings['which_browser'])) {
-                                        $selected = $usersettings['which_browser'];
-                                    } else {
-                                        $selected = '';
-                                    }
+                                    $selected = $usersettings['which_browser'] ?? '';
                                     echo '<option value="' . $browser_name . '"' . $selected . '>' .
-                                        "{$browser_name}</option>\n";
+                                        "$browser_name</option>\n";
                                 }
                                 ?>
                             </select>

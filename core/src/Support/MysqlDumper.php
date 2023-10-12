@@ -78,12 +78,12 @@ class MysqlDumper implements MysqlDumperInterface
     {
         $modx = evolutionCMS();
         $createtable = array();
-        $dataBaseConfig = $modx->db->getConfig();
+        $dataBaseConfig = $modx->getDatabase()->getConfig();
 
         $databaseName = $dataBaseConfig['database'];
 
         $sql =  'SELECT table_name AS "table", round(((data_length + index_length) / 1024 / 1024)) "size" FROM information_schema.TABLES WHERE table_schema = "'.$databaseName.'"';
-        $tableSizes = array_column($modx->db->makeArray($modx->db->query($sql)),'size','table');
+        $tableSizes = array_column($modx->getDatabase()->makeArray($modx->getDatabase()->query($sql)),'size','table');
 
         // Set line feed
         $lf = "\n";

@@ -3,6 +3,9 @@
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\MembergroupName;
 use EvolutionCMS\Models\SiteModule;
+use EvolutionCMS\Models\SiteModuleAccess;
+use EvolutionCMS\Models\SiteModuleDepobj;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -21,7 +24,8 @@ switch (evo()->getManagerApi()->action) {
     default:
         evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
-$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
+
+$id = (int) ($_REQUEST['id'] ?? 0);
 
 // check to see the module editor isn't locked
 if ($lockedEl = evo()->elementIsLocked(6, $id)) {
@@ -138,8 +142,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
     // Prepare internal params & info-tab via parseDocBlock
     $modulecode = $content['modulecode'] ?? '';
-    $docBlock = evo()->parseDocBlockFromString($modulecode);
-    $docBlockList = evo()->convertDocBlockIntoList($docBlock);
+    $docBlock = evo()->get('DocBlock')->parseFromString($modulecode);
+    $docBlockList = evo()->get('DocBlock')->convertIntoList($docBlock);
     $internal = [];
     ?>
     <input type="hidden" name="a" value="109">
@@ -391,42 +395,43 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             ) ?></a>
                     </div>
                     <?php
-                    $depobj = \EvolutionCMS\Models\SiteModuleDepobj::query()->select(
-                        'site_module_depobj.id',
-                        \DB::raw('COALESCE(NULL'),
-                        'site_snippets.name',
-                        'site_templates.templatename',
-                        'site_tmplvars.name',
-                        'site_htmlsnippets.name',
-                        'site_tmplvars.name',
-                        'site_plugins.name',
-                        'site_content.pagetitle',
-                        \DB::raw('NULL) as name'),
-                        'site_module_depobj.type'
-                    )
+                    $depobj = SiteModuleDepobj::query()
+                        ->select(
+                            'site_module_depobj.id',
+                            DB::raw('COALESCE(NULL'),
+                            'site_snippets.name',
+                            'site_templates.templatename',
+                            'site_tmplvars.name',
+                            'site_htmlsnippets.name',
+                            'site_tmplvars.name',
+                            'site_plugins.name',
+                            'site_content.pagetitle',
+                            DB::raw('NULL) as name'),
+                            'site_module_depobj.type'
+                        )
                         ->leftJoin('site_htmlsnippets', function ($join) {
                             $join->on('site_htmlsnippets.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(10));
+                            $join->on('site_module_depobj.type', '=', DB::raw(10));
                         })
                         ->leftJoin('site_content', function ($join) {
                             $join->on('site_content.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(20));
+                            $join->on('site_module_depobj.type', '=', DB::raw(20));
                         })
                         ->leftJoin('site_plugins', function ($join) {
                             $join->on('site_plugins.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(30));
+                            $join->on('site_module_depobj.type', '=', DB::raw(30));
                         })
                         ->leftJoin('site_snippets', function ($join) {
                             $join->on('site_snippets.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(40));
+                            $join->on('site_module_depobj.type', '=', DB::raw(40));
                         })
                         ->leftJoin('site_templates', function ($join) {
                             $join->on('site_templates.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(50));
+                            $join->on('site_module_depobj.type', '=', DB::raw(50));
                         })
                         ->leftJoin('site_tmplvars', function ($join) {
                             $join->on('site_tmplvars.id', '=', 'site_module_depobj.resource');
-                            $join->on('site_module_depobj.type', '=', \DB::raw(60));
+                            $join->on('site_module_depobj.type', '=', DB::raw(60));
                         })
                         ->where('site_module_depobj.module', $id)
                         ->orderBy('site_module_depobj.type')
@@ -447,8 +452,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     $grd->columnHeaderClass = 'gridHeader';
                     $grd->itemClass = 'gridItem';
                     $grd->altItemClass = 'gridAltItem';
-                    $grd->columns = ManagerTheme::getLexicon('element_name') . " ," . ManagerTheme::getLexicon('type');
-                    $grd->fields = "name,type";
+                    $grd->columns = ManagerTheme::getLexicon('element_name') . ' ,' . ManagerTheme::getLexicon('type');
+                    $grd->fields = 'name,type';
                     echo $grd->render();
                     ?>
                 </div>
@@ -467,9 +472,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 <div class="container container-body">
                     <?php
                     // fetch user access permissions for the module
-                    $groupsarray =
-                        \EvolutionCMS\Models\SiteModuleAccess::query()->where('module', $id)->pluck('usergroup')
-                            ->toArray();
+                    $groupsarray = SiteModuleAccess::query()->where('module', $id)->pluck('usergroup') ->toArray();
                     ?>
                     <!-- User Group Access Permissions -->
                     <script>

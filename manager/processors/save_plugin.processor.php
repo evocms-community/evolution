@@ -16,6 +16,7 @@ if (isset($_GET['disabled'])) {
     $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
+        /** @var SitePlugin $plugin */
         $plugin = SitePlugin::query()->findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         evo()->invokeEvent('OnBeforePluginFormSave', [
@@ -67,7 +68,7 @@ if ($name == '') {
 }
 
 if ($parse_docblock) {
-    $parsed = evo()->parseDocBlockFromString($plugincode, true);
+    $parsed = evo()->get('DocBlock')->parseFromString($plugincode, true);
     $name = $parsed['name'] ?? $name;
     $sysevents = isset($parsed['events']) ? explode(',', $parsed['events']) : $sysevents;
     $properties = $parsed['properties'] ?? $properties;

@@ -4,6 +4,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteModule;
 use EvolutionCMS\Models\SiteModuleDepobj;
 use EvolutionCMS\Models\SitePlugin;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -13,7 +14,7 @@ if (!evo()->hasPermission('edit_module')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
+$id = (int) ($_REQUEST['id'] ?? 0);
 
 // initialize page view state - the $_PAGE object
 evo()->getManagerApi()->initPageViewState();
@@ -63,7 +64,8 @@ switch ($_REQUEST['op'] ?? '') {
                 ->where(
                     'type',
                     $type
-                )->delete();
+                )
+                ->delete();
 
             foreach ($opids as $opid) {
                 SiteModuleDepobj::query()
@@ -120,7 +122,7 @@ switch ($_REQUEST['op'] ?? '') {
 }
 
 // load record
-$content = SiteModule::find($id);
+$content = SiteModule::query()->find($id);
 if (is_null($content)) {
     evo()->webAlertAndQuit('Module not found for id \'' . $id . '\'.');
 }
@@ -132,7 +134,6 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 
 ?>
 <script>
-
   function removeDependencies () {
     if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_record'); ?>') === true) {
       documentDirty = false

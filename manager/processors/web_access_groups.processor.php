@@ -19,6 +19,7 @@ if (!evo()->hasPermission('manage_groups')) {
 
 $updategroupaccess = false;
 $operation = $_REQUEST['operation'];
+$context = 0;
 
 switch ($operation) {
     case 'add_user_group':
@@ -48,7 +49,7 @@ switch ($operation) {
             ]);
         }
         break;
-    case "delete_user_group":
+    case 'delete_user_group':
         $updategroupaccess = true;
         $usergroup = (int) ($_REQUEST['usergroup'] ?? '');
         if (empty($usergroup)) {

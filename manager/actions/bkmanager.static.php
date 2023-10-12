@@ -115,7 +115,7 @@ if ($mode == 'restore1') {
 
             break;
         default:
-            $dumper = new EvolutionCMS\Support\MysqlDumper($dbase);
+            $dumper = new \EvolutionCMS\Support\MysqlDumper($dbase);
             $dumper->setDBtables($tables);
 
             $dumper->setDroptables(isset($_POST['droptables']));
@@ -181,7 +181,7 @@ if ($mode == 'restore1') {
             $tables = evo()->getDatabase()->getColumn('Name', $rs);
 
             @set_time_limit(120); // set timeout limit to 2 minutes
-            $dumper = new EvolutionCMS\Support\MysqlDumper($dbase);
+            $dumper = new \EvolutionCMS\Support\MysqlDumper($dbase);
             $dumper->setDBtables($tables);
             $dumper->setSnapshotFile($path);
             $dumper->setDroptables(true);
@@ -190,6 +190,7 @@ if ($mode == 'restore1') {
             $pattern = evo()->getConfig('snapshot_path') . '*.sql';
             $files = glob($pattern, GLOB_NOCHECK);
             $total = ($files[0] !== $pattern) ? count($files) : 0;
+            $limit = 0;
             arsort($files);
             while (10 < $total && $limit < 50) {
                 $del_file = array_pop($files);

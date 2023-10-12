@@ -11,30 +11,29 @@ use EvolutionCMS\Models\SiteTmplvar;
 
 /**
  * Create a new category
+ *
  * @param string $newCat
+ *
  * @return int
  */
-function newCategory($newCat)
+function newCategory($newCat): int
 {
-    $categoryId = \EvolutionCMS\Models\Category::query()->insertGetId(['category'=>$newCat]);
-    if (!$categoryId) {
-        $categoryId = 0;
-    }
-
-    return $categoryId;
+    return Category::query()->insertGetId(['category' => $newCat]) ?: 0;
 }
 
 /**
  * check if new category already exists
  *
  * @param string $newCat
+ *
  * @return int
  */
-function checkCategory($newCat = '')
+function checkCategory($newCat = ''): int
 {
-    $newCatCheck = \EvolutionCMS\Models\Category::query()->where('category', $newCat)->first();
+    $newCatCheck = Category::query()->firstWhere('category', $newCat);
+
     if (!is_null($newCatCheck)) {
-        return (int)$newCatCheck->id;
+        return (int) $newCatCheck->id;
     }
 
     return 0;
@@ -44,16 +43,12 @@ function checkCategory($newCat = '')
  * Check for category, create new if not exists
  *
  * @param string $category
+ *
  * @return int
  */
-function getCategory($category = '')
+function getCategory($category = ''): int
 {
-    $categoryId = checkCategory($category);
-    if (!$categoryId) {
-        $categoryId = newCategory($category);
-    }
-
-    return $categoryId;
+    return checkCategory($category) ?: newCategory($category);
 }
 
 /**
@@ -61,15 +56,13 @@ function getCategory($category = '')
  *
  * @return array
  */
-function getCategories()
+function getCategories(): array
 {
-    $categories = Category::orderBy('category', 'ASC')->get()->toArray();
-    foreach ($categories as $row) {
-        $row['category'] = stripslashes($row['category']);
-        $resourceArray[] = $row;
-    }
-
-    return $resourceArray;
+    return Category::query()
+        ->orderBy('category', 'ASC')
+        ->get()
+        ->map(fn(Category $category) => $category->setAttribute('category', stripslashes($category->category)))
+        ->toArray();
 }
 
 /**
@@ -80,18 +73,18 @@ function getCategories()
 function deleteCategory($catId = 0)
 {
     if ($catId) {
-        SiteTemplate::where('category', $catId)->update(['category' => 0]);
+        SiteTemplate::query()->where('category', $catId)->update(['category' => 0]);
 
-        SiteTmplvar::where('category', $catId)->update(['category' => 0]);
+        SiteTmplvar::query()->where('category', $catId)->update(['category' => 0]);
 
-        SiteHtmlsnippet::where('category', $catId)->update(['category' => 0]);
+        SiteHtmlsnippet::query()->where('category', $catId)->update(['category' => 0]);
 
-        SiteSnippet::where('category', $catId)->update(['category' => 0]);
+        SiteSnippet::query()->where('category', $catId)->update(['category' => 0]);
 
-        SitePlugin::where('category', $catId)->update(['category' => 0]);
+        SitePlugin::query()->where('category', $catId)->update(['category' => 0]);
 
-        SiteModule::where('category', $catId)->update(['category' => 0]);
+        SiteModule::query()->where('category', $catId)->update(['category' => 0]);
 
-        Category::where('id', $catId)->delete();
+        Category::query()->where('id', $catId)->delete();
     }
 }

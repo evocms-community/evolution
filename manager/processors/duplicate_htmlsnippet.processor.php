@@ -10,12 +10,14 @@ if (!evo()->hasPermission('new_chunk')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 // count duplicates
+/** @var SiteHtmlsnippet $htmlsnippet */
 $htmlsnippet = SiteHtmlsnippet::query()->findOrFail($id);
 $name = $htmlsnippet->name;
 $count = SiteHtmlsnippet::query()->where(
