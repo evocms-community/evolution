@@ -175,7 +175,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
   function changeblockstate (el, checkelement) {
     if (parseInt(el.value) === 1) {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_unblock'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_unblock'); ?>`) === true) {
         document.userform.blocked.value = 0
         document.userform.blockeduntil.value = ''
         document.userform.blockedafter.value = ''
@@ -187,7 +187,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
         checkelement.checked = true
       }
     } else {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_block'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_block'); ?>`) === true) {
         document.userform.blocked.value = 1
         blocked.innerHTML = '<b><?= ManagerTheme::getLexicon('block_message'); ?></b>'
         blocked.className = 'warning'
@@ -205,7 +205,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
   // change name
   function changeName () {
-    if (confirm('<?= ManagerTheme::getLexicon('confirm_name_change'); ?>') === true) {
+    if (confirm(`<?= ManagerTheme::getLexicon('confirm_name_change'); ?>`) === true) {
       var e1 = document.getElementById('showname')
       var e2 = document.getElementById('editname')
       e1.style.display = 'none'
@@ -268,7 +268,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     }
 
     if (documentDirty === true) {
-      if (confirm('<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>')) {
+      if (confirm(`<?= ManagerTheme::getLexicon('tmplvar_change_template_msg') ?>`)) {
         documentDirty = false
         document.userform.a.value = <?= $user ? 88 : 87 ?>;
         document.userform.newrole.value = newRole
@@ -290,7 +290,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
       document.userform.save.click()
     },
     delete: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_user'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_user') ?>`) === true) {
         window.location.href = 'index.php?id=' + document.userform.id.value + '&a=90'
       }
     },

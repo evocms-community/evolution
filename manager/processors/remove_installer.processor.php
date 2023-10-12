@@ -49,7 +49,7 @@ if (isset($_GET['rminstall'])) {
     }
 }
 if ($msg) {
-    echo "<script>alert('" . addslashes($msg) . "');</script>";
+    echo "<script>alert(`" . addslashes($msg) . "`);</script>";
 }
 
 echo "<script>window.location='../#?a=2';</script>";

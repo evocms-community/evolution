@@ -17,13 +17,13 @@ use EvolutionCMS\Facades\ManagerTheme;
                     //saveWait('mutate');
                 },
                 duplicate: function () {
-                    if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
+                    if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
                         documentDirty = false;
                         document.location.href = "index.php?id={{ $data->getKey() }}&a=96";
                     }
                 },
                 delete: function () {
-                    if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_template') }}') === true) {
+                    if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_template') }}`) === true) {
                         documentDirty = false;
                         document.location.href = 'index.php?id={{ $data->getKey() }}&a=21';
                     }

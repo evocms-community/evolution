@@ -81,7 +81,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
   function loadDependencies () {
     if (documentDirty) {
-      if (!confirm('<?= ManagerTheme::getLexicon('confirm_load_depends')?>')) {
+      if (!confirm(`<?= ManagerTheme::getLexicon('confirm_load_depends')?>`)) {
         return
       }
     }
@@ -98,13 +98,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       saveWait('mutate')
     },
     duplicate: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_duplicate_record') ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_duplicate_record') ?>`) === true) {
         documentDirty = false
         document.location.href = 'index.php?id=<?= $_REQUEST['id'] ?? '' ?>&a=111'
       }
     },
     delete: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_module') ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_module') ?>`) === true) {
         documentDirty = false
         document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=110'
       }

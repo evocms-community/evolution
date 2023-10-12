@@ -102,7 +102,7 @@ function MultiSelector( list_target, max ){
 			
 		} else {
 			// This can only be applied to file input elements!
-			alert( 'Error: not a file input element' );
+			alert( `Error: not a file input element` );
 		};
 
 	};

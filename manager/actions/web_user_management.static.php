@@ -209,7 +209,7 @@ if ($numRecords > 0) {
         window.location.href = 'index.php?a=88&id=' + id
         break
       case 2: // delete
-        if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_user') ?>') === true) {
+        if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_user') ?>`) === true) {
           window.location.href = 'index.php?a=90&id=' + id
         }
         break

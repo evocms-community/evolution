@@ -75,11 +75,11 @@ foreach ($contents->get()->toArray() as $ph) {
     if (evo()->hasPermission('delete_document')) {
         if ($ph['deleted'] == 0) {
             $delete_btn =
-                '<a onclick="return confirm(\'[%confirm_delete_record%]\')" title="[%delete_resource%]" href="index.php?a=6&amp;id=[+id+]" target="main"><i class="' .
+                '<a onclick="return confirm(`[%confirm_delete_record%]`)" title="[%delete_resource%]" href="index.php?a=6&amp;id=[+id+]" target="main"><i class="' .
                 ManagerTheme::getStyle('icon_trash') . ManagerTheme::getStyle('icon_size_fix') . '"></i></a> ';
         } else {
             $delete_btn =
-                '<a onclick="return confirm(\'[%confirm_undelete%]\')" title="[%undelete_resource%]" href="index.php?a=63&amp;id=[+id+]" target="main"><i class="' .
+                '<a onclick="return confirm(`[%confirm_undelete%]`)" title="[%undelete_resource%]" href="index.php?a=63&amp;id=[+id+]" target="main"><i class="' .
                 ManagerTheme::getStyle('icon_undo') . ManagerTheme::getStyle('icon_size_fix') . '"></i></a> ';
         }
         $ph['delete_btn'] = str_replace('[+id+]', $docid, $delete_btn);

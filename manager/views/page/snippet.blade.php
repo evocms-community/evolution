@@ -28,12 +28,12 @@ use EvolutionCMS\Facades\ManagerTheme;
               document.mutate.save.click()
               saveWait('mutate')
             }, duplicate: function () {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
                 documentDirty = false
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=98"
               }
             }, delete: function () {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_snippet') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_snippet') }}`) === true) {
                 documentDirty = false
                 document.location.href = 'index.php?id={{ $data->getKey() }}&a=25'
               }

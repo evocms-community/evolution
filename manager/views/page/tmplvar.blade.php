@@ -87,13 +87,13 @@ use EvolutionCMS\Facades\ManagerTheme;
               saveWait('mutate');
             },
             duplicate: function() {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
                 documentDirty = false;
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=304";
               }
             },
             delete: function() {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}`) === true) {
                 documentDirty = false;
                 document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=303';
               }

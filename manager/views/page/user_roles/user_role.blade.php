@@ -178,7 +178,7 @@ use EvolutionCMS\Facades\ManagerTheme;
           document.userform.save.click()
         },
         delete: function () {
-          if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_role') }}') === true) {
+          if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_role') }}`) === true) {
             document.location.href = 'index.php?id=' + document.userform.id.value + '&a=35&action=delete'
           }
         },

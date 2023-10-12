@@ -130,17 +130,18 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function confirmDelete () {
-        return confirm('<?= ManagerTheme::getLexicon('confirm_delete_file') ?>')
+        return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_file') ?>`)
       }
 
       function confirmDeleteFolder (status) {
-        if (status !== 'file_exists') return confirm(
-          "<?= ManagerTheme::getLexicon('confirm_delete_dir') ?>") else return confirm(
-          "<?= ManagerTheme::getLexicon('confirm_delete_dir_recursive') ?>")
+        if (status !== 'file_exists')
+          return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_dir') ?>`)
+        else
+          return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_dir_recursive') ?>`)
       }
 
       function confirmUnzip () {
-        return confirm('<?= ManagerTheme::getLexicon('confirm_unzip_file') ?>')
+        return confirm(`<?= ManagerTheme::getLexicon('confirm_unzip_file') ?>`)
       }
 
       function unzipFile (file) {
@@ -152,13 +153,13 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function getFolderName (a) {
-        var f = window.prompt('<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>', '')
+        var f = window.prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, '')
         if (f) a.href += encodeURI(f)
         return !!(f)
       }
 
       function getFileName (a) {
-        var f = window.prompt('<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>', '')
+        var f = window.prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, '')
         if (f) a.href += encodeURI(f)
         return !!(f)
       }
@@ -180,7 +181,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function duplicateFile (file) {
-        var newFilename = prompt('<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>', file)
+        var newFilename = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, file)
         if (newFilename !== null && newFilename !== file) {
           window.location.href = 'index.php?a=31&mode=duplicate&path=' + current_path + '/' + file + '&newFilename=' +
             newFilename + "&token=<?= $newToken;?>"
@@ -188,7 +189,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function renameFolder (dir) {
-        var newDirname = prompt('<?= ManagerTheme::getLexicon('files_dynamic_new_folder_name') ?>', dir)
+        var newDirname = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_folder_name') ?>`, dir)
         if (newDirname !== null && newDirname !== dir) {
           window.location.href = 'index.php?a=31&mode=renameFolder&path=' + current_path + '&dirname=' + dir +
             '&newDirname=' + newDirname + "&token=<?= $newToken;?>"
@@ -196,7 +197,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function renameFile (file) {
-        var newFilename = prompt('<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>', file)
+        var newFilename = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, file)
         if (newFilename !== null && newFilename !== file) {
           window.location.href = 'index.php?a=31&mode=renameFile&path=' + current_path + '/' + file + '&newFilename=' +
             newFilename + "&token=<?= $newToken;?>"

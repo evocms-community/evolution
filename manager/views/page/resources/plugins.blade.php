@@ -36,7 +36,7 @@ use EvolutionCMS\Models\SitePlugin;
                         <span>{{ ManagerTheme::getLexicon('plugin_priority') }}</span>
                     </a>
                     @if (!empty($checkOldPlugins))
-                        <a onclick="return confirm('{{ ManagerTheme::getLexicon('purge_plugin_confirm') }}')"
+                        <a onclick="return confirm(`{{ ManagerTheme::getLexicon('purge_plugin_confirm') }}`)"
                            class="btn btn-danger"
                            href="{{ (new SitePlugin())->makeUrl('actions.purge') }}">
                             {{ ManagerTheme::getLexicon('purge_plugin') }}

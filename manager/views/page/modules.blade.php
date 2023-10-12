@@ -98,12 +98,12 @@ use EvolutionCMS\Facades\ManagerTheme;
             window.location.href = 'index.php?a=108&id=' + id;
             break;
           case 3:		// duplicate
-            if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
+            if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
               window.location.href = 'index.php?a=111&id=' + id;
             }
             break;
           case 4:		// delete
-            if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_module') }}') === true) {
+            if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_module') }}`) === true) {
               window.location.href = 'index.php?a=110&id=' + id;
             }
             break;

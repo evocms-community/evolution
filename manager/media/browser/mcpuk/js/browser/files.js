@@ -487,7 +487,7 @@ browser.menuFile = function(file, e) {
         $('.menu a[href="kcact:rm"]').click(function() {
             if (!data.writable) return false;
             browser.hideDialog();
-            browser.confirm(browser.label("Are you sure you want to delete this file?"),
+            browser.confirm(browser.label('Are you sure you want to delete this file?'),
                 function(callBack) {
                     $.ajax({
                         type: 'POST',

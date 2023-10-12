@@ -42,13 +42,13 @@ use EvolutionCMS\Facades\ManagerTheme;
                     return;
                 }
                 if (pn.id.substr(4) === id) {
-                    alert('{{ ManagerTheme::getLexicon('illegal_parent_self') }}');
+                    alert(`{{ ManagerTheme::getLexicon('illegal_parent_self') }}`);
                     return;
                 } else {
                     while (pn.p > 0) {
                         pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pn.p) : tdoc.all['node' + pn.p];
                         if (pn.id.substr(4) === id) {
-                            alert('{{ ManagerTheme::getLexicon('illegal_parent_child') }}');
+                            alert(`{{ ManagerTheme::getLexicon('illegal_parent_child') }}`);
                             return;
                         }
                     }

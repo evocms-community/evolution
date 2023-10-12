@@ -135,7 +135,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 ?>
 <script>
   function removeDependencies () {
-    if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_record'); ?>') === true) {
+    if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_record'); ?>`) === true) {
       documentDirty = false
       document.mutate.op.value = 'del'
       document.mutate.submit()

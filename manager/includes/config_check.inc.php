@@ -74,7 +74,7 @@ if (!isset(evo()->config['_hide_configcheck_templateswitcher_present']) ||
             $script = <<<JS
 <script>
 function deleteTemplateSwitcher() {
-    if(confirm('$confirm_delete_plugin')) {
+    if(confirm(`$confirm_delete_plugin`)) {
         var myAjax = new Ajax('index.php?a=118', {
             method: 'post',
             data: 'action=updateplugin&key=_delete_&lang=$tplName'
@@ -202,8 +202,7 @@ if (!empty($warnings)) {
                 $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_sysfiles_mod_msg');
                 $warnings[$i][2] = '<ul><li>' . implode('</li><li>', $systemFilesCheck) . '</li></ul>';
                 if (evo()->hasPermission('settings')) {
-                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(\'' .
-                        ManagerTheme::getLexicon('reset_sysfiles_checksum_alert') . '\')">' .
+                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(`' . ManagerTheme::getLexicon('reset_sysfiles_checksum_alert') . '`)">' .
                         ManagerTheme::getLexicon('reset_sysfiles_checksum_button') . '</a></li></ul>';
                 }
                 if (empty($_SESSION['mgrConfigCheck'])) {

@@ -267,12 +267,12 @@ use EvolutionCMS\Support\MakeTable;
                     ManagerTheme::getStyle('icon_close') . '" ></i></a>';
 
                 $icon_del_undel = (!$children['deleted'])
-                    ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') .
-                    '\')" href="index.php?a=6&id=' . $children['id'] . $add_path . '" title="' .
+                    ? '<a onclick="return confirm(`' . ManagerTheme::getLexicon('confirm_delete_resource') .
+                    '`)" href="index.php?a=6&id=' . $children['id'] . $add_path . '" title="' .
                     ManagerTheme::getLexicon('delete_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_trash') . '"></i></a>'
-                    : '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_undelete') .
-                    '\')" href="index.php?a=63&id=' . $children['id'] . $add_path . '" title="' .
+                    : '<a onclick="return confirm(`' . ManagerTheme::getLexicon('confirm_undelete') .
+                    '`)" href="index.php?a=63&id=' . $children['id'] . $add_path . '" title="' .
                     ManagerTheme::getLexicon('undelete_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_undo') . '"></i></a>';
 
@@ -331,7 +331,7 @@ use EvolutionCMS\Support\MakeTable;
           document.mutate.save.click()
         },
         delete: function () {
-          if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_resource') }}') === true) {
+          if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_resource') }}`) === true) {
             document.location.href = "{!! $actions['delete'] !!}"
           }
         },
@@ -343,7 +343,7 @@ use EvolutionCMS\Support\MakeTable;
           document.location.href = "{!! $actions['move'] !!}"
         },
         duplicate: function () {
-          if (confirm('{{ ManagerTheme::getLexicon('confirm_resource_duplicate') }}') === true) {
+          if (confirm(`{{ ManagerTheme::getLexicon('confirm_resource_duplicate') }}`) === true) {
             document.location.href = "{!! $actions['duplicate'] !!}"
           }
         },

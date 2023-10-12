@@ -187,7 +187,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.mutate.save.click()
     },
     delete: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_resource')?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_resource')?>`) === true) {
         document.location.href = 'index.php?id=' + document.mutate.id.value + "&a=6<?= $add_path ?>"
       }
     },
@@ -196,7 +196,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.location.href = 'index.php?<?=($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path) ?>'
     },
     duplicate: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_resource_duplicate')?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_resource_duplicate')?>`) === true) {
         document.location.href = "index.php?id=<?= (int) get_by_key(
             $_REQUEST,
             'id',
@@ -272,14 +272,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     var pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
     if (!pn) return
     if (pn.id.substr(4) === id) {
-      alert('<?= ManagerTheme::getLexicon('illegal_parent_self') ?>')
+      alert(`<?= ManagerTheme::getLexicon('illegal_parent_self') ?>`)
       return
     } else {
       while (pn.getAttribute('p') > 0) {
         pId = pn.getAttribute('p')
         pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
         if (pn.id.substr(4) === id) {
-          alert('<?= ManagerTheme::getLexicon('illegal_parent_child') ?>')
+          alert(`<?= ManagerTheme::getLexicon('illegal_parent_child') ?>`)
           return
         }
       }
@@ -319,7 +319,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     }
 
     if (documentDirty === true) {
-      if (confirm('<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>')) {
+      if (confirm(`<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>`)) {
         documentDirty = false
         document.mutate.a.value = <?= evo()->getManagerApi()->action ?>;
         document.mutate.newtemplate.value = newTemplate
