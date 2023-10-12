@@ -1,43 +1,47 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SitePlugin;
+use EvolutionCMS\Models\SitePluginEvent;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('delete_plugin')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('delete_plugin')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 // Set the item name for logger
-$name = EvolutionCMS\Models\SitePlugin::select("name")->firstOrFail($id)->name;
+$name = SitePlugin::query()->select('name')->firstOrFail($id)->name;
 $_SESSION['itemname'] = $name;
 
 // invoke OnBeforePluginFormDelete event
-$modx->invokeEvent(
-    "OnBeforePluginFormDelete",
-    array(
-        "id" => $id,
-    )
+evo()->invokeEvent(
+    'OnBeforePluginFormDelete',
+    [
+        'id' => $id,
+    ]
 );
 
 // delete the plugin.
-EvolutionCMS\Models\SitePlugin::destroy($id);
+SitePlugin::destroy($id);
 // delete the plugin events.
-EvolutionCMS\Models\SitePluginEvent::where('pluginid', $id)->delete();
+SitePluginEvent::query()->where('pluginid', $id)->delete();
 // invoke OnPluginFormDelete event
-$modx->invokeEvent(
-    "OnPluginFormDelete",
-    array(
-        "id" => $id,
-    )
+evo()->invokeEvent(
+    'OnPluginFormDelete',
+    [
+        'id' => $id,
+    ]
 );
 
 // empty cache
-$modx->clearCache('full');
+evo()->clearCache('full');
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=76&r=2&tab=4";
-header($header);
+header('Location: index.php?a=76&r=2&tab=4');

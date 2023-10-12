@@ -1,4 +1,7 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 // get the delete processor
-extract(evolutionCMS()->get('ManagerTheme')->getViewAttributes(), EXTR_OVERWRITE);
-include_once evolutionCMS()->get('ManagerTheme')->getFileProcessor("processors/delete_tmplvars.processor.php");
+extract(ManagerTheme::getViewAttributes());
+include_once ManagerTheme::getFileProcessor('processors/delete_tmplvars.processor.php');

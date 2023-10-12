@@ -4,7 +4,7 @@
   * Tran Van Quyet - HQV ltd
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "vi_VN.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Bạn không thể đổi tên phần mở rộng của các tập tin!",
     "Uploading file {number} of {count}... {progress}" => "Đang tải tập tin thứ {number} của {count}... {progress}",
     "Failed to upload {filename}!" => "Tải lên thất bại {filename}!",
-);
+];
 
 ?>

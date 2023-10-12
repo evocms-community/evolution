@@ -5,7 +5,7 @@
   * E-mail: dark@darklab.ru
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "ru_RU.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -124,6 +124,6 @@ $lang = array(
     "Failed to upload {filename}!" => "Неудачная попытка загрузки {filename}!",
     "Server error" => "Ошибка при выполнении запроса",
     "Unable to process server response" => "Ошибка при обработке ответа сервера"
-);
+];
 
 ?>

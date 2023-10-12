@@ -4,7 +4,7 @@
   * author: Pavel Tzonkov <sunhater@sunhater.com>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "bg_BG.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -257,6 +257,6 @@ $lang = array(
     "Качване на файл {number} от {count}... {progress}",
 
     "Failed to upload {filename}!" => "Несполучливо качване на {filename}!",
-);
+];
 
 ?>

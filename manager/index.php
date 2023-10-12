@@ -47,6 +47,9 @@
  *          depending on the request, will branch different
  *          content
  */
+use EvolutionCMS\Facades\ManagerTheme;
+use Illuminate\Support\Facades\Lang;
+
 if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
     $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
 }
@@ -125,7 +128,7 @@ if (!function_exists('iconv')) {
 }
 
 // set the document_root :|
-if (!isset($_SERVER['DOCUMENT_ROOT']) || empty($_SERVER['DOCUMENT_ROOT'])) {
+if (empty($_SERVER['DOCUMENT_ROOT'])) {
     $_SERVER['DOCUMENT_ROOT'] = str_replace(
             $_SERVER['PATH_INFO'],
             "",
@@ -134,22 +137,22 @@ if (!isset($_SERVER['DOCUMENT_ROOT']) || empty($_SERVER['DOCUMENT_ROOT'])) {
 }
 
 // initiate the content manager class
-$modx = evolutionCMS();
+$modx = evo();
 $modx->mstart = $mstart;
 $modx->sid = session_id();
 
-//$settings = $modx->allConfig();
+$_lang = ManagerTheme::getLexicon();
+Lang::setLocale(ManagerTheme::getLang());
+
+//$settings = evo()->allConfig();
 //extract($settings, EXTR_OVERWRITE);
 
 
 // Initialize System Alert Message Queque
 if (!isset($_SESSION['SystemAlertMsgQueque'])) {
-    $_SESSION['SystemAlertMsgQueque'] = array();
+    $_SESSION['SystemAlertMsgQueque'] = [];
 }
 $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
-
-$_lang = ManagerTheme::getLexicon();
-\Lang::setLocale(ManagerTheme::getLang());
 
 // send the charset header
 header('Content-Type: text/html; charset=' . ManagerTheme::getCharset());
@@ -157,6 +160,6 @@ header('Content-Type: text/html; charset=' . ManagerTheme::getCharset());
 $action = 0;
 
 // Update table active_user_sessions
-$modx->updateValidatedUserSession();
+evo()->updateValidatedUserSession();
 
 ManagerTheme::handleRoute();

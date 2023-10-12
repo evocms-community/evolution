@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -16,7 +21,7 @@
     @endpush
 
     <h1>
-        <i class="{{ $_style['icon_lock'] }}"></i>{{ ManagerTheme::getLexicon('change_password') }}
+        <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>{{ ManagerTheme::getLexicon('change_password') }}
     </h1>
 
     @include('manager::partials.actionButtons', $actionButtons)

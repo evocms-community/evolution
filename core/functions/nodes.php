@@ -1,17 +1,21 @@
 <?php
 
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteContent;
+use Illuminate\Database\Eloquent\Builder;
+
 if (!function_exists('makeHTML')) {
     /**
      * @param int $indent
      * @param int $parent
      * @param int $expandAll
-     * @param string $hereid
+     * @param int|string|null $hereId
+     *
      * @return string
      */
-    function makeHTML($indent, $parent, $expandAll, $hereid = '')
+    function makeHTML(int $indent, int $parent, int $expandAll, $hereId = null): string
     {
-        $modx = evolutionCMS();
-        global $icons, $_style, $_lang, $opened, $opened2, $closed2, $modx_textdir;
+        global $icons, $opened, $opened2, $closed2, $modx_textdir;
 
         $output = '';
 
@@ -39,13 +43,15 @@ if (!function_exists('makeHTML')) {
             case 'publishedon':
             case 'pub_date':
             case 'unpub_date':
-                $sortby = 'CASE WHEN ' . $sc . '.' . $_SESSION['tree_sortby'] . ' IS NULL THEN 1 ELSE 0 END, ' . $sc . '.' . $_SESSION['tree_sortby'];
+            $sortBy =
+                'CASE WHEN ' . $sc . '.' . $_SESSION['tree_sortby'] . ' IS NULL THEN 1 ELSE 0 END, ' . $sc . '.' .
+                $_SESSION['tree_sortby'];
                 break;
             default:
-                $sortby = $sc . '.' . $_SESSION['tree_sortby'];
-        };
+                $sortBy = $sc . '.' . $_SESSION['tree_sortby'];
+        }
 
-        $orderBy = $sortby . ' ' . ($_SESSION['tree_sortdir'] ?? 'ASC');
+        $orderBy = $sortBy . ' ' . ($_SESSION['tree_sortdir'] ?? 'ASC');
 
         // get document groups for current user
         if (isset($_SESSION['mgrDocgroups']) && is_array($_SESSION['mgrDocgroups'])) {
@@ -54,38 +60,56 @@ if (!function_exists('makeHTML')) {
             $docgrp = '';
         }
 
-        if ($modx->getConfig('tree_show_protected') !== null) {
-            $showProtected = (boolean)$modx->getConfig('tree_show_protected');
+        if (evo()->getConfig('tree_show_protected') !== null) {
+            $showProtected = (boolean) evo()->getConfig('tree_show_protected');
         } else {
             $showProtected = false;
         }
-        $mgrRole = (isset ($_SESSION['mgrRole']) && (string)$_SESSION['mgrRole'] === '1') ? '1' : '0';
+        $mgrRole = (isset ($_SESSION['mgrRole']) && (string) $_SESSION['mgrRole'] === '1') ? '1' : '0';
 
-        $docgrp_cond = $docgrp ? 'OR dg.document_group IN (' . $docgrp . ')' : '';
-        $mgrRole = (int)$mgrRole;
-        $docgrp_cond = $docgrp_cond;
+        //$docgrp_cond = $docgrp ? 'OR dg.document_group IN (' . $docgrp . ')' : '';
+        $mgrRole = (int) $mgrRole;
 
-        $result = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->select('site_content.id', 'site_content.pagetitle', 'longtitle',
-            'menutitle', 'parent', 'isfolder'
-            , 'published', 'pub_date', 'unpub_date', 'richtext', 'searchable', 'cacheable'
-            , 'deleted', 'type', 'template', 'templatename', 'menuindex', 'hide_from_tree', 'hidemenu', 'alias'
-            , 'contentType', 'privateweb', 'privatemgr'
+        $result = SiteContent::withTrashed()->select(
+            'site_content.id',
+            'site_content.pagetitle',
+            'longtitle',
+            'menutitle',
+            'parent',
+            'isfolder',
+            'published',
+            'pub_date',
+            'unpub_date',
+            'richtext',
+            'searchable',
+            'cacheable',
+            'deleted',
+            'type',
+            'template',
+            'templatename',
+            'menuindex',
+            'hide_from_tree',
+            'hidemenu',
+            'alias',
+            'contentType',
+            'privateweb',
+            'privatemgr'
         )
             ->leftJoin('document_groups', 'site_content.id', '=', 'document_groups.document')
             ->leftJoin('site_templates', 'site_content.template', '=', 'site_templates.id')
-            ->where('parent', (int)$parent)
+            ->where('parent', $parent)
             ->orderByRaw($orderBy);
 
         // Folder sorting gets special setup ;) Add menuindex and pagetitle
         if ($_SESSION['tree_sortby'] === 'isfolder') {
             $result = $result->orderBy('menuindex', 'ASC')->orderBy('pagetitle', 'ASC');
         }
-           // orderBy('menuindex', 'ASC')->orderBy('pagetitle', 'ASC');
+        // orderBy('menuindex', 'ASC')->orderBy('pagetitle', 'ASC');
 //'privatemgr',\DB::raw('MAX(IF(1='.$mgrRole.' OR privatemgr=0 '.$docgrp_cond.', 1, 0)) AS hasAccess'),
         if (!$showProtected) {
             if (!$docgrp) {
                 if ($mgrRole != 1) {
-                    $result = $result->where(function ($q) use ($mgrRole) {
+                    $result = $result->where(function (Builder $q) use ($mgrRole) {
                         $q->orWhere('privatemgr', 0);
                     });
                 }
@@ -98,30 +122,56 @@ if (!function_exists('makeHTML')) {
                 }
             }
         }
-        $result->groupBy(['site_content.id', 'site_content.pagetitle', 'longtitle',
-            'menutitle', 'parent', 'isfolder'
-            , 'published', 'pub_date', 'unpub_date', 'richtext', 'searchable', 'cacheable'
-            , 'deleted', 'type', 'template', 'templatename', 'menuindex', 'hide_from_tree', 'hidemenu', 'alias'
-            , 'contentType', 'privateweb', 'privatemgr']);
+        $result->groupBy([
+            'site_content.id',
+            'site_content.pagetitle',
+            'longtitle',
+            'menutitle',
+            'parent',
+            'isfolder'
+            ,
+            'published',
+            'pub_date',
+            'unpub_date',
+            'richtext',
+            'searchable',
+            'cacheable'
+            ,
+            'deleted',
+            'type',
+            'template',
+            'templatename',
+            'menuindex',
+            'hide_from_tree',
+            'hidemenu',
+            'alias'
+            ,
+            'contentType',
+            'privateweb',
+            'privatemgr',
+        ]);
         $result = $result->get();
 
-
         if ($result->count() == 0) {
-            $output .= '<div><a class="empty">' . $spacer . '<i class="' . $_style['icon_ban'] . '"></i>&nbsp;<span class="empty">' . $_lang['empty_folder'] . '</span></a></div>';
+            $output .= '<div><a class="empty">' . $spacer . '<i class="' . ManagerTheme::getStyle('icon_ban') .
+                '"></i>&nbsp;<span class="empty">' . ManagerTheme::getLexicon('empty_folder') . '</span></a></div>';
         }
 
         if ($_SESSION['tree_nodename'] === 'default') {
-            $nodeNameSource = $modx->getConfig('resource_tree_node_name');
+            $nodeNameSource = evo()->getConfig('resource_tree_node_name');
         } else {
             $nodeNameSource = $_SESSION['tree_nodename'];
         }
+
         foreach ($result as $item) {
             $row = $item->toArray();
-            $row['roles'] = '';
+            //$row['roles'] = '';
             $row['hasAccess'] = 0;
+
             if ($mgrRole == 1 || $row['privatemgr'] == 0) {
                 $row['hasAccess'] = 1;
             }
+
             $node = '';
             $nodetitle = getNodeTitle($nodeNameSource, $row);
             $nodetitleDisplay = $nodetitle;
@@ -138,12 +188,12 @@ if (!function_exists('makeHTML')) {
                 $treeNodeClass .= ' hidemenu';
             }
 
-            if ($row['id'] == $hereid) {
+            if ($row['id'] == $hereId) {
                 $treeNodeClass .= ' current';
             }
 
             if ($row['type'] === 'reference') {
-                $weblinkDisplay = '&nbsp;<i class="' . $_style['icon_chain'] . '"></i>';
+                $weblinkDisplay = '&nbsp;<i class="' . ManagerTheme::getStyle('icon_chain') . '"></i>';
             } else {
                 $weblinkDisplay = '';
             }
@@ -155,53 +205,66 @@ if (!function_exists('makeHTML')) {
 
             // Prepare displaying user-locks
             $lockedByUser = '';
-            $rowLock = $modx->elementIsLocked(7, $row['id'], true);
-            if ($rowLock && $modx->hasPermission('display_locks')) {
-                if ($rowLock['sid'] == $modx->sid) {
-                    $title = $modx->parseText(
-                        $_lang['lock_element_editing']
-                        , array(
-                            'element_type' => $_lang['lock_element_type_7'],
-                            'lasthit_df' => $rowLock['lasthit_df']
-                        )
+            $rowLock = evo()->elementIsLocked(7, $row['id'], true);
+            if ($rowLock && evo()->hasPermission('display_locks')) {
+                if ($rowLock['sid'] == evo()->sid) {
+                    $title = evo()->parseText(
+                        ManagerTheme::getLexicon('lock_element_editing'),
+                        [
+                            'element_type' => ManagerTheme::getLexicon('lock_element_type_7'),
+                            'lasthit_df' => $rowLock['lasthit_df'],
+                        ]
                     );
-                    $lockedByUser = '<span title="' . $title . '" class="editResource"><i class="' . $_style['icon_eye'] . '"></i></span>';
+                    $lockedByUser =
+                        '<span title="' . $title . '" class="editResource"><i class="' . ManagerTheme::getStyle('icon_eye') .
+                        '"></i></span>';
                 } else {
-                    $title = $modx->parseText($_lang['lock_element_locked_by'], array(
-                        'element_type' => $_lang['lock_element_type_7'],
+                    $title = evo()->parseText(ManagerTheme::getLexicon('lock_element_locked_by'), [
+                        'element_type' => ManagerTheme::getLexicon('lock_element_type_7'),
                         'username' => $rowLock['username'],
-                        'lasthit_df' => $rowLock['lasthit_df']
-                    ));
-                    if ($modx->hasPermission('remove_locks')) {
-                        $lockedByUser = '<span onclick="modx.tree.unlockElement(7, ' . $row['id'] . ', this);return false;" title="' . $title . '" class="lockedResource"><i class="' . $_style['icon_lock'] . '"></i></span>';
+                        'lasthit_df' => $rowLock['lasthit_df'],
+                    ]);
+                    if (evo()->hasPermission('remove_locks')) {
+                        $lockedByUser = '<span onclick="modx.tree.unlockElement(7, ' . $row['id'] .
+                            ', this);return false;" title="' . $title . '" class="lockedResource"><i class="' .
+                            ManagerTheme::getStyle('icon_lock') . '"></i></span>';
                     } else {
-                        $lockedByUser = '<span title="' . $title . '" class="lockedResource"><i class="' . $_style['icon_lock'] . '"></i></span>';
+                        $lockedByUser =
+                            '<span title="' . $title . '" class="lockedResource"><i class="' . ManagerTheme::getStyle('icon_lock') .
+                            '"></i></span>';
                     }
                 }
             }
 
-            $url = $modx->makeUrl($row['id']);
+            $url = evo()->makeUrl($row['id']);
 
             $title = '';
+
             if (isDateNode($nodeNameSource)) {
-                $title = $_lang['pagetitle'] . ': ' . $row['pagetitle'] . '[+lf+]';
+                $title = ManagerTheme::getLexicon('pagetitle') . ': ' . $row['pagetitle'] . '[+lf+]';
             }
-            $title .= $_lang['id'] . ': ' . $row['id'];
-            $title .= '[+lf+]' . $_lang['resource_opt_menu_title'] . ': ' . $row['menutitle'];
-            $title .= '[+lf+]' . $_lang['resource_opt_menu_index'] . ': ' . $row['menuindex'];
-            $title .= '[+lf+]' . $_lang['alias'] . ': ' . (!empty($row['alias']) ? $row['alias'] : '-');
-            $title .= '[+lf+]' . $_lang['template'] . ': ' . $row['templatename'];
-            $title .= '[+lf+]' . $_lang['publish_date'] . ': ' . $modx->toDateFormat($row['pub_date']);
-            $title .= '[+lf+]' . $_lang['unpublish_date'] . ': ' . $modx->toDateFormat($row['unpub_date']);
-            $title .= '[+lf+]' . $_lang['page_data_web_access'] . ': ' . ($row['privateweb'] ? $_lang['private'] : $_lang['public']);
-            $title .= '[+lf+]' . $_lang['page_data_mgr_access'] . ': ' . ($row['privatemgr'] ? $_lang['private'] : $_lang['public']);
-            $title .= '[+lf+]' . $_lang['resource_opt_richtext'] . ': ' . ($row['richtext'] == 0 ? $_lang['no'] : $_lang['yes']);
-            $title .= '[+lf+]' . $_lang['page_data_searchable'] . ': ' . ($row['searchable'] == 0 ? $_lang['no'] : $_lang['yes']);
-            $title .= '[+lf+]' . $_lang['page_data_cacheable'] . ': ' . ($row['cacheable'] == 0 ? $_lang['no'] : $_lang['yes']);
-            $title = $modx->getPhpCompat()->htmlspecialchars($title);
+
+            $title .= ManagerTheme::getLexicon('id') . ': ' . $row['id'];
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_menu_title') . ': ' . $row['menutitle'];
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_menu_index') . ': ' . $row['menuindex'];
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('alias') . ': ' . (!empty($row['alias']) ? $row['alias'] : '-');
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('template') . ': ' . $row['templatename'];
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('publish_date') . ': ' . evo()->toDateFormat($row['pub_date']);
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('unpublish_date') . ': ' . evo()->toDateFormat($row['unpub_date']);
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_web_access') . ': ' .
+                ($row['privateweb'] ? ManagerTheme::getLexicon('private') : ManagerTheme::getLexicon('public'));
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_mgr_access') . ': ' .
+                ($row['privatemgr'] ? ManagerTheme::getLexicon('private') : ManagerTheme::getLexicon('public'));
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_richtext') . ': ' .
+                ($row['richtext'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_searchable') . ': ' .
+                ($row['searchable'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
+            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_cacheable') . ': ' .
+                ($row['cacheable'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
+            $title = evo()->getPhpCompat()->htmlspecialchars($title);
             $title = str_replace('[+lf+]', ' &#13;', $title);   // replace line-breaks with empty space as fall-back
 
-            $data = array(
+            $data = [
                 'id' => $row['id'],
                 'pagetitle' => $row['pagetitle'],
                 'longtitle' => $row['longtitle'],
@@ -228,21 +291,21 @@ if (!function_exists('makeHTML')) {
                 'pageIdDisplay' => $pageIdDisplay,
                 'lockedByUser' => $lockedByUser,
                 'treeNodeClass' => $treeNodeClass,
-                'treeNodeSelected' => $row['id'] == $hereid ? ' treeNodeSelected' : '',
-                'tree_page_click' => $modx->getConfig('tree_page_click'),
+                'treeNodeSelected' => $row['id'] == $hereId ? ' treeNodeSelected' : '',
+                'tree_page_click' => evo()->getConfig('tree_page_click'),
                 'showChildren' => 1,
                 'openFolder' => 1,
                 'contextmenu' => '',
-                'tree_minusnode' => '<i class=\'' . $_style['icon_angle_down'] . '\'></i>',
-                'tree_plusnode' => '<i class=\'' . $_style['icon_angle_right'] . '\'></i>',
-                'icon_folder_open' => '<i class=\'' . $_style['icon_folder_open'] . '\'></i>',
-                'icon_folder_close' => '<i class=\'' . $_style['icon_folder'] . '\'></i>',
+                'tree_minusnode' => '<i class=\'' . ManagerTheme::getStyle('icon_angle_down') . '\'></i>',
+                'tree_plusnode' => '<i class=\'' . ManagerTheme::getStyle('icon_angle_right') . '\'></i>',
+                'icon_folder_open' => '<i class=\'' . ManagerTheme::getStyle('icon_folder_open') . '\'></i>',
+                'icon_folder_close' => '<i class=\'' . ManagerTheme::getStyle('icon_folder') . '\'></i>',
                 'spacer' => $spacer,
                 'subMenuState' => '',
                 'level' => $level,
                 'isPrivate' => 0,
-                'roles' => ($row['roles'] ? $row['roles'] : '')
-            );
+                'roles' => '', //$row['roles'] ?: '',
+            ];
 
             $ph = $data;
             $ph['nodetitle_esc'] = addslashes($nodetitle);
@@ -253,31 +316,28 @@ if (!function_exists('makeHTML')) {
             if (!$row['isfolder']) {
                 $tpl = getTplSingleNode();
                 switch ($row['id']) {
-                    case $modx->getConfig('site_start')            :
-                        $icon = '<i class="' . $_style['icon_home'] . '"></i>';
+                    case evo()->getConfig('site_start')            :
+                        $icon = '<i class="' . ManagerTheme::getStyle('icon_home') . '"></i>';
                         break;
-                    case $modx->getConfig('error_page')            :
-                        $icon = '<i class="' . $_style['icon_info_triangle'] . '"></i>';
+                    case evo()->getConfig('error_page')            :
+                        $icon = '<i class="' . ManagerTheme::getStyle('icon_info_triangle') . '"></i>';
                         break;
-                    case $modx->getConfig('site_unavailable_page') :
-                        $icon = '<i class="' . $_style['icon_clock'] . '"></i>';
+                    case evo()->getConfig('site_unavailable_page') :
+                        $icon = '<i class="' . ManagerTheme::getStyle('icon_clock') . '"></i>';
                         break;
-                    case $modx->getConfig('unauthorized_page')     :
-                        $icon = '<i class="' . $_style['icon_info'] . '"></i>';
+                    case evo()->getConfig('unauthorized_page')     :
+                        $icon = '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i>';
                         break;
                     default:
-                        if (isset($icons[$row['contentType']])) {
-                            $icon = $icons[$row['contentType']];
-                        } else {
-                            $icon = '<i class="' . $_style['icon_document'] . '"></i>';
-                        }
+                        $icon = $icons[$row['contentType']] ?? '<i class="' . ManagerTheme::getStyle('icon_document') . '"></i>';
                 }
                 $ph['icon'] = $icon;
 
                 // invoke OnManagerNodePrerender event
-                $prenode = $modx->invokeEvent('OnManagerNodePrerender', array('ph' => $ph));
+                $prenode = evo()->invokeEvent('OnManagerNodePrerender', ['ph' => $ph]);
+
                 if (is_array($prenode)) {
-                    $phnew = array();
+                    $phnew = [];
                     foreach ($prenode as $pnode) {
                         $pnode = unserialize($pnode);
                         foreach ($pnode as $k => $v) {
@@ -293,18 +353,17 @@ if (!function_exists('makeHTML')) {
 
                 if ($_SESSION['tree_show_only_folders']) {
                     if ($row['parent'] == 0) {
-                        $node .= $modx->parseText($tpl, $ph);
+                        $node .= evo()->parseText($tpl, $ph);
                     } else {
                         $node .= '';
                     }
                 } else {
-                    $node .= $modx->parseText($tpl, $ph);
+                    $node .= evo()->parseText($tpl, $ph);
                 }
-
             } else {
                 if ($_SESSION['tree_show_only_folders']) {
                     $tpl = getTplFolderNodeNotChildren();
-                    $checkFolders = checkIsFolder($row['id'], 1) ? 1 : 0; // folders
+                    $checkFolders = checkIsFolder($row['id']) ? 1 : 0; // folders
                     $checkDocs = checkIsFolder($row['id'], 0) ? 1 : 0; // no folders
                     $ph['tree_page_click'] = 3;
 
@@ -330,12 +389,13 @@ if (!function_exists('makeHTML')) {
                         }
 
                         // invoke OnManagerNodePrerender event
-                        $prenode = $modx->invokeEvent('OnManagerNodePrerender', array(
+                        $prenode = evo()->invokeEvent('OnManagerNodePrerender', [
                             'ph' => $ph,
-                            'opened' => '1'
-                        ));
+                            'opened' => '1',
+                        ]);
+
                         if (is_array($prenode)) {
-                            $phnew = array();
+                            $phnew = [];
                             foreach ($prenode as $pnode) {
                                 $pnode = unserialize($pnode);
                                 foreach ($pnode as $k => $v) {
@@ -351,11 +411,11 @@ if (!function_exists('makeHTML')) {
                             $ph['contextmenu'] = ' data-contextmenu="' . _htmlentities($ph['contextmenu']) . '"';
                         }
 
-                        $node .= $modx->parseText($tpl, $ph);
+                        $node .= evo()->parseText($tpl, $ph);
+
                         if ($checkFolders) {
-                            $node .= makeHTML($indent + 1, $row['id'], $expandAll, $hereid);
+                            $node .= makeHTML($indent + 1, $row['id'], $expandAll, $hereId);
                         }
-                        $node .= '</div></div>';
                     } else {
                         $closed2[] = $row['id'];
                         $ph['icon'] = $ph['icon_folder_close'];
@@ -373,12 +433,13 @@ if (!function_exists('makeHTML')) {
                         }
 
                         // invoke OnManagerNodePrerender event
-                        $prenode = $modx->invokeEvent('OnManagerNodePrerender', array(
+                        $prenode = evo()->invokeEvent('OnManagerNodePrerender', [
                             'ph' => $ph,
-                            'opened' => '0'
-                        ));
+                            'opened' => '0',
+                        ]);
+
                         if (is_array($prenode)) {
-                            $phnew = array();
+                            $phnew = [];
                             foreach ($prenode as $pnode) {
                                 $pnode = unserialize($pnode);
                                 foreach ($pnode as $k => $v) {
@@ -392,8 +453,7 @@ if (!function_exists('makeHTML')) {
                             $ph['contextmenu'] = ' data-contextmenu="' . _htmlentities($ph['contextmenu']) . '"';
                         }
 
-                        $node .= $modx->parseText($tpl, $ph);
-                        $node .= '</div></div>';
+                        $node .= evo()->parseText($tpl, $ph);
                     }
                 } else {
                     $tpl = getTplFolderNode();
@@ -415,12 +475,13 @@ if (!function_exists('makeHTML')) {
                         }
 
                         // invoke OnManagerNodePrerender event
-                        $prenode = $modx->invokeEvent('OnManagerNodePrerender', array(
+                        $prenode = evo()->invokeEvent('OnManagerNodePrerender', [
                             'ph' => $ph,
-                            'opened' => '1'
-                        ));
+                            'opened' => '1',
+                        ]);
+
                         if (is_array($prenode)) {
-                            $phnew = array();
+                            $phnew = [];
                             foreach ($prenode as $pnode) {
                                 $pnode = unserialize($pnode);
                                 foreach ($pnode as $k => $v) {
@@ -446,11 +507,11 @@ if (!function_exists('makeHTML')) {
                             $ph['contextmenu'] = ' data-contextmenu="' . _htmlentities($ph['contextmenu']) . '"';
                         }
 
-                        $node .= $modx->parseText($tpl, $ph);
+                        $node .= evo()->parseText($tpl, $ph);
+
                         if ($ph['hide_from_tree'] == 0) {
-                            $node .= makeHTML($indent + 1, $row['id'], $expandAll, $hereid);
+                            $node .= makeHTML($indent + 1, $row['id'], $expandAll, $hereId);
                         }
-                        $node .= '</div></div>';
                     } else {
                         $closed2[] = $row['id'];
                         $ph['icon'] = $ph['icon_folder_close'];
@@ -465,12 +526,13 @@ if (!function_exists('makeHTML')) {
                         }
 
                         // invoke OnManagerNodePrerender event
-                        $prenode = $modx->invokeEvent('OnManagerNodePrerender', array(
+                        $prenode = evo()->invokeEvent('OnManagerNodePrerender', [
                             'ph' => $ph,
-                            'opened' => '0'
-                        ));
+                            'opened' => '0',
+                        ]);
+
                         if (is_array($prenode)) {
-                            $phnew = array();
+                            $phnew = [];
                             foreach ($prenode as $pnode) {
                                 $pnode = unserialize($pnode);
                                 foreach ($pnode as $k => $v) {
@@ -491,15 +553,16 @@ if (!function_exists('makeHTML')) {
                             $ph['contextmenu'] = ' data-contextmenu="' . _htmlentities($ph['contextmenu']) . '"';
                         }
 
-                        $node .= $modx->parseText($tpl, $ph);
-                        $node .= '</div></div>';
+                        $node .= evo()->parseText($tpl, $ph);
                     }
                 }
+
+                $node .= '</div></div>';
             }
 
             // invoke OnManagerNodeRender event
             $data['node'] = $node;
-            $evtOut = $modx->invokeEvent('OnManagerNodeRender', $data);
+            $evtOut = evo()->invokeEvent('OnManagerNodeRender', $data);
             if (is_array($evtOut)) {
                 $evtOut = implode("\n", $evtOut);
             }
@@ -517,24 +580,25 @@ if (!function_exists('makeHTML')) {
 if (!function_exists('getIconInfo')) {
     /**
      * @param array $_style
+     *
      * @return array
      */
-    function getIconInfo($_style)
+    function getIconInfo(array $_style): array
     {
-        return array(
-            'text/plain' => '<i class="' . $_style['icon_document'] . '"></i>',
-            'text/html' => '<i class="' . $_style['icon_document'] . '"></i>',
-            'text/xml' => '<i class="' . $_style['icon_code_file'] . '"></i>',
-            'text/css' => '<i class="' . $_style['icon_code_file'] . '"></i>',
-            'text/javascript' => '<i class="' . $_style['icon_code_file'] . '"></i>',
-            'image/gif' => '<i class="' . $_style['icon_image'] . '"></i>',
-            'image/jpg' => '<i class="' . $_style['icon_image'] . '"></i>',
-            'image/png' => '<i class="' . $_style['icon_image'] . '"></i>',
-            'application/pdf' => '<i class="' . $_style['icon_pdf'] . '"></i>',
-            'application/rss+xml' => '<i class="' . $_style['icon_code_file'] . '"></i>',
-            'application/vnd.ms-word' => '<i class="' . $_style['icon_word'] . '"></i>',
-            'application/vnd.ms-excel' => '<i class="' . $_style['icon_excel'] . '"></i>',
-        );
+        return [
+            'text/plain' => '<i class="' . ManagerTheme::getStyle('icon_document') . '"></i>',
+            'text/html' => '<i class="' . ManagerTheme::getStyle('icon_document') . '"></i>',
+            'text/xml' => '<i class="' . ManagerTheme::getStyle('icon_code_file') . '"></i>',
+            'text/css' => '<i class="' . ManagerTheme::getStyle('icon_code_file') . '"></i>',
+            'text/javascript' => '<i class="' . ManagerTheme::getStyle('icon_code_file') . '"></i>',
+            'image/gif' => '<i class="' . ManagerTheme::getStyle('icon_image') . '"></i>',
+            'image/jpg' => '<i class="' . ManagerTheme::getStyle('icon_image') . '"></i>',
+            'image/png' => '<i class="' . ManagerTheme::getStyle('icon_image') . '"></i>',
+            'application/pdf' => '<i class="' . ManagerTheme::getStyle('icon_pdf') . '"></i>',
+            'application/rss+xml' => '<i class="' . ManagerTheme::getStyle('icon_code_file') . '"></i>',
+            'application/vnd.ms-word' => '<i class="' . ManagerTheme::getStyle('icon_word') . '"></i>',
+            'application/vnd.ms-excel' => '<i class="' . ManagerTheme::getStyle('icon_excel') . '"></i>',
+        ];
     }
 }
 
@@ -542,63 +606,66 @@ if (!function_exists('getNodeTitle')) {
     /**
      * @param string $nodeNameSource
      * @param array $row
+     *
      * @return string
      */
-    function getNodeTitle($nodeNameSource, $row)
+    function getNodeTitle(string $nodeNameSource, array $row): string
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         switch ($nodeNameSource) {
             case 'menutitle':
-                $nodetitle = $row['menutitle'] ? $row['menutitle'] : $row['pagetitle'];
+                $nodeTitle = $row['menutitle'] ?: $row['pagetitle'];
                 break;
             case 'alias':
-                $nodetitle = $row['alias'] ? $row['alias'] : $row['id'];
+                $nodeTitle = $row['alias'] ?: $row['id'];
                 if (strpos($row['alias'], '.') === false) {
-                    if ($row['isfolder'] != 1 || $modx->getConfig('make_folders') != 1) {
-                        $nodetitle .= $modx->getConfig('friendly_url_suffix');
+                    if ($row['isfolder'] != 1 || evo()->getConfig('make_folders') != 1) {
+                        $nodeTitle .= evo()->getConfig('friendly_url_suffix');
                     }
                 }
-                $nodetitle = $modx->getConfig('friendly_url_prefix') . $nodetitle;
+                $nodeTitle = evo()->getConfig('friendly_url_prefix') . $nodeTitle;
                 break;
             case 'pagetitle':
-                $nodetitle = $row['pagetitle'];
+                $nodeTitle = $row['pagetitle'];
                 break;
             case 'longtitle':
-                $nodetitle = $row['longtitle'] ? $row['longtitle'] : $row['pagetitle'];
+                $nodeTitle = $row['longtitle'] ?: $row['pagetitle'];
                 break;
             case 'createdon':
             case 'editedon':
             case 'publishedon':
             case 'pub_date':
             case 'unpub_date':
-                $doc = $modx->getDocumentObject('id', $row['id']);
+                $doc = evo()->getDocumentObject('id', $row['id']);
                 $date = $doc[$nodeNameSource];
                 if (!empty($date)) {
-                    $nodetitle = $modx->toDateFormat($date);
+                    $nodeTitle = evo()->toDateFormat($date);
                 } else {
-                    $nodetitle = '- - -';
+                    $nodeTitle = '- - -';
                 }
                 break;
             default:
-                $nodetitle = $row['pagetitle'];
+                $nodeTitle = $row['pagetitle'];
         }
-        $nodetitle = $modx->getPhpCompat()->htmlspecialchars(str_replace(array(
-            "\r\n",
-            "\n",
-            "\r"
-        ), ' ', $nodetitle), ENT_COMPAT);
 
-        return $nodetitle;
+        return evo()->getPhpCompat()->htmlspecialchars(
+            str_replace([
+                "\r\n",
+                "\n",
+                "\r",
+            ], ' ', $nodeTitle)
+        );
     }
 }
 
 if (!function_exists('isDateNode')) {
     /**
      * @param string $nodeNameSource
+     *
      * @return bool
      */
-    function isDateNode($nodeNameSource)
+    function isDateNode(string $nodeNameSource): bool
     {
         switch ($nodeNameSource) {
             case 'createdon':
@@ -617,27 +684,28 @@ if (!function_exists('checkIsFolder')) {
     /**
      * @param int $parent
      * @param int $isfolder
+     *
      * @return int
      */
-    function checkIsFolder($parent = 0, $isfolder = 1)
+    function checkIsFolder(int $parent = 0, int $isfolder = 1): int
     {
-        return (int)\EvolutionCMS\Models\SiteContent::query()->where('parent', $parent)->where('isfolder', $isfolder)->count();
+        return SiteContent::query()->where('parent', $parent)->where('isfolder', $isfolder)->count();
     }
 }
 
 if (!function_exists('_htmlentities')) {
     /**
      * @param mixed $array
+     *
      * @return string
      */
-    function _htmlentities($array)
+    function _htmlentities($array): string
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         $array = json_encode($array, JSON_UNESCAPED_UNICODE);
-        $array = htmlentities($array, ENT_COMPAT, $modx->getConfig('modx_charset'));
 
-        return $array;
+        return htmlentities($array, ENT_COMPAT, evo()->getConfig('modx_charset'));
     }
 }
 
@@ -645,7 +713,7 @@ if (!function_exists('getTplSingleNode')) {
     /**
      * @return string
      */
-    function getTplSingleNode()
+    function getTplSingleNode(): string
     {
         return '<div id="node[+id+]"><a class="[+treeNodeClass+]"
         onclick="modx.tree.treeAction(event,[+id+]);"
@@ -675,7 +743,7 @@ if (!function_exists('getTplFolderNode')) {
     /**
      * @return string
      */
-    function getTplFolderNode()
+    function getTplFolderNode(): string
     {
         return '<div id="node[+id+]"><a class="[+treeNodeClass+]"
         onclick="modx.tree.treeAction(event,[+id+]);"
@@ -712,11 +780,12 @@ if (!function_exists('getTplFolderNode')) {
         title="[+title+]">[+nodetitleDisplay+][+weblinkDisplay+]</span>[+pageIdDisplay+]</a><div>';
     }
 }
+
 if (!function_exists('getTplFolderNodeNotChildren')) {
     /**
      * @return string
      */
-    function getTplFolderNodeNotChildren()
+    function getTplFolderNodeNotChildren(): string
     {
         return '<div id="node[+id+]"><a class="[+treeNodeClass+]"
         onclick="modx.tree.treeAction(event,[+id+]);"

@@ -3,7 +3,7 @@
 // File must have the same filename as original language-file (i.e. "english.inc.php")
 
 // Example override
-$_lang["system_email_websignup"] = 'Hello [+uid+]
+$_lang['system_email_websignup'] = 'Hello [+uid+]
 
 Here are your login details for [+sname+]:
 

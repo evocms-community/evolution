@@ -3,7 +3,7 @@
 /** Afrikaans localization file for KCFinder
   */
 
-$lang = array(
+$lang = [
     '_locale' => "af-ZA.UTF-8",
     '_charset' => "utf-8",
 
@@ -240,6 +240,6 @@ $lang = array(
     "Type" => "Tipe",
     "Select Thumbnails" => "Kies duimnaels",
     "Download files" => "Laai lêers af",
-);
+];
 
 ?>

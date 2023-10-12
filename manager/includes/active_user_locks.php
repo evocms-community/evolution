@@ -1,4 +1,5 @@
 <?php
+
 /**
  * active_user_locks.php
  *
@@ -7,12 +8,12 @@
 define('IN_MANAGER_MODE', true);
 define('MODX_API_MODE', true);
 include_once('../../index.php');
-$modx = EvolutionCMS();
-$modx->invokeEvent('OnManagerPageInit');
+
+evo()->invokeEvent('OnManagerPageInit');
 $ok = false;
 
-if ($modx->elementIsLocked($_GET['type'], $_GET['id'], true)) {
-    $modx->lockElement($_GET['type'], $_GET['id']);
+if (evo()->elementIsLocked($_GET['type'], $_GET['id'], true)) {
+    evo()->lockElement($_GET['type'], $_GET['id']);
     $ok = true;
 }
 

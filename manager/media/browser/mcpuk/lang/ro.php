@@ -3,7 +3,7 @@
 /** Romanian localization file for KCFinder
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "ro_RO.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -121,6 +121,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Nu puteți redenumi extensia fișierelor!",
     "Uploading file {number} of {count}... {progress}" => "Încărcare fișier {number} din {count}... {progress}",
     "Failed to upload {filename}!" => "Încărcare {filename} eșuată!",
-);
+];
 
 ?>

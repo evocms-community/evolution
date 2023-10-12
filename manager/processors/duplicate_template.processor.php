@@ -1,19 +1,26 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteTemplate;
+use EvolutionCMS\Models\SiteTmplvarTemplate;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('new_template')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('new_template')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 // count duplicates
-$name = EvolutionCMS\Models\SiteTemplate::select('templatename')->findOrFail($id)->templatename;
-$count = EvolutionCMS\Models\SiteTemplate::where('templatename', 'LIKE', "{$name} {$_lang['duplicated_el_suffix']}%'")->count();
+$name = SiteTemplate::query()->select('templatename')->findOrFail($id)->templatename;
+$count =
+    SiteTemplate::query()->where('templatename', 'LIKE', $name . ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . "%'")
+        ->count();
 if ($count >= 1) {
     $count = ' ' . ($count + 1);
 } else {
@@ -21,15 +28,16 @@ if ($count >= 1) {
 }
 
 // duplicate template
-$template = EvolutionCMS\Models\SiteTemplate::select("templatename", "description", "content", "category")
+$template = SiteTemplate::query()->select('templatename', 'description', 'content', 'category')
     ->findOrFail($id);
 $templateNew = $template->replicate();
-$templateNew->templatename .= " {$_lang['duplicated_el_suffix']}{$count}";
+$templateNew->templatename .= ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . $count;
 $templateNew->save();
 $newid = $templateNew->id;
 
 // duplicate TV values
-EvolutionCMS\Models\SiteTmplvarTemplate::select("tmplvarid", "templateid", "rank")
+SiteTmplvarTemplate::query()
+    ->select('tmplvarid', 'templateid', 'rank')
     ->where('templateid', $id)->get()
     ->each(function ($item, $key) use ($newid) {
         $item->templateid = $newid;
@@ -37,9 +45,8 @@ EvolutionCMS\Models\SiteTmplvarTemplate::select("tmplvarid", "templateid", "rank
     });
 
 // Set the item name for logger
-$name = EvolutionCMS\Models\SiteTemplate::select('templatename')->findOrFail($newid)->templatename;
+$name = SiteTemplate::query()->select('templatename')->findOrFail($newid)->templatename;
 $_SESSION['itemname'] = $name;
 
 // finish duplicating - redirect to new template
-$header = "Location: index.php?r=2&a=16&id=$newid";
-header($header);
+header('Location: index.php?r=2&a=16&id=' . $newid);

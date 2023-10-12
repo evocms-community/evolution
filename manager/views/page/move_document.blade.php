@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     <?php /** @var EvolutionCMS\Models\SiteContent $document */ ?>
@@ -54,7 +59,7 @@
         </script>
     @endpush
     <h1>
-        <i class="{{ $_style['icon_move'] }}"></i>{{ $document->pagetitle }} <small>({{ $document->getKey() }})</small>
+        <i class="{{ ManagerTheme::getStyle('icon_move') }}"></i>{{ $document->pagetitle }} <small>({{ $document->getKey() }})</small>
     </h1>
 
     {!! ManagerTheme::getStyle('actionbuttons.dynamic.save') !!}

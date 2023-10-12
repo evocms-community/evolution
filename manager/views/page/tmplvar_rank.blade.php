@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')

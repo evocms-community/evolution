@@ -1,13 +1,14 @@
 <?php
 
+use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('save_template')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('save_template')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 if (isset($_GET['selectable'])) {
@@ -18,7 +19,7 @@ if (isset($_GET['selectable'])) {
         /** @var SiteTemplate $template */
         $template = SiteTemplate::query()->findOrFail($id);
 
-        $modx->invokeEvent("OnBeforeTempFormSave", [
+        evo()->invokeEvent('OnBeforeTempFormSave', [
             'mode' => 'upd',
             'id' => $id,
         ]);
@@ -26,16 +27,15 @@ if (isset($_GET['selectable'])) {
         $_SESSION['itemname'] = $template->templatename;
 
         $template->update(['selectable' => $selectable]);
-        $modx->invokeEvent('OnTempFormSave', [
+        evo()->invokeEvent('OnTempFormSave', [
             'mode' => 'upd',
             'id' => $id,
         ]);
     } catch (ModelNotFoundException $e) {
-        $modx->webAlertAndQuit(__('global.error_no_id'));
+        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
     }
 
-    $header = 'Location: index.php?a=76&tab=0&r=2';
-    header($header);
+    header('Location: index.php?a=76&tab=0&r=2');
     exit;
 }
 
@@ -45,9 +45,11 @@ $templatename = trim($_POST['templatename']);
 $templatealias = trim($_POST['templatealias']);
 $description = $_POST['description'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
-$selectable = $id == $modx->config['default_template'] ? 1 : // Force selectable
-(isset($_POST['selectable']) && $_POST['selectable'] == 'on' ? 1 : 0);
-$currentdate = time() + $modx->config['server_offset_time'];
+$selectable = $id == evo()->config['default_template']
+    ? 1
+    : // Force selectable
+    (isset($_POST['selectable']) && $_POST['selectable'] == 'on' ? 1 : 0);
+$currentdate = time() + evo()->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
@@ -62,8 +64,8 @@ if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
     }
 }
 
-if ($templatename == "") {
-    $templatename = "Untitled template";
+if ($templatename == '') {
+    $templatename = 'Untitled template';
 }
 
 function createBladeFile($templatealias)
@@ -91,32 +93,42 @@ function createBladeFile($templatealias)
 switch ($_POST['mode']) {
     case '19':
         // invoke OnBeforeTempFormSave event
-        $modx->invokeEvent("OnBeforeTempFormSave", array(
-            "mode" => "new",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforeTempFormSave', [
+            'mode' => 'new',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for new templates
-        $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->count();
+        $count = SiteTemplate::query()->where('templatename', $templatename)->count();
         if ($count > 0) {
-            $modx->getManagerApi()->saveFormValues(19);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), "index.php?a=19");
+            evo()->getManagerApi()->saveFormValues(19);
+            evo()->webAlertAndQuit(
+                sprintf(
+                    ManagerTheme::getLexicon('duplicate_name_found_general'),
+                    ManagerTheme::getLexicon('template'),
+                    $templatename
+                ),
+                'index.php?a=19'
+            );
         }
 
         if ($templatealias == '') {
             $templatealias = $templatename;
         }
 
-        $templatealias = strtolower($modx->stripAlias(trim($templatealias)));
+        $templatealias = strtolower(evo()->stripAlias(trim($templatealias)));
 
-        $count = \EvolutionCMS\Models\SiteTemplate::where('templatealias', $templatealias)->count();
+        $count = SiteTemplate::query()->where('templatealias', $templatealias)->count();
 
         if ($count > 0) {
-            $modx->getManagerApi()->saveFormValues(19);
-            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), "index.php?a=19");
+            evo()->getManagerApi()->saveFormValues(19);
+            evo()->webAlertAndQuit(
+                sprintf(ManagerTheme::getLexicon('duplicate_template_alias_found'), $id, $templatealias),
+                'index.php?a=19'
+            );
         }
         //do stuff to save the new doc
-        $newid = \EvolutionCMS\Models\SiteTemplate::query()->insertGetId(array(
+        $newid = SiteTemplate::query()->insertGetId([
             'templatename' => $templatename,
             'templatealias' => $templatealias,
             'description' => $description,
@@ -126,13 +138,13 @@ switch ($_POST['mode']) {
             'category' => $categoryid,
             'createdon' => $currentdate,
             'editedon' => $currentdate,
-        ));
+        ]);
 
         // invoke OnTempFormSave event
-        $modx->invokeEvent("OnTempFormSave", array(
-            "mode" => "new",
-            "id" => $newid,
-        ));
+        evo()->invokeEvent('OnTempFormSave', [
+            'mode' => 'new',
+            'id' => $newid,
+        ]);
         // Set new assigned Tvs
         saveTemplateAccess($newid);
 
@@ -144,56 +156,66 @@ switch ($_POST['mode']) {
         $_SESSION['itemname'] = $templatename;
 
         // empty cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "16&id=$newid" : "19";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $a = ($_POST['stay'] == '2') ? '16&id=' . $newid : '19';
+            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
         } else {
-            $header = "Location: index.php?a=76&r=2";
-            header($header);
+            $header = 'Location: index.php?a=76&r=2';
         }
+        header($header);
 
         break;
     case '16':
         // invoke OnBeforeTempFormSave event
-        $modx->invokeEvent("OnBeforeTempFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforeTempFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for templates
-        $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->where('id', '!=', $id)->count();
+        $count = SiteTemplate::query()->where('templatename', $templatename)->where('id', '!=', $id)->count();
         if ($count > 0) {
-            $modx->getManagerApi()->saveFormValues(16);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), "index.php?a=16&id={$id}");
+            evo()->getManagerApi()->saveFormValues(16);
+            evo()->webAlertAndQuit(
+                sprintf(
+                    ManagerTheme::getLexicon('duplicate_name_found_general'),
+                    ManagerTheme::getLexicon('template'),
+                    $templatename
+                ),
+                'index.php?a=16&id=' . $id
+            );
         }
 
         if ($templatealias == '') {
             $templatealias = $templatename;
         }
 
-        $templatealias = strtolower($modx->stripAlias(trim($templatealias)));
+        $templatealias = strtolower(evo()->stripAlias(trim($templatealias)));
 
-        $count = \EvolutionCMS\Models\SiteTemplate::where('templatealias', $templatealias)->where('id', '!=', $id)->count();
+        $count = SiteTemplate::query()->where('templatealias', $templatealias)->where('id', '!=', $id)->count();
 
         if ($count > 0) {
-            $modx->getManagerApi()->saveFormValues(16);
-            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), "index.php?a=16&id={$id}");
+            evo()->getManagerApi()->saveFormValues(16);
+            evo()->webAlertAndQuit(
+                sprintf(ManagerTheme::getLexicon('duplicate_template_alias_found'), $id, $templatealias),
+                'index.php?a=16&id=' . $id
+            );
         }
         //do stuff to save the edited doc
-        \EvolutionCMS\Models\SiteTemplate::find($id)->update(array(
-            'templatename' => $templatename,
-            'templatealias' => $templatealias,
-            'description' => $description,
-            'content' => $template,
-            'locked' => $locked,
-            'selectable' => $selectable,
-            'category' => $categoryid,
-            'editedon' => $currentdate,
-        ));
+        SiteTemplate::query()->find($id)
+            ->update([
+                'templatename' => $templatename,
+                'templatealias' => $templatealias,
+                'description' => $description,
+                'content' => $template,
+                'locked' => $locked,
+                'selectable' => $selectable,
+                'category' => $categoryid,
+                'editedon' => $currentdate,
+            ]);
         // Set new assigned Tvs
         saveTemplateAccess($id);
 
@@ -202,28 +224,27 @@ switch ($_POST['mode']) {
         }
 
         // invoke OnTempFormSave event
-        $modx->invokeEvent("OnTempFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnTempFormSave', [
+            'mode' => "upd",
+            'id' => $id,
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $templatename;
 
         // first empty the cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "16&id=$id" : "19";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $a = ($_POST['stay'] == '2') ? '16&id=' . $id : '19';
+            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
         } else {
-            $modx->unlockElement(1, $id);
-            $header = "Location: index.php?a=76&r=2";
-            header($header);
+            evo()->unlockElement(1, $id);
+            $header = 'Location: index.php?a=76&r=2';
         }
+        header($header);
         break;
     default:
-        $modx->webAlertAndQuit("No operation set in request.");
+        evo()->webAlertAndQuit('No operation set in request.');
 }

@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
     function hideConfigCheckWarning(key) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "index.php?a=118", true);

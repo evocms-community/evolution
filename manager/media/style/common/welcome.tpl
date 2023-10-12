@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="tab-pane" id="welcomePane" style="border:0">
-		<script type="text/javascript">
+		<script>
 			tpPane = new WebFXTabPane(document.getElementById("welcomePane"), false);
 		</script>
 
@@ -17,7 +17,7 @@
 		<div class="tab-page" id="tabhome" style="padding-left:0; padding-right:0;">
 			[+OnManagerWelcomePrerender+]
 			<h2 class="tab">[(site_name)]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabhome"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabhome"));</script>
 			<div class="sectionHeader">[%welcome_title%]</div>
 			<div class="sectionBody">
 				<table border="0" cellpadding="5">
@@ -49,7 +49,7 @@
 		<!-- system check -->
 		<div class="tab-page" id="tabcheck" style="display:[+config_display+]; padding-left:0; padding-right:0;">
 			<h2 class="tab" style="display:[+config_display+]"><strong>[%settings_config%]</strong></h2>
-			<script type="text/javascript"> if('[+config_display+]' == 'block') tpPane.addTabPage(document.getElementById("tabcheck"));</script>
+			<script> if('[+config_display+]' == 'block') tpPane.addTabPage(document.getElementById("tabcheck"));</script>
 			<div class="sectionHeader">[%configcheck_title%]</div>
 			<div class="sectionBody">
 				<i class="fa fa-times-circle"></i>
@@ -60,7 +60,7 @@
 		<!-- modx news -->
 		<div class="tab-page" id="tabNews" style="padding-left:0; padding-right:0">
 			<h2 class="tab">[%modx_news_tab%]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabNews"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabNews"));</script>
 			<div class="sectionHeader">[%modx_news_title%]</div>
 			<div class="sectionBody">
 				[+modx_news_content+]
@@ -70,7 +70,7 @@
 		<!-- security notices -->
 		<div class="tab-page" id="tabSecurityNotices" style="padding-left:0; padding-right:0">
 			<h2 class="tab">[%security_notices_tab%]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabSecurityNotices"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabSecurityNotices"));</script>
 			<div class="sectionHeader">[%security_notices_title%]</div>
 			<div class="sectionBody">
 				[+modx_security_notices_content+]
@@ -80,7 +80,7 @@
 		<!-- recent activities -->
 		<div class="tab-page" id="tabAct" style="padding-left:0; padding-right:0">
 			<h2 class="tab">[%recent_docs%]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabAct"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabAct"));</script>
 			<div class="sectionHeader">[%activity_title%]</div>
 			<div class="sectionBody">
 				[+RecentInfo+]
@@ -90,7 +90,7 @@
 		<!-- user info -->
 		<div class="tab-page" id="tabYour" style="padding-left:0; padding-right:0">
 			<h2 class="tab">[%info%]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabYour"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabYour"));</script>
 			<div class="sectionHeader">[%yourinfo_title%]</div>
 			<div class="sectionBody">
 				[+UserInfo+]
@@ -100,7 +100,7 @@
 		<!-- online info -->
 		<div class="tab-page" id="tabOnline" style="padding-left:0; padding-right:0">
 			<h2 class="tab">[%online%]</h2>
-			<script type="text/javascript">tpPane.addTabPage(document.getElementById("tabOnline"));</script>
+			<script>tpPane.addTabPage(document.getElementById("tabOnline"));</script>
 			<div class="sectionHeader">[%onlineusers_title%]</div>
 			<div class="sectionBody">
 				[+OnlineInfo+]

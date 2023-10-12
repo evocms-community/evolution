@@ -5,7 +5,7 @@
 	* E-mail: dmaraptor@mail.ru
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "uk_UA.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -123,6 +123,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Ви не можете змінювати розширення файлів!",
     "Uploading file {number} of {count}... {progress}" => "Завантаження файлу {number} з {count}... {progress}",
     "Failed to upload {filename}!" => "Помилка завантаження {filename}!",
-);
+];
 
 ?>

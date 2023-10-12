@@ -17,16 +17,18 @@ if (!function_exists('rmdirRecursive')) {
      *
      * @param string $path
      * @param bool $followLinks
+     *
      * @return bool
      */
-    function rmdirRecursive($path, $followLinks = false)
+    function rmdirRecursive(string $path, bool $followLinks = false): bool
     {
         $dir = opendir($path);
         while ($entry = readdir($dir)) {
-            if (is_file("$path/$entry") || ((!$followLinks) && is_link("$path/$entry"))) {
-                @unlink("$path/$entry");
-            } elseif (is_dir("$path/$entry") && $entry !== '.' && $entry !== '..') {
-                rmdirRecursive("$path/$entry"); // recursive
+            $pathEntry = $path . '/' . $entry;
+            if (is_file($pathEntry) || ((!$followLinks) && is_link($pathEntry))) {
+                @unlink($pathEntry);
+            } elseif (is_dir($pathEntry) && $entry !== '.' && $entry !== '..') {
+                rmdirRecursive($pathEntry); // recursive
             }
         }
         closedir($dir);

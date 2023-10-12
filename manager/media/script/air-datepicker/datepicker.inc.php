@@ -1,22 +1,30 @@
 <?php
-class DATEPICKER {
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+class DATEPICKER
+{
     /**
      * @return string
      */
-    public function getDP() {
-        $modx = evolutionCMS();
+    public function getDP(): string
+    {
+        $load_script = file_get_contents(__DIR__ . '/datepicker.tpl');
+        if (!isset(evo()->config['lang_code'])) {
+            evo()->config['lang_code'] = $this->getLangCode();
+        }
+        evo()->config['datetime_format_lc'] =
+            isset(evo()->config['datetime_format']) ? strtolower(evo()->config['datetime_format']) : 'dd-mm-yyyy';
 
-        $load_script = file_get_contents(__DIR__.'/datepicker.tpl');
-        if(!isset($modx->config['lang_code'])) $modx->config['lang_code'] = $this->getLangCode();
-		$modx->config['datetime_format_lc'] = isset($modx->config['datetime_format']) ? strtolower($modx->config['datetime_format']) : 'dd-mm-yyyy';
-        return $modx->mergeSettingsContent($load_script);
+        return evo()->mergeSettingsContent($load_script);
     }
 
     /**
      * @return string
      */
-    public function getLangCode() {
-        $lang = evolutionCMS()->get('ManagerTheme')->getLang();
+    public function getLangCode(): string
+    {
+        $lang = ManagerTheme::getLang();
 
         if ($lang === 'uk') {
             $lang = 'ru';
@@ -24,6 +32,6 @@ class DATEPICKER {
 
         $dp_path = str_replace('\\', '/', __DIR__);
 
-        return is_file("{$dp_path}/i18n/datepicker.{$lang}.js") ? $lang : 'en';
+        return is_file("$dp_path/i18n/datepicker.$lang.js") ? $lang : 'en';
     }
 }

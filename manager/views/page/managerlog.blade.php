@@ -1,3 +1,8 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
@@ -12,7 +17,7 @@
     @endpush
     <form name="logging" method="post" class="form-group">
         <h1>
-            <i class="{{ $_style['icon_user_secret'] }}"></i>{{ ManagerTheme::getLexicon('mgrlog_view') }}<i
+            <i class="{{ ManagerTheme::getStyle('icon_user_secret') }}"></i>{{ ManagerTheme::getLexicon('mgrlog_view') }}<i
                 class="fa fa-question-circle help"></i>
         </h1>
 
@@ -88,7 +93,7 @@
                             <input type="text" id="datefrom" name="datefrom" class="form-control unstyled DatePicker"
                                 value="{{ $form['datefrom'] }}" />
                             <i onClick="document.logging.datefrom.value=''; return true;"
-                                class="clearDate {{ $_style['icon_calendar_close'] }}"
+                                class="clearDate {{ ManagerTheme::getStyle('icon_calendar_close') }}"
                                 title="{{ ManagerTheme::getLexicon('remove_date') }}"></i>
                         </div>
                     </div>
@@ -101,7 +106,7 @@
                             <input type="text" id="dateto" name="dateto" class="form-control unstyled DatePicker"
                                 value="{{ $form['dateto'] }}" />
                             <i onClick="document.logging.dateto.value=''; return true;"
-                                class="clearDate {{ $_style['icon_calendar_close'] }}"
+                                class="clearDate {{ ManagerTheme::getStyle('icon_calendar_close') }}"
                                 title="{{ ManagerTheme::getLexicon('remove_date') }}"></i>
                         </div>
                     </div>
@@ -116,10 +121,10 @@
                 </div>
 
                 <div class="row form-row">
-                    <button type="submit" class="btn btn-success"><i class="{{ $_style['icon_search'] }}"></i>
+                    <button type="submit" class="btn btn-success"><i class="{{ ManagerTheme::getStyle('icon_search') }}"></i>
                         {{ ManagerTheme::getLexicon('mgrlog_searchlogs') }}</button>
                     <a class="btn btn-secondary" href="index.php?a=13" onclick="documentDirty=false;"><i
-                            class="{{ $_style['icon_cancel'] }}"></i>
+                            class="{{ ManagerTheme::getStyle('icon_cancel') }}"></i>
                         {{ ManagerTheme::getLexicon('cancel') }}</a>
                 </div>
             </div>

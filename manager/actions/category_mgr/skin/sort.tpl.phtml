@@ -1,11 +1,24 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 <form id="categories-sort-form" method="post" action="<?= $view->get('url') ?>">
-    <input name="<?= $view->get('request_key') ?>[sort][submit]" type="hidden" value="1" />
+    <input name="<?= $view->get('request_key') ?>[sort][submit]" type="hidden" value="1"/>
     <div class="form-group">
-        <a class="btn btn-success btn-sm" href="javascript:;" onclick="document.getElementById('categories-sort-form').submit();return false;"><i class="<?= $_style['icon_save'] ?>"></i> <?= $view->txt('cm_save_new_sorting') ?></a>
-        <a class="btn btn-secondary btn-sm" href="javascript:;" id="sort-help" onclick="document.querySelector('#sort-info').classList.toggle('show');"><i class="<?= $_style['icon_question_circle'] ?>"></i> <?= $_lang['help'] ?></a>
+        <a class="btn btn-success btn-sm" href="javascript:;"
+           onclick="document.getElementById('categories-sort-form').submit();return false;"><i
+                    class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= $view->txt('cm_save_new_sorting') ?></a>
+        <a class="btn btn-secondary btn-sm" href="javascript:;" id="sort-help"
+           onclick="document.querySelector('#sort-info').classList.toggle('show');"><i
+                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i> <?= ManagerTheme::getLexicon(
+                'help'
+            ) ?></a>
     </div>
     <p id="sort-info" class="element-edit-message">
-        Drag category up or down to change its rank. Can be very useful when used with <a href="https://github.com/pmfx/CategorizedTabs" target="_blank">CategorizedTabs</a> plugin to change tabs order.
+        Drag category up or down to change its rank. Can be very useful when used with <a
+                href="https://github.com/pmfx/CategorizedTabs" target="_blank">CategorizedTabs</a> plugin to change tabs
+        order.
     </p>
     <div class="row">
         <div class="table-responsive">
@@ -22,10 +35,18 @@
                 foreach ($data as $category): ?>
                     <tr id="item_<?= $category['id'] ?>">
                         <td>
-                            <i class="<?= $_style['icon_category'] ?>"></i> <?= e($category['category']) ?>
-                            <input type="hidden" class="sort" name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][rank]" value="<?= $category['rank'] ?>" />
-                            <input type="hidden" name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][id]" value="<?= $category['id'] ?>" />
-                            <input type="hidden" name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][category]" value="<?= urlencode($category['category']) ?>" />
+                            <i class="<?= ManagerTheme::getStyle('icon_category') ?>"></i> <?= e(
+                                $category['category']
+                            ) ?>
+                            <input type="hidden" class="sort"
+                                   name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][rank]"
+                                   value="<?= $category['rank'] ?>"/>
+                            <input type="hidden"
+                                   name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][id]"
+                                   value="<?= $category['id'] ?>"/>
+                            <input type="hidden"
+                                   name="<?= $view->get('request_key') ?>[sort][data][<?= $category['id'] ?>][category]"
+                                   value="<?= urlencode($category['category']) ?>"/>
                         </td>
                         <td><span class="sort"><?= $category['rank'] ?></span></td>
                     </tr>

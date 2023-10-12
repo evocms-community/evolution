@@ -4,7 +4,7 @@
   * author: Tim Wahrendorff <wahrendorff@users.sourceforge.net>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "de_DE.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Die Umbenennung von Datei-Erweiterungen ist nicht möglich!",
     "Uploading file {number} of {count}... {progress}" => "Lade Datei {number} von {count} hinauf ... {progress}",
     "Failed to upload {filename}!" => "Upload von {filename} fehlgeschlagen!",
-);
+];
 
 ?>

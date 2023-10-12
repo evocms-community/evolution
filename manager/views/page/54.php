@@ -1,8 +1,11 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 // get the table optimizer/truncate processor
-extract(evolutionCMS()->get('ManagerTheme')->getViewAttributes(), EXTR_OVERWRITE);
+extract(ManagerTheme::getViewAttributes());
 
 /**
  * @TODO: White list of tables allowed for truncate operation
  */
-include_once evolutionCMS()->get('ManagerTheme')->getFileProcessor("processors/optimize_table.processor.php");
+include_once ManagerTheme::getFileProcessor('processors/optimize_table.processor.php');

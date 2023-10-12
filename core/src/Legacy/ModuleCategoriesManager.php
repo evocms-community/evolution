@@ -1,5 +1,8 @@
-<?php namespace EvolutionCMS\Legacy;
+<?php
 
+namespace EvolutionCMS\Legacy;
+
+use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteHtmlsnippet;
 use EvolutionCMS\Models\SiteModule;
 use EvolutionCMS\Models\SitePlugin;
@@ -12,39 +15,39 @@ class ModuleCategoriesManager extends Categories
     /**
      * @var array
      */
-    public $params = array();
+    public array $params = [];
     /**
      * @var array
      */
-    public $translations = array();
+    public array $translations = [];
     /**
      * @var array
      */
-    public $new_translations = array();
-
+    public array $new_translations = [];
 
     /**
-     * Set a paramter key and its value
+     * Set a parameter key and its value
      *
-     * @param string $key paramter key
+     * @param string $key parameter key
      * @param mixed $value parameter value - could be mixed value-types
+     *
      * @return null
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->params[$key] = $value;
 
         return null;
     }
 
-
     /**
      * Get a parameter value
      *
-     * @param string $key Paramter-key
+     * @param string $key Parameter-key
+     *
      * @return  string           return the parameter value if exists, otherwise false
      */
-    public function get($key)
+    public function get(string $key)
     {
         $modx = evolutionCMS();
 
@@ -59,22 +62,21 @@ class ModuleCategoriesManager extends Categories
         return false;
     }
 
-
     /**
      * @param string $message
      * @param string $namespace
      */
-    public function addMessage($message, $namespace = 'default')
+    public function addMessage(string $message, string $namespace = 'default')
     {
         $this->params['messages'][$namespace][] = $message;
     }
 
-
     /**
      * @param string $namespace
+     *
      * @return bool
      */
-    public function getMessages($namespace = 'default')
+    public function getMessages(string $namespace = 'default')
     {
         if (isset($this->params['messages'][$namespace])) {
             return $this->params['messages'][$namespace];
@@ -83,12 +85,11 @@ class ModuleCategoriesManager extends Categories
         return false;
     }
 
-
     /**
      * @param string $view_name
-     * @param array $data
+     * @param $data
      */
-    public function renderView($view_name, $data = array())
+    public function renderView($view_name, $data = null)
     {
         global $_lang, $_style;
 
@@ -97,7 +98,8 @@ class ModuleCategoriesManager extends Categories
         $view = &$this;
 
         if (is_file($file)
-            && is_readable($file)) {
+            && is_readable($file)
+        ) {
             include $file;
         } else {
             echo 'View "' . self::get('views_dir') . '<strong>' . $filename . '</strong>" not found.';
@@ -108,52 +110,46 @@ class ModuleCategoriesManager extends Categories
      * @param string $element
      * @param int $element_id
      * @param int $category_id
+     *
      * @return bool
      */
-    public function updateElement($element, $element_id, $category_id)
+    public function updateElement($element, $element_id, $category_id): bool
     {
+        $_update = [
+            'category' => (int) $category_id,
+        ];
 
-        $_update = array(
-            'category' => (int)$category_id
-        );
         switch ($element) {
             case 'templates':
-                SiteTemplate::where('id', $element_id)->update($_update);
+                SiteTemplate::query()->where('id', $element_id)->update($_update);
                 break;
             case  'tmplvars':
-                $elements = SiteTmplvar::where('id', $element_id)->update($_update);
+                SiteTmplvar::query()->where('id', $element_id)->update($_update);
                 break;
             case 'htmlsnippets':
-                $elements = SiteHtmlsnippet::where('id', $element_id)->update($_update);
+                SiteHtmlsnippet::query()->where('id', $element_id)->update($_update);
                 break;
             case 'snippets':
-                $elements = SiteSnippet::where('id', $element_id)->update($_update);
+                SiteSnippet::query()->where('id', $element_id)->update($_update);
                 break;
             case 'plugins':
-                $elements = SitePlugin::where('id', $element_id)->update($_update);
+                SitePlugin::query()->where('id', $element_id)->update($_update);
                 break;
             case 'modules':
-                $elements = SiteModule::where('id', $element_id)->update($_update);
+                SiteModule::query()->where('id', $element_id)->update($_update);
                 break;
-
         }
-
 
         return true;
     }
 
-
     /**
      * @param string $txt
+     *
      * @return string
      */
-    public function txt($txt)
+    public function txt(string $txt): string
     {
-        global $_lang;
-        if (isset($_lang[$txt])) {
-            return $_lang[$txt];
-        }
-
-        return $txt;
+        return ManagerTheme::getLexicon($txt);
     }
 }

@@ -4,7 +4,7 @@
   * author: Heikki Tenhunen (heikki@sivudesign.fi)
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "fi_FI.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Et voi nimetä uudelleen tiedostopäätettä!",
     "Uploading file {number} of {count}... {progress}" => "Siirretään tiedostoa {number}/{count} ... {progress}",
     "Failed to upload {filename}!" => "Siirto epäonnistui {filename}!",
-);
+];
 
 ?>

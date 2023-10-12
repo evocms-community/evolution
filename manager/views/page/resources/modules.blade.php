@@ -1,11 +1,17 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\SiteModule;
+
+?>
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
         <a href="?a=76&tab={{ $index }}"><i
-                class="{{ $_style['icon_modules'] }}"></i>{{ ManagerTheme::getLexicon('modules') }}</a>
+                    class="{{ ManagerTheme::getStyle('icon_modules') }}"></i>{{ ManagerTheme::getLexicon('modules') }}</a>
     </h2>
 
     <script>
-        tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));
+      tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));
     </script>
 
     <div id="{{ $tabIndexPageName }}-info" class="msg-container" style="display:none">
@@ -17,22 +23,22 @@
         <form class="btn-group form-group form-inline">
             <div class="input-group input-group-sm">
                 <input class="form-control filterElements-form" type="text" id="{{ $tabIndexPageName }}_search"
-                    size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}" />
+                       size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>
                 <div class="input-group-btn">
-                    @if (evolutionCMS()->hasPermission('new_module') && evolutionCMS()->hasPermission('save_module'))
+                    @if (evo()->hasPermission('new_module') && evo()->hasPermission('save_module'))
                         <a class="btn btn-success" target="main"
-                            href="{{ (new EvolutionCMS\Models\SiteModule())->makeUrl('actions.new') }}">
-                            <i class="{{ $_style['icon_add'] }}"></i>
+                           href="{{ (new SiteModule())->makeUrl('actions.new') }}">
+                            <i class="{{ ManagerTheme::getStyle('icon_add') }}"></i>
                             <span>{{ ManagerTheme::getLexicon('new_module') }}</span>
                         </a>
                     @endif
                     <a class="btn btn-secondary" href="javascript:;" id="{{ $tabIndexPageName }}-help">
-                        <i class="{{ $_style['icon_question_circle'] }}"></i>
+                        <i class="{{ ManagerTheme::getStyle('icon_question_circle') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('help') }}</span>
                     </a>
                     <a class="btn btn-secondary switchform-btn" href="javascript:;"
-                        data-target="switchForm_{{ $tabIndexPageName }}">
-                        <i class="{{ $_style['icon_bars'] }}"></i>
+                       data-target="switchForm_{{ $tabIndexPageName }}">
+                        <i class="{{ ManagerTheme::getStyle('icon_bars') }}"></i>
                         <span>{{ ManagerTheme::getLexicon('btn_view_options') }}</span>
                     </a>
                 </div>
@@ -85,7 +91,7 @@
 
 @push('scripts.bot')
     <script>
-        initQuicksearch('{{ $tabIndexPageName }}_search', '{{ $tabIndexPageName }}_content');
-        initViews('ch', '{{ $tabIndexPageName }}', '{{ $tabIndexPageName }}_content');
+      initQuicksearch('{{ $tabIndexPageName }}_search', '{{ $tabIndexPageName }}_content');
+      initViews('ch', '{{ $tabIndexPageName }}', '{{ $tabIndexPageName }}_content');
     </script>
 @endpush

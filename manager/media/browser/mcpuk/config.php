@@ -16,70 +16,71 @@
 // you are using session configuration.
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
-$modx = evolutionCMS();
-$_CONFIG = array(
+$modx = evo();
+$_CONFIG = [
     'disabled' => false,
-    'denyZipDownload' => $modx->getConfig('denyZipDownload'),
-    'denyExtensionRename' => $modx->getConfig('denyExtensionRename'),
-    'showHiddenFiles' => $modx->getConfig('showHiddenFiles'),
+    'denyZipDownload' => evo()->getConfig('denyZipDownload'),
+    'denyExtensionRename' => evo()->getConfig('denyExtensionRename'),
+    'showHiddenFiles' => evo()->getConfig('showHiddenFiles'),
     'theme' => "evo",
-    'uploadURL'           => rtrim($modx->getConfig('rb_base_url'), '/'),
-    'uploadDir'           => rtrim($modx->getConfig('rb_base_dir'), '/'),
+    'uploadURL'           => rtrim(evo()->getConfig('rb_base_url'), '/'),
+    'uploadDir'           => rtrim(evo()->getConfig('rb_base_dir'), '/'),
     'siteURL' => MODX_SITE_URL,
-    'assetsURL'           => rtrim($modx->getConfig('rb_base_url'), '/'),
-    'dirPerms'            => intval($modx->getConfig('new_folder_permissions'), 8),
-    'filePerms'           => intval($modx->getConfig('new_file_permissions'), 8),
-    'maxfilesize'         => (int)$modx->getConfig('upload_maxsize'),
-    'noThumbnailsRecreation' => $modx->getConfig('noThumbnailsRecreation'),
+    'assetsURL'           => rtrim(evo()->getConfig('rb_base_url'), '/'),
+    'dirPerms'            => intval(evo()->getConfig('new_folder_permissions'), 8),
+    'filePerms'           => intval(evo()->getConfig('new_file_permissions'), 8),
+    'maxfilesize'         => (int)evo()->getConfig('upload_maxsize'),
+    'noThumbnailsRecreation' => evo()->getConfig('noThumbnailsRecreation'),
 
-    'access' => array(
+    'access' => [
 
-        'files' => array(
+        'files' => [
             'upload' => true,
             'delete' => true,
             'copy' => true,
             'move' => true,
             'rename' => true
-        ),
+        ],
 
-        'dirs' => array(
+        'dirs' => [
             'create' => true,
             'delete' => true,
             'rename' => true
-        )
-    ),
+        ]
+    ],
 
     'deniedExts' => "exe com msi bat php phps phtml php3 php4 cgi pl",
 
-    'types' => array(
+    'types' => [
 
         // CKEditor & FCKEditor types
-        'files'  => str_replace(',', ' ', $modx->getConfig('upload_files')),
-        'images' => str_replace(',', ' ', $modx->getConfig('upload_images')),
+        'files'  => str_replace(',', ' ', evo()->getConfig('upload_files')),
+        'images' => str_replace(',', ' ', evo()->getConfig('upload_images')),
 
         // TinyMCE types
-        'file'   => str_replace(',', ' ', $modx->getConfig('upload_files')),
-        'media'  => str_replace(',', ' ', $modx->getConfig('upload_media')),
-        'image'  => str_replace(',', ' ', $modx->getConfig('upload_images')),
-    ),
-    'dirnameChangeChars' => array(
+        'file'   => str_replace(',', ' ', evo()->getConfig('upload_files')),
+        'media'  => str_replace(',', ' ', evo()->getConfig('upload_media')),
+        'image'  => str_replace(',', ' ', evo()->getConfig('upload_images')),
+    ],
+    'dirnameChangeChars' => [
         ' ' => "_",
         ':' => "."
-    ),
+    ],
     'mime_magic' => "",
 
-    'maxImageWidth' => $modx->getConfig('maxImageWidth'),
-    'maxImageHeight' => $modx->getConfig('maxImageHeight'),
-    'clientResize'   => $modx->getConfig('clientResize') && $modx->getConfig('maxImageWidth') && $modx->getConfig('maxImageHeight') ? array('maxWidth'  => $modx->getConfig('maxImageWidth'),
-                                                                                                                                            'maxHeight' => $modx->getConfig('maxImageHeight'),
-                                                                                                                                            'quality'   => $modx->getConfig('jpegQuality') / 100
-    ) : array(),
+    'maxImageWidth' => evo()->getConfig('maxImageWidth'),
+    'maxImageHeight' => evo()->getConfig('maxImageHeight'),
+    'clientResize'   => evo()->getConfig('clientResize') && evo()->getConfig('maxImageWidth') && evo()->getConfig('maxImageHeight') ? [
+        'maxWidth'  => evo()->getConfig('maxImageWidth'),
+        'maxHeight' => evo()->getConfig('maxImageHeight'),
+        'quality'   => evo()->getConfig('jpegQuality') / 100
+    ] : [],
 
-    'thumbWidth' => $modx->getConfig('thumbWidth'),
-    'thumbHeight' => $modx->getConfig('thumbHeight'),
-    'thumbsDir' => $modx->getConfig('thumbsDir'),
+    'thumbWidth' => evo()->getConfig('thumbWidth'),
+    'thumbHeight' => evo()->getConfig('thumbHeight'),
+    'thumbsDir' => evo()->getConfig('thumbsDir'),
 
-    'jpegQuality' => $modx->getConfig('jpegQuality'),
+    'jpegQuality' => evo()->getConfig('jpegQuality'),
 
     'cookieDomain' => "",
     'cookiePath' => "",
@@ -95,8 +96,8 @@ $_CONFIG = array(
 
     //'_sessionDomain' => ".mysite.com",
     //'_sessionPath' => "/my/path",
-);
+];
 
-$modx->invokeEvent('OnFileBrowserInit', [
+evo()->invokeEvent('OnFileBrowserInit', [
     'config' => &$_CONFIG,
 ]);

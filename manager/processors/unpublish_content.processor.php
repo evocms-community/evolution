@@ -1,18 +1,23 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Legacy\Permissions;
+use EvolutionCMS\Models\SiteContent;
+
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
+    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('save_document') || !$modx->hasPermission('publish_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('save_document') || !evo()->hasPermission('publish_document')) {
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 /************webber ********/
-$content = \EvolutionCMS\Models\SiteContent::query()->select('parent', 'pagetitle')->where('id', $id)->first()->toArray();
+$content = SiteContent::query()->select('parent', 'pagetitle')->where('id', $id)->first()->toArray();
 $pid = ($content['parent'] == 0 ? $id : $content['parent']);
 
 /************** webber *************/
@@ -24,35 +29,33 @@ $add_path = $sd . $sb . $pg;
 /***********************************/
 
 // check permissions on the document
-$udperms = new EvolutionCMS\Legacy\Permissions();
-$udperms->user = $modx->getLoginUserID('mgr');
+$udperms = new Permissions();
+$udperms->user = evo()->getLoginUserID('mgr');
 $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
 }
 
 // update the document
-\EvolutionCMS\Models\SiteContent::query()->find($id)->update(array(
+SiteContent::query()->find($id)->update([
     'published' => 0,
     'pub_date' => 0,
     'unpub_date' => 0,
-    'editedby' => $modx->getLoginUserID('mgr'),
+    'editedby' => evo()->getLoginUserID('mgr'),
     'editedon' => time(),
     'publishedby' => 0,
     'publishedon' => 0,
-));
+]);
 
 // invoke OnDocUnPublished  event
-$modx->invokeEvent("OnDocUnPublished", array("docid" => $id));
+evo()->invokeEvent('OnDocUnPublished', ['docid' => $id]);
 
 // Set the item name for logger
 $_SESSION['itemname'] = $content['pagetitle'];
 
 // empty cache
-$modx->clearCache('full');
+evo()->clearCache('full');
 
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
-
-header($header);
+header('Location: index.php?a=3&id=' . $pid . '&r=1' . $add_path);

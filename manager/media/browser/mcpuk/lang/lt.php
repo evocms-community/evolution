@@ -4,7 +4,7 @@
   * author: Paulius Leščinskas <paulius.lescinskas@gmail.com>
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "lt_LT.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -122,6 +122,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Negalima keisti failų plėtinių!",
     "Uploading file {number} of {count}... {progress}" => "Įkeliamas {number} failas iš {count}... {progress}",
     "Failed to upload {filename}!" => "Nepavyko įkelti {filename}!",
-);
+];
 
 ?>

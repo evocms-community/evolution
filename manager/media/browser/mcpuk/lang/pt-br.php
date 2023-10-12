@@ -7,7 +7,7 @@
   * e-mail: contato@hostcataratas.com.br
   */
 
-$lang = array(
+$lang = [
 
     '_locale' => "pt_BR.UTF-8",  // UNIX localization code
     '_charset' => "utf-8",       // Browser charset
@@ -125,6 +125,6 @@ $lang = array(
     "You cannot rename the extension of files!" => "Você não pode renomear a extensão de arquivos!",
     "Uploading file {number} of {count}... {progress}" => "Enviando arquivo {number} de {count}... {progress}",
     "Failed to upload {filename}!" => "Falha no envio do arquivo {filename}!",
-);
+];
 
 ?>

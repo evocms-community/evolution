@@ -1,7 +1,12 @@
+<?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
+?>
 @extends('manager::template.page')
 @section('content')
     @push('scripts.top')
-        <script type="text/javascript">
+        <script>
             var actions = {
                 save: function() {
                     var el = document.getElementById('updated');
@@ -21,7 +26,7 @@
     @endpush
 
     <h1>
-        <i class="{{ $_style['icon_sort_num_asc'] }}"></i>{{ ManagerTheme::getLexicon('plugin_priority_title') }}
+        <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>{{ ManagerTheme::getLexicon('plugin_priority_title') }}
     </h1>
 
     {!! ManagerTheme::getStyle('actionbuttons.dynamic.save') !!}
@@ -45,7 +50,7 @@
                             @foreach($event->plugins as $plugin)
                                 <li id="item_{{ $plugin->getKey() }}"@if($plugin->disabled) class="disabledPlugin"@endif>
                                     <input type="hidden" name="priority[{{ $event->id }}][]" value="{{ $plugin->id }}">
-                                    <i class="{{ $_style['icon_plugin'] }}"></i> {{ $plugin->name }}@if($plugin->disabled) (hide) @endif
+                                    <i class="{{ ManagerTheme::getStyle('icon_plugin') }}"></i> {{ $plugin->name }}@if($plugin->disabled) (hide) @endif
                                 </li>
                             @endforeach
                         </ul>
@@ -55,7 +60,7 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+    <script>
         evo.sortable('.sortableList > li');
     </script>
 @endsection

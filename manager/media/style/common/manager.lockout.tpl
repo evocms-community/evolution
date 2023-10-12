@@ -28,7 +28,7 @@
 		.loginMessage { font-size: 11px; color: #000; }
 	</style>
 
-	<script type="text/javascript">
+	<script>
 		function doLogout() {
 			top.location = '[+logouturl+]';
 		}
@@ -38,7 +38,7 @@
 		}
 	</script>
 
-	<script type="text/javascript">
+	<script>
 		/* <![CDATA[ */
 		if(top.frames.length) {
 			top.location = self.document.location;
