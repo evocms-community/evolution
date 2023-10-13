@@ -27,12 +27,12 @@ use EvolutionCMS\Facades\ManagerTheme;
               document.mutate.save.click();
               saveWait('mutate');
             }, duplicate: function() {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
                 documentDirty = false;
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=105";
               }
             }, delete: function() {
-              if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_plugin') }}') === true) {
+              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_plugin') }}`) === true) {
                 documentDirty = false;
                 document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=104';
               }
@@ -322,7 +322,6 @@ use EvolutionCMS\Facades\ManagerTheme;
                         ->orderBy('service', 'DESC')->orderBy('groupname', 'ASC')->orderBy('name', 'ASC');
 
                     if ($eventNames->count() == 0) {
-
                         echo "";
                     } else {
                         $srv = null;

@@ -6,7 +6,9 @@ use EvolutionCMS\Models\MembergroupName;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\User;
 use EvolutionCMS\Models\UserAttribute;
+use EvolutionCMS\Models\UserRole;
 use EvolutionCMS\Models\UserSetting;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -56,6 +58,7 @@ $userdata = [
     'photo' => '',
     'comment' => '',
 ];
+
 $usersettings = [
     'allowed_days' => '',
     'login_home' => '',
@@ -80,8 +83,8 @@ if (evo()->getManagerApi()->action == '88') {
 
     // get user settings
     $usersettings = UserSetting::query()->where('user', $user)->pluck('setting_value', 'setting_name')->toArray();
-    extract($usersettings, EXTR_OVERWRITE);
-    // get user name
+    extract($usersettings);
+    // get username
     $usernamedata = User::query()->find($user)->toArray();
     if (!$usernamedata) {
         evo()->webAlertAndQuit('No user returned while getting username!');
@@ -93,7 +96,8 @@ if (evo()->getManagerApi()->action == '88') {
 // avoid doubling htmlspecialchars (already encoded in DB)
 foreach ($userdata as $key => $val) {
     $userdata[$key] = html_entity_decode($val ?? '', ENT_NOQUOTES, evo()->getConfig('modx_charset'));
-};
+}
+
 $usernamedata['username'] = html_entity_decode(
     get_by_key($usernamedata, 'username', ''),
     ENT_NOQUOTES,
@@ -116,7 +120,7 @@ if (evo()->getManagerApi()->hasFormValues()) {
     } else {
         $usersettings['allowed_days'] = '';
     }
-    extract($usersettings, EXTR_OVERWRITE);
+    extract($usersettings);
 }
 
 if (isset($_REQUEST['newrole'])) {
@@ -137,7 +141,7 @@ $_country_lang = [];
 if ($manager_language != 'english' &&
     file_exists(MODX_MANAGER_PATH . 'includes/lang/country/' . $manager_language . '_country.inc.php')
 ) {
-    include_once MODX_MANAGER_PATH . "includes/lang/country/" . $manager_language . '_country.inc.php';
+    include_once MODX_MANAGER_PATH . 'includes/lang/country/' . $manager_language . '_country.inc.php';
 } else {
     include_once MODX_MANAGER_PATH . 'includes/lang/country/en_country.inc.php';
 }
@@ -171,19 +175,19 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
   function changeblockstate (el, checkelement) {
     if (parseInt(el.value) === 1) {
-      if (confirm('<?php echo ManagerTheme::getLexicon('confirm_unblock'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_unblock'); ?>`) === true) {
         document.userform.blocked.value = 0
         document.userform.blockeduntil.value = ''
         document.userform.blockedafter.value = ''
         document.userform.failedlogincount.value = 0
-        blocked.innerHTML = '<b><?php echo ManagerTheme::getLexicon('unblock_message'); ?></b>'
+        blocked.innerHTML = '<b><?= ManagerTheme::getLexicon('unblock_message'); ?></b>'
         blocked.className = 'TD'
         el.value = 0
       } else {
         checkelement.checked = true
       }
     } else {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_block'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_block'); ?>`) === true) {
         document.userform.blocked.value = 1
         blocked.innerHTML = '<b><?= ManagerTheme::getLexicon('block_message'); ?></b>'
         blocked.className = 'warning'
@@ -201,11 +205,11 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
   // change name
   function changeName () {
-    if (confirm('<?php echo ManagerTheme::getLexicon('confirm_name_change'); ?>') === true) {
+    if (confirm(`<?= ManagerTheme::getLexicon('confirm_name_change'); ?>`) === true) {
       var e1 = document.getElementById('showname')
       var e2 = document.getElementById('editname')
       e1.style.display = 'none'
-      e2.style.display = '<?php echo $displayStyle; ?>'
+      e2.style.display = '<?= $displayStyle; ?>'
     }
   }
 
@@ -217,7 +221,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     var id, el, stylevar
 
     if (onoff === 1) {
-      stylevar = "<?php echo $displayStyle; ?>"
+      stylevar = '<?= $displayStyle; ?>'
     } else {
       stylevar = 'none'
     }
@@ -264,7 +268,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     }
 
     if (documentDirty === true) {
-      if (confirm('<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>')) {
+      if (confirm(`<?= ManagerTheme::getLexicon('tmplvar_change_template_msg') ?>`)) {
         documentDirty = false
         document.userform.a.value = <?= $user ? 88 : 87 ?>;
         document.userform.newrole.value = newRole
@@ -286,7 +290,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
       document.userform.save.click()
     },
     delete: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_user'); ?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_user') ?>`) === true) {
         window.location.href = 'index.php?id=' + document.userform.id.value + '&a=90'
       }
     },
@@ -295,13 +299,11 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
       window.location.href = 'index.php?a=99'
     }
   }
-</script>
 
-<script>
   function evoRenderTvImageCheck (a) {
     var b = document.getElementById('image_for_' + a.target.id),
       c = new Image
-    a.target.value ? (c.src = "<?php echo evo()->getConfig('site_url') ?>" + a.target.value, c.onerror = function () {
+    a.target.value ? (c.src = '<?= evo()->getConfig('site_url') ?>' + a.target.value, c.onerror = function () {
       b.style.backgroundImage = '', b.setAttribute('data-image', '')
     }, c.onload = function () {
       b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src)
@@ -318,15 +320,13 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     }
     ?>
     <input type="hidden" name="a" value="89">
-    <input type="hidden" name="mode" value="<?php
-    echo evo()->getManagerApi()->action; ?>"/>
-    <input type="hidden" name="id" value="<?php
-    echo $user ?>"/>
+    <input type="hidden" name="mode" value="<?= evo()->getManagerApi()->action ?>"/>
+    <input type="hidden" name="id" value="<?= $user ?>"/>
     <input type="hidden" name="newrole" value=""/>
-    <input type="hidden" name="blockedmode" value="<?php
-    echo ($userdata['blocked'] == 1 || ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) ||
+    <input type="hidden" name="blockedmode" value="<?= ($userdata['blocked'] == 1 ||
+        ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) ||
         ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0) ||
-        $userdata['failedlogins'] > evo()->getConfig('failed_login_attempts')) ? "1" : "0" ?>"/>
+        $userdata['failedlogins'] > evo()->getConfig('failed_login_attempts')) ? '1' : '0' ?>"/>
 
     <h1>
         <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?= ($usernamedata['username']
@@ -342,13 +342,12 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
         <div class="tab-pane" id="webUserPane">
             <script>
-              tpUser = new WebFXTabPane(document.getElementById('webUserPane'), <?php echo evo()->getConfig(
+              tpUser = new WebFXTabPane(document.getElementById('webUserPane'), <?= evo()->getConfig(
                   'remember_last_tab'
-              ) == 1 ? 'true' : 'false'; ?> )
+              ) == 1 ? 'true' : 'false'; ?>)
             </script>
             <div class="tab-page" id="tabGeneral">
-                <h2 class="tab"><?php
-                    echo ManagerTheme::getLexicon('settings_general') ?></h2>
+                <h2 class="tab"><?= ManagerTheme::getLexicon('settings_general') ?></h2>
                 <script>tpUser.addTabPage(document.getElementById('tabGeneral'))</script>
                 <table border="0" cellspacing="0" cellpadding="3">
                     <?php
@@ -359,182 +358,194 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                     ) { ?>
                         <tr>
                             <td colspan="3"><span id="blocked" class="warning">
-                                <b><?php
-                                    echo ManagerTheme::getLexicon('user_is_blocked'); ?></b>
+                                <b><?= ManagerTheme::getLexicon('user_is_blocked'); ?></b>
                             </span>
                                 <br/></td>
                         </tr>
-                    <?php
+                        <?php
                     } ?>
                     <?php
                     if (!empty($userdata['id'])) { ?>
-                        <tr id="showname" style="display: <?php
-                        echo (evo()->getManagerApi()->action == '88' && (!isset($usernamedata['oldusername']) ||
+                        <tr id="showname" style="display: <?= (evo()->getManagerApi()->action == '88' &&
+                            (!isset($usernamedata['oldusername']) ||
                                 $usernamedata['oldusername'] == $usernamedata['username'])) ? $displayStyle
                             : 'none'; ?> ">
-                            <td><?php
-                                echo ManagerTheme::getLexicon('username'); ?>:
+                            <td><?= ManagerTheme::getLexicon('username'); ?>:
                             </td>
-                            <td><i class="<?php
-                                echo ManagerTheme::getStyle('icon_web_user') ?>"></i>&nbsp;<b><?php
-                                    echo evo()->getPhpCompat()->htmlspecialchars(
-                                        !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
-                                            : $usernamedata['username']
-                                    ); ?></b> - <span class="comment"><a href="javascript:;"
-                                                                         onClick="changeName();return false;"><?php
-                                        echo ManagerTheme::getLexicon('change_name'); ?></a></span>
-                                <input type="hidden" name="oldusername" value="<?php
-                                echo evo()->getPhpCompat()->htmlspecialchars(
-                                    !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
-                                        : $usernamedata['username']
-                                ); ?>"/>
+                            <td>
+                                <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i>&nbsp;<b><?= evo()
+                                        ->getPhpCompat()->htmlspecialchars(
+                                            !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
+                                                : $usernamedata['username']
+                                        ); ?></b> - <span class="comment">
+                                    <a href="javascript:;"
+                                       onClick="changeName();return false;"><?= ManagerTheme::getLexicon(
+                                            'change_name'
+                                        ); ?></a>
+                                </span>
+                                <input type="hidden" name="oldusername"
+                                       value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
+                                               : $usernamedata['username']
+                                       ); ?>"/>
                             </td>
                         </tr>
-                    <?php
+                        <?php
                     } ?>
-                    <tr id="editname" style="display:<?php
-                    echo evo()->getManagerApi()->action == '87' ||
+                    <tr id="editname" style="display:<?= evo()->getManagerApi()->action == '87' ||
                     (isset($usernamedata['oldusername']) && $usernamedata['oldusername'] != $usernamedata['username'])
                         ? $displayStyle : 'none'; ?>">
-                        <td><?php
-                            echo ManagerTheme::getLexicon('username'); ?>:
+                        <td><?= ManagerTheme::getLexicon('username'); ?>:
                         </td>
-                        <td><input type="text" name="newusername" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars(
-                                $_POST['newusername'] ?? $usernamedata['username']
-                            ); ?>" onChange='documentDirty=true;' maxlength="100"/></td>
+                        <td>
+                            <input type="text" name="newusername" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                       $_POST['newusername'] ?? $usernamedata['username']
+                                   ); ?>" onChange="documentDirty=true;" maxlength="100"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo evo()->getManagerApi()->action == '87' ? ManagerTheme::getLexicon('password') . ":"
-                                : ManagerTheme::getLexicon('change_password_new') . ":"; ?></td>
-                        <td><input name="newpasswordcheck" type="checkbox"
-                                   onClick="changestate(document.userform.newpassword);changePasswordState(document.userform.newpassword);"<?php
-                            echo evo()->getManagerApi()->action == "87" ? " checked disabled" : ""; ?>>
-                            <input type="hidden" name="newpassword" value="<?php
-                            echo evo()->getManagerApi()->action == "87" ? 1 : 0; ?>" onChange="documentDirty=true;"/>
+                        <td>
+                            <?= evo()->getManagerApi()->action == '87' ? ManagerTheme::getLexicon('password') . ':'
+                                : ManagerTheme::getLexicon('change_password_new') . ':'; ?>
+                        </td>
+                        <td>
+                            <input name="newpasswordcheck" type="checkbox"
+                                   onClick="changestate(document.userform.newpassword);changePasswordState(document.userform.newpassword);"<?= evo(
+                            )->getManagerApi()->action == '87' ? ' checked disabled' : ''; ?>>
+                            <input type="hidden" name="newpassword"
+                                   value="<?= evo()->getManagerApi()->action == '87' ? 1 : 0; ?>"
+                                   onChange="documentDirty=true;"/>
                             <br/>
-                            <span style="display:<?php
-                            echo evo()->getManagerApi()->action == "87" ? "block" : "none"; ?>" id="passwordBlock">
+                            <span style="display:<?= evo()->getManagerApi()->action == '87' ? 'block' : 'none'; ?>"
+                                  id="passwordBlock">
                             <fieldset style="width:300px">
-                                <legend><?php
-                                    echo ManagerTheme::getLexicon('password_gen_method'); ?></legend>
-                                <input type=radio name="passwordgenmethod" value="g" <?php
-                                echo get_by_key($_POST, 'passwordgenmethod') === 'spec' ? '' : 'checked="checked"'; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('password_gen_gen'); ?>
+                                <legend><?= ManagerTheme::getLexicon('password_gen_method'); ?></legend>
+                                <input type=radio name="passwordgenmethod" value="g"<?= get_by_key(
+                                    $_POST,
+                                    'passwordgenmethod'
+                                ) === 'spec' ? '' : ' checked'; ?> />
+                                <?= ManagerTheme::getLexicon('password_gen_gen'); ?>
                                 <br/>
-                                <input type=radio name="passwordgenmethod" value="spec" <?php
-                                echo get_by_key($_POST, 'passwordgenmethod') === 'spec' ? 'checked="checked"' : ""; ?>>
-                                <?php
-                                echo ManagerTheme::getLexicon('password_gen_specify'); ?>
+                                <input type=radio name="passwordgenmethod" value="spec"<?= get_by_key(
+                                    $_POST,
+                                    'passwordgenmethod'
+                                ) === 'spec' ? ' checked' : ''; ?>>
+                                <?= ManagerTheme::getLexicon('password_gen_specify'); ?>
                                 <br/>
                                 <div>
-                                    <label for="specifiedpassword" style="width:120px"><?php
-                                        echo ManagerTheme::getLexicon('change_password_new'); ?>:</label>
+                                    <label for="specifiedpassword" style="width:120px"><?= ManagerTheme::getLexicon(
+                                            'change_password_new'
+                                        ); ?>:</label>
                                     <input type="password" name="specifiedpassword" onChange="documentdirty=true;"
                                            onKeyPress="document.userform.passwordgenmethod[1].checked=true;" size="20"/>
                                     <br/>
-                                    <label for="confirmpassword" style="width:120px"><?php
-                                        echo ManagerTheme::getLexicon('change_password_confirm'); ?>:</label>
+                                    <label for="confirmpassword" style="width:120px"><?= ManagerTheme::getLexicon(
+                                            'change_password_confirm'
+                                        ); ?>:</label>
                                     <input type="password" name="confirmpassword" onChange="documentdirty=true;"
                                            onKeyPress="document.userform.passwordgenmethod[1].checked=true;" size="20"/>
                                     <br/>
-                                    <small><span class="warning" style="font-weight:normal"><?php
-                                            echo ManagerTheme::getLexicon(
+                                    <small>
+                                        <span class="warning" style="font-weight:normal"><?= ManagerTheme::getLexicon(
                                                 'password_gen_length'
-                                            ); ?></span></small> </div>
+                                            ); ?></span>
+                                    </small>
+                                </div>
                             </fieldset>
                             <br/>
                             <fieldset style="width:300px">
-                                <legend><?php
-                                    echo ManagerTheme::getLexicon('password_method'); ?></legend>
-                                <input type=radio name="passwordnotifymethod" value="e" <?php
-                                echo get_by_key($_POST, 'passwordnotifymethod') === 'e' ? 'checked="checked"' : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('password_method_email'); ?>
+                                <legend><?= ManagerTheme::getLexicon('password_method'); ?></legend>
+                                <input type=radio name="passwordnotifymethod" value="e"<?= get_by_key(
+                                    $_POST,
+                                    'passwordnotifymethod'
+                                ) === 'e' ? ' checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('password_method_email'); ?>
                                 <br/>
-                                <input type=radio name="passwordnotifymethod" value="s" <?php
-                                echo get_by_key($_POST, 'passwordnotifymethod') === 'e' ? '' : 'checked="checked"'; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('password_method_screen'); ?>
+                                <input type=radio name="passwordnotifymethod" value="s"<?= get_by_key(
+                                    $_POST,
+                                    'passwordnotifymethod'
+                                ) === 'e' ? '' : ' checked'; ?> />
+                                <?= ManagerTheme::getLexicon('password_method_screen'); ?>
                             </fieldset>
                             </span></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_full_name'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_full_name'); ?>:
                         </td>
-                        <td><input type="text" name="fullname" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars(
-                                $_POST['fullname'] ?? $userdata['fullname']
-                            ); ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="fullname" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                       $_POST['fullname'] ?? $userdata['fullname']
+                                   ); ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_first_name'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_first_name'); ?>:
                         </td>
-                        <td><input type="text" name="first_name" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars($userdata['first_name']); ?>"
-                                   onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="first_name" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['first_name']); ?>"
+                                   onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_middle_name'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_middle_name'); ?>:
                         </td>
-                        <td><input type="text" name="middle_name" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars($userdata['middle_name']); ?>"
-                                   onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="middle_name" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['middle_name']); ?>"
+                                   onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_last_name'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_last_name'); ?>:
                         </td>
-                        <td><input type="text" name="last_name" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars($userdata['last_name']); ?>"
-                                   onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="last_name" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['last_name']); ?>"
+                                   onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_email'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_email'); ?>:
                         </td>
-                        <td><input type="text" name="email" class="inputBox" value="<?php
-                            echo $_POST['email'] ??
+                        <td>
+                            <input type="text" name="email" class="inputBox" value="<?= $_POST['email'] ??
                                 $userdata['email']; ?>" onChange="documentDirty=true;"/>
-                            <input type="hidden" name="oldemail" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars(
+                            <input type="hidden" name="oldemail" value="<?= evo()->getPhpCompat()->htmlspecialchars(
                                 !empty($userdata['oldemail']) ? $userdata['oldemail'] : $userdata['email']
-                            ); ?>"/></td>
+                            ); ?>"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_role'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_role'); ?>:
                         </td>
                         <td>
                             <?php
-                            $roles = \EvolutionCMS\Models\UserRole::query()->select('name', 'id');
+                            $roles = UserRole::query()->select('name', 'id');
                             if (!evo()->hasPermission('save_role')) {
                                 $roles = $roles->where('id', '!=', 1);
                             }
                             ?>
                             <select name="role" id="role" class="inputBox" onChange="roleWarning();"
                                     style="width:300px">
-                                <option value="0" <?php
-                                $userdata['role'] == 0 ? "selected='selected'" : '' ?>><?php
-                                    echo ManagerTheme::getLexicon('no_user_role'); ?></option>
+                                <option value="0"<?= $userdata['role'] == 0 ? ' selected'
+                                    : '' ?>><?= ManagerTheme::getLexicon(
+                                        'no_user_role'
+                                    ); ?></option>
                                 <?php
                                 foreach ($roles->get()->toArray() as $row) {
                                     if (evo()->getManagerApi()->action == '11') {
-                                        $selectedtext = $row['id'] == '1' ? ' selected="selected"' : '';
+                                        $selectedtext = $row['id'] == '1' ? ' selected' : '';
                                     } else {
-                                        $selectedtext = $row['id'] == $userdata['role'] ? "selected='selected'" : '';
+                                        $selectedtext = $row['id'] == $userdata['role'] ? ' selected' : '';
                                     }
                                     ?>
-                                    <option value="<?php
-                                    echo $row['id']; ?>"<?php
-                                    echo $selectedtext; ?>><?php
-                                        echo e($row['name']); ?></option>
+                                    <option value="<?= $row['id']; ?>"<?= $selectedtext; ?>><?= e(
+                                            $row['name']
+                                        ); ?></option>
                                     <?php
                                 }
                                 ?>
@@ -542,71 +553,71 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_phone'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_phone'); ?>:
                         </td>
-                        <td><input type="text" name="phone" class="inputBox" value="<?php
-                            echo $_POST['phone'] ??
-                                $userdata['phone']; ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="phone" class="inputBox" value="<?= $_POST['phone'] ??
+                                $userdata['phone']; ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_mobile'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_mobile'); ?>:
                         </td>
-                        <td><input type="text" name="mobilephone" class="inputBox" value="<?php
-                            echo $_POST['mobilephone']
-                                ?? $userdata['mobilephone']; ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="mobilephone" class="inputBox" value="<?= $_POST['mobilephone']
+                                ?? $userdata['mobilephone']; ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_fax'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_fax'); ?>:
                         </td>
-                        <td><input type="text" name="fax" class="inputBox" value="<?php
-                            echo $_POST['fax'] ??
-                                $userdata['fax']; ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="fax" class="inputBox" value="<?= $_POST['fax'] ??
+                                $userdata['fax']; ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_street'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_street'); ?>:
                         </td>
-                        <td><input type="text" name="street" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars($userdata['street']); ?>"
-                                   onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="street" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['street']); ?>"
+                                   onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_city'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_city'); ?>:
                         </td>
-                        <td><input type="text" name="city" class="inputBox" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars($userdata['city']); ?>"
-                                   onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="city" class="inputBox"
+                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['city']); ?>"
+                                   onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_state'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_state'); ?>:
                         </td>
-                        <td><input type="text" name="state" class="inputBox" value="<?php
-                            echo $_POST['state'] ??
-                                $userdata['state']; ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="state" class="inputBox" value="<?= $_POST['state'] ??
+                                $userdata['state']; ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_zip'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_zip'); ?>:
                         </td>
-                        <td><input type="text" name="zip" class="inputBox" value="<?php
-                            echo $_POST['zip'] ??
-                                $userdata['zip']; ?>" onChange="documentDirty=true;"/></td>
+                        <td>
+                            <input type="text" name="zip" class="inputBox" value="<?= $_POST['zip'] ??
+                                $userdata['zip']; ?>" onChange="documentDirty=true;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_country'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_country'); ?>:
                         </td>
                         <td>
                             <select name="country" onChange="documentDirty=true;">
                                 <?php
                                 $chosenCountry = $_POST['country'] ?? $userdata['country']; ?>
-                                <option value="" <?php
-                                (!isset($chosenCountry) ? ' selected' : '') ?> >&nbsp;
+                                <option value=""<?= isset($chosenCountry) ? '' : ' selected' ?> >&nbsp;
                                 </option>
                                 <?php
                                 foreach ($_country_lang as $key => $country) {
@@ -619,143 +630,140 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_dob'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_dob'); ?>:
                         </td>
-                        <td><input type="text" id="dob" name="dob" class="DatePicker" value="<?php
-                            echo $_POST['dob'] ?? ($userdata['dob'] ? evo()->toDateFormat(
-                                $userdata['dob']
-                            ) : ""); ?>" onBlur='documentDirty=true;' readonly/>
-                            <i onClick="document.userform.dob.value=''; return true;" class="clearDate <?php
-                            echo ManagerTheme::getStyle('icon_calendar_close') ?>" data-tooltip="<?php
-                            echo ManagerTheme::getLexicon('remove_date'); ?>"></i></td>
+                        <td>
+                            <input type="text" id="dob" name="dob" class="DatePicker"
+                                   value="<?= $_POST['dob'] ?? ($userdata['dob'] ? evo()->toDateFormat(
+                                       $userdata['dob']
+                                   ) : ''); ?>" onBlur='documentDirty=true;' readonly/>
+                            <i onClick="document.userform.dob.value=''; return true;"
+                               class="clearDate <?= ManagerTheme::getStyle('icon_calendar_close') ?>"
+                               data-tooltip="<?= ManagerTheme::getLexicon('remove_date'); ?>"></i>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_gender'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_gender'); ?>:
                         </td>
-                        <td><select name="gender" onChange="documentDirty=true;">
+                        <td>
+                            <select name="gender" onChange="documentDirty=true;">
                                 <option value=""></option>
-                                <option value="1" <?php
-                                echo (get_by_key($_POST, 'gender') === '1' || $userdata['gender'] == '1')
-                                    ? "selected='selected'" : ""; ?>><?php
-                                    echo ManagerTheme::getLexicon('user_male'); ?></option>
-                                <option value="2" <?php
-                                echo (get_by_key($_POST, 'gender') === '2' || $userdata['gender'] == '2')
-                                    ? "selected='selected'" : ""; ?>><?php
-                                    echo ManagerTheme::getLexicon('user_female'); ?></option>
-                                <option value="3" <?php
-                                echo (get_by_key($_POST, 'gender') === '3' || $userdata['gender'] == '3')
-                                    ? "selected='selected'" : ""; ?>><?php
-                                    echo ManagerTheme::getLexicon('user_other'); ?></option>
-                            </select></td>
+                                <option value="1" <?= (get_by_key($_POST, 'gender') === '1' ||
+                                    $userdata['gender'] == '1')
+                                    ? 'selected' : ''; ?>>
+                                    <?= ManagerTheme::getLexicon('user_male') ?>
+                                </option>
+                                <option value="2" <?= (get_by_key($_POST, 'gender') === '2' ||
+                                    $userdata['gender'] == '2')
+                                    ? 'selected' : ''; ?>>
+                                    <?= ManagerTheme::getLexicon('user_female') ?>
+                                </option>
+                                <option value="3" <?= (get_by_key($_POST, 'gender') === '3' ||
+                                    $userdata['gender'] == '3')
+                                    ? 'selected' : '' ?>>
+                                    <?= ManagerTheme::getLexicon('user_other') ?>
+                                </option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('comment'); ?>:
+                        <td><?= ManagerTheme::getLexicon('comment'); ?>:
                         </td>
-                        <td><textarea type="text" name="comment" class="inputBox" rows="5"
-                                      onChange="documentDirty=true;"><?php
-                                echo evo()->getPhpCompat()->htmlspecialchars(
+                        <td>
+                            <textarea type="text" name="comment" class="inputBox" rows="5"
+                                      onChange="documentDirty=true;"><?= evo()->getPhpCompat()->htmlspecialchars(
                                     $_POST['comment'] ?? $userdata['comment']
-                                ); ?></textarea></td>
+                                ); ?></textarea>
+                        </td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('user_verification'); ?>:
+                        <td><?= ManagerTheme::getLexicon('user_verification'); ?>:</td>
+                        <td>
+                            <input type="checkbox" name="verified" value="1"<?= $userdata['verified'] == 1 ||
+                            evo()->getManagerApi()->action == 87 ? ' checked '
+                                : '' ?><?= evo()->getManagerApi()->action == 87 ? ' disabled' : '' ?>>
                         </td>
-                        <td><input type="checkbox" name="verified" value="1" <?php
-                            echo($userdata['verified'] == 1 || evo()->getManagerApi()->action == 87 ? 'checked '
-                                : ''); ?><?php
-                            echo(evo()->getManagerApi()->action == 87 ? 'disabled' : ''); ?>></td>
                     </tr>
                     <?php
                     if (evo()->getManagerApi()->action == '88') { ?>
                         <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_logincount'); ?>:
-                            </td>
-                            <td><?php
-                                echo $userdata['logincount'] ?></td>
+                            <td><?= ManagerTheme::getLexicon('user_logincount'); ?>:</td>
+                            <td><?= $userdata['logincount'] ?></td>
                         </tr>
                         <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_prevlogin'); ?>:
-                            </td>
-                            <td><?php
-                                echo evo()->toDateFormat(
+                            <td><?= ManagerTheme::getLexicon('user_prevlogin'); ?>:</td>
+                            <td>
+                                <?= evo()->toDateFormat(
                                     $userdata['thislogin'] + evo()->getConfig('server_offset_time')
-                                ) ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_failedlogincount'); ?>:
-                            </td>
-                            <input type="hidden" name="failedlogincount" onChange='documentDirty=true;' value="<?php
-                            echo $userdata['failedlogincount']; ?>">
-                            <td><span id='failed'><?php
-                                    echo $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a
-                                        href="javascript:resetFailed()"><?php
-                                    echo ManagerTheme::getLexicon('reset_failedlogins'); ?></a>]
+                                ) ?>
                             </td>
                         </tr>
                         <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_block'); ?>:
+                            <td><?= ManagerTheme::getLexicon('user_failedlogincount'); ?>:</td>
+                            <input type="hidden" name="failedlogincount" onChange="documentDirty=true;"
+                                   value="<?= $userdata['failedlogincount']; ?>">
+                            <td>
+                                <span id='failed'><?= $userdata['failedlogincount'] ?></span>&nbsp;&nbsp;&nbsp;[<a
+                                        href="javascript:resetFailed()"><?= ManagerTheme::getLexicon(
+                                        'reset_failedlogins'
+                                    ); ?></a>]
                             </td>
-                            <td><input name="blockedcheck" type="checkbox"
-                                       onClick="changeblockstate(document.userform.blockedmode, document.userform.blockedcheck);"<?php
-                                echo ($userdata['blocked'] == 1 ||
+                        </tr>
+                        <tr>
+                            <td><?= ManagerTheme::getLexicon('user_block'); ?>:</td>
+                            <td>
+                                <input name="blockedcheck" type="checkbox"
+                                       onClick="changeblockstate(document.userform.blockedmode, document.userform.blockedcheck);"<?= ($userdata['blocked'] ==
+                                    1 ||
                                     ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0) ||
                                     ($userdata['blockedafter'] < time() && $userdata['blockedafter'] != 0))
-                                    ? " checked='checked'" : ""; ?> />
-                                <input type="hidden" name="blocked" value="<?php
-                                echo ($userdata['blocked'] == 1 ||
+                                    ? ' checked' : ''; ?> />
+                                <input type="hidden" name="blocked" value="<?= ($userdata['blocked'] == 1 ||
                                     ($userdata['blockeduntil'] > time() && $userdata['blockeduntil'] != 0)) ? 1
-                                    : 0; ?>"></td>
+                                    : 0; ?>">
+                            </td>
                         </tr>
                         <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_blockeduntil'); ?>:
-                            </td>
-                            <td><input type="text" id="blockeduntil" name="blockeduntil" class="DatePicker" value="<?php
-                                echo $_POST['blockeduntil'] ??
-                                    ($userdata['blockeduntil'] ? evo()->toDateFormat($userdata['blockeduntil'])
-                                        : ""); ?>" onBlur='documentDirty=true;' readonly/>
+                            <td><?= ManagerTheme::getLexicon('user_blockeduntil'); ?>:</td>
+                            <td>
+                                <input type="text" id="blockeduntil" name="blockeduntil" class="DatePicker"
+                                       value="<?= $_POST['blockeduntil'] ??
+                                           ($userdata['blockeduntil'] ? evo()->toDateFormat($userdata['blockeduntil'])
+                                               : ''); ?>" onBlur='documentDirty=true;' readonly/>
                                 <i onClick="document.userform.blockeduntil.value=''; return true;"
-                                   class="clearDate <?php
-                                   echo ManagerTheme::getStyle('icon_calendar_close') ?>" data-tooltip="<?php
-                                echo ManagerTheme::getLexicon('remove_date'); ?>"></i></td>
+                                   class="clearDate <?= ManagerTheme::getStyle('icon_calendar_close') ?>"
+                                   data-tooltip="<?= ManagerTheme::getLexicon('remove_date'); ?>"></i>
+                            </td>
                         </tr>
                         <tr>
-                            <td><?php
-                                echo ManagerTheme::getLexicon('user_blockedafter'); ?>:
-                            </td>
-                            <td><input type="text" id="blockedafter" name="blockedafter" class="DatePicker" value="<?php
-                                echo $_POST['blockedafter'] ??
-                                    ($userdata['blockedafter'] ? evo()->toDateFormat($userdata['blockedafter'])
-                                        : ""); ?>" onBlur='documentDirty=true;' readonly/>
+                            <td><?= ManagerTheme::getLexicon('user_blockedafter'); ?>:</td>
+                            <td>
+                                <input type="text" id="blockedafter" name="blockedafter" class="DatePicker"
+                                       value="<?= $_POST['blockedafter'] ??
+                                           ($userdata['blockedafter'] ? evo()->toDateFormat($userdata['blockedafter'])
+                                               : ''); ?>" onBlur='documentDirty=true;' readonly/>
                                 <i onClick="document.userform.blockedafter.value=''; return true;"
-                                   class="clearDate <?php
-                                   echo ManagerTheme::getStyle('icon_calendar_close') ?>" data-tooltip="<?php
-                                echo ManagerTheme::getLexicon('remove_date'); ?>"></i></td>
+                                   class="clearDate <?= ManagerTheme::getStyle('icon_calendar_close') ?>"
+                                   data-tooltip="<?= ManagerTheme::getLexicon('remove_date'); ?>"></i>
+                            </td>
                         </tr>
                         <?php
                     }
                     ?>
                 </table>
                 <?php
-                $tvs = SiteTmplvar::query()->select(
-                    'site_tmplvars.*',
-                    'user_values.value',
-                    'user_role_vars.rank as tvrank',
-                    'user_role_vars.rank',
-                    'site_tmplvars.id',
-                    'site_tmplvars.rank'
-                )
+                $tvs = SiteTmplvar::query()
+                    ->select(
+                        'site_tmplvars.*',
+                        'user_values.value',
+                        'user_role_vars.rank as tvrank',
+                        'user_role_vars.rank',
+                        'site_tmplvars.id',
+                        'site_tmplvars.rank'
+                    )
                     ->join('user_role_vars', 'user_role_vars.tmplvarid', '=', 'site_tmplvars.id')
                     ->leftJoin('user_values', function ($query) use ($user) {
-                        $query->on('user_values.userid', '=', \DB::raw($user));
+                        $query->on('user_values.userid', '=', DB::raw($user));
                         $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
                     });
                 $group_tvs = evo()->getConfig('group_tvs');
@@ -975,7 +983,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <div class="tab-pane" id="paneTemplateVariables">
                             <script>
                                 tpTemplateVariables = new WebFXTabPane(document.getElementById(\'paneTemplateVariables\'), ' .
-                                (evo()->getConfig('remember_last_tab') ? 'true' : 'false') . ');
+                                (evo()->getConfig('remember_last_tab') ? 'true' : 'false') . ')
                             </script>';
                         } else {
                             if ($group_tvs == 3) {
@@ -992,7 +1000,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <div class="tab-pane" id="paneTemplateVariables">
                             <script>
                                 tpTemplateVariables = new WebFXTabPane(document.getElementById(\'paneTemplateVariables\'), ' .
-                                        (evo()->getConfig('remember_last_tab') ? 'true' : 'false') . ');
+                                        (evo()->getConfig('remember_last_tab') ? 'true' : 'false') . ')
                             </script>';
                                 }
                             }
@@ -1040,14 +1048,13 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 
             <!-- Settings -->
             <div class="tab-page" id="tabSettings">
-                <h2 class="tab"><?php
-                    echo ManagerTheme::getLexicon('settings_users') ?></h2>
+                <h2 class="tab"><?= ManagerTheme::getLexicon('settings_users') ?></h2>
                 <script>tpUser.addTabPage(document.getElementById('tabSettings'))</script>
                 <table border="0" cellspacing="0" cellpadding="3">
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('language_title') ?></td>
-                        <td><select name="manager_language" class="inputBox" onChange="documentDirty=true">
+                        <td><?= ManagerTheme::getLexicon('language_title') ?></td>
+                        <td>
+                            <select name="manager_language" class="inputBox" onChange="documentDirty=true">
                                 <option value=""></option>
                                 <?php
                                 $activelang =
@@ -1055,140 +1062,119 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                 $dir = dir(EVO_CORE_PATH . 'lang');
                                 while ($file = $dir->read()) {
                                     if (is_dir(EVO_CORE_PATH . 'lang/' . $file) && ($file != '.' && $file != '..')) {
-                                        $selectedtext = $file == $activelang ? "selected='selected'" : "";
+                                        $selectedtext = $file == $activelang ? 'selected' : '';
                                         ?>
-                                        <option value="<?php
-                                        echo $file; ?>" <?php
-                                        echo $selectedtext; ?>><?php
-                                            echo ucwords(str_replace('_', ' ', $file)); ?></option>
+                                        <option value="<?= $file; ?>" <?= $selectedtext; ?>><?= ucwords(
+                                                str_replace('_', ' ', $file)
+                                            ); ?></option>
                                         <?php
                                     }
                                 }
 
                                 $dir->close();
                                 ?>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('language_message') ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('mgr_login_start') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='50'
-                                   name="manager_login_startup" value="<?php
-                            echo $_POST['manager_login_startup']
-                                ??
-                                (isset($usersettings['manager_login_startup']) ? $usersettings['manager_login_startup']
-                                    : ""); ?>"></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('mgr_login_start_message') ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('login_homepage') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='50' name="login_home"
-                                   value="<?php
-                                   echo $_POST['login_home']
-                                       ?? (isset($usersettings['login_home']) ? $usersettings['login_home'] : ""); ?>">
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('allow_mgr_access_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('language_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('login_allowed_ip') ?></td>
-                        <td><input onChange="documentDirty=true;" type="text" maxlength='255' style="width: 300px;"
-                                   name="allowed_ip" value="<?php
-                            echo $usersettings['allowed_ip']
-                                ?? ""; ?>"/></td>
+                        <td><?= ManagerTheme::getLexicon('mgr_login_start') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='50'
+                                   name="manager_login_startup" value="<?= $_POST['manager_login_startup']
+                                ?? ($usersettings['manager_login_startup'] ?? '') ?>">
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('login_allowed_ip_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('mgr_login_start_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('login_allowed_days') ?></td>
-                        <td><label> <?php
+                        <td><?= ManagerTheme::getLexicon('login_homepage') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='50' name="login_home"
+                                   value="<?= $_POST['login_home'] ?? $usersettings['login_home'] ?? '' ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('allow_mgr_access_message') ?></td>
+                    </tr>
+                    <tr>
+                        <td><?= ManagerTheme::getLexicon('login_allowed_ip') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type="text" maxlength='255' style="width: 300px;"
+                                   name="allowed_ip" value="<?= $usersettings['allowed_ip']
+                                ?? ''; ?>"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('login_allowed_ip_message') ?></td>
+                    </tr>
+                    <tr>
+                        <td><?= ManagerTheme::getLexicon('login_allowed_days') ?></td>
+                        <td>
+                            <label>
+                                <?php
                                 if (!isset($usersettings['allowed_days'])) {
                                     $usersettings['allowed_days'] = '';
                                 }
                                 ?>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="1" <?php
-                                echo strpos($usersettings['allowed_days'], '1') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('sunday'); ?></label>
+                                       value="1" <?= strpos($usersettings['allowed_days'], '1') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('sunday'); ?>
+                            </label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="2" <?php
-                                echo strpos($usersettings['allowed_days'], '2') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('monday'); ?></label>
+                                       value="2" <?= strpos($usersettings['allowed_days'], '2') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('monday'); ?></label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="3" <?php
-                                echo strpos($usersettings['allowed_days'], '3') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('tuesday'); ?></label>
+                                       value="3" <?= strpos($usersettings['allowed_days'], '3') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('tuesday'); ?></label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="4" <?php
-                                echo strpos($usersettings['allowed_days'], '4') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('wednesday'); ?></label>
+                                       value="4" <?= strpos($usersettings['allowed_days'], '4') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('wednesday'); ?></label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="5" <?php
-                                echo strpos($usersettings['allowed_days'], '5') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('thursday'); ?></label>
+                                       value="5" <?= strpos($usersettings['allowed_days'], '5') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('thursday'); ?></label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="6" <?php
-                                echo strpos($usersettings['allowed_days'], '6') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('friday'); ?></label>
+                                       value="6" <?= strpos($usersettings['allowed_days'], '6') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('friday'); ?></label>
                             <br/>
                             <label>
                                 <input onChange="documentDirty=true;" type="checkbox" name="allowed_days[]"
-                                       value="7" <?php
-                                echo strpos($usersettings['allowed_days'], '7') !== false ? "checked='checked'"
-                                    : ""; ?> />
-                                <?php
-                                echo ManagerTheme::getLexicon('saturday'); ?></label>
+                                       value="7" <?= strpos($usersettings['allowed_days'], '7') !== false
+                                    ? 'checked' : ''; ?> />
+                                <?= ManagerTheme::getLexicon('saturday'); ?></label>
                             <br/></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('login_allowed_days_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('login_allowed_days_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('manager_theme') ?></td>
-                        <td><select name="manager_theme" class="inputBox"
+                        <td><?= ManagerTheme::getLexicon('manager_theme') ?></td>
+                        <td>
+                            <select name="manager_theme" class="inputBox"
                                     onChange="documentDirty=true;document.userform.theme_refresher.value = Date.parse(new Date());">
                                 <option value=""></option>
                                 <?php
@@ -1205,7 +1191,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                         if (isset($usersettings['manager_theme']) &&
                                             $themename == $usersettings['manager_theme']
                                         ) {
-                                            $attr .= 'selected="selected" ';
+                                            $attr .= 'selected ';
                                         }
                                         echo "\t\t<option " . rtrim($attr) . '>' .
                                             ucwords(str_replace('_', ' ', $themename)) . "</option>\n";
@@ -1214,12 +1200,12 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                 $dir->close();
                                 ?>
                             </select>
-                            <input type="hidden" name="theme_refresher" value=""></td>
+                            <input type="hidden" name="theme_refresher" value="">
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('manager_theme_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('manager_theme_message') ?></td>
                     </tr>
 
                     <tr>
@@ -1229,227 +1215,208 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td>
                             <label><input type="radio" name="manager_theme_mode" value="" <?= evo()->getConfig(
                                     'manager_theme_mode'
-                                ) === 0 ? 'checked="checked"' : "" ?> />
+                                ) === 0 ? 'checked' : '' ?> />
                                 <?= ManagerTheme::getLexicon('option_default') ?></label>
                             <br/>
 
                             <label><input type="radio" name="manager_theme_mode" value="1" <?= evo()->getConfig(
                                     'manager_theme_mode'
-                                ) === 1 ? 'checked="checked"' : "" ?> />
+                                ) === 1 ? 'checked' : '' ?> />
                                 <?= ManagerTheme::getLexicon('manager_theme_mode1') ?></label>
                             <br/>
                             <label><input type="radio" name="manager_theme_mode" value="2" <?= evo()->getConfig(
                                     'manager_theme_mode'
-                                ) === 2 ? 'checked="checked"' : "" ?> />
+                                ) === 2 ? 'checked' : '' ?> />
                                 <?= ManagerTheme::getLexicon('manager_theme_mode2') ?></label>
                             <br/>
                             <label><input type="radio" name="manager_theme_mode" value="3" <?= evo()->getConfig(
                                     'manager_theme_mode'
-                                ) === 3 ? 'checked="checked"' : "" ?> />
+                                ) === 3 ? 'checked' : '' ?> />
                                 <?= ManagerTheme::getLexicon('manager_theme_mode3') ?></label>
                             <br/>
                             <label><input type="radio" name="manager_theme_mode" value="4" <?= (evo()->getConfig(
                                         'manager_theme_mode'
-                                    ) === 4) ? 'checked="checked"' : "" ?> />
+                                    ) === 4) ? 'checked' : '' ?> />
                                 <?= ManagerTheme::getLexicon('manager_theme_mode4') ?></label>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('which_browser_title') ?></td>
-                        <td><select name="which_browser" class="inputBox" onChange="documentDirty=true;">
+                        <td><?= ManagerTheme::getLexicon('which_browser_title') ?></td>
+                        <td>
+                            <select name="which_browser" class="inputBox" onChange="documentDirty=true;">
                                 <?php
-                                if (isset($usersettings['which_browser'])) {
-                                    $selected = $usersettings['which_browser'];
-                                } else {
-                                    $selected = '';
-                                }
+                                $selected = $usersettings['which_browser'] ?? '';
                                 echo '<option value="default"' . $selected . '>' .
                                     ManagerTheme::getLexicon('option_default') . "</option>\n";
                                 foreach (glob('media/browser/*', GLOB_ONLYDIR) as $dir) {
                                     $dir = str_replace('\\', '/', $dir);
                                     $browser_name = substr($dir, strrpos($dir, '/') + 1);
-                                    if (isset($usersettings['which_browser'])) {
-                                        $selected = $usersettings['which_browser'];
-                                    } else {
-                                        $selected = '';
-                                    }
+                                    $selected = $usersettings['which_browser'] ?? '';
                                     echo '<option value="' . $browser_name . '"' . $selected . '>' .
-                                        "{$browser_name}</option>\n";
+                                        "$browser_name</option>\n";
                                 }
                                 ?>
-                            </select></td>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('which_browser_msg') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('which_browser_msg') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('filemanager_path_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
-                                   name="filemanager_path" value="<?php
-                            echo evo()->getPhpCompat()->htmlspecialchars(
-                                $usersettings['filemanager_path'] ?? ""
-                            ); ?>"></td>
+                        <td><?= ManagerTheme::getLexicon('filemanager_path_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
+                                   name="filemanager_path" value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                $usersettings['filemanager_path'] ?? ''
+                            ); ?>">
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('filemanager_path_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('filemanager_path_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('uploadable_images_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_images"
-                                   value="<?php
-                                   echo $usersettings['upload_images']
-                                       ?? ""; ?>">
+                        <td><?= ManagerTheme::getLexicon('uploadable_images_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_images"
+                                   value="<?= $usersettings['upload_images']
+                                       ?? ''; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_images"
-                                   value="1" <?php
-                            echo isset($usersettings['upload_images']) && $usersettings['upload_images'] != '' ? ''
+                                   value="1" <?= isset($usersettings['upload_images']) &&
+                            $usersettings['upload_images'] != '' ? ''
                                 : 'checked'; ?> />
-                            <?php
-                            echo ManagerTheme::getLexicon('user_use_config'); ?>
-                            <br/></td>
+                            <?= ManagerTheme::getLexicon('user_use_config'); ?>
+                            <br/>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('uploadable_images_message') .
-                                ManagerTheme::getLexicon('user_upload_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('uploadable_images_message') .
+                            ManagerTheme::getLexicon('user_upload_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('uploadable_media_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_media"
-                                   value="<?php
-                                   echo $usersettings['upload_media']
-                                       ?? ""; ?>">
+                        <td><?= ManagerTheme::getLexicon('uploadable_media_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_media"
+                                   value="<?= $usersettings['upload_media']
+                                       ?? ''; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_media"
-                                   value="1" <?php
-                            echo isset($usersettings['upload_media']) && $usersettings['upload_media'] != '' ? ''
+                                   value="1" <?= isset($usersettings['upload_media']) &&
+                            $usersettings['upload_media'] != '' ? ''
                                 : 'checked'; ?> />
-                            <?php
-                            echo ManagerTheme::getLexicon('user_use_config'); ?>
-                            <br/></td>
+                            <?= ManagerTheme::getLexicon('user_use_config'); ?>
+                            <br/>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('uploadable_media_message') .
-                                ManagerTheme::getLexicon('user_upload_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('uploadable_media_message') .
+                            ManagerTheme::getLexicon('user_upload_message') ?></td>
                     </tr>
                     <tr>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('uploadable_files_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_files"
-                                   value="<?php
-                                   echo $usersettings['upload_files']
-                                       ?? ""; ?>">
+                        <td><?= ManagerTheme::getLexicon('uploadable_files_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' name="upload_files"
+                                   value="<?= $usersettings['upload_files']
+                                       ?? ''; ?>">
                             &nbsp;&nbsp;
                             <input onChange="documentDirty=true;" type="checkbox" name="default_upload_files"
-                                   value="1" <?php
-                            echo isset($usersettings['upload_files']) && $usersettings['upload_files'] != '' ? ''
+                                   value="1" <?= isset($usersettings['upload_files']) &&
+                            $usersettings['upload_files'] != '' ? ''
                                 : 'checked'; ?> />
-                            <?php
-                            echo ManagerTheme::getLexicon('user_use_config'); ?>
-                            <br/></td>
+                            <?= ManagerTheme::getLexicon('user_use_config'); ?>
+                            <br/>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('uploadable_files_message') .
-                                ManagerTheme::getLexicon('user_upload_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('uploadable_files_message') .
+                            ManagerTheme::getLexicon('user_upload_message') ?></td>
                     </tr>
                     <tr class='row2'>
-                        <td><?php
-                            echo ManagerTheme::getLexicon('upload_maxsize_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
-                                   name="upload_maxsize" value="<?php
-                            echo $usersettings['upload_maxsize']
-                                ?? ""; ?>"></td>
+                        <td><?= ManagerTheme::getLexicon('upload_maxsize_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
+                                   name="upload_maxsize" value="<?= $usersettings['upload_maxsize']
+                                ?? ''; ?>">
+                        </td>
                     </tr>
                     <tr class='row2'>
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('upload_maxsize_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('upload_maxsize_message') ?></td>
                     </tr>
-                    <tr id='editorRow0' style="display: <?php
-                    echo evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
-                        <td><?php
-                            echo ManagerTheme::getLexicon('which_editor_title') ?></td>
-                        <td><select name="which_editor" onChange="documentDirty=true;">
+                    <tr id="editorRow0"
+                        style="display: <?= evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
+                        <td><?= ManagerTheme::getLexicon('which_editor_title') ?></td>
+                        <td>
+                            <select name="which_editor" onChange="documentDirty=true;">
                                 <option value=""></option>
                                 <?php
-
                                 $edt = $usersettings['which_editor'] ?? '';
                                 // invoke OnRichTextEditorRegister event
                                 $evtOut = evo()->invokeEvent('OnRichTextEditorRegister');
-                                echo '<option value="none"' . ($edt == 'none' ? ' selected="selected"' : '') . '>' .
+                                echo '<option value="none"' . ($edt == 'none' ? ' selected' : '') . '>' .
                                     ManagerTheme::getLexicon('none') . "</option>\n";
                                 if (is_array($evtOut)) {
                                     for ($i = 0; $i < count($evtOut); $i++) {
                                         $editor = $evtOut[$i];
                                         echo "<option value='$editor'" .
-                                            ($edt == $editor ? " selected='selected'" : "") . ">$editor</option>\n";
+                                            ($edt == $editor ? ' selected' : '') . ">$editor</option>\n";
                                     }
                                 }
                                 ?>
-                            </select></td>
+                            </select>
+                        </td>
                     </tr>
-                    <tr id='editorRow1' style="display: <?php
-                    echo evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
+                    <tr id="editorRow1"
+                        style="display: <?= evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
                         <td>&nbsp;</td>
                         <td class='comment'>
                             <?= ManagerTheme::getLexicon('which_editor_message') ?>
                         </td>
                     </tr>
-                    <tr id='editorRow14' class="row3" style="display: <?php
-                    echo evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
-                        <td><?php
-                            echo ManagerTheme::getLexicon('editor_css_path_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' name="editor_css_path"
-                                   value="<?= $usersettings['editor_css_path'] ?? ''; ?>"/></td>
+                    <tr id='editorRow14' class="row3"
+                        style="display: <?= evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
+                        <td><?= ManagerTheme::getLexicon('editor_css_path_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' name="editor_css_path"
+                                   value="<?= $usersettings['editor_css_path'] ?? ''; ?>"/>
+                        </td>
                     </tr>
-                    <tr id='editorRow15' class='row3' style="display: <?php
-                    echo evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
+                    <tr id="editorRow15" class="row3"
+                        style="display: <?= evo()->getConfig('use_editor') === true ? $displayStyle : 'none'; ?>">
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('editor_css_path_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('editor_css_path_message') ?></td>
                     </tr>
-                    <tr id='rbRow1' class='row3' style="display: <?php
-                    echo evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
+                    <tr id="rbRow1" class="row3"
+                        style="display: <?= evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
                         <td><?= ManagerTheme::getLexicon('rb_base_dir_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
-                                   name="rb_base_dir" value="<?php
-                            echo $usersettings['rb_base_dir']
-                                ?? ""; ?>"/></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
+                                   name="rb_base_dir" value="<?= $usersettings['rb_base_dir'] ?? '' ?>"/>
+                        </td>
                     </tr>
-                    <tr id='rbRow2' class='row3' style="display: <?php
-                    echo evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
+                    <tr id="rbRow2" class="row3"
+                        style="display: <?= evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('rb_base_dir_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('rb_base_dir_message') ?></td>
                     </tr>
-                    <tr id='rbRow4' class='row3' style="display: <?php
-                    echo evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
-                        <td><?php
-                            echo ManagerTheme::getLexicon('rb_base_url_title') ?></td>
-                        <td><input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
-                                   name="rb_base_url" value="<?php
-                            echo $usersettings['rb_base_url']
-                                ?? ""; ?>"/></td>
+                    <tr id="rbRow4" class="row3"
+                        style="display: <?= evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
+                        <td><?= ManagerTheme::getLexicon('rb_base_url_title') ?></td>
+                        <td>
+                            <input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
+                                   name="rb_base_url" value="<?= $usersettings['rb_base_url'] ?? '' ?>"/>
+                        </td>
                     </tr>
-                    <tr id='rbRow5' class='row3' style="display: <?php
-                    echo evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
+                    <tr id='rbRow5' class='row3'
+                        style="display: <?= evo()->getConfig('use_browser') === true ? $displayStyle : 'none'; ?>">
                         <td>&nbsp;</td>
-                        <td class='comment'><?php
-                            echo ManagerTheme::getLexicon('rb_base_url_message') ?></td>
+                        <td class='comment'><?= ManagerTheme::getLexicon('rb_base_url_message') ?></td>
                     </tr>
                 </table>
                 <?php
@@ -1462,8 +1429,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
             </div>
             <!-- Photo -->
             <div class="tab-page" id="tabPhoto">
-                <h2 class="tab"><?php
-                    echo ManagerTheme::getLexicon('settings_photo') ?></h2>
+                <h2 class="tab"><?= ManagerTheme::getLexicon('settings_photo') ?></h2>
                 <script>tpUser.addTabPage(document.getElementById('tabPhoto'))</script>
                 <?php
                 $out = '';
@@ -1483,18 +1449,18 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                     }
                 }
                 ?>
-                <div class='comment'><?php
-                    echo ManagerTheme::getLexicon('user_photo_message') ?></div>
-                <input type="text" id="photo" name="photo" value="<?php
-                echo evo()->getPhpCompat()->htmlspecialchars(
+                <div class='comment'><?= ManagerTheme::getLexicon('user_photo_message') ?></div>
+                <input type="text" id="photo" name="photo" value="<?= evo()->getPhpCompat()->htmlspecialchars(
                     $_POST['photo'] ?? $userdata['photo']
-                ); ?>" onchange="documentDirty=true;"/><input type="button" value="<?php
-                echo ManagerTheme::getLexicon('insert') ?>" onclick="BrowseServer('photo')"/>
-                <div class="col-12" style="padding-left: 0px;">
-                    <div id="image_for_photo" class="image_for_field" data-image="<?php
-                    echo evo()->getPhpCompat()->htmlspecialchars($out); ?>" onclick="BrowseServer('photo')"
-                         style="background-image: url('<?php
-                         echo evo()->getPhpCompat()->htmlspecialchars($out) ?>');"></div>
+                ); ?>" onchange="documentDirty=true;"/>
+                <input type="button"
+                       value="<?= ManagerTheme::getLexicon('insert') ?>"
+                       onclick="BrowseServer('photo')"/>
+                <div class="col-12" style="padding-left: 0;">
+                    <div id="image_for_photo" class="image_for_field"
+                         data-image="<?= evo()->getPhpCompat()->htmlspecialchars($out); ?>"
+                         onclick="BrowseServer('photo')"
+                         style="background-image: url('<?= evo()->getPhpCompat()->htmlspecialchars($out) ?>');"></div>
                     <script>document.getElementById('photo').
                         addEventListener('change', evoRenderTvImageCheck, false)</script>
                 </div>
@@ -1514,19 +1480,18 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
             }
             ?>
             <div class="tab-page" id="tabPermissions">
-                <h2 class="tab"><?php
-                    echo ManagerTheme::getLexicon('web_access_permissions') ?></h2>
+                <h2 class="tab"><?= ManagerTheme::getLexicon('web_access_permissions') ?></h2>
                 <script>tpUser.addTabPage(document.getElementById('tabPermissions'))</script>
                 <p><a href="javascript:;"
-                      onclick="document.getElementsByName('user_groups[]').forEach(e => e.checked ^= 1) ; return false;"><?php
-                        echo ManagerTheme::getLexicon('access_permissions_user_toggle') ?></a></p>
-                <p><?php
-                    echo ManagerTheme::getLexicon('access_permissions_user_message') ?></p>
+                      onclick="document.getElementsByName('user_groups[]').forEach(e => e.checked ^= 1) ; return false;"><?= ManagerTheme::getLexicon(
+                            'access_permissions_user_toggle'
+                        ) ?></a></p>
+                <p><?= ManagerTheme::getLexicon('access_permissions_user_message') ?></p>
                 <?php
                 $webgroupnames = MembergroupName::query()->orderBy('name')->get();
                 foreach ($webgroupnames->toArray() as $row) {
                     echo '<label><input type="checkbox" name="user_groups[]" value="' . $row['id'] . '"' .
-                        (in_array($row['id'], $groupsarray) ? ' checked="checked"' : '') . ' />' . e($row['name']) .
+                        (in_array($row['id'], $groupsarray) ? ' checked' : '') . ' />' . e($row['name']) .
                         '</label><br />';
                 }
                 }

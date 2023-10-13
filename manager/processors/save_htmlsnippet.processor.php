@@ -16,6 +16,7 @@ if (isset($_GET['disabled'])) {
     $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
+        /** @var SiteHtmlsnippet $chunk */
         $chunk = SiteHtmlsnippet::query()->findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         evo()->invokeEvent('OnBeforeChunkFormSave', [
@@ -61,8 +62,8 @@ if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
     }
 }
 
-if ($name == "" || $name == 'null') {
-    $name = "Untitled chunk";
+if ($name == '' || $name == 'null') {
+    $name = 'Untitled chunk';
 }
 
 $editor_type = $_POST['which_editor'] != 'none' ? 1 : 2;
@@ -179,7 +180,7 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? '78&id=' . $id : "77";
+            $a = ($_POST['stay'] == '2') ? '78&id=' . $id : '77';
             $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
         } else {
             evo()->unlockElement(3, $id);

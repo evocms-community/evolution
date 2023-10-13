@@ -11,8 +11,9 @@ if (!evo()->hasPermission('delete_template')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
@@ -38,13 +39,11 @@ if (!$forced) {
             }
           }
         </script>
-        <?php
-        echo ManagerTheme::getStyle('actionbuttons')['dynamic']['canceldelete']; ?>
+        <?= ManagerTheme::getStyle('actionbuttons')['dynamic']['canceldelete']; ?>
 
         <div class="tab-page">
             <div class="container container-body">
-                <p><?php
-                    echo ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
+                <p><?= ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
                 <ul>
                     <?php
                     foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {

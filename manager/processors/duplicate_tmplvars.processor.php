@@ -11,12 +11,14 @@ if (!evo()->hasPermission('edit_template')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
 // count duplicates
+/** @var SiteTmplvar $tmplvar */
 $tmplvar = SiteTmplvar::with(['tmplvarAccess', 'tmplvarTemplate', 'tmplvarUserRole'])->findOrFail($id);
 $name = $tmplvar->name;
 $count = SiteTmplvar::query()

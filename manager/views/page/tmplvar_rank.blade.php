@@ -66,7 +66,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
           function resetSortOrder()
           {
-            if (confirm('{{ ManagerTheme::getLexicon('confirm_reset_sort_order') }}') === true) {
+            if (confirm(`{{ ManagerTheme::getLexicon('confirm_reset_sort_order') }}`) === true) {
               documentDirty = false;
               var input = document.createElement('input');
               input.type = 'hidden';

@@ -10,7 +10,7 @@ if (!evo()->hasPermission('save_template')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = (int) $_POST['id'];
+$id = (int) ($_POST['id'] ?? 0);
 $name = trim($_POST['name']);
 $description = $_POST['description'];
 $caption = $_POST['caption'];

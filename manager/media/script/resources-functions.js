@@ -415,5 +415,5 @@ try {
         setRememberCollapsedCategories();
     });
 } catch (err) {
-    alert('document.ready error: ' + err);
+    alert(`document.ready error: ${err}`);
 }

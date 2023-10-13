@@ -8,7 +8,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @push('scripts.top')
         <script>
             function deletegroup(groupid, type) {
-                if(confirm('{{ ManagerTheme::getLexicon('confirm_delete_group') }}') === true) {
+                if(confirm(`{{ ManagerTheme::getLexicon('confirm_delete_group') }}`) === true) {
                     if(type === 'usergroup') {
                         document.location.href = 'index.php?a=92&usergroup=' + groupid + '&operation=delete_user_group';
                     }

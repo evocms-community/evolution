@@ -10,7 +10,7 @@ if (!evo()->hasPermission('save_template')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
+$id = (int) ($_REQUEST['id'] ?? 0);
 $reset = isset($_POST['reset']) && $_POST['reset'] == 'true' ? 1 : 0;
 
 $siteURL = MODX_SITE_URL;
@@ -58,6 +58,8 @@ $templateVars = SiteTmplvarTemplate::query()
     ->orderBy('site_tmplvars.rank', 'ASC')
     ->orderBy('site_tmplvars.id', 'ASC');
 
+$sortableList = '';
+
 if ($templateVars->count() > 0) {
     $sortableList = '<div class="clearfix"><ul id="sortlist" class="sortableList">';
     foreach ($templateVars->get()->toArray() as $row) {
@@ -73,7 +75,6 @@ if ($templateVars->count() > 0) {
 ?>
 
 <script>
-
   var actions = {
     save: function () {
       var el = document.getElementById('updated')
@@ -129,7 +130,7 @@ if ($templateVars->count() > 0) {
   }
 
   function resetSortOrder () {
-    if (confirm('<?= ManagerTheme::getLexicon('confirm_reset_sort_order') ?>') === true) {
+    if (confirm(`<?= ManagerTheme::getLexicon('confirm_reset_sort_order') ?>`) === true) {
       documentDirty = false
       var input = document.createElement('input')
       input.type = 'hidden'

@@ -73,7 +73,7 @@ browser.prepareFiles = function(files) {
 };
 browser.uploadFiles = function(files) {
     if (!this.dirWritable) {
-        browser.alert(this.label("Cannot write to upload folder."));
+        browser.alert(this.label(`Cannot write to upload folder.`));
         return;
     }
     var uploadInProgress = false,

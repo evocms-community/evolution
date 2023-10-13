@@ -139,7 +139,7 @@ use EvolutionCMS\Facades\ManagerTheme;
       }
 
       function deleteItem (id) {
-        if (confirm('Are you sure?')) {
+        if (confirm(`Are you sure?`)) {
           document.resource.delete.value = id
           document.resource.submit()
         }

@@ -87,7 +87,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li>
                             <a href="{{ $item->makeUrl('actions.duplicate') }}" target="main"
                                title="{{ ManagerTheme::getLexicon('resource_duplicate') }}"
-                               onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}')">
+                               onclick="return confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`)">
                                 <i class="{{ ManagerTheme::getStyle('icon_clone') }}"></i>
                             </a>
                         </li>
@@ -96,7 +96,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li>
                             <a href="{{ $item->makeUrl('actions.delete') }}" target="main"
                                title="{{ ManagerTheme::getLexicon('delete') }}"
-                               onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_delete_module') }}')">
+                               onclick="return confirm(`{{ ManagerTheme::getLexicon('confirm_delete_module') }}`)">
                                 <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>
                             </a>
                         </li>

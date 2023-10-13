@@ -11,8 +11,9 @@ if (!evo()->hasPermission('save_document') || !evo()->hasPermission('publish_doc
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_REQUEST['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 

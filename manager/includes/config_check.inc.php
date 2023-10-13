@@ -70,10 +70,11 @@ if (!isset(evo()->config['_hide_configcheck_templateswitcher_present']) ||
         if (!is_null($row) && $row->disabled == 0) {
             $warnings[] = [ManagerTheme::getLexicon('configcheck_templateswitcher_present')];
             $tplName = $row->name;
+            $confirm_delete_plugin = ManagerTheme::getLexicon('confirm_delete_plugin');
             $script = <<<JS
 <script>
-function deleteTemplateSwitcher(){
-    if(confirm(\'ManagerTheme::getLexicon('confirm_delete_plugin')\')) {
+function deleteTemplateSwitcher() {
+    if(confirm(`$confirm_delete_plugin`)) {
         var myAjax = new Ajax('index.php?a=118', {
             method: 'post',
             data: 'action=updateplugin&key=_delete_&lang=$tplName'
@@ -86,7 +87,7 @@ function deleteTemplateSwitcher(){
         myAjax.request();
     }
 }
-function disableTemplateSwitcher(){
+function disableTemplateSwitcher() {
     var myAjax = new Ajax('index.php?a=118', {
         method: 'post',
         data: 'action=updateplugin&lang=$tplName&key=disabled&value=1'
@@ -201,8 +202,7 @@ if (!empty($warnings)) {
                 $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_sysfiles_mod_msg');
                 $warnings[$i][2] = '<ul><li>' . implode('</li><li>', $systemFilesCheck) . '</li></ul>';
                 if (evo()->hasPermission('settings')) {
-                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(\'' .
-                        ManagerTheme::getLexicon('reset_sysfiles_checksum_alert') . '\')">' .
+                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(`' . ManagerTheme::getLexicon('reset_sysfiles_checksum_alert') . '`)">' .
                         ManagerTheme::getLexicon('reset_sysfiles_checksum_button') . '</a></li></ul>';
                 }
                 if (empty($_SESSION['mgrConfigCheck'])) {
@@ -251,7 +251,7 @@ if (!empty($warnings)) {
                 }
                 $msg .= '<br />' .
                     sprintf(ManagerTheme::getLexicon('configcheck_hide_warning'), 'templateswitcher_present');
-                $warnings[$i][1] = "<span id=\"templateswitcher_present_warning_wrapper\">{$msg}</span>\n";
+                $warnings[$i][1] = "<span id=\"templateswitcher_present_warning_wrapper\">$msg</span>\n";
                 break;
             case ManagerTheme::getLexicon('configcheck_rb_base_dir') :
                 $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_rb_base_dir_msg');

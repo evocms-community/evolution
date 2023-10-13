@@ -11,8 +11,9 @@ if (!evo()->hasPermission('new_template')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if ($id == 0) {
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
 
@@ -39,7 +40,7 @@ $newid = $templateNew->id;
 SiteTmplvarTemplate::query()
     ->select('tmplvarid', 'templateid', 'rank')
     ->where('templateid', $id)->get()
-    ->each(function ($item, $key) use ($newid) {
+    ->each(function ($item) use ($newid) {
         $item->templateid = $newid;
         $item->replicate()->save();
     });

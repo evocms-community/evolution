@@ -9,15 +9,13 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 if (!evo()->hasPermission('exec_module')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
-if (isset($_GET['id'])) {
-    if (is_numeric($_GET['id'])) {
-        $id = (int) $_GET['id'];
-    } else {
-        $id = $_GET['id'];
-    }
-} else {
+
+$id = (int) ($_GET['id'] ?? 0);
+
+if (!$id) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
 }
+
 // check if user has access permission, except admins
 if ($_SESSION['mgrRole'] != 1 && is_numeric($id)) {
     $moduleAccess = SiteModule::withoutProtected()

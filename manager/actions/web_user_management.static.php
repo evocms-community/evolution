@@ -1,7 +1,10 @@
 <?php
 
 use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Models\User;
+use EvolutionCMS\Models\UserRole;
 use EvolutionCMS\Support\ContextMenu;
+use EvolutionCMS\Support\MakeTable;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -52,14 +55,14 @@ echo $cm->render();
 $role_options =
     '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . ManagerTheme::getLexicon('no_user_role') .
     '</option>';
-$roles = \EvolutionCMS\Models\UserRole::query()->select('id', 'name')->get()->toArray();
+$roles = UserRole::query()->select('id', 'name')->get()->toArray();
 foreach ($roles as $row) {
     $role_options .= '<option value="' . $row['id'] . '" ' .
         ($query['role'] != '' && $row['id'] == $query['role'] ? 'selected' : '') . '>' . e($row['name']) . '</option>';
 }
 
 // prepare data
-$managerUsers = \EvolutionCMS\Models\User::query()
+$managerUsers = User::query()
     ->select(
         'users.id',
         'users.username',
@@ -112,7 +115,7 @@ if ($numRecords > 0) {
         '',
         'right" nowrap="nowrap,right,center',
     ];
-    $table = new \EvolutionCMS\Support\MakeTable();
+    $table = new MakeTable();
     $table->setTableClass($tableClass);
     $table->setColumnHeaderClass($columnHeaderClass);
     // evo()->getMakeTable()->setRowHeaderClass($rowHeaderClass);
@@ -152,7 +155,7 @@ if ($numRecords > 0) {
 
         $listDocs[] = [
             'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] .
-                ',event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' .
+                ', event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' .
                 ManagerTheme::getStyle(empty($el['name']) ? 'icon_no_user_role' : 'icon_web_user') . '"></i></a>',
             'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' .
                 ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',
@@ -206,7 +209,7 @@ if ($numRecords > 0) {
         window.location.href = 'index.php?a=88&id=' + id
         break
       case 2: // delete
-        if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_user') ?>') === true) {
+        if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_user') ?>`) === true) {
           window.location.href = 'index.php?a=90&id=' + id
         }
         break
@@ -232,14 +235,14 @@ if ($numRecords > 0) {
     <input type="hidden" name="op" value=""/>
 
     <h1>
-        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?php
-        echo ManagerTheme::getLexicon('web_user_management_title') ?> <i
+        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?= ManagerTheme::getLexicon(
+            'web_user_management_title'
+        ) ?> <i
                 class="<?= ManagerTheme::getStyle('icon_question_circle') ?> help"></i>
     </h1>
 
     <div class="container element-edit-message">
-        <div class="alert alert-info"><?php
-            echo ManagerTheme::getLexicon('web_user_management_msg') ?></div>
+        <div class="alert alert-info"><?= ManagerTheme::getLexicon('web_user_management_msg') ?></div>
     </div>
 
     <div class="tab-page">
@@ -248,27 +251,27 @@ if ($numRecords > 0) {
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
                         <a class="btn btn-success btn-sm" href="index.php?a=87"><i
-                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?php
-                            echo ManagerTheme::getLexicon('new_web_user') ?></a>
+                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?= ManagerTheme::getLexicon(
+                                'new_web_user'
+                            ) ?></a>
                     </div>
                 </div>
                 <div class="col-sm-6 ">
                     <div class="input-group float-right w-auto">
                         <select class="form-control form-control-sm" name="role">
-                            <option value=""><?php
-                                echo ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
-                            <?php
-                            echo $role_options ?>
+                            <option value=""><?= ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
+                            <?= $role_options ?>
                         </select>
-                        <input class="form-control form-control-sm" name="search" type="text" value="<?php
-                        echo $query['search'] ?>" placeholder="<?php
-                        echo ManagerTheme::getLexicon('search') ?>"/>
+                        <input class="form-control form-control-sm" name="search" type="text"
+                               value="<?= $query['search'] ?>" placeholder="<?= ManagerTheme::getLexicon('search') ?>"/>
                         <div class="input-group-append">
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php
-                            echo ManagerTheme::getLexicon('search') ?>" onclick="searchResource(); return false;"><i
+                            <a class="btn btn-secondary btn-sm" href="javascript:;"
+                               title="<?= ManagerTheme::getLexicon('search') ?>"
+                               onclick="searchResource(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_search') ?>"></i></a>
-                            <a class="btn btn-secondary btn-sm" href="javascript:;" title="<?php
-                            echo ManagerTheme::getLexicon('reset') ?>" onclick="resetSearch(); return false;"><i
+                            <a class="btn btn-secondary btn-sm" href="javascript:;"
+                               title="<?= ManagerTheme::getLexicon('reset') ?>"
+                               onclick="resetSearch(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i></a>
                         </div>
                     </div>
@@ -278,16 +281,15 @@ if ($numRecords > 0) {
                 <?php
                 if ($numRecords > 0) : ?>
                     <div class="float-xs-left">
-                        <span class="publishedDoc"><?php
-                            echo $numRecords . ' ' . ManagerTheme::getLexicon('resources_in_container') ?></span>
+                        <span class="publishedDoc"><?= $numRecords . ' ' .
+                            ManagerTheme::getLexicon('resources_in_container') ?></span>
                     </div>
                 <?php
                 endif; ?>
             </div>
             <div class="row">
                 <div class="table-responsive">
-                    <?php
-                    echo $output; ?>
+                    <?= $output; ?>
                 </div>
             </div>
         </div>

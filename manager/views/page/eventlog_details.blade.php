@@ -9,7 +9,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <script>
             var actions = {
                 delete: function() {
-                    if(confirm('{{ ManagerTheme::getLexicon('confirm_delete_eventlog') }}') === true) {
+                    if(confirm(`{{ ManagerTheme::getLexicon('confirm_delete_eventlog') }}`) === true) {
                         document.location.href = "index.php?id=" + document.resource.id.value + "&a=116";
                     }
                 },

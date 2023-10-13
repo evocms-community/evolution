@@ -48,7 +48,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <li>
                         <a href="{{ $item->makeUrl('actions.delete') }}&action=delete"
                            title="{{ ManagerTheme::getLexicon('delete') }}"
-                           onclick="return confirm('{{ ManagerTheme::getLexicon('confirm_delete_permission') }}')">
+                           onclick="return confirm(`{{ ManagerTheme::getLexicon('confirm_delete_permission') }}`)">
                             <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>
                         </a>
                     </li>

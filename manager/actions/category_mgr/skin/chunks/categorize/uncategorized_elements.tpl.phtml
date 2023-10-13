@@ -2,8 +2,7 @@
     <h2><?= $view->txt('no_category'); ?></h2>
     <?php
     foreach ($data as $element) : ?>
-        <?php
-        echo $view->renderView('chunks/categorize/drag_element', $element); ?>
+        <?= $view->renderView('chunks/categorize/drag_element', $element); ?>
     <?php
     endforeach; ?>
 </div>

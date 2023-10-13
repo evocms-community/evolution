@@ -3,6 +3,7 @@
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Legacy\Permissions;
 use EvolutionCMS\Models\SiteContent;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -49,8 +50,7 @@ $children = $document->getAllChildren($document);
 $documentDeleteIds = $children;
 array_unshift($documentDeleteIds, $id);
 
-$site_content_table = (new SiteContent())->getTable();
-DB::table($site_content_table)
+SiteContent::query()
     ->whereIn('id', $documentDeleteIds)
     ->update([
         'deleted' => 0,

@@ -1,9 +1,15 @@
 <?php
-/********************/
 
 use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Facades\UrlProcessor;
+use EvolutionCMS\Legacy\Permissions;
+use EvolutionCMS\Models\DocumentGroup;
+use EvolutionCMS\Models\DocumentgroupName;
+use EvolutionCMS\Models\MemberGroup;
 use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SiteTmplvar;
+use Illuminate\Support\Facades\DB;
 
 $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
@@ -29,7 +35,7 @@ switch (evo()->getManagerApi()->action) {
             evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
         } elseif (isset($_REQUEST['pid']) && $_REQUEST['pid'] != '0') {
             // check user has permissions for parent
-            $udperms = new EvolutionCMS\Legacy\Permissions();
+            $udperms = new Permissions();
             $udperms->user = evo()->getLoginUserID('mgr');
             $udperms->document = empty($_REQUEST['pid']) ? 0 : $_REQUEST['pid'];
             $udperms->role = $_SESSION['mgrRole'];
@@ -42,12 +48,12 @@ switch (evo()->getManagerApi()->action) {
         evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
+$id = (int) ($_REQUEST['id'] ?? 0);
 
 if (evo()->getManagerApi()->action == 27) {
     //editing an existing document
     // check permissions on the document
-    $udperms = new EvolutionCMS\Legacy\Permissions();
+    $udperms = new Permissions();
     $udperms->user = evo()->getLoginUserID('mgr');
     $udperms->document = $id;
     $udperms->role = $_SESSION['mgrRole'];
@@ -113,7 +119,7 @@ if (isset($_REQUEST['newtemplate'])) {
 // retain form values if template was changed
 // edited to convert pub_date and unpub_date
 // sottwell 02-09-2006
-if ($formRestored == true) {
+if ($formRestored) {
     $content = array_merge($content, $_POST);
     $content['content'] = $_POST['ta'];
     if (empty ($content['pub_date'])) {
@@ -152,7 +158,6 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 <style>
     .image_for_field[data-image] { display: block; content: ""; width: 120px; height: 120px; margin: .1rem .1rem 0 0; border: 1px #ccc solid; background: #fff 50% 50% no-repeat; background-size: contain; cursor: pointer }
     .image_for_field[data-image=""] { display: none }
-
 </style>
 <script>
   /* <![CDATA[ */
@@ -171,10 +176,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
   var actions = {
     new: function () {
-      document.location.href = "index.php?pid=<?= isset($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=4"
+      document.location.href = "index.php?pid=<?= $_REQUEST['id'] ?? '' ?>&a=4"
     },
     newlink: function () {
-      document.location.href = "index.php?pid=<?= isset($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>&a=72"
+      document.location.href = "index.php?pid=<?= $_REQUEST['id'] ?? '' ?>&a=72"
     },
     save: function () {
       documentDirty = false
@@ -182,7 +187,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.mutate.save.click()
     },
     delete: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_delete_resource')?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_resource')?>`) === true) {
         document.location.href = 'index.php?id=' + document.mutate.id.value + "&a=6<?= $add_path ?>"
       }
     },
@@ -191,7 +196,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.location.href = 'index.php?<?=($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path) ?>'
     },
     duplicate: function () {
-      if (confirm('<?= ManagerTheme::getLexicon('confirm_resource_duplicate')?>') === true) {
+      if (confirm(`<?= ManagerTheme::getLexicon('confirm_resource_duplicate')?>`) === true) {
         document.location.href = "index.php?id=<?= (int) get_by_key(
             $_REQUEST,
             'id',
@@ -267,14 +272,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     var pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
     if (!pn) return
     if (pn.id.substr(4) === id) {
-      alert('<?= ManagerTheme::getLexicon('illegal_parent_self') ?>')
+      alert(`<?= ManagerTheme::getLexicon('illegal_parent_self') ?>`)
       return
     } else {
       while (pn.getAttribute('p') > 0) {
         pId = pn.getAttribute('p')
         pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
         if (pn.id.substr(4) === id) {
-          alert('<?= ManagerTheme::getLexicon('illegal_parent_child') ?>')
+          alert(`<?= ManagerTheme::getLexicon('illegal_parent_child') ?>`)
           return
         }
       }
@@ -314,7 +319,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     }
 
     if (documentDirty === true) {
-      if (confirm('<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>')) {
+      if (confirm(`<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>`)) {
         documentDirty = false
         document.mutate.a.value = <?= evo()->getManagerApi()->action ?>;
         document.mutate.newtemplate.value = newTemplate
@@ -503,7 +508,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
   function evoRenderTvImageCheck (a) {
     var b = document.getElementById('image_for_' + a.target.id),
       c = new Image
-    a.target.value ? (c.src = "<?php echo evo()->getConfig('site_url')?>" + a.target.value, c.onerror = function () {
+    a.target.value ? (c.src = "<?= evo()->getConfig('site_url')?>" + a.target.value, c.onerror = function () {
       b.style.backgroundImage = '', b.setAttribute('data-image', '')
     }, c.onload = function () {
       b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src)
@@ -524,8 +529,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     }
 
     /*************************/
-    $dir = isset($_REQUEST['dir']) ? $_REQUEST['dir'] : '';
-    $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'createdon';
+    $dir = $_REQUEST['dir'] ?? '';
+    $sort = $_REQUEST['sort'] ?? 'createdon';
     $page = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] : '';
     /*************************/
 
@@ -717,11 +722,12 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                    stripslashes($content['content']),
                                                    evo()->getConfig('modx_charset')
                                                ) : 'http://') ?>" class="inputBox"
-                                               onchange="documentDirty=true;"/><input type="button"
-                                                                                      value="<?= ManagerTheme::getLexicon(
-                                                                                          'insert'
-                                                                                      ); ?>"
-                                                                                      onclick="BrowseFileServer('ta')"/>
+                                               onchange="documentDirty=true;"/>
+                                        <input type="button"
+                                               value="<?= ManagerTheme::getLexicon(
+                                                   'insert'
+                                               ); ?>"
+                                               onclick="BrowseFileServer('ta')"/>
                                     </td>
                                 </tr>
 
@@ -754,7 +760,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                             onchange="templateWarning();">
                                         <option value="0">(blank)</option>
                                         <?php
-                                        $templates = \EvolutionCMS\Models\SiteTemplate::query()
+                                        $templates = SiteTemplate::query()
                                             ->select(
                                                 'site_templates.templatename',
                                                 'site_templates.selectable',
@@ -764,9 +770,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                             )
                                             ->leftJoin('categories', 'site_templates.category', '=', 'categories.id')
                                             ->orderBy('categories.category', 'ASC')
-                                            ->orderBy('site_templates.templatename', 'ASC')->get();
+                                            ->orderBy('site_templates.templatename', 'ASC')
+                                            ->get();
 
                                         $currentCategory = '';
+                                        $thisCategory = '';
                                         $closeOptGroup = false;
                                         foreach ($templates as $template) {
                                             $row = $template->toArray();
@@ -852,12 +860,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <td>
                                     <input name="hidemenucheck" type="checkbox"
                                            class="checkbox" <?= (empty($content['hidemenu']) ? 'checked="checked"'
-                                        : '') ?> onclick="changestate(document.mutate.hidemenu);"/><input type="hidden"
-                                                                                                          name="hidemenu"
-                                                                                                          class="hidden"
-                                                                                                          value="<?= (empty($content['hidemenu'])
-                                                                                                              ? 0
-                                                                                                              : 1) ?>"/>
+                                        : '') ?> onclick="changestate(document.mutate.hidemenu);"/>
+                                    <input type="hidden"
+                                           name="hidemenu"
+                                           class="hidden"
+                                           value="<?= (empty($content['hidemenu'])
+                                               ? 0
+                                               : 1) ?>"/>
                                 </td>
                             </tr>
                             <tr>
@@ -1018,7 +1027,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                         <?php
 
-                        if (($content['type'] == 'document' || evo()->getManagerApi()->action == '4') ||
+                        if (($content['type'] == 'document' || evo()->getManagerApi()->action == 4) ||
                             ($content['type'] == 'reference' || evo()->getManagerApi()->action == 72)
                         ) {
                             $template = getDefaultTemplate();
@@ -1029,15 +1038,16 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     $template = $content['template'];
                                 }
                             }
-                            $id = (int) $id;
-                            $tvs = SiteTmplvar::query()->select(
-                                'site_tmplvars.*',
-                                'site_tmplvar_contentvalues.value',
-                                'site_tmplvar_templates.rank as tvrank',
-                                'site_tmplvar_templates.rank',
-                                'site_tmplvars.id',
-                                'site_tmplvars.rank'
-                            )
+
+                            $tvs = SiteTmplvar::query()
+                                ->select(
+                                    'site_tmplvars.*',
+                                    'site_tmplvar_contentvalues.value',
+                                    'site_tmplvar_templates.rank as tvrank',
+                                    'site_tmplvar_templates.rank',
+                                    'site_tmplvars.id',
+                                    'site_tmplvars.rank'
+                                )
                                 ->join(
                                     'site_tmplvar_templates',
                                     'site_tmplvar_templates.tmplvarid',
@@ -1046,7 +1056,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 )
                                 ->leftJoin('site_tmplvar_contentvalues', function ($join) use ($id) {
                                     $join->on('site_tmplvar_contentvalues.tmplvarid', '=', 'site_tmplvars.id');
-                                    $join->on('site_tmplvar_contentvalues.contentid', '=', \DB::raw($id));
+                                    $join->on('site_tmplvar_contentvalues.contentid', '=', DB::raw($id));
                                 });
 
                             if ($group_tvs) {
@@ -1185,7 +1195,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         if (!empty($tvOptions)) {
                                             // Allow different Editor with TV-option {"editor":"CKEditor4"} or &editor=Editor;text;CKEditor4
                                             $editor = $tvOptions['editor'] ?? evo()->getConfig('which_editor');
-                                        };
+                                        }
                                         // Add richtext editor to the list
                                         $richtexteditorIds[$editor][] = 'tv' . $row['id'];
                                         $richtexteditorOptions[$editor]['tv' . $row['id']] = $tvOptions;
@@ -1534,12 +1544,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     // non-admin managers creating or editing a document resource
                                     ?>
                                     <input type="hidden" name="contentType"
-                                           value="<?= (isset($content['contentType']) ? $content['contentType']
-                                               : "text/html") ?>"/>
+                                           value="<?= $content['contentType'] ?? 'text/html' ?>"/>
                                     <input type="hidden" name="type" value="document"/>
                                     <input type="hidden" name="content_dispo"
-                                           value="<?= (isset($content['content_dispo']) ? $content['content_dispo']
-                                               : '0') ?>"/>
+                                           value="<?= $content['content_dispo'] ?? '0' ?>"/>
                                     <?php
                                 } else {
                                     // non-admin managers creating or editing a reference (weblink) resource
@@ -1645,18 +1653,18 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         $content['searchable'] == 1) ||
                                     (!isset($content['searchable']) && evo()->getConfig('search_default'))
                                         ? "checked" : '' ?>
-                                           onclick="changestate(document.mutate.searchable);"/><input type="hidden"
-                                                                                                      name="searchable"
-                                                                                                      value="<?= ((isset($content['searchable']) &&
-                                                                                                          $content['searchable'] ==
-                                                                                                          1) ||
-                                                                                                      (!isset($content['searchable']) &&
-                                                                                                          evo(
-                                                                                                          )->getConfig(
-                                                                                                              'search_default'
-                                                                                                          )) ? 1
-                                                                                                          : 0) ?>"
-                                                                                                      onchange="documentDirty=true;"/>
+                                           onclick="changestate(document.mutate.searchable);"/>
+                                    <input type="hidden"
+                                           name="searchable"
+                                           value="<?= ((isset($content['searchable']) &&
+                                               $content['searchable'] ==
+                                               1) ||
+                                           (!isset($content['searchable']) &&
+                                               evo()->getConfig(
+                                                   'search_default'
+                                               )) ? 1
+                                               : 0) ?>"
+                                           onchange="documentDirty=true;"/>
                                 </td>
                             </tr>
                             <tr>
@@ -1716,7 +1724,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     $sql = '';
 
                     $userGroups = array_unique(
-                        \EvolutionCMS\Models\MemberGroup::query()
+                        MemberGroup::query()
                             ->join(
                                 'membergroup_access',
                                 'membergroup_access.membergroup',
@@ -1727,25 +1735,25 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             ->toArray()
                     );
                     $documentId = (evo()->getManagerApi()->action == '27'
-                        ? $id : (!empty($_REQUEST['pid']) ? (int) $_REQUEST['pid'] : $content['parent']));
+                        ? $id : (!empty($_REQUEST['pid']) ? (int) $_REQUEST['pid'] : $content['parent'] ?? 0));
                     if ($documentId > 0) {
                         // Load up, the permissions from the parent (if new document) or existing document
-                        $documentGroups = \EvolutionCMS\Models\DocumentGroup::where('document', $documentId)->get();
+                        $documentGroups = DocumentGroup::query()->where('document', $documentId)->get();
                         foreach ($documentGroups as $documentGroup) {
                             $groupsarray[] = $documentGroup->document_group . ',' . $documentGroup->id;
                         }
 
-                        $groups = \EvolutionCMS\Models\DocumentgroupName::query()
+                        $groups = DocumentgroupName::query()
                             ->select('documentgroup_names.*', 'document_groups.id as link_id')
                             ->leftJoin('document_groups', function ($join) use ($documentId) {
                                 $join->on('document_groups.document_group', '=', 'documentgroup_names.id');
-                                $join->on('document_groups.document', '=', \DB::raw($documentId));
+                                $join->on('document_groups.document', '=', DB::raw($documentId));
                             })
                             ->orderBy('documentgroup_names.name')
                             ->get();
                     } else {
                         // Just load up the names, we're starting clean
-                        $groups = \EvolutionCMS\Models\DocumentgroupName::query()
+                        $groups = DocumentgroupName::query()
                             ->select('documentgroup_names.*')
                             ->orderBy('documentgroup_names.name')
                             ->get();

@@ -8,7 +8,7 @@
     After that go to module configuration and set "Check DB-table" to "false" (optional).
   </p>
 
-  <form action="<?php echo $view->get('url'); ?>" method="post">
-    <input type="submit" name="<?php echo $view->get('request_key'); ?>[db][submit]" value="Add rank column" />
+  <form action="<?= $view->get('url'); ?>" method="post">
+    <input type="submit" name="<?= $view->get('request_key'); ?>[db][submit]" value="Add rank column" />
   </form>
 </div>

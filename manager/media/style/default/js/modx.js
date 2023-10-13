@@ -1295,7 +1295,7 @@
                                 modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=62&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                             }
                         } else {
-                            modx.alert('Document is linked to site_start variable and cannot be unpublished!');
+                            modx.alert(`Document is linked to site_start variable and cannot be unpublished!`);
                         }
                         break;
                     case 11:
@@ -1305,7 +1305,7 @@
                         w.open(d.getElementById('node' + this.itemToChange).firstChild.dataset.href, 'previeWin');
                         break;
                     default:
-                        modx.alert('Unknown operation command.');
+                        modx.alert(`Unknown operation command.`);
                 }
             },
             setSelected: function (a) {

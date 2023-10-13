@@ -20,6 +20,7 @@ if (isset($_GET['disabled'])) {
     $id = (int) ($_REQUEST['id'] ?? 0);
     // Set the item name for logger
     try {
+        /** @var SiteModule $module */
         $module = SiteModule::query()->findOrFail($id);
         // invoke OnBeforeChunkFormSave event
         evo()->invokeEvent('OnBeforeModFormSave', [
@@ -79,7 +80,7 @@ if ($name == '') {
 }
 
 if ($parse_docblock) {
-    $parsed = evo()->parseDocBlockFromString($modulecode, true);
+    $parsed = evo()->get('DocBlock')->parseFromString($modulecode, true);
     $name = $parsed['name'] ?? $name;
     $properties = $parsed['properties'] ?? $properties;
     $guid = $parsed['guid'] ?? $guid;

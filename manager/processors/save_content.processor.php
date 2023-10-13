@@ -63,7 +63,7 @@ $add_path = $sd . $sb . $pg;
 
 $no_esc_pagetitle = $_POST['pagetitle'];
 if (trim($no_esc_pagetitle) == '') {
-    if ($type == "reference") {
+    if ($type == 'reference') {
         $no_esc_pagetitle = $pagetitle = ManagerTheme::getLexicon('untitled_weblink');
     } else {
         $no_esc_pagetitle = $pagetitle = ManagerTheme::getLexicon('untitled_resource');
@@ -119,45 +119,50 @@ if (evo()->getConfig('friendly_urls')) {
     } elseif ($alias && !evo()->getConfig('allow_duplicate_alias')) {
         // check for duplicate alias name if not allowed
         $alias = evo()->stripAlias($alias);
+
+        /** @var SiteContent $docid */
         $docid = SiteContent::withTrashed()
             ->select('id')
             ->where('id', '<>', $id)
-            ->where('alias', $alias);
+            ->where('alias', $alias)
+            ->when(
+                evo()->getConfig('use_alias_path'),
+                fn($q) => $q->where('parent', $parent)
+            )
+            ->first();
 
-        if (evo()->getConfig('use_alias_path')) {
-            // only check for duplicates on the same level if alias_path is on
-            $docid = $docid->where('parent', $parent);
-        }
-        $docid = $docid->first();
         if (!is_null($docid)) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
                     sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
-                    "index.php?a=27&id=$id"
+                    'index.php?a=27&id=' . $id
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
                 evo()->webAlertAndQuit(
                     sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
-                    "index.php?a=4"
+                    'index.php?a=4'
                 );
             }
         }
     } elseif ($alias) {
         // strip alias of special characters
         $alias = evo()->stripAlias($alias);
+
+        /** @var SiteContent $docid */
         $docid = SiteContent::withTrashed()->select('id')
             ->where('id', '<>', $id)
             ->where('alias', $alias)
             ->where('parent', $parent)
             ->first();
+
         if (!is_null($docid)) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
                     sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
-                    "index.php?a=27&id=$id"
+                    'index.php?a=27&id=' . $id
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
@@ -293,6 +298,8 @@ foreach ($tvs->toArray() as $row) {
         $tmplvars[$row['name']] = $row['id'];
     }
 }
+
+$existingDocument = null;
 
 // get the document, but only if it already exists
 if ($actionToTake != 'new') {
@@ -511,14 +518,16 @@ switch ($actionToTake) {
 
         // redirect/stay options
         if ($_POST['stay'] != '') {
+            $a = '';
+
             // weblink
-            if ($_POST['mode'] == "72") {
-                $a = ($_POST['stay'] == '2') ? "27&id=$key" : "72&pid=$parentId";
+            if ($_POST['mode'] == '72') {
+                $a = ($_POST['stay'] == '2') ? '27&id=' . $key : '72&pid=' . $parentId;
             }
 
             // document
-            if ($_POST['mode'] == "4") {
-                $a = ($_POST['stay'] == '2') ? "27&id=$key" : "4&pid=$parentId";
+            if ($_POST['mode'] == '4') {
+                $a = ($_POST['stay'] == '2') ? '27&id=' . $key : '4&pid=' . $parentId;
             }
 
             $header = 'Location: index.php?a=' . $a . '&r=1&stay=' . $_POST['stay'];
@@ -707,18 +716,14 @@ switch ($actionToTake) {
 
         // do the parent stuff
         if ($resourceArray['parent'] != 0) {
-            $parent = SiteContent::withTrashed()->find($_REQUEST['parent']);
-            $parent->isfolder = 1;
-            $parent->save();
+            SiteContent::withTrashed()->find($_REQUEST['parent'])->update(['isfolder' => 1]);
         }
 
         // finished moving the document, now check to see if the old_parent should no longer be a folder
         $countChildOldParent = SiteContent::withTrashed()->where('parent', $oldparent)->count();
 
         if ($countChildOldParent == 0) {
-            $oldParent = SiteContent::withTrashed()->find($oldparent);
-            $oldParent->isfolder = 0;
-            $oldParent->save();
+            SiteContent::withTrashed()->find($oldparent)->update(['isfolder' => 0]);
         }
 
         // invoke OnDocFormSave event
@@ -749,7 +754,7 @@ switch ($actionToTake) {
             }
             if ($_POST['stay'] != '') {
                 $id = $_REQUEST['id'];
-                if ($type == "reference") {
+                if ($type == 'reference') {
                     // weblink
                     $a = ($_POST['stay'] == '2') ? '27&id=' . $id : '72&pid=' . $parentId;
                 } else {
