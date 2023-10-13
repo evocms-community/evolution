@@ -154,7 +154,7 @@ class SiteUpdateCommand extends Command
                 echo "\nUpdate failed because of composer errors. Fix them, then run cli-install: \n\nphp  ../install/cli-install.php --typeInstall=2 --removeInstall=y\n";
             }
         } else {
-            echo "You use almost current version\n";
+            echo "You are using the latest version\n";
         }
     }
 
