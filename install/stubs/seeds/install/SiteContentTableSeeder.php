@@ -34,10 +34,10 @@ class SiteContentTableSeeder extends Seeder
                 'isfolder'        => 0,
                 'introtext'       => '',
                 'content'         => '<h3>Install Successful!</h3>
-<p>You have successfully installed Evolution CMS.</p>
+<p>You have successfully installed Evolution CMS (Community Edition).</p>
 
 <h3>Getting Help</h3>
-<p>The <a href="http://evo.im/" target="_blank">Evolution CMS Community</a> provides a great starting point to learn all things Evolution CMS, or you can also <a href="http://evo.im/">see some great learning resources</a> (books, tutorials, blogs and screencasts).</p>
+<p>The <a href="https://evo-cms.com/" target="_blank">Evolution CMS</a> site provides a great starting point to learn all things about Evolution CMS.</p>
 <p>Welcome to Evolution CMS!</p>
 ',
                 'richtext'        => 1,
