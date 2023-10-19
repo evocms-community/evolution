@@ -157,7 +157,7 @@ if (!function_exists('makeHTML')) {
                 '"></i>&nbsp;<span class="empty">' . ManagerTheme::getLexicon('empty_folder') . '</span></a></div>';
         }
 
-        if ($_SESSION['tree_nodename'] === 'default') {
+        if (!$_SESSION['tree_nodename'] || $_SESSION['tree_nodename'] === 'default') {
             $nodeNameSource = evo()->getConfig('resource_tree_node_name');
         } else {
             $nodeNameSource = $_SESSION['tree_nodename'];
