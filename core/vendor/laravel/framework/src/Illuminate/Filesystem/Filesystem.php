@@ -60,6 +60,21 @@ class Filesystem
     }
 
     /**
+     * Get the contents of a file as decoded JSON.
+     *
+     * @param  string  $path
+     * @param  int  $flags
+     * @param  bool  $lock
+     * @return array
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function json($path, $flags = 0, $lock = false)
+    {
+        return json_decode($this->get($path, $lock), true, 512, $flags);
+    }
+
+    /**
      * Get contents of a file with shared access.
      *
      * @param  string  $path
@@ -295,7 +310,7 @@ class Filesystem
                 } else {
                     $success = false;
                 }
-            } catch (ErrorException $e) {
+            } catch (ErrorException) {
                 $success = false;
             }
         }
@@ -733,6 +748,8 @@ class Filesystem
                 $this->delete($item->getPathname());
             }
         }
+
+        unset($items);
 
         if (! $preserve) {
             @rmdir($directory);

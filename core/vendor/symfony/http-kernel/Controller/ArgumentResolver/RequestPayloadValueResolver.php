@@ -72,6 +72,10 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
             return [];
         }
 
+        if ($argument->isVariadic()) {
+            throw new \LogicException(sprintf('Mapping variadic argument "$%s" is not supported.', $argument->getName()));
+        }
+
         $attribute->metadata = $argument;
 
         return [$attribute];
@@ -130,8 +134,12 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
                 }
             }
 
-            if (null === $payload && !$argument->metadata->isNullable()) {
-                throw new HttpException($validationFailedCode);
+            if (null === $payload) {
+                $payload = match (true) {
+                    $argument->metadata->hasDefaultValue() => $argument->metadata->getDefaultValue(),
+                    $argument->metadata->isNullable() => null,
+                    default => throw new HttpException($validationFailedCode)
+                };
             }
 
             $arguments[$i] = $payload;
@@ -153,7 +161,7 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
             return null;
         }
 
-        return $this->serializer->denormalize($data, $type, null, self::CONTEXT_DENORMALIZE + $attribute->serializationContext);
+        return $this->serializer->denormalize($data, $type, null, $attribute->serializationContext + self::CONTEXT_DENORMALIZE);
     }
 
     private function mapRequestPayload(Request $request, string $type, MapRequestPayload $attribute): ?object
@@ -167,7 +175,7 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
         }
 
         if ($data = $request->request->all()) {
-            return $this->serializer->denormalize($data, $type, null, self::CONTEXT_DENORMALIZE + $attribute->serializationContext);
+            return $this->serializer->denormalize($data, $type, null, $attribute->serializationContext + self::CONTEXT_DENORMALIZE);
         }
 
         if ('' === $data = $request->getContent()) {

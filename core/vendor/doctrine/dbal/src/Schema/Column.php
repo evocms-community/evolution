@@ -36,7 +36,7 @@ class Column extends AbstractAsset
     /** @var bool */
     protected $_notnull = true;
 
-    /** @var string|null */
+    /** @var mixed */
     protected $_default;
 
     /** @var bool */
@@ -278,7 +278,7 @@ class Column extends AbstractAsset
         return $this->_notnull;
     }
 
-    /** @return string|null */
+    /** @return mixed */
     public function getDefault()
     {
         return $this->_default;
@@ -436,7 +436,7 @@ class Column extends AbstractAsset
      */
     public function getCustomSchemaOptions()
     {
-        Deprecation::trigger(
+        Deprecation::triggerIfCalledFromOutside(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/5476',
             'Column::getCustomSchemaOptions() is deprecated. Use getPlatformOptions() instead.',

@@ -12,7 +12,7 @@ use Illuminate\Support\Testing\Fakes\EventFake;
  * @method static void push(string $event, object|array $payload = [])
  * @method static void flush(string $event)
  * @method static void subscribe(object|string $subscriber)
- * @method static array|null until(string|object $event, mixed $payload = [])
+ * @method static mixed until(string|object $event, mixed $payload = [])
  * @method static array|null dispatch(string|object $event, mixed $payload = [], bool $halt = false)
  * @method static array getListeners(string $eventName)
  * @method static \Closure makeListener(\Closure|string|array $listener, bool $wildcard = false)
@@ -47,12 +47,16 @@ class Event extends Facade
      */
     public static function fake($eventsToFake = [])
     {
-        static::swap($fake = new EventFake(static::getFacadeRoot(), $eventsToFake));
+        $actualDispatcher = static::isFake()
+                ? static::getFacadeRoot()->dispatcher
+                : static::getFacadeRoot();
 
-        Model::setEventDispatcher($fake);
-        Cache::refreshEventDispatcher();
+        return tap(new EventFake($actualDispatcher, $eventsToFake), function ($fake) {
+            static::swap($fake);
 
-        return $fake;
+            Model::setEventDispatcher($fake);
+            Cache::refreshEventDispatcher();
+        });
     }
 
     /**

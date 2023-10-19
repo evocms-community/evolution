@@ -21,18 +21,7 @@ class RetryCommand extends Command
     protected $signature = 'queue:retry
                             {id?* : The ID of the failed job or "all" to retry all jobs}
                             {--queue= : Retry all of the failed jobs for the specified queue}
-                            {--range=* : Range of job IDs (numeric) to be retried}';
-
-    /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'queue:retry';
+                            {--range=* : Range of job IDs (numeric) to be retried (e.g. 1-5)}';
 
     /**
      * The console command description.

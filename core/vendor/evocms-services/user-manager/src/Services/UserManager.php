@@ -11,6 +11,7 @@ use EvolutionCMS\UserManager\Services\Users\UserManagerChangePassword;
 use EvolutionCMS\UserManager\Services\Users\UserChangePassword;
 use EvolutionCMS\UserManager\Services\Users\UserDelete;
 use EvolutionCMS\UserManager\Services\Users\UserEdit;
+use EvolutionCMS\UserManager\Services\Users\UserTokenLogin;
 use EvolutionCMS\UserManager\Services\Users\UserHashLogin;
 use EvolutionCMS\UserManager\Services\Users\UserLogin;
 use EvolutionCMS\UserManager\Services\Users\UserLogout;
@@ -100,6 +101,12 @@ class UserManager
     public function hashLogin(array $userData, bool $events = true, bool $cache = true)
     {
         $user = new UserHashLogin($userData, $events, $cache);
+        return $user->process();
+    }
+
+    public function tokenLogin(array $userData, bool $events = true, bool $cache = true)
+    {
+        $user = new UserTokenLogin($userData, $events, $cache);
         return $user->process();
     }
 

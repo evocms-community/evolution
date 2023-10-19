@@ -14,7 +14,7 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class NotificationFake implements NotificationDispatcher, NotificationFactory
+class NotificationFake implements Fake, NotificationDispatcher, NotificationFactory
 {
     use Macroable, ReflectsClosures;
 
@@ -219,20 +219,6 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
             $expectedCount, $actualCount,
             "Expected {$expectedCount} notifications to be sent, but {$actualCount} were sent."
         );
-    }
-
-    /**
-     * Assert the total amount of times a notification was sent.
-     *
-     * @param  int  $expectedCount
-     * @param  string  $notification
-     * @return void
-     *
-     * @deprecated Use the assertSentTimes method instead
-     */
-    public function assertTimesSent($expectedCount, $notification)
-    {
-        $this->assertSentTimes($notification, $expectedCount);
     }
 
     /**

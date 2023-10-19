@@ -126,7 +126,7 @@ class DocumentCreate implements DocumentServiceInterface
         if (isset($this->documentData['unpub_date']) && !is_numeric($this->documentData['unpub_date'])) {
             unset($this->documentData['unpub_date']);
         }
-        $document = SiteContent::query()->withTrashed()->create($this->documentData);
+        $document = SiteContent::create($this->documentData);
         $this->documentData['id'] = $document->getKey();
 
         $this->prepareTV();
@@ -331,7 +331,7 @@ class DocumentCreate implements DocumentServiceInterface
         // update parent folder status
         if ($this->documentData['parent'] != 0) {
             $fields = ['isfolder' => 1];
-            SiteContent::withTrashed()->where('id', $this->documentData['parent'])->update($fields);
+            SiteContent::withTrashed()->where('id', $this->documentData['parent'])->where('isfolder', 0)->update($fields);
         }
     }
 

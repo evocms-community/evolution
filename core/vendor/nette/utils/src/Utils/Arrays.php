@@ -225,6 +225,7 @@ class Arrays
 
 	/**
 	 * Checks if the array is indexed in ascending order of numeric keys from zero, a.k.a list.
+	 * @return ($value is list ? true : false)
 	 */
 	public static function isList(mixed $value): bool
 	{
@@ -331,6 +332,10 @@ class Arrays
 	/**
 	 * Tests whether at least one element in the array passes the test implemented by the
 	 * provided callback with signature `function ($value, $key, array $array): bool`.
+	 * @template K
+	 * @template V
+	 * @param  iterable<K, V> $array
+	 * @param  callable(V, K, ($array is array ? array<K, V> : iterable<K, V>)): bool $callback
 	 */
 	public static function some(iterable $array, callable $callback): bool
 	{
@@ -347,6 +352,10 @@ class Arrays
 	/**
 	 * Tests whether all elements in the array pass the test implemented by the provided function,
 	 * which has the signature `function ($value, $key, array $array): bool`.
+	 * @template K
+	 * @template V
+	 * @param  iterable<K, V> $array
+	 * @param  callable(V, K, ($array is array ? array<K, V> : iterable<K, V>)): bool $callback
 	 */
 	public static function every(iterable $array, callable $callback): bool
 	{
@@ -363,6 +372,12 @@ class Arrays
 	/**
 	 * Calls $callback on all elements in the array and returns the array of return values.
 	 * The callback has the signature `function ($value, $key, array $array): bool`.
+	 * @template K of array-key
+	 * @template V
+	 * @template R
+	 * @param  iterable<K, V> $array
+	 * @param  callable(V, K, ($array is array ? array<K, V> : iterable<K, V>)): R $callback
+	 * @return array<K, R>
 	 */
 	public static function map(iterable $array, callable $callback): array
 	{
