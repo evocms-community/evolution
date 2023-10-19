@@ -168,10 +168,8 @@ class modResource extends MODxAPI
         $tvTPL = APIhelpers::getkey($this->tvTpl, $tpl, []);
         foreach ($tvTPL as $item) {
             if (isset($this->tvid[$item]) && !array_key_exists($this->tvid[$item], $out)) {
-                $value = $this->get($this->tvid[$item]);
-                $out[$this->tvid[$item]] = empty($value) ? $this->tvd[$this->tvid[$item]] : $value;
+                $out[$this->tvid[$item]] = $this->tvd[$this->tvid[$item]]['default'];
             }
-
         }
         if ($render) {
             foreach ($out as $key => $val) {

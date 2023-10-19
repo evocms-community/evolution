@@ -46,7 +46,7 @@ class Builder
     public static $defaultMorphKeyType = 'int';
 
     /**
-     * Indicates whether Doctrine DBAL usage will be prevented if possible when dropping and renaming columns.
+     * Indicates whether Doctrine DBAL usage will be prevented if possible when dropping, renaming, and modifying columns.
      *
      * @var bool
      */
@@ -113,7 +113,7 @@ class Builder
     }
 
     /**
-     * Attempt to use native schema operations for dropping and renaming columns, even if Doctrine DBAL is installed.
+     * Attempt to use native schema operations for dropping, renaming, and modifying columns, even if Doctrine DBAL is installed.
      *
      * @param  bool  $value
      * @return void
@@ -364,7 +364,7 @@ class Builder
     /**
      * Get all of the table names for the database.
      *
-     * @return void
+     * @return array
      *
      * @throws \LogicException
      */
@@ -421,11 +421,11 @@ class Builder
     {
         $this->disableForeignKeyConstraints();
 
-        $result = $callback();
-
-        $this->enableForeignKeyConstraints();
-
-        return $result;
+        try {
+            return $callback();
+        } finally {
+            $this->enableForeignKeyConstraints();
+        }
     }
 
     /**

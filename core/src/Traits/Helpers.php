@@ -30,4 +30,14 @@ trait Helpers
         return str_replace('%', '', $this->toDateFormat(0, 'formatOnly')) .
             ($withTime ? ' H:i:s' : '');
     }
+
+    /**
+     * Determine if the application is running with debug mode enabled.
+     *
+     * @return bool
+     */
+    public function hasDebugModeEnabled()
+    {
+        return (bool) $this['config']->get('app.debug');
+    }
 }

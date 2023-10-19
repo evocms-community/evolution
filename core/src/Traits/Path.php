@@ -43,9 +43,9 @@ trait Path
      *
      * @return string
      */
-    public function langPath()
+    public function langPath($path = '')
     {
-        return $this->path('lang');
+        return $this->path('lang' . ($path ? DIRECTORY_SEPARATOR . $path : ''));
     }
 
     /**
