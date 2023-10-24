@@ -1,6 +1,7 @@
 <?php
 
 use EvolutionCMS\Facades\ManagerTheme;
+use EvolutionCMS\Facades\UrlProcessor;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\User;
@@ -13,17 +14,14 @@ use EvolutionCMS\Support\MakeTable;
     <?php
     /*include_once ManagerTheme::getFileProcessor('actions/document_data.static.php'); */ ?>
     <?php
-    if (isset($_REQUEST['id'])) {
-        $id = (int) $_REQUEST['id'];
-    } else {
-        $id = 0;
-    }
+    $id = (int)($_REQUEST['id'] ?? 0);
 
     if (isset($_GET['opened'])) {
         $_SESSION['openedArray'] = $_GET['opened'];
     }
 
     if ($_SESSION['tree_show_only_folders']) {
+        /** @var SiteContent $resource */
         $resource = SiteContent::query()->find($id);
         $parent = $id ? $resource->parent : 0;
         $isfolder = $resource->isfolder;
@@ -55,7 +53,7 @@ use EvolutionCMS\Support\MakeTable;
 
     $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
     $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
-    $pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
+    $pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
     $add_path = $sd . $sb . $pg;
 
     $actions = [
@@ -76,15 +74,15 @@ use EvolutionCMS\Support\MakeTable;
      */
 
     // Get Creator's username
-    $createdbyname = User::query()->find($content['createdby']);
-    if (!is_null($createdbyname)) {
-        $createdbyname = $createdbyname->username;
+    $createdbyname = '';
+    if ($user = User::query()->find($content['createdby'])) {
+        $createdbyname = $user->username;
     }
 
     // Get Editor's username
-    $editedbyname = User::query()->find($content['editedby']);
-    if (!is_null($editedbyname)) {
-        $editedbyname = $editedbyname->username;
+    $editedbyname = '';
+    if ($user = User::query()->find($content['editedby'])) {
+        $editedbyname = $user->username;
     }
 
     // Get Template name
@@ -120,11 +118,6 @@ use EvolutionCMS\Support\MakeTable;
             'DESC' => ManagerTheme::getLexicon('sort_desc'),
         ];
 
-        // Get child document count
-        $childs = SiteContent::query()->select('site_content.*')->distinct()
-            ->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id')
-            ->where('site_content.parent', $id);
-
         if ($_SESSION['mgrRole'] != 1) {
             if (is_array($_SESSION['mgrDocgroups']) && count($_SESSION['mgrDocgroups']) > 0) {
                 $childs = $resources->where(function ($q) {
@@ -134,13 +127,18 @@ use EvolutionCMS\Support\MakeTable;
             } else {
                 $childs = $resources->where('site_content.privatemgr', 0);
             }
+        } else {
+            // Get child document count
+            $childs = SiteContent::query()->select('site_content.*')->distinct()
+                ->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id')
+                ->where('site_content.parent', $id);
         }
 
         $numRecords = $childs->count();
 
         $sort = $_REQUEST['sort'] ?? 'createdon';
         $dir = $_REQUEST['dir'] ?? 'DESC';
-        $pg = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] - 1 : 0;
+        $pg = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] - 1 : 0;
 
         // Get child documents (with paging)
 
@@ -226,11 +224,8 @@ use EvolutionCMS\Support\MakeTable;
                         if ($children['isfolder']) {
                             $icon = '<i class="' . ManagerTheme::getStyle('icon_folder') . '"></i>';
                         } else {
-                            if (isset($icons[$children['contentType']])) {
-                                $icon = $icons[$children['contentType']];
-                            } else {
-                                $icon = '<i class="' . ManagerTheme::getStyle('icon_document') . '"></i>';
-                            }
+                            $icon = $icons[$children['contentType']] ??
+                                '<i class="' . ManagerTheme::getStyle('icon_document') . '"></i>';
                         }
                 }
 
