@@ -39,7 +39,7 @@ if (!function_exists('import_sql')) {
 
         $modx->clearCache();
 
-        $_SESSION['last_result'] = ($rs !== null) ? null : $modx->getDatabase()->makeArray($rs);
+        $_SESSION['last_result'] = $rs ? $modx->getDatabase()->makeArray($rs) : null;
         $_SESSION['result_msg'] = $result_code;
     }
 }
