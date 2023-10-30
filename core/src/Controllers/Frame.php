@@ -1,8 +1,8 @@
 <?php namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
-use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
+use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteModule;
 
 class Frame extends AbstractController implements PageControllerInterface
@@ -120,6 +120,10 @@ class Frame extends AbstractController implements PageControllerInterface
             'edit_chunk',
             'edit_snippet',
             'edit_plugin',
+            'edit_user',
+            'edit_role',
+            'edit_module',
+            'exec_module',
         ]);
 
         ManagerTheme::getCore()->setConfig(
