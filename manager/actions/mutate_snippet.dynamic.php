@@ -58,6 +58,7 @@ if ($modx->manager->hasFormValues()) {
 }
 
 $content = array_merge($content, $_POST);
+$content['name'] = $content['name'] ?? '';
 
 // Add lock-element JS-Script
 $lockElementId = $id;
