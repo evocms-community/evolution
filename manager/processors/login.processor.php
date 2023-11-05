@@ -144,7 +144,7 @@ if ($blockedafterdate > 0 && $blockedafterdate < time()) {
 }
 
 // allowed ip
-if ($allowed_ip) {
+if (isset($allowed_ip)) {
     if (($hostname = gethostbyaddr($_SERVER['REMOTE_ADDR'])) && ($hostname != $_SERVER['REMOTE_ADDR'])) {
         if (gethostbyname($hostname) != $_SERVER['REMOTE_ADDR']) {
             jsAlert($_lang['login_processor_remotehost_ip']);
@@ -158,7 +158,7 @@ if ($allowed_ip) {
 }
 
 // allowed days
-if ($allowed_days) {
+if (isset($allowed_days)) {
     $date = getdate();
     $day = $date['wday'] + 1;
     if (!in_array($day, explode(',', $allowed_days))) {
