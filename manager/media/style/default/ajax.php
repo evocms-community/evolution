@@ -577,7 +577,7 @@ if (isset($action)) {
                                 // TODO: max(*) menuindex
                             }
 
-                            if (!$json['errors']) {
+                            if (!isset($json['errors'])) {
                                 $json['success'] = $_lang["actioncomplete"];
 
                                 $modx->invokeEvent('onAfterMoveDocument', [
