@@ -73,7 +73,7 @@ switch($modx->Event->name) {
 		$object_name = $content['pagetitle'] ?? null;
 		$rte = 'none';
 		$tvMode = true;
-		$contentType = $content['contentType'] ? $content['contentType'] : $modx->event->params['contentType'] ?? null;
+		$contentType = isset($content['contentType']) ? $content['contentType'] : $modx->event->params['contentType'];
 
 		/*
 		* Switch contentType for doc
