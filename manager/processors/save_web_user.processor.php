@@ -49,6 +49,7 @@ $blocked = !empty($input['blocked']) ? $input['blocked'] : 0;
 $blockeduntil = !empty($input['blockeduntil']) ? $modx->toTimeStamp($input['blockeduntil']) : 0;
 $blockedafter = !empty($input['blockedafter']) ? $modx->toTimeStamp($input['blockedafter']) : 0;
 $user_groups = isset($input['user_groups']) && is_array($input['user_groups']) ? $input['user_groups'] : [];
+$newpassword = null;
 
 // verify password
 if ($passwordgenmethod == "spec" && $input['specifiedpassword'] != $input['confirmpassword']) {
