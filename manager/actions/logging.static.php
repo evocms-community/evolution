@@ -245,21 +245,21 @@ if ($limit < 1) {
     print "<p>" . $_lang["paging_showing"] . " " . $array_paging['lower'];
     print " " . $_lang["paging_to"] . " " . $array_paging['upper'];
     print " (" . $array_paging['total'] . " " . $_lang["paging_total"] . ")<br />";
-    $paging = (isset($array_paging['first_link']) ? $array_paging['first_link'] : '') . $_lang["paging_first"] . (isset($array_paging['first_link']) ? "</a> " : " ");
-    $paging .= (isset($array_paging['previous_link']) ? $array_paging['previous_link'] : '') . $_lang["paging_prev"] . (isset($array_paging['previous_link']) ? "</a> " : " ");
+    $paging = (isset($array_paging['first_link']) ? $array_paging['first_link'] : '') . $_lang["paging_first"] . (isset($array_paging['first_link']) ? "</a>&nbsp;" : " ");
+    $paging .= (isset($array_paging['previous_link']) ? $array_paging['previous_link'] : '') . $_lang["paging_prev"] . (isset($array_paging['previous_link']) ? "</a>&nbsp;" : "&nbsp;");
     $pagesfound = sizeof($array_row_paging);
     if ($pagesfound > 6) {
-        $paging .= $array_row_paging[$current_row - 2]; // ."&nbsp;";
-        $paging .= $array_row_paging[$current_row - 1]; // ."&nbsp;";
+        $paging .= isset($array_row_paging[$current_row - 2]) ? $array_row_paging[$current_row - 2] : ''; // ."&nbsp;";
+        $paging .= isset($array_row_paging[$current_row - 1]) ? $array_row_paging[$current_row - 1] : ''; // ."&nbsp;";
         $paging .= $array_row_paging[$current_row]; // ."&nbsp;";
-        $paging .= $array_row_paging[$current_row + 1]; // ."&nbsp;";
-        $paging .= $array_row_paging[$current_row + 2]; // ."&nbsp;";
+        $paging .= isset($array_row_paging[$current_row + 1]) ? $array_row_paging[$current_row + 1] : ''; // ."&nbsp;";
+        $paging .= isset($array_row_paging[$current_row + 2]) ? $array_row_paging[$current_row + 2] : ''; // ."&nbsp;";
     } else {
         for ($i = 0; $i < $pagesfound; $i++) {
             $paging .= $array_row_paging[$i] . "&nbsp;";
         }
     }
-    $paging .= (isset($array_paging['next_link']) ? $array_paging['next_link'] : '') . $_lang["paging_next"] . (isset($array_paging['next_link']) ? "</a> " : " ") . " ";
+    $paging .= (isset($array_paging['next_link']) ? $array_paging['next_link'] : '') . $_lang["paging_next"] . (isset($array_paging['next_link']) ? "</a>&nbsp;" : " ") . " ";
     $paging .= (isset($array_paging['last_link']) ? $array_paging['last_link'] : '') . $_lang["paging_last"] . (isset($array_paging['last_link']) ? "</a> " : " ") . " ";
     // The above exemple print somethings like:
     // Results 1 to 20 of 597  <<< 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 >>>
