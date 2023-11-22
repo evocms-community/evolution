@@ -1046,6 +1046,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         if ($row['type'] == 'richtext' || $row['type'] == 'htmlarea') {
                                             // determine TV-options
                                             $tvOptions = $modx->parseProperties($row['elements']);
+                                            $editor = $modx->config['which_editor'];
                                             if (!empty($tvOptions)) {
                                                 // Allow different Editor with TV-option {"editor":"CKEditor4"} or &editor=Editor;text;CKEditor4
                                                 $editor = isset($tvOptions['editor']) ? $tvOptions['editor'] : $modx->config['which_editor'];
