@@ -1,14 +1,14 @@
 ﻿/**
- * keyw
+ * meta_description
  *
- * Meta keywords
+ * Meta description
  *
  * @category        tv
- * @name            keyw
- * @internal        @caption Meta keywords
- * @internal        @input_type text
+ * @name            meta_description
+ * @internal        @caption Meta description
+ * @internal        @input_type textarea
  * @internal        @input_options
- * @internal        @input_default [*pagetitle*]
+ * @internal        @input_default [*introtext*]
  * @internal        @output_widget 
  * @internal        @output_widget_params 
  * @internal        @lock_tv 0

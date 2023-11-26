@@ -1,10 +1,10 @@
 ﻿/**
- * titl
+ * meta_title
  *
  * Meta title
  *
  * @category        tv
- * @name            titl
+ * @name            meta_title
  * @internal        @caption Meta title
  * @internal        @input_type text
  * @internal        @input_options

@@ -1,13 +1,13 @@
 ﻿/**
- * noIndex
+ * meta_noindex
  *
  * Meta robots
  *
  * @category        tv
- * @name            noIndex
- * @internal        @caption No index page 
+ * @name            meta_noindex
+ * @internal        @caption Allow page indexing 
  * @internal        @input_type checkbox
- * @internal        @input_options Нет==<meta name="robots" content="noindex, nofollow">
+ * @internal        @input_options No==<meta name="robots" content="noindex, nofollow">
  * @internal        @input_default 
  * @internal        @output_widget 
  * @internal        @output_widget_params 

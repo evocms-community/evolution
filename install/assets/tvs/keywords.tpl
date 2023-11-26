@@ -1,14 +1,14 @@
 ﻿/**
- * desc
+ * meta_keywords
  *
- * Meta description
+ * Meta keywords
  *
  * @category        tv
- * @name            desc
- * @internal        @caption Meta description
- * @internal        @input_type textarea
+ * @name            meta_keywords
+ * @internal        @caption Meta keywords
+ * @internal        @input_type text
  * @internal        @input_options
- * @internal        @input_default [*introtext*]
+ * @internal        @input_default [*pagetitle*]
  * @internal        @output_widget 
  * @internal        @output_widget_params 
  * @internal        @lock_tv 0

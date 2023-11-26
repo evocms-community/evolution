@@ -20,8 +20,8 @@ if ($modx->db->getValue($modx->db->select('count(id)', $modx->getFullTableName('
 mm_widget_showimagetvs(); // Always give a preview of Image TVs
 
 mm_createTab('SEO', 'seo', '', '', '', '');
-mm_moveFieldsToTab('titl,keyw,desc,seoOverride,noIndex,sitemap_changefreq,sitemap_priority,sitemap_exclude', 'seo', '', '');
-mm_widget_tags('keyw',','); // Give blog tag editing capabilities to the 'documentTags (3)' TV
+mm_moveFieldsToTab('meta_title,meta_keywords,meta_description,seo_override,meta_noindex,sitemap_changefreq,sitemap_priority,sitemap_exclude', 'seo', '', '');
+mm_widget_tags('meta_keywords',','); // Give blog tag editing capabilities to the 'documentTags (3)' TV
 
 
 //mm_createTab('Images', 'photos', '', '', '', '850');
