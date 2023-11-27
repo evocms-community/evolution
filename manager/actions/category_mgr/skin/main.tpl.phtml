@@ -88,6 +88,7 @@ $_style = ManagerTheme::getStyle();
 
 <script type="text/javascript">
   const request_key = '<?= $view->get('request_key') ?>';
+  const token = '<?= csrf_token() ?>';
 </script>
 <script type="text/javascript" src="actions/category_mgr/skin/js/categories.js"></script>
 <script type="text/javascript" src="media/script/bootstrap/js/bootstrap.min.js"></script>
