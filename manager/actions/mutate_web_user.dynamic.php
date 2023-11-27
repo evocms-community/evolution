@@ -294,7 +294,7 @@ var actions = {
 function evoRenderTvImageCheck(a) {
     var b = document.getElementById('image_for_' + a.target.id),
         c = new Image;
-    a.target.value ? (c.src = "<?php echo evo()->getConfig('site_url') ?>" + a.target.value, c.onerror = function () {
+    a.target.value ? (c.src = (a.target.value.search(/^https?:\/\//i) < 0 ? "<?php echo evo()->getConfig('site_url')?>" : '') + a.target.value, c.onerror = function () {
         b.style.backgroundImage = '', b.setAttribute('data-image', '');
     }, c.onload = function () {
         b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src);
@@ -1070,14 +1070,14 @@ if (is_array($evtOut)) {
                 <script type="text/javascript">tpUser.addTabPage(document.getElementById("tabPhoto"));</script>
                     <?php
 $out = '';
-if (isset($_POST['photo'])) {
-    if ((strpos($_POST['photo'], "http://") === false)) {
+if (isset($_POST['photo']) && is_scalar($_POST['photo'])) {
+    if (preg_match('#^https?://#i', $_POST['photo']) === false) {
         $out = MODX_SITE_URL;
     }
     $out .= $_POST['photo'];
 } else {
     if (!empty($userdata['photo'])) {
-        if ((strpos($userdata['photo'], "http://") === false)) {
+        if (preg_match('#^https?://#i', $userdata['photo']) === false) {
             $out = MODX_SITE_URL;
         }
         $out .= $userdata['photo'];
