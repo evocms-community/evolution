@@ -612,7 +612,7 @@ class site_content_menuDocLister extends site_contentDocLister
             $docs = $this->levels;
 
             if (empty($docs)) {
-                $out = '[]';
+                $out = [];
             } else {
                 /** @var prepare_DL_Extender_ $extPrepare */
                 $extPrepare = $this->getExtender('prepare');
