@@ -1500,7 +1500,7 @@ $_lang["role_notassigned_tv"] = 'These Variables are available for assigning.';
 $_lang["role_tv_msg"] = 'The Variables assigned to this Role are listed below.';
 $_lang["tmplvar_roles_access_msg"] = 'Select the Roles that are allowed to access/process this Template Variable';
 
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/confic/cms/settings</strong>';
+$_lang["setting_from_file"] = '<strong class="text-danger">Parameter value is defined in core/custom/config/cms/settings</strong>';
 $_lang['disable'] = 'Disable';
 $_lang['enable'] = 'Enable';
 
