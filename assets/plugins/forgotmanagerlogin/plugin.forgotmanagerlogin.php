@@ -75,13 +75,14 @@ EOD;
             global $modx, $_lang;
 
             $user = $this->getUser(0, '', $to);
-            if ($user['blocked']) {
+            if (!empty($user['blocked'])) {
                 $this->errors[] = $_lang['user_is_blocked'];
                 return false;
             }
+            $captcha = '';
             if($modx->config['use_captcha']==='1') $captcha = '&captcha_code=ignore';
 
-            if($user['username']) {
+            if(isset($user['username'])) {
                 $body = <<<EOD
 <p>{$_lang['forgot_password_email_intro']} <a href="{$modx->config['site_manager_url']}/processors/login.processor.php?username={$user['username']}&hash={$user['hash']}{$captcha}">{$_lang['forgot_password_email_link']}</a></p>
 <p>{$_lang['forgot_password_email_instructions']}</p>
