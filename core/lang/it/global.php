@@ -33,6 +33,8 @@ $_lang["access_permissions_links"] = 'Collegamenti Gruppi di Utenti/Risorse';
 $_lang["access_permissions_links_tab"] = 'Qui potete specificare a quali Gruppi di Utenti è permesso l\'accesso ai Gruppi di Risorse (ad es.: possono modificare o creare Risorse). Per collegare un Gruppo di Risorse a un Gruppo di Utenti, selezionatelo dalla lista a tendina, e fate clic su \'Aggiungi gruppo\'. Per rimuovere il collegamento ad un certo gruppo premete \'Rimuovi ->\'. Il collegamento sarà immediatamente eliminato.';
 $_lang["access_permissions_no_resources_in_group"] = 'Nessuno.';
 $_lang["access_permissions_no_users_in_group"] = 'Nessuno.';
+$_lang["users_list"] = 'Lista degli utenti';
+$_lang["documents_list"] = 'Elenco delle risorse';
 $_lang["access_permissions_off"] = '<span class=\'warning\'>I permessi di accesso non sono stati attivati.</span> Questo significa che qualsiasi modifica qui eseguita non avrà alcun effetto finchè i permessi di accesso non saranno attivati.';
 $_lang["access_permissions_resource_groups"] = 'Gruppi di Risorse';
 $_lang["access_permissions_resources_in_group"] = '<b>Risorse nel gruppo:</b> ';
@@ -1507,7 +1509,7 @@ $_lang["role_notassigned_tv"] = 'Queste Variabili sono disponibili per l\'assegn
 $_lang["role_tv_msg"] = 'Le Variabili assegnate a questo Ruolo sono elencate di seguito.';
 $_lang["tmplvar_roles_access_msg"] = 'Selezionate quali Ruoli possono utilizzare questa Variabile di Template';
 
-$_lang["setting_from_file"] = '<strong class="text-danger">Il valore del parametro è definito in core/custom/confic/cms/settings</strong>';
+$_lang["setting_from_file"] = '<strong class="text-danger">Il valore del parametro è definito in core/custom/config/cms/settings</strong>';
 $_lang['disable'] = 'Disabilita';
 $_lang['enable'] = 'Abilita';
 
