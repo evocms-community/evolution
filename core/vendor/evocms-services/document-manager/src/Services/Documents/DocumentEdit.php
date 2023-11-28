@@ -230,7 +230,7 @@ class DocumentEdit extends DocumentCreate
     protected function preparePublicationStatus() {
         // determine published status
         $today = EvolutionCMS()->timestamp();
-        if (empty ($pub_date)) {
+        if (empty($this->documentData['pub_date'])) {
             $this->documentData['pub_date'] = 0;
         } else {
             $this->documentData['pub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['pub_date']);

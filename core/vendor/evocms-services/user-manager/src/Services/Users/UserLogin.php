@@ -400,13 +400,13 @@ class UserLogin implements UserServiceInterface
     {
         if ($this->events) {
             // invoke OnManagerAuthentication event
-            $rt = EvolutionCMS()->invokeEvent('OnUserAuthentication', array(
+            $rt = EvolutionCMS()->invokeEvent('OnUserAuthentication', [
                 'userid' => $this->user->getKey(),
                 'username' => $this->user->username,
                 'userpassword' => $this->userData['password'],
                 'savedpassword' => $this->user->password,
-                'rememberme' => $this->userData['rememberme']
-            ));
+                'rememberme' => $this->userData['rememberme'] ?? false
+            ]);
         }
 
         // check if plugin authenticated the user

@@ -13,10 +13,6 @@ class modResource extends MODxAPI
     use ContentTV;
 
     /**
-     * @var string
-     */
-    protected $mode = 'new';
-    /**
      * @var array
      */
     protected $default_field = [
@@ -168,10 +164,8 @@ class modResource extends MODxAPI
         $tvTPL = APIhelpers::getkey($this->tvTpl, $tpl, []);
         foreach ($tvTPL as $item) {
             if (isset($this->tvid[$item]) && !array_key_exists($this->tvid[$item], $out)) {
-                $value = $this->get($this->tvid[$item]);
-                $out[$this->tvid[$item]] = empty($value) ? $this->tvd[$this->tvid[$item]] : $value;
+                $out[$this->tvid[$item]] = $this->tvd[$this->tvid[$item]]['default'];
             }
-
         }
         if ($render) {
             foreach ($out as $key => $val) {
@@ -267,7 +261,6 @@ class modResource extends MODxAPI
                 $out = $out['default'];
             }
         }
-
         return $out;
     }
 
@@ -530,16 +523,15 @@ class modResource extends MODxAPI
             $this->query("DELETE FROM {$this->makeTable('site_tmplvar_contentvalues')} WHERE `contentid` = '{$this->id}' AND `tmplvarid` IN ({$ids})");
         }
 
-        if (!isset($this->mode)) {
-            $this->mode = $this->newDoc ? "new" : "upd";
-            $this->newDoc = false;
-        }
-
         if (!empty($this->groupIds)) {
             $this->setDocumentGroups($this->id, $this->groupIds);
         }
+        
+        $mode = $this->newDoc ? 'new' : 'upd';
+        $this->newDoc = false;
+        
         $this->invokeEvent('OnDocFormSave', [
-            'mode'   => $this->mode,
+            'mode'   => $mode,
             'id'     => isset($this->id) ? $this->id : '',
             'doc'    => $this->toArray(),
             'docObj' => $this
@@ -827,9 +819,9 @@ class modResource extends MODxAPI
         if ($this->isDecodableField($field)) {
             $data = $this->get($field);
             if ($this->isTVarrayField($field)) {
-                $out = explode('||', $data);
+                $out = strpos($data, '||') !== false ? explode('||', $data) : $data;
             } else {
-                $out = jsonHelper::jsonDecode($data, ['assoc' => true], true);
+                $out = json_decode($data, true) ?? [];
             }
         }
         if ($store) {

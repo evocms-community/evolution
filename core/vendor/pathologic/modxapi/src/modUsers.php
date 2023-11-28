@@ -14,11 +14,13 @@ class modUsers extends MODxAPI
 {
     use RoleTV;
 
-    const ON_CHANGE_PASSWORD_EVENT = 'OnWebChangePassword';
-    const ON_SAVE_USER_EVENT = 'OnWebSaveUser';
-    const ON_DELETE_USER_EVENT = 'OnWebDeleteUser';
-    const ON_USER_LOGIN_EVENT = 'OnWebLogin';
-    const ON_USER_AUTHENTICATION_EVENT = 'OnWebAuthentication';
+    const ON_CHANGE_PASSWORD_EVENT = 'OnUserChangePassword';
+    const ON_SAVE_USER_EVENT = 'OnUserSave';
+    const ON_DELETE_USER_EVENT = 'OnUserDelete';
+    const ON_USER_LOGIN_EVENT = 'OnUserLogin';
+    const ON_USER_BEFORE_LOGOUT_EVENT = 'OnBeforeUserLogout';
+    const ON_USER_LOGOUT_EVENT = 'OnUserLogout';
+    const ON_USER_AUTHENTICATION_EVENT = 'OnUserAuthentication';
 
     /**
      * @var array
@@ -747,9 +749,9 @@ class modUsers extends MODxAPI
             'internalKey' => $uid,
             'userid'      => $uid // Bugfix by TS
         ];
-        $this->invokeEvent('OnBeforeWebLogout', $params, $fire_events);
+        $this->invokeEvent(self::ON_USER_BEFORE_LOGOUT_EVENT, $params, $fire_events);
         $this->SessionHandler('destroy', $cookieName ? $cookieName : 'WebLoginPE');
-        $this->invokeEvent('OnWebLogout', $params, $fire_events);
+        $this->invokeEvent(self::ON_USER_LOGOUT_EVENT, $params, $fire_events);
     }
 
     /**
@@ -773,6 +775,7 @@ class modUsers extends MODxAPI
                     $_SESSION['webShortname'] = $this->get('username');
                     $_SESSION['webFullname'] = $this->get('fullname');
                     $_SESSION['webEmail'] = $this->get('email');
+                    $_SESSION['webPhoto'] = $this->get('photo');
                     $_SESSION['webValidated'] = 1;
                     $_SESSION['webRole'] = $this->get('role');
                     $_SESSION['webInternalKey'] = $this->getID();
@@ -793,6 +796,7 @@ class modUsers extends MODxAPI
                 unset($_SESSION['webShortname']);
                 unset($_SESSION['webFullname']);
                 unset($_SESSION['webEmail']);
+                unset($_SESSION['webPhoto']);
                 unset($_SESSION['webValidated']);
                 unset($_SESSION['webRole']);
                 unset($_SESSION['webInternalKey']);

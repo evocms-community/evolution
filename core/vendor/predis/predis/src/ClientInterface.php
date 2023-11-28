@@ -40,6 +40,7 @@ use Predis\Command\Argument\TimeSeries\RangeArguments;
 use Predis\Command\CommandInterface;
 use Predis\Command\FactoryInterface;
 use Predis\Command\Redis\Container\ACL;
+use Predis\Command\Redis\Container\CLUSTER;
 use Predis\Command\Redis\Container\FunctionContainer;
 use Predis\Command\Redis\Container\Json\JSONDEBUG;
 use Predis\Command\Redis\Container\Search\FTCONFIG;
@@ -322,12 +323,14 @@ use Predis\Response\Status;
  * @method array|null        exec()
  * @method mixed             multi()
  * @method mixed             unwatch()
+ * @method array             waitaof(int $numLocal, int $numReplicas, int $timeout)
  * @method mixed             watch(string $key)
  * @method mixed             eval(string $script, int $numkeys, string ...$keyOrArg = null)
  * @method mixed             eval_ro(string $script, array $keys, ...$argument)
  * @method mixed             evalsha(string $script, int $numkeys, string ...$keyOrArg = null)
  * @method mixed             evalsha_ro(string $sha1, array $keys, ...$argument)
  * @method mixed             script($subcommand, $argument = null)
+ * @method Status            shutdown(bool $noSave = null, bool $now = false, bool $force = false, bool $abort = false)
  * @method mixed             auth(string $password)
  * @method string            echo(string $message)
  * @method mixed             ping(string $message = null)
@@ -356,6 +359,7 @@ use Predis\Response\Status;
  * @method int               geosearchstore(string $destination, string $source, FromInterface $from, ByInterface $by, ?string $sorting = null, int $count = -1, bool $any = false, bool $storeDist = false)
  *
  * Container commands
+ * @property CLUSTER           $cluster
  * @property FunctionContainer $function
  * @property FTCONFIG          $ftconfig
  * @property FTCURSOR          $ftcursor

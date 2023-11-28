@@ -261,7 +261,7 @@ class BlueScreen
 			$class = $m[2];
 			if (
 				!class_exists($class, false) && !interface_exists($class, false) && !trait_exists($class, false)
-				&& ($file = Helpers::guessClassFile($class)) && !is_file($file)
+				&& ($file = Helpers::guessClassFile($class)) && !@is_file($file) // @ - may trigger error
 			) {
 				[$content, $line] = $this->generateNewFileContents($file, $class);
 				$actions[] = [
@@ -273,7 +273,7 @@ class BlueScreen
 
 		if (preg_match('# ([\'"])((?:/|[a-z]:[/\\\\])\w[^\'"]+\.\w{2,5})\1#i', $ex->getMessage(), $m)) {
 			$file = $m[2];
-			if (is_file($file)) {
+			if (@is_file($file)) { // @ - may trigger error
 				$label = 'open';
 				$content = '';
 				$line = 1;
@@ -358,7 +358,7 @@ class BlueScreen
 		$out = $source[0]; // <code><span color=highlight.html>
 		$source = str_replace('<br />', "\n", $source[1]);
 		$out .= static::highlightLine($source, $line, $lines, $column);
-		$out = str_replace('&nbsp;', ' ', $out);
+		$out = str_replace('&nbsp;', ' ', $out) . '</code>';
 		return "<pre class='tracy-code'><div>$out</div></pre>";
 	}
 
@@ -412,7 +412,7 @@ class BlueScreen
 			}
 		}
 
-		$out .= str_repeat('</span>', $spans) . '</code>';
+		$out .= str_repeat('</span>', $spans);
 		return $out;
 	}
 

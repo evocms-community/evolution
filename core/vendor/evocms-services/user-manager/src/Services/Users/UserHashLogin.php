@@ -77,12 +77,10 @@ class UserHashLogin extends UserLogin
 
         if ($this->events) {
             // invoke OnManagerLogin event
-            EvolutionCMS()->invokeEvent('OnManagerLogin', array(
+            EvolutionCMS()->invokeEvent('OnUserLogin', [
                 'userid' => $this->user->getKey(),
                 'username' => $this->user->username,
-                'userpassword' => $this->userData['password'],
-                'rememberme' => $this->userData['rememberme']
-            ));
+            ]);
         }
         $this->user->cachepwd = '';
         $this->user->save();

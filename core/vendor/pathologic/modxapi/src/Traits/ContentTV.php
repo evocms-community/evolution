@@ -117,7 +117,7 @@ trait ContentTV
             $display = APIhelpers::getkey($param, 'display', '');
             $display_params = APIhelpers::getkey($param, 'display_params', '');
             $type = APIhelpers::getkey($param, 'type', '');
-            $out = getTVDisplayFormat($tvname, $tvval, $display, $display_params, $type, $this->getID(), '');
+            $out = getTVDisplayFormat($tvname, $tvval ?? '', $display, $display_params, $type, $this->getID(), '');
         }
 
         return $out;

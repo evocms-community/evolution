@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5dccf4067825ec6831786c318bd74620
+class ComposerStaticInit290afeda14f59ab96a6622520aef0a10
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -101,6 +101,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
             'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
+            'Psr\\Clock\\' => 10,
             'Predis\\' => 7,
             'PhpOption\\' => 10,
             'Pathologic\\EvolutionCMS\\MODxAPI\\' => 32,
@@ -338,8 +339,8 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -352,6 +353,10 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
         'Predis\\' => 
         array (
@@ -415,8 +420,8 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
-            1 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            1 => __DIR__ . '/..' . '/illuminate/collections',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -609,6 +614,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'Carbon\\AbstractTranslator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/AbstractTranslator.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonConverterInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonConverterInterface.php',
@@ -693,12 +699,12 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
         'Composer\\Advisory\\Auditor' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/Auditor.php',
+        'Composer\\Advisory\\IgnoredSecurityAdvisory' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/IgnoredSecurityAdvisory.php',
         'Composer\\Advisory\\PartialSecurityAdvisory' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/PartialSecurityAdvisory.php',
         'Composer\\Advisory\\SecurityAdvisory' => __DIR__ . '/..' . '/composer/composer/src/Composer/Advisory/SecurityAdvisory.php',
         'Composer\\Autoload\\AutoloadGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/AutoloadGenerator.php',
         'Composer\\Autoload\\ClassLoader' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassLoader.php',
         'Composer\\Autoload\\ClassMapGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassMapGenerator.php',
-        'Composer\\Autoload\\PhpFileCleaner' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/PhpFileCleaner.php',
         'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Composer\\Cache' => __DIR__ . '/..' . '/composer/composer/src/Composer/Cache.php',
         'Composer\\ClassMapGenerator\\ClassMap' => __DIR__ . '/..' . '/composer/class-map-generator/src/ClassMap.php',
@@ -1726,6 +1732,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'EvolutionCMS\\Traits\\Path' => __DIR__ . '/../..' . '/src/Traits/Path.php',
         'EvolutionCMS\\Traits\\Settings' => __DIR__ . '/../..' . '/src/Traits/Settings.php',
         'EvolutionCMS\\UrlProcessor' => __DIR__ . '/../..' . '/src/UrlProcessor.php',
+        'EvolutionCMS\\UserManager\\Exceptions\\TokenExpiredException' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Exceptions/TokenExpiredException.php',
         'EvolutionCMS\\UserManager\\Facades\\UserManager' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Facades/UserManager.php',
         'EvolutionCMS\\UserManager\\Interfaces\\UserServiceInterface' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Interfaces/UserServiceInterface.php',
         'EvolutionCMS\\UserManager\\Providers\\UserManagerServiceProvider' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Providers/UserManagerServiceProvider.php',
@@ -1752,6 +1759,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'EvolutionCMS\\UserManager\\Services\\Users\\UserSaveValues' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserSaveValues.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserSetGroups' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserSetGroups.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserSetRole' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserSetRole.php',
+        'EvolutionCMS\\UserManager\\Services\\Users\\UserTokenLogin' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserTokenLogin.php',
         'EvolutionCMS\\UserManager\\Services\\Users\\UserVerified' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Services/Users/UserVerified.php',
         'ExecWithFallback\\Availability' => __DIR__ . '/..' . '/rosell-dk/exec-with-fallback/src/Availability.php',
         'ExecWithFallback\\ExecWithFallback' => __DIR__ . '/..' . '/rosell-dk/exec-with-fallback/src/ExecWithFallback.php',
@@ -2667,6 +2675,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'League\\Flysystem\\Util\\MimeType' => __DIR__ . '/..' . '/league/flysystem/src/Util/MimeType.php',
         'League\\Flysystem\\Util\\StreamHasher' => __DIR__ . '/..' . '/league/flysystem/src/Util/StreamHasher.php',
         'League\\MimeTypeDetection\\EmptyExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/EmptyExtensionToMimeTypeMap.php',
+        'League\\MimeTypeDetection\\ExtensionLookup' => __DIR__ . '/..' . '/league/mime-type-detection/src/ExtensionLookup.php',
         'League\\MimeTypeDetection\\ExtensionMimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/ExtensionMimeTypeDetector.php',
         'League\\MimeTypeDetection\\ExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/ExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\FinfoMimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/FinfoMimeTypeDetector.php',
@@ -2916,11 +2925,13 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Predis\\Command\\Redis\\BloomFilter\\BFRESERVE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/BloomFilter/BFRESERVE.php',
         'Predis\\Command\\Redis\\BloomFilter\\BFSCANDUMP' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/BloomFilter/BFSCANDUMP.php',
         'Predis\\Command\\Redis\\CLIENT' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/CLIENT.php',
+        'Predis\\Command\\Redis\\CLUSTER' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/CLUSTER.php',
         'Predis\\Command\\Redis\\COMMAND' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/COMMAND.php',
         'Predis\\Command\\Redis\\CONFIG' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/CONFIG.php',
         'Predis\\Command\\Redis\\COPY' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/COPY.php',
         'Predis\\Command\\Redis\\Container\\ACL' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/ACL.php',
         'Predis\\Command\\Redis\\Container\\AbstractContainer' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/AbstractContainer.php',
+        'Predis\\Command\\Redis\\Container\\CLUSTER' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/CLUSTER.php',
         'Predis\\Command\\Redis\\Container\\ContainerFactory' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/ContainerFactory.php',
         'Predis\\Command\\Redis\\Container\\ContainerInterface' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/ContainerInterface.php',
         'Predis\\Command\\Redis\\Container\\FunctionContainer' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/Container/FunctionContainer.php',
@@ -3172,6 +3183,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Predis\\Command\\Redis\\TopK\\TOPKRESERVE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/TopK/TOPKRESERVE.php',
         'Predis\\Command\\Redis\\UNSUBSCRIBE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/UNSUBSCRIBE.php',
         'Predis\\Command\\Redis\\UNWATCH' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/UNWATCH.php',
+        'Predis\\Command\\Redis\\WAITAOF' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/WAITAOF.php',
         'Predis\\Command\\Redis\\WATCH' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/WATCH.php',
         'Predis\\Command\\Redis\\XADD' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XADD.php',
         'Predis\\Command\\Redis\\XDEL' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/XDEL.php',
@@ -3213,7 +3225,13 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Predis\\Command\\Redis\\ZUNIONSTORE' => __DIR__ . '/..' . '/predis/predis/src/Command/Redis/ZUNIONSTORE.php',
         'Predis\\Command\\ScriptCommand' => __DIR__ . '/..' . '/predis/predis/src/Command/ScriptCommand.php',
         'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\DeleteStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/DeleteStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\DumpStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/DumpStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\FlushStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/FlushStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\KillStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/KillStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\ListStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/ListStrategy.php',
         'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\LoadStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/LoadStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\RestoreStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/RestoreStrategy.php',
+        'Predis\\Command\\Strategy\\ContainerCommands\\Functions\\StatsStrategy' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/ContainerCommands/Functions/StatsStrategy.php',
         'Predis\\Command\\Strategy\\StrategyResolverInterface' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/StrategyResolverInterface.php',
         'Predis\\Command\\Strategy\\SubcommandStrategyInterface' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/SubcommandStrategyInterface.php',
         'Predis\\Command\\Strategy\\SubcommandStrategyResolver' => __DIR__ . '/..' . '/predis/predis/src/Command/Strategy/SubcommandStrategyResolver.php',
@@ -3333,6 +3351,7 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Predis\\Transaction\\AbortedMultiExecException' => __DIR__ . '/..' . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
         'Predis\\Transaction\\MultiExec' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExec.php',
         'Predis\\Transaction\\MultiExecState' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExecState.php',
+        'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
@@ -3370,18 +3389,14 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
         'Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
         'Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
         'Psr\\SimpleCache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/simple-cache/src/InvalidArgumentException.php',
-        'React\\Promise\\CancellablePromiseInterface' => __DIR__ . '/..' . '/react/promise/src/CancellablePromiseInterface.php',
-        'React\\Promise\\CancellationQueue' => __DIR__ . '/..' . '/react/promise/src/CancellationQueue.php',
         'React\\Promise\\Deferred' => __DIR__ . '/..' . '/react/promise/src/Deferred.php',
+        'React\\Promise\\Exception\\CompositeException' => __DIR__ . '/..' . '/react/promise/src/Exception/CompositeException.php',
         'React\\Promise\\Exception\\LengthException' => __DIR__ . '/..' . '/react/promise/src/Exception/LengthException.php',
-        'React\\Promise\\ExtendedPromiseInterface' => __DIR__ . '/..' . '/react/promise/src/ExtendedPromiseInterface.php',
-        'React\\Promise\\FulfilledPromise' => __DIR__ . '/..' . '/react/promise/src/FulfilledPromise.php',
-        'React\\Promise\\LazyPromise' => __DIR__ . '/..' . '/react/promise/src/LazyPromise.php',
+        'React\\Promise\\Internal\\CancellationQueue' => __DIR__ . '/..' . '/react/promise/src/Internal/CancellationQueue.php',
+        'React\\Promise\\Internal\\FulfilledPromise' => __DIR__ . '/..' . '/react/promise/src/Internal/FulfilledPromise.php',
+        'React\\Promise\\Internal\\RejectedPromise' => __DIR__ . '/..' . '/react/promise/src/Internal/RejectedPromise.php',
         'React\\Promise\\Promise' => __DIR__ . '/..' . '/react/promise/src/Promise.php',
         'React\\Promise\\PromiseInterface' => __DIR__ . '/..' . '/react/promise/src/PromiseInterface.php',
-        'React\\Promise\\PromisorInterface' => __DIR__ . '/..' . '/react/promise/src/PromisorInterface.php',
-        'React\\Promise\\RejectedPromise' => __DIR__ . '/..' . '/react/promise/src/RejectedPromise.php',
-        'React\\Promise\\UnhandledRejectionException' => __DIR__ . '/..' . '/react/promise/src/UnhandledRejectionException.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'Seld\\JsonLint\\DuplicateKeyException' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/DuplicateKeyException.php',
         'Seld\\JsonLint\\JsonParser' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/JsonParser.php',
@@ -4323,10 +4338,10 @@ class ComposerStaticInit5dccf4067825ec6831786c318bd74620
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit5dccf4067825ec6831786c318bd74620::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit290afeda14f59ab96a6622520aef0a10::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit290afeda14f59ab96a6622520aef0a10::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit290afeda14f59ab96a6622520aef0a10::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit290afeda14f59ab96a6622520aef0a10::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -123,14 +123,13 @@ class UserLogout implements UserServiceInterface
         }
         $user = User::query()->find($internalKey);
         $username = '';
+        $sid = EvolutionCMS()->sid;
         if (!is_null($user)) {
             $user->refresh_token = '';
             $user->access_token = '';
             $user->valid_to = NULL;
             $user->save();
-            $username = $_SESSION[$this->context . 'Shortname'];
-            if(is_null($username)) $username = '';
-            $sid = EvolutionCMS()->sid;
+            $username = $_SESSION[$this->context . 'Shortname'] ?? '';
             if ($this->events) {
                 // invoke OnBeforeManagerLogout event
                 EvolutionCMS()->invokeEvent("OnBeforeUserLogout",
