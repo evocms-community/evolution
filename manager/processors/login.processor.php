@@ -301,14 +301,14 @@ $rs = $modx->db->select('setting_value', '[+prefix+]user_settings',
 $id = (int) $modx->db->getValue($rs);
 if ($id > 0) {
     $header = 'Location: ' . $modx->makeUrl($id, '', '', 'full');
-    if ($_POST['ajax'] == 1) {
+    if (!empty($_POST['ajax'])) {
         echo $header;
     } else {
         header($header);
     }
 } else {
     $header = 'Location: ' . MODX_MANAGER_URL;
-    if ($_POST['ajax'] == 1) {
+    if (!empty($_POST['ajax'])) {
         echo $header;
     } else {
         header($header);
@@ -323,7 +323,7 @@ if ($id > 0) {
 function jsAlert($msg)
 {
     $modx = evolutionCMS();
-    if ($_POST['ajax'] != 1) {
+    if (empty($_POST['ajax'])) {
         echo "<script>window.setTimeout(\"alert('" . addslashes($modx->db->escape($msg)) . "')\",10);history.go(-1)</script>";
     } else {
         echo $msg . "\n";
