@@ -895,7 +895,7 @@ if (! function_exists('renderFormElement')) {
                     }
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '"  value="' . $field_value . '" ' . $field_style . ' onchange="documentDirty=true;" /><input type="button" value="' . ManagerTheme::getLexicon('insert') . '" onclick="BrowseServer(\'tv' . $field_id . '\')" />
                     <div class="col-12" style="padding-left: 0px;">
-                        <div id="image_for_tv' . $field_id . '" class="image_for_field" data-image="' . $field_value . '" onclick="BrowseServer(\'tv' . $field_id . '\')" style="' . $size . 'background-image: url(\'' . (preg_match('#^https?://#i', $image) === false ? evo()->getConfig('site_url') : ''). $image . '\');"></div>
+                        <div id="image_for_tv' . $field_id . '" class="image_for_field" data-image="' . $field_value . '" onclick="BrowseServer(\'tv' . $field_id . '\')" style="' . $size . 'background-image: url(\'' . (preg_match('#^https?://#i', $image) == false ? evo()->getConfig('site_url') : ''). $image . '\');"></div>
                         <script>document.getElementById(\'tv' . $field_id . '\').addEventListener(\'change\', evoRenderTvImageCheck, false);</script>
                     </div>';
                     break;
