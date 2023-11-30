@@ -1071,13 +1071,13 @@ if (is_array($evtOut)) {
                     <?php
 $out = '';
 if (isset($_POST['photo']) && is_scalar($_POST['photo'])) {
-    if (preg_match('#^https?://#i', $_POST['photo']) === false) {
+    if (preg_match('#^https?://#i', $_POST['photo']) == false) {
         $out = MODX_SITE_URL;
     }
     $out .= $_POST['photo'];
 } else {
     if (!empty($userdata['photo'])) {
-        if (preg_match('#^https?://#i', $userdata['photo']) === false) {
+        if (preg_match('#^https?://#i', $userdata['photo']) == false) {
             $out = MODX_SITE_URL;
         }
         $out .= $userdata['photo'];
