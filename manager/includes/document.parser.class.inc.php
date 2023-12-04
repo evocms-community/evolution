@@ -3124,7 +3124,7 @@ class DocumentParser
                     break;
                 }
             } else {
-                $id = $this->aliasListing[$id]['parent'];
+                $id = isset($this->aliasListing[$id]['parent']) ? $this->aliasListing[$id]['parent'] : null;
                 if (!$id) {
                     break;
                 }
