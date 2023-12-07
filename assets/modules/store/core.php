@@ -70,15 +70,15 @@ case 'install_file':
 
 
 
-		if ($_GET['method']!= 'fast'){
-			header("Location: ".$modx->config['site_url']."assets/modules/store/installer/index.php?action=options");
-			die();
-		} else {
-			chdir('../assets/modules/store/installer/');
+		if (isset($_GET['method']) && $_GET['method'] == 'fast'){
+		    chdir('../assets/modules/store/installer/');
 			ob_start();
 			require "instprocessor-fast.php";
 			$content = ob_get_contents();
 			ob_end_clean();
+		} else {
+			header("Location: ".$modx->config['site_url']."assets/modules/store/installer/index.php?action=options");
+			die();
 		}
 	} else {
 
