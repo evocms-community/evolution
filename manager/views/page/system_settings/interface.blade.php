@@ -105,7 +105,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <img name="login_logo" style="max-height: 48px" src="' .
-                ($settings['login_logo'] ? MODX_SITE_URL . $settings['login_logo'] : '') .
+                ($settings['login_logo'] ? (preg_match('#^https?://#i', $settings['login_logo']) == false ? MODX_SITE_URL : '') . $settings['login_logo'] : '') .
                 '" />
                                         </div>',
             'comment' =>
@@ -141,7 +141,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <img name="login_bg" style="max-height: 48px" src="' .
-                ($settings['login_bg'] ? MODX_SITE_URL . $settings['login_bg'] : '') .
+                ($settings['login_bg'] ? (preg_match('#^https?://#i', $settings['login_bg']) === false ? MODX_SITE_URL : '') . $settings['login_bg'] : '')
                 '" />
                                         </div>',
             'comment' =>

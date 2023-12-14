@@ -9,7 +9,7 @@ use EvolutionCMS\UserManager\Facades\UserManager;
 
 class EditOrNewUser extends AbstractController implements PageControllerInterface
 {
-    protected string $view = 'page.users.message_after_save';
+    protected $view = 'page.users.message_after_save';
 
     /**
      * {@inheritdoc}

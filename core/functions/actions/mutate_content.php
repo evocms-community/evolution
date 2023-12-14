@@ -1040,7 +1040,7 @@ if (!function_exists('renderFormElement')) {
                     <div class="col-12" style="padding-left: 0;">
                         <div id="image_for_tv' . $field_id . '" class="image_for_field" data-image="' . $field_value .
                         '" onclick="BrowseServer(\'tv' . $field_id . '\')" style="' . $size .
-                        'background-image: url(\'' . evo()->getConfig('site_url') . $image . '\');"></div>
+                        'background-image: url(\'' . (preg_match('#^https?://#i', $image) == false ? evo()->getConfig('site_url') : '') . $image . '\');"></div>
                         <script>document.getElementById(\'tv' . $field_id . '\').addEventListener(\'change\', evoRenderTvImageCheck, false);</script>
                     </div>';
                     break;

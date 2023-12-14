@@ -11,7 +11,7 @@ use EvolutionCMS\Models\MemberGroup;
 
 class WebAccessPermissions extends AbstractController implements PageControllerInterface
 {
-    protected string $view = 'page.web_access_permissions';
+    protected $view = 'page.web_access_permissions';
 
     /**
      * {@inheritdoc}
