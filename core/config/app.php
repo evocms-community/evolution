@@ -24,13 +24,27 @@ return [
     |
     */
     'fallback_locale' => 'en',
+    /*
+    |--------------------------------------------------------------------------
+    | Encryption Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used by the Illuminate encrypter service and should be set
+    | to a random, 32 character string, otherwise these encrypted strings
+    | will not be safe. Please do this before deploying an application!
+    |
+    */
+    'key' => env('APP_KEY', md5(__FILE__)),
+    'cipher' => 'AES-256-CBC',
+
     'providers' => [
+        \Illuminate\Encryption\EncryptionServiceProvider::class,
+        \Illuminate\Cookie\CookieServiceProvider::class,
         /**
          * Keys are needed only for the convenience of replace ServiceProvider class
          * via custom/config/app/providers/*.php
          */
         'Bootstrap_ExceptionHandler' => EvolutionCMS\Providers\ExceptionHandlerServiceProvider::class,
-
         'Console_Artisan' => EvolutionCMS\Providers\ArtisanServiceProvider::class,
         'Console_Migration' => Illuminate\Database\MigrationServiceProvider::class,
         'Console_Composer' => EvolutionCMS\Providers\ComposerServiceProvider::class,
@@ -117,11 +131,11 @@ return [
     'middleware' => [
 
         'mgr' => [
-            EvolutionCMS\Middleware\VerifyCsrfToken::class,
-            EvolutionCMS\Middleware\Manager::class,
             Illuminate\Session\Middleware\StartSession::class,
+            EvolutionCMS\Middleware\VerifyCsrfToken::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class,
             Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            EvolutionCMS\Middleware\Manager::class,
         ],
 
         /*

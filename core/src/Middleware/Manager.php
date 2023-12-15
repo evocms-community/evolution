@@ -22,12 +22,12 @@ class Manager
 
         // accesscontrol.php checks to see if the user is logged in. If not, a log in form is shown
         if (0 !== $action && ManagerTheme::isAuthManager() === false) {
-            return ManagerTheme::renderLoginPage();
+            return response(ManagerTheme::renderLoginPage());
         }
 
         // Ignore Logout and LogIn action
         if (8 !== $action && 0 !== $action && ManagerTheme::hasManagerAccess() === false) {
-            return ManagerTheme::renderAccessPage();
+            return response(ManagerTheme::renderAccessPage());
         }
 
         return $next($request);
