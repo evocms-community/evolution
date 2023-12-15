@@ -34,7 +34,7 @@ $_lang["access_permissions_links_tab"] = 'Здесь можно определи
 $_lang["access_permissions_no_resources_in_group"] = 'Нет ресурсов.';
 $_lang["access_permissions_no_users_in_group"] = 'Нет пользователей.';
 $_lang["users_list"] = 'Список пользователей';
-$_lang["documents_list"] = 'Список ресурсов';
+$_lang["documents_list"] = 'Список документов';
 $_lang["access_permissions_off"] = '<span class="warning">Права доступа не активированы.</span> Это означает, что никакие изменения не вступят в силу, до тех пор пока вы не измените настройки.';
 $_lang["access_permissions_resource_groups"] = 'Группы ресурсов';
 $_lang["access_permissions_resources_in_group"] = '<b>ресурсов в группе:</b> ';
@@ -892,7 +892,7 @@ $_lang["search_item_deleted"] = 'Удалено';
 $_lang["search_results"] = 'Результаты поиска';
 $_lang["search_results_returned_desc"] = 'Описание';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'По вашему запросу найдено <b>%s</b> ресурсов. Если найдено слишком много ресурсов, попробуйте сформировать более специфический запрос. Две крайние колонки слева позволят найти ресурс в дереве сайта либо просмотреть ресурс. Две крайние колонки справа показывают, соответственно, был ли ресурс помечен на удаление и опубликован ли он.';
+$_lang["search_results_returned_msg"] = 'По вашему запросу найдено <b>%s</b> ресурсов. Если найдено слишком много ресурсов, попробуйте сформировать более точный запрос.';
 $_lang["search_results_returned_title"] = 'Заголовок';
 $_lang["search_view_docdata"] = 'Просмотреть';
 $_lang["security"] = 'Менеджеры';

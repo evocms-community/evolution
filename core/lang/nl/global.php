@@ -33,6 +33,8 @@ $_lang["access_permissions_links"] = 'Gebruikersgroep of Paginagroep koppelingen
 $_lang["access_permissions_links_tab"] = 'Geef aan welke Gebruikersgroepen toegang hebben tot bepaalde Paginagroepen (m.a.w. welke groepen Subpagina\'s kunnen maken of bewerken). Om een Pagina toe te wijzen aan een groep kiest u de Pagina uit de lijst en klikt u daarna op \'Verzenden\'. Om een Pagina uit een groep te halen klikt u op \'Verwijder\'.';
 $_lang["access_permissions_no_resources_in_group"] = 'Geen.';
 $_lang["access_permissions_no_users_in_group"] = 'Geen.';
+$_lang["users_list"] = 'Gebruikerslijst';
+$_lang["documents_list"] = 'Pagina\'s lijst';
 $_lang["access_permissions_off"] = '<span class="warning">Toegangsbeheer is niet geactiveerd.</span> Dit betekent dat wijzigingen die hier worden gemaakt geen effect hebben zolang toegangsbeheer niet is geactiveerd in uw Configuratie.';
 $_lang["access_permissions_resource_groups"] = 'Paginagroepen';
 $_lang["access_permissions_resources_in_group"] = '<b>Pagina\'s in deze groep:</b> ';
@@ -889,7 +891,7 @@ $_lang["search_item_deleted"] = 'Dit item is verwijderd';
 $_lang["search_results"] = 'Zoekresultaten';
 $_lang["search_results_returned_desc"] = 'Beschrijving';
 $_lang["search_results_returned_id"] = 'ID';
-$_lang["search_results_returned_msg"] = 'Uw zoekcriteria hebben <b>%s</b> Pagina\'s opgeleverd. Als het teveel resultaten heeft opgeleverd, probeer dan een specifiekere zoekopdracht. Met de twee linker kolommen kunt u het bestand in de Website boomstructuur vinden of de Pagina bekijken. De twee meest rechtse kolommen geven aan of een Pagina verwijderd is en wat de publicatiestatus is.<p />';
+$_lang["search_results_returned_msg"] = 'Uw zoekcriteria toont<b>%s</b> pagina\'s. Als er veel resultaten worden getoond, probeer dan een meer specifieke zoekopdracht in te voeren.';
 $_lang["search_results_returned_title"] = 'Titel';
 $_lang["search_view_docdata"] = 'Geef dit item weer';
 $_lang["security"] = 'Gebruikers';
@@ -1498,7 +1500,7 @@ $_lang["role_notassigned_tv"] = 'Deze variabelen zijn beschikbaar om toe te wijz
 $_lang["role_tv_msg"] = 'De variabelen die aan deze rol zijn toegewezen, worden hieronder vermeld.';
 $_lang["tmplvar_roles_access_msg"] = 'Selecteer de rollen die deze Template variabele mogen openen / verwerken';
 
-$_lang["setting_from_file"] = '<strong class="text-danger">Parameter waarde wordt defined in core/custom/confic/cms/settings</strong>';
+$_lang["setting_from_file"] = '<strong class="text-danger">Parameter waarde wordt defined in core/custom/config/cms/settings</strong>';
 $_lang['disable'] = 'Uitschakelen';
 $_lang['enable'] = 'Inschakelen';
 
