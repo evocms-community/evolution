@@ -12,6 +12,7 @@ use EvolutionCMS\Models\ActiveUser;
 use EvolutionCMS\Models\UserAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Session\TokenMismatchException;
 use View;
 
 class ManagerTheme implements ManagerThemeInterface
@@ -403,7 +404,12 @@ class ManagerTheme implements ManagerThemeInterface
         $routes->refreshNameLookups();
         $routes->refreshActionLookups();
 
-        $response = $evo->router->dispatch($request);
+        try {
+            $response = $evo->router->dispatch($request);
+        } catch (TokenMismatchException $e) {
+            $response = response($e->getMessage(), 403);
+        }
+
         $response->send();
     }
 
