@@ -4,6 +4,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 ?>
 <form id="categorize-form" action="<?= $view->get('url'); ?>" method="post">
+    <?= csrf_field() ?>
     <input name="<?= $view->get('request_key'); ?>[categorize][submit]" type="hidden" value="1"/>
     <div class="form-group">
         <a class="btn btn-success btn-sm" id="categorize-submit" href="javascript:;"

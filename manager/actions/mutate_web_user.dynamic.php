@@ -130,6 +130,7 @@ if (isset($_REQUEST['newrole'])) {
             $query['id'] = $user;
         }
         $query['newrole'] = $_REQUEST['newrole'];
+        $modx->getManagerApi()->saveFormValues(87);
         redirect('index.php?' . http_build_query($query))->send();
     } else {
         $userdata['role'] = $_REQUEST['newrole'];
@@ -312,6 +313,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
 </script>
 
 <form name="userform" method="post" action="index.php">
+    <?= csrf_field() ?>
     <?php
     // invoke OnWUsrFormPrerender event
     $evtOut = evo()->invokeEvent('OnUserFormPrerender', ['id' => $user]);

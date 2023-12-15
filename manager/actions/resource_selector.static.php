@@ -182,6 +182,7 @@ include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
 </div>
 
 <form name="selector" method="get">
+    <?= csrf_field() ?>
     <input type="hidden" name="id" value="<?= $id ?>"/>
     <input type="hidden" name="a" value="<?= evo()->getManagerApi()->action ?>"/>
     <input type="hidden" name="listmode" value="<?= $listmode ?>"/>

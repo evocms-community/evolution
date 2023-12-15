@@ -9,6 +9,7 @@
   </p>
 
   <form action="<?= $view->get('url'); ?>" method="post">
+    <?= csrf_field() ?>
     <input type="submit" name="<?= $view->get('request_key'); ?>[db][submit]" value="Add rank column" />
   </form>
 </div>

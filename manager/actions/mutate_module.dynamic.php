@@ -133,6 +133,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 </script>
 
 <form name="mutate" method="post" action="index.php" id="mutate" class="module">
+    <?= csrf_field() ?>
     <?php
     // invoke OnModFormPrerender event
     $evtOut = evo()->invokeEvent('OnModFormPrerender', ['id' => $id]);

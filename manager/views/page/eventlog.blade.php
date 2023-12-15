@@ -99,6 +99,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <form name="resource" method="post">
+        @csrf
         <input type="hidden" name="id" value="{{ get_by_key($_REQUEST, 'id') }}" />
         <input type="hidden" name="listmode" value="{{ $listmode }}" />
         <input type="hidden" name="op" value="" />

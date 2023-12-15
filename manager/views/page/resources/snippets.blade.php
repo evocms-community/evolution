@@ -20,6 +20,7 @@ use EvolutionCMS\Models\SiteSnippet;
 
     <div id="_actions">
         <form class="btn-group form-group form-inline">
+            @csrf
             <div class="input-group input-group-sm">
                 <input class="form-control filterElements-form" type="text" id="{{ $tabIndexPageName }}_search"
                        size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>

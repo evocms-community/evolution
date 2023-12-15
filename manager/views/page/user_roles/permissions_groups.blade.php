@@ -6,6 +6,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 @extends('manager::template.page')
 @section('content')
     <form name="userform" method="post" action="index.php" enctype="multipart/form-data">
+        @csrf
         <input type="hidden" name="a" value="136">
         <input type="hidden" name="mode" value="<?= evo()->getManagerApi()->action ?>">
         <input type="hidden" name="id" value="<?= isset($_GET['id']) ? (int)$_GET['id'] : '' ?>">

@@ -29,6 +29,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     <div class="tab-page">
         <div class="contaier container-body">
             <form name="userform" method="post" action="index.php">
+                @csrf
                 <input type="hidden" name="a" value="34">
                 <p>{{ ManagerTheme::getLexicon('change_password_message') }}</p>
                 @include('manager::form.input', [

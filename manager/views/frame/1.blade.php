@@ -205,6 +205,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <ul id="settings" class="nav">
                         <li id="searchform">
                             <form action="index.php?a=71" method="post" target="main">
+                                @csrf
                                 <input type="hidden" value="Search" name="submitok"/>
                                 <label for="searchid" class="label_searchid">
                                     <i class="{{ ManagerTheme::getStyle('icon_search') }}"></i>

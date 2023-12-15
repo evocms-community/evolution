@@ -5,6 +5,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 ?>
 <form action="<?php
 $view->get('url'); ?>" method="post" id="add_form">
+    <?= csrf_field() ?>
     <input name="<?= $view->get('request_key'); ?>[add][submit]" type="hidden" value="1"/>
     <div class="form-group">
         <a class="btn btn-success btn-sm" href="javascript:;"

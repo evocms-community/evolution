@@ -277,6 +277,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <form name="mutate" method="post" action="index.php" enctype="multipart/form-data">
+        @csrf
         {!! get_by_key($events, 'OnTVFormPrerender') !!}
 
         <input type="hidden" name="id" value="{{ $data->getKey() }}">

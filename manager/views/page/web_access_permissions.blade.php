@@ -53,6 +53,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 <div class="form-group">
                     <b>{{ ManagerTheme::getLexicon('access_permissions_add_user_group') }}</b>
                     <form method="post" action="index.php" name="accesspermissions">
+                        @csrf
                         <input type="hidden" name="a" value="92" />
                         <input type="hidden" name="operation" value="add_user_group" />
                         <div class="input-group">

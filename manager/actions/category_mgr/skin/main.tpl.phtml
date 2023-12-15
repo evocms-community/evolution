@@ -122,6 +122,7 @@ endif; /* if $data === TABLE_COLUMN_SORT_NOT_SET */ ?>
 
 <script>
   const request_key = '<?= $view->get('request_key') ?>'
+  const token = '<?= csrf_token() ?>';
 </script>
 <script src="actions/category_mgr/skin/js/categories.js"></script>
 <script src="media/script/bootstrap/js/bootstrap.min.js"></script>

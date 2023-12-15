@@ -1,5 +1,6 @@
 <form id="category-translation-form" action="<?php
 echo $view->get('url'); ?>" method="post">
+    <?= csrf_field() ?>
     <fieldset>
         <legend><?= $view->txt('cm_translate_module_phrases'); ?></legend>
         <table id="category-translation" class="grid" cellpadding="1" cellspacing="1">

@@ -23,6 +23,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <script src="media/script/mutate_settings.js"></script>
     @endpush
     <form name="settings" method="post" action="index.php">
+        @csrf
         <input type="hidden" name="a" value="30">
         <!-- this field is used to check site settings have been entered/ updated after install or upgrade -->
         <input type="hidden" name="site_id" value="{{ get_by_key(evo()->config, 'site_id') }}" />

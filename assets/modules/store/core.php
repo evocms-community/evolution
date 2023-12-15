@@ -218,6 +218,7 @@ class Store{
         $tpl = $modx->parseText($tpl, $fields);
         $evtOut = $modx->invokeEvent('OnManagerMainFrameHeaderHTMLBlock');
         $onManagerMainFrameHeaderHTMLBlock = is_array($evtOut) ? implode("\n", $evtOut) : '';
+        $tpl = str_replace('[+csrf+]',csrf_token(),$tpl);
         $tpl = str_replace('[+onManagerMainFrameHeaderHTMLBlock+]',$onManagerMainFrameHeaderHTMLBlock,$tpl);
         return $tpl;
     }

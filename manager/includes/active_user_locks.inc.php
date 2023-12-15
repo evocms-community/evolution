@@ -16,7 +16,7 @@ if (is_numeric($lockElementId) && ($lockElementId > 0 || $lockElementId == 0)) {
         var stay = document.getElementById('stay')
         // Trigger unlock
         if ((stay && stay.value !== '2') || !form_save) {
-          var url = '<?= MODX_MANAGER_URL; ?>?a=67&type=<?= $lockElementType;?>&id=<?= $lockElementId;?>&o=' +
+          var url = '<?= MODX_MANAGER_URL; ?>?a=67&type=<?= $lockElementType;?>&id=<?= $lockElementId;?>&_token=<?= csrf_token() ?>&o=' + Math.random();
             Math.random()
           if (navigator.sendBeacon) {
             navigator.sendBeacon(url)

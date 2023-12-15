@@ -16,6 +16,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 </div>
                 <div class="col-sm-6 ">
                     <form name="resource" method="post" action="?{{ http_build_query($_GET) }}">
+                        @csrf
                         <div class="input-group float-right w-auto">
                             <input type="hidden" name="delete" value=""/>
                             <input class="form-control form-control-sm" name="search" type="text"

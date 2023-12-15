@@ -517,6 +517,7 @@ if (substr($webStartPath, 0, 1) == '/') {
                 ?>
 
                 <form name="upload" enctype="multipart/form-data" action="index.php" method="post">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="MAX_FILE_SIZE"
                            value="<?= $upload_maxsize ?? 3145728 ?>">
                     <input type="hidden" name="a" value="31">
@@ -560,6 +561,7 @@ if (get_by_key($_REQUEST, 'mode') == "edit" || get_by_key($_REQUEST, 'mode') == 
         }
         ?>
         <form action="index.php" method="post" name="editFile">
+            <?= csrf_field() ?>
             <input type="hidden" name="a" value="31"/>
             <input type="hidden" name="mode" value="save"/>
             <input type="hidden" name="path" value="<?= $_REQUEST['path'] ?>"/>

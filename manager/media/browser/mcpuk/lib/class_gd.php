@@ -285,7 +285,7 @@ class gd {
         if (!isset($args[0]))
             return false;
 
-        if (count($args[0]) == 3) {
+        if (is_countable($args[0]) && count($args[0]) == 3) {
             list($r, $g, $b) = $args[0];
 
         } elseif (preg_match($expr_rgb, $args[0])) {

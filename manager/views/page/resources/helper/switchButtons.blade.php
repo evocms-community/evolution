@@ -1,11 +1,6 @@
-<?php
-
-use EvolutionCMS\Facades\ManagerTheme;
-
-?>
 <form id="switchForm_{{ $id }}" class="form-group form-inline switchForm"
     data-target="{{ $id }}_content" style="display:none">
-
+    @csrf
     <div class="form-group mr-3">
         <div class="form-check mr-sm-2">
             <input class="form-check-input" id="radio_list_{{ $id }}" type="radio" name="view"

@@ -19,6 +19,7 @@ use EvolutionCMS\Models\SiteTmplvar;
 
     <div id="_actions">
         <form class="btn-group form-group form-inline">
+            @csrf
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control filterElements-form" id="{{ $tabIndexPageName }}_search"
                        size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>

@@ -62,7 +62,7 @@ use Tracy\Debugger;
             var stay = document.getElementById('stay')
             // Trigger unlock
             if ((stay && stay.value !== '2') || !form_save) {
-              var url = '<?= MODX_MANAGER_URL; ?>?a=67&type={{ $elementType }}&id={{ $data->getKey() }}&o=' +
+              var url = '<?= MODX_MANAGER_URL; ?>?a=67&type={{ $elementType }}&id={{ $data->getKey() }}&_token={{ csrf_token() }}&o=' +
                 Math.random()
               if (navigator.sendBeacon) {
                 navigator.sendBeacon(url)

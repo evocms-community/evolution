@@ -297,6 +297,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
             <div class="container container-body">
                 <form name="frmdb" method="post">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="mode" value=""/>
                     <p>
                         <a href="javascript:;" class="btn btn-primary" onclick="backup();return false;">
@@ -498,6 +499,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?= ManagerTheme::getLexicon('bkmgr_restore_msg') ?>
                 </div>
                 <form method="post" name="mutate" enctype="multipart/form-data" action="index.php">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="restore1"/>
                     <?php
@@ -595,6 +597,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     ) ?>
                 </div>
                 <form method="post" name="snapshot" action="index.php">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="snapshot"/>
                     <?= ManagerTheme::getLexicon('description') ?>
@@ -613,6 +616,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <b><?= ManagerTheme::getLexicon('bkmgr_snapshot_list_title') ?></b>
                 </div>
                 <form method="post" name="restore2" action="index.php">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="restore2"/>
                     <input type="hidden" name="filename" value=""/>

@@ -61,6 +61,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <form class="htmlsnippet" id="mutate" name="mutate" method="post" action="index.php">
+        @csrf
         {!! get_by_key($events, 'OnChunkFormPrerender') !!}
 
         <input type="hidden" name="a" value="79" />

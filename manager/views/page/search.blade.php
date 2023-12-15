@@ -37,6 +37,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     <div class="tab-page">
         <div class="container container-body">
             <form name="searchform" method="post" action="index.php" enctype="multipart/form-data" class="form-group">
+                @csrf
                 <input type="hidden" name="a" value="71">
 
                 <div class="row form-row">

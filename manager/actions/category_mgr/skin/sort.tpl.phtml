@@ -4,6 +4,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 ?>
 <form id="categories-sort-form" method="post" action="<?= $view->get('url') ?>">
+    <?= csrf_field() ?>
     <input name="<?= $view->get('request_key') ?>[sort][submit]" type="hidden" value="1"/>
     <div class="form-group">
         <a class="btn btn-success btn-sm" href="javascript:;"

@@ -1022,7 +1022,7 @@ if (!function_exists('renderFormElement')) {
                     ];
                     $custom_output = str_replace(array_keys($replacements), $replacements, $custom_output);
                     $modx->documentObject = $content;
-                    $modx->documentIdentifier = $content['id'];
+                    if (isset($content['id'])) $modx->documentIdentifier = $content['id'];
                     $custom_output = $modx->parseDocumentSource($custom_output);
                     $field_html .= $custom_output;
                     break;

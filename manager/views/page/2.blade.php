@@ -118,7 +118,7 @@ use EvolutionCMS\Models\ActiveUserSession;
     if (!evo()->getConfig('site_status') && evo()->hasPermission('settings')) {
         $ph['show_site_status'] = 'block';
         $ph['site_status_msg'] =
-            evo()->getConfig('site_unavailable_message') . ' ' . ManagerTheme::getLexicon('update_settings_from_language') .
+            strip_tags(evo()->getConfig('site_unavailable_message')) . ' ' . ManagerTheme::getLexicon('update_settings_from_language') .
             ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . ManagerTheme::getLexicon('online') . '</a>';
     } else {
         $ph['show_site_status'] = 'none';
@@ -145,7 +145,7 @@ use EvolutionCMS\Models\ActiveUserSession;
     $ph['RecentInfo'] = evo()->getChunk('manager#welcome\RecentInfo');
 
     $tpl = '
-    <table class="table data">
+    <table class="">
         <tr>
             <td width="150">[%yourinfo_username%]</td>
             <td><b>[+username+]</b></td>
@@ -163,12 +163,13 @@ use EvolutionCMS\Models\ActiveUserSession;
             <td><b>[+logincount+]</b></td>
         </tr>
     </table>';
-
+    
+    $loginCount = $_SESSION['mgrLogincount'] + 1;
     $ph['UserInfo'] = evo()->parseText($tpl, [
         'username' => evo()->getLoginUserName(),
         'role' => $_SESSION['mgrPermissions']['name'],
-        'lastlogin' => evo()->toDateFormat(evo()->timestamp($_SESSION['mgrLastlogin'])),
-        'logincount' => $_SESSION['mgrLogincount'] + 1,
+        'lastlogin' => $loginCount > 1 ? $modx->toDateFormat($modx->timestamp($_SESSION['mgrLastlogin'])) : '-',
+        'logincount' => $loginCount,
     ]);
 
     $activeUsers = ActiveUserSession::query()
@@ -442,32 +443,7 @@ use EvolutionCMS\Models\ActiveUserSession;
                     </span>
                 </div>
                 <div class="userprofiletable card-body">
-                    <table>
-                        <tr>
-                            <td width="150">[%yourinfo_username%]</td>
-                            <td><b>' .
-            evo()->getLoginUserName() .
-            '</b></td>
-                        </tr>
-                        <tr>
-                            <td>[%yourinfo_role%]</td>
-                            <td><b>[[$_SESSION[\'mgrPermissions\'][\'name\'] ]]</b></td>
-                        </tr>
-                        <tr>
-                            <td>[%yourinfo_previous_login%]</td>
-                            <td><b>[[$_SESSION[\'mgrLastlogin\']:math(\'%s+[(server_offset_time)]\'):dateFormat]]</b></td>
-                        </tr>
-                        <tr>
-                            <td>[%yourinfo_total_logins%]</td>
-                            <td><b>[[$_SESSION[\'mgrLogincount\']:math(\'%s+1\')]]</b></td>
-                        </tr>' .
-            (evo()->hasPermission('change_password')
-                ? '
-
-                        '
-                : '') .
-            '
-                    </table>
+                    [+UserInfo+]
                 </div>
             ',
         'hide' => '0',
