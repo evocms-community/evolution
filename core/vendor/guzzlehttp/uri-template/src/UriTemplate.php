@@ -7,7 +7,7 @@ namespace GuzzleHttp\UriTemplate;
 /**
  * Expands URI templates. Userland implementation of PECL uri_template.
  *
- * @see http://tools.ietf.org/html/rfc6570
+ * @see https://datatracker.ietf.org/doc/html/rfc6570
  */
 final class UriTemplate
 {
@@ -132,7 +132,6 @@ final class UriTemplate
                 continue;
             }
 
-            /** @var mixed */
             $variable = $variables[$value['value']];
             $actuallyUseQuery = $useQuery;
             $expanded = '';

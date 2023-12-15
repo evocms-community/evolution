@@ -193,10 +193,10 @@ class Router implements RouterInterface, RequestMatcherInterface
     {
         $this->context = $context;
 
-        if (null !== $this->matcher) {
+        if (isset($this->matcher)) {
             $this->getMatcher()->setContext($context);
         }
-        if (null !== $this->generator) {
+        if (isset($this->generator)) {
             $this->getGenerator()->setContext($context);
         }
     }
@@ -242,7 +242,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      */
     public function getMatcher(): UrlMatcherInterface|RequestMatcherInterface
     {
-        if (null !== $this->matcher) {
+        if (isset($this->matcher)) {
             return $this->matcher;
         }
 
@@ -283,7 +283,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      */
     public function getGenerator(): UrlGeneratorInterface
     {
-        if (null !== $this->generator) {
+        if (isset($this->generator)) {
             return $this->generator;
         }
 
@@ -343,7 +343,7 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
             self::$cache = null;
         }
 

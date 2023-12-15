@@ -1,6 +1,25 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Support backed enums in #[MapQueryParameter]
+ * `BundleInterface` no longer extends `ContainerAwareInterface`
+ * Add optional `$className` parameter to `ControllerEvent::getAttributes()`
+ * Add native return types to `TraceableEventDispatcher` and to `MergeExtensionConfigurationPass`
+ * Add argument `$validationFailedStatusCode` to `#[MapQueryString]` and `#[MapRequestPayload]`
+ * Add argument `$debug` to `Logger`
+ * Add class `DebugLoggerConfigurator`
+ * Add parameters `kernel.runtime_mode` and `kernel.runtime_mode.*`, all set from env var `APP_RUNTIME_MODE`
+ * Deprecate `Kernel::stripComments()`
+ * Support the `!` character at the beginning of a string as a negation operator in the url filter of the profiler
+ * Deprecate `UriSigner`, use `UriSigner` from the HttpFoundation component instead
+ * Deprecate `FileLinkFormatter`, use `FileLinkFormatter` from the ErrorHandler component instead
+ * Add argument `$buildDir` to `WarmableInterface`
+ * Add argument `$filter` to `Profiler::find()` and `FileProfilerStorage::find()`
+ * Add `ControllerResolver::allowControllers()` to define which callables are legit controllers when the `_check_controller_is_allowed` request attribute is set
+
 6.3
 ---
 
