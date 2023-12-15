@@ -3,7 +3,6 @@
 use EvolutionCMS\Legacy\Phx;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\FileViewFinder;
-use Twig_Loader_Filesystem;
 
 /**
  */
@@ -25,18 +24,11 @@ class Parser
 
     protected $templateExtension = 'html';
 
-    /**
-     * @var null|Twig_Environment twig object
-     */
-    protected $twig;
-
-    protected $twigEnabled = false;
-
     public $blade;
 
     protected $bladeEnabled = true;
 
-    protected $templateData = array();
+    protected $templateData = [];
 
     public $phx;
 
@@ -45,7 +37,7 @@ class Parser
      *
      * @return self
      */
-    public static function getInstance (Core $modx)
+    public static function getInstance(Core $modx)
     {
 
         if (null === self::$instance) {
@@ -59,7 +51,7 @@ class Parser
      * is not allowed to call from outside: private!
      *
      */
-    private function __construct (Core $modx)
+    private function __construct(Core $modx)
     {
         $this->modx = $modx;
         $this->loadBlade();
@@ -70,7 +62,7 @@ class Parser
      *
      * @return void
      */
-    private function __clone ()
+    private function __clone()
     {
     }
 
@@ -79,14 +71,14 @@ class Parser
      *
      * @return void
      */
-    public function __wakeup ()
+    public function __wakeup()
     {
     }
 
     /**
      * @return string
      */
-    public function getTemplatePath ()
+    public function getTemplatePath()
     {
         return $this->templatePath;
     }
@@ -94,11 +86,11 @@ class Parser
     /**
      * Задает относительный путь к папке с шаблонами
      *
-     * @param string $path
-     * @param bool $supRoot
+     * @param  string  $path
+     * @param  bool  $supRoot
      * @return $this
      */
-    public function setTemplatePath ($path, $supRoot = false)
+    public function setTemplatePath($path, $supRoot = false)
     {
         $path = trim($path ?? '');
         if ($supRoot === false) {
@@ -107,9 +99,6 @@ class Parser
 
         if (!empty($path)) {
             $this->templatePath = $path;
-            if ($this->twig) {
-                $this->twig->setLoader(new Twig_Loader_Filesystem(MODX_BASE_PATH . $path));
-            }
             if ($this->blade) {
                 $filesystem = new Filesystem;
                 $viewFinder = new FileViewFinder($filesystem, [MODX_BASE_PATH . $path]);
@@ -121,15 +110,15 @@ class Parser
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
      * @return string
      */
-    protected function cleanPath ($path)
+    protected function cleanPath($path)
     {
-        return preg_replace(array('/\.*[\/|\\\]/i', '/[\/|\\\]+/i'), array('/', '/'), $path);
+        return preg_replace(['/\.*[\/|\\\]/i', '/[\/|\\\]+/i'], ['/', '/'], $path);
     }
 
-    public function getTemplateExtension ()
+    public function getTemplateExtension()
     {
         return $this->templateExtension;
     }
@@ -140,7 +129,7 @@ class Parser
      * @param $ext
      * @return $this
      */
-    public function setTemplateExtension ($ext)
+    public function setTemplateExtension($ext)
     {
         $ext = $this->cleanPath(trim($ext ?? '', ". \t\n\r\0\x0B"));
 
@@ -154,10 +143,10 @@ class Parser
     /**
      * Additional data for external templates
      *
-     * @param array $data
+     * @param  array  $data
      * @return $this
      */
-    public function setTemplateData ($data = array())
+    public function setTemplateData($data = [])
     {
         if (is_array($data)) {
             $this->templateData = $data;
@@ -167,10 +156,10 @@ class Parser
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
-    public function getTemplateData ($data = array())
+    public function getTemplateData($data = [])
     {
         $plh = array_merge($this->modx->getDataForView(), $this->templateData);
         $plh['data'] = $data;
@@ -182,13 +171,13 @@ class Parser
     /**
      * Сохранение данных в массив плейсхолдеров
      *
-     * @param mixed $data данные
-     * @param int $set устанавливать ли глобальнй плейсхолдер MODX
-     * @param string $key ключ локального плейсхолдера
-     * @param string $prefix префикс для ключей массива
+     * @param  mixed  $data  данные
+     * @param  int  $set  устанавливать ли глобальнй плейсхолдер MODX
+     * @param  string  $key  ключ локального плейсхолдера
+     * @param  string  $prefix  префикс для ключей массива
      * @return string
      */
-    public function toPlaceholders ($data, $set = 0, $key = 'contentPlaceholder', $prefix = '')
+    public function toPlaceholders($data, $set = 0, $key = 'contentPlaceholder', $prefix = '')
     {
         $out = '';
         if ($set != 0) {
@@ -203,10 +192,10 @@ class Parser
     /**
      * refactor $modx->getChunk();
      *
-     * @param string $name Template: chunk name || @CODE: template || @FILE: file with template
+     * @param  string  $name  Template: chunk name || @CODE: template || @FILE: file with template
      * @return string html template with placeholders without data
      */
-    public function getChunk ($name)
+    public function getChunk($name)
     {
         $tpl = '';
         $ext = null;
@@ -223,24 +212,6 @@ class Parser
                 $this->setTemplateExtension('blade.php');
             }
             switch ($mode) {
-                case '@T_FILE':
-                    if ($subTmp != '' && $this->twigEnabled) {
-                        $real = realpath(MODX_BASE_PATH . $this->templatePath);
-                        $path = realpath(MODX_BASE_PATH . $this->templatePath . $this->cleanPath($subTmp) . '.' . $this->templateExtension);
-                        if (basename($path, '.' . $this->templateExtension) !== '' &&
-                            0 === strpos($path, $real) &&
-                            file_exists($path)
-                        ) {
-                            $tpl = $this->twig->loadTemplate($this->cleanPath($subTmp) . '.' . $this->templateExtension);
-                        }
-                    }
-                    break;
-                case '@T_CODE':
-                    if ($this->twigEnabled) {
-                        $tpl = $tmp[3];
-                        $tpl = $this->twig->createTemplate($tpl);
-                    }
-                    break;
                 case '@B_FILE':
                     if ($subTmp != '' && $this->bladeEnabled) {
                         $tpl = $this->blade->make($this->cleanPath($subTmp));
@@ -275,11 +246,11 @@ class Parser
                 case '@DOCUMENT':
                 case '@DOC':
                     switch (true) {
-                        case ((int)$subTmp > 0):
-                            $tpl = $this->modx->getPageInfo((int)$subTmp, 0, "content");
+                        case ((int) $subTmp > 0):
+                            $tpl = $this->modx->getPageInfo((int) $subTmp, 0, "content");
                             $tpl = isset($tpl['content']) ? $tpl['content'] : '';
                             break;
-                        case ((int)$subTmp == 0):
+                        case ((int) $subTmp == 0):
                             $tpl = $this->modx->documentObject['content'];
                             break;
                     }
@@ -329,7 +300,7 @@ class Parser
         return $tpl;
     }
 
-    public function getBaseChunk ($name)
+    public function getBaseChunk($name)
     {
         if (empty($name)) {
             return '';
@@ -353,9 +324,9 @@ class Parser
     /**
      * Рендер документа с подстановкой плейсхолдеров и выполнением сниппетов
      *
-     * @param int $id ID документа
-     * @param bool $events Во время рендера документа стоит ли вызывать события OnLoadWebDocument и OnLoadDocumentObject (внутри метода getDocumentObject).
-     * @param mixed $tpl Шаблон с которым необходимо отрендерить документ. Возможные значения:
+     * @param  int  $id  ID документа
+     * @param  bool  $events  Во время рендера документа стоит ли вызывать события OnLoadWebDocument и OnLoadDocumentObject (внутри метода getDocumentObject).
+     * @param  mixed  $tpl  Шаблон с которым необходимо отрендерить документ. Возможные значения:
      *                       null - Использовать шаблон который назначен документу
      *                       int(0-n) - Получить шаблон из базы данных с указанным ID и применить его к документу
      *                       string - Применить шаблон указанный в строке к документу
@@ -365,16 +336,16 @@ class Parser
      *       - с источиком от куда произошел вызов события
      *       - оригинальный экземпляр класса Core
      */
-    public function renderDoc ($id, $events = false, $tpl = null)
+    public function renderDoc($id, $events = false, $tpl = null)
     {
-        $id = (int)$id;
+        $id = (int) $id;
         if ($id <= 0) {
             return '';
         }
 
         $m = clone $this->modx; //Чтобы была возможность вызывать события
         $m->documentIdentifier = $id;
-        $m->documentObject = $m->getDocumentObject('id', (int)$id, $events ? 'prepareResponse' : null);
+        $m->documentObject = $m->getDocumentObject('id', (int) $id, $events ? 'prepareResponse' : null);
         if ($m->documentObject['type'] === 'reference') {
             if (is_numeric($m->documentObject['content']) && $m->documentObject['content'] > 0) {
                 $m->documentObject['content'] = $this->renderDoc($m->documentObject['content'], $events);
@@ -392,10 +363,10 @@ class Parser
         }
         $m->documentContent = $tpl;
         if ($events) {
-            $m->invokeEvent("OnLoadWebDocument", array(
+            $m->invokeEvent("OnLoadWebDocument", [
                 'source'   => 'DLTemplate',
                 'mainModx' => $this->modx,
-            ));
+            ]);
         }
 
         return $this->parseDocumentSource($m->documentContent, $m);
@@ -403,16 +374,16 @@ class Parser
 
     /**
      * Получить содержимое шаблона с определенным номером
-     * @param int $id Номер шаблона
+     * @param  int  $id  Номер шаблона
      * @return string HTML код шаблона
      */
-    public function getTemplate ($id)
+    public function getTemplate($id)
     {
         $tpl = null;
-        $id = (int)$id;
+        $id = (int) $id;
         if ($id > 0) {
             $tpl = $this->modx->db->getValue(
-                    'SELECT `content` FROM '.$this->modx->getFullTableName('site_templates').' WHERE `id` = '.$id
+                'SELECT `content` FROM ' . $this->modx->getFullTableName('site_templates') . ' WHERE `id` = ' . $id
             );
         }
         if ($tpl === null) {
@@ -425,22 +396,16 @@ class Parser
     /**
      * refactor $modx->parseChunk();
      *
-     * @param string $name Template: chunk name || @CODE: template || @FILE: file with template
-     * @param array $data paceholder
-     * @param bool $parseDocumentSource render html template via Core::parseDocumentSource()
+     * @param  string  $name  Template: chunk name || @CODE: template || @FILE: file with template
+     * @param  array  $data  paceholder
+     * @param  bool  $parseDocumentSource  render html template via Core::parseDocumentSource()
      * @return string html template with data without placeholders
      */
-    public function parseChunk ($name, $data = array(), $parseDocumentSource = false, $disablePHx = false)
+    public function parseChunk($name, $data = [], $parseDocumentSource = false, $disablePHx = false)
     {
         $out = $this->getChunk($name);
-        $twig = strpos($name, '@T_') === 0 && $this->twigEnabled;
         $blade = strpos($name, '@B_') === 0 && $this->bladeEnabled;
         switch (true) {
-            case $twig:
-                if (!empty($out)) {
-                    $out = $out->render($this->getTemplateData($data));
-                }
-                break;
             case $blade:
                 if (!empty($out)) {
                     $out = $out->with($this->getTemplateData($data))->render();
@@ -455,13 +420,13 @@ class Parser
                     if (is_null($this->phx) || !($this->phx instanceof Phx)) {
                         $this->phx = $this->createPHx(0, 1000);
                     }
-                    $this->phx->placeholders = array();
+                    $this->phx->placeholders = [];
                     $this->setPHxPlaceholders($data);
                     $out = $this->phx->Parse($out);
                 }
                 break;
         }
-        if ($parseDocumentSource && !$twig && !$blade) {
+        if ($parseDocumentSource && !$blade) {
             $out = $this->parseDocumentSource($out);
         }
 
@@ -470,11 +435,11 @@ class Parser
 
     /**
      *
-     * @param string|array $value
-     * @param string $key
-     * @param string $path
+     * @param  string|array  $value
+     * @param  string  $key
+     * @param  string  $path
      */
-    public function setPHxPlaceholders ($value = '', $key = '', $path = '')
+    public function setPHxPlaceholders($value = '', $key = '', $path = '')
     {
         $keypath = !empty($path) ? $path . "." . $key : $key;
         $this->phx->curPass = 0;
@@ -487,18 +452,10 @@ class Parser
         }
     }
 
-    public function loadTwig ()
-    {
-        if (is_null($this->twig) && isset($this->modx->twig)) {
-            $this->twig = clone $this->modx->twig;
-            $this->twigEnabled = true;
-        }
-    }
-
     /**
      *
      */
-    protected function loadBlade ()
+    protected function loadBlade()
     {
         try {
             $this->blade = clone $this->modx['view'];
@@ -507,12 +464,21 @@ class Parser
         }
     }
 
+    public function getBlade()
+    {
+        if($this->blade) {
+            return $this->blade;
+        } else {
+            throw new \Exception('Blade is not initialized');
+        }
+    }
+
     /**
      *
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function cleanPHx ($string)
+    public function cleanPHx($string)
     {
         preg_match_all('~\[(\+|\*|\()([^:\+\[\]]+)([^\[\]]*?)(\1|\))\]~s', $string, $matches);
         if ($matches[0]) {
@@ -523,11 +489,11 @@ class Parser
     }
 
     /**
-     * @param int $debug
-     * @param int $maxpass
+     * @param  int  $debug
+     * @param  int  $maxpass
      * @return Phx
      */
-    public function createPHx ($debug = 0, $maxpass = 50)
+    public function createPHx($debug = 0, $maxpass = 50)
     {
         return new Phx($this->modx, $debug, $maxpass);
     }
@@ -535,23 +501,23 @@ class Parser
     /**
      * Переменовывание элементов массива
      *
-     * @param array $data массив с данными
-     * @param string $prefix префикс ключей
-     * @param string $suffix суффикс ключей
-     * @param string $sep разделитель суффиксов, префиксов и ключей массива
+     * @param  array  $data  массив с данными
+     * @param  string  $prefix  префикс ключей
+     * @param  string  $suffix  суффикс ключей
+     * @param  string  $sep  разделитель суффиксов, префиксов и ключей массива
      * @return array массив с переименованными ключами
      */
-    public function renameKeyArr ($data, $prefix = '', $suffix = '', $sep = '.')
+    public function renameKeyArr($data, $prefix = '', $suffix = '', $sep = '.')
     {
         return rename_key_arr($data, $prefix, $suffix, $sep);
     }
 
     /**
      * @param $out
-     * @param Core|null $modx
+     * @param  Core|null  $modx
      * @return mixed|string
      */
-    public function parseDocumentSource ($out, $modx = null)
+    public function parseDocumentSource($out, $modx = null)
     {
         if (!is_object($modx)) {
             $modx = $this->modx;
@@ -568,7 +534,7 @@ class Parser
         for ($i = 1; $i <= $modx->maxParserPasses; $i++) {
             $html = $out;
             if (preg_match('/\[\!(.*)\!\]/us', $out)) {
-                $out = str_replace(array('[!', '!]'), array('[[', ']]'), $out);
+                $out = str_replace(['[!', '!]'], ['[[', ']]'], $out);
             }
             if ($i <= $modx->minParserPasses || $out != $html) {
                 $out = $modx->parseDocumentSource($out);
@@ -576,7 +542,7 @@ class Parser
                 break;
             }
         }
-        
+
         $out = $modx->rewriteUrls($out);
         $out = $this->cleanPHx($out);
 

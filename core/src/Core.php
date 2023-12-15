@@ -2936,7 +2936,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 $this['view']->share($data);
 
                 if ($this->isChunkProcessor('DLTemplate')) {
-                    app('DLTemplate')->blade->share($data);
+                    app('DLTemplate')->getBlade()->share($data);
                 }
 
                 $tpl = $this['view']->make($template, $this->dataForView);
