@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-7.0
----
-
- * Add argument `$lock` to `Filesystem::appendToFile()`
-
 5.4
 ---
 
