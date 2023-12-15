@@ -70,6 +70,10 @@ abstract class AbstractLaravel extends Container implements ApplicationContract
         'filesystem.cloud' => [
             \Illuminate\Contracts\Filesystem\Cloud::class
         ],
+        'encrypter' => [
+            \Illuminate\Encryption\Encrypter::class,
+            \Illuminate\Contracts\Encryption\Encrypter::class
+        ],
         'translator' => [
             \Illuminate\Translation\Translator::class,
             \Illuminate\Contracts\Translation\Translator::class
