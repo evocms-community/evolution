@@ -531,6 +531,11 @@
                 transform: translate3d(0, 0, 0);
             }
         }
+        #messages, span.error {
+            display: block;
+            color:red;
+            margin-bottom:5px;
+        }
     </style>
 </head>
 <body class="[+manager_theme_style+] [+login_form_position_class+]">
@@ -573,7 +578,7 @@
                     <input type="checkbox" id="rememberme" name="rememberme" value="1" class="checkbox" [+remember_me+]> [%remember_username%]</label>
                 <button type="submit" name="submitButton" class="btn btn-success" id="submitButton">[%login_button%]</button>
             </div>
-
+            <div id="messages"></div>
             <!-- OnManagerLoginFormRender -->
             [+OnManagerLoginFormRender+]
             [+repair_password+]
@@ -604,6 +609,11 @@
     }
     form.onsubmit = function(e) {
         document.getElementById('mainloader').classList.add('show');
+        document.getElementById('messages').innerText = '';
+        const errors = document.querySelectorAll('span.error');
+        for (const el of errors) {
+            el.remove();
+        }
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '?a=0', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
@@ -616,7 +626,7 @@
                     var cimg = document.getElementById('captcha_image');
                     if (cimg) cimg.src = 'captcha.php?rand=' + Math.random();
                     document.getElementById('mainloader').classList.remove('show');
-                    alert(this.response);
+                    document.getElementById('messages').innerText = this.response;
                 }
             }
         };
