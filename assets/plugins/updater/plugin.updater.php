@@ -385,6 +385,15 @@ if (is_file(__DIR__ . "/assets/cache/siteManager.php")) {
     }
     // echo __DIR__."/temp/".$dir."/".MGR_DIR;
 }
+removeFolder(__DIR__ . "/core/vendor/");
+removeFolder(__DIR__ . "/core/database/");
+removeFolder(__DIR__ . "/core/factory/");
+removeFolder(__DIR__ . "/core/functions/");
+removeFolder(__DIR__ . "/core/includes/");
+removeFolder(__DIR__ . "/core/lang/");
+removeFolder(__DIR__ . "/core/modifiers/");
+removeFolder(__DIR__ . "/core/src/");
+removeFolder(__DIR__ . "/core/storage/");
 copyFolder(__DIR__ . "/temp/" . $dir, __DIR__ . "/");
 removeFolder(__DIR__ . "/temp");
 unlink(__DIR__ . "/evo.zip");

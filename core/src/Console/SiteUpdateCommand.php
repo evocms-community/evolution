@@ -103,6 +103,8 @@ class SiteUpdateCommand extends Command
             $url = 'https://github.com/' . $updateRepository . '/archive/' . $git['version'] . '.zip';
             echo "Start download EvolutionCMS\n";
             $url = file_get_contents($url);
+            if(!$url) die("Failed to download EvolutionCMS\n");
+
             $file = MODX_BASE_PATH . 'new_version.zip';
 
             file_put_contents($file, $url);
@@ -123,6 +125,19 @@ class SiteUpdateCommand extends Command
                 }
                 closedir($handle);
             }
+            SELF::rmdirs(EVO_CORE_PATH . 'src/');
+            SELF::rmdirs(EVO_CORE_PATH . 'modifiers/');
+            SELF::rmdirs(EVO_CORE_PATH . 'lang/');
+            SELF::rmdirs(EVO_CORE_PATH . 'includes/');
+            SELF::rmdirs(EVO_CORE_PATH . 'functions/');
+            SELF::rmdirs(EVO_CORE_PATH . 'factory/');
+            SELF::rmdirs(EVO_CORE_PATH . 'database/');
+            SELF::rmdirs($temp_dir . '/' . $dir . '/core/vendor/');
+
+            putenv('COMPOSER_HOME=' . EVO_CORE_PATH . 'composer');
+            $input = new ArrayInput(array('command' => 'update'));
+            $application = new Application();
+            $application->setAutoExit(false);
 
             SELF::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
             SELF::rmdirs($temp_dir);
