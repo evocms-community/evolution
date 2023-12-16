@@ -11,11 +11,7 @@ if (!evo()->hasPermission('exec_module')) {
 }
 
 if (isset($_GET['id']) && is_scalar($_GET['id'])) {
-    if (is_numeric($_GET['id'])) {
-        $id = (int) $_GET['id'];
-    } else {
-        $id = $_GET['id'];
-    }
+    $id = is_numeric($_GET['id']) ? (int) $_GET['id'] : $_GET['id'];
 } else {
     $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
