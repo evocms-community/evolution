@@ -156,10 +156,7 @@ class SiteUpdateCommand extends Command
                     }
                 }
             }
-            putenv('COMPOSER_HOME=' . EVO_CORE_PATH . 'composer');
-            $input = new ArrayInput(array('command' => 'update'));
-            $application = new Application();
-            $application->setAutoExit(false);
+
             if (!$application->run($input)) {
                 echo "Run Migrations\n";
                 exec('php  ../install/cli-install.php --typeInstall=2 --removeInstall=y');
