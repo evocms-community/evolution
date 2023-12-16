@@ -10,10 +10,14 @@ if (!evo()->hasPermission('exec_module')) {
     evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
 }
 
-$id = (int) ($_GET['id'] ?? 0);
-
-if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+if (isset($_GET['id']) && is_scalar($_GET['id'])) {
+    if (is_numeric($_GET['id'])) {
+        $id = (int) $_GET['id'];
+    } else {
+        $id = $_GET['id'];
+    }
+} else {
+    $modx->webAlertAndQuit($_lang["error_no_id"]);
 }
 
 // check if user has access permission, except admins
