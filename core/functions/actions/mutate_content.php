@@ -764,7 +764,7 @@ if (!function_exists('renderFormElement')) {
         if ($content === null) {
             global $content;
         }
-
+        static $i = 0;
         if (substr($default_text, 0, 6) === '@@EVAL' && $field_value === $default_text) {
             $eval_str = trim(substr($default_text, 7));
             $default_text = eval($eval_str);
@@ -947,7 +947,6 @@ if (!function_exists('renderFormElement')) {
                     );
                     $tpl =
                         '<label class="checkbox"><input type="checkbox" value="%s" id="tv_%s" name="tv%s[]" %s onchange="documentDirty=true;" />%s</label><br />';
-                    static $i = 0;
                     $_ = [];
                     foreach ($index_list as $item) {
                         if (is_array($item)) {
@@ -985,7 +984,6 @@ if (!function_exists('renderFormElement')) {
                             $tvsArray
                         )
                     );
-                    static $i = 0;
                     foreach ($index_list as $itemvalue) {
                         [$item, $itemvalue] =
                             (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
