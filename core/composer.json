@@ -42,7 +42,7 @@
     "predis/predis": "*",
     "rosell-dk/webp-convert": "*",
     "simplepie/simplepie": "^1.8",
-    "tracy/tracy": "2.9.*",
+    "tracy/tracy": "2.10.*",
     "wikimedia/composer-merge-plugin": "2.*"
   },
   "require-dev": {
