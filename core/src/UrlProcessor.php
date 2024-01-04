@@ -1,5 +1,6 @@
 <?php namespace EvolutionCMS;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UrlProcessor
@@ -340,7 +341,7 @@ class UrlProcessor
                         $this->virtualDir === '' && !isset($this->documentListing[$query])
                     )
                         //)
-                         && (
+                        && (
                             (
                                 $this->virtualDir !== '' &&
                                 isset($this->documentListing[$this->virtualDir]) &&
@@ -660,7 +661,7 @@ class UrlProcessor
         }
 
         if ($id === (int) $this->core->getConfig('site_start')) {
-            $requestedURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . $query;
+            $requestedURL = Request::getSchemeAndHttpHost() . '/' . $query;
 
             if ($requestedURL === $this->core->getConfig('site_url')) {
                 return null;
