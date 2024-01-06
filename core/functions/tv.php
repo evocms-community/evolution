@@ -712,6 +712,7 @@ if (!function_exists('renderFormElement')) {
         $field_html = '';
         $cimode = strpos($field_type, ':');
         if ($cimode === false) {
+            static $i = 0;
             switch ($field_type) {
                 case 'text': // handler for regular text boxes
                 case 'rawtext'; // non-htmlentity converted text boxes
@@ -894,7 +895,6 @@ if (!function_exists('renderFormElement')) {
                     );
                     $tpl =
                         '<label class="checkbox"><input type="checkbox" value="%s" id="tv_%s" name="tv%s[]" %s onchange="documentDirty=true;" />%s</label><br />';
-                    static $i = 0;
                     $_ = [];
                     foreach ($index_list as $c => $item) {
                         if (is_array($item)) {
@@ -931,7 +931,6 @@ if (!function_exists('renderFormElement')) {
                             $tvsArray
                         )
                     );
-                    static $i = 0;
                     foreach ($index_list as $item => $itemvalue) {
                         if (is_array($itemvalue)) {
                             [$item, $itemvalue] = $itemvalue;
