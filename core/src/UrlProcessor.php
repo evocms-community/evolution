@@ -661,7 +661,7 @@ class UrlProcessor
         }
 
         if ($id === (int) $this->core->getConfig('site_start')) {
-            $requestedURL = Request::getSchemeAndHttpHost() . '/' . $query;
+            $requestedURL = request()->getSchemeAndHttpHost(). '/' . $query;
 
             if ($requestedURL === $this->core->getConfig('site_url')) {
                 return null;
