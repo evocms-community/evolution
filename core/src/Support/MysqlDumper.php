@@ -253,7 +253,7 @@ class MysqlDumper implements MysqlDumperInterface
      * @param \mysqli_result $resource
      * @return array
      */
-    public function result2Array($numinarray = 0, $resource)
+    public function result2Array($numinarray, $resource)
     {
         $modx = evolutionCMS();
         $array = array();
@@ -277,7 +277,7 @@ class MysqlDumper implements MysqlDumperInterface
      * @param \mysqli_result $resource
      * @return array
      */
-    public function loadObjectList($key = '', $resource)
+    public function loadObjectList($key, $resource)
     {
         $modx = evolutionCMS();
         $array = array();
