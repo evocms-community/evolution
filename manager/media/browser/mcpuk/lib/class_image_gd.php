@@ -378,7 +378,7 @@ class image_gd extends image
             return false;
         }
 
-        if (count($args[0]) == 3) {
+        if (is_countable($args[0]) && count($args[0]) == 3) {
             [$r, $g, $b] = $args[0];
 
         } elseif (preg_match($exprRGB, $args[0], $match)) {
