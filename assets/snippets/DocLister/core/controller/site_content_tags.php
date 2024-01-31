@@ -121,8 +121,8 @@ class site_content_tagsDocLister extends site_contentDocLister
             } else {
                 $where = "t.`name`='" . $this->modx->db->escape($tag['tag']) . "'";
             }
-            $where .= ($this->getCFGDef('tagsData', '') > 0) ? "AND ct.tv_id=" . (int)$this->getCFGDef(
-                'tagsData',
+            $where .= ($this->getCFGDef('tagsTV', '') > 0) ? "AND ct.tv_id=" . (int)$this->getCFGDef(
+                'tagsTV',
                 ''
             ) : "";
 

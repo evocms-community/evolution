@@ -157,6 +157,7 @@ abstract class Core
             'lang'    => $this->getCFGDef('lang', $this->modx->getConfig('lang_code')),
             'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler')
         ]);
+        $this->lexicon->fromFile('csrf');
         $this->DLTemplate = DLTemplate::getInstance($modx);
         $this->DLTemplate->setTemplatePath($this->getCFGDef('templatePath'));
         $this->DLTemplate->setTemplateExtension($this->getCFGDef('templateExtension'));
@@ -234,6 +235,10 @@ abstract class Core
         $this->renderTpl = $this->getCFGDef('formTpl'); //Шаблон по умолчанию
         $this->rules = $this->getValidationRules();
         $this->initCaptcha();
+        if($this->getCFGDef('csrf')) {
+            $this->setPlaceholder('csrf', (string)csrf_field());
+            $this->setPlaceholder('_token', csrf_token());
+        }
         $this->runPrepare('prepare');
 
         return $this;
@@ -641,6 +646,7 @@ abstract class Core
      */
     public function validateForm()
     {
+        $this->checkCsrf();
         $validator = $this->getCFGDef('validator', '\FormLister\Validator');
         $validator = $this->loadModel($validator, '', []);
         $fields = $this->getFormData('fields');
@@ -656,6 +662,19 @@ abstract class Core
         $this->validateFiles();
 
         return $this->isValid();
+    }
+
+    protected function checkCsrf()
+    {
+        if($this->getCFGDef('csrf')) {
+            $_token = $this->getField('_token');
+            $token = csrf_token();
+            if(empty($_token) || $_token != $token) {
+                $this->setValid(false);
+                $this->addMessage($this->translate('csrf.error'));
+                $this->log('CSRF error: ' . $_token . ' doesn\'t match ' .  $token);
+            }
+        }
     }
 
     /**
