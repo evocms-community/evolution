@@ -60,7 +60,7 @@ class ReCaptchaWrapper implements CaptchaInterface
             switch($reCAPTCHAversion) {
 				case "3":
                     $callback = \APIhelpers::getkey($this->cfg, 'callback', 'onSubmit');
-					$out = "<button class=\"{$classButton}\" data-sitekey=\"{$siteKey}\" data-callback=\"{$callback}\" data-action='submit'>{$textButton}</button>";
+					$out = "<button {$id} class=\"{$classButton}\" data-sitekey=\"{$siteKey}\" data-callback=\"{$callback}\" data-action='submit'>{$textButton}</button>";
 					break;
 				default:
 					$out = "<div {$id} class=\"g-recaptcha\" data-sitekey=\"{$siteKey}\" data-type=\"{$type}\" data-tabindex=\"{$tabindex}\" data-size=\"{$size}\" data-theme=\"{$theme}\" data-callback=\"{$callback}\" data-expired-callback=\"{$expcallback}\" data-badge=\"{$badge}\"></div>";
