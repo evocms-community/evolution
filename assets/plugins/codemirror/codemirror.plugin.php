@@ -15,30 +15,30 @@
  *
  * @see         https://github.com/Mihanik71/CodeMirror-MODx
  */
+
 global $content;
 
-$which_editor = $modx->getConfig('which_editor');
 $textarea_name = 'post';
 $mode = 'htmlmixed';
 $lang = 'htmlmixed';
-$readOnly = isset($readOnly) && $readOnly === true ? 'true' : 'false';
+$readOnly = !empty($readOnly) ? 'true' : 'false';
 /*
  * Default Plugin configuration
  */
-$theme = $defaulttheme = (isset($theme) ? $theme : 'default');
-$darktheme = (isset($darktheme) ? $darktheme : 'one-dark');
-$indentUnit = (isset($indentUnit) ? $indentUnit : 4);
-$tabSize = (isset($tabSize) ? $tabSize : 4);
-$lineWrapping = (isset($lineWrapping) ? $lineWrapping : false);
-$matchBrackets = (isset($matchBrackets) ? $matchBrackets : false);
-$activeLine = (isset($activeLine) ? $activeLine : false);
-$emmet = (($emmet == 'true') ? '<script src="' . $_CM_URL . 'cm/emmet-compressed.js"></script>' : "");
-$search = (($search == 'true') ? '<script src="' . $_CM_URL . 'cm/search-compressed.js"></script>' : "");
-$indentWithTabs = (isset($indentWithTabs) ? $indentWithTabs : false);
-$undoDepth = (isset($undoDepth) ? $undoDepth : 200);
-$historyEventDelay = (isset($historyEventDelay) ? $historyEventDelay : 1250);
-$fontSize = (isset($fontSize) ? 'font-size:' . $fontSize . 'px !important;' : '');
-$lineHeight = (isset($lineHeight) ? 'line-height:' . $lineHeight . ' !important;' : '');
+$theme = $defaulttheme = ($theme ?? 'default');
+$darktheme = $darktheme ?? 'one-dark';
+$indentUnit = $indentUnit ?? 4;
+$tabSize = $tabSize ?? 4;
+$lineWrapping = $lineWrapping ?? false;
+$matchBrackets = $matchBrackets ?? false;
+$activeLine = $activeLine ?? false;
+$emmet = $emmet == 'true' ? '<script src="' . $_CM_URL . 'cm/emmet-compressed.js"></script>' : "";
+$search = $search == 'true' ? '<script src="' . $_CM_URL . 'cm/search-compressed.js"></script>' : "";
+$indentWithTabs = $indentWithTabs ?? false;
+$undoDepth = $undoDepth ?? 200;
+$historyEventDelay = $historyEventDelay ?? 1250;
+$fontSize = isset($fontSize) ? 'font-size:' . $fontSize . 'px !important;' : '';
+$lineHeight = isset($lineHeight) ? 'line-height:' . $lineHeight . ' !important;' : '';
 
 if (!empty($_COOKIE['MODX_themeMode'])) {
     if ($_COOKIE['MODX_themeMode'] == 3 || $_COOKIE['MODX_themeMode'] == 4) {
@@ -50,20 +50,18 @@ if (!empty($_COOKIE['MODX_themeMode'])) {
 /*
  * This plugin is only valid in "text" mode. So check for the current Editor
  */
-$prte = (isset($_POST['which_editor']) ? $_POST['which_editor'] : '');
-$srte = ($modx->getConfig('use_editor') ? $modx->getConfig('which_editor') : 'none');
-$xrte = isset($content['richtext']) ? $content['richtext'] : '';
+$prte = $_POST['which_editor'] ?? ($modx->config['which_editor'] ?? '');
+$srte = $modx->getConfig('use_editor') ? $modx->getConfig('which_editor') : 'none';
+$xrte = $content['richtext'] ?? '';
 $tvMode = false;
 $limitedHeight = false;
 /*
  * Switch event
  */
 switch ($modx->event->name) {
-    case 'OnTempFormRender'   :
-        $rte = ($prte ? $prte : 'none');
-        break;
     case 'OnChunkFormRender'  :
-        $rte = isset($editor) ? $editor : 'none';
+    case 'OnTempFormRender'   :
+        $rte = $prte ?: 'none';
         break;
 
     case 'OnRichTextEditorInit':
@@ -102,8 +100,8 @@ switch ($modx->event->name) {
             return;
         }
         $textarea_name = 'ta';
-        $xrte = (('htmlmixed' == $mode) ? $xrte : 0);
-        $rte = ($prte ? $prte : (isset($content['id']) ? ($xrte ? $srte : 'none') : $srte));
+        $xrte = ('htmlmixed' == $mode) ? $xrte : 0;
+        $rte = $prte ?: (isset($content['id']) ? ($xrte ? $srte : 'none') : $srte);
         $contentType = $content['contentType'];
         /*
         * Switch contentType for doc
@@ -132,10 +130,10 @@ switch ($modx->event->name) {
         // $limitedHeight = true; // No limited height since MODX 1.2
         $elements = [
             $textarea_name,
-            'properties'
+            'properties',
         ];
         $mode = 'application/x-httpd-php-open';
-        $rte = ($prte ? $prte : 'none');
+        $rte = $prte ?: 'none';
         $lang = "php";
         break;
 
@@ -147,9 +145,12 @@ switch ($modx->event->name) {
         break;
 
     default:
-        $this->logEvent(1, 2,
+        $this->logEvent(
+            1,
+            2,
             'Undefined event : <b>' . $modx->Event->name . '</b> in <b>' . $this->Event->activePlugin . '</b> Plugin',
-            'CodeMirror Plugin : ' . $modx->Event->name);
+            'CodeMirror Plugin : ' . $modx->Event->name
+        );
 }
 $output = '';
 
@@ -338,7 +339,6 @@ if (!$tvMode) {
 
 if (('none' == $rte) && $mode && $elements !== null) {
     foreach ($elements as $el) {
-
         if ($el != $textarea_name && $limitedHeight) {
             $setHeight = "myCodeMirrors['{$el}'].setSize('98%', 260);";
         } else {

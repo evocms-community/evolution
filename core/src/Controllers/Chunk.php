@@ -79,6 +79,8 @@ class Chunk extends AbstractController implements PageControllerInterface
             if ($data->locked === 1 && $_SESSION['mgrRole'] != 1) {
                 ManagerTheme::alertAndQuit('error_no_privileges');
             }
+
+            $this->which_editor = $data->editor_name;
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
@@ -96,6 +98,7 @@ class Chunk extends AbstractController implements PageControllerInterface
             }
         }
 
+        ManagerTheme::getCore()->setConfig('which_editor', $this->which_editor);
 
         return $data;
     }
