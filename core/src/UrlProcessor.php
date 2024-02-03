@@ -1,6 +1,6 @@
 <?php namespace EvolutionCMS;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class UrlProcessor
@@ -662,7 +662,6 @@ class UrlProcessor
 
         if ($id === (int) $this->core->getConfig('site_start')) {
             $requestedURL = Request::getSchemeAndHttpHost() . '/' . $query;
-
             if ($requestedURL === $this->core->getConfig('site_url')) {
                 return null;
             }
