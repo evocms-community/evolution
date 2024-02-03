@@ -47,8 +47,10 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
         }
         try {
             if ($userData['mode'] == 87) {
+                $userData['verified'] = 1;
                 $user = UserManager::create($userData);
             } else {
+                $userData['verified'] = (int)($userData['verified'] ?? 0);
                 $user = UserManager::edit($userData);
                 if (isset($userData['password'])) {
                     $userData['clearPassword'] = $userData['password'];
