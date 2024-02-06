@@ -955,7 +955,8 @@
         bottom: 3.2rem;
     }
     .navbar-left #mainMenu #settings.nav > #fullscreen {
-        bottom: 5rem;
+        position:relative;
+        width:100%;
     }
     .navbar-left #mainMenu #settings.nav > #account > ul,
     .navbar-left #mainMenu #settings.nav > #system > ul {
