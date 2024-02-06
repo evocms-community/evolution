@@ -181,7 +181,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
         document.userform.blockeduntil.value = ''
         document.userform.blockedafter.value = ''
         document.userform.failedlogincount.value = 0
-        blocked.innerHTML = '<b><?= ManagerTheme::getLexicon('unblock_message'); ?></b>'
+        blocked.innerHTML = <?=json_encode('<b>'.ManagerTheme::getLexicon('unblock_message').'</b>', JSON_UNESCAPED_SLASHES)?>;
         blocked.className = 'TD'
         el.value = 0
       } else {
@@ -190,7 +190,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     } else {
       if (confirm(`<?= ManagerTheme::getLexicon('confirm_block'); ?>`) === true) {
         document.userform.blocked.value = 1
-        blocked.innerHTML = '<b><?= ManagerTheme::getLexicon('block_message'); ?></b>'
+        blocked.innerHTML = <?=json_encode('<b>'.ManagerTheme::getLexicon('block_message').'</b>', JSON_UNESCAPED_SLASHES)?>
         blocked.className = 'warning'
         el.value = 1
       } else {
