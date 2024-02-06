@@ -656,6 +656,7 @@ $_lang["parse_docblock"] = 'Анализировать DocBlock';
 $_lang["parse_docblock_msg"] = 'Внимание (!): <b> Сброс </b> актуального имени, конфигурации, описания и категории для установки дефолту путем анализа исходного кода.';
 $_lang["password"] = 'Пароль';
 $_lang["password_change_request"] = 'Запрос на смену пароля';
+$_lang["password_confirmed"] = 'Пароли не совпадают';
 $_lang["password_gen_gen"] = 'Позволить Evolution CMS сгенерировать пароль.';
 $_lang["password_gen_length"] = 'Пароль должен содержать минимум 6 символов.';
 $_lang["password_gen_method"] = 'Способ задания нового пароля';
