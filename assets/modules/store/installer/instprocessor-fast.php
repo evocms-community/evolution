@@ -136,7 +136,7 @@ if (count($moduleTemplates) > 0) {
             // See if the template already exists
             $template = \EvolutionCMS\Models\SiteTemplate::where('templatename', $name)->first();
 
-            if ($template->count() > 0) {
+            if ($template) {
                 $template->content = $template;
                 $template->description = $desc;
                 $template->category = $category_id;
