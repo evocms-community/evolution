@@ -169,7 +169,7 @@ function changeblockstate(el, checkelement) {
             document.userform.blockeduntil.value = "";
             document.userform.blockedafter.value = "";
             document.userform.failedlogincount.value = 0;
-            blocked.innerHTML = "<b><?php echo $_lang['unblock_message']; ?></b>";
+            blocked.innerHTML = <?=json_encode('<b>'.ManagerTheme::getLexicon('unblock_message').'</b>', JSON_UNESCAPED_SLASHES)?>;
             blocked.className = "TD";
             el.value = 0;
         } else {
