@@ -178,7 +178,7 @@ function changeblockstate(el, checkelement) {
     } else {
         if(confirm("<?php echo $_lang['confirm_block']; ?>") === true) {
             document.userform.blocked.value = 1;
-            blocked.innerHTML = "<b><?php echo $_lang['block_message']; ?></b>";
+            blocked.innerHTML = <?=json_encode('<b>'.ManagerTheme::getLexicon('unblock_message').'</b>', JSON_UNESCAPED_SLASHES)?>;
             blocked.className = "warning";
             el.value = 1;
         } else {
