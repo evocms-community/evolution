@@ -987,6 +987,7 @@ $_lang["parse_docblock_msg"] = 'Attention (!): <b>Resets</b> actual name, config
 
 $_lang["password"] = 'Password';
 $_lang["password_change_request"] = 'Password change request';
+$_lang["password_confirmed"] = 'Passwords doesn\'t match';
 $_lang["password_gen_gen"] = 'Let Evolution CMS generate a password.';
 $_lang["password_gen_length"] = 'The password you specify needs to be at least 6 characters long.';
 $_lang["password_gen_method"] = 'New password method';
