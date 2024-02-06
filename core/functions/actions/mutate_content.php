@@ -717,6 +717,7 @@ if (! function_exists('renderFormElement')) {
 
         $field_html = '';
         $cimode = strpos($field_type, ':');
+        static $i = 0;
         if ($cimode === false) {
             switch ($field_type) {
                 case "text": // handler for regular text boxes
@@ -825,7 +826,6 @@ if (! function_exists('renderFormElement')) {
                     $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform',
                         $tvsArray));
                     $tpl = '<label class="checkbox"><input type="checkbox" value="%s" id="tv_%s" name="tv%s[]" %s onchange="documentDirty=true;" />%s</label><br />';
-                    static $i = 0;
                     $_ = array();
                     foreach ($index_list as $c => $item) {
                         if (is_array($item)) {
@@ -854,7 +854,6 @@ if (! function_exists('renderFormElement')) {
                 case "option": // handles radio buttons
                     $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id, '', 'tvform',
                         $tvsArray));
-                    static $i = 0;
                     foreach($index_list as $item => $itemvalue) {
                         [$item, $itemvalue] = (is_array($itemvalue)) ? $itemvalue : array_merge(explode("==", $itemvalue), ['']);
                         if (strlen($itemvalue) == 0) {
