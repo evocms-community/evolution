@@ -279,14 +279,10 @@ use EvolutionCMS\Models\ActiveUserSession;
     $itemsNumber = 3;
 
 
-    $feedData = cache()->remember('feeddata', 24 * 3600, function () use ($urls, $itemsNumber) {
+    $feedData = cache()->store('rss')->remember('feeddata', 24 * 3600, function () use ($urls, $itemsNumber) {
         // create Feed
         $feedData = [];
         $feed = new \SimplePie\SimplePie();
-        $feedCache = evo()->getCachePath() . 'rss/';
-        \Illuminate\Support\Facades\File::ensureDirectoryExists($feedCache);
-        $feed->set_cache_location($feedCache);
-        $feed->set_cache_duration(24 * 3600);
         foreach ($urls as $section => $url) {
             if (empty($url)) {
                 continue;

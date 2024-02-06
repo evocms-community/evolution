@@ -145,5 +145,6 @@ if (isset($data) && count($data) > 0) {
 
     // empty cache
     evo()->clearCache('full');
+    cache()->store('rss')->flush();
 }
 header('Location: index.php?a=7&r=10');
