@@ -344,6 +344,32 @@ if (is_array($evtOut)) {
                         <br /></td>
                     </tr>
                     <?php }?>
+                    <tr>
+                        <td><?php echo $_lang['user_role']; ?>:</td>
+                        <td>
+<?php
+$roles = \EvolutionCMS\Models\UserRole::query()->select('name', 'id');
+if (!$modx->hasPermission('save_role')) {
+    $roles = $roles->where('id', '!=', 1);
+}
+?>
+                            <select name="role" id="role" class="inputBox" onChange="roleWarning();" style="width:300px">
+                                <option value="0" <?php $userdata['role'] == 0 ? "selected='selected'" : ''?>><?php echo $_lang['no_user_role']; ?></option>
+<?php
+foreach ($roles->get()->toArray() as $row) {
+    if ($modx->getManagerApi()->action == '11') {
+        $selectedtext = $row['id'] == '1' ? ' selected="selected"' : '';
+    } else {
+        $selectedtext = $row['id'] == $userdata['role'] ? "selected='selected'" : '';
+    }
+    ?>
+                                <option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo e($row['name']); ?></option>
+<?php
+}
+?>
+                            </select>
+                        </td>
+                    </tr>
                     <?php if (!empty($userdata['id'])) {?>
                         <tr id="showname" style="display: <?php echo ($modx->getManagerApi()->action == '88' && (!isset($usernamedata['oldusername']) || $usernamedata['oldusername'] == $usernamedata['username'])) ? $displayStyle : 'none'; ?> ">
                             <td><?php echo $_lang['username']; ?>:</td>
@@ -411,32 +437,6 @@ if (is_array($evtOut)) {
                         <td><?php echo $_lang['user_email']; ?>:</td>
                         <td><input type="text" name="email" class="inputBox" value="<?php echo isset($_POST['email']) ? $_POST['email'] : $userdata['email']; ?>" onChange="documentDirty=true;" />
                             <input type="hidden" name="oldemail" value="<?php echo $modx->getPhpCompat()->htmlspecialchars(!empty($userdata['oldemail']) ? $userdata['oldemail'] : $userdata['email']); ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo $_lang['user_role']; ?>:</td>
-                        <td>
-<?php
-$roles = \EvolutionCMS\Models\UserRole::query()->select('name', 'id');
-if (!$modx->hasPermission('save_role')) {
-    $roles = $roles->where('id', '!=', 1);
-}
-?>
-                            <select name="role" id="role" class="inputBox" onChange="roleWarning();" style="width:300px">
-                                <option value="0" <?php $userdata['role'] == 0 ? "selected='selected'" : ''?>><?php echo $_lang['no_user_role']; ?></option>
-<?php
-foreach ($roles->get()->toArray() as $row) {
-    if ($modx->getManagerApi()->action == '11') {
-        $selectedtext = $row['id'] == '1' ? ' selected="selected"' : '';
-    } else {
-        $selectedtext = $row['id'] == $userdata['role'] ? "selected='selected'" : '';
-    }
-    ?>
-                                <option value="<?php echo $row['id']; ?>"<?php echo $selectedtext; ?>><?php echo e($row['name']); ?></option>
-<?php
-}
-?>
-                            </select>
-                        </td>
                     </tr>
                     <tr>
                         <td><?php echo $_lang['user_phone']; ?>:</td>
