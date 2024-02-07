@@ -366,6 +366,39 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </tr>
                         <?php
                     } ?>
+                    <tr>
+                        <td><?= ManagerTheme::getLexicon('user_role'); ?>:
+                        </td>
+                        <td>
+                            <?php
+                            $roles = UserRole::query()->select('name', 'id');
+                            if (!evo()->hasPermission('save_role')) {
+                                $roles = $roles->where('id', '!=', 1);
+                            }
+                            ?>
+                            <select name="role" id="role" class="inputBox" onChange="roleWarning();"
+                                    style="width:300px">
+                                <option value="0"<?= $userdata['role'] == 0 ? ' selected'
+                                    : '' ?>><?= ManagerTheme::getLexicon(
+                                        'no_user_role'
+                                    ); ?></option>
+                                <?php
+                                foreach ($roles->get()->toArray() as $row) {
+                                    if (evo()->getManagerApi()->action == '11') {
+                                        $selectedtext = $row['id'] == '1' ? ' selected' : '';
+                                    } else {
+                                        $selectedtext = $row['id'] == $userdata['role'] ? ' selected' : '';
+                                    }
+                                    ?>
+                                    <option value="<?= $row['id']; ?>"<?= $selectedtext; ?>><?= e(
+                                            $row['name']
+                                        ); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
                     <?php
                     if (!empty($userdata['id'])) { ?>
                         <tr id="showname" style="display: <?= (evo()->getManagerApi()->action == '88' &&
@@ -519,39 +552,6 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             <input type="hidden" name="oldemail" value="<?= evo()->getPhpCompat()->htmlspecialchars(
                                 !empty($userdata['oldemail']) ? $userdata['oldemail'] : $userdata['email']
                             ); ?>"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= ManagerTheme::getLexicon('user_role'); ?>:
-                        </td>
-                        <td>
-                            <?php
-                            $roles = UserRole::query()->select('name', 'id');
-                            if (!evo()->hasPermission('save_role')) {
-                                $roles = $roles->where('id', '!=', 1);
-                            }
-                            ?>
-                            <select name="role" id="role" class="inputBox" onChange="roleWarning();"
-                                    style="width:300px">
-                                <option value="0"<?= $userdata['role'] == 0 ? ' selected'
-                                    : '' ?>><?= ManagerTheme::getLexicon(
-                                        'no_user_role'
-                                    ); ?></option>
-                                <?php
-                                foreach ($roles->get()->toArray() as $row) {
-                                    if (evo()->getManagerApi()->action == '11') {
-                                        $selectedtext = $row['id'] == '1' ? ' selected' : '';
-                                    } else {
-                                        $selectedtext = $row['id'] == $userdata['role'] ? ' selected' : '';
-                                    }
-                                    ?>
-                                    <option value="<?= $row['id']; ?>"<?= $selectedtext; ?>><?= e(
-                                            $row['name']
-                                        ); ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
                         </td>
                     </tr>
                     <tr>
