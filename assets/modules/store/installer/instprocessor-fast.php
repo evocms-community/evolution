@@ -134,14 +134,14 @@ if (count($moduleTemplates) > 0) {
             $template = $template;
 
             // See if the template already exists
-            $template = \EvolutionCMS\Models\SiteTemplate::where('templatename', $name)->first();
+            $_template = \EvolutionCMS\Models\SiteTemplate::where('templatename', $name)->first();
 
-            if ($template) {
-                $template->content = $template;
-                $template->description = $desc;
-                $template->category = $category_id;
-                $template->locked = $locked;
-                $template->save();
+            if ($_template) {
+                $_template->content = $template;
+                $_template->description = $desc;
+                $_template->category = $category_id;
+                $_template->locked = $locked;
+                $_template->save();
 
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
             } else {
@@ -210,7 +210,7 @@ if (count($moduleTVs) > 0) {
                             $template_name = $template_name->where('templatename', $template);
 
                         $template_name = $template_name->first();
-                        if (!is_null($ts)) {
+                        if (!is_null($template_name)) {
                             \EvolutionCMS\Models\SiteTmplvarTemplate::query()->create(['tmplvarid' => $templateVar->getKey(), 'templateid' => $template_name->getKey()]);
                         }
                     }
