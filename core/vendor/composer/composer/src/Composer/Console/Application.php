@@ -292,7 +292,7 @@ class Application extends BaseApplication
             $this->hasPluginCommands = true;
         }
 
-        if ($isNonAllowedRoot && !$io->isInteractive()) {
+        if (!$this->disablePluginsByDefault && $isNonAllowedRoot && !$io->isInteractive()) {
             $io->writeError('<error>Composer plugins have been disabled for safety in this non-interactive session. Set COMPOSER_ALLOW_SUPERUSER=1 if you want to allow plugins to run as root/super user.</error>');
             $this->disablePluginsByDefault = true;
         }
@@ -365,7 +365,9 @@ class Application extends BaseApplication
                                     $description = $composer['scripts-descriptions'][$script];
                                 }
 
-                                $this->add(new Command\ScriptAliasCommand($script, $description));
+                                $aliases = $composer['scripts-aliases'][$script] ?? [];
+
+                                $this->add(new Command\ScriptAliasCommand($script, $description, $aliases));
                             }
                         }
                     }
@@ -655,6 +657,16 @@ class Application extends BaseApplication
     public function getInitialWorkingDirectory()
     {
         return $this->initialWorkingDirectory;
+    }
+
+    public function getDisablePluginsByDefault(): bool
+    {
+        return $this->disablePluginsByDefault;
+    }
+
+    public function getDisableScriptsByDefault(): bool
+    {
+        return $this->disableScriptsByDefault;
     }
 
     /**

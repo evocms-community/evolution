@@ -229,17 +229,17 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.6.6",
-            "version_normalized": "2.6.6.0",
+            "version": "2.7.0",
+            "version_normalized": "2.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "683557bd2466072777309d039534bb1332d0dda5"
+                "reference": "96d107e2bfe61bb9eafe55a9d45bd7faed1dd461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/683557bd2466072777309d039534bb1332d0dda5",
-                "reference": "683557bd2466072777309d039534bb1332d0dda5",
+                "url": "https://api.github.com/repos/composer/composer/zipball/96d107e2bfe61bb9eafe55a9d45bd7faed1dd461",
+                "reference": "96d107e2bfe61bb9eafe55a9d45bd7faed1dd461",
                 "shasum": ""
             },
             "require": {
@@ -257,7 +257,7 @@
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.2",
                 "seld/signal-handler": "^2.0",
-                "symfony/console": "^5.4.11 || ^6.0.11",
+                "symfony/console": "^5.4.11 || ^6.0.11 || ^7",
                 "symfony/filesystem": "^5.4 || ^6.0 || ^7",
                 "symfony/finder": "^5.4 || ^6.0 || ^7",
                 "symfony/polyfill-php73": "^1.24",
@@ -271,21 +271,21 @@
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpstan/phpstan-strict-rules": "^1",
                 "phpstan/phpstan-symfony": "^1.2.10",
-                "symfony/phpunit-bridge": "^6.0 || ^7"
+                "symfony/phpunit-bridge": "^6.4.1 || ^7.0.1"
             },
             "suggest": {
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "time": "2023-12-08T17:32:26+00:00",
+            "time": "2024-02-08T14:09:19+00:00",
             "bin": [
                 "bin/composer"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.6-dev"
+                    "dev-main": "2.7-dev"
                 },
                 "phpstan": {
                     "includes": [
@@ -326,7 +326,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.6.6"
+                "source": "https://github.com/composer/composer/tree/2.7.0"
             },
             "funding": [
                 {
@@ -7460,23 +7460,23 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.9.8",
-            "version_normalized": "2.9.8.0",
+            "version": "v2.10.5",
+            "version_normalized": "2.10.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e"
+                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e",
-                "reference": "d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/86bdba4aa0f707d3f125933931d3df6e5c7aad79",
+                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-session": "*",
-                "php": ">=7.2 <8.3"
+                "php": ">=8.0 <8.4"
             },
             "conflict": {
                 "nette/di": "<3.0"
@@ -7484,17 +7484,18 @@
             "require-dev": {
                 "latte/latte": "^2.5",
                 "nette/di": "^3.0",
+                "nette/http": "^3.0",
                 "nette/mail": "^3.0",
                 "nette/tester": "^2.2",
                 "nette/utils": "^3.0",
                 "phpstan/phpstan": "^1.0",
                 "psr/log": "^1.0 || ^2.0 || ^3.0"
             },
-            "time": "2023-09-25T10:36:51+00:00",
+            "time": "2023-10-16T21:54:18+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9-dev"
+                    "dev-master": "2.10-dev"
                 }
             },
             "installation-source": "dist",
@@ -7531,7 +7532,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
-                "source": "https://github.com/nette/tracy/tree/v2.9.8"
+                "source": "https://github.com/nette/tracy/tree/v2.10.5"
             },
             "install-path": "../tracy/tracy"
         },

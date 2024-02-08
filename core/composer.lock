@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0757d37afb98a1e329949ae6733b2ff",
+    "content-hash": "df0e16fd989523da77104d0e6fc26c25",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -226,16 +226,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.6.6",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "683557bd2466072777309d039534bb1332d0dda5"
+                "reference": "96d107e2bfe61bb9eafe55a9d45bd7faed1dd461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/683557bd2466072777309d039534bb1332d0dda5",
-                "reference": "683557bd2466072777309d039534bb1332d0dda5",
+                "url": "https://api.github.com/repos/composer/composer/zipball/96d107e2bfe61bb9eafe55a9d45bd7faed1dd461",
+                "reference": "96d107e2bfe61bb9eafe55a9d45bd7faed1dd461",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +253,7 @@
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.2",
                 "seld/signal-handler": "^2.0",
-                "symfony/console": "^5.4.11 || ^6.0.11",
+                "symfony/console": "^5.4.11 || ^6.0.11 || ^7",
                 "symfony/filesystem": "^5.4 || ^6.0 || ^7",
                 "symfony/finder": "^5.4 || ^6.0 || ^7",
                 "symfony/polyfill-php73": "^1.24",
@@ -267,7 +267,7 @@
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpstan/phpstan-strict-rules": "^1",
                 "phpstan/phpstan-symfony": "^1.2.10",
-                "symfony/phpunit-bridge": "^6.0 || ^7"
+                "symfony/phpunit-bridge": "^6.4.1 || ^7.0.1"
             },
             "suggest": {
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
@@ -280,7 +280,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.6-dev"
+                    "dev-main": "2.7-dev"
                 },
                 "phpstan": {
                     "includes": [
@@ -320,7 +320,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.6.6"
+                "source": "https://github.com/composer/composer/tree/2.7.0"
             },
             "funding": [
                 {
@@ -336,7 +336,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-08T17:32:26+00:00"
+            "time": "2024-02-08T14:09:19+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -7157,22 +7157,22 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.9.8",
+            "version": "v2.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e"
+                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e",
-                "reference": "d84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/86bdba4aa0f707d3f125933931d3df6e5c7aad79",
+                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-session": "*",
-                "php": ">=7.2 <8.3"
+                "php": ">=8.0 <8.4"
             },
             "conflict": {
                 "nette/di": "<3.0"
@@ -7180,6 +7180,7 @@
             "require-dev": {
                 "latte/latte": "^2.5",
                 "nette/di": "^3.0",
+                "nette/http": "^3.0",
                 "nette/mail": "^3.0",
                 "nette/tester": "^2.2",
                 "nette/utils": "^3.0",
@@ -7189,7 +7190,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9-dev"
+                    "dev-master": "2.10-dev"
                 }
             },
             "autoload": {
@@ -7225,9 +7226,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
-                "source": "https://github.com/nette/tracy/tree/v2.9.8"
+                "source": "https://github.com/nette/tracy/tree/v2.10.5"
             },
-            "time": "2023-09-25T10:36:51+00:00"
+            "time": "2023-10-16T21:54:18+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -7451,12 +7452,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "5801157022df75c4c9f07d305d76dcf68ca546ac"
+                "reference": "b5487e145d10e6d9a19b59c8dac2a058f5dfe63d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5801157022df75c4c9f07d305d76dcf68ca546ac",
-                "reference": "5801157022df75c4c9f07d305d76dcf68ca546ac",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b5487e145d10e6d9a19b59c8dac2a058f5dfe63d",
+                "reference": "b5487e145d10e6d9a19b59c8dac2a058f5dfe63d",
                 "shasum": ""
             },
             "conflict": {
@@ -8040,13 +8041,13 @@
                 "ttskch/pagination-service-provider": "<1",
                 "twig/twig": "<1.44.7|>=2,<2.15.3|>=3,<3.4.3",
                 "typo3/cms": "<9.5.29|>=10,<10.4.35|>=11,<11.5.23|>=12,<12.2",
-                "typo3/cms-backend": "<4.1.14|>=4.2,<4.2.13|>=4.3,<4.3.4|>=4.4,<4.4.1|>=7,<=7.6.50|>=8,<=8.7.39|>=9,<=9.5.24|>=10,<=10.4.13|>=11,<=11.1",
+                "typo3/cms-backend": "<4.1.14|>=4.2,<4.2.15|>=4.3,<4.3.7|>=4.4,<4.4.4|>=7,<=7.6.50|>=8,<=8.7.39|>=9,<=9.5.24|>=10,<=10.4.13|>=11,<=11.1",
                 "typo3/cms-core": "<8.7.55|>=9,<9.5.44|>=10,<10.4.41|>=11,<11.5.33|>=12,<12.4.8",
                 "typo3/cms-extbase": "<6.2.24|>=7,<7.6.8|==8.1.1",
                 "typo3/cms-fluid": "<4.3.4|>=4.4,<4.4.1",
                 "typo3/cms-form": ">=8,<=8.7.39|>=9,<=9.5.24|>=10,<=10.4.13|>=11,<=11.1",
-                "typo3/cms-frontend": "<4.3.4|>=4.4,<4.4.1",
-                "typo3/cms-install": "<4.1.14|>=4.2,<4.2.13|>=4.3,<4.3.4|>=4.4,<4.4.1|>=12.2,<12.4.8",
+                "typo3/cms-frontend": "<4.3.9|>=4.4,<4.4.5",
+                "typo3/cms-install": "<4.1.14|>=4.2,<4.2.16|>=4.3,<4.3.9|>=4.4,<4.4.5|>=12.2,<12.4.8",
                 "typo3/cms-rte-ckeditor": ">=9.5,<9.5.42|>=10,<10.4.39|>=11,<11.5.30",
                 "typo3/cms-saltedpasswords": "<0.2.13",
                 "typo3/flow": ">=1,<1.0.4|>=1.1,<1.1.1|>=2,<2.0.1|>=2.3,<2.3.16|>=3,<3.0.12|>=3.1,<3.1.10|>=3.2,<3.2.13|>=3.3,<3.3.13|>=4,<4.0.6",
@@ -8178,7 +8179,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-07T23:04:35+00:00"
+            "time": "2024-02-08T00:13:48+00:00"
         }
     ],
     "aliases": [],
