@@ -54,4 +54,5 @@ To run **Evolution CMS** using docker make **docker-compose up -d** command in y
 | Translations | https://www.transifex.com/evo-cms-community/evolution-3x/ |
 | Add-ons | https://extras.evocms.ru |
 | Telegram group | https://t.me/evo_cms |
+| News channel | https://t.me/evo_cms_news |
 | Youtube| https://www.youtube.com/channel/UCS7ZUn62Qln_OhHSVaFTTig |
