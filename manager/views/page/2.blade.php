@@ -289,6 +289,7 @@ use EvolutionCMS\Models\ActiveUserSession;
             }
             $output = '';
             $feed->set_feed_url($url);
+            $feed->enable_cache(false);
             $feed->init();
             $items = $feed->get_items(0, $itemsNumber);
             if (empty($items)) {
