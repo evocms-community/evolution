@@ -80,8 +80,7 @@ class InstallEvo
 
     public function initEvo()
     {
-
-        include '../index.php';
+        include MODX_BASE_PATH . 'index.php';
         $this->evo = EvolutionCMS();
     }
 
@@ -354,7 +353,7 @@ class InstallEvo
                 }
                 break;
         }
-        $configString = file_get_contents('stubs/files/config/database/connections/default.tpl');
+        $configString = file_get_contents(__DIR__ . '/stubs/files/config/database/connections/default.tpl');
         $configString = parse($configString, $confph);
 
         $filename = EVO_CORE_PATH . 'config/database/connections/default.php';
@@ -379,7 +378,7 @@ class InstallEvo
     public function migrationAndSeed()
     {
 
-        $delete_file = 'stubs/file_for_delete.txt';
+        $delete_file = __DIR__ . '/stubs/file_for_delete.txt';
         if (file_exists($delete_file)) {
             $files = explode("\n", file_get_contents($delete_file));
             foreach ($files as $file) {
