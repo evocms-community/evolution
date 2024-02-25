@@ -7,7 +7,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'brick/math' => array(
@@ -818,6 +818,15 @@
                 0 => '4.7.5',
             ),
         ),
+        'roave/security-advisories' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '3c2385497f806decca1e5abeba3cb8fd7caba4e0',
+            'type' => 'metapackage',
+            'install_path' => NULL,
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'rosell-dk/exec-with-fallback' => array(
             'pretty_version' => '1.2.0',
             'version' => '1.2.0.0',
@@ -1209,9 +1218,9 @@
             'dev_requirement' => false,
         ),
         'tracy/tracy' => array(
-            'pretty_version' => 'v2.9.8',
-            'version' => '2.9.8.0',
-            'reference' => 'd84fb3ca4e9fa5a9352e6d18f0b8cd767f25901e',
+            'pretty_version' => 'v2.10.5',
+            'version' => '2.10.5.0',
+            'reference' => '86bdba4aa0f707d3f125933931d3df6e5c7aad79',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tracy/tracy',
             'aliases' => array(),

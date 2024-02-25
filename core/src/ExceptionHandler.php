@@ -602,14 +602,18 @@ class ExceptionHandler
             $this->container->getDatabase()->disconnect();
         }
 
-        if (is_cli() && (
-            $exception instanceof RuntimeException ||
-            $exception instanceof InvalidArgumentException ||
-            $exception instanceof InvalidOptionException ||
-            $exception instanceof CommandNotFoundException
-        )) {
-            echo $exception->getMessage();
-            exit;
+        if (is_cli()) {
+            if (
+                $exception instanceof RuntimeException ||
+                $exception instanceof InvalidArgumentException ||
+                $exception instanceof InvalidOptionException ||
+                $exception instanceof CommandNotFoundException
+            ) {
+                echo $exception->getMessage();
+                exit;
+            }
+
+            throw $exception;
         }
 
         if ($exception instanceof ViewException) {

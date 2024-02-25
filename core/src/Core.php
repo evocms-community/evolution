@@ -5468,7 +5468,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             $t = preg_replace('~\[\+(.*?)\+\]~', '', $t); //placeholders
             $t = preg_replace('~{{(.*?)}}~', '', $t); //chunks
         }
-        
+
         return $t;
     }
 
