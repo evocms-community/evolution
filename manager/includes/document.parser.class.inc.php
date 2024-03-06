@@ -7181,7 +7181,7 @@ class SystemEvent
 
     public function getLocale()
     {
-        return $this->locale();
+        return $this->locale;
     }
 
     public function setLocale(string $locale)
