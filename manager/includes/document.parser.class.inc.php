@@ -172,6 +172,8 @@ class DocumentParser
      */
     private static $instance = null;
 
+    private $locale = '';
+
     /**
      * Document constructor
      *
@@ -522,7 +524,9 @@ class DocumentParser
 
         // now merge user settings into evo-configuration
         $this->getUserSettings();
+        $this->setLocale($this->config['lang_code']);
         $this->invokeEvent('OnLoadSettings', ['config' => &$this->config]);
+        $this->config['locale'] = $this->getLocale();
     }
 
     private function recoverySiteCache()
@@ -7173,5 +7177,15 @@ class SystemEvent
     public function getPreviousEvent()
     {
         return $this->previousEvent;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale();
+    }
+
+    public function setLocale(string $locale)
+    {
+        $this->locale = $locale;
     }
 }
