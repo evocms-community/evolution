@@ -26,7 +26,7 @@ class AddTemplateControllerColumnToSiteTemplates extends Migration
     public function down()
     {
         Schema::table('site_templates', function (Blueprint $table) {
-            $table->dropColumn('context');
+            $table->dropColumn('templatecontroller');
         });
     }
 }
