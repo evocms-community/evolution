@@ -13,12 +13,12 @@ class BladeServiceProvider extends BaseServiceProvider
                 $this->app->get('blade.compiler')->directive($name, $callback);
             }
         }
-        Blade::if('auth', function () {
-            return EvolutionCMS()->getLoginUserID() !== false;
+        Blade::if('auth', function (string $context = 'web') {
+            return EvolutionCMS()->getLoginUserID($context) !== false;
         });
 
-        Blade::if('guest', function () {
-            return EvolutionCMS()->getLoginUserID() === false;
+        Blade::if('guest', function (string $context = 'web') {
+            return EvolutionCMS()->getLoginUserID($context) === false;
         });
     }
 }

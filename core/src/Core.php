@@ -2514,7 +2514,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                 }
                 $documentObject = array_merge($documentObject, $tmplvars);
 
-                $documentObject['templatealias'] = SiteTemplate::select('templatealias')->where('id', $documentObject['template'])->first()->templatealias;
+                $template = SiteTemplate::select(['templatecontroller', 'templatealias'])->find($documentObject['template']);
+                $documentObject['templatealias'] = $template->templatealias;
+                $documentObject['templatecontroller'] = $template->templatecontroller;
             }
             $out = $this->invokeEvent(
                 'OnAfterLoadDocumentObject',
@@ -2918,26 +2920,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             if ($template) {
                 $this->documentObject['cacheable'] = 0;
                 /** @var \Illuminate\View\View $tpl */
-
-                if (isset($this->documentObject['id'])) {
-                    $data = [
-                        'modx' => $this,
-                        'documentObject' => $this->makeDocumentObject($this->documentObject['id']),
-                    ];
-                } else {
-                    $data = [
-                        'modx' => $this,
-                        'documentObject' => [],
-                        'siteContentObject' => [],
-                    ];
-                }
-
-                $this['view']->share($data);
-
-                if ($this->isChunkProcessor('DLTemplate')) {
-                    app('DLTemplate')->blade->share($data);
-                }
-
                 $tpl = $this['view']->make($template, $this->dataForView);
                 $templateCode = $tpl->render();
             } else {
@@ -6099,9 +6081,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         // now merge user settings into evo-configuration
         $this->getUserSettings();
-        $this->setLocale($this->getConfig('lang_code'));
         $this->invokeEvent('OnLoadSettings', ['config' => &$this->config]);
-        $this->setConfig('locale', $this->getLocale());
     }
 
     /**

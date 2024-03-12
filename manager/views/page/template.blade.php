@@ -139,6 +139,14 @@
                         ])
 
                         @include('manager::form.input', [
+                            'name' => 'templatecontroller',
+                            'id' => 'templatecontroller',
+                            'label' => ManagerTheme::getLexicon('templatecontroller'),
+                            'value' => $data->templatecontroller,
+                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
+                        ])
+
+                        @include('manager::form.input', [
                             'name' => 'description',
                             'id' => 'description',
                             'label' => ManagerTheme::getLexicon('template_desc'),

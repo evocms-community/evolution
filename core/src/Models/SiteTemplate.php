@@ -44,45 +44,46 @@ class SiteTemplate extends Eloquent\Model
         Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
-	const CREATED_AT = 'createdon';
-	const UPDATED_AT = 'editedon';
+    const CREATED_AT = 'createdon';
+    const UPDATED_AT = 'editedon';
     protected $dateFormat = 'U';
 
-	protected $casts = [
-		'editor_type' => 'int',
-		'category' => 'int',
-		'template_type' => 'int',
-		'locked' => 'int',
-		'selectable' => 'int',
-		'createdon' => 'int',
-		'editedon' => 'int'
-	];
+    protected $casts = [
+        'editor_type'   => 'int',
+        'category'      => 'int',
+        'template_type' => 'int',
+        'locked'        => 'int',
+        'selectable'    => 'int',
+        'createdon'     => 'int',
+        'editedon'      => 'int'
+    ];
 
-	protected $fillable = [
-		'templatename',
+    protected $fillable = [
+        'templatename',
         'templatealias',
-		'description',
-		'editor_type',
-		'category',
-		'icon',
-		'template_type',
-		'content',
-		'locked',
-		'selectable'
-	];
+        'templatecontroller',
+        'description',
+        'editor_type',
+        'category',
+        'icon',
+        'template_type',
+        'content',
+        'locked',
+        'selectable'
+    ];
 
     protected $managerActionsMap = [
         'actions.cancel' => 76,
-        'actions.new' => 19,
-        'id' => [
-            'actions.edit' => 16,
-            'actions.save' => 20,
-            'actions.delete' => 21,
+        'actions.new'    => 19,
+        'id'             => [
+            'actions.edit'      => 16,
+            'actions.save'      => 20,
+            'actions.delete'    => 21,
             'actions.duplicate' => 96
         ]
     ];
 
-	public function getNameAttribute()
+    public function getNameAttribute()
     {
         return $this->templatename;
     }
@@ -92,7 +93,7 @@ class SiteTemplate extends Eloquent\Model
         $this->templatename = $val;
     }
 
-    public function categories() : Eloquent\Relations\BelongsTo
+    public function categories(): Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'category', 'id');
     }
@@ -110,7 +111,7 @@ class SiteTemplate extends Eloquent\Model
     /**
      * @return Eloquent\Relations\BelongsToMany
      */
-    public function tvs() : Eloquent\Relations\BelongsToMany
+    public function tvs(): Eloquent\Relations\BelongsToMany
     {
 
         return $this->belongsToMany(
@@ -137,7 +138,7 @@ class SiteTemplate extends Eloquent\Model
         return array_key_exists($this->getKey(), self::getLockedElements(1));
     }
 
-    public function getAlreadyEditInfoAttribute() :? array
+    public function getAlreadyEditInfoAttribute(): ?array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(1)[$this->getKey()] : null;
     }

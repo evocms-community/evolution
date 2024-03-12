@@ -43,6 +43,7 @@ $id = (int) $_POST['id'];
 $template = $_POST['post'];
 $templatename = trim($_POST['templatename']);
 $templatealias = trim($_POST['templatealias']);
+$templatecontroller = trim($_POST['templatecontroller']);
 $description = $_POST['description'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
 $selectable = $id == $modx->config['default_template'] ? 1 : // Force selectable
@@ -119,6 +120,7 @@ switch ($_POST['mode']) {
         $newid = \EvolutionCMS\Models\SiteTemplate::query()->insertGetId(array(
             'templatename' => $templatename,
             'templatealias' => $templatealias,
+            'templatecontroller' => $templatecontroller,
             'description' => $description,
             'content' => $template,
             'locked' => $locked,
@@ -187,6 +189,7 @@ switch ($_POST['mode']) {
         \EvolutionCMS\Models\SiteTemplate::find($id)->update(array(
             'templatename' => $templatename,
             'templatealias' => $templatealias,
+            'templatecontroller' => $templatecontroller,
             'description' => $description,
             'content' => $template,
             'locked' => $locked,
