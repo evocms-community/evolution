@@ -38,13 +38,23 @@ class BladeDirective
         return '<?php echo ManagerTheme::getTheme();?>';
     }
 
-    public static function makeUrl($id, string $alias = '', string $args = '', string $scheme = '') : string
+    public static function makeUrl($params) : string
     {
-        return '<?php echo app("UrlProcessor")->makeUrlWithString(' . $id . ', "' . $alias . '", "' . $args . '", "' . $scheme . '");?>';
+        return '<?php echo app("UrlProcessor")->makeUrlWithString(' . $params . ');?>';
     }
+
     public static function csrf() : string
     {
         return '<?php echo csrf_field();?>';
     }
 
+    public static function config(string $key): string
+    {
+        return '<?php echo evo()->getConfig(' . $key . ');?>';
+    }
+
+    public static function phpthumb(string $params): string
+    {
+        return '<?php echo EvolutionCMS\Facades\HelperProcessor::phpthumb(' . $params . ');?>';
+    }
 }
