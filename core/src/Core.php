@@ -6081,7 +6081,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         // now merge user settings into evo-configuration
         $this->getUserSettings();
+        $this->setLocale($this->getConfig('lang_code'));
         $this->invokeEvent('OnLoadSettings', ['config' => &$this->config]);
+        $this->setConfig('locale', $this->getLocale());
     }
 
     /**
