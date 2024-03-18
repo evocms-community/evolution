@@ -1,7 +1,7 @@
 <?php namespace EvolutionCMS;
 
 use EvolutionCMS\Interfaces\CoreInterface;
-use EvolutionCMS\TemplateController;
+use EvolutionCMS\Interfaces\TemplateController;
 use EvolutionCMS\Models\SiteTemplate;
 
 class TemplateProcessor
@@ -70,6 +70,7 @@ class TemplateProcessor
                         $controller = $namespace . $controller;
                         $controller = new $controller;
                         $this->core->addDataToView($controller->getViewData());
+                        $controller->process();
                         $view = $controller->getView();
                         if(!empty($view)) {
                             $templateAlias = $view;

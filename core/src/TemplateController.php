@@ -26,5 +26,10 @@ abstract class TemplateController implements \EvolutionCMS\Interfaces\TemplateCo
     {
         $this->view = $view;
     }
+
+    public function process()
+    {
+
+    }
 }
 

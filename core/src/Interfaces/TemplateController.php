@@ -11,4 +11,6 @@ interface TemplateController
     public function addViewData(array $data);
 
     public function getViewData(): array;
+
+    public function process();
 }
