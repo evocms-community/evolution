@@ -31,6 +31,7 @@ $_lang["sunday"] = 'Domingo';
 // templates
 $_lang["template"] = 'Plantilla (template)';
 $_lang["templates"] = 'Plantillas (templates)';
+$_lang['templatecontroller'] = 'Controlador de plantilla';
 $_lang["template_assignedtv_tab"] = 'Variables de plantilla (TV) asignadas';
 $_lang["template_code"] = 'Código de plantilla (html)';
 $_lang["template_desc"] = 'Descripción';

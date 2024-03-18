@@ -31,6 +31,7 @@ $_lang["sunday"] = 'Zondag';
 // templates
 $_lang["template"] = 'Template';
 $_lang["templates"] = 'Templates';
+$_lang['templatecontroller'] = 'Sjablooncontroller';
 $_lang["template_assignedtv_tab"] = 'Toegekende Template Variabelen';
 $_lang["template_code"] = 'Template code (html)';
 $_lang["template_desc"] = 'Beschrijving';

@@ -31,6 +31,7 @@ $_lang["sunday"] = 'Воскресенье';
 // templates
 $_lang["template"] = 'Шаблон';
 $_lang["templates"] = 'Шаблоны';
+$_lang['templatecontroller'] = 'Контроллер шаблона';
 $_lang["template_assignedtv_tab"] = 'Назначенные параметры (TV)';
 $_lang["template_code"] = 'Код шаблона (HTML)';
 $_lang["template_desc"] = 'Описание';

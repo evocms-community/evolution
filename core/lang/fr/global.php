@@ -31,6 +31,7 @@ $_lang["sunday"] = 'Dimanche';
 // templates
 $_lang["template"] = 'Modèle';
 $_lang["templates"] = 'Modèles';
+$_lang['templatecontroller'] = 'Contrôleur de modèle';
 $_lang["template_assignedtv_tab"] = 'Variables de Modèle associées';
 $_lang["template_code"] = 'Code source du Modèle (HTML)';
 $_lang["template_desc"] = 'Description';
