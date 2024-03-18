@@ -69,8 +69,9 @@ class TemplateProcessor
                     if(!empty($controller) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller, TemplateController::class)) {
                         $controller = $namespace . $controller;
                         $controller = new $controller;
-                        $this->core->addDataToView($controller->getViewData());
+                        $controller->setView($templateAlias);
                         $controller->process();
+                        $this->core->addDataToView($controller->getViewData());
                         $view = $controller->getView();
                         if(!empty($view)) {
                             $templateAlias = $view;
