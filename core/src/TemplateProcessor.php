@@ -49,13 +49,13 @@ class TemplateProcessor
                 if (isset($this->core->documentObject['id'])) {
                     $documentObject = $this->core->makeDocumentObject($this->core->documentObject['id']);
                     $data = [
-                        'modx' => $this,
+                        'modx' => $this->core,
                         'documentObject' => $documentObject,
                     ];
                     $this->core->addDataToView($documentObject);
                 } else {
                     $data = [
-                        'modx' => $this,
+                        'modx' => $this->core,
                         'documentObject' => [],
                         'siteContentObject' => [],
                     ];
