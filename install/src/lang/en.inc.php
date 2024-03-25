@@ -95,7 +95,7 @@ $_lang["errors"] = 'errors';
 $_lang["failed"] = 'FAILED!';
 $_lang["guid_set"] = 'GUID set';
 $_lang["help"] = 'Help!';
-$_lang["help_link"] = 'http://forums.modx.com/';
+$_lang["help_link"] = 'https://forum.evo.im/';
 $_lang["help_title"] = 'Installation assistance in the Evolution CMS forums';
 $_lang["iagree_box"] = 'I agree to the terms of <a href="../assets/docs/license.txt" target="_blank">the Evolution CMS license</a>. For translations of the GPL version 2 license, please visit the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">GNU Operating System website</a>.';
 $_lang["install"] = 'Install';
