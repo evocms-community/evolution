@@ -535,7 +535,7 @@ class SiteContent extends Eloquent\Model
      */
     public function getDeletedColumn()
     {
-        return defined('static::DELETED') ? static::DELETED : 'deleted';
+        return defined('static::DELETED')?static::DELETED : 'deleted';
     }
 
     /**
@@ -1802,7 +1802,7 @@ class SiteContent extends Eloquent\Model
     public function addSibling(SiteContent $sibling, $position = null, $returnSibling = false)
     {
         if ($this->exists) {
-            $position = $position === null ? static::getLatestPosition($this) : $position;
+            $position = $position === null?static::getLatestPosition($this) : $position;
 
             $sibling->moveTo($position, $this->parent);
 
@@ -1829,7 +1829,7 @@ class SiteContent extends Eloquent\Model
             return $this;
         }
 
-        $from = $from === null ? static::getLatestPosition($this) : $from;
+        $from = $from === null?static::getLatestPosition($this) : $from;
 
         $this->transactional(function () use ($siblings, &$from) {
             foreach ($siblings as $sibling) {
@@ -2095,7 +2095,6 @@ class SiteContent extends Eloquent\Model
                     $query = $query->leftJoin('site_tmplvars as tvd_' . $tvname, function ($join) use ($tvid, $tvname) {
                         $join->where('tvd_' . $tvname . '.id', '=', $tvid);
                     });
-
                 }
             }
             $query->groupBy($main_table . '.id');
@@ -2116,7 +2115,7 @@ class SiteContent extends Eloquent\Model
             $type = $parts[0];
             $tvname = $parts[1];
             $op = $parts[2];
-            $value = !empty($parts[3]) ? $parts[3] : '';
+            $value = $parts[3] ?? '';
             $cast = !empty($parts[4]) ? $parts[4] : '';
             $field = 'tv_' . $tvname . '.value';
             if ($type == 'tvd') {
