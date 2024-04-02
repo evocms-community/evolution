@@ -3,7 +3,7 @@
  * This file includes slightly modified code from the MODX core distribution.
  */
 define('MODX_API_MODE', true);
-include_once ('../../../index.php');
+include_once('../../../index.php');
 $modx->db->connect();
 $modx->getSettings();
 $modx->invokeEvent('OnManagerPageInit');
@@ -40,7 +40,7 @@ if (isset($_POST['tplID']) && is_numeric($_POST['tplID'])) {
 				</td>
 				<td valign="top" style="position:relative">';
             $base_url = str_replace("assets/modules/docmanager/", "", MODX_BASE_URL);
-            $output .= renderFormElement($row['type'], $row['id'], $row['default_text'], $row['elements'], $row['value'], ' style="width:300px;"');
+            $output .= renderFormElement($row['type'], $row['id'], $row['default_text'], $row['elements'], $row['value'] ?? '', ' style="width:300px;"');
             $output .= '</td></tr>';
         }
         $output .= '</table>';
@@ -93,9 +93,9 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
         case "dropdown": // handler for select boxes
             $field_html .= '<select id="tv' . $field_id . '" name="tv' . $field_id . '" size="1" onchange="documentDirty=true;">';
             $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id));
-            foreach($index_list as $item => $itemvalue) {
-                list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
-                if (strlen($itemvalue) == 0) {
+            foreach ($index_list as $item => $itemvalue) {
+                list($item, $itemvalue) = array_pad((is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue), 2, '');
+                if (strlen($itemvalue ?? '') == 0) {
                     $itemvalue = $item;
                 }
                 $field_html .= '<option value="' . htmlspecialchars($itemvalue) . '"' . ($itemvalue == $field_value ? ' selected="selected"' : '') . '>' . htmlspecialchars($item) . '</option>';
@@ -105,9 +105,9 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
         case "listbox": // handler for select boxes
             $field_html .= '<select id="tv' . $field_id . '" name="tv' . $field_id . '" onchange="documentDirty=true;" size="8">';
             $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id));
-            foreach($index_list as $item => $itemvalue) {
-                list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
-                if (strlen($itemvalue) == 0) {
+            foreach ($index_list as $item => $itemvalue) {
+                list($item, $itemvalue) = array_pad((is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue), 2, '');
+                if (strlen($itemvalue ?? '') == 0) {
                     $itemvalue = $item;
                 }
                 $field_html .= '<option value="' . htmlspecialchars($itemvalue) . '"' . ($itemvalue == $field_value ? ' selected="selected"' : '') . '>' . htmlspecialchars($item) . '</option>';
@@ -118,9 +118,9 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
             $field_value = explode("||", $field_value);
             $field_html .= '<select id="tv' . $field_id . '[]" name="tv' . $field_id . '[]" multiple="multiple" onchange="documentDirty=true;" size="8">';
             $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id));
-            foreach($index_list as $item => $itemvalue) {
-                list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
-                if (strlen($itemvalue) == 0) {
+            foreach ($index_list as $item => $itemvalue) {
+                list($item, $itemvalue) = array_pad((is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue), 2, '');
+                if (strlen($itemvalue ?? '') == 0) {
                     $itemvalue = $item;
                 }
                 $field_html .= '<option value="' . htmlspecialchars($itemvalue) . '"' . (in_array($itemvalue, $field_value) ? ' selected="selected"' : '') . '>' . htmlspecialchars($item) . '</option>';
@@ -145,9 +145,9 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
             $field_value = !is_array($field_value) ? explode("||", $field_value) : $field_value;
             $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id));
             static $i = 0;
-            foreach($index_list as $item => $itemvalue) {
-                list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
-                if (strlen($itemvalue) == 0) {
+            foreach ($index_list as $item => $itemvalue) {
+                list($item, $itemvalue) = array_pad((is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue),2, '');
+                if (strlen($itemvalue ?? '') == 0) {
                     $itemvalue = $item;
                 }
                 $field_html .= '<input type="checkbox" value="' . htmlspecialchars($itemvalue) . '" id="tv_' . $i . '" name="tv' . $field_id . '[]" ' . (in_array($itemvalue, $field_value) ? " checked='checked'" : "") . ' onchange="documentDirty=true;" /><label for="tv_' . $i . '">' . $item . '</label><br />';
@@ -156,9 +156,9 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
             break;
         case "option": // handles radio buttons
             $index_list = ParseIntputOptions(ProcessTVCommand($field_elements, $field_id));
-            foreach($index_list as $item => $itemvalue) {
-                list($item, $itemvalue) = (is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue);
-                if (strlen($itemvalue) == 0) {
+            foreach ($index_list as $item => $itemvalue) {
+                list($item, $itemvalue) = array_pad((is_array($itemvalue)) ? $itemvalue : explode("==", $itemvalue), 2, '');
+                if (strlen($itemvalue ?? '') == 0) {
                     $itemvalue = $item;
                 }
                 $field_html .= '<input type="radio" value="' . htmlspecialchars($itemvalue) . '" name="tv' . $field_id . '" ' . ($itemvalue == $field_value ? 'checked="checked"' : '') . ' onchange="documentDirty=true;" />' . $item . '<br />';
@@ -167,7 +167,7 @@ function renderFormElement($field_type, $field_id, $default_text, $field_element
         case "image":    // handles image fields using htmlarea image manager
             global $ResourceManagerLoaded;
             global $content, $use_editor, $which_editor, $which_browser;
-            if (!$ResourceManagerLoaded && !(($content['richtext'] == 1 || $_GET['a'] == 4) && $use_editor == 1 && $which_editor == 3)) {
+            if (!$ResourceManagerLoaded && !(((isset($content['richtext']) && $content['richtext'] == 1) || (isset($_GET['a']) && $_GET['a'] == 4)) && $use_editor == 1 && $which_editor == 3)) {
                 $field_html .= "
 				<script type=\"text/javascript\">
 						var lastImageCtrl;
