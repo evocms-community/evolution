@@ -2132,10 +2132,10 @@ class SiteContent extends Eloquent\Model
                     $query = $query->where($field, $op, '%' . $value . '%');
                     break;
                 case ($op == 'like-r'):
-                    $query = $query->where($field, $op, $value . '%');
+                    $query = $query->where($field, 'like', $value . '%');
                     break;
                 case ($op == 'like-l'):
-                    $query = $query->where($field, $op, '%' . $value);
+                    $query = $query->where($field, 'like', '%' . $value);
                     break;
                 case ($op == 'isnull'):
                 case ($op == 'null'):
