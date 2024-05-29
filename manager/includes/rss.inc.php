@@ -52,8 +52,11 @@ foreach ($urls as $section => $url) {
         $pubdate = $item->get_date();
         $pubdate = $modx->toDateFormat(strtotime($pubdate));
         $description = strip_tags($item->get_content());
-        if (strlen($description) > 199) {
-            $description = substr($description, 0, 200);
+        if (mb_strlen($description) > 199) {
+            preg_match('/^\s*+(?:\S++\s*+){1,15}/u', $description, $matches);
+            if (isset($matches[0]) && mb_strlen($description) !== mb_strlen($matches[0])) {
+                $description = rtrim($matches[0]);
+            }
             $description .= '...<br />Read <a href="' . $href . '" target="_blank">more</a>.';
         }
         $output .= '<li><a href="' . $href . '" target="_blank">' . $title . '</a> - <b>' . $pubdate . '</b><br />' . $description . '</li>';
