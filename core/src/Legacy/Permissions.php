@@ -30,7 +30,7 @@ class Permissions
     public function checkPermissions()
     {
 
-        global $udperms_allowroot;
+        $udperms_allowroot = evo()->getConfig('udperms_allowroot') === '1';
         $modx = evolutionCMS();
 
         $document = $this->document;
