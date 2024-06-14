@@ -30,8 +30,7 @@ class Permissions
     public function checkPermissions()
     {
 
-        $udperms_allowroot = evo()->getConfig('udperms_allowroot') === '1';
-        $modx = evolutionCMS();
+        $udperms_allowroot = evo()->getConfig('udperms_allowroot', '');
 
         $document = $this->document;
         $role = $this->role;
@@ -40,7 +39,7 @@ class Permissions
             return true;  // administrator - grant all document permissions
         }
 
-        if ($modx->getConfig('use_udperms') == 0 || $modx->getConfig('use_udperms') == "" || !isset($modx->config['use_udperms'])) {
+        if (empty(evo()->getConfig('use_udperms', ''))) {
             return true; // permissions aren't in use
         }
         $parent = SiteContent::query()->find($this->document);
