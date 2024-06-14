@@ -17,13 +17,13 @@ use EvolutionCMS\Facades\ManagerTheme;
                     //saveWait('mutate');
                 },
                 duplicate: function () {
-                    if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
+                    if (confirm(`{{ __('global.confirm_duplicate_record') }}`) === true) {
                         documentDirty = false;
                         document.location.href = "index.php?id={{ $data->getKey() }}&a=96";
                     }
                 },
                 delete: function () {
-                    if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_template') }}`) === true) {
+                    if (confirm(`{{ __('global.confirm_delete_template') }}`) === true) {
                         documentDirty = false;
                         document.location.href = 'index.php?id={{ $data->getKey() }}&a=21';
                     }
@@ -87,7 +87,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             @if($data->templatename)
                 {{ $data->templatename }}<small>({{ $data->getKey() }})</small>
             @else
-                {{ ManagerTheme::getLexicon('new_template') }}
+                {{ __('global.new_template') }}
             @endif
             <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
@@ -95,7 +95,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         @include('manager::partials.actionButtons', $actionButtons)
 
         <div class="container element-edit-message">
-            <div class="alert alert-info">{{ ManagerTheme::getLexicon('template_msg') }}</div>
+            <div class="alert alert-info">{{ __('global.template_msg') }}</div>
         </div>
 
         <div class="tab-pane" id="templatesPane">
@@ -104,15 +104,15 @@ use EvolutionCMS\Facades\ManagerTheme;
             </script>
 
             <div class="tab-page" id="tabTemplate">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('template_edit_tab') }}</h2>
+                <h2 class="tab">{{ __('global.template_edit_tab') }}</h2>
                 <script>tp.addTabPage(document.getElementById('tabTemplate'));</script>
 
                 <div class="container container-body">
                     <div class="form-group">
                         @include('manager::form.row', [
                             'for' => 'templatename',
-                            'label' => ManagerTheme::getLexicon('template_name'),
-                            'small' => ($data->getKey() == get_by_key(evo()->config, 'default_template') ? '<b class="text-danger">' . mb_strtolower(rtrim(ManagerTheme::getLexicon('defaulttemplate_title'), ':'), ManagerTheme::getCharset()) . '</b>' : ''),
+                            'label' => __('global.template_name'),
+                            'small' => ($data->getKey() == get_by_key(evo()->config, 'default_template') ? '<b class="text-danger">' . mb_strtolower(rtrim(__('global.defaulttemplate_title'), ':'), ManagerTheme::getCharset()) . '</b>' : ''),
                             'element' => '<div class="form-control-name clearfix">' .
                                 ManagerTheme::view('form.inputElement', [
                                     'name' => 'templatename',
@@ -121,7 +121,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                     'attributes' => 'onchange="documentDirty=true;"'
                                 ]) .
                                 (evo()->hasPermission('save_role')
-                                ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_template') . "\n" . ManagerTheme::getLexicon('lock_template_msg') .'">' .
+                                ? '<label class="custom-control" data-tooltip="' . __('global.lock_template') . "\n" . __('global.lock_template_msg') .'">' .
                                  ManagerTheme::view('form.inputElement', [
                                     'type' => 'checkbox',
                                     'name' => 'locked',
@@ -138,7 +138,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         @include('manager::form.input', [
                             'name' => 'templatealias',
                             'id' => 'templatealias',
-                            'label' => ManagerTheme::getLexicon('alias'),
+                            'label' => __('global.alias'),
                             'value' => $data->templatealias,
                             'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
                         ])
@@ -146,7 +146,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         @include('manager::form.input', [
                             'name' => 'description',
                             'id' => 'description',
-                            'label' => ManagerTheme::getLexicon('template_desc'),
+                            'label' => __('global.template_desc'),
                             'value' => $data->description,
                             'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
                         ])
@@ -154,7 +154,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         @include('manager::form.select', [
                             'name' => 'categoryid',
                             'id' => 'categoryid',
-                            'label' => ManagerTheme::getLexicon('existing_category'),
+                            'label' => __('global.existing_category'),
                             'value' => $data->category,
                             'first' => [
                                 'text' => ''
@@ -166,7 +166,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         @include('manager::form.input', [
                             'name' => 'newcategory',
                             'id' => 'newcategory',
-                            'label' => ManagerTheme::getLexicon('new_category'),
+                            'label' => __('global.new_category'),
                             'value' => (isset($data->newcategory) ? $data->newcategory : ''),
                             'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                         ])
@@ -174,7 +174,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     </div>
 
                     <div class="form-group" id="assigned-blade-file" style="display: none;">
-                        {{ ManagerTheme::getLexicon('template_assigned_blade_file') }}: <strong id="blade-filename"></strong>
+                        {{ __('global.template_assigned_blade_file') }}: <strong id="blade-filename"></strong>
 
                         <div class="create-check" style="display: hidden;">
                             <label>
@@ -186,7 +186,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                     'attributes' => 'onchange="documentDirty=true;"'
                                 ])
 
-                                {{ ManagerTheme::getLexicon('template_create_blade_file') }}
+                                {{ __('global.template_create_blade_file') }}
                             </label>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                     'checked' => ($data->selectable == 1),
                                     'attributes' => 'onchange="documentDirty=true;"'
                                 ])
-                                {{ ManagerTheme::getLexicon('template_selectable') }}
+                                {{ __('global.template_selectable') }}
                             </label>
                         </div>
                     @endif
@@ -209,7 +209,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
                 <!-- HTML text editor start -->
                 <div class="navbar navbar-editor">
-                    <span>{{ ManagerTheme::getLexicon('template_code') }}</span>
+                    <span>{{ __('global.template_code') }}</span>
                 </div>
                 <div class="section-editor clearfix">
                     @include('manager::form.textareaElement', [
@@ -226,19 +226,19 @@ use EvolutionCMS\Facades\ManagerTheme;
             </div>
 
             <div class="tab-page" id="tabAssignedTVs">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('template_assignedtv_tab') }}</h2>
+                <h2 class="tab">{{ __('global.template_assignedtv_tab') }}</h2>
                 <script>tp.addTabPage(document.getElementById('tabAssignedTVs'));</script>
                 <input type="hidden" name="tvsDirty" id="tvsDirty" value="0">
 
                 <div class="container container-body">
                     @if($data->tvs->count() > 0)
-                        <p>{{ ManagerTheme::getLexicon('template_tv_msg') }}</p>
+                        <p>{{ __('global.template_tv_msg') }}</p>
                     @endif
 
                     @if(evo()->hasPermission('save_template') && $data->tvs->count() > 1 && $data->getKey())
                         <div class="form-group">
                             <a class="btn btn-primary"
-                               href="?a=117&id={{ $data->getKey() }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>
+                               href="?a=117&id={{ $data->getKey() }}">{{ __('global.template_tv_edit') }}</a>
                         </div>
                     @endif
 
@@ -252,16 +252,16 @@ use EvolutionCMS\Facades\ManagerTheme;
                             @endforeach
                         </ul>
                     @else
-                        {{ ManagerTheme::getLexicon('template_no_tv') }}
+                        {{ __('global.template_no_tv') }}
                     @endif
 
                     @if($tvOutCategory->count() || $categoriesWithTv->count())
                         <hr>
-                        <p>{{ ManagerTheme::getLexicon('template_notassigned_tv') }}</p>
+                        <p>{{ __('global.template_notassigned_tv') }}</p>
                     @endif
 
                     @if($tvOutCategory->count() > 0)
-                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => ManagerTheme::getLexicon('no_category')])
+                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => __('global.no_category')])
                             <ul>
                                 @foreach($tvOutCategory as $item)
                                     @include('manager::page.template.tv', compact('item', 'tvSelected'))

@@ -7,7 +7,7 @@ use EvolutionCMS\Models\SiteModule;
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
         <a href="?a=76&tab={{ $index }}"><i
-                    class="{{ ManagerTheme::getStyle('icon_modules') }}"></i>{{ ManagerTheme::getLexicon('modules') }}</a>
+                    class="{{ ManagerTheme::getStyle('icon_modules') }}"></i>{{ __('global.modules') }}</a>
     </h2>
 
     <script>
@@ -15,8 +15,8 @@ use EvolutionCMS\Models\SiteModule;
     </script>
 
     <div id="{{ $tabIndexPageName }}-info" class="msg-container" style="display:none">
-        <div class="element-edit-message-tab">{!! ManagerTheme::getLexicon('module_management_msg') !!}</div>
-        <p class="viewoptions-message">{{ ManagerTheme::getLexicon('view_options_msg') }}</p>
+        <div class="element-edit-message-tab">{!! __('global.module_management_msg') !!}</div>
+        <p class="viewoptions-message">{{ __('global.view_options_msg') }}</p>
     </div>
 
     <div id="_actions">
@@ -24,23 +24,23 @@ use EvolutionCMS\Models\SiteModule;
             @csrf
             <div class="input-group input-group-sm">
                 <input class="form-control filterElements-form" type="text" id="{{ $tabIndexPageName }}_search"
-                       size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>
+                       size="30" placeholder="{{ __('global.element_filter_msg') }}"/>
                 <div class="input-group-btn">
                     @if (evo()->hasPermission('new_module') && evo()->hasPermission('save_module'))
                         <a class="btn btn-success" target="main"
                            href="{{ (new SiteModule())->makeUrl('actions.new') }}">
                             <i class="{{ ManagerTheme::getStyle('icon_add') }}"></i>
-                            <span>{{ ManagerTheme::getLexicon('new_module') }}</span>
+                            <span>{{ __('global.new_module') }}</span>
                         </a>
                     @endif
                     <a class="btn btn-secondary" href="javascript:;" id="{{ $tabIndexPageName }}-help">
                         <i class="{{ ManagerTheme::getStyle('icon_question_circle') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('help') }}</span>
+                        <span>{{ __('global.help') }}</span>
                     </a>
                     <a class="btn btn-secondary switchform-btn" href="javascript:;"
                        data-target="switchForm_{{ $tabIndexPageName }}">
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('btn_view_options') }}</span>
+                        <span>{{ __('global.btn_view_options') }}</span>
                     </a>
                 </div>
             </div>
@@ -56,7 +56,7 @@ use EvolutionCMS\Models\SiteModule;
                 @component('manager::partials.panelCollapse', [
                     'name' => $tabIndexPageName . '_content',
                     'id' => 0,
-                    'title' => ManagerTheme::getLexicon('no_category'),
+                    'title' => __('global.no_category'),
                 ])
                     <ul class="elements">
                         @foreach ($outCategory as $item)

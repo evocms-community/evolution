@@ -15,7 +15,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 if (!evo()->hasPermission('save_document')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 // preprocess POST values
@@ -64,9 +64,9 @@ $add_path = $sd . $sb . $pg;
 $no_esc_pagetitle = $_POST['pagetitle'];
 if (trim($no_esc_pagetitle) == '') {
     if ($type == 'reference') {
-        $no_esc_pagetitle = $pagetitle = ManagerTheme::getLexicon('untitled_weblink');
+        $no_esc_pagetitle = $pagetitle = __('global.untitled_weblink');
     } else {
-        $no_esc_pagetitle = $pagetitle = ManagerTheme::getLexicon('untitled_resource');
+        $no_esc_pagetitle = $pagetitle = __('global.untitled_resource');
     }
 }
 
@@ -135,13 +135,13 @@ if (evo()->getConfig('friendly_urls')) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
-                    sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
+                    sprintf(__('global.duplicate_alias_found'), $docid->id, $alias),
                     'index.php?a=27&id=' . $id
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
                 evo()->webAlertAndQuit(
-                    sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
+                    sprintf(__('global.duplicate_alias_found'), $docid->id, $alias),
                     'index.php?a=4'
                 );
             }
@@ -161,13 +161,13 @@ if (evo()->getConfig('friendly_urls')) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
-                    sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
+                    sprintf(__('global.duplicate_alias_found'), $docid->id, $alias),
                     'index.php?a=27&id=' . $id
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
                 evo()->webAlertAndQuit(
-                    sprintf(ManagerTheme::getLexicon('duplicate_alias_found'), $docid->id, $alias),
+                    sprintf(__('global.duplicate_alias_found'), $docid->id, $alias),
                     'index.php?a=4'
                 );
             }
@@ -225,12 +225,12 @@ if ($_SESSION['mgrRole'] != 1 && is_array($document_groups)) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
-                    ManagerTheme::getLexicon('resource_permissions_error'),
+                    __('global.resource_permissions_error'),
                     "index.php?a=27&id=$id"
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
-                evo()->webAlertAndQuit(ManagerTheme::getLexicon('resource_permissions_error'), "index.php?a=4");
+                evo()->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a=4");
             }
         }
     }
@@ -305,7 +305,7 @@ $existingDocument = null;
 if ($actionToTake != 'new') {
     $existingDocument = SiteContent::withTrashed()->find($id);
     if (is_null($existingDocument)) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_results'));
+        evo()->webAlertAndQuit(__('global.error_no_results'));
     }
     $existingDocument = $existingDocument->toArray();
 }
@@ -322,12 +322,12 @@ if (evo()->getConfig('use_udperms') == 1) {
             if ($actionToTake == 'edit') {
                 evo()->getManagerApi()->saveFormValues(27);
                 evo()->webAlertAndQuit(
-                    ManagerTheme::getLexicon('access_permission_parent_denied'),
+                    __('global.access_permission_parent_denied'),
                     "index.php?a=27&id=$id"
                 );
             } else {
                 evo()->getManagerApi()->saveFormValues(4);
-                evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_parent_denied'), 'index.php?a=4');
+                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
             }
         }
     }
@@ -700,7 +700,7 @@ switch ($actionToTake) {
                     ->toArray();
                 if (!empty($docgrp) && !array_intersect($docgrp, $remainingGroups)) {
                     evo()->webAlertAndQuit(
-                        ManagerTheme::getLexicon('resource_permissions_error'),
+                        __('global.resource_permissions_error'),
                         'index.php?a=27&id=' . $id
                     );
                 }

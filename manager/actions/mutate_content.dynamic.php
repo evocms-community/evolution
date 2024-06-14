@@ -23,7 +23,7 @@ $defaultContentType = 'document';
 switch (evo()->getManagerApi()->action) {
     case 27:
         if (!evo()->hasPermission('edit_document')) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+            evo()->webAlertAndQuit(__('global.error_no_privileges'));
         }
         break;
     case 85:
@@ -32,7 +32,7 @@ switch (evo()->getManagerApi()->action) {
     // no break
     case 4:
         if (!evo()->hasPermission('new_document')) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+            evo()->webAlertAndQuit(__('global.error_no_privileges'));
         } elseif (isset($_REQUEST['pid']) && $_REQUEST['pid'] != '0') {
             // check user has permissions for parent
             $udperms = new Permissions();
@@ -40,12 +40,12 @@ switch (evo()->getManagerApi()->action) {
             $udperms->document = empty($_REQUEST['pid']) ? 0 : $_REQUEST['pid'];
             $udperms->role = $_SESSION['mgrRole'];
             if (!$udperms->checkPermissions()) {
-                evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+                evo()->webAlertAndQuit(__('global.access_permission_denied'));
             }
         }
         break;
     default:
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+        evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_REQUEST['id'] ?? 0);
@@ -59,14 +59,14 @@ if (evo()->getManagerApi()->action == 27) {
     $udperms->role = $_SESSION['mgrRole'];
 
     if (!$udperms->checkPermissions()) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+        evo()->webAlertAndQuit(__('global.access_permission_denied'));
     }
 }
 
 // check to see if resource isn't locked
 if ($lockedEl = evo()->elementIsLocked(7, $id)) {
     evo()->webAlertAndQuit(
-        sprintf(ManagerTheme::getLexicon('lock_msg'), $lockedEl['username'], ManagerTheme::getLexicon('resource'))
+        sprintf(__('global.lock_msg'), $lockedEl['username'], __('global.resource'))
     );
 }
 // end check for lock
@@ -93,7 +93,7 @@ if (!empty ($id)) {
     }
     $content = $documentObjectQuery->first();
     if (empty($content)) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+        evo()->webAlertAndQuit(__('global.access_permission_denied'));
     }
     $content = $content->toArray();
     evo()->documentObject = &$content;
@@ -107,7 +107,7 @@ if (!empty ($id)) {
         $content['template'] = getDefaultTemplate();
     }
 
-    $_SESSION['itemname'] = ManagerTheme::getLexicon('new_resource');
+    $_SESSION['itemname'] = __('global.new_resource');
 }
 
 // restore saved form
@@ -187,7 +187,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.mutate.save.click()
     },
     delete: function () {
-      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_resource')?>`) === true) {
+      if (confirm(`<?= __('global.confirm_delete_resource')?>`) === true) {
         document.location.href = 'index.php?id=' + document.mutate.id.value + "&a=6<?= $add_path ?>"
       }
     },
@@ -196,7 +196,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       document.location.href = 'index.php?<?=($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path) ?>'
     },
     duplicate: function () {
-      if (confirm(`<?= ManagerTheme::getLexicon('confirm_resource_duplicate')?>`) === true) {
+      if (confirm(`<?= __('global.confirm_resource_duplicate')?>`) === true) {
         document.location.href = "index.php?id=<?= (int) get_by_key(
             $_REQUEST,
             'id',
@@ -272,14 +272,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     var pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
     if (!pn) return
     if (pn.id.substr(4) === id) {
-      alert(`<?= ManagerTheme::getLexicon('illegal_parent_self') ?>`)
+      alert(`<?= __('global.illegal_parent_self') ?>`)
       return
     } else {
       while (pn.getAttribute('p') > 0) {
         pId = pn.getAttribute('p')
         pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pId) : tdoc.all['node' + pId]
         if (pn.id.substr(4) === id) {
-          alert(`<?= ManagerTheme::getLexicon('illegal_parent_child') ?>`)
+          alert(`<?= __('global.illegal_parent_child') ?>`)
           return
         }
       }
@@ -319,7 +319,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     }
 
     if (documentDirty === true) {
-      if (confirm(`<?= ManagerTheme::getLexicon('tmplvar_change_template_msg')?>`)) {
+      if (confirm(`<?= __('global.tmplvar_change_template_msg')?>`)) {
         documentDirty = false
         document.mutate.a.value = <?= evo()->getManagerApi()->action ?>;
         document.mutate.newtemplate.value = newTemplate
@@ -399,9 +399,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     // setup parameters
     var t, dp = (snippetParams[df]) ? snippetParams[df].split('&') : ['']
     if (dp) {
-      t = '<table width="100%" class="displayparams"><thead><tr><td width="50%"><?= ManagerTheme::getLexicon(
-          'parameter'
-      )?><\/td><td width="50%"><?= ManagerTheme::getLexicon('value')?><\/td><\/tr><\/thead>'
+      t = '<table width="100%" class="displayparams"><thead><tr><td width="50%"><?= __('global.parameter') ?><\/td><td width="50%"><?= __('global.value')?><\/td><\/tr><\/thead>'
       for (p = 0; p < dp.length; p++) {
         dp[p] = (dp[p] + '').replace(/^\s|\s$/, '') // trim
         ar = dp[p].split('=')
@@ -558,11 +556,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     '<small>(' . (int) $_REQUEST['id'] . ')</small>';
             } else {
                 if (evo()->getManagerApi()->action == '4') {
-                    echo ManagerTheme::getLexicon('add_resource');
+                    echo __('global.add_resource');
                 } elseif (evo()->getManagerApi()->action == '72') {
-                    echo ManagerTheme::getLexicon('add_weblink');
+                    echo __('global.add_weblink');
                 } else {
-                    echo ManagerTheme::getLexicon('create_resource_title');
+                    echo __('global.create_resource_title');
                 }
             } ?>
         </h1>
@@ -574,7 +572,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         if (evo()->getConfig('use_breadcrumbs')) {
             $out = '';
             $temp = [];
-            $title = $content['pagetitle'] ?? ManagerTheme::getLexicon('create_resource_title');
+            $title = $content['pagetitle'] ?? __('global.create_resource_title');
 
             if (isset($_REQUEST['id']) && $content['parent'] != 0) {
                 $bID = (int) $_REQUEST['id'];
@@ -631,15 +629,15 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 } else {
                     ?>
                     <div class="tab-page" id="tabGeneral">
-                        <h2 class="tab"><?= ManagerTheme::getLexicon('settings_general'); ?></h2>
+                        <h2 class="tab"><?= __('global.settings_general'); ?></h2>
                         <script>tpSettings.addTabPage(document.getElementById('tabGeneral'))</script>
 
                         <table>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('resource_title'); ?></span>
+                                    <span class="warning"><?= __('global.resource_title'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_title_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_title_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="pagetitle" type="text" maxlength="255"
@@ -651,9 +649,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('long_title'); ?></span>
+                                    <span class="warning"><?= __('global.long_title'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_long_title_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_long_title_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="longtitle" type="text" maxlength="255"
@@ -664,11 +662,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_description'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_description') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_description_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_description_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="description" type="text" maxlength="255"
@@ -679,9 +675,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('resource_alias'); ?></span>
+                                    <span class="warning"><?= __('global.resource_alias'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_alias_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_alias_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="alias" type="text" maxlength="100"
@@ -691,9 +687,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('link_attributes'); ?></span>
+                                    <span class="warning"><?= __('global.link_attributes'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('link_attributes_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.link_attributes_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="link_attributes" type="text" maxlength="255"
@@ -711,9 +707,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             ) { // Web Link specific ?>
 
                                 <tr>
-                                    <td><span class="warning"><?= ManagerTheme::getLexicon('weblink'); ?></span>
+                                    <td><span class="warning"><?= __('global.weblink'); ?></span>
                                         <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                           data-tooltip="<?= ManagerTheme::getLexicon('resource_weblink_help'); ?>"></i>
+                                           data-tooltip="<?= __('global.resource_weblink_help'); ?>"></i>
                                     </td>
                                     <td>
                                         <i id="llock" class="<?= ManagerTheme::getStyle('icon_chain') ?>"
@@ -725,9 +721,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                ) : 'http://') ?>" class="inputBox"
                                                onchange="documentDirty=true;"/>
                                         <input type="button"
-                                               value="<?= ManagerTheme::getLexicon(
-                                                   'insert'
-                                               ); ?>"
+                                               value="<?= __('global.insert') ?>"
                                                onclick="BrowseFileServer('ta')"/>
                                     </td>
                                 </tr>
@@ -737,9 +731,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                             <tr>
                                 <td valign="top">
-                                    <span class="warning"><?= ManagerTheme::getLexicon('resource_summary'); ?></span>
+                                    <span class="warning"><?= __('global.resource_summary'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_summary_help'); ?>"
+                                       data-tooltip="<?= __('global.resource_summary_help'); ?>"
                                        spellcheck="true"></i>
                                 </td>
                                 <td valign="top">
@@ -752,9 +746,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('page_data_template'); ?></span>
+                                    <span class="warning"><?= __('global.page_data_template'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('page_data_template_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.page_data_template_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <select id="template" name="template" class="inputBox"
@@ -785,7 +779,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                             // Skip if not selectable but show if selected!
                                             $thisCategory = $row['category_name'];
                                             if ($thisCategory == null) {
-                                                $thisCategory = ManagerTheme::getLexicon('no_category');
+                                                $thisCategory = __('global.no_category');
                                             }
                                             if ($thisCategory != $currentCategory) {
                                                 if ($closeOptGroup) {
@@ -811,13 +805,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_menu_title'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_menu_title') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_menu_title_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_menu_title_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="menutitle" type="text" maxlength="255"
@@ -828,13 +818,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_menu_index'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_menu_index') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_menu_index_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_menu_index_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="menuindex" type="text" maxlength="6"
@@ -850,13 +836,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_show_menu'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_show_menu') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_show_menu_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_show_menu_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="hidemenucheck" type="checkbox"
@@ -872,9 +854,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td valign="top">
-                                    <span class="warning"><?= ManagerTheme::getLexicon('resource_parent'); ?></span>
+                                    <span class="warning"><?= __('global.resource_parent'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_parent_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_parent_help'); ?>"></i>
                                 </td>
                                 <td valign="top">
                                     <?php
@@ -906,7 +888,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                             $parentlookup
                                         )->pagetitle;
                                         if (!$parentname) {
-                                            evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_parent'));
+                                            evo()->webAlertAndQuit(__('global.error_no_parent'));
                                         }
                                     }
                                     ?>
@@ -931,7 +913,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span class="warning"><?=ManagerTheme::getLexicon('which_editor_title');?></span></td>
+                                        <span class="warning"><?=__('global.which_editor_title');?></span></td>
                                     <td>
                                         <select id="which_editor" name="which_editor" onchange="changeRTE();">
                                             <?php
@@ -958,17 +940,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         <hr>
                                         <!-- Content -->
                                         <div class="clearfix">
-                                            <span id="content_header"><?= ManagerTheme::getLexicon(
-                                                    'resource_content'
-                                                ); ?></span>
-                                            <label class="float-right"><?= ManagerTheme::getLexicon(
-                                                    'which_editor_title'
-                                                ); ?>
+                                            <span id="content_header"><?= __('global.resource_content') ?></span>
+                                            <label class="float-right"><?= __('global.which_editor_title') ?>
                                                 <select id="which_editor" class="form-control form-control-sm" size="1"
                                                         name="which_editor" onchange="changeRTE();">
-                                                    <option value="none"><?= ManagerTheme::getLexicon(
-                                                            'none'
-                                                        ); ?></option>
+                                                    <option value="none"><?= __('global.none') ?></option>
                                                     <?php
                                                     // invoke OnRichTextEditorRegister event
                                                     $evtOut = evo()->invokeEvent('OnRichTextEditorRegister');
@@ -1107,7 +1083,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     $row['category'] = $row['category_name'] ?? '';
                                     if (!isset($row['category_id'])) {
                                         $row['category_id'] = 0;
-                                        $row['category'] = ManagerTheme::getLexicon('no_category');
+                                        $row['category'] = __('global.no_category');
                                         $row['category_rank'] = 0;
                                     }
                                     if ($row['value'] == '') {
@@ -1232,7 +1208,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         e($row['description']) . '</span>' : '';
                                     $tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT')
                                         ? '<br /><span class="comment inherited">(' .
-                                        ManagerTheme::getLexicon('tmplvars_inherited') . ')</span>' : '';
+                                        __('global.tmplvars_inherited') . ')</span>' : '';
                                     $tvName = evo()->hasPermission('edit_template')
                                         ? '<br/><small class="protectedNode">[*' . e($row['name']) . '*]</small>'
                                         : '';
@@ -1278,14 +1254,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 if (!$group_tvs) {
                                     $templateVariables .= '
                                     <div class="sectionHeader" id="tv_header">' .
-                                        ManagerTheme::getLexicon('settings_templvars') . '</div>
+                                        __('global.settings_templvars') . '</div>
                                         <div class="sectionBody tmplvars">
                                             <table>';
                                 } else {
                                     if ($group_tvs == 2) {
                                         $templateVariables .= '
                     <div class="tab-section">
-                        <div class="tab-header" id="tv_header">' . ManagerTheme::getLexicon('settings_templvars') . '</div>
+                        <div class="tab-header" id="tv_header">' . __('global.settings_templvars') . '</div>
                         <div class="tab-pane" id="paneTemplateVariables">
                             <script>
                                 tpTemplateVariables = new WebFXTabPane(document.getElementById(\'paneTemplateVariables\'), ' .
@@ -1295,13 +1271,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         if ($group_tvs == 3) {
                                             $templateVariables .= '
                         <div id="templateVariables" class="tab-page tmplvars">
-                            <h2 class="tab">' . ManagerTheme::getLexicon('settings_templvars') . '</h2>
+                            <h2 class="tab">' . __('global.settings_templvars') . '</h2>
                             <script>tpSettings.addTabPage(document.getElementById(\'templateVariables\'));</script>';
                                         } else {
                                             if ($group_tvs == 4) {
                                                 $templateVariables .= '
                     <div id="templateVariables" class="tab-page tmplvars">
-                        <h2 class="tab">' . ManagerTheme::getLexicon('settings_templvars') . '</h2>
+                        <h2 class="tab">' . __('global.settings_templvars') . '</h2>
                         <script>tpSettings.addTabPage(document.getElementById(\'templateVariables\'));</script>
                         <div class="tab-pane" id="paneTemplateVariables">
                             <script>
@@ -1351,7 +1327,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                     <!-- Settings -->
                     <div class="tab-page" id="tabSettings">
-                        <h2 class="tab"><?= ManagerTheme::getLexicon('settings_page_settings'); ?></h2>
+                        <h2 class="tab"><?= __('global.settings_page_settings'); ?></h2>
                         <script>tpSettings.addTabPage(document.getElementById('tabSettings'))</script>
 
                         <table>
@@ -1359,13 +1335,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             $mx_can_pub = evo()->hasPermission('publish_document') ? '' : 'disabled="disabled" ' ?>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_published'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_published') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_published_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_published_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input <?= $mx_can_pub ?>name="publishedcheck" type="checkbox"
@@ -1382,13 +1354,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'page_data_publishdate'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.page_data_publishdate') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'page_data_publishdate_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.page_data_publishdate_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input type="text" id="pub_date" <?= $mx_can_pub ?>name="pub_date"
@@ -1400,11 +1368,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                    $content['pub_date']
                                                )) ?>" onblur="documentDirty=true;"/>
                                     <a href="javascript:" onclick="document.mutate.pub_date.value=''; return true;"
-                                       onmouseover="window.status='<?= ManagerTheme::getLexicon(
-                                           'remove_date'
-                                       ); ?>'; return true;" onmouseout="window.status=''; return true;">
+                                       onmouseover="window.status='<?= __('global.remove_date') ?>'; return true;" onmouseout="window.status=''; return true;">
                                         <i class="<?= ManagerTheme::getStyle('icon_calendar_close') ?>"
-                                           title="<?= ManagerTheme::getLexicon('remove_date'); ?>"></i></a>
+                                           title="<?= __('global.remove_date'); ?>"></i></a>
                                 </td>
                             </tr>
                             <tr>
@@ -1414,13 +1380,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'page_data_unpublishdate'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.page_data_unpublishdate') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'page_data_unpublishdate_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.page_data_unpublishdate_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input type="text" id="unpub_date" <?= $mx_can_pub ?>name="unpub_date"
@@ -1432,11 +1394,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                    $content['unpub_date']
                                                )) ?>" onblur="documentDirty=true;"/>
                                     <a href="javascript:" onclick="document.mutate.unpub_date.value=''; return true;"
-                                       onmouseover="window.status='<?= ManagerTheme::getLexicon(
-                                           'remove_date'
-                                       ); ?>'; return true;" onmouseout="window.status=''; return true;">
+                                       onmouseover="window.status='<?= __('global.remove_date') ?>'; return true;" onmouseout="window.status=''; return true;">
                                         <i class="<?= ManagerTheme::getStyle('icon_calendar_close') ?>"
-                                           title="<?= ManagerTheme::getLexicon('remove_date'); ?>"></i></a>
+                                           title="<?= __('global.remove_date'); ?>"></i></a>
                                 </td>
                             </tr>
                             <tr>
@@ -1460,36 +1420,28 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 ?>
                                 <tr>
                                     <td>
-                                        <span class="warning"><?= ManagerTheme::getLexicon('resource_type'); ?></span>
+                                        <span class="warning"><?= __('global.resource_type'); ?></span>
                                         <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                           data-tooltip="<?= ManagerTheme::getLexicon('resource_type_message'); ?>"></i>
+                                           data-tooltip="<?= __('global.resource_type_message'); ?>"></i>
                                     </td>
                                     <td>
                                         <select name="type" class="inputBox" onchange="documentDirty=true;">
                                             <option value="document"<?= ($content['type'] === 'document' ||
                                                 evo()->getManagerApi()->action == '85' ||
                                                 evo()->getManagerApi()->action == '4') ? ' selected="selected"'
-                                                : '' ?> ><?= ManagerTheme::getLexicon(
-                                                    'resource_type_webpage'
-                                                ); ?></option>
+                                                : '' ?> ><?= __('global.resource_type_webpage') ?></option>
                                             <option value="reference"<?= ($content['type'] === 'reference' ||
                                                 evo()->getManagerApi()->action == '72') ? ' selected="selected"'
-                                                : '' ?> ><?= ManagerTheme::getLexicon(
-                                                    'resource_type_weblink'
-                                                ); ?></option>
+                                                : '' ?> ><?= __('global.resource_type_weblink') ?></option>
                                         </select>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        <span class="warning"><?= ManagerTheme::getLexicon(
-                                                'page_data_contentType'
-                                            ); ?></span>
+                                        <span class="warning"><?= __('global.page_data_contentType') ?></span>
                                         <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                           data-tooltip="<?= ManagerTheme::getLexicon(
-                                               'page_data_contentType_help'
-                                           ); ?>"></i>
+                                           data-tooltip="<?= __('global.page_data_contentType_help') ?>"></i>
                                     </td>
                                     <td>
                                         <select name="contentType" class="inputBox" onchange="documentDirty=true;">
@@ -1511,25 +1463,17 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span class="warning"><?= ManagerTheme::getLexicon(
-                                                'resource_opt_contentdispo'
-                                            ); ?></span>
+                                        <span class="warning"><?= __('global.resource_opt_contentdispo') ?></span>
                                         <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                           data-tooltip="<?= ManagerTheme::getLexicon(
-                                               'resource_opt_contentdispo_help'
-                                           ); ?>"></i>
+                                           data-tooltip="<?= __('global.resource_opt_contentdispo_help') ?>"></i>
                                     </td>
                                     <td>
                                         <select name="content_dispo" class="inputBox" size="1"
                                                 onchange="documentDirty=true;">
                                             <option value="0"<?= (empty($content['content_dispo'])
-                                                ? ' selected="selected"' : '') ?>><?= ManagerTheme::getLexicon(
-                                                    'inline'
-                                                ); ?></option>
+                                                ? ' selected="selected"' : '') ?>><?= __('global.inline') ?></option>
                                             <option value="1"<?= (!empty($content['content_dispo'])
-                                                ? ' selected="selected"' : '') ?>><?= ManagerTheme::getLexicon(
-                                                    'attachment'
-                                                ); ?></option>
+                                                ? ' selected="selected"' : '') ?>><?= __('global.attachment') ?></option>
                                         </select>
                                     </td>
                                 </tr>
@@ -1562,9 +1506,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('resource_opt_folder'); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_folder'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('resource_opt_folder_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_folder_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="isfoldercheck" type="checkbox"
@@ -1580,13 +1524,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_alvisibled'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_alvisibled') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_alvisibled_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_alvisibled_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="alias_visible_check" type="checkbox"
@@ -1603,13 +1543,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_richtext'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_richtext') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_richtext_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_richtext_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="richtextcheck" type="checkbox"
@@ -1623,13 +1559,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'track_visitors_title'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.track_visitors_title') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_trackvisit_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_trackvisit_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="hide_from_treecheck" type="checkbox"
@@ -1642,11 +1574,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'page_data_searchable'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.page_data_searchable') ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('page_data_searchable_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.page_data_searchable_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="searchablecheck" type="checkbox"
@@ -1670,9 +1600,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon('page_data_cacheable'); ?></span>
+                                    <span class="warning"><?= __('global.page_data_cacheable'); ?></span>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon('page_data_cacheable_help'); ?>"></i>
+                                       data-tooltip="<?= __('global.page_data_cacheable_help'); ?>"></i>
                                 </td>
                                 <td>
                                     <input name="cacheablecheck" type="checkbox"
@@ -1689,14 +1619,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="warning"><?= ManagerTheme::getLexicon(
-                                            'resource_opt_emptycache'
-                                        ); ?></span>
+                                    <span class="warning"><?= __('global.resource_opt_emptycache') ?></span>
                                     <input type="hidden" name="syncsite" value="1"/>
                                     <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"
-                                       data-tooltip="<?= ManagerTheme::getLexicon(
-                                           'resource_opt_emptycache_help'
-                                       ); ?>"></i>
+                                       data-tooltip="<?= __('global.resource_opt_emptycache_help') ?>"></i>
                                 </td>
                                 <td>
                                     <input name="syncsitecheck" type="checkbox" class="checkbox" checked="checked"
@@ -1828,16 +1754,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 '<li><input type="checkbox" class="checkbox" name="chkalldocs" id="groupall"' .
                                 (empty($notPublic) ? ' checked="checked"' : '') .
                                 ' onclick="makePublic(true);" /><label for="groupall" class="warning">' .
-                                ManagerTheme::getLexicon('all_doc_groups') . '</label></li>'
+                                __('global.all_doc_groups') . '</label></li>'
                             );
                         }
                         // Output the permissions list...
                         ?>
                         <!-- Access Permissions -->
                         <div class="tab-page" id="tabAccess">
-                            <h2 class="tab" id="tab_access_header"><?= ManagerTheme::getLexicon(
-                                    'access_permissions'
-                                ); ?></h2>
+                            <h2 class="tab" id="tab_access_header"><?= __('global.access_permissions') ?></h2>
                             <script>tpSettings.addTabPage(document.getElementById('tabAccess'))</script>
                             <script>
                               /* <![CDATA[ */
@@ -1862,7 +1786,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                               /* ]]> */
                             </script>
-                            <p><?= ManagerTheme::getLexicon('access_permissions_docs_message'); ?></p>
+                            <p><?= __('global.access_permissions_docs_message'); ?></p>
                             <ul>
                                 <?= implode("\n", $permissions) . "\n" ?>
                             </ul>

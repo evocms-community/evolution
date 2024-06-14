@@ -207,7 +207,7 @@ class Search extends AbstractController implements PageControllerInterface
 
         $templates[] = [
             'value' => '',
-            'title' => ManagerTheme::getLexicon('none'),
+            'title' => __('global.none'),
             'selected' => ''
         ];
 
@@ -250,7 +250,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['content'] = [
                         'class' => ManagerTheme::getStyle('icon_sitemap'),
-                        'title' => ManagerTheme::getLexicon('manage_documents') . ' (' . $count . ')'
+                        'title' => __('global.manage_documents') . ' (' . $count . ')'
                     ];
                     foreach ($results as $row) {
                         $output['content']['results'][] = [
@@ -279,7 +279,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['templates'] = [
                         'class' => ManagerTheme::getStyle('icon_template'),
-                        'title' => ManagerTheme::getLexicon('manage_templates') . ' (' . $count . ')'
+                        'title' => __('global.manage_templates') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -316,7 +316,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['tmplvars'] = [
                         'class' => ManagerTheme::getStyle('icon_tv'),
-                        'title' => ManagerTheme::getLexicon('settings_templvars') . ' (' . $count . ')'
+                        'title' => __('global.settings_templvars') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -346,7 +346,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['htmlsnippets'] = [
                         'class' => ManagerTheme::getStyle('icon_chunk'),
-                        'title' => ManagerTheme::getLexicon('manage_htmlsnippets') . ' (' . $count . ')'
+                        'title' => __('global.manage_htmlsnippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -378,7 +378,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['snippets'] = [
                         'class' => ManagerTheme::getStyle('icon_code'),
-                        'title' => ManagerTheme::getLexicon('manage_snippets') . ' (' . $count . ')'
+                        'title' => __('global.manage_snippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -410,7 +410,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['plugins'] = [
                         'class' => ManagerTheme::getStyle('icon_plugin'),
-                        'title' => ManagerTheme::getLexicon('manage_plugins') . ' (' . $count . ')'
+                        'title' => __('global.manage_plugins') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
@@ -443,7 +443,7 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['modules'] = [
                         'class' => ManagerTheme::getStyle('icon_cogs'),
-                        'title' => ManagerTheme::getLexicon('modules') . ' (' . $count . ')'
+                        'title' => __('global.modules') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {

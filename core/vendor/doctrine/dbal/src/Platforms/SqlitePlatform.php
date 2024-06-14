@@ -14,10 +14,13 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\SqliteSchemaManager;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
+use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\Deprecations\Deprecation;
+use InvalidArgumentException;
 
 use function array_combine;
 use function array_keys;
@@ -26,12 +29,14 @@ use function array_search;
 use function array_unique;
 use function array_values;
 use function count;
+use function explode;
 use function implode;
 use function is_numeric;
 use function sprintf;
 use function sqrt;
 use function str_replace;
 use function strlen;
+use function strpos;
 use function strtolower;
 use function trim;
 
@@ -154,13 +159,13 @@ class SqlitePlatform extends AbstractPlatform
 
         switch ($unit) {
             case DateIntervalUnit::WEEK:
-                $interval *= 7;
-                $unit      = DateIntervalUnit::DAY;
+                $interval = $this->multiplyInterval((string) $interval, 7);
+                $unit     = DateIntervalUnit::DAY;
                 break;
 
             case DateIntervalUnit::QUARTER:
-                $interval *= 3;
-                $unit      = DateIntervalUnit::MONTH;
+                $interval = $this->multiplyInterval((string) $interval, 3);
+                $unit     = DateIntervalUnit::MONTH;
                 break;
         }
 
@@ -191,6 +196,12 @@ class SqlitePlatform extends AbstractPlatform
     public function getCurrentDatabaseExpression(): string
     {
         return "'main'";
+    }
+
+    /** @link https://www2.sqlite.org/cvstrac/wiki?p=UnsupportedSql */
+    public function createSelectSQLBuilder(): SelectSQLBuilder
+    {
+        return new DefaultSelectSQLBuilder($this, null, null);
     }
 
     /**
@@ -734,6 +745,8 @@ class SqlitePlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
+     *
+     * @deprecated This API is not portable.
      */
     public function getForUpdateSQL()
     {
@@ -916,6 +929,48 @@ class SqlitePlatform extends AbstractPlatform
         }
 
         return $sql;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreateIndexSQL(Index $index, $table)
+    {
+        if ($table instanceof Table) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/4798',
+                'Passing $table as a Table object to %s is deprecated. Pass it as a quoted name instead.',
+                __METHOD__,
+            );
+
+            $table = $table->getQuotedName($this);
+        }
+
+        $name    = $index->getQuotedName($this);
+        $columns = $index->getColumns();
+
+        if (strpos($table, '.') !== false) {
+            [$schema, $table] = explode('.', $table);
+            $name             = $schema . '.' . $name;
+        }
+
+        if (count($columns) === 0) {
+            throw new InvalidArgumentException(sprintf(
+                'Incomplete or invalid index definition %s on table %s',
+                $name,
+                $table,
+            ));
+        }
+
+        if ($index->isPrimary()) {
+            return $this->getCreatePrimaryKeySQL($index, $table);
+        }
+
+        $query  = 'CREATE ' . $this->getCreateIndexSQLFlags($index) . 'INDEX ' . $name . ' ON ' . $table;
+        $query .= ' (' . $this->getIndexFieldDeclarationListSQL($index) . ')' . $this->getPartialIndexSQL($index);
+
+        return $query;
     }
 
     /**

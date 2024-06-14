@@ -6,7 +6,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('file_manager')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 $token_check = checkToken();
 $newToken = makeToken();
@@ -94,7 +94,7 @@ if (!empty($_REQUEST['path'])) {
 $startPath = rtrim($startPath, '/');
 
 if (!is_readable($startPath)) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('not_readable_dir'));
+    evo()->webAlertAndQuit(__('global.not_readable_dir'));
 }
 
 // Raymond: get web start path for showing pictures
@@ -130,18 +130,18 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function confirmDelete () {
-        return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_file') ?>`)
+        return confirm(`<?= __('global.confirm_delete_file') ?>`)
       }
 
       function confirmDeleteFolder (status) {
         if (status !== 'file_exists')
-          return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_dir') ?>`)
+          return confirm(`<?= __('global.confirm_delete_dir') ?>`)
         else
-          return confirm(`<?= ManagerTheme::getLexicon('confirm_delete_dir_recursive') ?>`)
+          return confirm(`<?= __('global.confirm_delete_dir_recursive') ?>`)
       }
 
       function confirmUnzip () {
-        return confirm(`<?= ManagerTheme::getLexicon('confirm_unzip_file') ?>`)
+        return confirm(`<?= __('global.confirm_unzip_file') ?>`)
       }
 
       function unzipFile (file) {
@@ -153,13 +153,13 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function getFolderName (a) {
-        var f = window.prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, '')
+        var f = window.prompt(`<?= __('global.files_dynamic_new_file_name') ?>`, '')
         if (f) a.href += encodeURI(f)
         return !!(f)
       }
 
       function getFileName (a) {
-        var f = window.prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, '')
+        var f = window.prompt(`<?= __('global.files_dynamic_new_file_name') ?>`, '')
         if (f) a.href += encodeURI(f)
         return !!(f)
       }
@@ -181,7 +181,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function duplicateFile (file) {
-        var newFilename = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, file)
+        var newFilename = prompt(`<?= __('global.files_dynamic_new_file_name') ?>`, file)
         if (newFilename !== null && newFilename !== file) {
           window.location.href = 'index.php?a=31&mode=duplicate&path=' + current_path + '/' + file + '&newFilename=' +
             newFilename + "&token=<?= $newToken;?>"
@@ -189,7 +189,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function renameFolder (dir) {
-        var newDirname = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_folder_name') ?>`, dir)
+        var newDirname = prompt(`<?= __('global.files_dynamic_new_folder_name') ?>`, dir)
         if (newDirname !== null && newDirname !== dir) {
           window.location.href = 'index.php?a=31&mode=renameFolder&path=' + current_path + '&dirname=' + dir +
             '&newDirname=' + newDirname + "&token=<?= $newToken;?>"
@@ -197,7 +197,7 @@ if (substr($webStartPath, 0, 1) == '/') {
       }
 
       function renameFile (file) {
-        var newFilename = prompt(`<?= ManagerTheme::getLexicon('files_dynamic_new_file_name') ?>`, file)
+        var newFilename = prompt(`<?= __('global.files_dynamic_new_file_name') ?>`, file)
         if (newFilename !== null && newFilename !== file) {
           window.location.href = 'index.php?a=31&mode=renameFile&path=' + current_path + '/' + file + '&newFilename=' +
             newFilename + "&token=<?= $newToken;?>"
@@ -207,7 +207,7 @@ if (substr($webStartPath, 0, 1) == '/') {
     </script>
 
     <h1>
-        <i class="<?= ManagerTheme::getStyle('icon_folder_open') ?>"></i><?= ManagerTheme::getLexicon('manage_files') ?>
+        <i class="<?= ManagerTheme::getStyle('icon_folder_open') ?>"></i><?= __('global.manage_files') ?>
     </h1>
 
     <div id="actions">
@@ -216,9 +216,7 @@ if (substr($webStartPath, 0, 1) == '/') {
             if (get_by_key($_POST, 'mode') == 'save' || get_by_key($_GET, 'mode') == 'edit') : ?>
                 <a class="btn btn-success" href="javascript:;"
                    onclick="documentDirty=false;document.editFile.submit();">
-                    <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i><span><?= ManagerTheme::getLexicon(
-                            'save'
-                        ) ?></span>
+                    <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i><span><?= __('global.save') ?></span>
                 </a>
             <?php
             endif ?>
@@ -234,13 +232,13 @@ if (substr($webStartPath, 0, 1) == '/') {
                 $tpl =
                     '<a class="btn btn-secondary" href="[+href+]" onclick="return getFolderName(this);"><i class="[+image+]"></i><span>[+subject+]</span></a>';
                 $ph['image'] = ManagerTheme::getStyle('icon_folder_open');
-                $ph['subject'] = ManagerTheme::getLexicon('add_folder');
+                $ph['subject'] = __('global.add_folder');
                 $ph['href'] = 'index.php?a=31&mode=newfolder&path=' . urlencode($startPath) . '&name=';
                 $_ = parsePlaceholder($tpl, $ph);
 
                 $tpl =
                     '<a class="btn btn-secondary" href="[+href+]" onclick="return getFileName(this);"><i class="[+image+]"></i><span>' .
-                    ManagerTheme::getLexicon('files.dynamic.php1') . '</span></a>';
+                    __('global.files.dynamic.php1') . '</span></a>';
                 $ph['image'] = ManagerTheme::getStyle('icon_document');
                 $ph['href'] = 'index.php?a=31&mode=newfile&path=' . urlencode($startPath) . '&name=';
                 $_ .= parsePlaceholder($tpl, $ph);
@@ -249,9 +247,7 @@ if (substr($webStartPath, 0, 1) == '/') {
             ?>
             <a id="Button5" class="btn btn-secondary" href="javascript:;"
                onclick="documentDirty=false;document.location.href='index.php?<?= $href ?>';">
-                <i class="<?= ManagerTheme::getStyle('icon_cancel') ?>"></i><span><?= ManagerTheme::getLexicon(
-                        'cancel'
-                    ) ?></span>
+                <i class="<?= ManagerTheme::getStyle('icon_cancel') ?>"></i><span><?= __('global.cancel') ?></span>
             </a>
         </div>
     </div>
@@ -268,7 +264,7 @@ if (substr($webStartPath, 0, 1) == '/') {
             }
 
             if (in_array($startPath, $protected_path)) {
-                evo()->webAlertAndQuit(ManagerTheme::getLexicon('files.dynamic.php2'));
+                evo()->webAlertAndQuit(__('global.files.dynamic.php2'));
             }
 
             $tpl = '<i class="[+image+] FilesTopFolder"></i>[+subject+]';
@@ -317,16 +313,16 @@ if (substr($webStartPath, 0, 1) == '/') {
         if (substr(strtolower(str_replace('//', '/', $startPath . "/")), 0, $len) !=
             strtolower(str_replace('//', '/', $filemanager_path . '/'))
         ) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('files_access_denied'));
+            evo()->webAlertAndQuit(__('global.files_access_denied'));
         }
 
         // Unzip .zip files - by Raymond
         if ($enablefileunzip && get_by_key($_REQUEST, 'mode') == 'unzip' && is_writable($startPath)) {
             if (!$err = unzip(realpath($startPath . '/' . $_REQUEST['file']), realpath($startPath))) {
-                echo '<span class="warning"><b>' . ManagerTheme::getLexicon('file_unzip_fail') .
+                echo '<span class="warning"><b>' . __('global.file_unzip_fail') .
                     ($err === 0 ? 'Missing zip library (php_zip.dll / zip.so)' : '') . '</b></span><br /><br />';
             } else {
-                echo '<span class="success"><b>' . ManagerTheme::getLexicon('file_unzip') . '</b></span><br /><br />';
+                echo '<span class="success"><b>' . __('global.file_unzip') . '</b></span><br /><br />';
             }
         }
         // End Unzip - Raymond
@@ -337,10 +333,10 @@ if (substr($webStartPath, 0, 1) == '/') {
             if (get_by_key($_REQUEST, 'mode') == 'deletefolder') {
                 $folder = $_REQUEST['folderpath'];
                 if (!$token_check || !@rrmdir($folder)) {
-                    echo '<span class="warning"><b>' . ManagerTheme::getLexicon('file_folder_not_deleted') .
+                    echo '<span class="warning"><b>' . __('global.file_folder_not_deleted') .
                         '</b></span><br /><br />';
                 } else {
-                    echo '<span class="success"><b>' . ManagerTheme::getLexicon('file_folder_deleted') .
+                    echo '<span class="success"><b>' . __('global.file_folder_deleted') .
                         '</b></span><br /><br />';
                 }
             }
@@ -350,15 +346,13 @@ if (substr($webStartPath, 0, 1) == '/') {
                 $old_umask = umask(0);
                 $foldername = str_replace('..\\', '', str_replace('../', '', $_REQUEST['name']));
                 if (!mkdirs($startPath . '/' . $foldername, 0777)) {
-                    echo '<span class="warning"><b>', ManagerTheme::getLexicon(
-                        'file_folder_not_created'
-                    ), '</b></span><br /><br />';
+                    echo '<span class="warning"><b>', __('global.file_folder_not_created'), '</b></span><br /><br />';
                 } else {
                     if (!@chmod($startPath . '/' . $foldername, $newfolderaccessmode)) {
-                        echo '<span class="warning"><b>' . ManagerTheme::getLexicon('file_folder_chmod_error') .
+                        echo '<span class="warning"><b>' . __('global.file_folder_chmod_error') .
                             '</b></span><br /><br />';
                     } else {
-                        echo '<span class="success"><b>' . ManagerTheme::getLexicon('file_folder_created') .
+                        echo '<span class="success"><b>' . __('global.file_folder_created') .
                             '</b></span><br /><br />';
                     }
                 }
@@ -370,18 +364,16 @@ if (substr($webStartPath, 0, 1) == '/') {
                 $filename = str_replace('..\\', '', str_replace('../', '', $_REQUEST['name']));
 
                 if (!checkExtension($filename)) {
-                    echo '<span class="warning"><b>' . ManagerTheme::getLexicon('files_filetype_notok') .
+                    echo '<span class="warning"><b>' . __('global.files_filetype_notok') .
                         '</b></span><br /><br />';
                 } elseif (preg_match('@(\\\\|\/|\:|\;|\,|\*|\?|\"|\<|\>|\||\?)@', $filename) !== 0) {
-                    echo ManagerTheme::getLexicon('files.dynamic.php3');
+                    echo __('global.files.dynamic.php3');
                 } else {
                     $rs = file_put_contents($startPath . '/' . $filename, '');
                     if ($rs === false) {
-                        echo '<span class="warning"><b>', ManagerTheme::getLexicon(
-                            'file_folder_not_created'
-                        ), '</b></span><br /><br />';
+                        echo '<span class="warning"><b>', __('global.file_folder_not_created'), '</b></span><br /><br />';
                     } else {
-                        echo ManagerTheme::getLexicon('files.dynamic.php4');
+                        echo __('global.files.dynamic.php4');
                     }
                     umask($old_umask);
                 }
@@ -393,13 +385,13 @@ if (substr($webStartPath, 0, 1) == '/') {
                 $newFilename = str_replace('..\\', '', str_replace('../', '', $_REQUEST['newFilename']));
 
                 if (!checkExtension($newFilename)) {
-                    echo '<span class="warning"><b>' . ManagerTheme::getLexicon('files_filetype_notok') .
+                    echo '<span class="warning"><b>' . __('global.files_filetype_notok') .
                         '</b></span><br /><br />';
                 } elseif (preg_match('@(\\\\|\/|\:|\;|\,|\*|\?|\"|\<|\>|\||\?)@', $newFilename) !== 0) {
-                    echo ManagerTheme::getLexicon('files.dynamic.php3');
+                    echo __('global.files.dynamic.php3');
                 } else {
                     if (!copy($filename, MODX_BASE_PATH . $newFilename)) {
-                        echo ManagerTheme::getLexicon('files.dynamic.php5');
+                        echo __('global.files.dynamic.php5');
                     }
                     umask($old_umask);
                 }
@@ -416,12 +408,10 @@ if (substr($webStartPath, 0, 1) == '/') {
                 ], '', $_REQUEST['newDirname']);
 
                 if (preg_match('@(\\\\|\/|\:|\;|\,|\*|\?|\"|\<|\>|\||\?)@', $newDirname) !== 0) {
-                    echo ManagerTheme::getLexicon('files.dynamic.php3');
+                    echo __('global.files.dynamic.php3');
                 } else {
                     if (!rename($dirname, $_REQUEST['path'] . '/' . $newDirname)) {
-                        echo '<span class="warning"><b>', ManagerTheme::getLexicon(
-                            'file_folder_not_created'
-                        ), '</b></span><br /><br />';
+                        echo '<span class="warning"><b>', __('global.file_folder_not_created'), '</b></span><br /><br />';
                     }
                 }
                 umask($old_umask);
@@ -439,13 +429,13 @@ if (substr($webStartPath, 0, 1) == '/') {
                 ], '', $_REQUEST['newFilename']);
 
                 if (!checkExtension($newFilename)) {
-                    echo '<span class="warning"><b>' . ManagerTheme::getLexicon('files_filetype_notok') .
+                    echo '<span class="warning"><b>' . __('global.files_filetype_notok') .
                         '</b></span><br /><br />';
                 } elseif (preg_match('@(\\\\|\/|\:|\;|\,|\*|\?|\"|\<|\>|\||\?)@', $newFilename) !== 0) {
-                    echo ManagerTheme::getLexicon('files.dynamic.php3');
+                    echo __('global.files.dynamic.php3');
                 } else {
                     if (!rename($filename, $path . '/' . $newFilename)) {
-                        echo ManagerTheme::getLexicon('files.dynamic.php5');
+                        echo __('global.files.dynamic.php5');
                     }
                     umask($old_umask);
                 }
@@ -462,10 +452,10 @@ if (substr($webStartPath, 0, 1) == '/') {
             <table id="FilesTable" class="table data">
                 <thead>
                 <tr>
-                    <th><?= ManagerTheme::getLexicon('files_filename') ?></th>
-                    <th style="width: 1%;"><?= ManagerTheme::getLexicon('files_modified') ?></th>
-                    <th style="width: 1%;"><?= ManagerTheme::getLexicon('files_filesize') ?></th>
-                    <th style="width: 1%;" class="text-nowrap"><?= ManagerTheme::getLexicon('files_fileoptions') ?></th>
+                    <th><?= __('global.files_filename') ?></th>
+                    <th style="width: 1%;"><?= __('global.files_modified') ?></th>
+                    <th style="width: 1%;"><?= __('global.files_filesize') ?></th>
+                    <th style="width: 1%;" class="text-nowrap"><?= __('global.files_fileoptions') ?></th>
                 </tr>
                 </thead>
                 <?php
@@ -490,7 +480,7 @@ if (substr($webStartPath, 0, 1) == '/') {
                 if ($folders == 0 && $files == 0) {
                     echo '<tr><td colspan="4"><i class="' . ManagerTheme::getStyle('icon_folder') .
                         ' FilesDeletedFolder"></i> <span style="color:#888;cursor:default;"> ' .
-                        ManagerTheme::getLexicon('files_directory_is_empty') . ' </span></td></tr>';
+                        __('global.files_directory_is_empty') . ' </span></td></tr>';
                 }
                 ?>
             </table>
@@ -499,15 +489,13 @@ if (substr($webStartPath, 0, 1) == '/') {
         <div class="container">
             <p>
                 <?php
-                echo ManagerTheme::getLexicon('files_directories') . ': <b>' . $folders . '</b> ';
-                echo ManagerTheme::getLexicon('files_files') . ': <b>' . $files . '</b> ';
-                echo ManagerTheme::getLexicon('files_data') . ': <b><span dir="ltr">' . nicesize($fileSizes) .
+                echo __('global.files_directories') . ': <b>' . $folders . '</b> ';
+                echo __('global.files_files') . ': <b>' . $files . '</b> ';
+                echo __('global.files_data') . ': <b><span dir="ltr">' . nicesize($fileSizes) .
                     '</span></b> ';
-                echo ManagerTheme::getLexicon('files_dirwritable') . ' <b>' . (is_writable($startPath) == 1
-                        ? ManagerTheme::getLexicon('yes') . '.'
-                        : ManagerTheme::getLexicon(
-                            'no'
-                        )) . '.</b>'
+                echo __('global.files_dirwritable') . ' <b>' . (is_writable($startPath) == 1
+                        ? __('global.yes') . '.'
+                        : __('global.no')) . '.</b>'
                 ?>
             </p>
 
@@ -531,12 +519,12 @@ if (substr($webStartPath, 0, 1) == '/') {
                     <div id="uploader">
                         <input type="file" name="userfile[]" onchange="document.upload.submit();" multiple>
                         <a class="btn btn-secondary" href="javascript:;"
-                           onclick="document.upload.submit()"><?= ManagerTheme::getLexicon('files_uploadfile') ?></a>
+                           onclick="document.upload.submit()"><?= __('global.files_uploadfile') ?></a>
                     </div>
                 </form>
                 <?php
             } else {
-                echo "<p>" . ManagerTheme::getLexicon('files_upload_inhibited_msg') . "</p>";
+                echo "<p>" . __('global.files_upload_inhibited_msg') . "</p>";
             }
             ?>
             <div id="imageviewer"></div>
@@ -549,8 +537,8 @@ if (get_by_key($_REQUEST, 'mode') == "edit" || get_by_key($_REQUEST, 'mode') == 
     ?>
 
     <div class="section" id="file_editfile">
-        <div class="navbar navbar-editor"><?= $_REQUEST['mode'] == "edit" ? ManagerTheme::getLexicon('files_editfile')
-                : ManagerTheme::getLexicon('files_viewfile') ?></div>
+        <div class="navbar navbar-editor"><?= $_REQUEST['mode'] == "edit" ? __('global.files_editfile')
+                : __('global.files_viewfile') ?></div>
         <?php
         $filename = $_REQUEST['path'];
         $buffer = file_get_contents($filename);

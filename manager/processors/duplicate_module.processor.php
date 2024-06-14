@@ -9,19 +9,19 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('new_module')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_GET['id'] ?? 0);
 
 if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // count duplicates
 $name = SiteModule::query()->select('name')->findOrFail($id)->name;
 $count =
-    SiteModule::query()->where('name', 'LIKE', $name . ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . "%'")
+    SiteModule::query()->where('name', 'LIKE', $name . ' ' . __('global.duplicated_el_suffix') . "%'")
         ->count();
 if ($count >= 1) {
     $count = ' ' . ($count + 1);
@@ -50,7 +50,7 @@ $module = SiteModule::query()
 
 /** @var SiteModule $moduleNew */
 $moduleNew = $module->replicate();
-$moduleNew->name .= ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . $count;
+$moduleNew->name .= ' ' . __('global.duplicated_el_suffix') . $count;
 $moduleNew->guid = createGUID();
 $moduleNew->disabled = 1;
 $moduleNew->save();

@@ -1,5 +1,6 @@
 <?php
 
+use EvolutionCMS\Facades\DocBlock;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\MembergroupName;
 use EvolutionCMS\Models\SiteModule;
@@ -13,16 +14,16 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 switch (evo()->getManagerApi()->action) {
     case 107:
         if (!evo()->hasPermission('new_module')) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+            evo()->webAlertAndQuit(__('global.error_no_privileges'));
         }
         break;
     case 108:
         if (!evo()->hasPermission('edit_module')) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+            evo()->webAlertAndQuit(__('global.error_no_privileges'));
         }
         break;
     default:
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+        evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_REQUEST['id'] ?? 0);
@@ -30,7 +31,7 @@ $id = (int) ($_REQUEST['id'] ?? 0);
 // check to see the module editor isn't locked
 if ($lockedEl = evo()->elementIsLocked(6, $id)) {
     evo()->webAlertAndQuit(
-        sprintf(ManagerTheme::getLexicon('lock_msg'), $lockedEl['username'], ManagerTheme::getLexicon('module'))
+        sprintf(__('global.lock_msg'), $lockedEl['username'], __('global.module'))
     );
 }
 // end check for lock
@@ -47,10 +48,10 @@ if (isset($_GET['id'])) {
     $content['properties'] = str_replace('&', '&amp;', $content['properties']);
     $_SESSION['itemname'] = $content['name'];
     if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+        evo()->webAlertAndQuit(__('global.error_no_privileges'));
     }
 } else {
-    $_SESSION['itemname'] = ManagerTheme::getLexicon('new_module');
+    $_SESSION['itemname'] = __('global.new_module');
     $content['wrap'] = '1';
 }
 if (evo()->getManagerApi()->hasFormValues()) {
@@ -69,9 +70,9 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
   var elementProperties = new ElementProperties({
     name: 'elementProperties',
     lang: {
-      parameter: '<?= ManagerTheme::getLexicon('parameter') ?>',
-      value: '<?= ManagerTheme::getLexicon('value') ?>',
-      set_default: '<?= ManagerTheme::getLexicon('set_default') ?>'
+      parameter: '<?= __('global.parameter') ?>',
+      value: '<?= __('global.value') ?>',
+      set_default: '<?= __('global.set_default') ?>'
     },
     icon_refresh: '<?= ManagerTheme::getStyle('icon_refresh') ?>',
     table: 'displayparams',
@@ -81,7 +82,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
   function loadDependencies () {
     if (documentDirty) {
-      if (!confirm(`<?= ManagerTheme::getLexicon('confirm_load_depends')?>`)) {
+      if (!confirm(`<?= __('global.confirm_load_depends')?>`)) {
         return
       }
     }
@@ -98,13 +99,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
       saveWait('mutate')
     },
     duplicate: function () {
-      if (confirm(`<?= ManagerTheme::getLexicon('confirm_duplicate_record') ?>`) === true) {
+      if (confirm(`<?= __('global.confirm_duplicate_record') ?>`) === true) {
         documentDirty = false
         document.location.href = 'index.php?id=<?= $_REQUEST['id'] ?? '' ?>&a=111'
       }
     },
     delete: function () {
-      if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_module') ?>`) === true) {
+      if (confirm(`<?= __('global.confirm_delete_module') ?>`) === true) {
         documentDirty = false
         document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=110'
       }
@@ -143,8 +144,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
     // Prepare internal params & info-tab via parseDocBlock
     $modulecode = $content['modulecode'] ?? '';
-    $docBlock = evo()->get('DocBlock')->parseFromString($modulecode);
-    $docBlockList = evo()->get('DocBlock')->convertIntoList($docBlock);
+    $docBlock = DocBlock::parseFromString($modulecode);
+    $docBlockList = DocBlock::convertIntoList($docBlock);
     $internal = [];
     ?>
     <input type="hidden" name="a" value="109">
@@ -154,14 +155,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     <h1>
         <i class="<?= ((isset($content['icon']) && $content['icon'] != '') ? e($content['icon'])
             : ManagerTheme::getStyle('icon_module')) ?>"></i><?= (isset($content['name']) ? e($content['name']) . '<small>(' .
-            $content['id'] . ')</small>' : ManagerTheme::getLexicon('new_module')) ?>
+            $content['id'] . ')</small>' : __('global.new_module')) ?>
         <i class="<?= ManagerTheme::getStyle('icon_question_circle') ?> help"></i>
     </h1>
 
     <?= ManagerTheme::getStyle('actionbuttons.dynamic.element') ?>
 
     <div class="container element-edit-message">
-        <div class="alert alert-info"><?= ManagerTheme::getLexicon('module_msg') ?></div>
+        <div class="alert alert-info"><?= __('global.module_msg') ?></div>
     </div>
 
     <div class="tab-pane" id="modulePane">
@@ -172,12 +173,12 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
         <!-- General -->
         <div class="tab-page" id="tabModule">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('settings_general') ?></h2>
+            <h2 class="tab"><?= __('global.settings_general') ?></h2>
             <script>tp.addTabPage(document.getElementById('tabModule'))</script>
             <div class="container container-body">
                 <div class="form-group">
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('module_name') ?></label>
+                        <label class="col-md-3 col-lg-2"><?= __('global.module_name') ?></label>
                         <div class="col-md-9 col-lg-10">
                             <div class="form-control-name clearfix">
                                 <?php
@@ -191,8 +192,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 <?php
                                 if (evo()->hasPermission('save_role')): ?>
                                     <label class="custom-control"
-                                           title="<?= ManagerTheme::getLexicon('lock_module') . "\n" .
-                                           ManagerTheme::getLexicon('lock_module_msg') ?>"
+                                           title="<?= __('global.lock_module') . "\n" .
+                                           __('global.lock_module_msg') ?>"
                                            tooltip>
                                         <input name="locked"
                                                type="checkbox"<?= ((isset($content['locked']) &&
@@ -208,7 +209,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         </div>
                     </div>
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('module_desc') ?></label>
+                        <label class="col-md-3 col-lg-2"><?= __('global.module_desc') ?></label>
                         <div class="col-md-9 col-lg-10">
                             <input name="description" type="text" maxlength="255"
                                    value="<?= $content['description'] ?? '' ?>"
@@ -216,7 +217,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         </div>
                     </div>
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('existing_category') ?></label>
+                        <label class="col-md-3 col-lg-2"><?= __('global.existing_category') ?></label>
                         <div class="col-md-9 col-lg-10">
                             <select name="categoryid" class="form-control" onchange="documentDirty=true;">
                                 <option>&nbsp;</option>
@@ -233,15 +234,15 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         </div>
                     </div>
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('new_category') ?></label>
+                        <label class="col-md-3 col-lg-2"><?= __('global.new_category') ?></label>
                         <div class="col-md-9 col-lg-10">
                             <input name="newcategory" type="text" maxlength="45" value="" class="form-control"
                                    onchange="documentDirty=true;"/>
                         </div>
                     </div>
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('icon') ?>
-                            <small class="text-muted"><?= ManagerTheme::getLexicon('icon_description') ?></small>
+                        <label class="col-md-3 col-lg-2"><?= __('global.icon') ?>
+                            <small class="text-muted"><?= __('global.icon_description') ?></small>
                         </label>
                         <div class="col-md-9 col-lg-10">
                             <div class="input-group">
@@ -255,15 +256,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         <label class="col-md-3 col-lg-2" for="enable_resource">
                             <input name="enable_resource"
                                    id="enable_resource"
-                                   title="<?= ManagerTheme::getLexicon(
-                                       'enable_resource'
-                                   ) ?>"
+                                   title="<?= __('global.enable_resource') ?>"
                                    type="checkbox"<?= ((isset($content['enable_resource']) &&
                                 $content['enable_resource'] == 1) ? ' checked="checked"' : '') ?>
                                    onclick="documentDirty=true;"/>
-                            <span title="<?= ManagerTheme::getLexicon(
-                                'enable_resource'
-                            ) ?>"><?= ManagerTheme::getLexicon('element') ?></span></label>
+                            <span title="<?= __('global.enable_resource') ?>"><?= __('global.element') ?></span></label>
                         <div class="col-md-9 col-lg-10">
                             <input name="resourcefile" type="text" maxlength="255"
                                    value="<?= e($content['resourcefile'] ?? '') ?>"
@@ -277,26 +274,24 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                      value="on"<?= ((isset($content['disabled']) &&
                                 $content['disabled'] == 1) ? ' checked="checked"' : '') ?> />
                             <?= ((isset($content['disabled']) && $content['disabled'] == 1)
-                                ? '<span class="text-danger">' . ManagerTheme::getLexicon('module_disabled') . '</span>'
-                                : ManagerTheme::getLexicon('module_disabled')) ?>
+                                ? '<span class="text-danger">' . __('global.module_disabled') . '</span>'
+                                : __('global.module_disabled')) ?>
                         </label>
                     </div>
                     <div class="form-row">
                         <label for="parse_docblock">
                             <input name="parse_docblock" id="parse_docblock" type="checkbox"
                                    value="1"<?= (evo()->getManagerApi()->action == 107 ? ' checked="checked"'
-                                : '') ?> /> <?= ManagerTheme::getLexicon('parse_docblock') ?>
+                                : '') ?> /> <?= __('global.parse_docblock') ?>
                         </label>
-                        <small class="form-text text-muted"><?= ManagerTheme::getLexicon(
-                                'parse_docblock_msg'
-                            ) ?></small>
+                        <small class="form-text text-muted"><?= __('global.parse_docblock_msg') ?></small>
                     </div>
                 </div>
             </div>
 
             <!-- PHP text editor start -->
             <div class="navbar navbar-editor">
-                <span><?= ManagerTheme::getLexicon('module_code') ?></span>
+                <span><?= __('global.module_code') ?></span>
             </div>
             <div class="section-editor clearfix">
                 <?php
@@ -320,12 +315,12 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
         <!-- Configuration -->
         <div class="tab-page" id="tabConfig">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('settings_config') ?></h2>
+            <h2 class="tab"><?= __('global.settings_config') ?></h2>
             <script>tp.addTabPage(document.getElementById('tabConfig'))</script>
             <div class="container container-body">
                 <div class="form-group">
                     <a href="javascript:;" class="btn btn-primary"
-                       onclick="setDefaults(this);return false;"><?= ManagerTheme::getLexicon('set_default_all') ?></a>
+                       onclick="setDefaults(this);return false;"><?= __('global.set_default_all') ?></a>
                 </div>
                 <div id="displayparamrow">
                     <div id="displayparams"></div>
@@ -335,20 +330,18 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
         <!-- Properties -->
         <div class="tab-page" id="tabParams">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('settings_properties') ?></h2>
+            <h2 class="tab"><?= __('global.settings_properties') ?></h2>
             <script>tp.addTabPage(document.getElementById('tabParams'))</script>
             <div class="container container-body">
                 <div class="form-group">
                     <div class="row form-row">
-                        <label class="col-md-3 col-lg-2"><?= ManagerTheme::getLexicon('guid') ?></label>
+                        <label class="col-md-3 col-lg-2"><?= __('global.guid') ?></label>
                         <div class="col-md-9 col-lg-10">
                             <input name="guid" type="text" maxlength="32"
                                    value="<?= (evo()->getManagerApi()->action == 107 ? createGUID()
                                        : $content['guid']) ?>"
                                    class="form-control" onchange="documentDirty=true;"/>
-                            <small class="form-text text-muted"><?= ManagerTheme::getLexicon(
-                                    'import_params_msg'
-                                ) ?></small>
+                            <small class="form-text text-muted"><?= __('global.import_params_msg') ?></small>
                         </div>
                     </div>
                     <div class="row form-row">
@@ -356,21 +349,15 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             <input name="enable_sharedparams" id="enable_sharedparams"
                                    type="checkbox"<?= ((isset($content['enable_sharedparams']) &&
                                 $content['enable_sharedparams'] == 1) ? ' checked="checked"' : '') ?>
-                                   onclick="documentDirty=true;"/> <?= ManagerTheme::getLexicon(
-                                'enable_sharedparams'
-                            ) ?></label>
+                                   onclick="documentDirty=true;"/> <?= __('global.enable_sharedparams') ?></label>
                         <div class="col-md-9 col-lg-10">
-                            <small class="form-text text-muted"><?= ManagerTheme::getLexicon(
-                                    'enable_sharedparams_msg'
-                                ) ?></small>
+                            <small class="form-text text-muted"><?= __('global.enable_sharedparams_msg') ?></small>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <a href="javascript:;" class="btn btn-primary"
-                       onclick="tp.pages[1].select();elementProperties.showParameters(this);return false;"><?= ManagerTheme::getLexicon(
-                            'update_params'
-                        ) ?></a>
+                       onclick="tp.pages[1].select();elementProperties.showParameters(this);return false;"><?= __('global.update_params') ?></a>
                 </div>
             </div>
             <!-- HTML text editor start -->
@@ -385,15 +372,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         if (evo()->getManagerApi()->action == '108'): ?>
             <!-- Dependencies -->
             <div class="tab-page" id="tabDepend">
-                <h2 class="tab"><?= ManagerTheme::getLexicon('settings_dependencies') ?></h2>
+                <h2 class="tab"><?= __('global.settings_dependencies') ?></h2>
                 <script>tp.addTabPage(document.getElementById('tabDepend'))</script>
                 <div class="container container-body">
-                    <p><?= ManagerTheme::getLexicon('module_viewdepend_msg') ?></p>
+                    <p><?= __('global.module_viewdepend_msg') ?></p>
                     <div class="form-group clearfix">
                         <a class="btn btn-primary" href="javascript:;" onclick="loadDependencies();return false;">
-                            <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= ManagerTheme::getLexicon(
-                                'manage_depends'
-                            ) ?></a>
+                            <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= __('global.manage_depends') ?></a>
                     </div>
                     <?php
                     $depobj = SiteModuleDepobj::query()
@@ -438,7 +423,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         ->orderBy('site_module_depobj.type')
                         ->orderBy('name');
                     $grd = new \EvolutionCMS\Support\DataGrid('', $depobj, 0); // set page size to 0 t show all items
-                    $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
+                    $grd->noRecordMsg = __('global.no_records_found');
                     $grd->prepareResult = [
                         'type' => [
                             10 => 'Chunk',
@@ -453,7 +438,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     $grd->columnHeaderClass = 'gridHeader';
                     $grd->itemClass = 'gridItem';
                     $grd->altItemClass = 'gridAltItem';
-                    $grd->columns = ManagerTheme::getLexicon('element_name') . ' ,' . ManagerTheme::getLexicon('type');
+                    $grd->columns = __('global.element_name') . ' ,' . __('global.type');
                     $grd->fields = 'name,type';
                     echo $grd->render();
                     ?>
@@ -468,7 +453,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
             evo()->hasAnyPermissions(['manage_groups', 'manage_module_permissions'])
         ): ?>
             <div class="tab-page" id="tabPermissions">
-                <h2 class="tab"><?= ManagerTheme::getLexicon('access_permissions') ?></h2>
+                <h2 class="tab"><?= __('global.access_permissions') ?></h2>
                 <script>tp.addTabPage(document.getElementById('tabPermissions'))</script>
                 <div class="container container-body">
                     <?php
@@ -496,7 +481,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         }
                       }
                     </script>
-                    <p><?= ManagerTheme::getLexicon('module_group_access_msg') ?></p>
+                    <p><?= __('global.module_group_access_msg') ?></p>
                     <?php
                     $chks = '';
                     $membergroupNames = MembergroupName::query()->select('name', 'id')->get();
@@ -514,7 +499,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     $chks = '<label><input type="checkbox" name="chkallgroups"' .
                         (!$notPublic ? ' checked="checked"' : '') .
                         ' onclick="makePublic(true)" /><span class="warning"> ' .
-                        ManagerTheme::getLexicon('all_usr_groups') . '</span></label><br />' . "\n" . $chks;
+                        __('global.all_usr_groups') . '</span></label><br />' . "\n" . $chks;
 
                     echo $chks;
                     ?>
@@ -524,7 +509,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         endif; ?>
         <!-- docBlock Info -->
         <div class="tab-page" id="tabDocBlock">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('information') ?></h2>
+            <h2 class="tab"><?= __('global.information') ?></h2>
             <script>tp.addTabPage(document.getElementById('tabDocBlock'))</script>
             <div class="container container-body">
                 <?= $docBlockList ?>

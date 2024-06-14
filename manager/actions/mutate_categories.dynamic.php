@@ -7,7 +7,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 if (!evo()->hasPermission('category_manager')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $_module_params = [
@@ -16,7 +16,7 @@ $_module_params = [
     'module_id' => get_by_key($_GET, 'id', 0),
     'package_name' => 'Module_Categories_Manager',
     'native_language' => 'de',
-    'name' => ManagerTheme::getLexicon('manage_categories'),
+    'name' => __('global.manage_categories'),
     'dirname' => MODX_MANAGER_URL,
     'url' => 'index.php?a=120&amp;id=' . get_by_key($_GET, 'id', 0),
     'path' => realpath(__DIR__) . DIRECTORY_SEPARATOR . 'category_mgr' . DIRECTORY_SEPARATOR,

@@ -21,7 +21,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>{{ ManagerTheme::getLexicon('change_password') }}
+        <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>{{ __('global.change_password') }}
     </h1>
 
     @include('manager::partials.actionButtons', $actionButtons)
@@ -31,17 +31,17 @@ use EvolutionCMS\Facades\ManagerTheme;
             <form name="userform" method="post" action="index.php">
                 @csrf
                 <input type="hidden" name="a" value="34">
-                <p>{{ ManagerTheme::getLexicon('change_password_message') }}</p>
+                <p>{{ __('global.change_password_message') }}</p>
                 @include('manager::form.input', [
                     'name' => 'password',
                     'type' => 'password',
-                    'label' => ManagerTheme::getLexicon('change_password_new'),
+                    'label' => __('global.change_password_new'),
                     'value' => ''
                 ])
                 @include('manager::form.input', [
                     'name' => 'password_confirmation',
                     'type' => 'password',
-                    'label' => ManagerTheme::getLexicon('change_password_confirm'),
+                    'label' => __('global.change_password_confirm'),
                     'value' => ''
                 ])
                 <input type="submit" name="save" style="display:none">

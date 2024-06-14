@@ -3,6 +3,8 @@
 use AgelxNash\Modx\Evo\Database\Exceptions\InvalidFieldException;
 use AgelxNash\Modx\Evo\Database\Exceptions\TableNotDefinedException;
 use AgelxNash\Modx\Evo\Database\Exceptions\UnknownFetchTypeException;
+use EvolutionCMS\Facades\TemplateProcessor;
+use EvolutionCMS\Facades\UrlProcessor;
 use EvolutionCMS\Models\ActiveUser;
 use EvolutionCMS\Models\ActiveUserLock;
 use EvolutionCMS\Models\ActiveUserSession;
@@ -22,8 +24,6 @@ use Illuminate\Support\Str;
 use PHPMailer\PHPMailer\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use TemplateProcessor;
-use UrlProcessor;
 
 /**
  * @see: https://github.com/laravel/framework/blob/5.6/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php
@@ -232,6 +232,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $routes = $this->router->getRoutes();
         $routes->refreshNameLookups();
         $routes->refreshActionLookups();
+
+        session($_SESSION);
     }
 
     final public function __clone()

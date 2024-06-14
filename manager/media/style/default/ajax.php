@@ -136,7 +136,7 @@ if (isset($action)) {
 
                         if (evo()->hasPermission('new_template')) {
                             $output .= '<li><a id="a_19" href="index.php?a=19" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_template') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_template') . '</a></li>';
                         }
 
                         break;
@@ -172,7 +172,7 @@ if (isset($action)) {
                             evo()->hasPermission('edit_chunk') && evo()->hasPermission('edit_plugin')
                         ) {
                             $output .= '<li><a id="a_300" href="index.php?a=300" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_tmplvars') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_tmplvars') . '</a></li>';
                         }
 
                         break;
@@ -188,7 +188,7 @@ if (isset($action)) {
 
                         if (evo()->hasPermission('new_chunk')) {
                             $output .= '<li><a id="a_77" href="index.php?a=77" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_htmlsnippet') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_htmlsnippet') . '</a></li>';
                         }
 
                         break;
@@ -205,7 +205,7 @@ if (isset($action)) {
 
                         if (evo()->hasPermission('new_snippet')) {
                             $output .= '<li><a id="a_23" href="index.php?a=23" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_snippet') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_snippet') . '</a></li>';
                         }
 
                         break;
@@ -222,7 +222,7 @@ if (isset($action)) {
 
                         if (evo()->hasPermission('new_plugin')) {
                             $output .= '<li><a id="a_101" href="index.php?a=101" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_plugin') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_plugin') . '</a></li>';
                         }
 
                         break;
@@ -239,7 +239,7 @@ if (isset($action)) {
 
                         if (evo()->hasPermission('new_module')) {
                             $output .= '<li><a id="a_107" href="index.php?a=107" target="main"><i class="' .
-                                ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_module') . '</a></li>';
+                                ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_module') . '</a></li>';
                         }
 
                         break;
@@ -298,7 +298,7 @@ if (isset($action)) {
 
             if (evo()->hasPermission('new_role')) {
                 $output .= '<li><a id="a_35" href="index.php?a=35" target="main"><i class="' .
-                    ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_role') . '</a></li>';
+                    ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_role') . '</a></li>';
             }
 
             if ($count = $sql->count()) {
@@ -341,7 +341,7 @@ if (isset($action)) {
 
             if (evo()->hasPermission('new_user')) {
                 $output .= '<li><a id="a_87" href="index.php?a=87" target="main"><i class="' .
-                    ManagerTheme::getStyle('icon_add') . '"></i>' . ManagerTheme::getLexicon('new_web_user') . '</a></li>';
+                    ManagerTheme::getStyle('icon_add') . '"></i>' . __('global.new_web_user') . '</a></li>';
             }
 
             if ($count = $sql->count()) {
@@ -386,7 +386,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
-                                        ManagerTheme::getLexicon('edit'),
+                                        __('global.edit'),
                                     'url' => "index.php?a=22&id=" . $row['id'],
                                 ],
                             ];
@@ -405,7 +405,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
-                                        ManagerTheme::getLexicon('new_snippet'),
+                                        __('global.new_snippet'),
                                     'url' => "index.php?a=23&itemname=" .
                                         entities($name, evo()->getConfig('modx_charset')),
                                 ],
@@ -425,7 +425,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
-                                        ManagerTheme::getLexicon('edit'),
+                                        __('global.edit'),
                                     'url' => "index.php?a=78&id=" . $row['id'],
                                 ],
                             ];
@@ -444,7 +444,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
-                                        ManagerTheme::getLexicon('new_htmlsnippet'),
+                                        __('global.new_htmlsnippet'),
                                     'url' => "index.php?a=77&itemname=" .
                                         entities($name, evo()->getConfig('modx_charset')),
                                 ],
@@ -463,7 +463,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
-                                        ManagerTheme::getLexicon('edit'),
+                                        __('global.edit'),
                                     'url' => "index.php?a=78&id=" . $row['id'],
                                 ],
                             ];
@@ -486,7 +486,7 @@ if (isset($action)) {
                                     ],
                                     'item' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
-                                            ManagerTheme::getLexicon('edit'),
+                                            __('global.edit'),
                                         'url' => "index.php?a=22&id=" . $row['id'],
                                     ],
                                 ];
@@ -505,13 +505,13 @@ if (isset($action)) {
                                     ],
                                     'item' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
-                                            ManagerTheme::getLexicon('new_htmlsnippet'),
+                                            __('global.new_htmlsnippet'),
                                         'url' => "index.php?a=77&itemname=" .
                                             entities($name, evo()->getConfig('modx_charset')),
                                     ],
                                     'item2' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
-                                            ManagerTheme::getLexicon('new_snippet'),
+                                            __('global.new_snippet'),
                                         'url' => "index.php?a=23&itemname=" .
                                             entities($name, evo()->getConfig('modx_charset')),
                                     ],
@@ -578,7 +578,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
-                                        ManagerTheme::getLexicon('edit'),
+                                        __('global.edit'),
                                     'url' => "index.php?a=301&id=" . $row['id'],
                                 ],
                             ];
@@ -597,7 +597,7 @@ if (isset($action)) {
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
-                                        ManagerTheme::getLexicon('new_tmplvars'),
+                                        __('global.new_tmplvars'),
                                     'url' => "index.php?a=300&itemname=" .
                                         entities($name, evo()->getConfig('modx_charset')),
                                 ],
@@ -635,7 +635,7 @@ if (isset($action)) {
                         $eventParent = array_pop($eventOut);
 
                         if ($eventParent == $parentOld) {
-                            $json['errors'] = ManagerTheme::getLexicon('error_movedocument2');
+                            $json['errors'] = __('global.error_movedocument2');
                         } else {
                             $parent = $eventParent;
                         }
@@ -643,7 +643,7 @@ if (isset($action)) {
 
                     $parentDeleted = $parent > 0 && empty(SiteContent::query()->find($parent));
                     if ($parentDeleted) {
-                        $json['errors'] = ManagerTheme::getLexicon('error_parent_deleted');
+                        $json['errors'] = __('global.error_parent_deleted');
                     } elseif (empty($json['errors'])) {
                         // check privileges user for move docs
                         if (!empty(evo()->config['tree_show_protected']) && $role != 1) {
@@ -655,7 +655,7 @@ if (isset($action)) {
                                 }
                                 foreach ($document_groups as $key => $value) {
                                     if (($key == $parent || $key == $parentOld || $key == $id) && !in_array($role, $value['groups'])) {
-                                        $json['errors'] = ManagerTheme::getLexicon('error_no_privileges');
+                                        $json['errors'] = __('global.error_no_privileges');
                                     }
                                 }
                                 if ($json['errors']) {
@@ -669,7 +669,7 @@ if (isset($action)) {
                         if ($parent == 0 && $parent != $parentOld && !evo()->config['udperms_allowroot'] &&
                             $role != 1
                         ) {
-                            $json['errors'] = ManagerTheme::getLexicon('error_no_privileges');
+                            $json['errors'] = __('global.error_no_privileges');
                         } else {
                             // set new parent
                             SiteContent::withTrashed()->where('id', $id)->update([
@@ -703,7 +703,7 @@ if (isset($action)) {
                             }
 
                             if (empty($json['errors'])) {
-                                $json['success'] = ManagerTheme::getLexicon('actioncomplete');
+                                $json['success'] = __('global.actioncomplete');
 
                                 evo()->invokeEvent('OnAfterMoveDocument', [
                                     'id' => $id,
@@ -715,7 +715,7 @@ if (isset($action)) {
                     }
                 }
             } else {
-                $json['errors'] = ManagerTheme::getLexicon('error_no_privileges');
+                $json['errors'] = __('global.error_no_privileges');
             }
 
             header('content-type: application/json');

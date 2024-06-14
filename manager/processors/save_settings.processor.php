@@ -9,7 +9,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('settings')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 $defaultSettings = config('cms.settings', []);
 $data = $_POST + $defaultSettings;
@@ -29,21 +29,21 @@ if ($data['friendly_urls'] === '1' && strpos($_SERVER['SERVER_SOFTWARE'], 'IIS')
     if (is_file($htaccess)) {
         $_ = file_get_contents($htaccess);
         if (strpos($_, 'RewriteBase') === false) {
-            $warnings[] = ManagerTheme::getLexicon('settings_friendlyurls_alert2');
+            $warnings[] = __('global.settings_friendlyurls_alert2');
         } elseif (is_writable($htaccess)) {
             $_ = preg_replace('@RewriteBase.+@', 'RewriteBase ' . $dir, $_);
             if (!@file_put_contents($htaccess, $_)) {
-                $warnings[] = ManagerTheme::getLexicon('settings_friendlyurls_alert2');
+                $warnings[] = __('global.settings_friendlyurls_alert2');
             }
         }
     } elseif (is_file($sample_htaccess)) {
         if (!@rename($sample_htaccess, $htaccess)) {
-            $warnings[] = ManagerTheme::getLexicon('settings_friendlyurls_alert');
+            $warnings[] = __('global.settings_friendlyurls_alert');
         } elseif (MODX_BASE_URL !== '/') {
             $_ = file_get_contents($htaccess);
             $_ = preg_replace('@RewriteBase.+@', 'RewriteBase ' . $dir, $_);
             if (!@file_put_contents($htaccess, $_)) {
-                $warnings[] = ManagerTheme::getLexicon('settings_friendlyurls_alert2');
+                $warnings[] = __('global.settings_friendlyurls_alert2');
             }
         }
     }

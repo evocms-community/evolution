@@ -87,7 +87,7 @@ class Snippet extends AbstractController implements PageControllerInterface
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_snippet");
+            $_SESSION['itemname'] = __('global.new_snippet');
         }
 
         $values = ManagerTheme::loadValuesFromSession($_POST);

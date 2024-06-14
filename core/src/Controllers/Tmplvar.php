@@ -202,10 +202,10 @@ class Tmplvar extends AbstractController implements PageControllerInterface
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = ManagerTheme::getLexicon('new_template');
+            $_SESSION['itemname'] = __('global.new_template');
             $data->category = isset($_REQUEST['catid']) ? (int) $_REQUEST['catid'] : 0;
         }
-        $data->properties = json_decode($data->properties, true) ?? [];
+        $data->properties = json_decode($data->properties ?? '[]', true);
         $values = ManagerTheme::loadValuesFromSession($_POST);
         if ($values) {
             $data->fill($values);

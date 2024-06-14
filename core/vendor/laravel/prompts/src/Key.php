@@ -72,9 +72,19 @@ class Key
     const CTRL_A = "\x01";
 
     /**
+     * EOF
+     */
+    const CTRL_D = "\x04";
+
+    /**
      * End
      */
     const CTRL_E = "\x05";
+
+    /**
+     * Negative affirmation
+     */
+    const CTRL_U = "\x15";
 
     /**
      * Checks for the constant values for the given match and returns the match

@@ -17,7 +17,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 @section('content')
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_elements') }}"></i>{{ ManagerTheme::getLexicon('element_management') }}
+        <i class="{{ ManagerTheme::getStyle('icon_elements') }}"></i>{{ __('global.element_management') }}
     </h1>
 
     <div class="sectionBody">

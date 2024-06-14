@@ -33,13 +33,13 @@ use EvolutionCMS\Facades\ManagerTheme;
               document.mutate.save.click();
             },
             duplicate: function() {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_duplicate_record') }}`) === true) {
                 documentDirty = false;
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=97";
               }
             },
             delete: function() {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_htmlsnippet') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_delete_htmlsnippet') }}`) === true) {
                 documentDirty = false;
                 document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=80';
               }
@@ -74,7 +74,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
-                {{ ManagerTheme::getLexicon('new_htmlsnippet') }}
+                {{ __('global.new_htmlsnippet') }}
             @endif
             <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
@@ -82,7 +82,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         @include('manager::partials.actionButtons', $actionButtons)
 
         <div class="container element-edit-message">
-            <div class="alert alert-info">{!! ManagerTheme::getLexicon('htmlsnippet_msg') !!}</div>
+            <div class="alert alert-info">{!! __('global.htmlsnippet_msg') !!}</div>
         </div>
 
         <div class="tab-pane" id="chunkPane">
@@ -91,13 +91,13 @@ use EvolutionCMS\Facades\ManagerTheme;
             </script>
 
             <div class="tab-page" id="tabGeneral">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_general') }}</h2>
+                <h2 class="tab">{{ __('global.settings_general') }}</h2>
                 <script>tpChunk.addTabPage(document.getElementById('tabGeneral'));</script>
 
                 <div class="container container-body">
                     @include('manager::form.row', [
                         'for' => 'name',
-                        'label' => ManagerTheme::getLexicon('htmlsnippet_name'),
+                        'label' => __('global.htmlsnippet_name'),
                         'element' => '<div class="form-control-name clearfix">' .
                             ManagerTheme::view('form.inputElement', [
                                 'name' => 'name',
@@ -106,7 +106,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="100"'
                             ]) .
                             (evo()->hasPermission('save_role')
-                            ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_htmlsnippet') . "\n" . ManagerTheme::getLexicon('lock_htmlsnippet_msg') .'">' .
+                            ? '<label class="custom-control" data-tooltip="' . __('global.lock_htmlsnippet') . "\n" . __('global.lock_htmlsnippet_msg') .'">' .
                             ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
@@ -123,7 +123,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'description',
                         'id' => 'description',
-                        'label' => ManagerTheme::getLexicon('htmlsnippet_desc'),
+                        'label' => __('global.htmlsnippet_desc'),
                         'value' => $data->description,
                         'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
                     ])
@@ -131,7 +131,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'categoryid',
                         'id' => 'categoryid',
-                        'label' => ManagerTheme::getLexicon('existing_category'),
+                        'label' => __('global.existing_category'),
                         'value' => $data->category,
                         'first' => [
                             'text' => ''
@@ -143,7 +143,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'newcategory',
                         'id' => 'newcategory',
-                        'label' => ManagerTheme::getLexicon('new_category'),
+                        'label' => __('global.new_category'),
                         'value' => (isset($data->newcategory) ? $data->newcategory : ''),
                         'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                     ])
@@ -157,9 +157,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'checked' => ($data->disabled === 1)
                             ])
                             @if($data->disabled == 1)
-                                <span class="text-danger">{{ ManagerTheme::getLexicon('disabled') }}</span>
+                                <span class="text-danger">{{ __('global.disabled') }}</span>
                             @else
-                                {{ ManagerTheme::getLexicon('disabled') }}
+                                {{ __('global.disabled') }}
                             @endif
                         </label>
                     </div>
@@ -167,16 +167,16 @@ use EvolutionCMS\Facades\ManagerTheme;
 
                 <!-- HTML text editor start -->
                 <div class="navbar navbar-editor">
-                    <span>{{ ManagerTheme::getLexicon('chunk_code') }}</span>
+                    <span>{{ __('global.chunk_code') }}</span>
                     @if(get_by_key(evo()->config, 'use_editor') == 1)
                         <span class="float-right">
-                            {{ ManagerTheme::getLexicon('which_editor_title') }}
+                            {{ __('global.which_editor_title') }}
                             @include('manager::form.selectElement', [
                                 'name' => 'which_editor',
                                 'value' => $which_editor,
                                 'first' => [
                                     'value' => 'none',
-                                    'text' => ManagerTheme::getLexicon('none')
+                                    'text' => __('global.none')
                                 ],
                                 'options' => get_by_key($events, 'OnRichTextEditorRegister'),
                                 'as' => 'values',

@@ -40,33 +40,33 @@ class mgrResources
     public function setTypes()
     {
         $this->types['site_templates'] = array(
-            'title' => ManagerTheme::getLexicon('manage_templates'),
+            'title' => __('global.manage_templates'),
             'actions' => array('edit' => array(16, 'edit_template'), 'duplicate' => array(96, 'new_template'), 'remove' => array(21, 'delete_template')),
             'permissions' => array('new_template', 'edit_template'),
             'name' => 'templatename'
         );
         $this->types['site_tmplvars'] = array(
-            'title' => ManagerTheme::getLexicon('tmplvars'),
+            'title' => __('global.tmplvars'),
             'actions' => array('edit' => array(301, 'edit_template'), 'duplicate' => array(304, 'edit_template'), 'remove' => array(303, 'edit_template')),
             'permissions' => array('new_template', 'edit_template'),
         );
         $this->types['site_htmlsnippets'] = array(
-            'title' => ManagerTheme::getLexicon('manage_htmlsnippets'),
+            'title' => __('global.manage_htmlsnippets'),
             'actions' => array('edit' => array(78, 'edit_chunk'), 'duplicate' => array(97, 'new_chunk'), 'remove' => array(80, 'delete_chunk')),
             'permissions' => array('new_chunk', 'edit_chunk'),
         );
         $this->types['site_snippets'] = array(
-            'title' => ManagerTheme::getLexicon('manage_snippets'),
+            'title' => __('global.manage_snippets'),
             'actions' => array('edit' => array(22, 'edit_snippet'), 'duplicate' => array(98, 'new_snippet'), 'remove' => array(25, 'delete_snippet')),
             'permissions' => array('new_snippet', 'edit_snippet'),
         );
         $this->types['site_plugins'] = array(
-            'title' => ManagerTheme::getLexicon('manage_plugins'),
+            'title' => __('global.manage_plugins'),
             'actions' => array('edit' => array(102, 'edit_plugin'), 'duplicate' => array(105, 'new_plugin'), 'remove' => array(104, 'delete_plugin')),
             'permissions' => array('new_plugin', 'edit_plugin'),
         );
         $this->types['site_modules'] = array(
-            'title' => ManagerTheme::getLexicon('manage_modules'),
+            'title' => __('global.manage_modules'),
             'actions' => array('edit' => array(108, 'edit_module'), 'duplicate' => array(111, 'new_module'), 'remove' => array(110, 'delete_module')),
             'permissions' => array('new_module', 'edit_module'),
         );

@@ -97,9 +97,7 @@ class SystemInfo extends AbstractController implements PageControllerInterface
             ],
             'access_permissions' => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getLexicon(
-                    (bool) ManagerTheme::getCore()->getConfig('use_udperms') ? 'enabled' : 'disabled'
-                )
+                'data'       => __('global.' . (ManagerTheme::getCore()->getConfig('use_udperms') ? 'enabled' : 'disabled'))
             ],
             'servertime'         => [
                 'is_lexicon' => true,

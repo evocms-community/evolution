@@ -8,7 +8,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @push('scripts.top')
         <script>
             var displayStyle = '{{ $displayStyle }}';
-            var lang_chg = '{{ ManagerTheme::getLexicon('confirm_setting_language_change') }}';
+            var lang_chg = '{{ __('global.confirm_setting_language_change') }}';
             var actions = {
                 save: function() {
                     documentDirty = false;
@@ -29,7 +29,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <input type="hidden" name="site_id" value="{{ get_by_key(evo()->config, 'site_id') }}" />
         <input type="hidden" name="settings_version" value="{{ evo()->getVersionData('version') }}" />
         <h1>
-            <i class="{{ ManagerTheme::getStyle('icon_sliders') }}"></i>{{ ManagerTheme::getLexicon('settings_title') }}
+            <i class="{{ ManagerTheme::getStyle('icon_sliders') }}"></i>{{ __('global.settings_title') }}
         </h1>
 
         @include('manager::partials.actionButtons', $actionButtons)
@@ -37,7 +37,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         @if (!get_by_key(evo()->config, 'settings_version') ||
             get_by_key(evo()->config, 'settings_version') !== evo()->getVersionData('version'))
             <div class="container">
-                <p class="alert alert-warning">{!! ManagerTheme::getLexicon('settings_after_install') !!}</p>
+                <p class="alert alert-warning">{!! __('global.settings_after_install') !!}</p>
             </div>
         @endif
         <div class="tab-pane" id="settingsPane">

@@ -7,14 +7,14 @@ use EvolutionCMS\Models\SiteTmplvar;
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
         <a href="?a=76&tab={{ $index }}"><i
-                    class="{{ ManagerTheme::getStyle('icon_tv') }}"></i>{{ ManagerTheme::getLexicon('tmplvars') }}</a>
+                    class="{{ ManagerTheme::getStyle('icon_tv') }}"></i>{{ __('global.tmplvars') }}</a>
     </h2>
 
     <script>tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));</script>
 
     <div id="{{ $tabIndexPageName }}-info" class="msg-container" style="display:none">
-        <div class="element-edit-message-tab">{!! ManagerTheme::getLexicon('tmplvars_management_msg') !!}</div>
-        <p class="viewoptions-message">{!! ManagerTheme::getLexicon('view_options_msg') !!}</p>
+        <div class="element-edit-message-tab">{!! __('global.tmplvars_management_msg') !!}</div>
+        <p class="viewoptions-message">{!! __('global.view_options_msg') !!}</p>
     </div>
 
     <div id="_actions">
@@ -22,24 +22,24 @@ use EvolutionCMS\Models\SiteTmplvar;
             @csrf
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control filterElements-form" id="{{ $tabIndexPageName }}_search"
-                       size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>
+                       size="30" placeholder="{{ __('global.element_filter_msg') }}"/>
                 <div class="input-group-btn">
                     <a class="btn btn-success" target="main" href="{{ (new SiteTmplvar)->makeUrl('actions.new') }}">
                         <i class="{{ ManagerTheme::getStyle('icon_add') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('new_tmplvars') }}</span>
+                        <span>{{ __('global.new_tmplvars') }}</span>
                     </a>
                     <a class="btn btn-secondary" href="{{ (new SiteTmplvar)->makeUrl('actions.sort') }}">
                         <i class="{{ ManagerTheme::getStyle('icon_sort') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('template_tv_edit') }}</span>
+                        <span>{{ __('global.template_tv_edit') }}</span>
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" id="{{ $tabIndexPageName }}-help">
                         <i class="{{ ManagerTheme::getStyle('icon_question_circle') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('help') }}</span>
+                        <span>{{ __('global.help') }}</span>
                     </a>
                     <a class="btn btn-secondary switchform-btn" href="javascript:;"
                        data-target="switchForm_{{ $tabIndexPageName }}">
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('btn_view_options') }}</span>
+                        <span>{{ __('global.btn_view_options') }}</span>
                     </a>
                 </div>
             </div>
@@ -52,7 +52,7 @@ use EvolutionCMS\Models\SiteTmplvar;
     <div class="panel-group no-transition">
         <div id="{{ $tabIndexPageName }}_content" class="resourceTable panel panel-default">
             @if(isset($outCategory) && $outCategory->count() > 0)
-                @component('manager::partials.panelCollapse', ['name' => $tabIndexPageName . '_content', 'id' => 0, 'title' => ManagerTheme::getLexicon('no_category')])
+                @component('manager::partials.panelCollapse', ['name' => $tabIndexPageName . '_content', 'id' => 0, 'title' => __('global.no_category')])
                     <ul class="elements">
                         @foreach($outCategory as $item)
                             @include('manager::page.resources.elements.tv', compact('item', 'tabIndexPageName'))

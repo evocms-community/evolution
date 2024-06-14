@@ -77,6 +77,7 @@ trait Settings
     public function setConfig($name, $value)
     {
         $this->config[$name] = $value;
+        config()->set('global.' . $name, $value);
     }
 
     /**
@@ -118,6 +119,7 @@ trait Settings
     public function getSettings()
     {
         $this->config = array_merge($this->getFactorySettings(), $this->config);
+        config()->set('global', $this->config);
 
         // setup default site id - new installation should generate a unique id for the site.
         if ($this->getConfig('site_id', '') === '') {

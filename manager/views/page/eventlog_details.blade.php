@@ -9,7 +9,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <script>
             var actions = {
                 delete: function() {
-                    if(confirm(`{{ ManagerTheme::getLexicon('confirm_delete_eventlog') }}`) === true) {
+                    if(confirm(`{{ __('global.confirm_delete_eventlog') }}`) === true) {
                         document.location.href = "index.php?id=" + document.resource.id.value + "&a=116";
                     }
                 },
@@ -22,7 +22,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <h1>
-        {{ ManagerTheme::getLexicon('eventlog') }}
+        {{ __('global.eventlog') }}
     </h1>
 
     {!! ManagerTheme::getStyle('actionbuttons.dynamic.canceldelete') !!}
@@ -38,31 +38,31 @@ use EvolutionCMS\Facades\ManagerTheme;
                 <div class="container container-body">
                     @switch($log->type)
                         @case(EvolutionCMS\Models\EventLog::TYPE_INFORMATION)
-                            <p><i class="{{ ManagerTheme::getStyle('icon_info_circle') }} text-info"></i> {{ ManagerTheme::getLexicon('information') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_info_circle') }} text-info"></i> {{ __('global.information') }}</p>
                             @break
                         @case(EvolutionCMS\Models\EventLog::TYPE_WARNING)
-                            <p><i class="{{ ManagerTheme::getStyle('icon_info_triangle') }} text-warning"></i> {{ ManagerTheme::getLexicon('warning') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_info_triangle') }} text-warning"></i> {{ __('global.warning') }}</p>
                             @break
                         @case(EvolutionCMS\Models\EventLog::TYPE_ERROR)
-                            <p><i class="{{ ManagerTheme::getStyle('icon_ban') }} text-danger"></i> {{ ManagerTheme::getLexicon('error') }}</p>
+                            <p><i class="{{ ManagerTheme::getStyle('icon_ban') }} text-danger"></i> {{ __('global.error') }}</p>
                             @break
                         @default:
                             <p>N/A</p>
                     @endswitch
 
-                    <p><b>{{ $log->source }} - {{ ManagerTheme::getLexicon('eventlog_viewer') }}</b></p>
+                    <p><b>{{ $log->source }} - {{ __('global.eventlog_viewer') }}</b></p>
 
                     <table class="table">
                         <tr>
-                            <td width="25%" valign="top">{{ ManagerTheme::getLexicon('event_id') }}:</td>
+                            <td width="25%" valign="top">{{ __('global.event_id') }}:</td>
                             <td width="25%" valign="top">{{ $log->eventid }}</td>
-                            <td width="25%" valign="top">{{ ManagerTheme::getLexicon('source') }}:</td>
+                            <td width="25%" valign="top">{{ __('global.source') }}:</td>
                             <td width="25%" valign="top">{{ $log->source }}</td>
                         </tr>
                         <tr>
-                            <td width="25%" valign="top">{{ ManagerTheme::getLexicon('date') }}:</td>
+                            <td width="25%" valign="top">{{ __('global.date') }}:</td>
                             <td width="25%" valign="top">{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
-                            <td width="25%" valign="top">{{ ManagerTheme::getLexicon('user') }}:</td>
+                            <td width="25%" valign="top">{{ __('global.user') }}:</td>
                             <td width="25%" valign="top">{{ $log->getUser() !== null ? $log->getUser()->username : '-' }}</td>
                         </tr>
                         <tr>

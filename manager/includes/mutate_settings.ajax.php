@@ -24,7 +24,7 @@ switch (true) {
     case ($action == 'get' && preg_match('/^[A-z0-9_-]+$/',
             $lang) && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')): {
         include EVO_CORE_PATH . 'lang/' . $lang . '/global.php';
-        $str = ManagerTheme::getLexicon($key);
+        $str = __('global.' . $key);
         break;
     }
     case ($action == 'setsetting' && !empty($key) && !empty($value)): {

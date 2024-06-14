@@ -1,0 +1,83 @@
+name: "Static Analysis"
+
+on:
+  pull_request:
+    branches:
+      - "*.x"
+    paths:
+      - .github/workflows/static-analysis.yml
+      - composer.*
+      - phpstan.neon.dist
+      - psalm.xml.dist
+      - psalm-strict.xml
+      - src/**
+      - static-analysis/**
+      - tests/**
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - .github/workflows/static-analysis.yml
+      - composer.*
+      - phpstan.neon.dist
+      - psalm.xml.dist
+      - psalm-strict.xml
+      - src/**
+      - static-analysis/**
+      - tests/**
+
+jobs:
+  static-analysis-phpstan:
+    name: "Static Analysis with PHPStan"
+    runs-on: "ubuntu-22.04"
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.3"
+
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v4"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          tools: "cs2pr"
+
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v2"
+
+      - name: "Run a static analysis with phpstan/phpstan"
+        run: "vendor/bin/phpstan --error-format=checkstyle | cs2pr"
+
+  static-analysis-psalm:
+    name: "Static Analysis with Psalm"
+    runs-on: "ubuntu-22.04"
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.3"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ matrix.php-version }}
+          tools: cs2pr
+
+      - name: Install dependencies with Composer
+        uses: ramsey/composer-install@v2
+
+      - name: Run static analysis with Vimeo Psalm
+        run: vendor/bin/psalm --shepherd
+
+      - name: Run type inference tests with Vimeo Psalm
+        run: vendor/bin/psalm --config=psalm-strict.xml --shepherd

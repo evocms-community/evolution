@@ -84,7 +84,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
         foreach ($templatesFromDb->toArray() as $row) {
             $thisCategory = $row['category'];
             if ($row['category'] == null) {
-                $thisCategory = ManagerTheme::getLexicon('no_category');
+                $thisCategory = __('global.no_category');
             }
             if ($thisCategory != $currentCategory) {
                 $i++;

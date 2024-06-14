@@ -18,7 +18,7 @@ require 'core/autoload.php'; // Init MODX
 
 function returnNoPermissionsMessage($role)
 {
-    echo sprintf(ManagerTheme::getLexicon('files_management_no_permission'), $role);
+    echo sprintf(__('global.files_management_no_permission'), $role);
     exit;
 }
 

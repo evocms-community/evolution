@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Legacy;
 
-use DATEPICKER;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerApiInterface;
 use EvolutionCMS\Models\SystemSetting;
@@ -389,7 +388,7 @@ class ManagerApi implements ManagerApiInterface
     {
         $modx = evolutionCMS();
         include_once($path);
-        $dp = new DATEPICKER();
+        $dp = new \DATEPICKER();
 
         return $modx->mergeSettingsContent($dp->getDP());
     }

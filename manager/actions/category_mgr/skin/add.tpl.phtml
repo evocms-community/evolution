@@ -15,10 +15,10 @@ $view->get('url'); ?>" method="post" id="add_form">
         <a class="btn btn-secondary btn-sm" href="javascript:;" id="add-help"
            onclick="document.querySelector('#add-info').classList.toggle('show')"><i
                     class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i>
-            <?= ManagerTheme::getLexicon('help'); ?></a>
+            <?= __('global.help'); ?></a>
     </div>
     <p id="add-info" class="element-edit-message">
-        <?= ManagerTheme::getLexicon('cm_add_new_category'); ?>
+        <?= __('global.cm_add_new_category'); ?>
     </p>
     <div class="row form-row">
         <div class="col-xs-12 col-sm-9">

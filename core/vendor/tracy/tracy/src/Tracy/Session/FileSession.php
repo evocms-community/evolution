@@ -13,22 +13,17 @@ namespace Tracy;
 class FileSession implements SessionStorage
 {
 	private const FilePrefix = 'tracy-';
-	private const CookieLifetime = 31557600;
+	private const CookieLifetime = 31_557_600;
 
-	/** @var string */
-	public $cookieName = 'tracy-session';
+	public string $cookieName = 'tracy-session';
 
-	/** @var float probability that the clean() routine is started */
-	public $gcProbability = 0.001;
-
-	/** @var string */
-	private $dir;
+	/** probability that the clean() routine is started */
+	public float $gcProbability = 0.001;
+	private string $dir;
 
 	/** @var resource */
 	private $file;
-
-	/** @var array */
-	private $data = [];
+	private array $data = [];
 
 
 	public function __construct(string $dir)
@@ -56,7 +51,7 @@ class FileSession implements SessionStorage
 			|| !($file = @fopen($path = $this->dir . '/' . self::FilePrefix . $id, 'r+')) // intentionally @
 		) {
 			$id = Helpers::createId();
-			setcookie($this->cookieName, $id, time() + self::CookieLifetime, '/', '', false, true);
+			setcookie($this->cookieName, $id, time() + self::CookieLifetime, '/', '', secure: false, httponly: true);
 
 			$file = @fopen($path = $this->dir . '/' . self::FilePrefix . $id, 'c+'); // intentionally @
 			if ($file === false) {

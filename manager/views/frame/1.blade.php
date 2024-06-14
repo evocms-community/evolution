@@ -6,13 +6,13 @@ use EvolutionCMS\Facades\ManagerTheme;
 <html dir="{{ ManagerTheme::getTextDir() }}" lang="{{ ManagerTheme::getLang() }}"
       xml:lang="{{ ManagerTheme::getLang() }}">
 <head>
-    <title>{{ evo()->getConfig('site_name') }} - (Evolution CMS Manager)</title>
+    <title>{{ config('global.site_name') }} - (Evolution CMS Manager)</title>
     <meta http-equiv="Content-Type" content="text/html; charset={{ ManagerTheme::getCharset() }}"/>
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
     <meta name="theme-color" content="#1d2023"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link rel="stylesheet" type="text/css" href="{{ $css }}"/>
-    @if (evo()->getConfig('show_picker'))
+    @if (config('global.show_picker'))
         <link rel="stylesheet" href="media/style/common/spectrum/spectrum.css"/>
         <link rel="stylesheet" type="text/css" href="{{ ManagerTheme::getThemeUrl() }}css/color.switcher.css"/>
     @endif
@@ -48,42 +48,42 @@ use EvolutionCMS\Facades\ManagerTheme;
           groups: {!! json_encode(evo()->getUserDocGroups()) !!}
         },
         config: {
-          manager_title: '{{ evo()->getConfig('site_name') }} - (Evolution CMS Manager)',
-          menu_height: {{ (int) evo()->getConfig('manager_menu_height') }},
+          manager_title: '{{ config('global.site_name') }} - (Evolution CMS Manager)',
+          menu_height: {{ (int) config('global.manager_menu_height') }},
           tree_width: {{ (int) $MODX_widthSideBar }},
           tree_min_width: {{ (int) $tree_min_width }},
-          session_timeout: {{ (int) evo()->getConfig('session_timeout') }},
-          site_start: {{ (int) evo()->getConfig('site_start') }},
-          tree_page_click: {{ evo()->getConfig('tree_page_click') }},
+          session_timeout: {{ (int) config('global.session_timeout') }},
+          site_start: {{ (int) config('global.site_start') }},
+          tree_page_click: {{ config('global.tree_page_click') }},
           theme: '{{ ManagerTheme::getTheme() }}',
           theme_mode: '{{ ManagerTheme::getThemeStyle() }}',
           which_browser: '{{ $user['which_browser'] }}',
-          layout: {{ (int) evo()->getConfig('manager_layout') }},
+          layout: {{ (int) config('global.manager_layout') }},
           textdir: '{{ ManagerTheme::getTextDir() }}',
-          global_tabs: {{ (int) evo()->getConfig('global_tabs') }}
+          global_tabs: {{ (int) config('global.global_tabs') }}
         },
         lang: {
-          already_deleted: "{{ ManagerTheme::getLexicon('already_deleted') }}",
-          cm_unknown_error: "{{ ManagerTheme::getLexicon('cm_unknown_error') }}",
-          collapse_tree: "{{ ManagerTheme::getLexicon('collapse_tree') }}",
-          confirm_delete_resource: "{{ ManagerTheme::getLexicon('confirm_delete_resource') }}",
-          confirm_empty_trash: "{{ ManagerTheme::getLexicon('confirm_empty_trash') }}",
-          confirm_publish: "{!! ManagerTheme::getLexicon('confirm_publish') !!}",
-          confirm_remove_locks: "{!! ManagerTheme::getLexicon('confirm_remove_locks') !!}",
-          confirm_resource_duplicate: "{{ ManagerTheme::getLexicon('confirm_resource_duplicate') }}",
-          confirm_undelete: "{{ ManagerTheme::getLexicon('confirm_undelete') }}",
-          confirm_unpublish: "{!! ManagerTheme::getLexicon('confirm_unpublish') !!}",
-          empty_recycle_bin: "{{ ManagerTheme::getLexicon('empty_recycle_bin') }}",
-          empty_recycle_bin_empty: "{{ ManagerTheme::getLexicon('empty_recycle_bin_empty') }}",
-          error_no_privileges: "{{ ManagerTheme::getLexicon('error_no_privileges') }}",
-          expand_tree: "{{ ManagerTheme::getLexicon('expand_tree') }}",
-          loading_doc_tree: "{{ ManagerTheme::getLexicon('loading_doc_tree') }}",
-          loading_menu: "{{ ManagerTheme::getLexicon('loading_menu') }}",
-          not_deleted: "{{ ManagerTheme::getLexicon('not_deleted') }}",
-          unable_set_link: "{{ ManagerTheme::getLexicon('unable_set_link') }}",
-          unable_set_parent: "{{ ManagerTheme::getLexicon('unable_set_parent') }}",
-          working: "{{ ManagerTheme::getLexicon('working') }}",
-          paging_prev: "{{ ManagerTheme::getLexicon('paging_prev') }}"
+          already_deleted: "{{ __('global.already_deleted') }}",
+          cm_unknown_error: "{{ __('global.cm_unknown_error') }}",
+          collapse_tree: "{{ __('global.collapse_tree') }}",
+          confirm_delete_resource: "{{ __('global.confirm_delete_resource') }}",
+          confirm_empty_trash: "{{ __('global.confirm_empty_trash') }}",
+          confirm_publish: "{!! __('global.confirm_publish') !!}",
+          confirm_remove_locks: "{!! __('global.confirm_remove_locks') !!}",
+          confirm_resource_duplicate: "{{ __('global.confirm_resource_duplicate') }}",
+          confirm_undelete: "{{ __('global.confirm_undelete') }}",
+          confirm_unpublish: "{!! __('global.confirm_unpublish') !!}",
+          empty_recycle_bin: "{{ __('global.empty_recycle_bin') }}",
+          empty_recycle_bin_empty: "{{ __('global.empty_recycle_bin_empty') }}",
+          error_no_privileges: "{{ __('global.error_no_privileges') }}",
+          expand_tree: "{{ __('global.expand_tree') }}",
+          loading_doc_tree: "{{ __('global.loading_doc_tree') }}",
+          loading_menu: "{{ __('global.loading_menu') }}",
+          not_deleted: "{{ __('global.not_deleted') }}",
+          unable_set_link: "{{ __('global.unable_set_link') }}",
+          unable_set_parent: "{{ __('global.unable_set_parent') }}",
+          working: "{{ __('global.working') }}",
+          paging_prev: "{{ __('global.paging_prev') }}"
         },
         style: {
           actions_file: '<?= addslashes(ManagerTheme::getStyle('icon_file')) ?>',
@@ -176,9 +176,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                 : 'modx.openedArray[' . implode("] = 1;\n		modx.openedArray[", $opened) . '] = 1;') . "\n";
         ?>
     </script>
-    <script src="{{ ManagerTheme::getThemeUrl() }}js/modx.js?v={{ ManagerTheme::getCore()->getVersionData('version') }}">
+    <script src="{{ ManagerTheme::getThemeUrl() }}js/modx.js?v={{ evo()->getVersionData('version') }}">
     </script>
-    @if (evo()->getConfig('show_picker'))
+    @if (config('global.show_picker'))
         <script src="media/script/bootstrap/js/bootstrap.min.js"></script>
         <script src="media/script/spectrum/spectrum.evo.min.js"></script>
         <script src="{{ ManagerTheme::getThemeUrl() }}js/color.switcher.js"></script>
@@ -214,43 +214,43 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 <div class="mask"></div>
                             </form>
                         </li>
-                        @if (evo()->getConfig('show_newresource_btn') && evo()->hasPermission('new_document'))
+                        @if (config('global.show_newresource_btn') && evo()->hasPermission('new_document'))
                             <li id="newresource" class="dropdown newresource">
                                 <a href="javascript:;" class="dropdown-toggle" onclick="return false;"
-                                   title="{{ ManagerTheme::getLexicon('add_resource') }}"><i
+                                   title="{{ __('global.add_resource') }}"><i
                                             class="{{ ManagerTheme::getStyle('icon_plus') }}"></i></a>
                                 <ul class="dropdown-menu">
                                     @if (evo()->hasPermission('new_document'))
                                         <li>
                                             <a onclick="" href="index.php?a=4" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_document') }}"></i>
-                                                {{ ManagerTheme::getLexicon('add_resource') }}
+                                                {{ __('global.add_resource') }}
                                             </a>
                                         </li>
                                         <li>
                                             <a onclick="" href="index.php?a=72" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_chain') }}"></i>
-                                                {{ ManagerTheme::getLexicon('add_weblink') }}
+                                                {{ __('global.add_weblink') }}
                                             </a>
                                         </li>
                                     @endif
-                                    @if (evo()->getConfig('use_browser') && evo()->hasPermission('assets_images'))
+                                    @if (config('global.use_browser') && evo()->hasPermission('assets_images'))
                                         <li>
                                             <a onclick=""
-                                               href="media/browser/{{ evo()->getConfig('which_browser') }}/browse.php?&type=images"
+                                               href="media/browser/{{ config('global.which_browser') }}/browse.php?&type=images"
                                                target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_camera') }}"></i>
-                                                {{ ManagerTheme::getLexicon('images_management') }}
+                                                {{ __('global.images_management') }}
                                             </a>
                                         </li>
                                     @endif
-                                    @if (evo()->getConfig('use_browser') && evo()->hasPermission('assets_files'))
+                                    @if (config('global.use_browser') && evo()->hasPermission('assets_files'))
                                         <li>
                                             <a onclick=""
-                                               href="media/browser/{{ evo()->getConfig('which_browser') }}/browse.php?&type=files"
+                                               href="media/browser/{{ config('global.which_browser') }}/browse.php?&type=files"
                                                target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_files') }}"></i>
-                                                {{ ManagerTheme::getLexicon('files_management') }}
+                                                {{ __('global.files_management') }}
                                             </a>
                                         </li>
                                     @endif
@@ -258,11 +258,11 @@ use EvolutionCMS\Facades\ManagerTheme;
                             </li>
                         @endif
                         <li id="preview">
-                            <a href="../" target="_blank" title="{{ ManagerTheme::getLexicon('preview') }}">
+                            <a href="../" target="_blank" title="{{ __('global.preview') }}">
                                 <i class="{{ ManagerTheme::getStyle('icon_desktop') }} position-relative">
-                                    @if (!evo()->getConfig('site_status'))
+                                    @if (!config('global.site_status'))
                                         <i class="fa fa-exclamation-triangle site-status"
-                                           title="{{ evo()->getConfig('site_unavailable_message') }}"></i>
+                                           title="{{ config('global.site_unavailable_message') }}"></i>
                                     @endif
                                 </i>
                             </a>
@@ -270,11 +270,11 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li id="account" class="dropdown account">
                             <a href="javascript:;" class="dropdown-toggle" onclick="return false;">
                                     <span class="username">
-                                        <?= entities($user['username'], evo()->getConfig('modx_charset')) ?>
+                                        <?= entities($user['username'], config('global.modx_charset')) ?>
                                     </span>
                                 @if ($user['photo'])
                                     <span class="icon photo"
-                                          style="background-image: url(<?= MODX_SITE_URL . entities($user['photo'], evo()->getConfig('modx_charset')) ?>);"></span>
+                                          style="background-image: url(<?= MODX_SITE_URL . entities($user['photo'], config('global.modx_charset')) ?>);"></span>
                                 @else
                                     <span class="icon"><i class="{{ ManagerTheme::getStyle('icon_user') }}"></i></span>
                                 @endif
@@ -284,14 +284,14 @@ use EvolutionCMS\Facades\ManagerTheme;
                                     <li>
                                         <a onclick="" href="index.php?a=28" target="main">
                                             <i lass="{{ ManagerTheme::getStyle('icon_lock') }}"></i>
-                                            {{ ManagerTheme::getLexicon('change_password') }}
+                                            {{ __('global.change_password') }}
                                         </a>
                                     </li>
                                 @endif
                                 <li>
                                     <a href="index.php?a=8">
                                         <i class="{{ ManagerTheme::getStyle('icon_logout') }}"></i>
-                                        {{ ManagerTheme::getLexicon('logout') }}
+                                        {{ __('global.logout') }}
                                     </a>
                                 </li>
                             </ul>
@@ -303,14 +303,14 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 evo()->hasPermission('help'))
                             <li id="system" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle"
-                                   title="{{ ManagerTheme::getLexicon('system') }}" onclick="return false;"><i
+                                   title="{{ __('global.system') }}" onclick="return false;"><i
                                             class="{{ ManagerTheme::getStyle('icon_cogs') }}"></i></a>
                                 <ul class="dropdown-menu">
                                     @if (evo()->hasPermission('settings'))
                                         <li>
                                             <a href="index.php?a=17" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_sliders') }}"></i>
-                                                {{ ManagerTheme::getLexicon('edit_settings') }}
+                                                {{ __('global.edit_settings') }}
                                             </a>
                                         </li>
                                     @endif
@@ -318,7 +318,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         <li>
                                             <a href="index.php?a=70" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_calendar') }}"></i>
-                                                {{ ManagerTheme::getLexicon('site_schedule') }}
+                                                {{ __('global.site_schedule') }}
                                             </a>
                                         </li>
                                     @endif
@@ -326,7 +326,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         <li>
                                             <a href="index.php?a=114" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_info_triangle') }}"></i>
-                                                {{ ManagerTheme::getLexicon('eventlog_viewer') }}
+                                                {{ __('global.eventlog_viewer') }}
                                             </a>
                                         </li>
                                     @endif
@@ -334,33 +334,33 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         <li>
                                             <a href="index.php?a=13" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_user_secret') }}"></i>
-                                                {{ ManagerTheme::getLexicon('view_logging') }}
+                                                {{ __('global.view_logging') }}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="index.php?a=53" target="main">
                                                 <i class="{{ ManagerTheme::getStyle('icon_info_circle') }}"></i>
-                                                {{ ManagerTheme::getLexicon('view_sysinfo') }}
+                                                {{ __('global.view_sysinfo') }}
                                             </a>
                                         </li>
                                     @endif
                                         <?php
                                         $style =
-                                            evo()->getConfig('settings_version') !== evo()->getVersionData('version')
+                                            config('global.settings_version') !== evo()->getVersionData('version')
                                                 ? 'style="color:#ffff8a;"' : '';
                                         $version = 'Evolution CE';
                                         echo '<li><span class="dropdown-item" title="' .
-                                            evo()->getPhpCompat()->entities(evo()->getConfig('site_name')) .
+                                            evo()->getPhpCompat()->entities(config('global.site_name')) .
                                             ' &ndash; ' . evo()->getVersionData('full_appname') . '" ' . $style . '>' .
-                                            $version . ' ' . evo()->getConfig('settings_version') . '</span></li>';
+                                            $version . ' ' . config('global.settings_version') . '</span></li>';
                                         ?>
                                 </ul>
                             </li>
                         @endif
-                        @if (evo()->getConfig('show_fullscreen_btn'))
+                        @if (config('global.show_fullscreen_btn'))
                             <li id="fullscreen">
                                 <a href="javascript:;" onclick="toggleFullScreen();" id="toggleFullScreen"
-                                   title="{{ ManagerTheme::getLexicon('toggle_fullscreen') }}">
+                                   title="{{ __('global.toggle_fullscreen') }}">
                                     <i class="{{ ManagerTheme::getStyle('icon_expand') }}"></i>
                                 </a>
                             </li>
@@ -372,7 +372,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     </div>
     <div id="tree">@include('manager::frame.tree')</div>
     <div id="main">
-        @if (evo()->getConfig('global_tabs'))
+        @if (config('global.global_tabs'))
             <div class="tab-row-container evo-tab-row">
                 <div class="tab-row">
                     <h2 id="evo-tab-home" class="tab selected" data-target="evo-tab-page-home"><i
@@ -416,72 +416,72 @@ use EvolutionCMS\Facades\ManagerTheme;
             <div class="form-group">
                 <input type="hidden" name="dt"
                        value="<?= isset($_REQUEST['dt']) ? htmlspecialchars($_REQUEST['dt']) : '' ?>"/>
-                <label>{{ ManagerTheme::getLexicon('sort_tree') }}</label>
+                <label>{{ __('global.sort_tree') }}</label>
                 <select name="sortby" class="form-control">
                     <option value="isfolder"
                         <?= $_SESSION['tree_sortby'] == 'isfolder' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('folder') }}</option>
+                        {{ __('global.folder') }}</option>
                     <option value="pagetitle"
                         <?= $_SESSION['tree_sortby'] == 'pagetitle' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('pagetitle') }}</option>
+                        {{ __('global.pagetitle') }}</option>
                     <option value="longtitle"
                         <?= $_SESSION['tree_sortby'] == 'longtitle' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('long_title') }}</option>
+                        {{ __('global.long_title') }}</option>
                     <option value="id" <?= $_SESSION['tree_sortby'] == 'id' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('id') }}</option>
+                        {{ __('global.id') }}</option>
                     <option value="menuindex"
                         <?= $_SESSION['tree_sortby'] == 'menuindex' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('resource_opt_menu_index') }}</option>
+                        {{ __('global.resource_opt_menu_index') }}</option>
                     <option value="createdon"
                         <?= $_SESSION['tree_sortby'] == 'createdon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('createdon') }}</option>
+                        {{ __('global.createdon') }}</option>
                     <option value="editedon"
                         <?= $_SESSION['tree_sortby'] == 'editedon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('editedon') }}</option>
+                        {{ __('global.editedon') }}</option>
                     <option value="publishedon"
                         <?= $_SESSION['tree_sortby'] == 'publishedon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('page_data_publishdate') }}</option>
+                        {{ __('global.page_data_publishdate') }}</option>
                     <option value="alias"
                         <?= $_SESSION['tree_sortby'] == 'alias' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('page_data_alias') }}</option>
+                        {{ __('global.page_data_alias') }}</option>
                 </select>
             </div>
             <div class="form-group">
                 <select name="sortdir" class="form-control">
                     <option value="DESC"
                         <?= $_SESSION['tree_sortdir'] == 'DESC' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('sort_desc') }}</option>
+                        {{ __('global.sort_desc') }}</option>
                     <option value="ASC" <?= $_SESSION['tree_sortdir'] == 'ASC' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('sort_asc') }}</option>
+                        {{ __('global.sort_asc') }}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>{{ ManagerTheme::getLexicon('setting_resource_tree_node_name') }}</label>
+                <label>{{ __('global.setting_resource_tree_node_name') }}</label>
                 <select name="nodename" class="form-control">
                     <option value="default"
                         <?= $_SESSION['tree_nodename'] == 'default' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('default') }}</option>
+                        {{ __('global.default') }}</option>
                     <option value="pagetitle"
                         <?= $_SESSION['tree_nodename'] == 'pagetitle' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('pagetitle') }}</option>
+                        {{ __('global.pagetitle') }}</option>
                     <option value="longtitle"
                         <?= $_SESSION['tree_nodename'] == 'longtitle' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('long_title') }}</option>
+                        {{ __('global.long_title') }}</option>
                     <option value="menutitle"
                         <?= $_SESSION['tree_nodename'] == 'menutitle' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('resource_opt_menu_title') }}</option>
+                        {{ __('global.resource_opt_menu_title') }}</option>
                     <option value="alias"
                         <?= $_SESSION['tree_nodename'] == 'alias' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('alias') }}</option>
+                        {{ __('global.alias') }}</option>
                     <option value="createdon"
                         <?= $_SESSION['tree_nodename'] == 'createdon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('createdon') }}</option>
+                        {{ __('global.createdon') }}</option>
                     <option value="editedon"
                         <?= $_SESSION['tree_nodename'] == 'editedon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('editedon') }}</option>
+                        {{ __('global.editedon') }}</option>
                     <option value="publishedon"
                         <?= $_SESSION['tree_nodename'] == 'publishedon' ? "selected='selected'" : '' ?>>
-                        {{ ManagerTheme::getLexicon('page_data_publishdate') }}</option>
+                        {{ __('global.page_data_publishdate') }}</option>
                 </select>
             </div>
             <div class="form-group">
@@ -490,12 +490,12 @@ use EvolutionCMS\Facades\ManagerTheme;
                            value="<?= $_SESSION['tree_show_only_folders'] ? 1 : '' ?>"
                            onclick="this.value = (this.value ? '' : 1);"
                         <?= $_SESSION['tree_show_only_folders'] ? '' : ' checked="checked"' ?> />
-                    {{ ManagerTheme::getLexicon('view_child_resources_in_container') }}</label>
+                    {{ __('global.view_child_resources_in_container') }}</label>
             </div>
             <div class="text-center">
                 <a href="javascript:;" class="btn btn-primary"
                    onclick="modx.tree.updateTree();modx.tree.showSorter(event);"
-                   title="{{ ManagerTheme::getLexicon('sort_tree') }}">{{ ManagerTheme::getLexicon('sort_tree') }}</a>
+                   title="{{ __('global.sort_tree') }}">{{ __('global.sort_tree') }}</a>
             </div>
         </form>
     </div>
@@ -524,31 +524,31 @@ use EvolutionCMS\Facades\ManagerTheme;
         constructLink(
             3,
             ManagerTheme::getStyle('icon_document'),
-            ManagerTheme::getLexicon('create_resource_here'),
+            __('global.create_resource_here'),
             evo()->hasPermission('new_document')
         ); // new Resource
         constructLink(
             2,
             ManagerTheme::getStyle('icon_edit'),
-            ManagerTheme::getLexicon('edit_resource'),
+            __('global.edit_resource'),
             evo()->hasPermission('edit_document')
         ); // edit
         constructLink(
             5,
             ManagerTheme::getStyle('icon_move'),
-            ManagerTheme::getLexicon('move_resource'),
+            __('global.move_resource'),
             evo()->hasPermission('save_document')
         ); // move
         constructLink(
             7,
             ManagerTheme::getStyle('icon_clone'),
-            ManagerTheme::getLexicon('resource_duplicate'),
+            __('global.resource_duplicate'),
             evo()->hasPermission('new_document')
         ); // duplicate
         constructLink(
             11,
             ManagerTheme::getStyle('icon_sort_num_asc'),
-            ManagerTheme::getLexicon('sort_menuindex'),
+            __('global.sort_menuindex'),
             !!(evo()->hasPermission('edit_document') && evo()->hasPermission('save_document'))
         ); // sort menu index
         ?>
@@ -557,25 +557,25 @@ use EvolutionCMS\Facades\ManagerTheme;
         constructLink(
             9,
             ManagerTheme::getStyle('icon_check'),
-            ManagerTheme::getLexicon('publish_resource'),
+            __('global.publish_resource'),
             evo()->hasPermission('publish_document')
         ); // publish
         constructLink(
             10,
             ManagerTheme::getStyle('icon_close'),
-            ManagerTheme::getLexicon('unpublish_resource'),
+            __('global.unpublish_resource'),
             evo()->hasPermission('publish_document')
         ); // unpublish
         constructLink(
             4,
             ManagerTheme::getStyle('icon_trash'),
-            ManagerTheme::getLexicon('delete_resource'),
+            __('global.delete_resource'),
             evo()->hasPermission('delete_document')
         ); // delete
         constructLink(
             8,
             ManagerTheme::getStyle('icon_undo'),
-            ManagerTheme::getLexicon('undelete_resource'),
+            __('global.undelete_resource'),
             evo()->hasPermission('delete_document')
         ); // undelete
         ?>
@@ -584,7 +584,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         constructLink(
             6,
             ManagerTheme::getStyle('icon_chain'),
-            ManagerTheme::getLexicon('create_weblink_here'),
+            __('global.create_weblink_here'),
             evo()->hasPermission('new_document')
         ); // new Weblink
         ?>
@@ -593,13 +593,13 @@ use EvolutionCMS\Facades\ManagerTheme;
         constructLink(
             1,
             ManagerTheme::getStyle('icon_info'),
-            ManagerTheme::getLexicon('resource_overview'),
+            __('global.resource_overview'),
             evo()->hasPermission('view_document')
         ); // view
         constructLink(
             12,
             ManagerTheme::getStyle('icon_eye'),
-            ManagerTheme::getLexicon('preview_resource'),
+            __('global.preview_resource'),
             1
         ); // preview
         ?>
@@ -607,7 +607,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     </div>
 
     <?php
-    $filemanagerUri = MODX_MANAGER_URL . 'media/browser/' . evo()->getConfig('which_browser') . '/browse.php'
+    $filemanagerUri = MODX_MANAGER_URL . 'media/browser/' . config('global.which_browser') . '/browse.php'
     ?>
     <script>
       if (document.getElementById('treeMenu')) {
@@ -622,10 +622,10 @@ use EvolutionCMS\Facades\ManagerTheme;
             if (modx.config.global_tabs && !e.shiftKey) {
               modx.tabs({
                 url: '{{ MODX_MANAGER_URL }}index.php?a=76',
-                title: '{{ ManagerTheme::getLexicon('elements') }}'
+                title: '{{ __('global.elements') }}'
               })
             } else {
-              var randomNum = '{{ ManagerTheme::getLexicon('elements') }}'
+              var randomNum = '{{ __('global.elements') }}'
               if (e.shiftKey) {
                 randomNum += ' #' + Math.floor((Math.random() * 999999) + 1)
               }
@@ -636,17 +636,17 @@ use EvolutionCMS\Facades\ManagerTheme;
             }
           }
           @endif
-          @if (evo()->getConfig('use_browser') && evo()->hasPermission('assets_images'))
+          @if (config('global.use_browser') && evo()->hasPermission('assets_images'))
 
           document.getElementById('treeMenu_openimages').onclick = function (e) {
             e.preventDefault()
             if (modx.config.global_tabs && !e.shiftKey) {
               modx.tabs({
                 url: '{{ $filemanagerUri }}?filemanager={{ $filemanagerUri }}&type=images',
-                title: '{{ ManagerTheme::getLexicon('images_management') }}'
+                title: '{{ __('global.images_management') }}'
               })
             } else {
-              var randomNum = '{{ ManagerTheme::getLexicon('files_files') }}'
+              var randomNum = '{{ __('global.files_files') }}'
               if (e.shiftKey) {
                 randomNum += ' #' + Math.floor((Math.random() * 999999) + 1)
               }
@@ -657,17 +657,17 @@ use EvolutionCMS\Facades\ManagerTheme;
             }
           }
           @endif
-          @if (evo()->getConfig('use_browser') && evo()->hasPermission('assets_files'))
+          @if (config('global.use_browser') && evo()->hasPermission('assets_files'))
 
           document.getElementById('treeMenu_openfiles').onclick = function (e) {
             e.preventDefault()
             if (modx.config.global_tabs && !e.shiftKey) {
               modx.tabs({
                 url: '{{ $filemanagerUri }}?filemanager={{ $filemanagerUri }}&type=files',
-                title: '{{ ManagerTheme::getLexicon('files_files') }}'
+                title: '{{ __('global.files_files') }}'
               })
             } else {
-              var randomNum = '{{ ManagerTheme::getLexicon('files_files') }}'
+              var randomNum = '{{ __('global.files_files') }}'
               if (e.shiftKey) {
                 randomNum += ' #' + Math.floor((Math.random() * 999999) + 1)
               }
@@ -681,7 +681,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
       }
     </script>
-    @if (evo()->getConfig('show_fullscreen_btn'))
+    @if (config('global.show_fullscreen_btn'))
         <script>
           function toggleFullScreen () {
             if ((document.fullScreenElement && document.fullScreenElement !== null) ||
@@ -713,7 +713,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endif
     {!! evo()->invokeEvent('OnManagerFrameLoader', ['action' => ManagerTheme::getActionId()]) !!}
 </div>
-@if (evo()->getConfig('show_picker'))
+@if (config('global.show_picker'))
     <div class="evocp-box">
         <div class="evocp-icon"><i class="evocpicon {{ ManagerTheme::getStyle('icon_brush') }}" aria-hidden="true"></i>
         </div>
@@ -725,7 +725,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <i class="togglearrow {{ ManagerTheme::getStyle('icon_chevron_down') }}" aria-hidden="true"></i>
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}" aria-hidden="true"></i> Menu Background
                     </h3>
-                    <a title="{{ ManagerTheme::getLexicon('reset') }}" href="javascript:;"
+                    <a title="{{ __('global.reset') }}" href="javascript:;"
                        onclick="cleanLocalStorageReloadAll('my_evo_bgmcolor')"
                        class="pull-right resetcolor btn btn-secondary">
                         <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
@@ -759,7 +759,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                            aria-hidden="true"></i>
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}" aria-hidden="true"></i> Menu links
                     </h3>
-                    <a title="{{ ManagerTheme::getLexicon('reset') }}" href="javascript:;"
+                    <a title="{{ __('global.reset') }}" href="javascript:;"
                        onclick="cleanLocalStorageReloadMain('my_evo_menuColor')"
                        class="pull-right resetcolor btn btn-secondary">
                         <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
@@ -794,7 +794,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                            aria-hidden="true"></i>
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}" aria-hidden="true"></i> Menu
                         links:hover </h3>
-                    <a title="{{ ManagerTheme::getLexicon('reset') }}" href="javascript:;"
+                    <a title="{{ __('global.reset') }}" href="javascript:;"
                        onclick="cleanLocalStorageReloadMain('my_evo_menuHColor')"
                        class="pull-right resetcolor btn btn-secondary">
                         <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
@@ -828,7 +828,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                            aria-hidden="true"></i>
                         <i class="{{ ManagerTheme::getStyle('icon_font') }}" aria-hidden="true"></i> Text color
                     </h3>
-                    <a title="{{ ManagerTheme::getLexicon('reset') }}" href="javascript:;"
+                    <a title="{{ __('global.reset') }}" href="javascript:;"
                        onclick="cleanLocalStorageReloadMain('my_evo_color')"
                        class="pull-right resetcolor btn btn-secondary">
                         <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
@@ -862,7 +862,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                            aria-hidden="true"></i>
                         <i class="{{ ManagerTheme::getStyle('icon_chain') }}" aria-hidden="true"></i> Links Color
                     </h3>
-                    <a title="{{ ManagerTheme::getLexicon('reset') }}" href="javascript:;"
+                    <a title="{{ __('global.reset') }}" href="javascript:;"
                        onclick="cleanLocalStorageReloadMain('my_evo_alinkcolor')"
                        class="pull-right resetcolor btn btn-secondary">
                         <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
@@ -892,7 +892,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             <hr/>
             <input type="reset"
                    onclick="cleanLocalStorageReloadAll('my_evo_alinkcolor,my_evo_menuColor,my_evo_menuHColor,my_evo_bgmcolor,my_evo_color')"
-                   class="btn btn-secondary" value="{{ ManagerTheme::getLexicon('reset') }}">
+                   class="btn btn-secondary" value="{{ __('global.reset') }}">
         </div>
     </div>
     <script>

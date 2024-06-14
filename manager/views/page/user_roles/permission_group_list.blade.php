@@ -6,7 +6,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
         <a href="?a=86&tab={{ $tab->getIndex() }}"><i
-                    class="{{ ManagerTheme::getStyle('icon_category') }}"></i>{{ ManagerTheme::getLexicon('category_heading') }}
+                    class="{{ ManagerTheme::getStyle('icon_category') }}"></i>{{ __('global.category_heading') }}
         </a>
     </h2>
     <script>tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'))</script>
@@ -14,19 +14,19 @@ use EvolutionCMS\Facades\ManagerTheme;
     <div class="form-group">
         <a class="btn btn-secondary btn-sm"
            href="{{ (new EvolutionCMS\Models\PermissionsGroups)->makeUrl('actions.new') }}">
-            <i class="{{ ManagerTheme::getStyle('icon_add') }} hide4desktop"></i> {{ ManagerTheme::getLexicon('new_category') }}
+            <i class="{{ ManagerTheme::getStyle('icon_add') }} hide4desktop"></i> {{ __('global.new_category') }}
         </a>
     </div>
     <div class="form-group">
         @if($groups->count() === 0)
-            <p>{{ ManagerTheme::getLexicon('no_records_found') }}</p>
+            <p>{{ __('global.no_records_found') }}</p>
         @else
             <div class="row">
                 <div class="table-responsive">
                     <table class="table data">
                         <thead>
                         <tr>
-                            <td>{{ ManagerTheme::getLexicon('category_heading') }}</td>
+                            <td>{{ __('global.category_heading') }}</td>
                         </tr>
                         </thead>
                         <tbody>

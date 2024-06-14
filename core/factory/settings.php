@@ -1,4 +1,7 @@
 <?php
+
+use EvolutionCMS\Facades\ManagerTheme;
+
 return [
     'site_name' => 'My Evolution CMS Site',
     'site_start' => 1,
@@ -11,8 +14,8 @@ return [
     'enable_filter' => 0,
     'enable_at_syntax' => 0,
     'minifyphp_incache' => 0,
-    'rss_url_news' => ManagerTheme::getLexicon("rss_url_news_default"),
-    'rss_url_security' => ManagerTheme::getLexicon("rss_url_security_default"),
+    'rss_url_news' => __('global.rss_url_news_default'),
+    'rss_url_security' => __('global.rss_url_security_default'),
     'friendly_urls' => 0,
     'friendly_url_prefix' => '',
     'friendly_url_suffix' => '.html',
@@ -32,15 +35,15 @@ return [
     'error_reporting' => '1',
     'send_errormail' => '0',
     'enable_bindings' => 1,
-    'captcha_words' => ManagerTheme::getLexicon("captcha_words_default"),
+    'captcha_words' => __('global.captcha_words_default'),
     'emailsender' => 'you@example.com',
     'smtp_host' => 'smtp.example.com',
     'smtp_port' => 25,
     'smtp_username' => 'emailsender',
-    'emailsubject' => ManagerTheme::getLexicon("emailsubject_default"),
-    'signupemail_message' => ManagerTheme::getLexicon("system_email_signup"),
-    'websignupemail_message' => ManagerTheme::getLexicon("system_email_websignup"),
-    'webpwdreminder_message' => ManagerTheme::getLexicon("system_email_webreminder"),
+    'emailsubject' => __('global.emailsubject_default'),
+    'signupemail_message' => __('global.system_email_signup'),
+    'websignupemail_message' => __('global.system_email_websignup'),
+    'webpwdreminder_message' => __('global.system_email_webreminder'),
     'warning_visibility' => 1,
     'tree_page_click' => 27,
     'use_breadcrumbs' => 0,
@@ -77,7 +80,7 @@ return [
     'denyExtensionRename' => 0,
     'showHiddenFiles' => 0,
     'session_timeout' => 15,
-    'site_unavailable_message' => ManagerTheme::getLexicon('siteunavailable_message_default'),
+    'site_unavailable_message' => __('global.siteunavailable_message_default'),
     'allow_eval' => 'with_scan',
     'safe_functions_at_eval' => 'time,date,strtotime,strftime',
     'use_udperms' => '1',

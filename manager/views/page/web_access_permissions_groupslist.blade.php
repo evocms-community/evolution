@@ -10,7 +10,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             <div class="row searchbar form-group align-items-center">
                 <div class="col-sm-6 input-group">
                     <h1>
-                        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ $_GET['list'] == 'users' ? ManagerTheme::getLexicon('users_list') : ManagerTheme::getLexicon('documents_list') }}
+                        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ $_GET['list'] == 'users' ? __('global.users_list') : __('global.documents_list') }}
                         в группе {{ $group['name'] }}</i>
                     </h1>
                 </div>
@@ -42,7 +42,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                             <thead>
                             <tr>
                                 <th style="width: 1%">ID</th>
-                                <th>{{ $_GET['list'] == 'users' ? ManagerTheme::getLexicon('user') : ManagerTheme::getLexicon('resource') }}</th>
+                                <th>{{ $_GET['list'] == 'users' ? __('global.user') : __('global.resource') }}</th>
                                 <th style="width: 1%"></th>
                             </tr>
                             </thead>

@@ -9,13 +9,13 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 if (!evo()->hasPermission('save_plugin') && !evo()->hasPermission('save_snippet') &&
     !evo()->hasPermission('save_template') && !evo()->hasPermission('save_module')
 ) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_GET['catId'] ?? 0);
 
 if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // Set the item name for logger

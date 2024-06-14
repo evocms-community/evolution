@@ -57,7 +57,7 @@ if (!$stack) {
 					</div>
 
 					<div class="tracy-tab-panel<?= $sourceMapped['active'] ? ' tracy-active' : '' ?>">
-						<?= BlueScreen::highlightFile($sourceMapped['file'], $sourceMapped['line'], 15, false) ?>
+						<?= BlueScreen::highlightFile($sourceMapped['file'], $sourceMapped['line'], php: false) ?>
 					</div>
 				</div>
 			</div>
@@ -72,7 +72,7 @@ if (!$stack) {
 			try {
 				$r = isset($row['class']) ? new \ReflectionMethod($row['class'], $row['function']) : new \ReflectionFunction($row['function']);
 				$params = $r->getParameters();
-			} catch (\Exception $e) {
+			} catch (\Exception) {
 				$params = [];
 			}
 			foreach ($row['args'] as $k => $v) {

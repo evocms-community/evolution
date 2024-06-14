@@ -9,12 +9,12 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('delete_document')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 /** @var SiteContent $document */
@@ -23,7 +23,7 @@ $document = SiteContent::withTrashed()->findOrFail($id);
 $pid = ($document->parent == 0 ? $id : $document->parent);
 $parentDeleted = $document->parent > 0 && empty(SiteContent::query()->find($document->parent));
 if ($parentDeleted) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_parent_deleted'));
+    evo()->webAlertAndQuit(__('global.error_parent_deleted'));
 }
 $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
@@ -37,7 +37,7 @@ $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+    evo()->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // get the timestamp on which the document was deleted.

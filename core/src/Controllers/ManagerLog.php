@@ -142,7 +142,7 @@ class ManagerLog extends AbstractController implements PageControllerInterface
         $grd->pageClass = 'page-item';
         $grd->selPageClass = 'page-item active';
 
-        $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
+        $grd->noRecordMsg = __('global.no_records_found');
         $grd->cssClass = 'table data nowrap';
         $grd->columnHeaderClass = 'tableHeader';
         $grd->itemClass = 'tableItem overflow-hidden';
@@ -188,11 +188,11 @@ class ManagerLog extends AbstractController implements PageControllerInterface
         ];
 
         $grd->columns = implode(',', [
-            ManagerTheme::getLexicon('mgrlog_username'),
-            ManagerTheme::getLexicon('mgrlog_action'),
-            ManagerTheme::getLexicon('mgrlog_itemid'),
-            ManagerTheme::getLexicon('mgrlog_itemname'),
-            ManagerTheme::getLexicon('mgrlog_time'),
+            __('global.mgrlog_username'),
+            __('global.mgrlog_action'),
+            __('global.mgrlog_itemid'),
+            __('global.mgrlog_itemname'),
+            __('global.mgrlog_time'),
             'IP',
             'USER_AGENT',
         ]);

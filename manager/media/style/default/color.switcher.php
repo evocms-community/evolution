@@ -16,7 +16,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                        aria-hidden="true"></i>
                     <i class="<?= ManagerTheme::getStyle('icon_bars') ?> aria-hidden=" true"></i> Menu Background
                 </h3>
-                <a title="<?= ManagerTheme::getLexicon('reset') ?>" href="javascript:;"
+                <a title="<?= __('global.reset') ?>" href="javascript:;"
                    onclick="cleanLocalStorageReloadAll('my_evo_bgmcolor')"
                    class="pull-right resetcolor btn btn-secondary">
                     <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
@@ -50,7 +50,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                        aria-hidden="true"></i>
                     <i class="<?= ManagerTheme::getStyle('icon_bars') ?>" aria-hidden="true"></i> Menu links
                 </h3>
-                <a title="<?= ManagerTheme::getLexicon('reset') ?>" href="javascript:;"
+                <a title="<?= __('global.reset') ?>" href="javascript:;"
                    onclick="cleanLocalStorageReloadMain('my_evo_menuColor')"
                    class="pull-right resetcolor btn btn-secondary">
                     <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
@@ -85,7 +85,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                        aria-hidden="true"></i>
                     <i class="<?= ManagerTheme::getStyle('icon_bars') ?>" aria-hidden="true"></i> Menu links:hover
                 </h3>
-                <a title="<?= ManagerTheme::getLexicon('reset') ?>" href="javascript:;"
+                <a title="<?= __('global.reset') ?>" href="javascript:;"
                    onclick="cleanLocalStorageReloadMain('my_evo_menuHColor')"
                    class="pull-right resetcolor btn btn-secondary">
                     <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
@@ -119,7 +119,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                        aria-hidden="true"></i>
                     <i class="<?= ManagerTheme::getStyle('icon_font') ?>" aria-hidden="true"></i> Text color
                 </h3>
-                <a title="<?= ManagerTheme::getLexicon('reset') ?>" href="javascript:;"
+                <a title="<?= __('global.reset') ?>" href="javascript:;"
                    onclick="cleanLocalStorageReloadMain('my_evo_color')"
                    class="pull-right resetcolor btn btn-secondary">
                     <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
@@ -153,7 +153,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                        aria-hidden="true"></i>
                     <i class="<?= ManagerTheme::getStyle('icon_chain') ?>" aria-hidden="true"></i> Links Color
                 </h3>
-                <a title="<?= ManagerTheme::getLexicon('reset') ?>" href="javascript:;"
+                <a title="<?= __('global.reset') ?>" href="javascript:;"
                    onclick="cleanLocalStorageReloadMain('my_evo_alinkcolor')"
                    class="pull-right resetcolor btn btn-secondary">
                     <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
@@ -183,7 +183,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <hr/>
         <input type="reset"
                onclick="cleanLocalStorageReloadAll('my_evo_alinkcolor,my_evo_menuColor,my_evo_menuHColor,my_evo_bgmcolor,my_evo_color')"
-               class="btn btn-secondary" value="<?= ManagerTheme::getLexicon('reset') ?>">
+               class="btn btn-secondary" value="<?= __('global.reset') ?>">
     </div>
 </div>
 

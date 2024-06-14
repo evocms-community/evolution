@@ -24,15 +24,15 @@ if ($_SESSION['mgrRole'] == 1) {
 $warnings = [];
 $systemFilesCheck = evo()->getManagerApi()->checkSystemChecksum();
 if ($systemFilesCheck !== '0') {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_sysfiles_mod')];
+    $warnings[] = [__('global.configcheck_sysfiles_mod')];
 }
 
 if (file_exists('../install/')) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_installer')];
+    $warnings[] = [__('global.configcheck_installer')];
 }
 
 if (!extension_loaded('gd') || !extension_loaded('zip')) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_php_gdzip')];
+    $warnings[] = [__('global.configcheck_php_gdzip')];
 }
 
 if (!isset(evo()->config['_hide_configcheck_validate_referer']) ||
@@ -40,7 +40,7 @@ if (!isset(evo()->config['_hide_configcheck_validate_referer']) ||
 ) {
     if (isset($_SESSION['mgrPermissions']['settings']) && $_SESSION['mgrPermissions']['settings'] == '1') {
         if (evo()->getConfig('validate_referer') == '0') {
-            $warnings[] = [ManagerTheme::getLexicon('configcheck_validate_referer')];
+            $warnings[] = [__('global.configcheck_validate_referer')];
         }
     }
 }
@@ -68,9 +68,9 @@ if (!isset(evo()->config['_hide_configcheck_templateswitcher_present']) ||
             });
 
         if (!is_null($row) && $row->disabled == 0) {
-            $warnings[] = [ManagerTheme::getLexicon('configcheck_templateswitcher_present')];
+            $warnings[] = [__('global.configcheck_templateswitcher_present')];
             $tplName = $row->name;
-            $confirm_delete_plugin = ManagerTheme::getLexicon('confirm_delete_plugin');
+            $confirm_delete_plugin = __('global.confirm_delete_plugin');
             $script = <<<JS
 <script>
 function deleteTemplateSwitcher() {
@@ -116,16 +116,16 @@ $pages = SiteContent::query()
 
 foreach ($pages as $page) {
     if ($page->id == $unauthorizedPageId && !$page->published) {
-        $warnings[] = [ManagerTheme::getLexicon('configcheck_unauthorizedpage_unpublished')];
+        $warnings[] = [__('global.configcheck_unauthorizedpage_unpublished')];
     }
     if ($page->id == $unauthorizedPageId && $page->privateweb) {
-        $warnings[] = [ManagerTheme::getLexicon('configcheck_unauthorizedpage_unavailable')];
+        $warnings[] = [__('global.configcheck_unauthorizedpage_unavailable')];
     }
     if ($page->id == $error_page_id && !$page->published) {
-        $warnings[] = [ManagerTheme::getLexicon('configcheck_errorpage_unavailable')];
+        $warnings[] = [__('global.configcheck_errorpage_unavailable')];
     }
     if ($page->id == $error_page_id && $page->privateweb) {
-        $warnings[] = [ManagerTheme::getLexicon('configcheck_errorpage_unavailable')];
+        $warnings[] = [__('global.configcheck_errorpage_unavailable')];
     }
 }
 
@@ -145,22 +145,22 @@ if (!function_exists('checkSiteCache')) {
 }
 
 if (!is_writable(MODX_BASE_PATH . 'assets/cache/')) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_cache')];
+    $warnings[] = [__('global.configcheck_cache')];
 }
 
 if (!checkSiteCache()) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_sitecache_integrity')];
+    $warnings[] = [__('global.configcheck_sitecache_integrity')];
 }
 
 if (!is_writable(MODX_BASE_PATH . 'assets/images/')) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_images')];
+    $warnings[] = [__('global.configcheck_images')];
 }
 
 if (strpos(evo()->config['rb_base_dir'], MODX_BASE_PATH) !== 0) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_rb_base_dir')];
+    $warnings[] = [__('global.configcheck_rb_base_dir')];
 }
 if (strpos(evo()->config['filemanager_path'], MODX_BASE_PATH) !== 0) {
-    $warnings[] = [ManagerTheme::getLexicon('configcheck_filemanager_path')];
+    $warnings[] = [__('global.configcheck_filemanager_path')];
 }
 
 // clear file info cache
@@ -170,104 +170,104 @@ if (!empty($warnings)) {
         evo()->config['send_errormail'] = '3';
     }
 
-    $config_check_results = "<h3>" . ManagerTheme::getLexicon('configcheck_notok') . "</h3>";
+    $config_check_results = "<h3>" . __('global.configcheck_notok') . "</h3>";
 
     for ($i = 0; $i < count($warnings); $i++) {
         switch ($warnings[$i][0]) {
-            case ManagerTheme::getLexicon('configcheck_configinc');
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_configinc_msg');
+            case __('global.configcheck_configinc');
+                $warnings[$i][1] = __('global.configcheck_configinc_msg');
                 if (empty($_SESSION['mgrConfigCheck'])) {
-                    evo()->logEvent(0, 3, $warnings[$i][1], ManagerTheme::getLexicon('configcheck_configinc'));
+                    evo()->logEvent(0, 3, $warnings[$i][1], __('global.configcheck_configinc'));
                 }
                 break;
-            case ManagerTheme::getLexicon('configcheck_installer') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_installer_msg');
+            case __('global.configcheck_installer') :
+                $warnings[$i][1] = __('global.configcheck_installer_msg');
                 if (empty($_SESSION['mgrConfigCheck'])) {
-                    evo()->logEvent(0, 3, $warnings[$i][1], ManagerTheme::getLexicon('configcheck_installer'));
+                    evo()->logEvent(0, 3, $warnings[$i][1], __('global.configcheck_installer'));
                 }
                 break;
-            case ManagerTheme::getLexicon('configcheck_cache') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_cache_msg');
+            case __('global.configcheck_cache') :
+                $warnings[$i][1] = __('global.configcheck_cache_msg');
                 if (empty($_SESSION['mgrConfigCheck'])) {
-                    evo()->logEvent(0, 2, $warnings[$i][1], ManagerTheme::getLexicon('configcheck_cache'));
+                    evo()->logEvent(0, 2, $warnings[$i][1], __('global.configcheck_cache'));
                 }
                 break;
-            case ManagerTheme::getLexicon('configcheck_images') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_images_msg');
+            case __('global.configcheck_images') :
+                $warnings[$i][1] = __('global.configcheck_images_msg');
                 if (empty($_SESSION['mgrConfigCheck'])) {
-                    evo()->logEvent(0, 2, $warnings[$i][1], ManagerTheme::getLexicon('configcheck_images'));
+                    evo()->logEvent(0, 2, $warnings[$i][1], __('global.configcheck_images'));
                 }
                 break;
-            case ManagerTheme::getLexicon('configcheck_sysfiles_mod'):
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_sysfiles_mod_msg');
+            case __('global.configcheck_sysfiles_mod'):
+                $warnings[$i][1] = __('global.configcheck_sysfiles_mod_msg');
                 $warnings[$i][2] = '<ul><li>' . implode('</li><li>', $systemFilesCheck) . '</li></ul>';
                 if (evo()->hasPermission('settings')) {
-                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(`' . ManagerTheme::getLexicon('reset_sysfiles_checksum_alert') . '`)">' .
-                        ManagerTheme::getLexicon('reset_sysfiles_checksum_button') . '</a></li></ul>';
+                    $warnings[$i][2] .= '<ul class="actionButtons" style="float:right"><li><a href="index.php?a=2&b=resetSysfilesChecksum" onclick="return confirm(`' . __('global.reset_sysfiles_checksum_alert') . '`)">' .
+                        __('global.reset_sysfiles_checksum_button') . '</a></li></ul>';
                 }
                 if (empty($_SESSION['mgrConfigCheck'])) {
                     evo()->logEvent(
                         0,
                         3,
                         $warnings[$i][1] . " " . implode(', ', $systemFilesCheck),
-                        ManagerTheme::getLexicon('configcheck_sysfiles_mod')
+                        __('global.configcheck_sysfiles_mod')
                     );
                 }
                 break;
-            case ManagerTheme::getLexicon('configcheck_lang_difference') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_lang_difference_msg');
+            case __('global.configcheck_lang_difference') :
+                $warnings[$i][1] = __('global.configcheck_lang_difference_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_php_gdzip') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_php_gdzip_msg');
+            case __('global.configcheck_php_gdzip') :
+                $warnings[$i][1] = __('global.configcheck_php_gdzip_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_unauthorizedpage_unpublished') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_unauthorizedpage_unpublished_msg');
+            case __('global.configcheck_unauthorizedpage_unpublished') :
+                $warnings[$i][1] = __('global.configcheck_unauthorizedpage_unpublished_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_errorpage_unpublished') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_errorpage_unpublished_msg');
+            case __('global.configcheck_errorpage_unpublished') :
+                $warnings[$i][1] = __('global.configcheck_errorpage_unpublished_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_unauthorizedpage_unavailable') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_unauthorizedpage_unavailable_msg');
+            case __('global.configcheck_unauthorizedpage_unavailable') :
+                $warnings[$i][1] = __('global.configcheck_unauthorizedpage_unavailable_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_errorpage_unavailable') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_errorpage_unavailable_msg');
+            case __('global.configcheck_errorpage_unavailable') :
+                $warnings[$i][1] = __('global.configcheck_errorpage_unavailable_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_validate_referer') :
-                $msg = ManagerTheme::getLexicon('configcheck_validate_referer_msg');
-                $msg .= '<br />' . sprintf(ManagerTheme::getLexicon('configcheck_hide_warning'), 'validate_referer');
+            case __('global.configcheck_validate_referer') :
+                $msg = __('global.configcheck_validate_referer_msg');
+                $msg .= '<br />' . sprintf(__('global.configcheck_hide_warning'), 'validate_referer');
                 $warnings[$i][1] = "<span id=\"validate_referer_warning_wrapper\">$msg</span>\n";
                 break;
-            case ManagerTheme::getLexicon('configcheck_templateswitcher_present') :
-                $msg = ManagerTheme::getLexicon('configcheck_templateswitcher_present_msg');
+            case __('global.configcheck_templateswitcher_present') :
+                $msg = __('global.configcheck_templateswitcher_present_msg');
                 if (isset($_SESSION['mgrPermissions']['save_plugin']) &&
                     $_SESSION['mgrPermissions']['save_plugin'] == '1'
                 ) {
-                    $msg .= '<br />' . ManagerTheme::getLexicon('configcheck_templateswitcher_present_disable');
+                    $msg .= '<br />' . __('global.configcheck_templateswitcher_present_disable');
                 }
                 if (isset($_SESSION['mgrPermissions']['delete_plugin']) &&
                     $_SESSION['mgrPermissions']['delete_plugin'] == '1'
                 ) {
-                    $msg .= '<br />' . ManagerTheme::getLexicon('configcheck_templateswitcher_present_delete');
+                    $msg .= '<br />' . __('global.configcheck_templateswitcher_present_delete');
                 }
                 $msg .= '<br />' .
-                    sprintf(ManagerTheme::getLexicon('configcheck_hide_warning'), 'templateswitcher_present');
+                    sprintf(__('global.configcheck_hide_warning'), 'templateswitcher_present');
                 $warnings[$i][1] = "<span id=\"templateswitcher_present_warning_wrapper\">$msg</span>\n";
                 break;
-            case ManagerTheme::getLexicon('configcheck_rb_base_dir') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_rb_base_dir_msg');
+            case __('global.configcheck_rb_base_dir') :
+                $warnings[$i][1] = __('global.configcheck_rb_base_dir_msg');
                 break;
-            case ManagerTheme::getLexicon('configcheck_filemanager_path') :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_filemanager_path_msg');
+            case __('global.configcheck_filemanager_path') :
+                $warnings[$i][1] = __('global.configcheck_filemanager_path_msg');
                 break;
             default :
-                $warnings[$i][1] = ManagerTheme::getLexicon('configcheck_default_msg');
+                $warnings[$i][1] = __('global.configcheck_default_msg');
         }
 
-        $admin_warning = $_SESSION['mgrRole'] != 1 ? ManagerTheme::getLexicon('configcheck_admin') : "";
+        $admin_warning = $_SESSION['mgrRole'] != 1 ? __('global.configcheck_admin') : "";
         $config_check_results .= "
             <fieldset>
-            <p><strong>" . ManagerTheme::getLexicon('configcheck_warning') . "</strong> '" . $warnings[$i][0] . "'</p>
-            <p style=\"padding-left:1em\"><em>" . ManagerTheme::getLexicon('configcheck_what') . "</em><br />
+            <p><strong>" . __('global.configcheck_warning') . "</strong> '" . $warnings[$i][0] . "'</p>
+            <p style=\"padding-left:1em\"><em>" . __('global.configcheck_what') . "</em><br />
             " . $warnings[$i][1] . " " . $admin_warning . "</p>
             " . (isset($warnings[$i][2]) ? '<div style="padding-left:1em">' . $warnings[$i][2] . '</div>' : '') . "
             </fieldset>
@@ -278,5 +278,5 @@ if (!empty($warnings)) {
     }
     $_SESSION['mgrConfigCheck'] = true;
 } else {
-    $config_check_results = ManagerTheme::getLexicon('configcheck_ok');
+    $config_check_results = __('global.configcheck_ok');
 }

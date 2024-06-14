@@ -11,7 +11,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 if (!evo()->hasPermission('edit_module')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_REQUEST['id'] ?? 0);
@@ -22,7 +22,7 @@ evo()->getManagerApi()->initPageViewState();
 // check to see the module editor isn't locked
 if ($lockedEl = evo()->elementIsLocked(6, $id)) {
     evo()->webAlertAndQuit(
-        sprintf(ManagerTheme::getLexicon('lock_msg'), $lockedEl['username'], ManagerTheme::getLexicon('module'))
+        sprintf(__('global.lock_msg'), $lockedEl['username'], __('global.module'))
     );
 }
 // end check for lock
@@ -129,13 +129,13 @@ if (is_null($content)) {
 $content = $content->toArray();
 $_SESSION['itemname'] = $content['name'];
 if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 ?>
 <script>
   function removeDependencies () {
-    if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_record'); ?>`) === true) {
+    if (confirm(`<?= __('global.confirm_delete_record'); ?>`) === true) {
       documentDirty = false
       document.mutate.op.value = 'del'
       document.mutate.submit()
@@ -211,17 +211,17 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
     <h1>
         <i class="<?= ManagerTheme::getStyle('icon_cogs') ?>"></i><?= ($content['name'] ? $content['name'] .
             '<small>(' .
-            $content['id'] . ')</small>' : ManagerTheme::getLexicon('module_resource_title')) ?>
+            $content['id'] . ')</small>' : __('global.module_resource_title')) ?>
     </h1>
 
     <?= ManagerTheme::getStyle('actionbuttons.dynamic.close') ?>
 
     <div class="section">
         <div class="sectionHeader">
-            <?= $content['name'] . ' - ' . ManagerTheme::getLexicon('module_resource_title'); ?>
+            <?= $content['name'] . ' - ' . __('global.module_resource_title'); ?>
         </div>
         <div class="sectionBody">
-            <p><?= ManagerTheme::getLexicon('module_resource_msg'); ?></p>
+            <p><?= __('global.module_resource_msg'); ?></p>
             <br/>
             <!-- Dependencies -->
             <table width="100%" border="0" cellspacing="1" cellpadding="2">
@@ -270,7 +270,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
                             ->orderBy('site_module_depobj.type')
                             ->orderBy('name');
                         $grd = new \EvolutionCMS\Support\DataGrid('', $depobj, 0); // set page size to 0 t show all items
-                        $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
+                        $grd->noRecordMsg = __('global.no_records_found');
                         $grd->prepareResult = [
                             'type' => [
                                 10 => 'Chunk',
@@ -286,7 +286,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
                         $grd->itemClass = 'gridItem';
                         $grd->altItemClass = 'gridAltItem';
                         $grd->columns =
-                            ManagerTheme::getLexicon('element_name') . ' ,' . ManagerTheme::getLexicon('type');
+                            __('global.element_name') . ' ,' . __('global.type');
                         $grd->colTypes = "template:<input type='checkbox' name='depid[]' value='[+id+]'> [+value+]";
                         $grd->fields = 'name,type';
                         echo $grd->render();
@@ -296,38 +296,38 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
                         <a class="btn btn-block btn-danger text-left" style="margin-bottom:10px;" href="javascript:;"
                            onclick="removeDependencies();return false;">
                             <i class="<?= ManagerTheme::getStyle('icon_trash') ?>"></i>
-                            <?= ManagerTheme::getLexicon('remove'); ?>
+                            <?= __('global.remove'); ?>
                         </a>
                         <div class="btn-group-vertical" style="min-width: 100%">
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addSnippet();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_snippet'); ?>
+                                <?= __('global.add_snippet'); ?>
                             </a>
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addDocument();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_doc'); ?>
+                                <?= __('global.add_doc'); ?>
                             </a>
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addChunk();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_chunk'); ?>
+                                <?= __('global.add_chunk'); ?>
                             </a>
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addPlugin();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_plugin'); ?>
+                                <?= __('global.add_plugin'); ?>
                             </a>
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addTV();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_tv'); ?>
+                                <?= __('global.add_tv'); ?>
                             </a>
                             <a class="btn btn-block btn-secondary text-left" href="javascript:;"
                                onclick="addTemplate();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-                                <?= ManagerTheme::getLexicon('add_template'); ?>
+                                <?= __('global.add_template'); ?>
                             </a>
                         </div>
                     </td>

@@ -4,7 +4,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 // actions buttons templates
 $action = $_REQUEST['a'] ?? '';
-if (evo()->getConfig('global_tabs') && !isset($_SESSION['stay'])) {
+if (config('global.global_tabs') && !isset($_SESSION['stay'])) {
     $_REQUEST['stay'] = 2;
 }
 if (isset($_REQUEST['stay'])) {

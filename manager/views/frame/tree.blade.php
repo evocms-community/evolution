@@ -12,76 +12,76 @@ if (is_array($evtOut)) {
     <div id="treeMenu">
 
         <a class="treeButton" id="treeMenu_expandtree" onclick="modx.tree.expandTree();"
-           title="{{ ManagerTheme::getLexicon('expand_tree') }}">
+           title="{{ __('global.expand_tree') }}">
             <i class="{{ ManagerTheme::getStyle('icon_arrow_down_circle') }}"></i>
         </a>
 
         <a class="treeButton" id="treeMenu_collapsetree" onclick="modx.tree.collapseTree();"
-           title="{{ ManagerTheme::getLexicon('collapse_tree') }}">
+           title="{{ __('global.collapse_tree') }}">
             <i class="{{ ManagerTheme::getStyle('icon_arrow_up_circle') }}"></i>
         </a>
 
         @if(evo()->hasPermission('new_document'))
             <a class="treeButton" id="treeMenu_addresource"
-               onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=4', title: '{{ ManagerTheme::getLexicon('add_resource') }}'});"
-               title="{{ ManagerTheme::getLexicon('add_resource') }}">
+               onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=4', title: '{{ __('global.add_resource') }}'});"
+               title="{{ __('global.add_resource') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_document') }}"></i>
             </a>
             <a class="treeButton" id="treeMenu_addweblink"
-               onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=72', title: '{{ ManagerTheme::getLexicon('add_weblink') }}'});"
-               title="{{ ManagerTheme::getLexicon('add_weblink') }}">
+               onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=72', title: '{{ __('global.add_weblink') }}'});"
+               title="{{ __('global.add_weblink') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_chain') }}"></i>
             </a>
         @endif
 
         <a class="treeButton" id="treeMenu_refreshtree" onclick="modx.tree.restoreTree();"
-           title="{{ ManagerTheme::getLexicon('refresh_tree') }}">
+           title="{{ __('global.refresh_tree') }}">
             <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i>
         </a>
 
         <a class="treeButton" id="treeMenu_sortingtree" onclick="modx.tree.showSorter(event);"
-           title="{{ ManagerTheme::getLexicon('sort_tree') }}">
+           title="{{ __('global.sort_tree') }}">
             <i class="{{ ManagerTheme::getStyle('icon_sort') }}"></i>
         </a>
 
         @if(evo()->hasPermission('edit_document') && evo()->hasPermission('save_document'))
             <a class="treeButton" id="treeMenu_sortingindex"
-               onclick="modx.tabs({url: '{{ MODX_MANAGER_URL }}?a=56&id=0', title: '{{ ManagerTheme::getLexicon('sort_menuindex') }}'});"
-               title="{{ ManagerTheme::getLexicon('sort_menuindex') }}">
+               onclick="modx.tabs({url: '{{ MODX_MANAGER_URL }}?a=56&id=0', title: '{{ __('global.sort_menuindex') }}'});"
+               title="{{ __('global.sort_menuindex') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>
             </a>
         @endif
 
-        @if(evo()->getConfig('use_browser') && evo()->hasPermission('assets_images'))
+        @if(config('global.use_browser') && evo()->hasPermission('assets_images'))
             <a class="treeButton" id="treeMenu_openimages"
-               title="{{ ManagerTheme::getLexicon('images_management') }}&#013;{{ ManagerTheme::getLexicon('em_button_shift') }}">
+               title="{{ __('global.images_management') }}&#013;{{ __('global.em_button_shift') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_camera') }}"></i>
             </a>
         @endif
 
-        @if(evo()->getConfig('use_browser') && evo()->hasPermission('assets_files'))
+        @if(config('global.use_browser') && evo()->hasPermission('assets_files'))
             <a class="treeButton" id="treeMenu_openfiles"
-               title="{{ ManagerTheme::getLexicon('files_management') }}&#013;{{ ManagerTheme::getLexicon('em_button_shift') }}">
+               title="{{ __('global.files_management') }}&#013;{{ __('global.em_button_shift') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_files') }}"></i>
             </a>
         @endif
 
         @if(evo()->hasPermission('edit_template') || evo()->hasPermission('edit_snippet') || evo()->hasPermission('edit_chunk') || evo()->hasPermission('edit_plugin'))
             <a class="treeButton" id="treeMenu_openelements"
-               title="{{ ManagerTheme::getLexicon('element_management') }}&#013;{{ ManagerTheme::getLexicon('em_button_shift') }}">
+               title="{{ __('global.element_management') }}&#013;{{ __('global.em_button_shift') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_elements') }}"></i>
             </a>
         @endif
 
         @if(evo()->hasPermission('empty_trash'))
             <a class="treeButton treeButtonDisabled" id="treeMenu_emptytrash"
-               title="{{ ManagerTheme::getLexicon('empty_recycle_bin_empty') }}">
+               title="{{ __('global.empty_recycle_bin_empty') }}">
                 <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>
             </a>
         @endif
 
         <a class="treeButton" id="treeMenu_theme_dark" onclick="modx.tree.toggleTheme(event)"
-           title="{{ ManagerTheme::getLexicon('manager_theme_mode_title') }}"><i
+           title="{{ __('global.manager_theme_mode_title') }}"><i
                     class="{{ ManagerTheme::getStyle('icon_theme') }}"></i></a>
 
     </div>
@@ -93,7 +93,7 @@ if (is_array($evtOut)) {
         if (is_array($evtOut)) {
             echo implode("\n", $evtOut);
         }
-        $siteName = evo()->getConfig('site_name');
+        $siteName = config('global.site_name');
         ?>
         <div id="node0" class="rootNode">
             <a class="node" onclick="modx.tree.treeAction(event, 0)" data-id="0" data-title-esc="{{ $siteName }}">

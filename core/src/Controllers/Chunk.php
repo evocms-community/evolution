@@ -84,7 +84,7 @@ class Chunk extends AbstractController implements PageControllerInterface
         } elseif (isset($_REQUEST['itemname'])) {
             $data->name = $_REQUEST['itemname'];
         } else {
-            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_htmlsnippet");
+            $_SESSION['itemname'] = __('global.new_htmlsnippet');
         }
 
         $values = ManagerTheme::loadValuesFromSession($_POST);

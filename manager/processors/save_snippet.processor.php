@@ -1,5 +1,6 @@
 <?php
 
+use EvolutionCMS\Facades\DocBlock;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteSnippet;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -8,7 +9,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_snippet')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 if (isset($_GET['disabled'])) {
@@ -30,7 +31,7 @@ if (isset($_GET['disabled'])) {
             'id' => $id,
         ]);
     } catch (ModelNotFoundException $e) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+        evo()->webAlertAndQuit(__('global.error_no_id'));
     }
     // empty cache
     evo()->clearCache('full');
@@ -111,8 +112,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(23);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('snippet'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.snippet'),
                     $name
                 ),
                 'index.php?a=23'
@@ -168,8 +169,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(22);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('snippet'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.snippet'),
                     $name
                 ),
                 'index.php?a=22&id=' . $id

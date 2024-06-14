@@ -7,15 +7,15 @@ use EvolutionCMS\Models\SiteSnippet;
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
         <a href="?a=76&tab={{ $index }}"><i
-                    class="{{ ManagerTheme::getStyle('icon_code') }}"></i>{{ ManagerTheme::getLexicon('snippets') }}</a>
+                    class="{{ ManagerTheme::getStyle('icon_code') }}"></i>{{ __('global.snippets') }}</a>
     </h2>
     <script>
       tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));
     </script>
 
     <div id="{{ $tabIndexPageName }}-info" class="msg-container" style="display:none">
-        <div class="element-edit-message-tab">{!! ManagerTheme::getLexicon('snippet_management_msg') !!}</div>
-        <p class="viewoptions-message">{{ ManagerTheme::getLexicon('view_options_msg') }}</p>
+        <div class="element-edit-message-tab">{!! __('global.snippet_management_msg') !!}</div>
+        <p class="viewoptions-message">{{ __('global.view_options_msg') }}</p>
     </div>
 
     <div id="_actions">
@@ -23,21 +23,21 @@ use EvolutionCMS\Models\SiteSnippet;
             @csrf
             <div class="input-group input-group-sm">
                 <input class="form-control filterElements-form" type="text" id="{{ $tabIndexPageName }}_search"
-                       size="30" placeholder="{{ ManagerTheme::getLexicon('element_filter_msg') }}"/>
+                       size="30" placeholder="{{ __('global.element_filter_msg') }}"/>
                 <div class="input-group-btn">
                     <a class="btn btn-success" target="main"
                        href="{{ (new SiteSnippet())->makeUrl('actions.new') }}">
                         <i class="{{ ManagerTheme::getStyle('icon_add') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('new_snippet') }}</span>
+                        <span>{{ __('global.new_snippet') }}</span>
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" id="{{ $tabIndexPageName }}-help">
                         <i class="{{ ManagerTheme::getStyle('icon_question_circle') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('help') }}</span>
+                        <span>{{ __('global.help') }}</span>
                     </a>
                     <a class="btn btn-secondary switchform-btn" href="javascript:;"
                        data-target="switchForm_{{ $tabIndexPageName }}">
                         <i class="{{ ManagerTheme::getStyle('icon_bars') }}"></i>
-                        <span>{{ ManagerTheme::getLexicon('btn_view_options') }}</span>
+                        <span>{{ __('global.btn_view_options') }}</span>
                     </a>
                 </div>
             </div>
@@ -53,7 +53,7 @@ use EvolutionCMS\Models\SiteSnippet;
                 @component('manager::partials.panelCollapse', [
                     'name' => $tabIndexPageName . '_content',
                     'id' => 0,
-                    'title' => ManagerTheme::getLexicon('no_category'),
+                    'title' => __('global.no_category'),
                 ])
                     <ul class="elements">
                         @foreach ($outCategory as $item)

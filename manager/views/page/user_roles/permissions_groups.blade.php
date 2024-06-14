@@ -17,7 +17,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 <span>{{$groups->name}}</span>
                 <small>({{$groups->id}})</small>
             @else
-                <span>{{ ManagerTheme::getLexicon('groups_permission_title') }}</span>
+                <span>{{ __('global.groups_permission_title') }}</span>
             @endisset
         </h1>
 
@@ -27,7 +27,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             <div class="container container-body">
                 <div class="form-group">
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('cm_category_name') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ __('global.cm_category_name') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input class="form-control form-control-lg"
                                    name="name"
@@ -37,7 +37,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         </div>
                     </div>
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('lang_key_desc') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ __('global.lang_key_desc') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input name="lang_key"
                                    type="text"
@@ -73,7 +73,7 @@ use EvolutionCMS\Facades\ManagerTheme;
           document.userform.save.click()
         },
         delete: function () {
-          if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_category') }}`) === true) {
+          if (confirm(`{{ __('global.confirm_delete_category') }}`) === true) {
             document.location.href = 'index.php?id=' + document.userform.id.value + '&a=136&action=delete'
           }
         },

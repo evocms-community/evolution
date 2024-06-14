@@ -93,7 +93,7 @@ class Template extends AbstractController implements PageControllerInterface
                 ManagerTheme::alertAndQuit('error_no_privileges');
             }
         } else {
-            $_SESSION['itemname'] = ManagerTheme::getLexicon("new_template");
+            $_SESSION['itemname'] = __('global.new_template');
         }
 
         $values = ManagerTheme::loadValuesFromSession($_POST);

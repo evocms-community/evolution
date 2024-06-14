@@ -14,7 +14,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         </script>
     @endpush
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_calendar') }}"></i> {{ ManagerTheme::getLexicon('site_schedule') }}
+        <i class="{{ ManagerTheme::getStyle('icon_calendar') }}"></i> {{ __('global.site_schedule') }}
     </h1>
 
     <div class="tab-page">
@@ -26,23 +26,23 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <span class="panel-title">
                             <a class="accordion-toggle" role="button" href="#schedulePublished"><i class="fa fa-fw"></i>
                                 <span
-                                    class="category_name"><strong>{{ ManagerTheme::getLexicon('publish_events') }}</strong></span></a>
+                                    class="category_name"><strong>{{ __('global.publish_events') }}</strong></span></a>
                         </span>
                     </div>
                     <div class="panel-collapse">
                         @if ($publishedDocs->count() === 0)
-                            <p>{{ ManagerTheme::getLexicon('no_docs_pending_publishing') }}</p>
+                            <p>{{ __('global.no_docs_pending_publishing') }}</p>
                         @else
                             <div class="row">
                                 <div class="table-responsive">
                                     <table class="table data">
                                         <thead>
                                             <tr>
-                                                <th class="sortable" style="width: 1%">{{ ManagerTheme::getLexicon('id') }}
+                                                <th class="sortable" style="width: 1%">{{ __('global.id') }}
                                                 </th>
-                                                <th class="sortable">{{ ManagerTheme::getLexicon('resource') }}</th>
+                                                <th class="sortable">{{ __('global.resource') }}</th>
                                                 <th class="sortable text-right" style="width: 15%">
-                                                    {{ ManagerTheme::getLexicon('publish_date') }}</th>
+                                                    {{ __('global.publish_date') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -66,23 +66,23 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <span class="panel-title">
                             <a class="accordion-toggle" role="button" href="#scheduleUnpublished"><i class="fa fa-fw"></i>
                                 <span
-                                    class="category_name"><strong>{{ ManagerTheme::getLexicon('unpublish_events') }}</strong></span></a>
+                                    class="category_name"><strong>{{ __('global.unpublish_events') }}</strong></span></a>
                         </span>
                     </div>
                     <div class="panel-collapse">
                         @if ($unpublishedDocs->count() === 0)
-                            <p>{{ ManagerTheme::getLexicon('no_docs_pending_unpublishing') }}</p>
+                            <p>{{ __('global.no_docs_pending_unpublishing') }}</p>
                         @else
                             <div class="row">
                                 <div class="table-responsive">
                                     <table class="table data">
                                         <thead>
                                             <tr>
-                                                <th class="sortable" style="width: 1%">{{ ManagerTheme::getLexicon('id') }}
+                                                <th class="sortable" style="width: 1%">{{ __('global.id') }}
                                                 </th>
-                                                <th class="sortable">{{ ManagerTheme::getLexicon('resource') }}</th>
+                                                <th class="sortable">{{ __('global.resource') }}</th>
                                                 <th class="sortable text-right" style="width: 15%">
-                                                    {{ ManagerTheme::getLexicon('unpublish_date') }}</th>
+                                                    {{ __('global.unpublish_date') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -105,25 +105,25 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <div class="panel-heading">
                         <span class="panel-title">
                             <a class="accordion-toggle" role="button" href="#scheduleAll"><i class="fa fa-fw"></i> <span
-                                    class="category_name"><strong>{{ ManagerTheme::getLexicon('all_events') }}</strong></span></a>
+                                    class="category_name"><strong>{{ __('global.all_events') }}</strong></span></a>
                         </span>
                     </div>
                     <div class="panel-collapse">
                         @if ($allDocs->count() === 0)
-                            <p>{{ ManagerTheme::getLexicon('no_docs_pending_pubunpub') }}</p>
+                            <p>{{ __('global.no_docs_pending_pubunpub') }}</p>
                         @else
                             <div class="row">
                                 <div class="table-responsive">
                                     <table class="table data">
                                         <thead>
                                             <tr>
-                                                <th class="sortable" style="width: 1%">{{ ManagerTheme::getLexicon('id') }}
+                                                <th class="sortable" style="width: 1%">{{ __('global.id') }}
                                                 </th>
-                                                <th class="sortable">{{ ManagerTheme::getLexicon('resource') }}</th>
+                                                <th class="sortable">{{ __('global.resource') }}</th>
                                                 <th class="sortable text-right" style="width: 15%">
-                                                    {{ ManagerTheme::getLexicon('publish_date') }}</th>
+                                                    {{ __('global.publish_date') }}</th>
                                                 <th class="sortable text-right" style="width: 15%">
-                                                    {{ ManagerTheme::getLexicon('unpublish_date') }}</th>
+                                                    {{ __('global.unpublish_date') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

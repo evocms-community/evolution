@@ -1034,7 +1034,7 @@ if (!function_exists('renderFormElement')) {
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '"  value="' .
                         $field_value . '" ' . $field_style .
                         ' onchange="documentDirty=true;" /><input type="button" value="' .
-                        ManagerTheme::getLexicon('insert') . '" onclick="BrowseServer(\'tv' . $field_id . '\')" />
+                        __('global.insert') . '" onclick="BrowseServer(\'tv' . $field_id . '\')" />
                     <div class="col-12" style="padding-left: 0;">
                         <div id="image_for_tv' . $field_id . '" class="image_for_field" data-image="' . $field_value .
                         '" onclick="BrowseServer(\'tv' . $field_id . '\')" style="' . $size .
@@ -1055,7 +1055,7 @@ if (!function_exists('renderFormElement')) {
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '"  value="' .
                         $field_value . '" ' . $field_style .
                         ' onchange="documentDirty=true;" /><input type="button" value="' .
-                        ManagerTheme::getLexicon('insert') . '" onclick="BrowseFileServer(\'tv' . $field_id . '\')" />';
+                        __('global.insert') . '" onclick="BrowseFileServer(\'tv' . $field_id . '\')" />';
 
                     break;
 
@@ -1084,7 +1084,7 @@ if (!function_exists('renderFormElement')) {
                         $chunk_body = $modx->getChunk($chunk_name);
                         if ($chunk_body == false) {
                             $custom_output =
-                                ManagerTheme::getLexicon('chunk_no_exist') . '(' . ManagerTheme::getLexicon('htmlsnippet_name') . ':' . $chunk_name . ')';
+                                __('global.chunk_no_exist') . '(' . __('global.htmlsnippet_name') . ':' . $chunk_name . ')';
                         } else {
                             $custom_output = $chunk_body;
                         }

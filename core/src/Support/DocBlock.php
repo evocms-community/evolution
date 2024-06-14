@@ -228,10 +228,10 @@ class DocBlock
         }
 
         $arrayParams = [
-            'documentation' => ManagerTheme::getLexicon('documentation'),
-            'reportissues' => ManagerTheme::getLexicon('report_issues'),
-            'link' => ManagerTheme::getLexicon('further_info'),
-            'author' => ManagerTheme::getLexicon('author_infos'),
+            'documentation' => __('global.documentation'),
+            'reportissues' => __('global.report_issues'),
+            'link' => __('global.further_info'),
+            'author' => __('global.author_infos'),
         ];
 
         $nl = "\n";
@@ -241,18 +241,18 @@ class DocBlock
         $list .= isset($parsed['name']) ? '<strong>' . $parsed['name'] . '</strong><br/>' . $nl : '';
         $list .= isset($parsed['description']) ? $parsed['description'] . $nl : '';
         $list .= '</p><br/>' . $nl;
-        $list .= isset($parsed['version']) ? '<p><strong>' . ManagerTheme::getLexicon('version') . ':</strong> ' .
+        $list .= isset($parsed['version']) ? '<p><strong>' . __('global.version') . ':</strong> ' .
             $parsed['version'] . '</p>' . $nl : '';
-        $list .= isset($parsed['license']) ? '<p><strong>' . ManagerTheme::getLexicon('license') . ':</strong> ' .
+        $list .= isset($parsed['license']) ? '<p><strong>' . __('global.license') . ':</strong> ' .
             $parsed['license'] . '</p>' . $nl : '';
-        $list .= isset($parsed['lastupdate']) ? '<p><strong>' . ManagerTheme::getLexicon('last_update') .
+        $list .= isset($parsed['lastupdate']) ? '<p><strong>' . __('global.last_update') .
             ':</strong> ' . $parsed['lastupdate'] . '</p>' . $nl : '';
         $list .= '<br/>' . $nl;
         $first = true;
         foreach ($arrayParams as $param => $label) {
             if (isset($parsed[$param])) {
                 if ($first) {
-                    $list .= '<p><strong>' . ManagerTheme::getLexicon('references') . '</strong></p>' . $nl;
+                    $list .= '<p><strong>' . __('global.references') . '</strong></p>' . $nl;
                     $list .= '<ul class="docBlockList">' . $nl;
                     $first = false;
                 }
