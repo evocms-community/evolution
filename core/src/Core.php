@@ -224,6 +224,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $this->Event = &$this->event; // alias for backward compatibility
         $this->time = $_SERVER['REQUEST_TIME']; // for having global timestamp
 
+        session($_SESSION);
+
         $this->getService('ExceptionHandler');
         $this->checkAuth();
         $this->getSettings();
@@ -232,8 +234,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $routes = $this->router->getRoutes();
         $routes->refreshNameLookups();
         $routes->refreshActionLookups();
-
-        session($_SESSION);
     }
 
     final public function __clone()
