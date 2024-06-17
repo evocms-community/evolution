@@ -7058,6 +7058,16 @@ class DocumentParser
         }
         return $this->mail;
     }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale)
+    {
+        $this->locale = $locale;
+    }
 }
 
 /**
@@ -7177,15 +7187,5 @@ class SystemEvent
     public function getPreviousEvent()
     {
         return $this->previousEvent;
-    }
-
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale)
-    {
-        $this->locale = $locale;
     }
 }
