@@ -224,7 +224,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $this->Event = &$this->event; // alias for backward compatibility
         $this->time = $_SERVER['REQUEST_TIME']; // for having global timestamp
 
-        session($_SESSION);
+        if (!is_cli()) {
+            session($_SESSION);
+        }
 
         $this->getService('ExceptionHandler');
         $this->checkAuth();
