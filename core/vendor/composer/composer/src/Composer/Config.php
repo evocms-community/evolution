@@ -38,7 +38,7 @@ class Config
         'allow-plugins' => [],
         'use-parent-dir' => 'prompt',
         'preferred-install' => 'dist',
-        'audit' => ['ignore' => [], 'abandoned' => 'default'], // TODO in 2.7 switch to ABANDONED_FAIL
+        'audit' => ['ignore' => [], 'abandoned' => Auditor::ABANDONED_FAIL],
         'notify-on-install' => true,
         'github-protocols' => ['https', 'ssh', 'git'],
         'gitlab-protocol' => null,
@@ -436,6 +436,20 @@ class Config
 
                 return $this->process($this->config[$key], $flags);
 
+            case 'audit':
+                $result = $this->config[$key];
+                $abandonedEnv = $this->getComposerEnv('COMPOSER_AUDIT_ABANDONED');
+                if (false !== $abandonedEnv) {
+                    if (!in_array($abandonedEnv, $validChoices = [Auditor::ABANDONED_IGNORE, Auditor::ABANDONED_REPORT, Auditor::ABANDONED_FAIL], true)) {
+                        throw new \RuntimeException(
+                            "Invalid value for COMPOSER_AUDIT_ABANDONED: {$abandonedEnv}. Expected ".Auditor::ABANDONED_IGNORE.", ".Auditor::ABANDONED_REPORT." or ".Auditor::ABANDONED_FAIL
+                        );
+                    }
+                    $result['abandoned'] = $abandonedEnv;
+                }
+
+                return $result;
+
             default:
                 if (!isset($this->config[$key])) {
                     return null;
@@ -540,6 +554,8 @@ class Config
      * This should be used to read COMPOSER_ environment variables
      * that overload config values.
      *
+     * @param non-empty-string $var
+     *
      * @return string|false
      */
     private function getComposerEnv(string $var)
@@ -568,8 +584,8 @@ class Config
      */
     public function prohibitUrlByConfig(string $url, ?IOInterface $io = null, array $repoOptions = []): void
     {
-        // Return right away if the URL is malformed or custom (see issue #5173)
-        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
+        // Return right away if the URL is malformed or custom (see issue #5173), but only for non-HTTP(S) URLs
+        if (false === filter_var($url, FILTER_VALIDATE_URL) && !Preg::isMatch('{^https?://}', $url)) {
             return;
         }
 

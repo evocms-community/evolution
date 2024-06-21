@@ -88,7 +88,7 @@ $mail->setOAuth(
 
 //Option 2: Another OAuth library as OAuth2 token provider
 //Set up the other oauth library as per its documentation
-//Then create the wrapper class that implementations OAuthTokenProvider
+//Then create the wrapper class that implements OAuthTokenProvider
 $oauthTokenProvider = new MyOAuthTokenProvider(/* Email, ClientId, ClientSecret, etc. */);
 
 //Pass the implementation of OAuthTokenProvider to PHPMailer
@@ -112,9 +112,6 @@ $mail->msgHTML(file_get_contents('contentsutf8.html'), __DIR__);
 
 //Replace the plain text body with one created manually
 $mail->AltBody = 'This is a plain-text message body';
-
-//Attach an image file
-$mail->addAttachment('images/phpmailer_mini.png');
 
 //send the message, check for errors
 if (!$mail->send()) {

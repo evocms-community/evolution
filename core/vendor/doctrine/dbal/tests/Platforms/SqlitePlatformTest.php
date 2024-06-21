@@ -6,11 +6,16 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+
+use function assert;
+use function implode;
+use function is_string;
 
 /** @extends AbstractPlatformTestCase<SqlitePlatform> */
 class SqlitePlatformTest extends AbstractPlatformTestCase
@@ -248,6 +253,37 @@ class SqlitePlatformTest extends AbstractPlatformTestCase
     public function getGenerateUniqueIndexSql(): string
     {
         return 'CREATE UNIQUE INDEX index_name ON test (test, test2)';
+    }
+
+    public function testGeneratesIndexCreationSqlWithSchema(): void
+    {
+        $indexDef = new Index('i', ['a', 'b']);
+
+        self::assertSame(
+            'CREATE INDEX main.i ON mytable (a, b)',
+            $this->platform->getCreateIndexSQL($indexDef, 'main.mytable'),
+        );
+    }
+
+    public function testGeneratesPrimaryIndexCreationSqlWithSchema(): void
+    {
+        $primaryIndexDef = new Index('i2', ['a', 'b'], false, true);
+
+        self::assertSame(
+            'TEST: main.mytable, i2 - a, b',
+            (new class () extends SqlitePlatform {
+                /**
+                 * {@inheritDoc}
+                 */
+                public function getCreatePrimaryKeySQL(Index $index, $table)
+                {
+                    assert(is_string($table));
+
+                    return 'TEST: ' . $table . ', ' . $index->getName()
+                        . ' - ' . implode(', ', $index->getColumns());
+                }
+            })->getCreateIndexSQL($primaryIndexDef, 'main.mytable'),
+        );
     }
 
     public function testGeneratesForeignKeyCreationSql(): void
@@ -613,6 +649,26 @@ class SqlitePlatformTest extends AbstractPlatformTestCase
             'INSERT INTO foo (baz) SELECT bar FROM __temp__foo',
             'DROP TABLE __temp__foo',
         ];
+    }
+
+    public function testGeneratesAlterTableRenameColumnSQLWithSchema(): void
+    {
+        $this->platform->disableSchemaEmulation();
+
+        $table = new Table('main.t');
+        $table->addColumn('a', Types::INTEGER);
+
+        $tableDiff                      = new TableDiff('t');
+        $tableDiff->fromTable           = $table;
+        $tableDiff->renamedColumns['a'] = new Column('b', Type::getType(Types::INTEGER));
+
+        self::assertSame([
+            'CREATE TEMPORARY TABLE __temp__t AS SELECT a FROM main.t',
+            'DROP TABLE main.t',
+            'CREATE TABLE main.t (b INTEGER NOT NULL)',
+            'INSERT INTO main.t (b) SELECT a FROM __temp__t',
+            'DROP TABLE __temp__t',
+        ], $this->platform->getAlterTableSQL($tableDiff));
     }
 
     /**

@@ -228,6 +228,10 @@ class ArrayLoader implements LoaderInterface
             $package->setIncludePaths($config['include-path']);
         }
 
+        if (isset($config['php-ext'])) {
+            $package->setPhpExt($config['php-ext']);
+        }
+
         if (!empty($config['time'])) {
             $time = Preg::isMatch('/^\d++$/D', $config['time']) ? '@'.$config['time'] : $config['time'];
 
@@ -313,8 +317,8 @@ class ArrayLoader implements LoaderInterface
     }
 
     /**
-     * @param array<string, array<string, array<string, array<string, array{string, Link}>>>> $linkCache
-     * @param mixed[]                                                                         $config
+     * @param array<string, array<string, array<int|string, array<int|string, array{string, Link}>>>> $linkCache
+     * @param mixed[]                                                                             $config
      */
     private function configureCachedLinks(array &$linkCache, PackageInterface $package, array $config): void
     {
