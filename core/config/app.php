@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'env' => 'production',
-    'debug' => false,
+    'env'             => 'production',
+    'debug'           => false,
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -16,7 +16,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-    'locale' => 'en',
+    'locale'          => 'en',
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -38,8 +38,8 @@ return [
     | will not be safe. Please do this before deploying an application!
     |
     */
-    'key' => env('APP_KEY', md5(__FILE__)),
-    'cipher' => 'AES-256-CBC',
+    'key'             => env('APP_KEY', md5(__FILE__)),
+    'cipher'          => 'AES-256-CBC',
 
 //    'providers' => [
 //        \Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -133,40 +133,40 @@ return [
 //    ],
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        'Bootstrap_ExceptionHandler' => EvolutionCMS\Providers\ExceptionHandlerServiceProvider::class,
-        'Console_Artisan' => EvolutionCMS\Providers\ArtisanServiceProvider::class,
-        'Console_Migration' => Illuminate\Database\MigrationServiceProvider::class,
-        'Console_Composer' => EvolutionCMS\Providers\ComposerServiceProvider::class,
-        'Evolution_Auth' => EvolutionCMS\Providers\AuthServiceProvider::class,
-        'Evolution_Observers' => EvolutionCMS\Providers\ObserversServiceProvider::class,
-        'Evolution_Pagination' => EvolutionCMS\Providers\PaginationServiceProvider::class,
-        'Evolution_Events' => EvolutionCMS\Providers\EventServiceProvider::class,
-        'Evolution_DBAPI' => EvolutionCMS\Providers\DatabaseServiceProvider::class,
-        'Evolution_DEPRECATED' => EvolutionCMS\Providers\DeprecatedCoreServiceProvider::class,
-        'Evolution_MODxMailer' => EvolutionCMS\Providers\MailServiceProvider::class,
-        'Evolution_makeTable' => EvolutionCMS\Providers\MakeTableServiceProvider::class,
-        'Evolution_ManagerAPI' => EvolutionCMS\Providers\ManagerApiServiceProvider::class,
-        'Evolution_MODIFIERS' => EvolutionCMS\Providers\ModifiersServiceProvider::class,
-        'Evolution_phpass' => EvolutionCMS\Providers\PasswordHashServiceProvider::class,
-        'Evolution_PHPCOMPAT' => EvolutionCMS\Providers\PhpCompatServiceProvider::class,
-        'Evolution_DocBlock' => EvolutionCMS\Providers\DocBlockServiceProvider::class,
-        'Evolution_ManagerTheme' => EvolutionCMS\Providers\ManagerThemeServiceProvider::class,
-        'Evolution_UrlProcessor' => EvolutionCMS\Providers\UrlProcessorServiceProvider::class,
+        'Bootstrap_ExceptionHandler'  => EvolutionCMS\Providers\ExceptionHandlerServiceProvider::class,
+        'Console_Artisan'             => EvolutionCMS\Providers\ArtisanServiceProvider::class,
+        'Console_Migration'           => Illuminate\Database\MigrationServiceProvider::class,
+        'Console_Composer'            => EvolutionCMS\Providers\ComposerServiceProvider::class,
+        'Evolution_Translation'       => EvolutionCMS\Providers\TranslationServiceProvider::class,
+        'Evolution_Auth'              => EvolutionCMS\Providers\AuthServiceProvider::class,
+        'Evolution_Observers'         => EvolutionCMS\Providers\ObserversServiceProvider::class,
+        'Evolution_Pagination'        => EvolutionCMS\Providers\PaginationServiceProvider::class,
+        'Evolution_Events'            => EvolutionCMS\Providers\EventServiceProvider::class,
+        'Evolution_DBAPI'             => EvolutionCMS\Providers\DatabaseServiceProvider::class,
+        'Evolution_DEPRECATED'        => EvolutionCMS\Providers\DeprecatedCoreServiceProvider::class,
+        'Evolution_MODxMailer'        => EvolutionCMS\Providers\MailServiceProvider::class,
+        'Evolution_makeTable'         => EvolutionCMS\Providers\MakeTableServiceProvider::class,
+        'Evolution_ManagerAPI'        => EvolutionCMS\Providers\ManagerApiServiceProvider::class,
+        'Evolution_MODIFIERS'         => EvolutionCMS\Providers\ModifiersServiceProvider::class,
+        'Evolution_phpass'            => EvolutionCMS\Providers\PasswordHashServiceProvider::class,
+        'Evolution_PHPCOMPAT'         => EvolutionCMS\Providers\PhpCompatServiceProvider::class,
+        'Evolution_DocBlock'          => EvolutionCMS\Providers\DocBlockServiceProvider::class,
+        'Evolution_ManagerTheme'      => EvolutionCMS\Providers\ManagerThemeServiceProvider::class,
+        'Evolution_UrlProcessor'      => EvolutionCMS\Providers\UrlProcessorServiceProvider::class,
         'Evolution_TemplateProcessor' => EvolutionCMS\Providers\TemplateProcessorServiceProvider::class,
-        'Evolution_HelperProcessor' => EvolutionCMS\Providers\HelperProcessorServiceProvider::class,
-        'Evolution_Blade' => EvolutionCMS\Providers\BladeServiceProvider::class,
-        'Evolution_UserManager' => EvolutionCMS\UserManager\Providers\UserManagerServiceProvider::class,
-        'Evolution_DocumentManager' => EvolutionCMS\DocumentManager\Providers\DocumentManagerServiceProvider::class,
-        'Evolution_Routing' => EvolutionCMS\Providers\RoutingServiceProvider::class,
-        'Evolution_Config' => EvolutionCMS\Providers\ConfigServiceProvider::class,
-        'Evolution_Session' => EvolutionCMS\Providers\SessionServiceProvider::class,
-
-        'Fix_DLTemplate' => EvolutionCMS\Providers\DLTemplateServiceProvider::class,
-        'Fix_Phx' => EvolutionCMS\Providers\PhxServiceProvider::class,
-        'Fix_ModResource' => EvolutionCMS\Providers\ModResourceServiceProvider::class,
-        'Fix_ModUsers' => EvolutionCMS\Providers\ModUsersServiceProvider::class,
-        'Fix_Fs' => EvolutionCMS\Providers\FsServiceProvider::class,
-        'DoctrineCacheBridge' => Pathologic\EvolutionCMS\DoctrineCache\ServiceProvider::class,
+        'Evolution_HelperProcessor'   => EvolutionCMS\Providers\HelperProcessorServiceProvider::class,
+        'Evolution_Blade'             => EvolutionCMS\Providers\BladeServiceProvider::class,
+        'Evolution_UserManager'       => EvolutionCMS\UserManager\Providers\UserManagerServiceProvider::class,
+        'Evolution_DocumentManager'   => EvolutionCMS\DocumentManager\Providers\DocumentManagerServiceProvider::class,
+        'Evolution_Routing'           => EvolutionCMS\Providers\RoutingServiceProvider::class,
+        'Evolution_Config'            => EvolutionCMS\Providers\ConfigServiceProvider::class,
+        'Evolution_Session'           => EvolutionCMS\Providers\SessionServiceProvider::class,
+        'Fix_DLTemplate'              => EvolutionCMS\Providers\DLTemplateServiceProvider::class,
+        'Fix_Phx'                     => EvolutionCMS\Providers\PhxServiceProvider::class,
+        'Fix_ModResource'             => EvolutionCMS\Providers\ModResourceServiceProvider::class,
+        'Fix_ModUsers'                => EvolutionCMS\Providers\ModUsersServiceProvider::class,
+        'Fix_Fs'                      => EvolutionCMS\Providers\FsServiceProvider::class,
+        'DoctrineCacheBridge'         => Pathologic\EvolutionCMS\DoctrineCache\ServiceProvider::class,
     ])->toArray(),
 
     'aliases' => Facade::defaultAliases()->merge([
@@ -178,7 +178,7 @@ return [
 //        'UrlProcessor' => EvolutionCMS\Facades\UrlProcessor::class,
 //        'TemplateProcessor' => EvolutionCMS\Facades\TemplateProcessor::class,
 //        'Helper' => EvolutionCMS\Facades\HelperProcessor::class,
-        'UserManager' => EvolutionCMS\UserManager\Facades\UserManager::class,
+        'UserManager'     => EvolutionCMS\UserManager\Facades\UserManager::class,
         'DocumentManager' => EvolutionCMS\DocumentManager\Facades\DocumentManager::class,
     ])->toArray(),
 
@@ -221,10 +221,10 @@ return [
         */
 
         'aliases' => [
-            'csrf' => EvolutionCMS\Middleware\VerifyCsrfToken::class,
-            'authtoken' => EvolutionCMS\Middleware\CheckAuthToken::class,
+            'csrf'        => EvolutionCMS\Middleware\VerifyCsrfToken::class,
+            'authtoken'   => EvolutionCMS\Middleware\CheckAuthToken::class,
             'managerauth' => EvolutionCMS\Middleware\CheckManagerAuth::class,
-            'bindings' => Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'bindings'    => Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ],
 ];
