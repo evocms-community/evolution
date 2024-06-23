@@ -22,12 +22,16 @@ class TemplateProcessor
         $template = false;
         $controller = '';
         $doc = $this->core->documentObject;
-        if(isset($this->core->documentObject['templatealias']) && $this->core->documentObject['templatealias'] != ''){
-            $templateAlias = $this->core->documentObject['templatealias'];
-            $controller = $this->core->documentObject['templatecontroller'];
+        $namespace = trim($this->core->getConfig('ControllerNamespace'));
+        if(isset($doc['templatealias']) && $doc['templatealias'] != ''){
+            $templateAlias = $doc['templatealias'];
+            $controller = $doc['templatecontroller'] ?? '';
         }else {
             if($doc['template'] === 0) {
                 $templateAlias = '_blank';
+                if(!empty($namespace) && class_exists($namespace . 'Blank') && is_subclass_of($namespace . 'Blank', TemplateController::class)) {
+                    $controller = 'Blank';
+                }
             } else {
                 $query = SiteTemplate::select(['templatecontroller','templatealias'])->find($doc['template']);
                 $templateAlias = $query->templatealias;
@@ -46,8 +50,9 @@ class TemplateProcessor
                 $template = 'tpl-' . $doc['template'];
                 break;
             case $this->core['view']->exists($templateAlias):
-                if (isset($this->core->documentObject['id'])) {
-                    $documentObject = $this->core->makeDocumentObject($this->core->documentObject['id']);
+            case !empty($controller):
+                if (isset($doc['id'])) {
+                    $documentObject = $this->core->makeDocumentObject($doc['id']);
                     $data = [
                         'modx' => $this->core,
                         'documentObject' => $documentObject,
@@ -57,14 +62,12 @@ class TemplateProcessor
                     $data = [
                         'modx' => $this->core,
                         'documentObject' => [],
-                        'siteContentObject' => [],
                     ];
                 }
                 $this->core['view']->share($data);
                 if ($this->core->isChunkProcessor('DLTemplate')) {
                     app('DLTemplate')->blade->share($data);
                 }
-                $namespace = trim($this->core->getConfig('ControllerNamespace'));
                 if (!empty($namespace)) {
                     if(!empty($controller) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller, TemplateController::class)) {
                         $controller = $namespace . $controller;
@@ -76,7 +79,7 @@ class TemplateProcessor
                         if(!empty($view)) {
                             $templateAlias = $view;
                         }
-                    } else {
+                    } elseif($this->core['view']->exists($templateAlias)) {
                         $baseClassName = $namespace . 'BaseController';
                         if (class_exists($baseClassName)) { //Проверяем есть ли Base класс
                             $classArray = explode('.', $templateAlias);
