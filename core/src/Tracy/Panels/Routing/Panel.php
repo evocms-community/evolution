@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Arr;
 use EvolutionCMS\Tracy\Panels\AbstractPanel;
-use ManagerTheme;
+use EvolutionCMS\Facades\ManagerTheme;
 use Illuminate\Support\Facades\Route;
 
 class Panel extends AbstractPanel
