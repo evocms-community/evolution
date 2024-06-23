@@ -8,7 +8,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @push('scripts.top')
         <script>
             function deletegroup(groupid, type) {
-                if(confirm(`{{ ManagerTheme::getLexicon('confirm_delete_group') }}`) === true) {
+                if(confirm(`{{ __('global.confirm_delete_group') }}`) === true) {
                     if(type === 'usergroup') {
                         document.location.href = 'index.php?a=92&usergroup=' + groupid + '&operation=delete_user_group';
                     }
@@ -26,32 +26,26 @@ use EvolutionCMS\Facades\ManagerTheme;
         </script>
     @endpush
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ ManagerTheme::getLexicon('web_access_permissions') }}<i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
+        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ __('global.web_access_permissions') }}<i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
     </h1>
 
     <div class="container element-edit-message">
-        <div class="alert alert-info">{{ ManagerTheme::getLexicon('access_permissions_introtext') }}</div>
+        <div class="alert alert-info">{{ __('global.access_permissions_introtext') }}</div>
     </div>
 
-    @if(evo()->getConfig('use_udperms') !== true)
-        <div class="container">
-            <div class="alert alert-danger">{{ ManagerTheme::getLexicon('access_permissions_off') }}</div>
-        </div>
-    @endif
-
-    <div class="tab-pane" id="wuapPane">
+     <div class="tab-pane" id="wuapPane">
         <script>
             tp1 = new WebFXTabPane(document.getElementById('wuapPane'), true);
         </script>
 
         <div class="tab-page" id="tabPage1">
-            <h2 class="tab">{{ ManagerTheme::getLexicon('web_access_permissions_user_groups') }}</h2>
+            <h2 class="tab">{{ __('global.web_access_permissions_user_groups') }}</h2>
             <script>tp1.addTabPage(document.getElementById('tabPage1'));</script>
 
             <div class="container container-body">
-                <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_users_tab') }}</p>
+                <p class="element-edit-message-tab alert alert-warning">{{ __('global.access_permissions_users_tab') }}</p>
                 <div class="form-group">
-                    <b>{{ ManagerTheme::getLexicon('access_permissions_add_user_group') }}</b>
+                    <b>{{ __('global.access_permissions_add_user_group') }}</b>
                     <form method="post" action="index.php" name="accesspermissions">
                         @csrf
                         <input type="hidden" name="a" value="92" />
@@ -59,14 +53,14 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <div class="input-group">
                             <input class="form-control" type="text" value="" name="newusergroup" />
                             <div class="input-group-btn">
-                                <input class="btn btn-success" type="submit" value="{{ ManagerTheme::getLexicon('submit') }}" />
+                                <input class="btn btn-success" type="submit" value="{{ __('global.submit') }}" />
                             </div>
                         </div>
                     </form>
                 </div>
 
                 @if($userGroups->count() === 0)
-                    <div class="text-danger">{{ ManagerTheme::getLexicon('no_groups_found') }}</div>
+                    <div class="text-danger">{{ __('global.no_groups_found') }}</div>
                 @else
                     <?php /** @var EvolutionCMS\Models\MembergroupName $userGroup */?>
                     @foreach($userGroups as $userGroup)
@@ -79,9 +73,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $userGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <a target="main" class="btn btn-success" href="?a=91&list=users&id={{ $userGroup->getKey() }}&tab=0">{{ ManagerTheme::getLexicon('users_list') }}</a>
-                                        <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
-                                        <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $userGroup->getKey() }}, 'usergroup');" />
+                                        <a target="main" class="btn btn-success" href="?a=91&list=users&id={{ $userGroup->getKey() }}&tab=0">{{ __('global.users_list') }}</a>
+                                        <input class="btn btn-secondary" type="submit" value="{{ __('global.rename') }}" />
+                                        <input class="btn btn-danger" type="button" value="{{ __('global.delete') }}" onclick="deletegroup({{ $userGroup->getKey() }}, 'usergroup');" />
                                     </div>
                                 </div>
                             </form>
@@ -92,13 +86,13 @@ use EvolutionCMS\Facades\ManagerTheme;
         </div>
 
         <div class="tab-page" id="tabPage2">
-            <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions_resource_groups') }}</h2>
+            <h2 class="tab">{{ __('global.access_permissions_resource_groups') }}</h2>
             <script>tp1.addTabPage(document.getElementById('tabPage2'));</script>
 
             <div class="container container-body">
-                <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_resources_tab') }}</p>
+                <p class="element-edit-message-tab alert alert-warning">{{ __('global.access_permissions_resources_tab') }}</p>
                 <div class="form-group">
-                    <b>{{ ManagerTheme::getLexicon('access_permissions_add_resource_group') }}</b>
+                    <b>{{ __('global.access_permissions_add_resource_group') }}</b>
                     <form method="post" action="index.php" name="accesspermissions">
                         @csrf
                         <input type="hidden" name="a" value="92" />
@@ -106,13 +100,13 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <div class="input-group">
                             <input class="form-control" type="text" value="" name="newdocgroup" />
                             <div class="input-group-btn">
-                                <input class="btn btn-success" type="submit" value="{{ ManagerTheme::getLexicon('submit') }}" />
+                                <input class="btn btn-success" type="submit" value="{{ __('global.submit') }}" />
                             </div>
                         </div>
                     </form>
                 </div>
                 @if($documentGroups->count() === 0)
-                    <div class="text-danger">{{ ManagerTheme::getLexicon('no_groups_found') }}</div>
+                    <div class="text-danger">{{ __('global.no_groups_found') }}</div>
                 @else
                     <?php /** @var EvolutionCMS\Models\DocumentgroupName $documentGroup */?>
                     @foreach($documentGroups as $documentGroup)
@@ -125,9 +119,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $documentGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <a target="main" class="btn btn-success" href="?a=91&list=documents&id={{ $documentGroup->getKey() }}&tab=1">{{ ManagerTheme::getLexicon('documents_list') }}</a>
-                                        <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
-                                        <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $documentGroup->getKey() }},'documentgroup');" />
+                                        <a target="main" class="btn btn-success" href="?a=91&list=documents&id={{ $documentGroup->getKey() }}&tab=1">{{ __('global.documents_list') }}</a>
+                                        <input class="btn btn-secondary" type="submit" value="{{ __('global.rename') }}" />
+                                        <input class="btn btn-danger" type="button" value="{{ __('global.delete') }}" onclick="deletegroup({{ $documentGroup->getKey() }},'documentgroup');" />
                                     </div>
                                 </div>
                             </form>
@@ -140,19 +134,19 @@ use EvolutionCMS\Facades\ManagerTheme;
 
         @if($documentGroups->count() > 0 && $userGroups->count() > 0)
             <div class="tab-page" id="tabPage3">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions_links') }}</h2>
+                <h2 class="tab">{{ __('global.access_permissions_links') }}</h2>
                 <script>tp1.addTabPage(document.getElementById('tabPage3'));</script>
 
                 <div class="container container-body">
-                    <p class="element-edit-message-tab alert alert-warning">{{ ManagerTheme::getLexicon('access_permissions_links_tab') }}</p>
+                    <p class="element-edit-message-tab alert alert-warning">{{ __('global.access_permissions_links_tab') }}</p>
                     <div class="form-group">
-                        <b>{{ ManagerTheme::getLexicon('access_permissions_group_link') }}</b>
+                        <b>{{ __('global.access_permissions_group_link') }}</b>
                         <form method="post" action="index.php" name="accesspermissions">
                             @csrf
                             <input type="hidden" name="a" value="92" />
                             <input type="hidden" name="operation" value="add_document_group_to_user_group" />
 
-                            {{ ManagerTheme::getLexicon('access_permissions_link_user_group') }}
+                            {{ __('global.access_permissions_link_user_group') }}
                             <select name="usergroup">
                                 <?php /** @var EvolutionCMS\Models\MembergroupName $userGroup */?>
                                 @foreach($userGroups as $userGroup)
@@ -160,19 +154,19 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 @endforeach
                             </select>
 
-                            {{ ManagerTheme::getLexicon('access_permissions_link_to_group') }}
+                            {{ __('global.access_permissions_link_to_group') }}
                             <select name="docgroup">
                                 <?php /** @var EvolutionCMS\Models\DocumentgroupName $documentGroup */?>
                                 @foreach($documentGroups as $documentGroup)
                                     <option value="{{ $documentGroup->getKey() }}"> {{ $documentGroup->name }}</option>
                                 @endforeach
                             </select>
-                            {{ ManagerTheme::getLexicon('access_permissions_context') }}
+                            {{ __('global.access_permissions_context') }}
 
                             <label for="context_mgr"><input id="context_mgr" type="checkbox" value="0" name="context[]"/> mgr </label>
                             <label for="context_web"><input id="context_web" type="checkbox" value="1" name="context[]" /> web </label>
 
-                            <br><input class="btn btn-success" type="submit" value="{{ ManagerTheme::getLexicon('submit') }}">
+                            <br><input class="btn btn-success" type="submit" value="{{ __('global.submit') }}">
                         </form>
                     </div>
                     <hr>
@@ -187,12 +181,12 @@ use EvolutionCMS\Facades\ManagerTheme;
                                         @foreach($userGroup->documentGroups as $documentGroup)
                                             <li>
                                                 {{ $documentGroup->name }} ({{ $documentGroup->pivot->context ? 'web' : 'mgr' }})
-                                                <small><i>(<a class="text-danger" href="index.php?a=92&coupling={{ $documentGroup->pivot->id }}&context={{ $documentGroup->pivot->context }}&operation=remove_document_group_from_user_group">{{ ManagerTheme::getLexicon('remove') }}</a>)</i></small>
+                                                <small><i>(<a class="text-danger" href="index.php?a=92&coupling={{ $documentGroup->pivot->id }}&context={{ $documentGroup->pivot->context }}&operation=remove_document_group_from_user_group">{{ __('global.remove') }}</a>)</i></small>
                                             </li>
                                         @endforeach
                                     </ul>
                                 @else
-                                    <i>{{ ManagerTheme::getLexicon('no_groups_found') }}</i>
+                                    <i>{{ __('global.no_groups_found') }}</i>
                                 @endif
                             </li>
                         </ul>

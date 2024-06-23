@@ -10,7 +10,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('edit_user')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $query = [
@@ -38,13 +38,13 @@ switch ($op) {
 // context menu
 $cm = new ContextMenu('cntxm', 150);
 $cm->addItem(
-    ManagerTheme::getLexicon('edit'),
+    __('global.edit'),
     'js:menuAction(1)',
     ManagerTheme::getStyle('icon_edit'),
     (!evo()->hasPermission('edit_user') ? 1 : 0)
 );
 $cm->addItem(
-    ManagerTheme::getLexicon('delete'),
+    __('global.delete'),
     'js:menuAction(2)',
     ManagerTheme::getStyle('icon_trash'),
     (!evo()->hasPermission('delete_user') ? 1 : 0)
@@ -53,7 +53,7 @@ echo $cm->render();
 
 // roles
 $role_options =
-    '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . ManagerTheme::getLexicon('no_user_role') .
+    '<option value="0"' . ($query['role'] == '0' ? ' selected' : '') . '>' . __('global.no_user_role') .
     '</option>';
 $roles = UserRole::query()->select('id', 'name')->get()->toArray();
 foreach ($roles as $row) {
@@ -124,13 +124,13 @@ if ($numRecords > 0) {
 
     // Table header
     $listTableHeader = [
-        'icon' => ManagerTheme::getLexicon('icon'),
-        'name' => ManagerTheme::getLexicon('name'),
-        'user_full_name' => ManagerTheme::getLexicon('user_full_name'),
-        'email' => ManagerTheme::getLexicon('email'),
-        'user_prevlogin' => ManagerTheme::getLexicon('user_prevlogin'),
-        'user_logincount' => ManagerTheme::getLexicon('user_logincount'),
-        'user_block' => ManagerTheme::getLexicon('user_block'),
+        'icon' => __('global.icon'),
+        'name' => __('global.name'),
+        'user_full_name' => __('global.user_full_name'),
+        'email' => __('global.email'),
+        'user_prevlogin' => __('global.user_prevlogin'),
+        'user_logincount' => __('global.user_logincount'),
+        'user_block' => __('global.user_block'),
     ];
     $tbWidth = ['1%', '', '', '', '1%', '1%', '1%'];
     $table->setColumnWidths($tbWidth);
@@ -141,30 +141,30 @@ if ($numRecords > 0) {
         $blocked_title = '';
         if ($el['blocked']) {
             if ($el['blockedafter']) {
-                $blocked_title .= ManagerTheme::getLexicon('user_blockedafter') . ' ' .
+                $blocked_title .= __('global.user_blockedafter') . ' ' .
                     evo()->toDateFormat($el['blockedafter']);
             }
             if ($el['blockedafter'] && $el['blockeduntil']) {
                 $blocked_title .= ', ';
             }
             if ($el['blockeduntil']) {
-                $blocked_title .= ManagerTheme::getLexicon('user_blockeduntil') . ' ' .
+                $blocked_title .= __('global.user_blockeduntil') . ' ' .
                     evo()->toDateFormat($el['blockeduntil']);
             }
         }
 
         $listDocs[] = [
             'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] .
-                ', event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' .
+                ', event);" title="' . __('global.click_to_context') . '"><i class="' .
                 ManagerTheme::getStyle(empty($el['name']) ? 'icon_no_user_role' : 'icon_web_user') . '"></i></a>',
             'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' .
-                ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',
+                __('global.click_to_edit_title') . '">' . e($el['username']) . '</a>',
             'user_full_name' => e($el['fullname']),
             'email' => e($el['email']),
-            'role' => e($el['name'] ?: ManagerTheme::getLexicon('no_user_role')),
+            'role' => e($el['name'] ?: __('global.no_user_role')),
             'user_prevlogin' => $el['thislogin'] ? evo()->toDateFormat($el['thislogin']) : '-',
             'user_logincount' => $el['logincount'],
-            'user_block' => $el['blocked'] ? ManagerTheme::getLexicon('yes') .
+            'user_block' => $el['blocked'] ? __('global.yes') .
                 ' <i class="fa fa-question-circle help" data-toggle="tooltip" data-placement="top" title="' .
                 $blocked_title . '"></i>' : '-',
         ];
@@ -174,7 +174,7 @@ if ($numRecords > 0) {
     $output = $table->create($listDocs, $listTableHeader, 'index.php?a=99');
 } else {
     // no documents
-    $output = '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
+    $output = '<div class="container"><p>' . __('global.resources_in_container_no') . '</p></div>';
 }
 ?>
 <script>
@@ -209,7 +209,7 @@ if ($numRecords > 0) {
         window.location.href = 'index.php?a=88&id=' + id
         break
       case 2: // delete
-        if (confirm(`<?= ManagerTheme::getLexicon('confirm_delete_user') ?>`) === true) {
+        if (confirm(`<?= __('global.confirm_delete_user') ?>`) === true) {
           window.location.href = 'index.php?a=90&id=' + id
         }
         break
@@ -236,14 +236,12 @@ if ($numRecords > 0) {
     <input type="hidden" name="op" value=""/>
 
     <h1>
-        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?= ManagerTheme::getLexicon(
-            'web_user_management_title'
-        ) ?> <i
+        <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i><?= __('global.web_user_management_title') ?> <i
                 class="<?= ManagerTheme::getStyle('icon_question_circle') ?> help"></i>
     </h1>
 
     <div class="container element-edit-message">
-        <div class="alert alert-info"><?= ManagerTheme::getLexicon('web_user_management_msg') ?></div>
+        <div class="alert alert-info"><?= __('global.web_user_management_msg') ?></div>
     </div>
 
     <div class="tab-page">
@@ -252,26 +250,24 @@ if ($numRecords > 0) {
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
                         <a class="btn btn-success btn-sm" href="index.php?a=87"><i
-                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?= ManagerTheme::getLexicon(
-                                'new_web_user'
-                            ) ?></a>
+                                    class="<?= ManagerTheme::getStyle('icon_add') ?>"></i> <?= __('global.new_web_user') ?></a>
                     </div>
                 </div>
                 <div class="col-sm-6 ">
                     <div class="input-group float-right w-auto">
                         <select class="form-control form-control-sm" name="role">
-                            <option value=""><?= ManagerTheme::getLexicon('web_user_management_select_role') ?></option>
+                            <option value=""><?= __('global.web_user_management_select_role') ?></option>
                             <?= $role_options ?>
                         </select>
                         <input class="form-control form-control-sm" name="search" type="text"
-                               value="<?= $query['search'] ?>" placeholder="<?= ManagerTheme::getLexicon('search') ?>"/>
+                               value="<?= $query['search'] ?>" placeholder="<?= __('global.search') ?>"/>
                         <div class="input-group-append">
                             <a class="btn btn-secondary btn-sm" href="javascript:;"
-                               title="<?= ManagerTheme::getLexicon('search') ?>"
+                               title="<?= __('global.search') ?>"
                                onclick="searchResource(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_search') ?>"></i></a>
                             <a class="btn btn-secondary btn-sm" href="javascript:;"
-                               title="<?= ManagerTheme::getLexicon('reset') ?>"
+                               title="<?= __('global.reset') ?>"
                                onclick="resetSearch(); return false;"><i
                                         class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i></a>
                         </div>
@@ -283,7 +279,7 @@ if ($numRecords > 0) {
                 if ($numRecords > 0) : ?>
                     <div class="float-xs-left">
                         <span class="publishedDoc"><?= $numRecords . ' ' .
-                            ManagerTheme::getLexicon('resources_in_container') ?></span>
+                            __('global.resources_in_container') ?></span>
                     </div>
                 <?php
                 endif; ?>

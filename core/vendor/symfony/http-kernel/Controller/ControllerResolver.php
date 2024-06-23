@@ -29,7 +29,7 @@ class ControllerResolver implements ControllerResolverInterface
     private array $allowedControllerTypes = [];
     private array $allowedControllerAttributes = [AsController::class => AsController::class];
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -240,7 +240,7 @@ class ControllerResolver implements ControllerResolverInterface
             $r = new \ReflectionFunction($controller);
             $name = $r->name;
 
-            if (str_contains($name, '{closure}')) {
+            if (str_contains($name, '{closure')) {
                 $name = $class = \Closure::class;
             } elseif ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
                 $class = $class->name;

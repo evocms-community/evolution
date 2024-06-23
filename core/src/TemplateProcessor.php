@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS;
 
 use EvolutionCMS\Interfaces\CoreInterface;
+use EvolutionCMS\Interfaces\TemplateController;
 use EvolutionCMS\Models\SiteTemplate;
 
 class TemplateProcessor
@@ -19,14 +20,22 @@ class TemplateProcessor
     public function getBladeDocumentContent()
     {
         $template = false;
+        $controller = '';
         $doc = $this->core->documentObject;
-        if(isset($this->core->documentObject['templatealias']) && $this->core->documentObject['templatealias'] != ''){
-            $templateAlias = $this->core->documentObject['templatealias'];
+        $namespace = trim($this->core->getConfig('ControllerNamespace'));
+        if(isset($doc['templatealias']) && $doc['templatealias'] != ''){
+            $templateAlias = $doc['templatealias'];
+            $controller = $doc['templatecontroller'] ?? '';
         }else {
             if($doc['template'] === 0) {
                 $templateAlias = '_blank';
+                if(!empty($namespace) && class_exists($namespace . 'Blank') && is_subclass_of($namespace . 'Blank', TemplateController::class)) {
+                    $controller = 'Blank';
+                }
             } else {
-                $templateAlias = SiteTemplate::select('templatealias')->find($doc['template'])->templatealias;
+                $query = SiteTemplate::select(['templatecontroller','templatealias'])->find($doc['template']);
+                $templateAlias = $query->templatealias;
+                $controller = $query->templatecontroller;
             }
         }
 
@@ -41,31 +50,60 @@ class TemplateProcessor
                 $template = 'tpl-' . $doc['template'];
                 break;
             case $this->core['view']->exists($templateAlias):
-                $namespace = trim($this->core->getConfig('ControllerNamespace'));
+            case !empty($controller):
+                if (isset($doc['id'])) {
+                    $documentObject = $this->core->makeDocumentObject($doc['id']);
+                    $data = [
+                        'modx' => $this->core,
+                        'documentObject' => $documentObject,
+                    ];
+                    $this->core->addDataToView($documentObject);
+                } else {
+                    $data = [
+                        'modx' => $this->core,
+                        'documentObject' => [],
+                    ];
+                }
+                $this->core['view']->share($data);
+                if ($this->core->isChunkProcessor('DLTemplate')) {
+                    app('DLTemplate')->blade->share($data);
+                }
                 if (!empty($namespace)) {
-                    $baseClassName = $namespace . 'BaseController';
-                    if (class_exists($baseClassName)) { //Проверяем есть ли Base класс
-                        $classArray = explode('.', $templateAlias);
-                        $classArray = array_map(
-                            function ($item) {
-                                return $this->setPsrClassNames($item);
-                            },
-                            $classArray
-                        );
-                        $classViewPart = implode('.', $classArray);
-                        $className = str_replace('.', '\\', $classViewPart);
-                        $className = $namespace . ucfirst($className) . 'Controller';
-                        if (!class_exists(
-                            $className
-                        )) { //Проверяем есть ли контроллер по алиасу, если нет, то помещаем Base
-                            $className = $baseClassName;
+                    if(!empty($controller) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller, TemplateController::class)) {
+                        $controller = $namespace . $controller;
+                        $controller = new $controller;
+                        $controller->setView($templateAlias);
+                        $controller->process();
+                        $this->core->addDataToView($controller->getViewData());
+                        $view = $controller->getView();
+                        if(!empty($view)) {
+                            $templateAlias = $view;
                         }
-                        $controller = $this->core->make($className);
-                        if (method_exists($controller, 'main')) {
-                            $this->core->call([$controller, 'main']);
+                    } elseif($this->core['view']->exists($templateAlias)) {
+                        $baseClassName = $namespace . 'BaseController';
+                        if (class_exists($baseClassName)) { //Проверяем есть ли Base класс
+                            $classArray = explode('.', $templateAlias);
+                            $classArray = array_map(
+                                function ($item) {
+                                    return $this->setPsrClassNames($item);
+                                },
+                                $classArray
+                            );
+                            $classViewPart = implode('.', $classArray);
+                            $className = str_replace('.', '\\', $classViewPart);
+                            $className = $namespace . ucfirst($className) . 'Controller';
+                            if (!class_exists(
+                                $className
+                            )) { //Проверяем есть ли контроллер по алиасу, если нет, то помещаем Base
+                                $className = $baseClassName;
+                            }
+                            $controller = $this->core->make($className);
+                            if (method_exists($controller, 'main')) {
+                                $this->core->call([$controller, 'main']);
+                            }
+                        } else {
+                            $this->core->logEvent(0, 3, $baseClassName . ' not exists!');
                         }
-                    } else {
-                        $this->core->logEvent(0, 3, $baseClassName . ' not exists!');
                     }
                 }
                 $template = $templateAlias;
@@ -83,6 +121,7 @@ class TemplateProcessor
                     }
                 }
         }
+
         return $template;
     }
 

@@ -960,7 +960,7 @@ if (!function_exists('renderFormElement')) {
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '"  value="' .
                         $field_value . '" ' . $field_style .
                         ' onchange="documentDirty=true;" /><input type="button" value="' .
-                        ManagerTheme::getLexicon('insert') . '" onclick="BrowseServer(\'tv' . $field_id . '\')" />';
+                        __('global.insert') . '" onclick="BrowseServer(\'tv' . $field_id . '\')" />';
                     break;
                 case 'file': // handles the input of file uploads
                     /* Modified by Timon for use with resource browser */
@@ -975,7 +975,7 @@ if (!function_exists('renderFormElement')) {
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '"  value="' .
                         $field_value . '" ' . $field_style .
                         ' onchange="documentDirty=true;" /><input type="button" value="' .
-                        ManagerTheme::getLexicon('insert') . '" onclick="BrowseFileServer(\'tv' . $field_id . '\')" />';
+                        __('global.insert') . '" onclick="BrowseFileServer(\'tv' . $field_id . '\')" />';
                     break;
 
                 case 'custom_tv':
@@ -1001,8 +1001,8 @@ if (!function_exists('renderFormElement')) {
                         $chunk_name = trim(substr($field_elements, 7));
                         $chunk_body = $modx->getChunk($chunk_name);
                         if ($chunk_body == false) {
-                            $custom_output = ManagerTheme::getLexicon('chunk_no_exist') . '(' .
-                                ManagerTheme::getLexicon('htmlsnippet_name') . ':' . $chunk_name . ')';
+                            $custom_output = __('global.chunk_no_exist') . '(' .
+                                __('global.htmlsnippet_name') . ':' . $chunk_name . ')';
                         } else {
                             $custom_output = $chunk_body;
                         }

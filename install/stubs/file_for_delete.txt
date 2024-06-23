@@ -8,3 +8,4 @@
 {core}src/Facades/UserManager.php
 {core}src/Interfaces/ServiceInterface.php
 {core}storage/bootstrap/siteCache.idx.php
+{core}functions/laravel.php

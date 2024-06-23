@@ -8,13 +8,13 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('edit_template')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_GET['id'] ?? 0);
 
 if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // count duplicates
@@ -22,7 +22,7 @@ if (!$id) {
 $tmplvar = SiteTmplvar::with(['tmplvarAccess', 'tmplvarTemplate', 'tmplvarUserRole'])->findOrFail($id);
 $name = $tmplvar->name;
 $count = SiteTmplvar::query()
-    ->where('name', 'like', $name . ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . '%')
+    ->where('name', 'like', $name . ' ' . __('global.duplicated_el_suffix') . '%')
     ->count();
 if ($count >= 1) {
     $count = ' ' . ($count + 1);
@@ -31,7 +31,7 @@ if ($count >= 1) {
 }
 
 $newTmplvar = $tmplvar->replicate();
-$newTmplvar->name = $tmplvar->name . ' ' . ManagerTheme::getLexicon('duplicated_el_suffix') . $count;
+$newTmplvar->name = $tmplvar->name . ' ' . __('global.duplicated_el_suffix') . $count;
 $newTmplvar->caption = $tmplvar->caption . ' Duplicate ' . $count;
 $newTmplvar->push();
 

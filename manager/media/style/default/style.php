@@ -242,42 +242,42 @@ $_style['actionbuttons'] = [
             ' . (isset($_REQUEST['id']) ? '
                     <a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
                         <i class="' . $_style['icon_document'] . '"></i><span>' .
-                ManagerTheme::getLexicon('create_resource_here') . '</span>
+                __('global.create_resource_here') . '</span>
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
                         <i class="' . $_style['icon_chain'] . '"></i><span>' .
-                ManagerTheme::getLexicon('create_weblink_here') . '</span>
+                __('global.create_weblink_here') . '</span>
                     </a>
                 ' : '') . '
                 <div class="btn-group">
                     <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-                        <i class="' . $_style['icon_save'] . '"></i><span>' . ManagerTheme::getLexicon('save') . '</span>
+                        <i class="' . $_style['icon_save'] . '"></i><span>' . __('global.save') . '</span>
                     </a>
                     <span class="btn btn-success plus dropdown-toggle"></span>
                     <select id="stay" name="stay">
                         ' . ($addNew ? '
                             <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' .
-                ManagerTheme::getLexicon('stay_new') . '</option>
+                __('global.stay_new') . '</option>
                         ' : '') . '
                         <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('stay') . '</option>
+            __('global.stay') . '</option>
                         <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('close') . '</option>
+            __('global.close') . '</option>
                     </select>
                 </div>' .
             ($addNew ? '
                     <a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
-                        <i class="' . $_style['icon_clone'] . '"></i><span>' . ManagerTheme::getLexicon('duplicate') . '</span>
+                        <i class="' . $_style['icon_clone'] . '"></i><span>' . __('global.duplicate') . '</span>
                     </a>
                     ' : '') . '
                 <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
                 <a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.view();">
-                    <i class="' . $_style['icon_eye'] . '"></i><span>' . ManagerTheme::getLexicon('preview') . '</span>
+                    <i class="' . $_style['icon_eye'] . '"></i><span>' . __('global.preview') . '</span>
                 </a>
             </div>
         </div>',
@@ -285,25 +285,25 @@ $_style['actionbuttons'] = [
             <div class="btn-group">
                 <div class="btn-group">
                     <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-                        <i class="' . $_style['icon_save'] . '"></i><span>' . ManagerTheme::getLexicon('save') . '</span>
+                        <i class="' . $_style['icon_save'] . '"></i><span>' . __('global.save') . '</span>
                     </a>
                     <span class="btn btn-success plus dropdown-toggle"></span>
                     <select id="stay" name="stay">
                         ' . ($addNew ? '
                             <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' .
-                ManagerTheme::getLexicon('stay_new') . '</option>
+                __('global.stay_new') . '</option>
                         ' : '') . '
                         <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('stay') . '</option>
+            __('global.stay') . '</option>
                         <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('close') . '</option>
+            __('global.close') . '</option>
                     </select>
                 </div>
                 <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',
@@ -311,34 +311,34 @@ $_style['actionbuttons'] = [
             <div class="btn-group">
                 <div class="btn-group">
                     <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-                        <i class="' . $_style['icon_save'] . '"></i><span>' . ManagerTheme::getLexicon('save') . '</span>
+                        <i class="' . $_style['icon_save'] . '"></i><span>' . __('global.save') . '</span>
                     </a>
                     <span class="btn btn-success plus dropdown-toggle"></span>
                     <select id="stay" name="stay">
                         ' . ($addNew ? '
                             <option id="stay1" value="1" ' . ($stay == '1' ? ' selected="selected"' : '') . '>' .
-                ManagerTheme::getLexicon('stay_new') . '</option>
+                __('global.stay_new') . '</option>
                         ' : '') . '
                         <option id="stay2" value="2" ' . ($stay == '2' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('stay') . '</option>
+            __('global.stay') . '</option>
                         <option id="stay3" value="" ' . ($stay == '' ? ' selected="selected"' : '') . '>' .
-            ManagerTheme::getLexicon('close') . '</option>
+            __('global.close') . '</option>
                     </select>
                 </div>
                 ' . ($addNew ? '
                 <a id="Button6" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.duplicate();">
-                    <i class="' . $_style['icon_clone'] . '"></i><span>' . ManagerTheme::getLexicon('duplicate') . '</span>
+                    <i class="' . $_style['icon_clone'] . '"></i><span>' . __('global.duplicate') . '</span>
                 </a>
                 ' : '') . '
                 <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
                 ' . ($run ? '
                 <a id="Button4" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.run();">
-                    <i class="' . $_style['icon_play'] . '"></i><span>' . ManagerTheme::getLexicon('run_module') . '</span>
+                    <i class="' . $_style['icon_play'] . '"></i><span>' . __('global.run_module') . '</span>
                 </a>
                 ' : '') . '
             </div>
@@ -346,54 +346,54 @@ $_style['actionbuttons'] = [
         'newmodule' => ($addNew ? '<div id="actions">
             <div class="btn-group">
                 <a id="newModule" class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
-                    <i class="' . $_style['icon_add'] . '"></i><span>' . ManagerTheme::getLexicon('new_module') . '</span>
+                    <i class="' . $_style['icon_add'] . '"></i><span>' . __('global.new_module') . '</span>
                 </a>
             </div>
         </div>' : ''),
         'close' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.close();">
-                    <i class="' . $_style['icon_close'] . '"></i><span>' . ManagerTheme::getLexicon('close') . '</span>
+                    <i class="' . $_style['icon_close'] . '"></i><span>' . __('global.close') . '</span>
                 </a>
             </div>
         </div>',
         'save' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-                    <i class="' . $_style['icon_save'] . '"></i><span>' . ManagerTheme::getLexicon('save') . '</span>
+                    <i class="' . $_style['icon_save'] . '"></i><span>' . __('global.save') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',
         'savedelete' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-                    <i class="' . $_style['icon_save'] . '"></i><span>' . ManagerTheme::getLexicon('save') . '</span>
+                    <i class="' . $_style['icon_save'] . '"></i><span>' . __('global.save') . '</span>
                 </a>
                 <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',
         'cancel' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',
         'canceldelete' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button3" class="btn btn-secondary' . $disabled . '" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',
@@ -404,34 +404,34 @@ $_style['actionbuttons'] = [
             ($addNew ? '
                     <a class="btn btn-secondary" href="javascript:;" onclick="actions.new();">
                         <i class="' . $_style['icon_document'] . '"></i><span>' .
-                ManagerTheme::getLexicon('create_resource_here') . '</span>
+                __('global.create_resource_here') . '</span>
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" onclick="actions.newlink();">
                         <i class="' . $_style['icon_chain'] . '"></i><span>' .
-                ManagerTheme::getLexicon('create_weblink_here') . '</span>
+                __('global.create_weblink_here') . '</span>
                     </a>
                 ' : '') . '
                 <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.edit();">
-                    <i class="' . $_style['icon_edit'] . '"></i><span>' . ManagerTheme::getLexicon('edit') . '</span>
+                    <i class="' . $_style['icon_edit'] . '"></i><span>' . __('global.edit') . '</span>
                 </a>
                 <a id="Button2" class="btn btn-secondary" href="javascript:;" onclick="actions.move();">
-                    <i class="' . $_style['icon_move'] . '"></i><span>' . ManagerTheme::getLexicon('move') . '</span>
+                    <i class="' . $_style['icon_move'] . '"></i><span>' . __('global.move') . '</span>
                 </a>
                 <a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
-                    <i class="' . $_style['icon_clone'] . '"></i><span>' . ManagerTheme::getLexicon('duplicate') . '</span>
+                    <i class="' . $_style['icon_clone'] . '"></i><span>' . __('global.duplicate') . '</span>
                 </a>
                 <a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
-                    <i class="' . $_style['icon_trash'] . '"></i><span>' . ManagerTheme::getLexicon('delete') . '</span>
+                    <i class="' . $_style['icon_trash'] . '"></i><span>' . __('global.delete') . '</span>
                 </a>
                 <a id="Button4" class="btn btn-secondary" href="javascript:;" onclick="actions.view();">
-                    <i class="' . $_style['icon_eye'] . '"></i><span>' . ManagerTheme::getLexicon('preview') . '</span>
+                    <i class="' . $_style['icon_eye'] . '"></i><span>' . __('global.preview') . '</span>
                 </a>
             </div>
         </div>',
         'cancel' => '<div id="actions">
             <div class="btn-group">
                 <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . ManagerTheme::getLexicon('cancel') . '</span>
+                    <i class="' . $_style['icon_cancel'] . '"></i><span>' . __('global.cancel') . '</span>
                 </a>
             </div>
         </div>',

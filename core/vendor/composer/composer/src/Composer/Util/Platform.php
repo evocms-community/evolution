@@ -55,6 +55,8 @@ class Platform
     /**
      * getenv() equivalent but reads from the runtime global variables first
      *
+     * @param non-empty-string $name
+     *
      * @return string|false
      */
     public static function getEnv(string $name)
@@ -99,6 +101,7 @@ class Platform
 
         return Preg::replaceCallback('#^(\$|(?P<percent>%))(?P<var>\w++)(?(percent)%)(?P<path>.*)#', static function ($matches): string {
             assert(is_string($matches['var']));
+            assert('' !== $matches['var']);
 
             // Treat HOME as an alias for USERPROFILE on Windows for legacy reasons
             if (Platform::isWindows() && $matches['var'] === 'HOME') {
@@ -149,7 +152,9 @@ class Platform
                 !ini_get('open_basedir')
                 && is_readable('/proc/version')
                 && false !== stripos((string)Silencer::call('file_get_contents', '/proc/version'), 'microsoft')
-                && !file_exists('/.dockerenv') // docker running inside WSL should not be seen as WSL
+                && !file_exists('/.dockerenv') // Docker and Podman running inside WSL should not be seen as WSL
+                && !file_exists('/run/.containerenv')
+                && !file_exists('/var/run/.containerenv')
             ) {
                 return self::$isWindowsSubsystemForLinux = true;
             }

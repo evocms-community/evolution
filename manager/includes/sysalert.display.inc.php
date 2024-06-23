@@ -25,7 +25,7 @@ if ($sysMsgs != '') : ?>
       document.addEventListener('DOMContentLoaded', function() {
         if (parent.modx) {
           parent.modx.popup({
-            title: '<?= ManagerTheme::getLexicon('sys_alert'); ?>',
+            title: '<?= __('global.sys_alert'); ?>',
             content: '<?=$sysMsgs?>',
             wrap: document.body,
             type: 'warning',

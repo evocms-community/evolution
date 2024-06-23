@@ -13,9 +13,9 @@ use EvolutionCMS\Facades\ManagerTheme;
             var elementProperties = new ElementProperties({
                 name: 'elementProperties',
                 lang: {
-                    parameter: '{{ ManagerTheme::getLexicon('parameter') }}',
-                    value: '{{ ManagerTheme::getLexicon('value') }}',
-                    set_default: '{{ ManagerTheme::getLexicon('set_default') }}',
+                    parameter: '{{ __('global.parameter') }}',
+                    value: '{{ __('global.value') }}',
+                    set_default: '{{ __('global.set_default') }}',
                 },
                 icon_refresh: '{{ ManagerTheme::getStyle('icon_refresh') }}',
                 table:'displayprops',
@@ -87,13 +87,13 @@ use EvolutionCMS\Facades\ManagerTheme;
               saveWait('mutate');
             },
             duplicate: function() {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_duplicate_record') }}`) === true) {
                 documentDirty = false;
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=304";
               }
             },
             delete: function() {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_delete_tmplvars') }}`) === true) {
                 documentDirty = false;
                 document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=303';
               }
@@ -154,7 +154,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             if (!dp) {
               tr.style.display = 'none';
             } else {
-              t = '<table class="displayparams"><thead><tr><td width="50%">{{ ManagerTheme::getLexicon('parameter') }}</td><td width="50%">{{ ManagerTheme::getLexicon('value') }}</td></tr></thead>';
+              t = '<table class="displayparams"><thead><tr><td width="50%">{{ __('global.parameter') }}</td><td width="50%">{{ __('global.value') }}</td></tr></thead>';
               for (p = 0; p < dp.length; p++) {
                 dp[p] = (dp[p] + '').replace(/^\s|\s$/, ''); // trim
                 ar = dp[p].split('=');
@@ -293,7 +293,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
-                {{ ManagerTheme::getLexicon('new_tmplvars') }}
+                {{ __('global.new_tmplvars') }}
             @endif
             <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
@@ -301,7 +301,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         @include('manager::partials.actionButtons', $actionButtons)
 
         <div class="container element-edit-message">
-            <div class="alert alert-info">{!! ManagerTheme::getLexicon('tmplvars_msg') !!}</div>
+            <div class="alert alert-info">{!! __('global.tmplvars_msg') !!}</div>
         </div>
 
         <div class="tab-pane" id="tmplvarsPane">
@@ -310,13 +310,13 @@ use EvolutionCMS\Facades\ManagerTheme;
             </script>
 
             <div class="tab-page" id="tabGeneral">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_general') }}</h2>
+                <h2 class="tab">{{ __('global.settings_general') }}</h2>
                 <script>tpTmplvars.addTabPage(document.getElementById('tabGeneral'));</script>
 
                 <div class="container container-body">
                     @include('manager::form.row', [
                         'for' => 'name',
-                        'label' => ManagerTheme::getLexicon('tmplvars_name'),
+                        'label' => __('global.tmplvars_name'),
                         'element' => '<div class="form-control-name clearfix">' .
                             ManagerTheme::view('form.inputElement', [
                                 'name' => 'name',
@@ -325,7 +325,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="50"'
                             ]) .
                             (evo()->hasPermission('save_role')
-                            ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_tmplvars') . "\n" . ManagerTheme::getLexicon('lock_tmplvars_msg') .'">' .
+                            ? '<label class="custom-control" data-tooltip="' . __('global.lock_tmplvars') . "\n" . __('global.lock_tmplvars_msg') .'">' .
                              ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
@@ -342,7 +342,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'caption',
                         'id' => 'caption',
-                        'label' => ManagerTheme::getLexicon('tmplvars_caption'),
+                        'label' => __('global.tmplvars_caption'),
                         'value' => $data->caption,
                         'attributes' => 'onchange="documentDirty=true;" maxlength="80"'
                     ])
@@ -350,7 +350,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'description',
                         'id' => 'description',
-                        'label' => ManagerTheme::getLexicon('tmplvars_description'),
+                        'label' => __('global.tmplvars_description'),
                         'value' => $data->description,
                         'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
                     ])
@@ -358,7 +358,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'categoryid',
                         'id' => 'categoryid',
-                        'label' => ManagerTheme::getLexicon('existing_category'),
+                        'label' => __('global.existing_category'),
                         'value' => $data->category,
                         'first' => [
                             'text' => ''
@@ -370,7 +370,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'newcategory',
                         'id' => 'newcategory',
-                        'label' => ManagerTheme::getLexicon('new_category'),
+                        'label' => __('global.new_category'),
                         'value' => (isset($data->newcategory) ? $data->newcategory : ''),
                         'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                     ])
@@ -378,7 +378,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'type',
                         'id' => 'type',
-                        'label' => ManagerTheme::getLexicon('tmplvars_type'),
+                        'label' => __('global.tmplvars_type'),
                         'value' => $data->type,
                         'options' => $types,
                         'attributes' => 'onchange="changeDefaultProperties(this);documentDirty=true;"'
@@ -387,8 +387,8 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.textarea', [
                         'name' => 'elements',
                         'id' => 'elements',
-                        'label' => ManagerTheme::getLexicon('tmplvars_elements'),
-                        'small' => ManagerTheme::getLexicon('tmplvars_binding_msg'),
+                        'label' => __('global.tmplvars_elements'),
+                        'small' => __('global.tmplvars_binding_msg'),
                         'value' => $data->elements,
                         'attributes' => 'onchange="documentDirty=true;"'
                     ])
@@ -396,8 +396,8 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.textarea', [
                         'name' => 'default_text',
                         'id' => 'default_text',
-                        'label' => ManagerTheme::getLexicon('tmplvars_default'),
-                        'small' => ManagerTheme::getLexicon('tmplvars_binding_msg'),
+                        'label' => __('global.tmplvars_default'),
+                        'small' => __('global.tmplvars_binding_msg'),
                         'value' => $data->default_text,
                         'attributes' => 'onchange="documentDirty=true;"'
                     ])
@@ -405,7 +405,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'display',
                         'id' => 'display',
-                        'label' => ManagerTheme::getLexicon('tmplvars_widget'),
+                        'label' => __('global.tmplvars_widget'),
                         'value' => $data->display,
                         'first' => [
                             'text' => ''
@@ -415,10 +415,10 @@ use EvolutionCMS\Facades\ManagerTheme;
                     ])
 
                     <div class="row form-row" id="displayparamrow">
-                        <label class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('tmplvars_widget_prop') }}<br />
+                        <label class="col-md-3 col-lg-2">{{ __('global.tmplvars_widget_prop') }}<br />
                             <a href="javascript:;" onclick="resetParameters(); return false">
                                 <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"
-                                    data-tooltip="{{ ManagerTheme::getLexicon('tmplvars_reset_params') }}"></i>
+                                    data-tooltip="{{ __('global.tmplvars_reset_params') }}"></i>
                             </a>
                         </label>
                         <div id="displayparams" class="col-md-9 col-lg-10"></div>
@@ -427,7 +427,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 @include('manager::form.input', [
                     'name' => 'rank',
                     'id' => 'rank',
-                    'label' => ManagerTheme::getLexicon('tmplvars_rank'),
+                    'label' => __('global.tmplvars_rank'),
                     'value' => (isset($data->rank) ? $data->rank : 0),
                     'attributes' => 'onchange="documentDirty=true;" maxlength="4" size="1"'
                 ])
@@ -439,12 +439,12 @@ use EvolutionCMS\Facades\ManagerTheme;
 
            <!-- Config -->
             <div class="tab-page" id="tabConfig">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_config') }}</h2>
+                <h2 class="tab">{{ __('global.settings_config') }}</h2>
                 <script>tpTmplvars.addTabPage(document.getElementById('tabConfig'));</script>
 
                 <div class="container container-body">
                     <div class="form-group">
-                        <a href="javascript:;" class="btn btn-primary" onclick="elementProperties.setDefaults(this);return false;">{{ ManagerTheme::getLexicon('set_default_all') }}</a>
+                        <a href="javascript:;" class="btn btn-primary" onclick="elementProperties.setDefaults(this);return false;">{{ __('global.set_default_all') }}</a>
                     </div>
                     <div id="displaypropsrow">
                         <div id="displayprops"></div>
@@ -454,11 +454,11 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             <!-- Properties -->
             <div class="tab-page" id="tabProps">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_properties') }}</h2>
+                <h2 class="tab">{{ __('global.settings_properties') }}</h2>
                 <script>tpTmplvars.addTabPage(document.getElementById('tabProps'));</script>
                 <div class="container container-body">
                     <div class="form-group">
-                        <a href="javascript:;" class="btn btn-primary" onclick="tpTmplvars.pages[1].select();elementProperties.showParameters(this);return false;">{{ ManagerTheme::getLexicon('update_params') }}</a>
+                        <a href="javascript:;" class="btn btn-primary" onclick="tpTmplvars.pages[1].select();elementProperties.showParameters(this);return false;">{{ __('global.update_params') }}</a>
                     </div>
                 </div>
 
@@ -476,22 +476,22 @@ use EvolutionCMS\Facades\ManagerTheme;
             </div>
 
             <div class="tab-page" id="tabTemplates">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('manage_templates') }}</h2>
+                <h2 class="tab">{{ __('global.manage_templates') }}</h2>
                 <script>tpTmplvars.addTabPage(document.getElementById('tabTemplates'));</script>
 
                 <div class="container container-body">
-                    <p>{{ ManagerTheme::getLexicon('tmplvar_tmpl_access_msg') }}</p>
+                    <p>{{ __('global.tmplvar_tmpl_access_msg') }}</p>
                     <div class="form-group">
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_all('template');return false;">{{ ManagerTheme::getLexicon('check_all') }}</a>
+                            onclick="check_all('template');return false;">{{ __('global.check_all') }}</a>
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_none('template');return false;">{{ ManagerTheme::getLexicon('check_none') }}</a>
+                            onclick="check_none('template');return false;">{{ __('global.check_none') }}</a>
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_toggle('template'); return false;">{{ ManagerTheme::getLexicon('check_toggle') }}</a>
+                            onclick="check_toggle('template'); return false;">{{ __('global.check_toggle') }}</a>
                     </div>
 
                     @if(isset($tplOutCategory) && $tplOutCategory->count() > 0)
-                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => ManagerTheme::getLexicon('no_category')])
+                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_template', 'id' => 0, 'title' => __('global.no_category')])
                             <ul>
                                 <?php /** @var EvolutionCMS\Models\SiteTemplate $item */ ?>
                                 @foreach($tplOutCategory as $item)
@@ -516,22 +516,22 @@ use EvolutionCMS\Facades\ManagerTheme;
             </div>
 
             <div class="tab-page" id="tabRoles">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('role_management_title') }}</h2>
+                <h2 class="tab">{{ __('global.role_management_title') }}</h2>
                 <script>tpTmplvars.addTabPage(document.getElementById('tabRoles'));</script>
 
                 <div class="container container-body">
-                    <p>{{ ManagerTheme::getLexicon('tmplvar_roles_access_msg') }}</p>
+                    <p>{{ __('global.tmplvar_roles_access_msg') }}</p>
                     <div class="form-group">
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_all('role');return false;">{{ ManagerTheme::getLexicon('check_all') }}</a>
+                            onclick="check_all('role');return false;">{{ __('global.check_all') }}</a>
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_none('role');return false;">{{ ManagerTheme::getLexicon('check_none') }}</a>
+                            onclick="check_none('role');return false;">{{ __('global.check_none') }}</a>
                         <a class="btn btn-secondary btn-sm" href="javascript:;"
-                            onclick="check_toggle('role'); return false;">{{ ManagerTheme::getLexicon('check_toggle') }}</a>
+                            onclick="check_toggle('role'); return false;">{{ __('global.check_toggle') }}</a>
                     </div>
 
                     @if(isset($roles) && $roles->count() > 0)
-                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_roles', 'id' => 0, 'title' => ManagerTheme::getLexicon('role_management_title')])
+                        @component('manager::partials.panelCollapse', ['name' => 'tv_in_roles', 'id' => 0, 'title' => __('global.role_management_title')])
                             <ul>
                                 <?php /** @var EvolutionCMS\Models\SiteTemplate $item */ ?>
                                 @foreach($roles as $item)
@@ -543,9 +543,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                 </div>
             </div>
 
-            @if(evo()->getConfig('use_udperms') && evo()->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
+            @if(evo()->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
                 <div class="tab-page" id="tabAccess">
-                    <h2 class="tab">{{ ManagerTheme::getLexicon('access_permissions') }}</h2>
+                    <h2 class="tab">{{ __('global.access_permissions') }}</h2>
                     <script>tpTmplvars.addTabPage(document.getElementById('tabAccess'));</script>
 
                     <div class="container container-body">
@@ -584,7 +584,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                           }
                         </script>
 
-                        <p>{{ ManagerTheme::getLexicon('tmplvar_access_msg') }}</p>
+                        <p>{{ __('global.tmplvar_access_msg') }}</p>
 
                         <?php
 
@@ -601,7 +601,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                             $chks .= "<li><label><input type='checkbox' name='docgroups[]' value='" . $row['id'] . "' " . ($checked ? "checked='checked'" : '') . " onclick=\"makePublic(false)\" /> " . e($row['name']) . "</label></li>";
                         }
 
-                        $chks = "<li><label><input type='checkbox' name='chkalldocs' " . (empty($notPublic) ? "checked='checked'" : '') . " onclick=\"makePublic(true)\" /> <span class='warning'>" . ManagerTheme::getLexicon('all_doc_groups') . "</span></label></li>" . $chks;
+                        $chks = "<li><label><input type='checkbox' name='chkalldocs' " . (empty($notPublic) ? "checked='checked'" : '') . " onclick=\"makePublic(true)\" /> <span class='warning'>" . __('global.all_doc_groups') . "</span></label></li>" . $chks;
 
                         echo '<ul>' . $chks . '</ul>';
 

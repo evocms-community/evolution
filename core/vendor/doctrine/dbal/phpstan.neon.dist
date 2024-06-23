@@ -1,0 +1,156 @@
+parameters:
+    level: 8
+    phpVersion: 80300
+    paths:
+        - src
+        - static-analysis
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - identifier: missingType.generics
+
+        # https://github.com/doctrine/dbal/pull/3836
+        # TODO: remove in 4.0.0
+        - '~^Parameter #2 \$registeredAliases of static method Doctrine\\DBAL\\Query\\QueryException::nonUniqueAlias\(\) expects array<string>, array<int, int\|string> given\.\z~'
+
+        # some drivers actually do accept 2nd parameter...
+        - '~^Method Doctrine\\DBAL\\Platforms\\AbstractPlatform::getListTableForeignKeysSQL\(\) invoked with \d+ parameters, 1 required\.\z~'
+
+        # https://github.com/phpstan/phpstan-strict-rules/issues/103
+        -
+            message: '~^Construct empty\(\) is not allowed. Use more strict comparison\.~'
+            paths:
+                - src/Driver/*/Driver.php
+                - src/Driver/AbstractOracleDriver/EasyConnectString.php
+                - src/Platforms/*Platform.php
+                - src/Schema/*SchemaManager.php
+
+        # In some namespaces, we use array<string,mixed>, some elements of which are actually boolean
+        -
+            message: '~^Only booleans are allowed in .*, mixed given~'
+            paths:
+                - src/Platforms/*Platform.php
+                - src/Query/QueryBuilder.php
+                - src/Schema/*SchemaManager.php
+
+        # Some APIs use variable method calls internally
+        -
+            message: '~^Variable method call on .*~'
+            paths:
+                - src/Schema/Column.php
+
+        # TODO: remove this once the support for PHP 7 is dropped
+        -
+            message: '~^Strict comparison using !== between int and false will always evaluate to true\.$~'
+            paths:
+                - src/Driver/OCI8/Result.php
+        -
+            message: '~^Unreachable statement - code above always terminates\.$~'
+            paths:
+                - src/Driver/OCI8/Result.php
+
+        # TODO: remove in 4.0.0
+        -
+            message: '~^Parameter #2 \$table of class Doctrine\\DBAL\\Event\\SchemaIndexDefinitionEventArgs constructor expects string, string\|null given\.$~'
+            paths:
+                - src/Schema/AbstractSchemaManager.php
+
+        # https://github.com/phpstan/phpstan/issues/1901
+        -
+            message: '~^Method Doctrine\\DBAL\\Platforms\\AbstractPlatform::escapeStringForLike\(\) should return string but returns string\|null\.$~'
+            paths:
+                - src/Platforms/AbstractPlatform.php
+
+        # https://github.com/phpstan/phpstan/issues/4679
+        -
+            message: '~^Cannot call method writeTemporary\(\) on OCILob\|null\.$~'
+            paths:
+                - src/Driver/OCI8/Statement.php
+
+        # TODO: check for null after calling Connection::getDatabase()
+        -
+            message: '~Parameter.*\$database of method.*expects string, string\|null given\.~'
+            path: src/Schema/AbstractSchemaManager.php
+
+        # TODO: prevent unsafe usage of operator - with null
+        -
+            message: '~Only numeric types are allowed in \-, float\|null given on the right side\.~'
+            path: src/Logging/DebugStack.php
+
+        -
+            message: '~Method Doctrine\\DBAL\\Driver\\Mysqli\\Result::rowCount\(\) should return int but returns int(:?<\-?[0,1], max>)?\|string\.~'
+            paths:
+                - src/Driver/Mysqli/Result.php
+
+        # Type check for legacy implementations of the Connection interface
+        # TODO: remove in 4.0.0
+        - "~Call to function method_exists\\(\\) with Doctrine\\\\DBAL\\\\Driver\\\\Connection and 'getNativeConnection' will always evaluate to true\\.~"
+
+        # Fixing the issue would cause a BC break.
+        # TODO: fix in 4.0.0
+        -
+            message: '~^Method Doctrine\\DBAL\\Connection::executeUpdate\(\) should return int but returns int\|string\.$~'
+            paths:
+                - src/Connection.php
+        -
+            message: '~^Method Doctrine\\DBAL\\Connection::exec\(\) should return int but returns int\|string\.$~'
+            paths:
+                - src/Connection.php
+        -
+            message: '~^Method Doctrine\\DBAL\\Driver\\Mysqli\\Connection::exec\(\) should return int but returns int<-1, max>\|string\.$~'
+            paths:
+                - src/Driver/Mysqli/Connection.php
+        -
+            message: '~^Method Doctrine\\DBAL\\Query\\QueryBuilder::executeStatement\(\) should return int but returns int\|string\.$~'
+            paths:
+                - src/Query/QueryBuilder.php
+
+        # https://github.com/doctrine/dbal/issues/3263
+        # TODO: remove in 4.0.0
+        -
+            message: '~^Method Doctrine\\DBAL\\Platforms\\AbstractPlatform::get(Binary|Varchar)TypeDeclarationSQLSnippet\(\) invoked with 3 parameters, 2 required\.$~'
+            paths:
+                - src/Platforms/AbstractPlatform.php
+
+        # Deprecated method, will be removed in 4.0.0
+        -
+            message: '~^Variable method call on \$this\(Doctrine\\DBAL\\Query\\QueryBuilder\)\.$~'
+            paths:
+                - src/Query/QueryBuilder.php
+
+        # There is no way to make this assertion in the code,
+        # and the API doesn't support parametrization of returned column types.
+        -
+            message: '~^Method Doctrine\\DBAL\\Schema\\PostgreSQLSchemaManager::fetchTableOptionsByTable\(\) should return array<string, array<string, mixed>> but returns array<int\|string, array<string, mixed>>\.$~'
+            paths:
+                - src/Schema/PostgreSQLSchemaManager.php
+
+        # PgSql objects are represented as resources in PHP 7.4
+        - '~ expects PgSql\\Connection(:?\|(?:string|null))?, PgSql\\Connection\|resource given\.$~'
+        - '~ expects PgSql\\Result, PgSql\\Result\|resource given\.$~'
+
+        # PHPStan does not understand the array shapes returned by pg_fetch_*() methods.
+        - '~^Parameter #1 \$row of method Doctrine\\DBAL\\Driver\\PgSQL\\Result\:\:mapAssociativeRow\(\) expects array<string, string\|null>, array<int\|string, string\|null> given\.$~'
+        - '~^Parameter #1 \$row of method Doctrine\\DBAL\\Driver\\PgSQL\\Result\:\:mapNumericRow\(\) expects array<int, string\|null>, array<int\|string, string\|null> given\.$~'
+
+        # Ignore isset() checks in destructors.
+        - '~^Property Doctrine\\DBAL\\Driver\\PgSQL\\Connection\:\:\$connection \(PgSql\\Connection\|resource\) in isset\(\) is not nullable\.$~'
+        - '~^Property Doctrine\\DBAL\\Driver\\PgSQL\\Statement\:\:\$connection \(PgSql\\Connection\|resource\) in isset\(\) is not nullable\.$~'
+
+        # On PHP 7.4, pg_fetch_all() might return false for empty result sets.
+        -
+            message: '~^Strict comparison using === between array<int, array> and false will always evaluate to false\.$~'
+            paths:
+                - src/Driver/PgSQL/Result.php
+
+        # Ignore the possible false return value of db2_num_rows().
+        - '~^Method Doctrine\\DBAL\\Driver\\IBMDB2\\Connection\:\:exec\(\) should return int but returns int<0, max>\|false\.$~'
+        - '~^Method Doctrine\\DBAL\\Driver\\IBMDB2\\Result\:\:rowCount\(\) should return int but returns int<0, max>\|false\.$~'
+
+        # This is a rather complicated closure setup. We understand this, so PHPStan doesn't have to.
+        -
+            message: '#^Parameter \#2 \$callback of function array_reduce expects callable\(\(callable&TIn\)\|Closure\(mixed \$value\)\: mixed\|null, callable\(T\)\: T\)\: \(\(callable&TIn\)\|Closure\(mixed \$value\)\: mixed\|null\), Closure\(callable\|null, callable\)\: \(callable\(T\)\: T\) given\.$#'
+            path: src/Portability/Converter.php
+
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

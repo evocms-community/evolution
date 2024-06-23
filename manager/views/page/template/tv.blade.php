@@ -21,7 +21,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endif
     @if(!empty($item->isAlreadyEdit))
         <?php $rowLock = $item->alreadyEditInfo; ?>
-        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
+        <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], __('global.lock_element_type_2')], __('global.lock_element_editing')) }}" class="editResource" style="cursor:context-menu;">
             <i class="{{ ManagerTheme::getStyle('icon_eye') }}"></i>
         </span>
     @else

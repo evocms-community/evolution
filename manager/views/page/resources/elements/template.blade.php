@@ -11,7 +11,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 <div class="lockCell">
                         <?php
                         $rowLock = $item->alreadyEditInfo; ?>
-                    <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], ManagerTheme::getLexicon('lock_element_type_2')], ManagerTheme::getLexicon('lock_element_editing')) }}"
+                    <span title="{{ str_replace(['[+lasthit_df+]', '[+element_type+]'], [$rowLock['lasthit_df'], __('global.lock_element_type_2')], __('global.lock_element_editing')) }}"
                           class="editResource" style="cursor:context-menu;">
                         <i class="{{ ManagerTheme::getStyle('icon_eye') }}"></i>
                     </span>&nbsp;
@@ -43,7 +43,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @if(evo()->hasPermission('edit_template'))
                         <li>
                             <a href="{{ $item->makeUrl('actions.edit') }}" target="main"
-                               title="{{ ManagerTheme::getLexicon('edit_resource') }}">
+                               title="{{ __('global.edit_resource') }}">
                                 <i class="{{ ManagerTheme::getStyle('icon_edit') }}"></i>
                             </a>
                         </li>
@@ -52,7 +52,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li>
                             <a href="javascript:;"
                                onclick="actionDisableElement(this)"
-                               title="{{ ManagerTheme::getLexicon('template_selectable') }}"
+                               title="{{ __('global.template_selectable') }}"
                                data-disabled="{{ !$item->selectable }}"
                                data-enable-href="{{ $item->makeUrl('actions.save', false, ['selectable' => 1]) }}"
                                data-enable-icon="{{ ManagerTheme::getStyle('icon_disable') }}"
@@ -66,8 +66,8 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @if(evo()->hasPermission('new_template'))
                         <li>
                             <a href="{{ $item->makeUrl('actions.duplicate') }}" target="main"
-                               title="{{ ManagerTheme::getLexicon('resource_duplicate') }}"
-                               onclick="return confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`)">
+                               title="{{ __('global.resource_duplicate') }}"
+                               onclick="return confirm(`{{ __('global.confirm_duplicate_record') }}`)">
                                 <i class="{{ ManagerTheme::getStyle('icon_clone') }}"></i>
                             </a>
                         </li>
@@ -75,8 +75,8 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @if(evo()->hasPermission('delete_template'))
                         <li>
                             <a href="{{ $item->makeUrl('actions.delete') }}" target="main"
-                               title="{{ ManagerTheme::getLexicon('delete') }}"
-                               onclick="return confirm(`{{ ManagerTheme::getLexicon('confirm_delete_template') }}`)">
+                               title="{{ __('global.delete') }}"
+                               onclick="return confirm(`{{ __('global.confirm_delete_template') }}`)">
                                 <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>
                             </a>
                         </li>

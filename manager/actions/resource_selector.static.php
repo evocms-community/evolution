@@ -12,7 +12,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('edit_module')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $mxla = ManagerTheme::getLang();
@@ -47,7 +47,7 @@ $ds = null;
 // select SQL
 switch ($rt) {
     case 'snip':
-        $title = ManagerTheme::getLexicon('snippet');
+        $title = __('global.snippet');
         $ds = SiteSnippet::query()->select('id', 'name', 'description')->orderBy('name');
         if (isset($query) && $query != '') {
             $ds = $ds->where(function ($q) use ($query) {
@@ -58,29 +58,29 @@ switch ($rt) {
         break;
 
     case 'tpl':
-        $title = ManagerTheme::getLexicon('template');
+        $title = __('global.template');
         $ds = SiteTemplate::query()->select('id', 'templatename', 'description')->orderBy(
             'templatename'
         );
         break;
 
     case('tv'):
-        $title = ManagerTheme::getLexicon('tv');
+        $title = __('global.tv');
         $ds = SiteTmplvar::query()->select('id', 'name', 'description')->orderBy('name');
         break;
 
     case('chunk'):
-        $title = ManagerTheme::getLexicon('chunk');
+        $title = __('global.chunk');
         $ds = SiteHtmlsnippet::query()->select('id', 'name', 'description')->orderBy('name');
         break;
 
     case('plug'):
-        $title = ManagerTheme::getLexicon('plugin');
+        $title = __('global.plugin');
         $ds = SitePlugin::query()->select('id', 'name', 'description')->orderBy('name');
         break;
 
     case('doc'):
-        $title = ManagerTheme::getLexicon('resource');
+        $title = __('global.resource');
         $ds = SiteContent::query()->select('id', 'pagetitle as name', 'longtitle as description')
             ->orderBy('name');
         break;
@@ -160,7 +160,7 @@ include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
 </script>
 
 <h1>
-    <?= $title . ' - ' . ManagerTheme::getLexicon('element_selector_title') ?><i
+    <?= $title . ' - ' . __('global.element_selector_title') ?><i
             class="<?= ManagerTheme::getStyle('icon_question_circle') ?> help"></i>
 </h1>
 
@@ -168,17 +168,17 @@ include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
     <div class="btn-group">
         <a id="Button1" class="btn btn-success" href="javascript:;" onclick="saveSelection()">
             <i class="<?= ManagerTheme::getStyle('icon_add') ?>"></i>
-            <span><?= ManagerTheme::getLexicon('insert') ?></span>
+            <span><?= __('global.insert') ?></span>
         </a>
         <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="window.close()">
             <i class="<?= ManagerTheme::getStyle('icon_cancel') ?>"></i>
-            <span><?= ManagerTheme::getLexicon('cancel') ?></span>
+            <span><?= __('global.cancel') ?></span>
         </a>
     </div>
 </div>
 
 <div class="container element-edit-message">
-    <div class="alert alert-info"><?= ManagerTheme::getLexicon('element_selector_msg') ?></div>
+    <div class="alert alert-info"><?= __('global.element_selector_msg') ?></div>
 </div>
 
 <form name="selector" method="get">
@@ -198,20 +198,20 @@ include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
                 <div class="col-sm-12">
                     <div class="input-group float-right w-auto">
                         <input class="form-control form-control-sm" name="search" type="text" value="<?= $query ?>"
-                               placeholder="<?= ManagerTheme::getLexicon('search') ?>"/>
+                               placeholder="<?= __('global.search') ?>"/>
                         <div class="input-group-append">
                             <a class="btn btn-secondary btn-sm" href="javascript:;"
-                               title="<?= ManagerTheme::getLexicon('search') ?>"
+                               title="<?= __('global.search') ?>"
                                onclick="searchResource();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_search') ?>"></i>
                             </a>
                             <a class="btn btn-secondary btn-sm" href="javascript:;"
-                               title="<?= ManagerTheme::getLexicon('reset') ?>"
+                               title="<?= __('global.reset') ?>"
                                onclick="resetSearch();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i>
                             </a>
                             <a class="btn btn-secondary btn-sm" href="javascript:;"
-                               title="<?= ManagerTheme::getLexicon('list_mode') ?>"
+                               title="<?= __('global.list_mode') ?>"
                                onclick="changeListMode();return false;">
                                 <i class="<?= ManagerTheme::getStyle('icon_table') ?>"></i>
                             </a>
@@ -223,12 +223,12 @@ include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
                 <div class="table-responsive">
                     <?php
                     $grd = new \EvolutionCMS\Support\DataGrid('', $ds, 0); // set page size to 0 t show all items
-                    $grd->noRecordMsg = ManagerTheme::getLexicon('no_records_found');
+                    $grd->noRecordMsg = __('global.no_records_found');
                     $grd->cssClass = "table data nowrap";
                     $grd->columnHeaderClass = "tableHeader";
                     $grd->itemClass = "tableItem";
                     $grd->altItemClass = "tableAltItem";
-                    $grd->columns = ManagerTheme::getLexicon('name') . ' ,' . ManagerTheme::getLexicon('description');
+                    $grd->columns = __('global.name') . ' ,' . __('global.description');
                     $grd->colTypes = "template:<input type='" . ($sm == 'm' ? 'checkbox' : 'radio') .
                         "' name='id[]' value='[+id+]' onclick='setCheckbox(this);'> [+e.value+]||template:[+e.value+]";
                     $grd->colWidths = "45%";

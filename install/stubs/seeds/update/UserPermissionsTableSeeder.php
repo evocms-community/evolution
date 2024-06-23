@@ -25,7 +25,7 @@ class UserPermissionsTableSeeder extends Seeder
                 'name'     => 'Manager access permissions',
                 'lang_key' => 'manager_access_permissions'
             ], ['timestamps' => false]);
-            
+
             \DB::table('role_permissions')->where('permission', 'web_access_permissions')->update([
                 'permission' => 'manage_groups',
             ]);
@@ -56,5 +56,17 @@ class UserPermissionsTableSeeder extends Seeder
             ];
             \DB::table('role_permissions')->insert($insertArray);
         }
+        $insertArray = [
+            [
+                'name'     => 'Create new Resources in the root folder',
+                'key'      => 'udperms_allowroot',
+                'lang_key' => 'udperms_allowroot_title',
+                'disabled' => 0,
+                'group_id' => 2
+            ]
+        ];
+        \DB::table('permissions')->insertOrIgnore($insertArray);
+        \DB::table('system_settings')->where('setting_name', 'use_udperms')->delete();
+        \DB::table('system_settings')->where('setting_name', 'udperms_allowroot')->delete();
     }
 }

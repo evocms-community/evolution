@@ -30,11 +30,12 @@ class Search extends AbstractController implements PageControllerInterface
 
         $this->parameters = [
             'actionButtons' => $this->parameterActionButtons(),
-            'results' => isset($_REQUEST['submitok']) && (int)get_by_key($_GET, 'ajax', 0) !== 1 ? $this->getResults() : [],
-            'ajaxResults' => $this->getAjaxResults(),
-            'templates' => $this->getTemplates(),
-            'isSubmitted' => isset($_REQUEST['submitok']),
-            'isAjax' => (int)get_by_key($_GET, 'ajax', 0) === 1
+            'results'       => isset($_REQUEST['submitok']) && (int) get_by_key($_GET, 'ajax',
+                0) !== 1 ? $this->getResults() : [],
+            'ajaxResults'   => $this->getAjaxResults(),
+            'templates'     => $this->getTemplates(),
+            'isSubmitted'   => isset($_REQUEST['submitok']),
+            'isAjax'        => (int) get_by_key($_GET, 'ajax', 0) === 1
         ];
 
         return true;
@@ -53,12 +54,13 @@ class Search extends AbstractController implements PageControllerInterface
 
         $searchQuery = SiteContent::query()
             ->withTrashed()
-            ->select('site_content.id', 'pagetitle', 'longtitle', 'description', 'introtext', 'menutitle', 'deleted', 'published', 'isfolder', 'type');
+            ->select('site_content.id', 'pagetitle', 'longtitle', 'description', 'introtext', 'menutitle', 'deleted',
+                'published', 'isfolder', 'type');
 
         $searchfields = trim(get_by_key($_REQUEST, 'searchfields', '', 'is_scalar'));
 
 
-        $templateid = isset($_REQUEST['templateid']) && $_REQUEST['templateid'] !== '' ? (int)$_REQUEST['templateid'] : '';
+        $templateid = isset($_REQUEST['templateid']) && $_REQUEST['templateid'] !== '' ? (int) $_REQUEST['templateid'] : '';
         $searchcontent = get_by_key($_REQUEST, 'content', '', 'is_scalar');
 
         // Handle Input "Search by exact URL"
@@ -129,38 +131,37 @@ class Search extends AbstractController implements PageControllerInterface
         }
 
         // get document groups for current user
-        if (!empty(ManagerTheme::getCore()
-            ->getConfig('use_udperms'))) {
-            $mgrRole = (isset ($_SESSION['mgrRole']) && $_SESSION['mgrRole'] == 1) ? 1 : 0;
-            if ($mgrRole != 1) {
-                if (isset($_SESSION['mgrDocgroups']) && is_array($_SESSION['mgrDocgroups'])) {
-                    $searchQuery = $searchQuery->leftJoin('document_groups', 'site_content.id', '=', 'document_groups.document')
-                        ->where(function ($query) use ($searchfields) {
-                            $query->where('privatemgr', 0)
-                                ->orWhereIn('document_group', $_SESSION['mgrDocgroups']);
-                        });
-                } else {
-                    $searchQuery = $searchQuery->where('privatemgr', 0);
-                }
+
+        $mgrRole = (isset ($_SESSION['mgrRole']) && $_SESSION['mgrRole'] == 1) ? 1 : 0;
+        if ($mgrRole != 1) {
+            if (isset($_SESSION['mgrDocgroups']) && is_array($_SESSION['mgrDocgroups'])) {
+                $searchQuery = $searchQuery->leftJoin('document_groups', 'site_content.id', '=',
+                    'document_groups.document')
+                    ->where(function ($query) use ($searchfields) {
+                        $query->where('privatemgr', 0)
+                            ->orWhereIn('document_group', $_SESSION['mgrDocgroups']);
+                    });
+            } else {
+                $searchQuery = $searchQuery->where('privatemgr', 0);
             }
         }
 
         $icons = [
-            'text/plain' => ManagerTheme::getStyle('icon_document'),
-            'text/html' => ManagerTheme::getStyle('icon_document'),
-            'text/xml' => ManagerTheme::getStyle('icon_code_file'),
-            'text/css' => ManagerTheme::getStyle('icon_code_file'),
-            'text/javascript' => ManagerTheme::getStyle('icon_code_file'),
-            'image/gif' => ManagerTheme::getStyle('icon_image'),
-            'image/jpg' => ManagerTheme::getStyle('icon_image'),
-            'image/png' => ManagerTheme::getStyle('icon_image'),
-            'application/pdf' => ManagerTheme::getStyle('icon_pdf'),
-            'application/rss+xml' => ManagerTheme::getStyle('icon_code_file'),
-            'application/vnd.ms-word' => ManagerTheme::getStyle('icon_word'),
+            'text/plain'               => ManagerTheme::getStyle('icon_document'),
+            'text/html'                => ManagerTheme::getStyle('icon_document'),
+            'text/xml'                 => ManagerTheme::getStyle('icon_code_file'),
+            'text/css'                 => ManagerTheme::getStyle('icon_code_file'),
+            'text/javascript'          => ManagerTheme::getStyle('icon_code_file'),
+            'image/gif'                => ManagerTheme::getStyle('icon_image'),
+            'image/jpg'                => ManagerTheme::getStyle('icon_image'),
+            'image/png'                => ManagerTheme::getStyle('icon_image'),
+            'application/pdf'          => ManagerTheme::getStyle('icon_pdf'),
+            'application/rss+xml'      => ManagerTheme::getStyle('icon_code_file'),
+            'application/vnd.ms-word'  => ManagerTheme::getStyle('icon_word'),
             'application/vnd.ms-excel' => ManagerTheme::getStyle('icon_excel'),
         ];
 
-        if(!empty($articul_id)){
+        if (!empty($articul_id)) {
             $searchQuery = $searchQuery->orWhereIn('site_content.id', $articul_id);
         }
 
@@ -188,11 +189,17 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             if (function_exists('mb_strlen') && function_exists('mb_substr')) {
-                $result['pagetitle'] = mb_strlen($result['pagetitle'], ManagerTheme::getCharset()) > 70 ? mb_substr($result['pagetitle'], 0, 70, ManagerTheme::getCharset()) . "..." : $result['pagetitle'];
-                $result['description'] = mb_strlen($result['description'], ManagerTheme::getCharset()) > 70 ? mb_substr($result['description'], 0, 70, ManagerTheme::getCharset()) . "..." : $result['description'];
+                $result['pagetitle'] = mb_strlen($result['pagetitle'],
+                    ManagerTheme::getCharset()) > 70 ? mb_substr($result['pagetitle'], 0, 70,
+                        ManagerTheme::getCharset()) . "..." : $result['pagetitle'];
+                $result['description'] = mb_strlen($result['description'],
+                    ManagerTheme::getCharset()) > 70 ? mb_substr($result['description'], 0, 70,
+                        ManagerTheme::getCharset()) . "..." : $result['description'];
             } else {
-                $result['pagetitle'] = strlen($result['pagetitle']) > 20 ? substr($result['pagetitle'], 0, 20) . '...' : $result['pagetitle'];
-                $result['description'] = strlen($result['description']) > 35 ? substr($result['description'], 0, 35) . '...' : $result['description'];
+                $result['pagetitle'] = strlen($result['pagetitle']) > 20 ? substr($result['pagetitle'], 0,
+                        20) . '...' : $result['pagetitle'];
+                $result['description'] = strlen($result['description']) > 35 ? substr($result['description'], 0,
+                        35) . '...' : $result['description'];
             }
         }
 
@@ -201,27 +208,27 @@ class Search extends AbstractController implements PageControllerInterface
 
     protected function getTemplates()
     {
-        $templateid = (isset($_REQUEST['templateid']) && $_REQUEST['templateid'] !== '') ? (int)$_REQUEST['templateid'] : '';
+        $templateid = (isset($_REQUEST['templateid']) && $_REQUEST['templateid'] !== '') ? (int) $_REQUEST['templateid'] : '';
 
         $templates = [];
 
         $templates[] = [
-            'value' => '',
-            'title' => ManagerTheme::getLexicon('none'),
+            'value'    => '',
+            'title'    => __('global.none'),
             'selected' => ''
         ];
 
         $templates[] = [
-            'value' => 0,
-            'title' => '(blank)',
+            'value'    => 0,
+            'title'    => '(blank)',
             'selected' => $templateid === 0 ? ' selected' : ''
         ];
 
         foreach (SiteTemplate::all()
                      ->toArray() as $row) {
             $templates[] = [
-                'value' => $row['id'],
-                'title' => htmlspecialchars($row['templatename'], ENT_QUOTES, ManagerTheme::getCore()
+                'value'    => $row['id'],
+                'title'    => htmlspecialchars($row['templatename'], ENT_QUOTES, ManagerTheme::getCore()
                         ->getConfig('modx_charset')) . ' (' . $row['id'] . ')',
                 'selected' => $row['id'] == $templateid ? ' selected' : ''
             ];
@@ -250,13 +257,15 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['content'] = [
                         'class' => ManagerTheme::getStyle('icon_sitemap'),
-                        'title' => ManagerTheme::getLexicon('manage_documents') . ' (' . $count . ')'
+                        'title' => __('global.manage_documents') . ' (' . $count . ')'
                     ];
                     foreach ($results as $row) {
                         $output['content']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=27&id=' . $row['id'],
-                            'title' => $this->highlightingCoincidence($row['pagetitle'], $_REQUEST['searchfields']) . ' (' . $this->highlightingCoincidence($row['id'], $_REQUEST['searchfields']) . ')',
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=27&id=' . $row['id'],
+                            'title' => $this->highlightingCoincidence($row['pagetitle'],
+                                    $_REQUEST['searchfields']) . ' (' . $this->highlightingCoincidence($row['id'],
+                                    $_REQUEST['searchfields']) . ')',
                             'class' => $this->addClassForItemList('', !$row['published'], $row['deleted'])
                         ];
                     }
@@ -279,13 +288,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['templates'] = [
                         'class' => ManagerTheme::getStyle('icon_template'),
-                        'title' => ManagerTheme::getLexicon('manage_templates') . ' (' . $count . ')'
+                        'title' => __('global.manage_templates') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['templates']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=16&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=16&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['templatename'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'])
                         ];
@@ -316,13 +325,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['tmplvars'] = [
                         'class' => ManagerTheme::getStyle('icon_tv'),
-                        'title' => ManagerTheme::getLexicon('settings_templvars') . ' (' . $count . ')'
+                        'title' => __('global.settings_templvars') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['tmplvars']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=301&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=301&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'])
                         ];
@@ -346,13 +355,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['htmlsnippets'] = [
                         'class' => ManagerTheme::getStyle('icon_chunk'),
-                        'title' => ManagerTheme::getLexicon('manage_htmlsnippets') . ' (' . $count . ')'
+                        'title' => __('global.manage_htmlsnippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['htmlsnippets']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=78&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=78&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -378,13 +387,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['snippets'] = [
                         'class' => ManagerTheme::getStyle('icon_code'),
-                        'title' => ManagerTheme::getLexicon('manage_snippets') . ' (' . $count . ')'
+                        'title' => __('global.manage_snippets') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['snippets']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=22&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=22&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -410,13 +419,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['plugins'] = [
                         'class' => ManagerTheme::getStyle('icon_plugin'),
-                        'title' => ManagerTheme::getLexicon('manage_plugins') . ' (' . $count . ')'
+                        'title' => __('global.manage_plugins') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['plugins']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=102&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=102&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -443,13 +452,13 @@ class Search extends AbstractController implements PageControllerInterface
                 if ($count) {
                     $output['modules'] = [
                         'class' => ManagerTheme::getStyle('icon_cogs'),
-                        'title' => ManagerTheme::getLexicon('modules') . ' (' . $count . ')'
+                        'title' => __('global.modules') . ' (' . $count . ')'
                     ];
                     foreach ($results->get()
                                  ->toArray() as $row) {
                         $output['modules']['results'][] = [
-                            'id' => $row['id'],
-                            'url' => 'index.php?a=108&id=' . $row['id'],
+                            'id'    => $row['id'],
+                            'url'   => 'index.php?a=108&id=' . $row['id'],
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -484,13 +493,13 @@ class Search extends AbstractController implements PageControllerInterface
 
     protected function highlightingCoincidence($text, $search)
     {
-        $regexp = '!(' . str_replace(array(
+        $regexp = '!(' . str_replace([
                 '(',
                 ')'
-            ), array(
+            ], [
                 '\(',
                 '\)'
-            ), entities(trim($search), ManagerTheme::getCore()
+            ], entities(trim($search), ManagerTheme::getCore()
                 ->getConfig('modx_charset'))) . ')!isu';
 
         return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, ManagerTheme::getCore()

@@ -121,7 +121,7 @@ class SiteModule extends Eloquent\Model
 
     public function scopeWithoutProtected(Builder $builder)
     {
-        if ($_SESSION['mgrRole'] != 1 && evolutionCMS()->getConfig('use_udperms')) {
+        if ($_SESSION['mgrRole'] != 1) {
             $builder->leftJoin('site_module_access', 'site_module_access.module', '=', 'site_modules.id')
                 ->leftJoin('member_groups', 'member_groups.user_group', '=', 'site_module_access.usergroup')
                 ->whereNull('site_module_access.usergroup')

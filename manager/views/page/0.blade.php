@@ -9,8 +9,8 @@ use EvolutionCMS\Facades\ManagerTheme;
 ?>
 @extends('manager::template.page')
 @section('content')
-    <div class='sectionHeader'>{{ ManagerTheme::getLexicon('functionnotimpl') }}</div>
+    <div class='sectionHeader'>{{ __('global.functionnotimpl') }}</div>
     <div class='sectionBody'>
-        <p>{{ ManagerTheme::getLexicon('functionnotimpl_message')  }}</p>
+        <p>{{ __('global.functionnotimpl_message')  }}</p>
     </div>
 @endsection

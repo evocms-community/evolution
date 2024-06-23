@@ -150,6 +150,6 @@ class ModuleCategoriesManager extends Categories
      */
     public function txt(string $txt): string
     {
-        return ManagerTheme::getLexicon($txt);
+        return __('global.' . $txt);
     }
 }

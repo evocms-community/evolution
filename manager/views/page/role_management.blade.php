@@ -17,7 +17,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 @section('content')
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_role') }}"></i>{{ ManagerTheme::getLexicon('role_management_title') }}
+        <i class="{{ ManagerTheme::getStyle('icon_role') }}"></i>{{ __('global.role_management_title') }}
     </h1>
 
     <div class="sectionBody">

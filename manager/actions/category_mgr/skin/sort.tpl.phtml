@@ -12,9 +12,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= $view->txt('cm_save_new_sorting') ?></a>
         <a class="btn btn-secondary btn-sm" href="javascript:;" id="sort-help"
            onclick="document.querySelector('#sort-info').classList.toggle('show');"><i
-                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i> <?= ManagerTheme::getLexicon(
-                'help'
-            ) ?></a>
+                    class="<?= ManagerTheme::getStyle('icon_question_circle') ?>"></i> <?= __('global.help') ?></a>
     </div>
     <p id="sort-info" class="element-edit-message">
         Drag category up or down to change its rank. Can be very useful when used with <a

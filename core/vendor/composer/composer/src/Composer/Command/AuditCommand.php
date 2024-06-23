@@ -46,7 +46,7 @@ EOT
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $composer = $this->requireComposer();
         $packages = $this->getPackages($composer, $input);
@@ -65,7 +65,7 @@ EOT
 
         $auditConfig = $composer->getConfig()->get('audit');
 
-        return min(255, $auditor->audit($this->getIO(), $repoSet, $packages, $this->getAuditFormat($input, 'format'), false, $auditConfig['ignore'] ?? [], $auditConfig['abandoned'] ?? Auditor::ABANDONED_REPORT));
+        return min(255, $auditor->audit($this->getIO(), $repoSet, $packages, $this->getAuditFormat($input, 'format'), false, $auditConfig['ignore'] ?? [], $auditConfig['abandoned'] ?? Auditor::ABANDONED_FAIL));
     }
 
     /**

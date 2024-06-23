@@ -1,5 +1,6 @@
 <?php
 
+use EvolutionCMS\Facades\DocBlock;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteModule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,7 +11,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_module')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 } else {
     $use_udperms = 1;
 }
@@ -35,7 +36,7 @@ if (isset($_GET['disabled'])) {
             'id' => $id,
         ]);
     } catch (ModelNotFoundException $e) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+        evo()->webAlertAndQuit(__('global.error_no_id'));
     }
     // empty cache
     evo()->clearCache('full');
@@ -80,7 +81,7 @@ if ($name == '') {
 }
 
 if ($parse_docblock) {
-    $parsed = evo()->get('DocBlock')->parseFromString($modulecode, true);
+    $parsed = DocBlock::parseFromString($modulecode, true);
     $name = $parsed['name'] ?? $name;
     $properties = $parsed['properties'] ?? $properties;
     $guid = $parsed['guid'] ?? $guid;
@@ -110,7 +111,7 @@ switch ($_POST['mode']) {
         if ($count > 0) {
             evo()->getManagerApi()->saveFormValues(107);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('duplicate_name_found_module'), $name),
+                sprintf(__('global.duplicate_name_found_module'), $name),
                 'index.php?a=107'
             );
         }
@@ -171,7 +172,7 @@ switch ($_POST['mode']) {
         if ($count > 0) {
             evo()->getManagerApi()->saveFormValues(108);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('duplicate_name_found_module'), $name),
+                sprintf(__('global.duplicate_name_found_module'), $name),
                 'index.php?a=108&id=' . $id
             );
         }

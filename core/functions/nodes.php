@@ -154,7 +154,7 @@ if (!function_exists('makeHTML')) {
 
         if ($result->count() == 0) {
             $output .= '<div><a class="empty">' . $spacer . '<i class="' . ManagerTheme::getStyle('icon_ban') .
-                '"></i>&nbsp;<span class="empty">' . ManagerTheme::getLexicon('empty_folder') . '</span></a></div>';
+                '"></i>&nbsp;<span class="empty">' . __('global.empty_folder') . '</span></a></div>';
         }
 
         if (!$_SESSION['tree_nodename'] || $_SESSION['tree_nodename'] === 'default') {
@@ -209,9 +209,9 @@ if (!function_exists('makeHTML')) {
             if ($rowLock && evo()->hasPermission('display_locks')) {
                 if ($rowLock['sid'] == evo()->sid) {
                     $title = evo()->parseText(
-                        ManagerTheme::getLexicon('lock_element_editing'),
+                        __('global.lock_element_editing'),
                         [
-                            'element_type' => ManagerTheme::getLexicon('lock_element_type_7'),
+                            'element_type' => __('global.lock_element_type_7'),
                             'lasthit_df' => $rowLock['lasthit_df'],
                         ]
                     );
@@ -219,8 +219,8 @@ if (!function_exists('makeHTML')) {
                         '<span title="' . $title . '" class="editResource"><i class="' . ManagerTheme::getStyle('icon_eye') .
                         '"></i></span>';
                 } else {
-                    $title = evo()->parseText(ManagerTheme::getLexicon('lock_element_locked_by'), [
-                        'element_type' => ManagerTheme::getLexicon('lock_element_type_7'),
+                    $title = evo()->parseText(__('global.lock_element_locked_by'), [
+                        'element_type' => __('global.lock_element_type_7'),
                         'username' => $rowLock['username'],
                         'lasthit_df' => $rowLock['lasthit_df'],
                     ]);
@@ -241,26 +241,26 @@ if (!function_exists('makeHTML')) {
             $title = '';
 
             if (isDateNode($nodeNameSource)) {
-                $title = ManagerTheme::getLexicon('pagetitle') . ': ' . $row['pagetitle'] . '[+lf+]';
+                $title = __('global.pagetitle') . ': ' . $row['pagetitle'] . '[+lf+]';
             }
 
-            $title .= ManagerTheme::getLexicon('id') . ': ' . $row['id'];
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_menu_title') . ': ' . $row['menutitle'];
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_menu_index') . ': ' . $row['menuindex'];
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('alias') . ': ' . (!empty($row['alias']) ? $row['alias'] : '-');
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('template') . ': ' . $row['templatename'];
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('publish_date') . ': ' . evo()->toDateFormat($row['pub_date']);
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('unpublish_date') . ': ' . evo()->toDateFormat($row['unpub_date']);
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_web_access') . ': ' .
-                ($row['privateweb'] ? ManagerTheme::getLexicon('private') : ManagerTheme::getLexicon('public'));
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_mgr_access') . ': ' .
-                ($row['privatemgr'] ? ManagerTheme::getLexicon('private') : ManagerTheme::getLexicon('public'));
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('resource_opt_richtext') . ': ' .
-                ($row['richtext'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_searchable') . ': ' .
-                ($row['searchable'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
-            $title .= '[+lf+]' . ManagerTheme::getLexicon('page_data_cacheable') . ': ' .
-                ($row['cacheable'] == 0 ? ManagerTheme::getLexicon('no') : ManagerTheme::getLexicon('yes'));
+            $title .= __('global.id') . ': ' . $row['id'];
+            $title .= '[+lf+]' . __('global.resource_opt_menu_title') . ': ' . $row['menutitle'];
+            $title .= '[+lf+]' . __('global.resource_opt_menu_index') . ': ' . $row['menuindex'];
+            $title .= '[+lf+]' . __('global.alias') . ': ' . (!empty($row['alias']) ? $row['alias'] : '-');
+            $title .= '[+lf+]' . __('global.template') . ': ' . $row['templatename'];
+            $title .= '[+lf+]' . __('global.publish_date') . ': ' . evo()->toDateFormat($row['pub_date']);
+            $title .= '[+lf+]' . __('global.unpublish_date') . ': ' . evo()->toDateFormat($row['unpub_date']);
+            $title .= '[+lf+]' . __('global.page_data_web_access') . ': ' .
+                ($row['privateweb'] ? __('global.private') : __('global.public'));
+            $title .= '[+lf+]' . __('global.page_data_mgr_access') . ': ' .
+                ($row['privatemgr'] ? __('global.private') : __('global.public'));
+            $title .= '[+lf+]' . __('global.resource_opt_richtext') . ': ' .
+                ($row['richtext'] == 0 ? __('global.no') : __('global.yes'));
+            $title .= '[+lf+]' . __('global.page_data_searchable') . ': ' .
+                ($row['searchable'] == 0 ? __('global.no') : __('global.yes'));
+            $title .= '[+lf+]' . __('global.page_data_cacheable') . ': ' .
+                ($row['cacheable'] == 0 ? __('global.no') : __('global.yes'));
             $title = evo()->getPhpCompat()->htmlspecialchars($title);
             $title = str_replace('[+lf+]', ' &#13;', $title);   // replace line-breaks with empty space as fall-back
 

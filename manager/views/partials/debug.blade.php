@@ -1,4 +1,4 @@
-@if(evo()->getConfig('enable_debug'))
+@if(config('global.enable_debug'))
     <script language="javascript">
         //document.onload = removeDebug();
 

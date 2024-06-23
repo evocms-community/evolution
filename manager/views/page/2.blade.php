@@ -11,13 +11,13 @@ use EvolutionCMS\Models\ActiveUserSession;
     <?php
     unset($_SESSION['itemname']); // clear this, because it's only set for logging purposes
 
-    if (evo()->hasPermission('settings') && evo()->getConfig('settings_version') !== evo()->getVersionData('version')) {
+    if (evo()->hasPermission('settings') && config('global.settings_version') !== evo()->getVersionData('version')) {
         // seems to be a new install - send the user to the configuration page
         exit('<script>document.location.href="index.php?a=17";</script>');
     }
 
     // set placeholders
-    $ph = ManagerTheme::getLexicon();
+    $ph = __('global');
 
     $iconTpl = evo()->getChunk('manager#welcome\WrapIcon');
 
@@ -96,9 +96,9 @@ use EvolutionCMS\Models\ActiveUserSession;
     $ph['LogoutIcon'] = sprintf($iconTpl, $icon, 8);
 
     // do some config checks
-    if (evo()->getConfig('warning_visibility') || $_SESSION['mgrRole'] == 1) {
+    if (config('global.warning_visibility') || $_SESSION['mgrRole'] == 1) {
         include_once MODX_MANAGER_PATH . 'includes/config_check.inc.php';
-        if ($config_check_results != ManagerTheme::getLexicon('configcheck_ok')) {
+        if ($config_check_results != __('global.configcheck_ok')) {
             $ph['config_check_results'] = $config_check_results;
             $ph['config_display'] = 'block';
         } else {
@@ -110,16 +110,16 @@ use EvolutionCMS\Models\ActiveUserSession;
 
     if (evo()->isSafemode()) {
         $ph['show_safe_mode'] = 'block';
-        $ph['safe_mode_msg'] = ManagerTheme::getLexicon('safe_mode_warning');
+        $ph['safe_mode_msg'] = __('global.safe_mode_warning');
     } else {
         $ph['show_safe_mode'] = 'none';
     }
 
-    if (!evo()->getConfig('site_status') && evo()->hasPermission('settings')) {
+    if (!config('global.site_status') && evo()->hasPermission('settings')) {
         $ph['show_site_status'] = 'block';
         $ph['site_status_msg'] =
-            strip_tags(evo()->getConfig('site_unavailable_message')) . ' ' . ManagerTheme::getLexicon('update_settings_from_language') .
-            ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . ManagerTheme::getLexicon('online') . '</a>';
+            strip_tags(config('global.site_unavailable_message')) . ' ' . __('global.update_settings_from_language') .
+            ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
     } else {
         $ph['show_site_status'] = 'none';
     }
@@ -129,7 +129,7 @@ use EvolutionCMS\Models\ActiveUserSession;
         switch ($_SESSION['show_logout_reminder']['type']) {
             case 'logout_reminder':
                 $date = evo()->toDateFormat($_SESSION['show_logout_reminder']['lastHit'], 'dateOnly');
-                $ph['logout_reminder_msg'] = str_replace('[+date+]', $date, ManagerTheme::getLexicon('logout_reminder_msg'));
+                $ph['logout_reminder_msg'] = str_replace('[+date+]', $date, __('global.logout_reminder_msg'));
                 break;
         }
         $ph['show_logout_reminder'] = 'block';
@@ -185,7 +185,7 @@ use EvolutionCMS\Models\ActiveUserSession;
             // https://www.php.net/manual/en/class.intldateformatter.php
             // https://www.php.net/manual/en/datetime.createfromformat.php
             $formatter = new IntlDateFormatter(
-                evo()->getConfig('manager_language'),
+                config('global.manager_language'),
                 IntlDateFormatter::MEDIUM,
                 IntlDateFormatter::MEDIUM,
                 null,
@@ -230,7 +230,7 @@ use EvolutionCMS\Models\ActiveUserSession;
                 // https://www.php.net/manual/en/class.intldateformatter.php
                 // https://www.php.net/manual/en/datetime.createfromformat.php
                 $formatter = new IntlDateFormatter(
-                    evo()->getConfig('manager_language'),
+                    config('global.manager_language'),
                     IntlDateFormatter::MEDIUM,
                     IntlDateFormatter::MEDIUM,
                     null,
@@ -272,8 +272,8 @@ use EvolutionCMS\Models\ActiveUserSession;
     // include rss feeds for important forum topics
     // Here you can set the urls to retrieve the RSS from. Simply add a $urls line following the numbering progress in the square brakets.
 
-    $urls['modx_news_content'] = evo()->getConfig('rss_url_news');
-    $urls['modx_security_notices_content'] = evo()->getConfig('rss_url_security');
+    $urls['modx_news_content'] = config('global.rss_url_news');
+    $urls['modx_security_notices_content'] = config('global.rss_url_security');
 
     // How many items per Feed?
     $itemsNumber = 3;
@@ -319,13 +319,13 @@ use EvolutionCMS\Models\ActiveUserSession;
 
     $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'] ?? [];
     $ph['modx_news_content'] = $feedData['modx_news_content'] ?? [];
-    $ph['theme'] = evo()->getConfig('manager_theme');
-    $ph['site_name'] = evo()->getPhpCompat()->entities(evo()->getConfig('site_name'));
+    $ph['theme'] = config('global.manager_theme');
+    $ph['site_name'] = evo()->getPhpCompat()->entities(config('global.site_name'));
 
-    $ph['modx_security_notices'] = ManagerTheme::getLexicon('security_notices_tab');
-    $ph['modx_security_notices_title'] = ManagerTheme::getLexicon('security_notices_title');
-    $ph['modx_news'] = ManagerTheme::getLexicon('modx_news_tab');
-    $ph['modx_news_title'] = ManagerTheme::getLexicon('modx_news_title');
+    $ph['modx_security_notices'] = __('global.security_notices_tab');
+    $ph['modx_security_notices_title'] = __('global.security_notices_title');
+    $ph['modx_news'] = __('global.modx_news_tab');
+    $ph['modx_news_title'] = __('global.modx_news_title');
 
     evo()->toPlaceholders($ph);
 
@@ -466,7 +466,7 @@ use EvolutionCMS\Models\ActiveUserSession;
         'hide' => '0',
     ];
 
-    if (evo()->getConfig('rss_url_news')) {
+    if (config('global.rss_url_news')) {
         $widgets['news'] = [
             'menuindex' => '40',
             'id' => 'news',
@@ -477,7 +477,7 @@ use EvolutionCMS\Models\ActiveUserSession;
             'hide' => '0',
         ];
     }
-    if (evo()->getConfig('rss_url_security')) {
+    if (config('global.rss_url_security')) {
         $widgets['security'] = [
             'menuindex' => '50',
             'id' => 'security',

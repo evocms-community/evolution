@@ -28,7 +28,7 @@ class ClassMap implements \Countable
     private $ambiguousClasses = [];
 
     /**
-     * @var string[]
+     * @var array<string, array<array{warning: string, className: string}>>
      */
     private $psrViolations = [];
 
@@ -55,7 +55,13 @@ class ClassMap implements \Countable
      */
     public function getPsrViolations(): array
     {
-        return $this->psrViolations;
+        if (\count($this->psrViolations) === 0) {
+            return [];
+        }
+
+        return array_map(static function (array $violation): string {
+            return $violation['warning'];
+        }, array_merge(...array_values($this->psrViolations)));
     }
 
     /**
@@ -86,6 +92,8 @@ class ClassMap implements \Countable
      */
     public function addClass(string $className, string $path): void
     {
+        unset($this->psrViolations[strtr($path, '\\', '/')]);
+
         $this->map[$className] = $path;
     }
 
@@ -110,9 +118,22 @@ class ClassMap implements \Countable
         return isset($this->map[$className]);
     }
 
-    public function addPsrViolation(string $warning): void
+    public function addPsrViolation(string $warning, string $className, string $path): void
     {
-        $this->psrViolations[] = $warning;
+        $path = rtrim(strtr($path, '\\', '/'), '/');
+
+        $this->psrViolations[$path][] = ['warning' => $warning, 'className' => $className];
+    }
+
+    public function clearPsrViolationsByPath(string $pathPrefix): void
+    {
+        $pathPrefix = rtrim(strtr($pathPrefix, '\\', '/'), '/');
+
+        foreach ($this->psrViolations as $path => $violations) {
+            if ($path === $pathPrefix || 0 === \strpos($path, $pathPrefix.'/')) {
+                unset($this->psrViolations[$path]);
+            }
+        }
     }
 
     /**

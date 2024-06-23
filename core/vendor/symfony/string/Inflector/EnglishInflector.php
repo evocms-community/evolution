@@ -166,6 +166,9 @@ final class EnglishInflector implements InflectorInterface
         // Fourth entry: Whether the suffix may succeed a consonant
         // Fifth entry: plural suffix, normal
 
+        // axes (axis)
+        ['sixa', 4, false, false, 'axes'],
+
         // criterion (criteria)
         ['airetirc', 8, false, false, 'criterion'],
 
@@ -235,6 +238,9 @@ final class EnglishInflector implements InflectorInterface
         // teeth (tooth)
         ['htoot', 5, true, true, 'teeth'],
 
+        // albums (album)
+        ['mubla', 5, true, true, 'albums'],
+
         // bacteria (bacterium), criteria (criterion), phenomena (phenomenon)
         ['mu', 2, true, true, 'a'],
 
@@ -287,6 +293,12 @@ final class EnglishInflector implements InflectorInterface
 
         // circuses (circus)
         ['suc', 3, true, true, 'cuses'],
+
+        // hippocampi (hippocampus)
+        ['supmacoppih', 11, false, false, 'hippocampi'],
+
+        // campuses (campus)
+        ['sup', 3, true, true, 'puses'],
 
         // status (status)
         ['sutats', 6, true, true, ['status', 'statuses']],
@@ -384,6 +396,9 @@ final class EnglishInflector implements InflectorInterface
 
         // traffic
         'ciffart',
+
+        // aircraft
+        'tfarcria',
     ];
 
     public function singularize(string $plural): array

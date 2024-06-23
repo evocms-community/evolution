@@ -6,7 +6,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 @extends('manager::template.page')
 @section('content')
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_info_circle') }}"></i>{{ ManagerTheme::getLexicon('view_sysinfo') }}
+        <i class="{{ ManagerTheme::getStyle('icon_info_circle') }}"></i>{{ __('global.view_sysinfo') }}
     </h1>
 
     <!-- server -->
@@ -19,7 +19,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <tbody>
                         @foreach ($serverArr as $key => $value)
                             <tr>
-                                <td width="1%">{{ empty($value['is_lexicon']) ? $key : ManagerTheme::getLexicon($key) }}</td>
+                                <td width="1%">{{ empty($value['is_lexicon']) ? $key : __('global.' . $key) }}</td>
                                 <td>&nbsp;</td>
                                 <td>
                                     @if (isset($value['render']))

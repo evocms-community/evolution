@@ -6,6 +6,7 @@ use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\User;
 use EvolutionCMS\Support\MakeTable;
+use Illuminate\Support\Facades\Lang;
 
 /** get the page to show document's data */
 ?>
@@ -14,7 +15,7 @@ use EvolutionCMS\Support\MakeTable;
     <?php
     /*include_once ManagerTheme::getFileProcessor('actions/document_data.static.php'); */ ?>
     <?php
-    $id = (int)($_REQUEST['id'] ?? 0);
+    $id = (int) ($_REQUEST['id'] ?? 0);
 
     if (isset($_GET['opened'])) {
         $_SESSION['openedArray'] = $_GET['opened'];
@@ -47,13 +48,13 @@ use EvolutionCMS\Support\MakeTable;
 
     $content = $resources->first();
     if (!$content) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+        evo()->webAlertAndQuit(__('global.access_permission_denied'));
     }
     $content = $content->toArray();
 
     $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
     $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
-    $pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
+    $pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
     $add_path = $sd . $sb . $pg;
 
     $actions = [
@@ -65,7 +66,7 @@ use EvolutionCMS\Support\MakeTable;
         'cancel' => 'index.php?' . ($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path),
         'move' => 'index.php?id=' . $_REQUEST['id'] . '&a=51',
         'duplicate' => 'index.php?id=' . $_REQUEST['id'] . '&a=94',
-        'view' => evo()->getConfig('friendly_urls') ? UrlProcessor::makeUrl($id)
+        'view' => config('global.friendly_urls') ? UrlProcessor::makeUrl($id)
             : MODX_SITE_URL . 'index.php?id=' . $id,
     ];
 
@@ -102,20 +103,20 @@ use EvolutionCMS\Support\MakeTable;
         /**
          * "View Children" tab setup
          */
-        $maxpageSize = evo()->getConfig('number_of_results');
+        $maxpageSize = config('global.number_of_results');
         define('MAX_DISPLAY_RECORDS_NUM', $maxpageSize);
 
         // predefined constants
         $filter_sort = [
-            'createdon' => ManagerTheme::getLexicon('createdon'),
-            'pub_date' => ManagerTheme::getLexicon('page_data_publishdate'),
-            'pagetitle' => ManagerTheme::getLexicon('pagetitle'),
-            'menuindex' => ManagerTheme::getLexicon('resource_opt_menu_index'),
-            'published' => ManagerTheme::getLexicon('resource_opt_is_published'),
+            'createdon' => __('global.createdon'),
+            'pub_date' => __('global.page_data_publishdate'),
+            'pagetitle' => __('global.pagetitle'),
+            'menuindex' => __('global.resource_opt_menu_index'),
+            'published' => __('global.resource_opt_is_published'),
         ];
         $filter_dir = [
-            'ASC' => ManagerTheme::getLexicon('sort_asc'),
-            'DESC' => ManagerTheme::getLexicon('sort_desc'),
+            'ASC' => __('global.sort_asc'),
+            'DESC' => __('global.sort_desc'),
         ];
 
         if ($_SESSION['mgrRole'] != 1) {
@@ -138,7 +139,7 @@ use EvolutionCMS\Support\MakeTable;
 
         $sort = $_REQUEST['sort'] ?? 'createdon';
         $dir = $_REQUEST['dir'] ?? 'DESC';
-        $pg = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] - 1 : 0;
+        $pg = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] - 1 : 0;
 
         // Get child documents (with paging)
 
@@ -173,12 +174,12 @@ use EvolutionCMS\Support\MakeTable;
 
             // Table header
             $listTableHeader = [
-                'docid' => ManagerTheme::getLexicon('id'),
-                'title' => ManagerTheme::getLexicon('resource_title'),
-                'createdon' => ManagerTheme::getLexicon('createdon'),
-                'pub_date' => ManagerTheme::getLexicon('page_data_publishdate'),
-                'status' => ManagerTheme::getLexicon('page_data_status'),
-                'edit' => ManagerTheme::getLexicon('mgrlog_action'),
+                'docid' => __('global.id'),
+                'title' => __('global.resource_title'),
+                'createdon' => __('global.createdon'),
+                'pub_date' => __('global.page_data_publishdate'),
+                'status' => __('global.page_data_status'),
+                'edit' => __('global.mgrlog_action'),
             ];
             $tbWidth = [
                 '1%',
@@ -208,16 +209,16 @@ use EvolutionCMS\Support\MakeTable;
             $listDocs = [];
             foreach ($resource as $k => $children) {
                 switch ($children['id']) {
-                    case evo()->getConfig('site_start')            :
+                    case config('global.site_start')            :
                         $icon = '<i class="' . ManagerTheme::getStyle('icon_home') . '"></i>';
                         break;
-                    case evo()->getConfig('error_page')            :
+                    case config('global.error_page')            :
                         $icon = '<i class="' . ManagerTheme::getStyle('icon_info_triangle') . '"></i>';
                         break;
-                    case evo()->getConfig('site_unavailable_page') :
+                    case config('global.site_unavailable_page') :
                         $icon = '<i class="' . ManagerTheme::getStyle('icon_clock') . '"></i>';
                         break;
-                    case evo()->getConfig('unauthorized_page')     :
+                    case config('global.unauthorized_page')     :
                         $icon = '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i>';
                         break;
                     default:
@@ -243,32 +244,32 @@ use EvolutionCMS\Support\MakeTable;
                     $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&id=' .
                         $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . entities(
                             $children['pagetitle'],
-                            evo()->getConfig('modx_charset')
+                            config('global.modx_charset')
                         ) . '</span></a></span>';
                 } else {
                     $title =
                         '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . entities(
                             $children['pagetitle'],
-                            evo()->getConfig('modx_charset')
+                            config('global.modx_charset')
                         ) . '</span></span>';
                 }
 
                 $icon_pub_unpub = (!$children['published'])
                     ? '<a href="index.php?a=61&id=' . $children['id'] . $add_path . '" title="' .
-                    ManagerTheme::getLexicon('publish_resource') . '"><i class="' .
+                    __('global.publish_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_check') . '"></i></a>'
                     : '<a href="index.php?a=62&id=' . $children['id'] . $add_path . '" title="' .
-                    ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' .
+                    __('global.unpublish_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_close') . '" ></i></a>';
 
                 $icon_del_undel = (!$children['deleted'])
-                    ? '<a onclick="return confirm(`' . ManagerTheme::getLexicon('confirm_delete_resource') .
+                    ? '<a onclick="return confirm(`' . __('global.confirm_delete_resource') .
                     '`)" href="index.php?a=6&id=' . $children['id'] . $add_path . '" title="' .
-                    ManagerTheme::getLexicon('delete_resource') . '"><i class="' .
+                    __('global.delete_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_trash') . '"></i></a>'
-                    : '<a onclick="return confirm(`' . ManagerTheme::getLexicon('confirm_undelete') .
+                    : '<a onclick="return confirm(`' . __('global.confirm_undelete') .
                     '`)" href="index.php?a=63&id=' . $children['id'] . $add_path . '" title="' .
-                    ManagerTheme::getLexicon('undelete_resource') . '"><i class="' .
+                    __('global.undelete_resource') . '"><i class="' .
                     ManagerTheme::getStyle('icon_undo') . '"></i></a>';
 
                 $listDocs[] = [
@@ -283,16 +284,16 @@ use EvolutionCMS\Support\MakeTable;
                             'dateOnly'
                         )) : '') . '</div>',
                     'status' => '<div class="text-nowrap">' . ($children['published'] == 0
-                            ? '<span class="unpublishedDoc">' . ManagerTheme::getLexicon('page_data_unpublished') .
+                            ? '<span class="unpublishedDoc">' . __('global.page_data_unpublished') .
                             '</span>'
-                            : '<span class="publishedDoc">' . ManagerTheme::getLexicon('page_data_published') .
+                            : '<span class="publishedDoc">' . __('global.page_data_published') .
                             '</span>') . '</div>',
                     'edit' => '<div class="actions text-center text-nowrap">' .
                         (evo()->hasPermission('edit_document') ? '<a href="index.php?a=27&id=' . $children['id'] .
-                            $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' .
+                            $add_path . '" title="' . __('global.edit') . '"><i class="' .
                             ManagerTheme::getStyle('icon_edit') . '"></i></a>
                     <a href="index.php?a=51&id=' . $children['id'] . $add_path . '" title="' .
-                            ManagerTheme::getLexicon('move') . '"><i
+                            __('global.move') . '"><i
                     class="' . ManagerTheme::getStyle('icon_move') . '"></i></a>' . $icon_pub_unpub : '') .
                         (evo()->hasPermission('delete_document') ? $icon_del_undel : '') . '</div>'
                 ];
@@ -303,7 +304,7 @@ use EvolutionCMS\Support\MakeTable;
         } else {
             // No Child documents
             $children_output =
-                '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
+                '<div class="container"><p>' . __('global.resources_in_container_no') . '</p></div>';
             $add_path = '';
         }
     }
@@ -326,7 +327,7 @@ use EvolutionCMS\Support\MakeTable;
           document.mutate.save.click()
         },
         delete: function () {
-          if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_resource') }}`) === true) {
+          if (confirm(`{{ __('global.confirm_delete_resource') }}`) === true) {
             document.location.href = "{!! $actions['delete'] !!}"
           }
         },
@@ -338,7 +339,7 @@ use EvolutionCMS\Support\MakeTable;
           document.location.href = "{!! $actions['move'] !!}"
         },
         duplicate: function () {
-          if (confirm(`{{ ManagerTheme::getLexicon('confirm_resource_duplicate') }}`) === true) {
+          if (confirm(`{{ __('global.confirm_resource_duplicate') }}`) === true) {
             document.location.href = "{!! $actions['duplicate'] !!}"
           }
         },
@@ -351,8 +352,8 @@ use EvolutionCMS\Support\MakeTable;
 
     <h1>
         <i class="{{ ManagerTheme::getStyle('icon_info') }}"></i>
-        {{ entities(iconv_substr($content['pagetitle'], 0, 50, evo()->getConfig('modx_charset')), evo()->getConfig('modx_charset')) }}
-        @if(iconv_strlen($content['pagetitle'], evo()->getConfig('modx_charset')) > 50)
+        {{ entities(iconv_substr($content['pagetitle'], 0, 50, config('global.modx_charset')), config('global.modx_charset')) }}
+        @if(iconv_strlen($content['pagetitle'], config('global.modx_charset')) > 50)
             ...
         @endif
         <small>({{ (int)$_REQUEST['id'] }})</small>
@@ -363,77 +364,77 @@ use EvolutionCMS\Support\MakeTable;
     <div class="tab-pane" id="childPane">
         <script>
           docSettings = new WebFXTabPane(
-            document.getElementById('childPane'), @if(evo()->getConfig('remember_last_tab')) true
+            document.getElementById('childPane'), @if(config('global.remember_last_tab')) true
           @else false @endif
           );
         </script>
 
         <!-- General -->
         <div class="tab-page" id="tabdocGeneral">
-            <h2 class="tab">{{ ManagerTheme::getLexicon('settings_general') }}</h2>
+            <h2 class="tab">{{ __('global.settings_general') }}</h2>
             <script>docSettings.addTabPage(document.getElementById('tabdocGeneral'))</script>
             <div class="container container-body">
                 <table>
                     <tr>
-                        <td colspan="2"><b>{{ ManagerTheme::getLexicon('page_data_general') }}</b></td>
+                        <td colspan="2"><b>{{ __('global.page_data_general') }}</b></td>
                     </tr>
                     <tr>
-                        <td width="200" valign="top">{{ ManagerTheme::getLexicon('resource_title') }}:</td>
+                        <td width="200" valign="top">{{ __('global.resource_title') }}:</td>
                         <td><b><?= entities($content['pagetitle']) ?></b></td>
                     </tr>
                     <tr>
-                        <td width="200" valign="top">{{ ManagerTheme::getLexicon('long_title') }}:</td>
+                        <td width="200" valign="top">{{ __('global.long_title') }}:</td>
                         <td>
                             <small><?= $content['longtitle'] != '' ? entities(
                                     $content['longtitle'],
-                                    evo()->getConfig('modx_charset')
-                                ) : "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)" ?></small>
+                                    config('global.modx_charset')
+                                ) : "(<i>" . __('global.not_set') . "</i>)" ?></small>
                         </td>
                     </tr>
                     <tr>
-                        <td valign="top">{{ ManagerTheme::getLexicon('resource_description') }}:</td>
+                        <td valign="top">{{ __('global.resource_description') }}:</td>
                         <td><?= $content['description'] != '' ? entities(
                                 $content['description'],
-                                evo()->getConfig('modx_charset')
-                            ) : "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)" ?></td>
+                                config('global.modx_charset')
+                            ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
-                        <td valign="top">{{ ManagerTheme::getLexicon('resource_summary') }}:</td>
+                        <td valign="top">{{ __('global.resource_summary') }}:</td>
                         <td><?= $content['introtext'] != '' ? entities(
                                 $content['introtext'],
-                                evo()->getConfig('modx_charset')
-                            ) : "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)" ?></td>
+                                config('global.modx_charset')
+                            ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
-                        <td valign="top">{{ ManagerTheme::getLexicon('type') }}:</td>
-                        <td><?= $content['type'] == 'reference' ? ManagerTheme::getLexicon('weblink')
-                                : ManagerTheme::getLexicon('resource') ?></td>
+                        <td valign="top">{{ __('global.type') }}:</td>
+                        <td><?= $content['type'] == 'reference' ? __('global.weblink')
+                                : __('global.resource') ?></td>
                     </tr>
                     <tr>
-                        <td valign="top">{{ ManagerTheme::getLexicon('resource_alias') }}:</td>
+                        <td valign="top">{{ __('global.resource_alias') }}:</td>
                         <td><?= $content['alias'] != '' ? entities(
                                 $content['alias'],
-                                evo()->getConfig('modx_charset')
-                            ) : "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)" ?></td>
+                                config('global.modx_charset')
+                            ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2"><b>{{ ManagerTheme::getLexicon('page_data_changes') }}</b></td>
+                        <td colspan="2"><b>{{ __('global.page_data_changes') }}</b></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_created') }}:</td>
+                        <td>{{ __('global.page_data_created') }}:</td>
                         <td><?= evo()->toDateFormat(strtotime($content['createdon'])) ?>
-                            (<b><?= entities($createdbyname, evo()->getConfig('modx_charset')) ?></b>)
+                            (<b><?= entities($createdbyname, config('global.modx_charset')) ?></b>)
                         </td>
                     </tr>
                     <?php
                     if ($editedbyname != '') { ?>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_edited') }}:</td>
+                        <td>{{ __('global.page_data_edited') }}:</td>
                         <td><?= evo()->toDateFormat(strtotime($content['editedon'])) ?>
-                            (<b><?= entities($editedbyname, evo()->getConfig('modx_charset')) ?></b>)
+                            (<b><?= entities($editedbyname, config('global.modx_charset')) ?></b>)
                         </td>
                     </tr>
                         <?php
@@ -442,98 +443,88 @@ use EvolutionCMS\Support\MakeTable;
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2"><b>{{ ManagerTheme::getLexicon('page_data_status') }}</b></td>
+                        <td colspan="2"><b>{{ __('global.page_data_status') }}</b></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_status') }}:</td>
+                        <td>{{ __('global.page_data_status') }}:</td>
                         <td><?= $content['published'] == 0
-                                ? '<span class="unpublishedDoc">' . ManagerTheme::getLexicon('page_data_unpublished') .
+                                ? '<span class="unpublishedDoc">' . __('global.page_data_unpublished') .
                                 '</span>'
-                                : '<span class="publisheddoc">' . ManagerTheme::getLexicon('page_data_published') .
+                                : '<span class="publisheddoc">' . __('global.page_data_published') .
                                 '</span>' ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_publishdate') }}:</td>
-                        <td><?= $content['pub_date'] == 0 ? "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)"
+                        <td>{{ __('global.page_data_publishdate') }}:</td>
+                        <td><?= $content['pub_date'] == 0 ? "(<i>" . __('global.not_set') . "</i>)"
                                 : evo()->toDateFormat($content['pub_date']) ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_unpublishdate') }}:</td>
-                        <td><?= $content['unpub_date'] == 0 ? "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)"
+                        <td>{{ __('global.page_data_unpublishdate') }}:</td>
+                        <td><?= $content['unpub_date'] == 0 ? "(<i>" . __('global.not_set') . "</i>)"
                                 : evo()->toDateFormat($content['unpub_date']) ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_cacheable') }}:</td>
+                        <td>{{ __('global.page_data_cacheable') }}:</td>
                         <td><?= $content['cacheable'] == 0
-                                ? ManagerTheme::getLexicon('no')
-                                : ManagerTheme::getLexicon(
-                                    'yes'
-                                ) ?></td>
+                                ? __('global.no')
+                                : __('global.yes') ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_searchable') }}:</td>
+                        <td>{{ __('global.page_data_searchable') }}:</td>
                         <td><?= $content['searchable'] == 0
-                                ? ManagerTheme::getLexicon('no')
-                                : ManagerTheme::getLexicon(
-                                    'yes'
-                                ) ?></td>
+                                ? __('global.no')
+                                : __('global.yes') ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('resource_opt_menu_index') }}:</td>
-                        <td><?= entities($content['menuindex'], evo()->getConfig('modx_charset')) ?></td>
+                        <td>{{ __('global.resource_opt_menu_index') }}:</td>
+                        <td><?= entities($content['menuindex'], config('global.modx_charset')) ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('resource_opt_show_menu') }}:</td>
+                        <td>{{ __('global.resource_opt_show_menu') }}:</td>
                         <td><?= $content['hidemenu'] == 1
-                                ? ManagerTheme::getLexicon('no')
-                                : ManagerTheme::getLexicon(
-                                    'yes'
-                                ) ?></td>
+                                ? __('global.no')
+                                : __('global.yes') ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_web_access') }}:</td>
+                        <td>{{ __('global.page_data_web_access') }}:</td>
                         <td><?= $content['privateweb'] == 0
-                                ? ManagerTheme::getLexicon('public')
-                                : '<b style="color: #821517">' . ManagerTheme::getLexicon('private') .
+                                ? __('global.public')
+                                : '<b style="color: #821517">' . __('global.private') .
                                 '</b><i class="' . ManagerTheme::getStyle('icon_lock') . '"></i>' ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_mgr_access') }}:</td>
+                        <td>{{ __('global.page_data_mgr_access') }}:</td>
                         <td><?= $content['privatemgr'] == 0
-                                ? ManagerTheme::getLexicon('public')
-                                : '<b style="color: #821517">' . ManagerTheme::getLexicon('private') .
+                                ? __('global.public')
+                                : '<b style="color: #821517">' . __('global.private') .
                                 '</b><i class="' . ManagerTheme::getStyle('icon_lock') . '"></i>' ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2"><b>{{ ManagerTheme::getLexicon('page_data_markup') }}</b></td>
+                        <td colspan="2"><b>{{ __('global.page_data_markup') }}</b></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_template') }}:</td>
+                        <td>{{ __('global.page_data_template') }}:</td>
                         <td><?= $content['template'] == 0
-                                ? "(<i>" . ManagerTheme::getLexicon('not_set') . "</i>)"
+                                ? "(<i>" . __('global.not_set') . "</i>)"
                                 : entities(
                                     $templatename,
-                                    evo()->getConfig('modx_charset')
+                                    config('global.modx_charset')
                                 ) ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_editor') }}:</td>
+                        <td>{{ __('global.page_data_editor') }}:</td>
                         <td><?= $content['richtext'] == 0
-                                ? ManagerTheme::getLexicon('no')
-                                : ManagerTheme::getLexicon(
-                                    'yes'
-                                ) ?></td>
+                                ? __('global.no')
+                                : __('global.yes') ?></td>
                     </tr>
                     <tr>
-                        <td>{{ ManagerTheme::getLexicon('page_data_folder') }}:</td>
+                        <td>{{ __('global.page_data_folder') }}:</td>
                         <td><?= $content['isfolder'] == 0
-                                ? ManagerTheme::getLexicon('no')
-                                : ManagerTheme::getLexicon(
-                                    'yes'
-                                ) ?></td>
+                                ? __('global.no')
+                                : __('global.yes') ?></td>
                     </tr>
                 </table>
             </div>
@@ -542,13 +533,13 @@ use EvolutionCMS\Support\MakeTable;
         @if($content['isfolder'])
             <!-- View Children -->
             <div class="tab-page" id="tabChildren">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('view_child_resources_in_container') }}</h2>
+                <h2 class="tab">{{ __('global.view_child_resources_in_container') }}</h2>
                 <script>docSettings.addTabPage(document.getElementById('tabChildren'))</script>
                 <div class="container container-body">
                     <div class="form-group clearfix">
                         @if($numRecords > 0)
                             <div class="float-xs-left">
-                                <span class="publishedDoc">{{ $numRecords }} {{ ManagerTheme::getLexicon('resources_in_container') }} (<strong>{{ entities($content['pagetitle'], evo()->getConfig('modx_charset')) }}</strong>)</span>
+                                <span class="publishedDoc">{{ $numRecords }} {{ __('global.resources_in_container') }} (<strong>{{ entities($content['pagetitle'], config('global.modx_charset')) }}</strong>)</span>
                             </div>
                         @endif
                         <div class="float-right">
@@ -585,7 +576,7 @@ use EvolutionCMS\Support\MakeTable;
     @endif
 
     @if(!empty($show_preview))
-        <div class="sectionHeader">{{ ManagerTheme::getLexicon('preview') }}</div>
+        <div class="sectionHeader">{{ __('global.preview') }}</div>
         <div class="sectionBody" id="lyr2">
             <iframe src="{{ MODX_SITE_URL }}index.php?id={{ $id }}&z=manprev" frameborder="0" border="0"
                     id="previewIframe"></iframe>

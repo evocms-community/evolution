@@ -19,7 +19,7 @@ if (count($SystemAlertMsgQueque) > 0) {
   });
 </script>
 @if(ManagerTheme::isLoadDatePicker())
-    {!! evo()->getManagerApi()->loadDatePicker(evo()->getConfig('mgr_date_picker_path')) !!}
+    {!! evo()->getManagerApi()->loadDatePicker(config('global.mgr_date_picker_path')) !!}
 @endif
 
 @include('manager::partials.debug')

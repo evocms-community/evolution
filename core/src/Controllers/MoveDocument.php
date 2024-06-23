@@ -54,7 +54,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         }
 
         // check user has permission to move document to chosen location
-        if (ManagerTheme::getCore()->getConfig('use_udperms') && $document->parent !== $newParentID) {
+        if ($document->parent !== $newParentID) {
             $this->checkNewParentPermission($newParentID);
         }
 

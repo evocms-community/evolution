@@ -87,15 +87,15 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->parameters['body_class'] = $body_class;
 
         $unlockTranslations = [
-            'msg' => ManagerTheme::getLexicon('unlock_element_id_warning'),
-            'type1' => ManagerTheme::getLexicon('lock_element_type_1'),
-            'type2' => ManagerTheme::getLexicon('lock_element_type_2'),
-            'type3' => ManagerTheme::getLexicon('lock_element_type_3'),
-            'type4' => ManagerTheme::getLexicon('lock_element_type_4'),
-            'type5' => ManagerTheme::getLexicon('lock_element_type_5'),
-            'type6' => ManagerTheme::getLexicon('lock_element_type_6'),
-            'type7' => ManagerTheme::getLexicon('lock_element_type_7'),
-            'type8' => ManagerTheme::getLexicon('lock_element_type_8'),
+            'msg' => __('global.unlock_element_id_warning'),
+            'type1' => __('global.lock_element_type_1'),
+            'type2' => __('global.lock_element_type_2'),
+            'type3' => __('global.lock_element_type_3'),
+            'type4' => __('global.lock_element_type_4'),
+            'type5' => __('global.lock_element_type_5'),
+            'type6' => __('global.lock_element_type_6'),
+            'type7' => __('global.lock_element_type_7'),
+            'type8' => __('global.lock_element_type_8'),
         ];
 
         foreach ($unlockTranslations as $key => $value) {
@@ -247,7 +247,7 @@ class Frame extends AbstractController implements PageControllerInterface
             'main',
             '<i class="' . ManagerTheme::getStyle('icon_bars') . '"></i>',
             'javascript:;',
-            ManagerTheme::getLexicon('home'),
+            __('global.home'),
             'modx.resizer.toggle(); return false;',
             ' return false;',
             '',
@@ -264,9 +264,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['site'] = [
             'site',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_tachometer') . '"></i><span class="menu-item-text">' . ManagerTheme::getLexicon('home') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_tachometer') . '"></i><span class="menu-item-text">' . __('global.home') . '</span>',
             'index.php?a=2',
-            ManagerTheme::getLexicon('home'),
+            __('global.home'),
             '',
             '',
             'main',
@@ -291,9 +291,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['elements'] = [
             'elements',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_elements') . '"></i><span class="menu-item-text">' . ManagerTheme::getLexicon('elements') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_elements') . '"></i><span class="menu-item-text">' . __('global.elements') . '</span>',
             'javascript:;',
-            ManagerTheme::getLexicon('elements'),
+            __('global.elements'),
             ' return false;',
             '',
             '',
@@ -314,9 +314,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['modules'] = [
             'modules',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_modules') . '"></i><span class="menu-item-text">' . ManagerTheme::getLexicon('modules') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_modules') . '"></i><span class="menu-item-text">' . __('global.modules') . '</span>',
             'javascript:;',
-            ManagerTheme::getLexicon('modules'),
+            __('global.modules'),
             ' return false;',
             '',
             '',
@@ -341,9 +341,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['users'] = [
             'users',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_users') . '"></i><span class="menu-item-text">' . ManagerTheme::getLexicon('users') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_users') . '"></i><span class="menu-item-text">' . __('global.users') . '</span>',
             'javascript:;',
-            ManagerTheme::getLexicon('users'),
+            __('global.users'),
             ' return false;',
             'edit_user',
             '',
@@ -368,9 +368,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['tools'] = [
             'tools',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_wrench') . '"></i><span class="menu-item-text">' . ManagerTheme::getLexicon('tools') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_wrench') . '"></i><span class="menu-item-text">' . __('global.tools') . '</span>',
             'javascript:;',
-            ManagerTheme::getLexicon('tools'),
+            __('global.tools'),
             ' return false;',
             '',
             '',
@@ -403,9 +403,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_templates'] = [
             'element_templates',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_template') . '"></i>' . ManagerTheme::getLexicon('templates') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_template') . '"></i>' . __('global.templates') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=0',
-            ManagerTheme::getLexicon('templates'),
+            __('global.templates'),
             '',
             'new_template,edit_template',
             'main',
@@ -424,9 +424,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_tplvars'] = [
             'element_tplvars',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i>' . ManagerTheme::getLexicon('tmplvars') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i>' . __('global.tmplvars') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=1',
-            ManagerTheme::getLexicon('tmplvars'),
+            __('global.tmplvars'),
             '',
             'new_template,edit_template',
             'main',
@@ -445,9 +445,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_htmlsnippets'] = [
             'element_htmlsnippets',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i>' . ManagerTheme::getLexicon('htmlsnippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i>' . __('global.htmlsnippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=2',
-            ManagerTheme::getLexicon('htmlsnippets'),
+            __('global.htmlsnippets'),
             '',
             'new_chunk,edit_chunk',
             'main',
@@ -466,9 +466,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_snippets'] = [
             'element_snippets',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i>' . ManagerTheme::getLexicon('snippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i>' . __('global.snippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=3',
-            ManagerTheme::getLexicon('snippets'),
+            __('global.snippets'),
             '',
             'new_snippet,edit_snippet',
             'main',
@@ -487,9 +487,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_plugins'] = [
             'element_plugins',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_plugin') . '"></i>' . ManagerTheme::getLexicon('plugins') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_plugin') . '"></i>' . __('global.plugins') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=4',
-            ManagerTheme::getLexicon('plugins'),
+            __('global.plugins'),
             '',
             'new_plugin,edit_plugin',
             'main',
@@ -508,9 +508,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['element_modules'] = [
             'element_modules',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>' . ManagerTheme::getLexicon('modules') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>' . __('global.modules') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=5',
-            ManagerTheme::getLexicon('modules'),
+            __('global.modules'),
             '',
             'new_module,edit_module',
             'main',
@@ -529,9 +529,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['manage_files'] = [
             'manage_files',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_folder_open') . '"></i>' . ManagerTheme::getLexicon('files'),
+            '<i class="' . ManagerTheme::getStyle('icon_folder_open') . '"></i>' . __('global.files'),
             'index.php?a=31',
-            ManagerTheme::getLexicon('files'),
+            __('global.files'),
             '',
             'file_manager',
             'main',
@@ -552,9 +552,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['manage_categories'] = [
             'manage_categories',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_category') . '"></i>' . ManagerTheme::getLexicon('categories'),
+            '<i class="' . ManagerTheme::getStyle('icon_category') . '"></i>' . __('global.categories'),
             'index.php?a=120',
-            ManagerTheme::getLexicon('categories'),
+            __('global.categories'),
             '',
             'category_manager',
             'main',
@@ -585,7 +585,7 @@ class Frame extends AbstractController implements PageControllerInterface
             $items = [];
 
             // 1. modules from DB
-            if ($_SESSION['mgrRole'] != 1 && ManagerTheme::getCore()->getConfig('use_udperms') === true) {
+            if ($_SESSION['mgrRole'] != 1) {
                 $modules = SiteModule::select('site_modules.id', 'site_modules.name', 'site_modules.icon', 'member_groups.member')
                     ->withoutProtected()
                     ->lockedView()
@@ -661,9 +661,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['web_user_management_title'] = [
             'web_user_management_title',
             'users',
-            '<i class="' . ManagerTheme::getStyle('icon_web_user') . '"></i>' . ManagerTheme::getLexicon('web_user_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_web_user') . '"></i>' . __('global.web_user_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=99',
-            ManagerTheme::getLexicon('web_user_management_title'),
+            __('global.web_user_management_title'),
             '',
             'edit_user',
             'main',
@@ -681,9 +681,9 @@ class Frame extends AbstractController implements PageControllerInterface
             $this->sitemenu['role_management_title'] = [
                 'role_management_title',
                 'users',
-                '<i class="' . ManagerTheme::getStyle('icon_role') . '"></i>' . ManagerTheme::getLexicon('role_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+                '<i class="' . ManagerTheme::getStyle('icon_role') . '"></i>' . __('global.role_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
                 'index.php?a=86',
-                ManagerTheme::getLexicon('role_management_title'),
+                __('global.role_management_title'),
                 '',
                 'new_role,edit_role,delete_role',
                 'main',
@@ -705,9 +705,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['web_permissions'] = [
             'web_permissions',
             'users',
-            '<i class="' . ManagerTheme::getStyle('icon_web_user_access') . '"></i>' . ManagerTheme::getLexicon('web_permissions'),
+            '<i class="' . ManagerTheme::getStyle('icon_web_user_access') . '"></i>' . __('global.web_permissions'),
             'index.php?a=91',
-            ManagerTheme::getLexicon('web_permissions'),
+            __('global.web_permissions'),
             '',
             'web_access_permissions',
             'main',
@@ -724,9 +724,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['refresh_site'] = [
             'refresh_site',
             'tools',
-            '<i class="' . ManagerTheme::getStyle('icon_recycle') . '"></i>' . ManagerTheme::getLexicon('refresh_site'),
+            '<i class="' . ManagerTheme::getStyle('icon_recycle') . '"></i>' . __('global.refresh_site'),
             'index.php?a=26',
-            ManagerTheme::getLexicon('refresh_site'),
+            __('global.refresh_site'),
             '',
             '',
             'main',
@@ -741,9 +741,9 @@ class Frame extends AbstractController implements PageControllerInterface
                     // href
                     'btn btn-secondary',
                     // class or btn-success
-                    "modx.popup({url:'index.php?a=26', title:'" . ManagerTheme::getLexicon('refresh_site') . "', icon: 'fa-recycle', iframe: 'ajax', selector: '.tab-page>.container', position: 'right top', width: 'auto', maxheight: '50%%', wrap: 'body' })",
+                    "modx.popup({url:'index.php?a=26', title:'" . __('global.refresh_site') . "', icon: 'fa-recycle', iframe: 'ajax', selector: '.tab-page>.container', position: 'right top', width: 'auto', maxheight: '50%%', wrap: 'body' })",
                     // onclick
-                    ManagerTheme::getLexicon('refresh_site'),
+                    __('global.refresh_site'),
                     // title
                     '<i class="' . ManagerTheme::getStyle('icon_recycle') . '"></i>',
                     // innerHTML
@@ -759,9 +759,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['search'] = [
             'search',
             'tools',
-            '<i class="' . ManagerTheme::getStyle('icon_search') . '"></i>' . ManagerTheme::getLexicon('search'),
+            '<i class="' . ManagerTheme::getStyle('icon_search') . '"></i>' . __('global.search'),
             'index.php?a=71',
-            ManagerTheme::getLexicon('search'),
+            __('global.search'),
             '',
             '',
             'main',
@@ -782,9 +782,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['bk_manager'] = [
             'bk_manager',
             'tools',
-            '<i class="' . ManagerTheme::getStyle('icon_database') . '"></i>' . ManagerTheme::getLexicon('bk_manager'),
+            '<i class="' . ManagerTheme::getStyle('icon_database') . '"></i>' . __('global.bk_manager'),
             'index.php?a=93',
-            ManagerTheme::getLexicon('bk_manager'),
+            __('global.bk_manager'),
             '',
             'bk_manager',
             'main',
@@ -805,9 +805,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['remove_locks'] = [
             'remove_locks',
             'tools',
-            '<i class="' . ManagerTheme::getStyle('icon_hourglass') . '"></i>' . ManagerTheme::getLexicon('remove_locks'),
+            '<i class="' . ManagerTheme::getStyle('icon_hourglass') . '"></i>' . __('global.remove_locks'),
             'javascript:modx.removeLocks();',
-            ManagerTheme::getLexicon('remove_locks'),
+            __('global.remove_locks'),
             '',
             'remove_locks',
             '',
@@ -824,9 +824,9 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['update_tree'] = [
             'update_tree',
             'tools',
-            '<i class="' . ManagerTheme::getStyle('icon_sitemap') . '"></i>' . ManagerTheme::getLexicon('update_tree'),
+            '<i class="' . ManagerTheme::getStyle('icon_sitemap') . '"></i>' . __('global.update_tree'),
             'index.php?a=95',
-            ManagerTheme::getLexicon('update_tree'),
+            __('global.update_tree'),
             '',
             'update_tree',
             'main',

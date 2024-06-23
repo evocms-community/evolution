@@ -30,6 +30,7 @@ use Composer\Semver\Constraint\Constraint;
 use Composer\Semver\Constraint\ConstraintInterface;
 use Composer\Package\Version\StabilityFilter;
 use Composer\Semver\Constraint\MatchAllConstraint;
+use Composer\Semver\Constraint\MultiConstraint;
 
 /**
  * @author Nils Adermann <naderman@naderman.de>
@@ -245,7 +246,15 @@ class RepositorySet
     {
         $map = [];
         foreach ($packages as $package) {
-            $map[$package->getName()] = new Constraint('=', $package->getVersion());
+            // ignore root alias versions as they are not actual package versions and should not matter when it comes to vulnerabilities
+            if ($package instanceof AliasPackage && $package->isRootPackageAlias()) {
+                continue;
+            }
+            if (isset($map[$package->getName()])) {
+                $map[$package->getName()] = new MultiConstraint([new Constraint('=', $package->getVersion()), $map[$package->getName()]], false);
+            } else {
+                $map[$package->getName()] = new Constraint('=', $package->getVersion());
+            }
         }
 
         return $this->getSecurityAdvisoriesForConstraints($map, $allowPartialAdvisories);
@@ -301,10 +310,15 @@ class RepositorySet
 
     /**
      * Create a pool for dependency resolution from the packages in this repository set.
+     *
+     * @param list<string>      $ignoredTypes Packages of those types are ignored
+     * @param list<string>|null $allowedTypes Only packages of those types are allowed if set to non-null
      */
-    public function createPool(Request $request, IOInterface $io, ?EventDispatcher $eventDispatcher = null, ?PoolOptimizer $poolOptimizer = null): Pool
+    public function createPool(Request $request, IOInterface $io, ?EventDispatcher $eventDispatcher = null, ?PoolOptimizer $poolOptimizer = null, array $ignoredTypes = [], ?array $allowedTypes = null): Pool
     {
         $poolBuilder = new PoolBuilder($this->acceptableStabilities, $this->stabilityFlags, $this->rootAliases, $this->rootReferences, $io, $eventDispatcher, $poolOptimizer, $this->temporaryConstraints);
+        $poolBuilder->setIgnoredTypes($ignoredTypes);
+        $poolBuilder->setAllowedTypes($allowedTypes);
 
         foreach ($this->repositories as $repo) {
             if (($repo instanceof InstalledRepositoryInterface || $repo instanceof InstalledRepository) && !$this->allowInstalledRepositories) {

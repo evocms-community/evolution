@@ -7,7 +7,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_template')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_REQUEST['id'] ?? 0);
@@ -19,7 +19,7 @@ $updateMsg = '';
 $templatename = '';
 
 if (isset($_POST['listSubmitted'])) {
-    $updateMsg .= '<div class="text-success" id="updated">' . ManagerTheme::getLexicon('sort_updated') . '</div>';
+    $updateMsg .= '<div class="text-success" id="updated">' . __('global.sort_updated') . '</div>';
     foreach ($_POST as $listName => $listValue) {
         if ($listName == 'listSubmitted' || $listName == 'reset') {
             continue;
@@ -70,7 +70,7 @@ if ($templateVars->count() > 0) {
     }
     $sortableList .= '</ul></div>';
 } else {
-    $updateMsg = '<p class="text-danger">' . ManagerTheme::getLexicon('tmplvars_novars') . '</p>';
+    $updateMsg = '<p class="text-danger">' . __('global.tmplvars_novars') . '</p>';
 }
 ?>
 
@@ -130,7 +130,7 @@ if ($templateVars->count() > 0) {
   }
 
   function resetSortOrder () {
-    if (confirm(`<?= ManagerTheme::getLexicon('confirm_reset_sort_order') ?>`) === true) {
+    if (confirm(`<?= __('global.confirm_reset_sort_order') ?>`) === true) {
       documentDirty = false
       var input = document.createElement('input')
       input.type = 'hidden'
@@ -144,7 +144,7 @@ if ($templateVars->count() > 0) {
 
 <h1>
     <i class="<?= ManagerTheme::getStyle('icon_sort_num_asc') ?>"></i><?= ($templatename ? $templatename . '<small>(' .
-        $id . ')</small>' : ManagerTheme::getLexicon('template_tv_edit_title')) ?>
+        $id . ')</small>' : __('global.template_tv_edit_title')) ?>
 </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.dynamic.save') ?>
@@ -154,22 +154,16 @@ if ($templateVars->count() > 0) {
         <?php
         if ($sortableList) {
             ?>
-            <b><?= ManagerTheme::getLexicon('template_tv_edit') ?></b>
-            <p><?= ManagerTheme::getLexicon('tmplvars_rank_edit_message') ?></p>
+            <b><?= __('global.template_tv_edit') ?></b>
+            <p><?= __('global.tmplvars_rank_edit_message') ?></p>
             <p>
                 <a class="btn btn-secondary" href="javascript:;" onclick="sort();return false;"><i
-                            class="<?= ManagerTheme::getStyle('icon_sort') ?>"></i> <?= ManagerTheme::getLexicon(
-                        'sort_alphabetically'
-                    ) ?></a>
+                            class="<?= ManagerTheme::getStyle('icon_sort') ?>"></i> <?= __('global.sort_alphabetically') ?></a>
                 <a class="btn btn-secondary" href="javascript:;" onclick="resetSortOrder();return false;"><i
-                            class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i> <?= ManagerTheme::getLexicon(
-                        'reset_sort_order'
-                    ) ?></a>
+                            class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i> <?= __('global.reset_sort_order') ?></a>
             </p>
             <?= $updateMsg ?>
-            <span class="text-danger" style="display:none;" id="updating"><?= ManagerTheme::getLexicon(
-                    'sort_updating'
-                ) ?></span>
+            <span class="text-danger" style="display:none;" id="updating"><?= __('global.sort_updating') ?></span>
             <?= $sortableList ?>
             <?php
         } else {

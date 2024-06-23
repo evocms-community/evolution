@@ -9,7 +9,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('edit_document') || !evo()->hasPermission('save_document')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : null;
@@ -25,11 +25,11 @@ $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+    evo()->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 if (isset($_POST['listSubmitted'])) {
-    $updateMsg .= '<div class="text-success" id="updated">' . ManagerTheme::getLexicon('sort_updated') . '</div>';
+    $updateMsg .= '<div class="text-success" id="updated">' . __('global.sort_updated') . '</div>';
     if (strlen($items) > 0) {
         $items = explode(';', $items);
         foreach ($items as $key => $value) {
@@ -51,7 +51,7 @@ if ($id !== null) {
             /** @var SiteContent $doc */
             $doc = SiteContent::withTrashed()->findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+            evo()->webAlertAndQuit(__('global.access_permission_denied'));
         }
         $pagetitle = $doc->pagetitle;
     } else {
@@ -109,7 +109,7 @@ if ($id !== null) {
         }
         $resourcesList .= '</ul></div>';
     } else {
-        $updateMsg = '<p class="text-danger">' . ManagerTheme::getLexicon('sort_nochildren') . '</p>';
+        $updateMsg = '<p class="text-danger">' . __('global.sort_nochildren') . '</p>';
     }
 }
 
@@ -175,7 +175,7 @@ $pagetitle = empty($id) ? evo()->getConfig('site_name') : $pagetitle;
   }
 
   function resetSortOrder () {
-    if (confirm(`<?= ManagerTheme::getLexicon('confirm_reset_sort_order') ?>`) === true) {
+    if (confirm(`<?= __('global.confirm_reset_sort_order') ?>`) === true) {
       documentDirty = false
       var input = document.createElement('input')
       input.type = 'hidden'
@@ -191,7 +191,7 @@ $pagetitle = empty($id) ? evo()->getConfig('site_name') : $pagetitle;
 <h1>
     <i class="<?= ManagerTheme::getStyle('icon_sort_num_asc') ?>"></i><?= ($pagetitle ? evo()->getPhpCompat()->entities(
             $pagetitle
-        ) . '<small>(' . $id . ')</small>' : ManagerTheme::getLexicon('sort_menuindex')) ?>
+        ) . '<small>(' . $id . ')</small>' : __('global.sort_menuindex')) ?>
 </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.dynamic.save') ?>
@@ -202,21 +202,15 @@ $pagetitle = empty($id) ? evo()->getConfig('site_name') : $pagetitle;
         <?php
         if ($resourcesList) {
             ?>
-            <p><?= ManagerTheme::getLexicon('sort_elements_msg') ?></p>
+            <p><?= __('global.sort_elements_msg') ?></p>
             <p>
                 <a class="btn btn-secondary" href="javascript:;" onclick="sort();return false;"><i
-                            class="<?= ManagerTheme::getStyle('icon_sort') ?>"></i> <?= ManagerTheme::getLexicon(
-                        'sort_alphabetically'
-                    ) ?></a>
+                            class="<?= ManagerTheme::getStyle('icon_sort') ?>"></i> <?= __('global.sort_alphabetically') ?></a>
                 <a class="btn btn-secondary" href="javascript:;" onclick="resetSortOrder();return false;"><i
-                            class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i> <?= ManagerTheme::getLexicon(
-                        'reset_sort_order'
-                    ) ?></a>
+                            class="<?= ManagerTheme::getStyle('icon_refresh') ?>"></i> <?= __('global.reset_sort_order') ?></a>
             </p>
             <?= $updateMsg ?>
-            <span class="text-danger" style="display:none;" id="updating"><?= ManagerTheme::getLexicon(
-                    'sort_updating'
-                ) ?></span>
+            <span class="text-danger" style="display:none;" id="updating"><?= __('global.sort_updating') ?></span>
             <?= $resourcesList ?>
             <?php
         } else {

@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Tracy;
 
-use Nette;
-
 
 /**
  * Rendering helpers for Debugger.
@@ -39,7 +37,7 @@ class Helpers
 				$origFile . ($line ? ":$line" : ''),
 				rtrim(dirname($file), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
 				basename($file),
-				$line ? ":$line" : ''
+				$line ? ":$line" : '',
 			);
 		} else {
 			return self::formatHtml('<span>%</span>', $file . ($line ? ":$line" : ''));
@@ -55,7 +53,7 @@ class Helpers
 		?int $line = null,
 		string $action = 'open',
 		string $search = '',
-		string $replace = ''
+		string $replace = '',
 	): ?string
 	{
 		if (Debugger::$editor && $file && ($action === 'create' || @is_file($file))) { // @ - may trigger error
@@ -85,13 +83,19 @@ class Helpers
 	}
 
 
-	public static function escapeHtml($s): string
+	public static function escapeHtml(mixed $s): string
 	{
 		return htmlspecialchars((string) $s, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
 	}
 
 
-	public static function findTrace(array $trace, $method, ?int &$index = null): ?array
+	public static function htmlToText(string $s): string
+	{
+		return htmlspecialchars_decode(strip_tags($s), ENT_QUOTES | ENT_HTML5);
+	}
+
+
+	public static function findTrace(array $trace, array|string $method, ?int &$index = null): ?array
 	{
 		$m = is_array($method) ? $method : explode('::', $method);
 		foreach ($trace as $i => $item) {
@@ -99,7 +103,7 @@ class Helpers
 				isset($item['function'])
 				&& $item['function'] === end($m)
 				&& isset($item['class']) === isset($m[1])
-				&& (!isset($item['class']) || $m[0] === '*' || is_a($item['class'], $m[0], true))
+				&& (!isset($item['class']) || $m[0] === '*' || is_a($item['class'], $m[0], allow_string: true))
 			) {
 				$index = $i;
 				return $item;
@@ -107,43 +111,6 @@ class Helpers
 		}
 
 		return null;
-	}
-
-
-	public static function getClass($obj): string
-	{
-		return explode("\x00", get_class($obj))[0];
-	}
-
-
-	/** @internal */
-	public static function fixStack(\Throwable $exception): \Throwable
-	{
-		if (function_exists('xdebug_get_function_stack')) {
-			$stack = [];
-			$trace = @xdebug_get_function_stack(); // @ xdebug compatibility warning
-			$trace = array_slice(array_reverse($trace), 2, -1);
-			foreach ($trace as $row) {
-				$frame = [
-					'file' => $row['file'],
-					'line' => $row['line'],
-					'function' => $row['function'] ?? '*unknown*',
-					'args' => [],
-				];
-				if (!empty($row['class'])) {
-					$frame['type'] = isset($row['type']) && $row['type'] === 'dynamic' ? '->' : '::';
-					$frame['class'] = $row['class'];
-				}
-
-				$stack[] = $frame;
-			}
-
-			$ref = new \ReflectionProperty('Exception', 'trace');
-			$ref->setAccessible(true);
-			$ref->setValue($exception, $stack);
-		}
-
-		return $exception;
 	}
 
 
@@ -194,47 +161,67 @@ class Helpers
 	{
 		$message = $e->getMessage();
 		if (
-			(!$e instanceof \Error && !$e instanceof \ErrorException)
-			|| $e instanceof Nette\MemberAccessException
-			|| strpos($e->getMessage(), 'did you mean')
+			!($e instanceof \Error || $e instanceof \ErrorException)
+			|| str_contains($e->getMessage(), 'did you mean')
 		) {
 			// do nothing
+		} elseif (preg_match('~Argument #(\d+)(?: \(\$\w+\))? must be of type callable, (.+ given)~', $message, $m)) {
+			$arg = $e->getTrace()[0]['args'][$m[1] - 1] ?? null;
+			if (is_string($arg) && str_contains($arg, '::')) {
+				$arg = explode('::', $arg, 2);
+			}
+			if (!is_callable($arg, syntax_only: true)) {
+				// do nothing
+			} elseif (is_array($arg) && is_string($arg[0]) && !class_exists($arg[0]) && !trait_exists($arg[0])) {
+				$message = str_replace($m[2], "but class '$arg[0]' does not exist", $message);
+			} elseif (is_array($arg) && !method_exists($arg[0], $arg[1])) {
+				$hint = self::getSuggestion(get_class_methods($arg[0]) ?: [], $arg[1]);
+				$class = is_object($arg[0]) ? get_class($arg[0]) : $arg[0];
+				$message = str_replace($m[2], "but method $class::$arg[1]() does not exist" . ($hint ? " (did you mean $hint?)" : ''), $message);
+			} elseif (is_string($arg) && !function_exists($arg)) {
+				$funcs = array_merge(get_defined_functions()['internal'], get_defined_functions()['user']);
+				$hint = self::getSuggestion($funcs, $arg);
+				$message = str_replace($m[2], "but function '$arg' does not exist" . ($hint ? " (did you mean $hint?)" : ''), $message);
+			}
+
 		} elseif (preg_match('#^Call to undefined function (\S+\\\\)?(\w+)\(#', $message, $m)) {
 			$funcs = array_merge(get_defined_functions()['internal'], get_defined_functions()['user']);
-			$hint = self::getSuggestion($funcs, $m[1] . $m[2]) ?: self::getSuggestion($funcs, $m[2]);
-			$message = "Call to undefined function $m[2](), did you mean $hint()?";
-			$replace = ["$m[2](", "$hint("];
+			if ($hint = self::getSuggestion($funcs, $m[1] . $m[2]) ?: self::getSuggestion($funcs, $m[2])) {
+				$message = "Call to undefined function $m[2](), did you mean $hint()?";
+				$replace = ["$m[2](", "$hint("];
+			}
 
 		} elseif (preg_match('#^Call to undefined method ([\w\\\\]+)::(\w+)#', $message, $m)) {
-			$hint = self::getSuggestion(get_class_methods($m[1]) ?: [], $m[2]);
-			$message .= ", did you mean $hint()?";
-			$replace = ["$m[2](", "$hint("];
-
-		} elseif (preg_match('#^Undefined variable:? \$?(\w+)#', $message, $m) && !empty($e->context)) {
-			$hint = self::getSuggestion(array_keys($e->context), $m[1]);
-			$message = "Undefined variable $$m[1], did you mean $$hint?";
-			$replace = ["$$m[1]", "$$hint"];
+			if ($hint = self::getSuggestion(get_class_methods($m[1]) ?: [], $m[2])) {
+				$message .= ", did you mean $hint()?";
+				$replace = ["$m[2](", "$hint("];
+			}
 
 		} elseif (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($prop) { return !$prop->isStatic(); });
-			$hint = self::getSuggestion($items, $m[2]);
-			$message .= ", did you mean $$hint?";
-			$replace = ["->$m[2]", "->$hint"];
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($prop) => !$prop->isStatic());
+			if ($hint = self::getSuggestion($items, $m[2])) {
+				$message .= ", did you mean $$hint?";
+				$replace = ["->$m[2]", "->$hint"];
+			}
 
 		} elseif (preg_match('#^Access to undeclared static property:? ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_STATIC), function ($prop) { return $prop->isPublic(); });
-			$hint = self::getSuggestion($items, $m[2]);
-			$message .= ", did you mean $$hint?";
-			$replace = ["::$$m[2]", "::$$hint"];
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_STATIC), fn($prop) => $prop->isPublic());
+			if ($hint = self::getSuggestion($items, $m[2])) {
+				$message .= ", did you mean $$hint?";
+				$replace = ["::$$m[2]", "::$$hint"];
+			}
 		}
 
-		if (isset($hint)) {
-			$loc = Debugger::mapSource($e->getFile(), $e->getLine()) ?? ['file' => $e->getFile(), 'line' => $e->getLine()];
+		if ($message !== $e->getMessage()) {
 			$ref = new \ReflectionProperty($e, 'message');
 			$ref->setAccessible(true);
 			$ref->setValue($e, $message);
+		}
+
+		if (isset($replace)) {
+			$loc = Debugger::mapSource($e->getFile(), $e->getLine()) ?? ['file' => $e->getFile(), 'line' => $e->getLine()];
 			@$e->tracyAction = [ // dynamic properties are deprecated since PHP 8.2
 				'link' => self::editorUri($loc['file'], $loc['line'], 'fix', $replace[0], $replace[1]),
 				'label' => 'fix it',
@@ -244,17 +231,11 @@ class Helpers
 
 
 	/** @internal */
-	public static function improveError(string $message, array $context = []): string
+	public static function improveError(string $message): string
 	{
-		if (preg_match('#^Undefined variable:? \$?(\w+)#', $message, $m) && $context) {
-			$hint = self::getSuggestion(array_keys($context), $m[1]);
-			return $hint
-				? "Undefined variable $$m[1], did you mean $$hint?"
-				: $message;
-
-		} elseif (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
+		if (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($prop) { return !$prop->isStatic(); });
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($prop) => !$prop->isStatic());
 			$hint = self::getSuggestion($items, $m[2]);
 			return $hint ? $message . ", did you mean $$hint?" : $message;
 		}
@@ -296,9 +277,7 @@ class Helpers
 	{
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
-		$items = array_map(function ($item) {
-			return $item instanceof \Reflector ? $item->getName() : (string) $item;
-		}, $items);
+		$items = array_map(fn($item) => $item instanceof \Reflector ? $item->getName() : (string) $item, $items);
 		foreach (array_unique($items) as $item) {
 			if (($len = levenshtein($item, $value, 10, 11, 10)) > 0 && $len < $min) {
 				$min = $len;
@@ -378,7 +357,7 @@ class Helpers
 	 */
 	public static function capture(callable $func): string
 	{
-		ob_start(function () {});
+		ob_start(fn() => null);
 		try {
 			$func();
 			return ob_get_clean();
@@ -425,12 +404,10 @@ class Helpers
 		$special = $specials[$showWhitespaces];
 		$s = preg_replace_callback(
 			$utf8 ? '#[\p{C}<&]#u' : '#[\x00-\x1F\x7F-\xFF<&]#',
-			function ($m) use ($special) {
-				return $special[$m[0]] ?? (strlen($m[0]) === 1
+			fn($m) => $special[$m[0]] ?? (strlen($m[0]) === 1
 					? '<i>\x' . str_pad(strtoupper(dechex(ord($m[0]))), 2, '0', STR_PAD_LEFT) . '</i>'
-					: '<i>\u{' . strtoupper(ltrim(dechex(self::utf8Ord($m[0])), '0')) . '}</i>');
-			},
-			$s
+					: '<i>\u{' . strtoupper(ltrim(dechex(self::utf8Ord($m[0])), '0')) . '}</i>'),
+			$s,
 		);
 		$s = str_replace('</i><i>', '', $s);
 		$s = preg_replace('~\n$~D', '', $s);
@@ -456,9 +433,11 @@ class Helpers
 	/** @internal */
 	public static function utf8Length(string $s): int
 	{
-		return function_exists('mb_strlen')
-			? mb_strlen($s, 'UTF-8')
-			: strlen(utf8_decode($s));
+		return match (true) {
+			extension_loaded('mbstring') => mb_strlen($s, 'UTF-8'),
+			extension_loaded('iconv') => iconv_strlen($s, 'UTF-8'),
+			default => strlen(@utf8_decode($s)), // deprecated
+		};
 	}
 
 
@@ -470,9 +449,9 @@ class Helpers
 
 
 	/** @internal */
-	public static function truncateString(string $s, int $len, bool $utf): string
+	public static function truncateString(string $s, int $len, bool $utf8): string
 	{
-		if (!$utf) {
+		if (!$utf8) {
 			return $len < 0 ? substr($s, $len) : substr($s, 0, $len);
 		} elseif (function_exists('mb_substr')) {
 			return $len < 0
@@ -488,28 +467,49 @@ class Helpers
 
 
 	/** @internal */
+	public static function htmlToAnsi(string $s, array $colors): string
+	{
+		$stack = ['0'];
+		$s = preg_replace_callback(
+			'#<\w+(?: class=["\']tracy-(?:dump-)?([\w-]+)["\'])?[^>]*>|</\w+>#',
+			function ($m) use ($colors, &$stack): string {
+				if ($m[0][1] === '/') {
+					array_pop($stack);
+				} else {
+					$stack[] = isset($m[1], $colors[$m[1]]) ? $colors[$m[1]] : '0';
+				}
+				return "\e[" . end($stack) . 'm';
+			},
+			$s,
+		);
+		$s = preg_replace('/\e\[0m( *)(?=\e)/', '$1', $s);
+		$s = self::htmlToText($s);
+		return $s;
+	}
+
+
+	/** @internal */
 	public static function minifyJs(string $s): string
 	{
 		// author: Jakub Vrana https://php.vrana.cz/minifikace-javascriptu.php
 		$last = '';
 		return preg_replace_callback(
 			<<<'XX'
-			(
-				(?:
-					(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
-					(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-					(/(?![/*])(?:\\[^\n]|[^[\n/\\]|\[(?:\\[^\n]|[^]])++)+/) # regexp
-					|(^
-						|'(?:\\.|[^\n'\\])*'
-						|"(?:\\.|[^\n"\\])*"
-						|([0-9A-Za-z_$]+)
-						|([-+]+)
-						|.
-					)
-				)(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-			())sx
-XX
-			,
+				(
+					(?:
+						(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
+						(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+						(/(?![/*])(?:\\[^\n]|[^[\n/\\]|\[(?:\\[^\n]|[^]])++)+/) # regexp
+						|(^
+							|'(?:\\.|[^\n'\\])*'
+							|"(?:\\.|[^\n"\\])*"
+							|([0-9A-Za-z_$]+)
+							|([-+]+)
+							|.
+						)
+					)(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+				())sx
+				XX,
 			function ($match) use (&$last) {
 				[, $context, $regexp, $result, $word, $operator] = $match;
 				if ($word !== '') {
@@ -528,7 +528,7 @@ XX
 
 				return $result;
 			},
-			$s . "\n"
+			$s . "\n",
 		);
 	}
 
@@ -539,16 +539,15 @@ XX
 		$last = '';
 		return preg_replace_callback(
 			<<<'XX'
-			(
-				(^
-					|'(?:\\.|[^\n'\\])*'
-					|"(?:\\.|[^\n"\\])*"
-					|([0-9A-Za-z_*#.%:()[\]-]+)
-					|.
-				)(?:\s|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-			())sx
-XX
-			,
+				(
+					(^
+						|'(?:\\.|[^\n'\\])*'
+						|"(?:\\.|[^\n"\\])*"
+						|([0-9A-Za-z_*#.%:()[\]-]+)
+						|.
+					)(?:\s|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+				())sx
+				XX,
 			function ($match) use (&$last) {
 				[, $result, $word] = $match;
 				if ($last === ';') {
@@ -568,7 +567,7 @@ XX
 
 				return $result;
 			},
-			$s . "\n"
+			$s . "\n",
 		);
 	}
 
@@ -596,7 +595,7 @@ XX
 	}
 
 
-	public static function traverseValue($val, callable $callback, array &$skip = [], ?string $refId = null): void
+	public static function traverseValue(mixed $val, callable $callback, array &$skip = [], ?string $refId = null): void
 	{
 		if (is_object($val)) {
 			$id = spl_object_id($val);
@@ -615,9 +614,34 @@ XX
 			}
 
 			foreach ($val as $k => $v) {
-				$refId = ($r = \ReflectionReference::fromArrayElement($val, $k)) ? $r->getId() : null;
+				$refId = \ReflectionReference::fromArrayElement($val, $k)?->getId();
 				self::traverseValue($v, $callback, $skip, $refId);
 			}
 		}
+	}
+
+
+	/** @internal */
+	public static function decomposeFlags(int $flags, bool $set, array $constants): ?array
+	{
+		$res = null;
+		foreach ($constants as $constant) {
+			if (defined($constant)) {
+				$v = constant($constant);
+				if ($set) {
+					if ($v && ($flags & $v) === $v) {
+						$res[] = $constant;
+						$flags &= ~$v;
+					}
+				} elseif ($flags === $v) {
+					return [$constant];
+				}
+			}
+		}
+
+		if ($flags && $res && $set) {
+			$res[] = (string) $flags;
+		}
+		return $res;
 	}
 }

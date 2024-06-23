@@ -26,21 +26,21 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>{{ ManagerTheme::getLexicon('plugin_priority_title') }}
+        <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>{{ __('global.plugin_priority_title') }}
     </h1>
 
     {!! ManagerTheme::getStyle('actionbuttons.dynamic.save') !!}
 
     <div class="tab-page">
         <div class="container container-body">
-            <b>{{ ManagerTheme::getLexicon('plugin_priority') }}</b>
-            <p>{{ ManagerTheme::getLexicon('plugin_priority_instructions') }}</p>
+            <b>{{ __('global.plugin_priority') }}</b>
+            <p>{{ __('global.plugin_priority_instructions') }}</p>
 
             @if($updateMsg)
-                <span class="text-success" id="updated">{{ ManagerTheme::getLexicon('sort_updated') }}</span>
+                <span class="text-success" id="updated">{{ __('global.sort_updated') }}</span>
             @endif
 
-            <span class="text-danger" style="display:none;" id="updating">{{ ManagerTheme::getLexicon('sort_updating') }}</span>
+            <span class="text-danger" style="display:none;" id="updating">{{ __('global.sort_updating') }}</span>
 
             <form action="" method="post" name="sortableListForm">
                 @csrf

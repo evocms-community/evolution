@@ -1,5 +1,6 @@
 <?php
 
+use EvolutionCMS\Facades\DocBlock;
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SitePlugin;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -8,7 +9,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_plugin')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 if (isset($_GET['disabled'])) {
@@ -31,7 +32,7 @@ if (isset($_GET['disabled'])) {
             'id' => $id,
         ]);
     } catch (ModelNotFoundException $e) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+        evo()->webAlertAndQuit(__('global.error_no_id'));
     }
     // empty cache
     evo()->clearCache('full');
@@ -68,7 +69,7 @@ if ($name == '') {
 }
 
 if ($parse_docblock) {
-    $parsed = evo()->get('DocBlock')->parseFromString($plugincode, true);
+    $parsed = DocBlock::parseFromString($plugincode, true);
     $name = $parsed['name'] ?? $name;
     $sysevents = isset($parsed['events']) ? explode(',', $parsed['events']) : $sysevents;
     $properties = $parsed['properties'] ?? $properties;
@@ -101,8 +102,8 @@ switch ($_POST['mode']) {
                 evo()->getManagerApi()->saveFormValues(101);
                 evo()->webAlertAndQuit(
                     sprintf(
-                        ManagerTheme::getLexicon('duplicate_name_found_general'),
-                        ManagerTheme::getLexicon('plugin'),
+                        __('global.duplicate_name_found_general'),
+                        __('global.plugin'),
                         $name
                     ),
                     'index.php?a=101'
@@ -166,8 +167,8 @@ switch ($_POST['mode']) {
                 evo()->getManagerApi()->saveFormValues(102);
                 evo()->webAlertAndQuit(
                     sprintf(
-                        ManagerTheme::getLexicon('duplicate_name_found_general'),
-                        ManagerTheme::getLexicon('plugin'),
+                        __('global.duplicate_name_found_general'),
+                        __('global.plugin'),
                         $name
                     ),
                     'index.php?a=102&id=' . $id

@@ -4,18 +4,19 @@ namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
-use Illuminate\Http\Response;
 use EvolutionCMS\Tracy\Debugger;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 
 class Actions extends AbstractController implements PageControllerInterface
 {
-    public function handleAction()
+    /**
+     * @return Response
+     */
+    public function handleAction(): Response
     {
         // Update last action in table active_users
         $action = ManagerTheme::getActionId();
-
-        $output = '';
 
         if ($action === null) {
             $_style = ManagerTheme::getStyle();
@@ -32,7 +33,7 @@ class Actions extends AbstractController implements PageControllerInterface
         }
 
         $isRedirect = array_reduce(headers_list(), function ($result, $header) {
-            return strpos($header, 'Location') === 0;
+            return str_starts_with($header, 'Location');
         }, 0);
 
         return ResponseFacade::make($output, $isRedirect ? 302 : 200);

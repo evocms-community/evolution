@@ -66,7 +66,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
           function resetSortOrder()
           {
-            if (confirm(`{{ ManagerTheme::getLexicon('confirm_reset_sort_order') }}`) === true) {
+            if (confirm(`{{ __('global.confirm_reset_sort_order') }}`) === true) {
               documentDirty = false;
               var input = document.createElement('input');
               input.type = 'hidden';
@@ -80,7 +80,7 @@ use EvolutionCMS\Facades\ManagerTheme;
     @endpush
 
     <h1>
-        <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>{{ ManagerTheme::getLexicon('template_tv_edit_title') }}
+        <i class="{{ ManagerTheme::getStyle('icon_sort_num_asc') }}"></i>{{ __('global.template_tv_edit_title') }}
     </h1>
 
     @include('manager::partials.actionButtons', $actionButtons)
@@ -88,20 +88,20 @@ use EvolutionCMS\Facades\ManagerTheme;
     <div class="tab-page">
         <div class="container container-body">
             @if($tmplvars->count())
-                <b>{{ ManagerTheme::getLexicon('template_tv_edit') }}</b>
-                <p>{{ ManagerTheme::getLexicon('tmplvars_rank_edit_message') }}</p>
+                <b>{{ __('global.template_tv_edit') }}</b>
+                <p>{{ __('global.tmplvars_rank_edit_message') }}</p>
                 <p>
                     <a class="btn btn-secondary" href="javascript:;" onclick="sort();return false;">
-                        <i class="{{ ManagerTheme::getStyle('icon_sort') }}"></i> {{ ManagerTheme::getLexicon('sort_alphabetically') }}
+                        <i class="{{ ManagerTheme::getStyle('icon_sort') }}"></i> {{ __('global.sort_alphabetically') }}
                     </a>
                     <a class="btn btn-secondary" href="javascript:;" onclick="resetSortOrder();return false;">
-                        <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i> {{ ManagerTheme::getLexicon('reset_sort_order') }}
+                        <i class="{{ ManagerTheme::getStyle('icon_refresh') }}"></i> {{ __('global.reset_sort_order') }}
                     </a>
                 </p>
                 @if($updated)
-                    <span class="text-success" id="updated">{{ ManagerTheme::getLexicon('sort_updated') }}</span>
+                    <span class="text-success" id="updated">{{ __('global.sort_updated') }}</span>
                 @endif
-                <span class="text-danger" style="display:none;" id="updating">{{ ManagerTheme::getLexicon('sort_updating') }}</span>
+                <span class="text-danger" style="display:none;" id="updating">{{ __('global.sort_updating') }}</span>
                 <div class="clearfix">
                     <ul id="sortlist" class="sortableList">
                         @foreach($tmplvars as $tv)
@@ -117,7 +117,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     </ul>
                 </div>
             @else
-                <p class="text-danger">{{ ManagerTheme::getLexicon('tmplvars_novars') }}</p>
+                <p class="text-danger">{{ __('global.tmplvars_novars') }}</p>
             @endif
         </div>
     </div>

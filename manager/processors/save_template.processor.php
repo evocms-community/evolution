@@ -5,12 +5,11 @@ use EvolutionCMS\Models\SiteTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
-    die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
+    die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!evo()->hasPermission('save_template')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
-
 if (isset($_GET['selectable'])) {
     $selectable = (int) $_GET['selectable'];
     $id = (int) ($_REQUEST['id'] ?? 0);
@@ -32,7 +31,7 @@ if (isset($_GET['selectable'])) {
             'id' => $id,
         ]);
     } catch (ModelNotFoundException $e) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+        evo()->webAlertAndQuit(__('global.error_no_id'));
     }
 
     header('Location: index.php?a=76&tab=0&r=2');
@@ -43,13 +42,14 @@ $id = (int) $_POST['id'];
 $template = $_POST['post'];
 $templatename = trim($_POST['templatename']);
 $templatealias = trim($_POST['templatealias']);
+$templatecontroller = trim($_POST['templatecontroller']);
 $description = $_POST['description'];
 $locked = isset($_POST['locked']) && $_POST['locked'] == 'on' ? 1 : 0;
-$selectable = $id == evo()->config['default_template']
+$selectable = $id == evo()->getConfig('default_template')
     ? 1
     : // Force selectable
     (isset($_POST['selectable']) && $_POST['selectable'] == 'on' ? 1 : 0);
-$currentdate = time() + evo()->config['server_offset_time'];
+$currentdate = time() + evo()->getConfig('server_offset_time');
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
@@ -104,8 +104,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(19);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('template'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.template'),
                     $templatename
                 ),
                 'index.php?a=19'
@@ -123,7 +123,7 @@ switch ($_POST['mode']) {
         if ($count > 0) {
             evo()->getManagerApi()->saveFormValues(19);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('duplicate_template_alias_found'), $id, $templatealias),
+                sprintf(__('global.duplicate_template_alias_found'), $id, $templatealias),
                 'index.php?a=19'
             );
         }
@@ -131,6 +131,7 @@ switch ($_POST['mode']) {
         $newid = SiteTemplate::query()->insertGetId([
             'templatename' => $templatename,
             'templatealias' => $templatealias,
+            'templatecontroller' => $templatecontroller,
             'description' => $description,
             'content' => $template,
             'locked' => $locked,
@@ -181,8 +182,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(16);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('template'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.template'),
                     $templatename
                 ),
                 'index.php?a=16&id=' . $id
@@ -200,7 +201,7 @@ switch ($_POST['mode']) {
         if ($count > 0) {
             evo()->getManagerApi()->saveFormValues(16);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('duplicate_template_alias_found'), $id, $templatealias),
+                sprintf(__('global.duplicate_template_alias_found'), $id, $templatealias),
                 'index.php?a=16&id=' . $id
             );
         }

@@ -8,13 +8,13 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('delete_template')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_GET['id'] ?? 0);
 
 if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 $forced = $_GET['force'] ?? 0;
@@ -27,7 +27,7 @@ if (!$forced) {
     if ($count > 0) {
         include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
         ?>
-        <h1><?= ManagerTheme::getLexicon('tmplvars'); ?></h1>
+        <h1><?= __('global.tmplvars'); ?></h1>
 
         <script>
           var actions = {
@@ -43,7 +43,7 @@ if (!$forced) {
 
         <div class="tab-page">
             <div class="container container-body">
-                <p><?= ManagerTheme::getLexicon('tmplvar_inuse') ?></p>
+                <p><?= __('global.tmplvar_inuse') ?></p>
                 <ul>
                     <?php
                     foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {

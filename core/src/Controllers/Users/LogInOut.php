@@ -3,11 +3,11 @@
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
+use EvolutionCMS\Facades\UrlProcessor;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Legacy\LogHandler;
 use EvolutionCMS\UserManager\Facades\UserManager;
 use Illuminate\Support\Facades\Lang;
-use EvolutionCMS\Facades\UrlProcessor;
 
 class LogInOut extends AbstractController implements PageControllerInterface
 {

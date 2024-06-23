@@ -20,11 +20,13 @@ use Composer\Package\BasePackage;
 use Composer\Package\CompletePackage;
 use Composer\Package\Locker;
 use Composer\Package\Package;
+use Composer\Package\RootPackageInterface;
 use Composer\Package\Version\VersionParser;
 use Composer\PartialComposer;
 use Composer\Pcre\Preg;
 use Composer\Repository\RepositoryInterface;
 use Composer\Repository\InstalledRepository;
+use Composer\Repository\RepositoryUtils;
 use Composer\Repository\RootPackageRepository;
 use Composer\Package\PackageInterface;
 use Composer\Package\Link;
@@ -98,7 +100,7 @@ class PluginManager
     {
         if (!$this->arePluginsDisabled('local')) {
             $repo = $this->composer->getRepositoryManager()->getLocalRepository();
-            $this->loadRepository($repo, false);
+            $this->loadRepository($repo, false, $this->composer->getPackage());
         }
 
         if ($this->globalComposer !== null && !$this->arePluginsDisabled('global')) {
@@ -153,6 +155,7 @@ class PluginManager
     public function registerPackage(PackageInterface $package, bool $failOnMissingClasses = false, bool $isGlobalPlugin = false): void
     {
         if ($this->arePluginsDisabled($isGlobalPlugin ? 'global' : 'local')) {
+            $this->io->writeError('<warning>The "'.$package->getName().'" plugin was not loaded as plugins are disabled.</warning>');
             return;
         }
 
@@ -444,9 +447,11 @@ class PluginManager
      *
      * @param RepositoryInterface $repo Repository to scan for plugins to install
      *
+     * @phpstan-param ($isGlobalRepo is true ? null : RootPackageInterface) $rootPackage
+     *
      * @throws \RuntimeException
      */
-    private function loadRepository(RepositoryInterface $repo, bool $isGlobalRepo): void
+    private function loadRepository(RepositoryInterface $repo, bool $isGlobalRepo, ?RootPackageInterface $rootPackage = null): void
     {
         $packages = $repo->getPackages();
 
@@ -461,10 +466,28 @@ class PluginManager
         }
 
         $sortedPackages = PackageSorter::sortPackages($packages, $weights);
+        if (!$isGlobalRepo) {
+            $requiredPackages = RepositoryUtils::filterRequiredPackages($packages, $rootPackage, true);
+        }
+
         foreach ($sortedPackages as $package) {
             if (!($package instanceof CompletePackage)) {
                 continue;
             }
+
+            if (!in_array($package->getType(), ['composer-plugin', 'composer-installer'], true)) {
+                continue;
+            }
+
+            if (
+                !$isGlobalRepo
+                && !in_array($package, $requiredPackages, true)
+                && !$this->isPluginAllowed($package->getName(), false, true, false)
+            ) {
+                $this->io->writeError('<warning>The "'.$package->getName().'" plugin was not loaded as it is not listed in allow-plugins and is not required by the root package anymore.</warning>');
+                continue;
+            }
+
             if ('composer-plugin' === $package->getType()) {
                 $this->registerPackage($package, false, $isGlobalRepo);
             // Backward compatibility
@@ -659,7 +682,15 @@ class PluginManager
     /**
      * @internal
      */
-    public function isPluginAllowed(string $package, bool $isGlobalPlugin, bool $optional = false): bool
+    public function disablePlugins(): void
+    {
+        $this->disablePlugins = true;
+    }
+
+    /**
+     * @internal
+     */
+    public function isPluginAllowed(string $package, bool $isGlobalPlugin, bool $optional = false, bool $prompt = true): bool
     {
         if ($isGlobalPlugin) {
             $rules = &$this->allowGlobalPluginRules;
@@ -694,7 +725,7 @@ class PluginManager
             return false;
         }
 
-        if ($this->io->isInteractive()) {
+        if ($this->io->isInteractive() && $prompt) {
             $composer = $isGlobalPlugin && $this->globalComposer !== null ? $this->globalComposer : $this->composer;
 
             $this->io->writeError('<warning>'.$package.($isGlobalPlugin || $this->runningInGlobalDir ? ' (installed globally)' : '').' contains a Composer plugin which is currently not in your allow-plugins config. See https://getcomposer.org/allow-plugins</warning>');

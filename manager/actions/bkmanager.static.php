@@ -6,7 +6,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('bk_manager')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $dbase = evo()->getDatabase()->getConfig('database');
@@ -140,7 +140,7 @@ if ($mode == 'restore1') {
     if (!is_writable(rtrim(evo()->getConfig('snapshot_path'), '/'))) {
         evo()->webAlertAndQuit(
             parsePlaceholder(
-                ManagerTheme::getLexicon('bkmgr_alert_mkdir'),
+                __('global.bkmgr_alert_mkdir'),
                 ['snapshot_path' => evo()->getConfig('snapshot_path')]
             )
         );
@@ -216,14 +216,14 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
     switch ($_SESSION['result_msg']) {
         case 'import_ok':
             $ph['result_msg_import'] =
-                '<div class="alert alert-success">' . ManagerTheme::getLexicon('bkmgr_import_ok') . '</div>';
+                '<div class="alert alert-success">' . __('global.bkmgr_import_ok') . '</div>';
             $ph['result_msg_snapshot'] =
-                '<div class="alert alert-success">' . ManagerTheme::getLexicon('bkmgr_import_ok') . '</div>';
+                '<div class="alert alert-success">' . __('global.bkmgr_import_ok') . '</div>';
             break;
         case 'snapshot_ok':
             $ph['result_msg_import'] = '';
             $ph['result_msg_snapshot'] =
-                '<div class="alert alert-success">' . ManagerTheme::getLexicon('bkmgr_snapshot_ok') . '</div>';
+                '<div class="alert alert-success">' . __('global.bkmgr_snapshot_ok') . '</div>';
             break;
     }
     $_SESSION['result_msg'] = '';
@@ -257,7 +257,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
       }
 
       function confirmRevert (filename) {
-        var m = '<?= ManagerTheme::getLexicon('bkmgr_restore_confirm') ?>'
+        var m = '<?= __('global.bkmgr_restore_confirm') ?>'
         m = m.replace('[+filename+]', filename)
         if (confirm(m) === true) {
           document.restore2.filename.value = filename
@@ -281,7 +281,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
     </script>
 
     <h1>
-        <i class="<?= ManagerTheme::getStyle('icon_database') ?>"></i><?= ManagerTheme::getLexicon('bk_manager') ?>
+        <i class="<?= ManagerTheme::getStyle('icon_database') ?>"></i><?= __('global.bk_manager') ?>
     </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.static.cancel') ?>
@@ -292,7 +292,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
         </script>
 
         <div class="tab-page" id="tabBackup">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('backup') ?></h2>
+            <h2 class="tab"><?= __('global.backup') ?></h2>
             <script>tpDBM.addTabPage(document.getElementById('tabBackup'))</script>
 
             <div class="container container-body">
@@ -302,11 +302,11 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <p>
                         <a href="javascript:;" class="btn btn-primary" onclick="backup();return false;">
                             <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i>
-                            <?= ManagerTheme::getLexicon('database_table_clickbackup') ?>
+                            <?= __('global.database_table_clickbackup') ?>
                         </a>
                         <label>
                             <input type="checkbox" name="droptables" checked="checked"/>
-                            <?= ManagerTheme::getLexicon('database_table_droptablestatements') ?>
+                            <?= __('global.database_table_droptablestatements') ?>
                         </label>
                     </p>
                     <div class="row">
@@ -321,30 +321,30 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                                    class="form-check-input"
                                                    onclick="selectAll();"
                                                    title="Select All Tables"/>
-                                            <?= ManagerTheme::getLexicon('database_table_tablename') ?>
+                                            <?= __('global.database_table_tablename') ?>
                                         </label>
                                     </td>
                                     <td width="1%"></td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_records') ?>
+                                        <?= __('global.database_table_records') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_collation') ?>
+                                        <?= __('global.database_collation') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_datasize') ?>
+                                        <?= __('global.database_table_datasize') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_overhead') ?>
+                                        <?= __('global.database_table_overhead') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_effectivesize') ?>
+                                        <?= __('global.database_table_effectivesize') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_indexsize') ?>
+                                        <?= __('global.database_table_indexsize') ?>
                                     </td>
                                     <td class="text-xs-center">
-                                        <?= ManagerTheme::getLexicon('database_table_totalsize') ?>
+                                        <?= __('global.database_table_totalsize') ?>
                                     </td>
                                 </tr>
                                 </thead>
@@ -427,7 +427,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                     ) {
                                         echo '<td class="text-xs-right"><a class="text-danger" href="index.php?a=54&mode=93&u=' .
                                             $db_status['Name'] . '" title="' .
-                                            ManagerTheme::getLexicon('truncate_table') . '">' .
+                                            __('global.truncate_table') . '">' .
                                             nicesize($db_status['Data_length'] + $db_status['Data_free']) . '</a>' .
                                             '</td>' . "\n";
                                     } else {
@@ -440,7 +440,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                         echo '<td class="text-xs-right">' . ($db_status['Data_free'] > 0
                                                 ? '<a class="text-danger" href="index.php?a=54&mode=93&t=' .
                                                 $db_status['Name'] . '" title="' .
-                                                ManagerTheme::getLexicon('optimize_table') . '">' .
+                                                __('global.optimize_table') . '">' .
                                                 nicesize($db_status['Data_free']) . '</a>' : '-') . '</td>' . "\n";
                                     } else {
                                         echo '<td class="text-xs-right">' .
@@ -463,9 +463,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td class="text-xs-right"><?= ManagerTheme::getLexicon(
-                                            'database_table_totals'
-                                        ) ?></td>
+                                    <td class="text-xs-right"><?= __('global.database_table_totals') ?></td>
                                     <td colspan="4">&nbsp;</td>
                                     <td class="text-xs-right"><?= $totaloverhead > 0 ? '<b class="text-danger">' .
                                             nicesize($totaloverhead) . '</b><br />(' . number_format($totaloverhead) .
@@ -481,7 +479,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?php
                     if ($totaloverhead > 0) { ?>
                         <br>
-                        <p class="alert alert-danger"><?= ManagerTheme::getLexicon('database_overhead') ?></p>
+                        <p class="alert alert-danger"><?= __('global.database_overhead') ?></p>
                         <?php
                     } ?>
                 </form>
@@ -490,13 +488,13 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
         <!-- This iframe is used when downloading file backup file -->
         <iframe name="fileDownloader" width="1" height="1" style="display:none; width:1px; height:1px;"></iframe>
         <div class="tab-page" id="tabRestore">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('bkmgr_restore_title') ?></h2>
+            <h2 class="tab"><?= __('global.bkmgr_restore_title') ?></h2>
             <script>tpDBM.addTabPage(document.getElementById('tabRestore'))</script>
 
             <div class="container container-body">
                 <?= $ph['result_msg_import'] ?>
                 <div class="element-edit-message-tab alert alert-warning">
-                    <?= ManagerTheme::getLexicon('bkmgr_restore_msg') ?>
+                    <?= __('global.bkmgr_restore_msg') ?>
                 </div>
                 <form method="post" name="mutate" enctype="multipart/form-data" action="index.php">
                     <?= csrf_field() ?>
@@ -554,12 +552,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                         <label><input type="radio" name="sel"
                                       onclick="showhide('file');" <?= checked(
                                 !isset($_SESSION['console_mode']) || $_SESSION['console_mode'] !== 'text'
-                            ) ?> /> <?= ManagerTheme::getLexicon('bkmgr_run_sql_file_label') ?>
+                            ) ?> /> <?= __('global.bkmgr_run_sql_file_label') ?>
                         </label>
                         <label><input type="radio" name="sel"
                                       onclick="showhide('textarea');" <?= checked(
                                 isset($_SESSION['console_mode']) && $_SESSION['console_mode'] === 'text'
-                            ) ?> /> <?= ManagerTheme::getLexicon('bkmgr_run_sql_direct_label') ?>
+                            ) ?> /> <?= __('global.bkmgr_run_sql_direct_label') ?>
                         </label>
                     </p>
                     <div class="form-group"><input type="file" name="sqlfile" id="sqlfile"
@@ -568,14 +566,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                         <textarea name="textarea" rows="10"><?= $value ?></textarea>
                     </div>
                     <a href="javascript:;" class="btn btn-primary" onclick="document.mutate.save.click();"> <i
-                                class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= ManagerTheme::getLexicon(
-                            'bkmgr_run_sql_submit'
-                        ) ?></a>
+                                class="<?= ManagerTheme::getStyle('icon_save') ?>"></i> <?= __('global.bkmgr_run_sql_submit') ?></a>
                     <input type="submit" name="save" style="display:none;"/>
                 </form>
                 <?php
                 if (isset($result)): ?>
-                    <b><?= ManagerTheme::getLexicon('bkmgr_run_sql_result') ?></b>
+                    <b><?= __('global.bkmgr_run_sql_result') ?></b>
                     <div class="row">
                         <div class="table-responsive"><?= $result ?></div>
                     </div>
@@ -585,14 +581,14 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
         </div>
 
         <div class="tab-page" id="tabSnapshot">
-            <h2 class="tab"><?= ManagerTheme::getLexicon('bkmgr_snapshot_title') ?></h2>
+            <h2 class="tab"><?= __('global.bkmgr_snapshot_title') ?></h2>
             <script>tpDBM.addTabPage(document.getElementById('tabSnapshot'))</script>
 
             <div class="container container-body">
                 <?= $ph['result_msg_snapshot'] ?>
                 <div class="element-edit-message-tab alert alert-warning">
                     <?= parsePlaceholder(
-                        ManagerTheme::getLexicon('bkmgr_snapshot_msg'),
+                        __('global.bkmgr_snapshot_msg'),
                         ['snapshot_path' => "snapshot_path={evo()->getConfig('snapshot_path')}"]
                     ) ?>
                 </div>
@@ -600,20 +596,20 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?= csrf_field() ?>
                     <input type="hidden" name="a" value="93"/>
                     <input type="hidden" name="mode" value="snapshot"/>
-                    <?= ManagerTheme::getLexicon('description') ?>
+                    <?= __('global.description') ?>
                     <div class="form-group input-group">
                         <input type="text" name="backup_title" class="form-control" maxlength="350"/>
                         <div class="input-group-btn">
                             <a href="javascript:;" class="btn btn-success" onclick="document.snapshot.save.click();">
                                 <i class="<?= ManagerTheme::getStyle('icon_save') ?>"></i>
-                                <?= ManagerTheme::getLexicon('bkmgr_snapshot_submit') ?>
+                                <?= __('global.bkmgr_snapshot_submit') ?>
                             </a>
                         </div>
                     </div>
                     <input type="submit" name="save" style="display:none;"/>
                 </form>
                 <div>
-                    <b><?= ManagerTheme::getLexicon('bkmgr_snapshot_list_title') ?></b>
+                    <b><?= __('global.bkmgr_snapshot_list_title') ?></b>
                 </div>
                 <form method="post" name="restore2" action="index.php">
                     <?= csrf_field() ?>
@@ -640,13 +636,13 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 <table class="table data nowrap">
                                     <thead>
                                     <tr>
-                                        <th><?= ManagerTheme::getLexicon('files_filename') ?></th>
+                                        <th><?= __('global.files_filename') ?></th>
                                         <th width="1%"></th>
-                                        <th><?= ManagerTheme::getLexicon('files_filesize') ?></th>
-                                        <th><?= ManagerTheme::getLexicon('description') ?></th>
-                                        <th><?= ManagerTheme::getLexicon('modx_version') ?></th>
-                                        <th><?= ManagerTheme::getLexicon('database_name') ?></th>
-                                        <th width="1%"><?= ManagerTheme::getLexicon('onlineusers_action') ?></th>
+                                        <th><?= __('global.files_filesize') ?></th>
+                                        <th><?= __('global.description') ?></th>
+                                        <th><?= __('global.modx_version') ?></th>
+                                        <th><?= __('global.database_name') ?></th>
+                                        <th width="1%"><?= __('global.onlineusers_action') ?></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -697,7 +693,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                             <td>
                                                 <a href="javascript:;" onclick="confirmRevert('<?= $filename ?>');"
                                                    title="<?= $tooltip ?>">
-                                                    <?= ManagerTheme::getLexicon('bkmgr_restore_submit') ?>
+                                                    <?= __('global.bkmgr_restore_submit') ?>
                                                 </a>
                                             </td>
                                         </tr>
@@ -710,7 +706,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                         </div>
                         <?php
                     } else {
-                        echo ManagerTheme::getLexicon('bkmgr_snapshot_nothing');
+                        echo __('global.bkmgr_snapshot_nothing');
                     }
                     ?>
                     <input type="submit" name="save" style="display:none;"/>

@@ -141,7 +141,7 @@ $modx = evo();
 $modx->mstart = $mstart;
 $modx->sid = session_id();
 
-$_lang = ManagerTheme::getLexicon();
+$_lang = __('global');
 Lang::setLocale(ManagerTheme::getLang());
 
 //$settings = evo()->allConfig();

@@ -7,7 +7,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_template')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_POST['id'] ?? 0);
@@ -55,8 +55,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(300);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('tv'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.tv'),
                     $name
                 ),
                 'index.php?a=300'
@@ -148,7 +148,7 @@ switch ($_POST['mode']) {
             $_POST['name'] = '';
             evo()->getManagerApi()->saveFormValues(300);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('reserved_name_warning'), ManagerTheme::getLexicon('tv'), $name),
+                sprintf(__('global.reserved_name_warning'), __('global.tv'), $name),
                 'index.php?a=300'
             );
         }
@@ -211,8 +211,8 @@ switch ($_POST['mode']) {
             evo()->getManagerApi()->saveFormValues(300);
             evo()->webAlertAndQuit(
                 sprintf(
-                    ManagerTheme::getLexicon('duplicate_name_found_general'),
-                    ManagerTheme::getLexicon('tv'),
+                    __('global.duplicate_name_found_general'),
+                    __('global.tv'),
                     $name
                 ),
                 'index.php?a=301&id=' . $id
@@ -303,7 +303,7 @@ switch ($_POST['mode']) {
         ) {
             evo()->getManagerApi()->saveFormValues(300);
             evo()->webAlertAndQuit(
-                sprintf(ManagerTheme::getLexicon('reserved_name_warning'), ManagerTheme::getLexicon('tv'), $name),
+                sprintf(__('global.reserved_name_warning'), __('global.tv'), $name),
                 'index.php?a=301&id=' . $id
             );
         }

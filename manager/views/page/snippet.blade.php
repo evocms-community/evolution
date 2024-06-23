@@ -11,9 +11,9 @@ use EvolutionCMS\Facades\ManagerTheme;
           var elementProperties = new ElementProperties({
             name: 'elementProperties',
             lang: {
-              parameter: '{{ ManagerTheme::getLexicon('parameter') }}',
-              value: '{{ ManagerTheme::getLexicon('value') }}',
-              set_default: '{{ ManagerTheme::getLexicon('set_default') }}'
+              parameter: '{{ __('global.parameter') }}',
+              value: '{{ __('global.value') }}',
+              set_default: '{{ __('global.set_default') }}'
             },
             icon_refresh: '{{ ManagerTheme::getStyle('icon_refresh') }}',
             table: 'displayparams',
@@ -28,12 +28,12 @@ use EvolutionCMS\Facades\ManagerTheme;
               document.mutate.save.click()
               saveWait('mutate')
             }, duplicate: function () {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_duplicate_record') }}`) === true) {
                 documentDirty = false
                 document.location.href = "index.php?id={{ $data->getKey() }}&a=98"
               }
             }, delete: function () {
-              if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_snippet') }}`) === true) {
+              if (confirm(`{{ __('global.confirm_delete_snippet') }}`) === true) {
                 documentDirty = false
                 document.location.href = 'index.php?id={{ $data->getKey() }}&a=25'
               }
@@ -73,7 +73,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 {{ $data->name }}
                 <small>({{ $data->getKey() }})</small>
             @else
-                {{ ManagerTheme::getLexicon('new_snippet') }}
+                {{ __('global.new_snippet') }}
             @endif
             <i class="{{ ManagerTheme::getStyle('icon_question_circle') }} help"></i>
         </h1>
@@ -81,7 +81,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         @include('manager::partials.actionButtons', $actionButtons)
 
         <div class="container element-edit-message">
-            <div class="alert alert-info">{!! ManagerTheme::getLexicon('snippet_msg') !!}</div>
+            <div class="alert alert-info">{!! __('global.snippet_msg') !!}</div>
         </div>
 
         <div class="tab-pane" id="snipetPane">
@@ -92,13 +92,13 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             <!-- General -->
             <div class="tab-page" id="tabSnippet">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_general') }}</h2>
+                <h2 class="tab">{{ __('global.settings_general') }}</h2>
                 <script>tpSnippet.addTabPage(document.getElementById('tabSnippet'))</script>
 
                 <div class="container container-body">
                     @include('manager::form.row', [
                         'for' => 'name',
-                        'label' => ManagerTheme::getLexicon('snippet_name'),
+                        'label' => __('global.snippet_name'),
                         'element' => '<div class="form-control-name clearfix">' .
                             ManagerTheme::view('form.inputElement', [
                                 'name' => 'name',
@@ -107,7 +107,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'attributes' => 'onchange="documentDirty=true;" maxlength="100"'
                             ]) .
                             (evo()->hasPermission('save_role')
-                            ? '<label class="custom-control" data-tooltip="' . ManagerTheme::getLexicon('lock_snippet') . "\n" . ManagerTheme::getLexicon('lock_snippet_msg') .'">' .
+                            ? '<label class="custom-control" data-tooltip="' . __('global.lock_snippet') . "\n" . __('global.lock_snippet_msg') .'">' .
                              ManagerTheme::view('form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
@@ -124,7 +124,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'description',
                         'id' => 'description',
-                        'label' => ManagerTheme::getLexicon('snippet_desc'),
+                        'label' => __('global.snippet_desc'),
                         'value' => $data->description,
                         'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
                     ])
@@ -132,7 +132,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'categoryid',
                         'id' => 'categoryid',
-                        'label' => ManagerTheme::getLexicon('existing_category'),
+                        'label' => __('global.existing_category'),
                         'value' => $data->category,
                         'first' => [
                             'text' => ''
@@ -144,7 +144,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'newcategory',
                         'id' => 'newcategory',
-                        'label' => ManagerTheme::getLexicon('new_category'),
+                        'label' => __('global.new_category'),
                         'value' => $data->newcategory ?  : '',
                         'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                     ])
@@ -158,9 +158,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'checked' => $data->disabled === 1
                             ])
                             @if($data->disabled == 1)
-                                <span class="text-danger">{{ ManagerTheme::getLexicon('disabled') }}</span>
+                                <span class="text-danger">{{ __('global.disabled') }}</span>
                             @else
-                                {{ ManagerTheme::getLexicon('disabled') }}
+                                {{ __('global.disabled') }}
                             @endif
                         </label>
                     </div>
@@ -173,15 +173,15 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'value' => 1,
                                 'checked' => ($action == 23)
                             ])
-                            {{ ManagerTheme::getLexicon('parse_docblock') }}
+                            {{ __('global.parse_docblock') }}
                         </label>
-                        <small class="form-text text-muted">{!! ManagerTheme::getLexicon('parse_docblock_msg') !!}</small>
+                        <small class="form-text text-muted">{!! __('global.parse_docblock_msg') !!}</small>
                     </div>
                 </div>
 
                 <!-- PHP text editor start -->
                 <div class="navbar navbar-editor">
-                    <span>{{ ManagerTheme::getLexicon('snippet_code') }}</span>
+                    <span>{{ __('global.snippet_code') }}</span>
                 </div>
                 <div class="section-editor clearfix">
                     @include('manager::form.textareaElement', [
@@ -197,14 +197,14 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             <!-- Config -->
             <div class="tab-page" id="tabConfig">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_config') }}</h2>
+                <h2 class="tab">{{ __('global.settings_config') }}</h2>
                 <script>tpSnippet.addTabPage(document.getElementById('tabConfig'))</script>
 
                 <div class="container container-body">
                     <div class="form-group">
                         <a href="javascript:;" class="btn btn-primary"
                            onclick="elementProperties.setDefaults(this);return false;">
-                            {{ ManagerTheme::getLexicon('set_default_all') }}
+                            {{ __('global.set_default_all') }}
                         </a>
                     </div>
                     <div id="displayparamrow">
@@ -215,27 +215,27 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             <!-- Properties -->
             <div class="tab-page" id="tabProps">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('settings_properties') }}</h2>
+                <h2 class="tab">{{ __('global.settings_properties') }}</h2>
                 <script>tpSnippet.addTabPage(document.getElementById('tabProps'))</script>
 
                 <div class="container container-body">
                     <div class="form-group">
                         @include('manager::form.select', [
                             'name' => 'moduleguid',
-                            'label' => ManagerTheme::getLexicon('import_params'),
+                            'label' => __('global.import_params'),
                             'value' => $data->moduleguid,
                             'first' => [
                                 'text' => ''
                             ],
                             'options' => $importParams,
                             'attributes' => 'onchange="documentDirty=true;"',
-                            'comment' => ManagerTheme::getLexicon('import_params_msg')
+                            'comment' => __('global.import_params_msg')
                         ])
                     </div>
                     <div class="form-group">
                         <a href="javascript:;" class="btn btn-primary"
                            onclick='tpSnippet.pages[1].select();elementProperties.showParameters(this);return false;'>
-                            {{ ManagerTheme::getLexicon('update_params') }}
+                            {{ __('global.update_params') }}
                         </a>
                     </div>
                 </div>
@@ -255,7 +255,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             <!-- docBlock Info -->
             <div class="tab-page" id="tabDocBlock">
-                <h2 class="tab">{{ ManagerTheme::getLexicon('information') }}</h2>
+                <h2 class="tab">{{ __('global.information') }}</h2>
                 <script>tpSnippet.addTabPage(document.getElementById('tabDocBlock'))</script>
 
                 <div class="container container-body">

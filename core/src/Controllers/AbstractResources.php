@@ -66,7 +66,7 @@ abstract class AbstractResources extends AbstractController
 
     private function makeTranslations(array $keys)
     {
-        $out = Arr::only(ManagerTheme::getLexicon(), $keys);
+        $out = Arr::only(__('global'), $keys);
 
         foreach ($out as &$value) {
             $value = iconv(

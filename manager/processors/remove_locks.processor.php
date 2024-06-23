@@ -12,7 +12,7 @@ $id = (int) ($_GET['id'] ?? 0);
 
 if (!$id) {
     if (!evo()->hasPermission('remove_locks')) {
-        evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+        evo()->webAlertAndQuit(__('global.error_no_privileges'));
     }
 
     // Remove all locks

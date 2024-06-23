@@ -298,7 +298,7 @@ class Git
         return true;
     }
 
-    public function fetchRefOrSyncMirror(string $url, string $dir, string $ref, string $prettyVersion = null): bool
+    public function fetchRefOrSyncMirror(string $url, string $dir, string $ref, ?string $prettyVersion = null): bool
     {
         if ($this->checkRefIsInMirror($dir, $ref)) {
             if (Preg::isMatch('{^[a-f0-9]{40}$}', $ref) && $prettyVersion !== null) {
@@ -357,11 +357,12 @@ class Git
     }
 
     /**
-     * @param string[] $match
+     * @param array<mixed> $match
+     * @param-out array<int|string, string> $match
      */
     private function isAuthenticationFailure(string $url, array &$match): bool
     {
-        if (!Preg::isMatch('{^(https?://)([^/]+)(.*)$}i', $url, $match)) {
+        if (!Preg::isMatchStrictGroups('{^(https?://)([^/]+)(.*)$}i', $url, $match)) {
             return false;
         }
 

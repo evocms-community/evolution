@@ -32,7 +32,6 @@ trait Settings
         'enable_cache' => 'float',
         'enable_at_syntax' => 'bool',
         'enable_filter' => 'bool',
-        'use_udperms' => 'bool',
         'manager_menu_height' => 'float',
         'manager_tree_width' => 'float',
         'show_picker' => 'bool',
@@ -77,6 +76,7 @@ trait Settings
     public function setConfig($name, $value)
     {
         $this->config[$name] = $value;
+        config()->set('global.' . $name, $value);
     }
 
     /**
@@ -118,6 +118,7 @@ trait Settings
     public function getSettings()
     {
         $this->config = array_merge($this->getFactorySettings(), $this->config);
+        config()->set('global', $this->config);
 
         // setup default site id - new installation should generate a unique id for the site.
         if ($this->getConfig('site_id', '') === '') {

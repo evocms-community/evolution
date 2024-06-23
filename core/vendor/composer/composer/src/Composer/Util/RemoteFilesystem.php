@@ -64,8 +64,6 @@ class RemoteFilesystem
     private $redirects;
     /** @var int */
     private $maxRedirects = 20;
-    /** @var ProxyManager */
-    private $proxyManager;
 
     /**
      * Constructor.
@@ -91,7 +89,6 @@ class RemoteFilesystem
         $this->options = array_replace_recursive($this->options, $options);
         $this->config = $config;
         $this->authHelper = $authHelper ?? new AuthHelper($io, $config);
-        $this->proxyManager = ProxyManager::getInstance();
     }
 
     /**
@@ -249,6 +246,10 @@ class RemoteFilesystem
 
         $origFileUrl = $fileUrl;
 
+        if (isset($options['prevent_ip_access_callable'])) {
+            throw new \RuntimeException("RemoteFilesystem doesn't support the 'prevent_ip_access_callable' config.");
+        }
+
         if (isset($options['gitlab-token'])) {
             $fileUrl .= (false === strpos($fileUrl, '?') ? '?' : '&') . 'access_token='.$options['gitlab-token'];
             unset($options['gitlab-token']);
@@ -272,8 +273,8 @@ class RemoteFilesystem
 
         $ctx = StreamContextFactory::getContext($fileUrl, $options, ['notification' => [$this, 'callbackGet']]);
 
-        $proxy = $this->proxyManager->getProxyForRequest($fileUrl);
-        $usingProxy = $proxy->getFormattedUrl(' using proxy (%s)');
+        $proxy = ProxyManager::getInstance()->getProxyForRequest($fileUrl);
+        $usingProxy = $proxy->getStatus(' using proxy (%s)');
         $this->io->writeError((strpos($origFileUrl, 'http') === 0 ? 'Downloading ' : 'Reading ') . Url::sanitize($origFileUrl) . $usingProxy, true, IOInterface::DEBUG);
         unset($origFileUrl, $proxy, $usingProxy);
 
@@ -509,6 +510,8 @@ class RemoteFilesystem
      * @param int      $maxFileSize The maximum allowed file size
      *
      * @return string|false The response contents or false on failure
+     *
+     * @param-out list<string> $responseHeaders
      */
     protected function getRemoteContents(string $originUrl, string $fileUrl, $context, ?array &$responseHeaders = null, ?int $maxFileSize = null)
     {

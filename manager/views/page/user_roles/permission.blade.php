@@ -17,7 +17,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 <span>{{ $permission->name }}</span>
                 <small>({{ $permission->id }})</small>
             @else
-                <span>{{ ManagerTheme::getLexicon('permission_title') }}</span>
+                <span>{{ __('global.permission_title') }}</span>
             @endisset
         </h1>
 
@@ -27,7 +27,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             <div class="container container-body">
                 <div class="form-group">
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('role_name') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ __('global.role_name') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input class="form-control form-control-lg"
                                    name="name"
@@ -37,7 +37,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         </div>
                     </div>
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('key_desc') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ __('global.key_desc') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input name="key"
                                    type="text"
@@ -47,7 +47,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         </div>
                     </div>
                     <div class="row form-row">
-                        <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('lang_key_desc') }}:</div>
+                        <div class="col-md-3 col-lg-2">{{ __('global.lang_key_desc') }}:</div>
                         <div class="col-md-9 col-lg-10">
                             <input name="lang_key"
                                    type="text"
@@ -59,7 +59,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.select', [
                         'name' => 'group_id',
                         'id' => 'group_id',
-                        'label' => ManagerTheme::getLexicon('existing_category'),
+                        'label' => __('global.existing_category'),
                         'value' => $permission->group_id,
                         'first' => [
                             'text' => ''
@@ -71,7 +71,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @include('manager::form.input', [
                         'name' => 'newcategory',
                         'id' => 'newcategory',
-                        'label' => ManagerTheme::getLexicon('new_category'),
+                        'label' => __('global.new_category'),
                         'value' => $data->newcategory ?? '',
                         'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
                     ])
@@ -84,9 +84,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                                 'checked' => $permission->disabled === 1
                             ])
                             @if($permission->disabled == 1)
-                                <span class="text-danger">{{ ManagerTheme::getLexicon('disabled') }}</span>
+                                <span class="text-danger">{{ __('global.disabled') }}</span>
                             @else
-                                <span>{{ ManagerTheme::getLexicon('disabled') }}</span>
+                                <span>{{ __('global.disabled') }}</span>
                             @endif
                         </label>
                     </div>
@@ -117,7 +117,7 @@ use EvolutionCMS\Facades\ManagerTheme;
           document.userform.save.click()
         },
         delete: function () {
-          if (confirm(`{{ ManagerTheme::getLexicon('confirm_delete_permission') }}`) === true) {
+          if (confirm(`{{ __('global.confirm_delete_permission') }}`) === true) {
             document.location.href = 'index.php?id=' + document.userform.id.value + '&a=135&action=delete'
           }
         },

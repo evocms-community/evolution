@@ -17,6 +17,8 @@ use Composer\Pcre\Preg;
 use Composer\Semver\Constraint\Constraint;
 use Composer\Package\Version\VersionParser;
 use Composer\Repository\PlatformRepository;
+use Composer\Semver\Constraint\MatchNoneConstraint;
+use Composer\Semver\Intervals;
 use Composer\Spdx\SpdxLicenses;
 
 /**
@@ -245,13 +247,19 @@ class ValidatingArrayLoader implements LoaderInterface
             }
         }
 
+        $this->validateArray('php-ext');
+        if (isset($this->config['php-ext']) && !in_array($this->config['type'] ?? '', ['php-ext', 'php-ext-zend'], true)) {
+            $this->errors[] = 'php-ext can only be set by packages of type "php-ext" or "php-ext-zend" which must be C extensions';
+            unset($this->config['php-ext']);
+        }
+
         $unboundConstraint = new Constraint('=', '10000000-dev');
 
         foreach (array_keys(BasePackage::$supportedLinkTypes) as $linkType) {
             if ($this->validateArray($linkType) && isset($this->config[$linkType])) {
                 foreach ($this->config[$linkType] as $package => $constraint) {
                     $package = (string) $package;
-                    if (0 === strcasecmp($package, $this->config['name'])) {
+                    if (isset($this->config['name']) && 0 === strcasecmp($package, $this->config['name'])) {
                         $this->errors[] = $linkType.'.'.$package.' : a package cannot set a '.$linkType.' on itself';
                         unset($this->config[$linkType][$package]);
                         continue;
@@ -289,6 +297,11 @@ class ValidatingArrayLoader implements LoaderInterface
                             && (new Constraint('>=', '1.0.0.0-dev'))->matches($linkConstraint)
                         ) {
                             $this->warnings[] = $linkType.'.'.$package.' : exact version constraints ('.$constraint.') should be avoided if the package follows semantic versioning';
+                        }
+
+                        $compacted = Intervals::compactConstraint($linkConstraint);
+                        if ($compacted instanceof MatchNoneConstraint) {
+                            $this->warnings[] = $linkType.'.'.$package.' : this version constraint cannot possibly match anything ('.$constraint.')';
                         }
                     }
 

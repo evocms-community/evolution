@@ -20,6 +20,8 @@ use Composer\IO\IOInterface;
 use Composer\Composer;
 use Composer\PartialComposer;
 use Composer\Pcre\Preg;
+use Composer\Plugin\CommandEvent;
+use Composer\Plugin\PreCommandRunEvent;
 use Composer\Util\Platform;
 use Composer\DependencyResolver\Operation\OperationInterface;
 use Composer\Repository\RepositoryInterface;
@@ -180,6 +182,10 @@ class EventDispatcher
             $details = null;
             if ($event instanceof PackageEvent) {
                 $details = (string) $event->getOperation();
+            } elseif ($event instanceof CommandEvent) {
+                $details = $event->getCommandName();
+            } elseif ($event instanceof PreCommandRunEvent) {
+                $details = $event->getCommand();
             }
             $this->io->writeError('Dispatching <info>'.$event->getName().'</info>'.($details ? ' ('.$details.')' : '').' event');
         }
@@ -188,12 +194,15 @@ class EventDispatcher
 
         $this->pushEvent($event);
 
+        $autoloadersBefore = spl_autoload_functions();
+
         try {
             $returnMax = 0;
             foreach ($listeners as $callable) {
                 $return = 0;
                 $this->ensureBinDirIsInPath();
 
+                $formattedEventNameWithArgs = $event->getName() . ($event->getArguments() !== [] ? ' (' . implode(', ', $event->getArguments()) . ')' : '');
                 if (!is_string($callable)) {
                     if (!is_callable($callable)) {
                         $className = is_object($callable[0]) ? get_class($callable[0]) : $callable[0];
@@ -201,11 +210,11 @@ class EventDispatcher
                         throw new \RuntimeException('Subscriber '.$className.'::'.$callable[1].' for event '.$event->getName().' is not callable, make sure the function is defined and public');
                     }
                     if (is_array($callable) && (is_string($callable[0]) || is_object($callable[0])) && is_string($callable[1])) {
-                        $this->io->writeError(sprintf('> %s: %s', $event->getName(), (is_object($callable[0]) ? get_class($callable[0]) : $callable[0]).'->'.$callable[1]), true, IOInterface::VERBOSE);
+                        $this->io->writeError(sprintf('> %s: %s', $formattedEventNameWithArgs, (is_object($callable[0]) ? get_class($callable[0]) : $callable[0]).'->'.$callable[1]), true, IOInterface::VERBOSE);
                     }
                     $return = false === $callable($event) ? 1 : 0;
                 } elseif ($this->isComposerScript($callable)) {
-                    $this->io->writeError(sprintf('> %s: %s', $event->getName(), $callable), true, IOInterface::VERBOSE);
+                    $this->io->writeError(sprintf('> %s: %s', $formattedEventNameWithArgs, $callable), true, IOInterface::VERBOSE);
 
                     $script = explode(' ', substr($callable, 1));
                     $scriptName = $script[0];
@@ -404,6 +413,26 @@ class EventDispatcher
             }
         } finally {
             $this->popEvent();
+
+            $knownIdentifiers = [];
+            foreach ($autoloadersBefore as $key => $cb) {
+                $knownIdentifiers[$this->getCallbackIdentifier($cb)] = ['key' => $key, 'callback' => $cb];
+            }
+            foreach (spl_autoload_functions() as $cb) {
+                // once we get to the first known autoloader, we can leave any appended autoloader without problems
+                if (isset($knownIdentifiers[$this->getCallbackIdentifier($cb)]) && $knownIdentifiers[$this->getCallbackIdentifier($cb)]['key'] === 0) {
+                    break;
+                }
+
+                // other newly appeared prepended autoloaders should be appended instead to ensure Composer loads its classes first
+                if ($cb instanceof ClassLoader) {
+                    $cb->unregister();
+                    $cb->register(false);
+                } else {
+                    spl_autoload_unregister($cb);
+                    spl_autoload_register($cb);
+                }
+            }
         }
 
         return $returnMax;
@@ -630,5 +659,24 @@ class EventDispatcher
                 Platform::putEnv($pathEnv, $binDir.PATH_SEPARATOR.$pathValue);
             }
         }
+    }
+
+    /**
+     * @param callable $cb DO NOT MOVE TO TYPE HINT as private autoload callbacks are not technically callable
+     */
+    private function getCallbackIdentifier($cb): string
+    {
+        if (is_string($cb)) {
+            return 'fn:'.$cb;
+        }
+        if (is_object($cb)) {
+            return 'obj:'.spl_object_hash($cb);
+        }
+        if (is_array($cb)) {
+            return 'array:'.(is_string($cb[0]) ? $cb[0] : get_class($cb[0]) .'#'.spl_object_hash($cb[0])).'::'.$cb[1];
+        }
+
+        // not great but also do not want to break everything here
+        return 'unsupported';
     }
 }

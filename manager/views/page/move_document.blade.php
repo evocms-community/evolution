@@ -27,7 +27,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 if (pId === 0 || checkParentChildRelation(pId, pName)) {
                     documentDirty = true;
                     document.newdocumentparent.new_parent.value = pId;
-                    document.getElementById('parentName').innerHTML = '{{ ManagerTheme::getLexicon('new_parent') }}: <span class="text-primary"><b>' + pId + '</b> (' + pName + ')</span>';
+                    document.getElementById('parentName').innerHTML = '{{ __('global.new_parent') }}: <span class="text-primary"><b>' + pId + '</b> (' + pName + ')</span>';
                 }
             }
 
@@ -42,13 +42,13 @@ use EvolutionCMS\Facades\ManagerTheme;
                     return;
                 }
                 if (pn.id.substr(4) === id) {
-                    alert(`{{ ManagerTheme::getLexicon('illegal_parent_self') }}`);
+                    alert(`{{ __('global.illegal_parent_self') }}`);
                     return;
                 } else {
                     while (pn.p > 0) {
                         pn = (tdoc.getElementById) ? tdoc.getElementById('node' + pn.p) : tdoc.all['node' + pn.p];
                         if (pn.id.substr(4) === id) {
-                            alert(`{{ ManagerTheme::getLexicon('illegal_parent_child') }}`);
+                            alert(`{{ __('global.illegal_parent_child') }}`);
                             return;
                         }
                     }
@@ -66,15 +66,15 @@ use EvolutionCMS\Facades\ManagerTheme;
 
     <div class="tab-page">
         <div class="container container-body">
-            <p class="alert alert-info">{{ ManagerTheme::getLexicon('move_resource_message') }}</p>
+            <p class="alert alert-info">{{ __('global.move_resource_message') }}</p>
             <form method="post" action="index.php" name="newdocumentparent">
                 @csrf
                 <input type="hidden" name="a" value="52" />
                 <input type="hidden" name="id" value="{{ $document->getKey() }}" />
                 <input type="hidden" name="idshow" value="{{ $document->getKey() }}" />
                 <input type="hidden" name="new_parent" value="" />
-                <p>{{ ManagerTheme::getLexicon('resource_to_be_moved') }}: <b>{{ $document->getKey() }}</b></p>
-                <span id="parentName">{{ ManagerTheme::getLexicon('move_resource_new_parent') }}</span>
+                <p>{{ __('global.resource_to_be_moved') }}: <b>{{ $document->getKey() }}</b></p>
+                <span id="parentName">{{ __('global.move_resource_new_parent') }}</span>
             </form>
         </div>
     </div>

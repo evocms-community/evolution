@@ -17,8 +17,8 @@ use Tracy\Debugger;
     @endif
     <link rel="stylesheet" type="text/css" href="{{ ManagerTheme::css() }}"/>
     <script src="media/script/tabpane.js"></script>
-    <script src="{{ evo()->getConfig('mgr_jquery_path') }}"></script>
-    @if (evo()->getConfig('show_picker') === true)
+    <script src="{{ config('global.mgr_jquery_path') }}"></script>
+    @if (config('global.show_picker') === true)
         <script src="{{ ManagerTheme::getThemeUrl() }}/js/color.switcher.js"></script>
     @endif
 
@@ -39,7 +39,7 @@ use Tracy\Debugger;
         managerPath = ''
 
       evo.lang = {!! json_encode(Illuminate\Support\Arr::only(
-            ManagerTheme::getLexicon(),
+            __('global'),
             ['saving', 'error_internet_connection', 'warning_not_saved']
         )) !!};
       evo.style = {!! json_encode(Illuminate\Support\Arr::only(
@@ -47,7 +47,7 @@ use Tracy\Debugger;
             ['icon_file', 'icon_pencil', 'icon_reply', 'icon_plus']
         )) !!};
       evo.MODX_MANAGER_URL = '{{  MODX_MANAGER_URL }}'
-      evo.config.which_browser = '{{ evo()->getConfig('which_browser') }}'
+      evo.config.which_browser = '{{ config('global.which_browser') }}'
     </script>
     <script src="media/script/main.js"></script>
 

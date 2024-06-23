@@ -8,13 +8,13 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
 if (!evo()->hasPermission('save_document') || !evo()->hasPermission('publish_document')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = (int) ($_REQUEST['id'] ?? 0);
 
 if (!$id) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 /************webber ********/
@@ -36,7 +36,7 @@ $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('access_permission_denied'));
+    evo()->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // update the document

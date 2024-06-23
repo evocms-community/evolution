@@ -257,7 +257,21 @@ class Filesystem
             }
 
             if (!@mkdir($directory, 0777, true)) {
-                throw new \RuntimeException($directory.' does not exist and could not be created: '.(error_get_last()['message'] ?? ''));
+                $e = new \RuntimeException($directory.' does not exist and could not be created: '.(error_get_last()['message'] ?? ''));
+
+                // in pathological cases with paths like path/to/broken-symlink/../foo is_dir will fail to detect path/to/foo
+                // but normalizing the ../ away first makes it work so we attempt this just in case, and if it still fails we
+                // report the initial error we had with the original path, and ignore the normalized path exception
+                // see https://github.com/composer/composer/issues/11864
+                $normalized = $this->normalizePath($directory);
+                if ($normalized !== $directory) {
+                    try {
+                        $this->ensureDirectoryExists($normalized);
+                        return;
+                    } catch (\Throwable $ignoredEx) {}
+                }
+
+                throw $e;
             }
         }
     }
@@ -349,6 +363,9 @@ class Filesystem
      */
     public function copy(string $source, string $target)
     {
+        // refs https://github.com/composer/composer/issues/11864
+        $target = $this->normalizePath($target);
+
         if (!is_dir($source)) {
             return copy($source, $target);
         }
@@ -621,7 +638,13 @@ class Filesystem
      */
     public static function isLocalPath(string $path)
     {
-        return Preg::isMatch('{^(file://(?!//)|/(?!/)|/?[a-z]:[\\\\/]|\.\.[\\\\/]|[a-z0-9_.-]+[\\\\/])}i', $path);
+        // on windows, \\foo indicates network paths so we exclude those from local paths, however it is unsafe
+        // on linux as file:////foo (which would be a network path \\foo on windows) will resolve to /foo which could be a local path
+        if (Platform::isWindows()) {
+            return Preg::isMatch('{^(file://(?!//)|/(?!/)|/?[a-z]:[\\\\/]|\.\.[\\\\/]|[a-z0-9_.-]+[\\\\/])}i', $path);
+        }
+
+        return Preg::isMatch('{^(file://|/|/?[a-z]:[\\\\/]|\.\.[\\\\/]|[a-z0-9_.-]+[\\\\/])}i', $path);
     }
 
     /**

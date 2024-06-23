@@ -181,6 +181,8 @@ interface PackageInterface
     /**
      * Returns the sha1 checksum for the distribution archive of this version
      *
+     * Can be an empty string which should be treated as null
+     *
      * @return ?string
      */
     public function getDistSha1Checksum(): ?string;
@@ -320,6 +322,13 @@ interface PackageInterface
      * @return string[]
      */
     public function getIncludePaths(): array;
+
+    /**
+     * Returns the settings for php extension packages
+     *
+     * @return array{extension-name?: string, priority?: int, support-zts?: bool, configure-options?: list<array{name: string, description?: string}>}|null
+     */
+    public function getPhpExt(): ?array;
 
     /**
      * Stores a reference to the repository that owns the package

@@ -10,7 +10,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 if (!evo()->hasPermission('delete_document')) {
-    evo()->webAlertAndQuit(ManagerTheme::getLexicon('error_no_privileges'));
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $ids = SiteContent::withTrashed()->where('deleted', 1)->pluck('id')->toArray();
