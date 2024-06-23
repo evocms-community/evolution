@@ -32,7 +32,6 @@ trait Settings
         'enable_cache' => 'float',
         'enable_at_syntax' => 'bool',
         'enable_filter' => 'bool',
-        'use_udperms' => 'bool',
         'manager_menu_height' => 'float',
         'manager_tree_width' => 'float',
         'show_picker' => 'bool',

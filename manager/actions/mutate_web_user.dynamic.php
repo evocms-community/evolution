@@ -1456,7 +1456,6 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                 </div>
             </div>
             <?php
-            if (evo()->getConfig('use_udperms')) {
             $groupsarray = [];
 
             if (evo()->getManagerApi()->action == '88') { // only do this bit if the user is being edited
@@ -1481,7 +1480,6 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                     echo '<label><input type="checkbox" name="user_groups[]" value="' . $row['id'] . '"' .
                         (in_array($row['id'], $groupsarray) ? ' checked' : '') . ' />' . e($row['name']) .
                         '</label><br />';
-                }
                 }
                 ?>
             </div>

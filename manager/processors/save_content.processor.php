@@ -311,53 +311,51 @@ if ($actionToTake != 'new') {
 }
 
 // check to see if the user is allowed to save the document in the place he wants to save it in
-if (evo()->getConfig('use_udperms') == 1) {
-    if (!isset($existingDocument) || $existingDocument['parent'] != $parent) {
-        $udperms = new Permissions();
-        $udperms->user = evo()->getLoginUserID('mgr');
-        $udperms->document = $parent;
-        $udperms->role = $_SESSION['mgrRole'];
+if (!isset($existingDocument) || $existingDocument['parent'] != $parent) {
+    $udperms = new Permissions();
+    $udperms->user = evo()->getLoginUserID('mgr');
+    $udperms->document = $parent;
+    $udperms->role = $_SESSION['mgrRole'];
 
-        if (!$udperms->checkPermissions()) {
-            if ($actionToTake == 'edit') {
-                evo()->getManagerApi()->saveFormValues(27);
-                evo()->webAlertAndQuit(
-                    __('global.access_permission_parent_denied'),
-                    "index.php?a=27&id=$id"
-                );
-            } else {
-                evo()->getManagerApi()->saveFormValues(4);
-                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
-            }
+    if (!$udperms->checkPermissions()) {
+        if ($actionToTake == 'edit') {
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit(
+                __('global.access_permission_parent_denied'),
+                "index.php?a=27&id=$id"
+            );
+        } else {
+            evo()->getManagerApi()->saveFormValues(4);
+            evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
         }
     }
 }
 
 $resourceArray = [
-    'introtext' => $introtext,
-    'content' => $content,
-    'pagetitle' => $pagetitle,
-    'longtitle' => $longtitle,
-    'type' => $type,
-    'description' => $description,
-    'alias' => $alias,
+    'introtext'       => $introtext,
+    'content'         => $content,
+    'pagetitle'       => $pagetitle,
+    'longtitle'       => $longtitle,
+    'type'            => $type,
+    'description'     => $description,
+    'alias'           => $alias,
     'link_attributes' => $link_attributes,
-    'isfolder' => $isfolder,
-    'richtext' => $richtext,
-    'published' => $published,
-    'parent' => $parent,
-    'template' => $template,
-    'menuindex' => $menuindex,
-    'searchable' => $searchable,
-    'cacheable' => $cacheable,
-    'pub_date' => $pub_date,
-    'unpub_date' => $unpub_date,
-    'contentType' => $contentType,
-    'content_dispo' => $contentdispo,
-    'hide_from_tree' => $hide_from_tree,
-    'menutitle' => $menutitle,
-    'hidemenu' => $hidemenu,
-    'alias_visible' => $aliasvisible,
+    'isfolder'        => $isfolder,
+    'richtext'        => $richtext,
+    'published'       => $published,
+    'parent'          => $parent,
+    'template'        => $template,
+    'menuindex'       => $menuindex,
+    'searchable'      => $searchable,
+    'cacheable'       => $cacheable,
+    'pub_date'        => $pub_date,
+    'unpub_date'      => $unpub_date,
+    'contentType'     => $contentType,
+    'content_dispo'   => $contentdispo,
+    'hide_from_tree'  => $hide_from_tree,
+    'menutitle'       => $menutitle,
+    'hidemenu'        => $hidemenu,
+    'alias_visible'   => $aliasvisible,
 ];
 
 switch ($actionToTake) {
@@ -388,8 +386,8 @@ switch ($actionToTake) {
 
         evo()->invokeEvent('OnBeforeDocFormSave', [
             'mode' => 'new',
-            'id' => $id,
-            'doc' => &$resourceArray,
+            'id'   => $id,
+            'doc'  => &$resourceArray,
         ]);
 
         $parentDeleted = $parentId > 0 && empty(SiteContent::query()->find($parentId));
@@ -433,14 +431,13 @@ switch ($actionToTake) {
         }
 
         // document access permissions
-        if (evo()->getConfig('use_udperms') && $parent != 0) {
+        if ($parent != 0) {
             $groupsParent = DocumentGroup::query()->select('document_group', 'document')
                 ->where('document', $parent)->pluck('document_group')->toArray();
         } else {
             $groupsParent = [];
         }
-        if (evo()->getConfig('use_udperms') == 1 &&
-            evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions']) && is_array($document_groups)
+        if (evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions']) && is_array($document_groups)
         ) {
             $new_groups = [];
             $groupsToInsert = [];
@@ -499,8 +496,8 @@ switch ($actionToTake) {
         // invoke OnDocFormSave event
         evo()->invokeEvent('OnDocFormSave', [
             'mode' => 'new',
-            'id' => $key,
-            'doc' => $resourceArray,
+            'id'   => $key,
+            'doc'  => $resourceArray,
         ]);
 
         // secure web documents - flag as private
@@ -607,8 +604,8 @@ switch ($actionToTake) {
         // invoke OnBeforeDocFormSave event
         evo()->invokeEvent('OnBeforeDocFormSave', [
             'mode' => 'upd',
-            'id' => $id,
-            'doc' => &$resourceArray,
+            'id'   => $id,
+            'doc'  => &$resourceArray,
         ]);
         $parentDeleted = $parentId > 0 && empty(SiteContent::query()->find($parentId));
         if ($parentDeleted) {
@@ -655,8 +652,7 @@ switch ($actionToTake) {
         }
 
         // set document permissions
-        if (evo()->getConfig('use_udperms') == 1 &&
-            evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions']) && is_array($document_groups)
+        if (evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions']) && is_array($document_groups)
         ) {
             $new_groups = [];
             // process the new input
@@ -729,8 +725,8 @@ switch ($actionToTake) {
         // invoke OnDocFormSave event
         evo()->invokeEvent('OnDocFormSave', [
             'mode' => 'upd',
-            'id' => $id,
-            'doc' => $resourceArray,
+            'id'   => $id,
+            'doc'  => $resourceArray,
         ]);
 
         // secure web documents - flag as private

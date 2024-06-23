@@ -33,13 +33,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <div class="alert alert-info">{{ __('global.access_permissions_introtext') }}</div>
     </div>
 
-    @if(config('global.use_udperms') !== true)
-        <div class="container">
-            <div class="alert alert-danger">{{ __('global.access_permissions_off') }}</div>
-        </div>
-    @endif
-
-    <div class="tab-pane" id="wuapPane">
+     <div class="tab-pane" id="wuapPane">
         <script>
             tp1 = new WebFXTabPane(document.getElementById('wuapPane'), true);
         </script>

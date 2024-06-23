@@ -9,46 +9,6 @@ use EvolutionCMS\Facades\ManagerTheme;
     <div class="container container-body">
 
         @include('manager::form.radio', [
-            'name' => 'use_udperms',
-            'label' => __('global.udperms_title'),
-            'small' => '[(use_udperms)]',
-            'value' => $settings['use_udperms'],
-            'options' => [
-                1 => [
-                    'text' => __('global.yes'),
-                    'attributes' => 'id="udPermsOn"'
-                ],
-                0 => [
-                    'text' => __('global.no'),
-                    'attributes' => 'id="udPermsOff"'
-                ]
-            ],
-            'comment' => (isset($disabledSettings['use_udperms']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.udperms_message'),
-            'disabled' => $disabledSettings['use_udperms'] ?? null
-        ])
-
-        <div class="split my-1"></div>
-
-        <div class="udPerms" @if(!$settings['use_udperms']) style="display: none;" @endif>
-            @include('manager::form.radio', [
-                'name' => 'udperms_allowroot',
-                'label' => __('global.udperms_allowroot_title'),
-                'small' => '[(udperms_allowroot)]',
-                'value' => $settings['udperms_allowroot'],
-                'options' => [
-                    1 => __('global.yes'),
-                    0 => __('global.no')
-                ],
-                'comment' => (isset($disabledSettings['udperms_allowroot']) ? __('global.setting_from_file') . '<br>' : '') .
-                    __('global.udperms_allowroot_message'),
-                'disabled' => $disabledSettings['udperms_allowroot'] ?? null
-            ])
-
-            <div class="split my-1"></div>
-        </div>
-
-        @include('manager::form.radio', [
             'name' => 'allow_eval',
             'label' => __('global.allow_eval_title'),
             'small' => '[(allow_eval)]',

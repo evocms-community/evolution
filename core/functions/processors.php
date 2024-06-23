@@ -204,7 +204,6 @@ if (!function_exists('saveUserGroupAccessPermissons')) {
     {
         $modx = evo();
         global $id, $newid;
-        global $use_udperms;
 
         if ($newid) {
             $id = $newid;
@@ -213,17 +212,15 @@ if (!function_exists('saveUserGroupAccessPermissons')) {
         $usrgroups = get_by_key($_POST, 'usrgroups', []);
 
         // check for permission update access
-        if ($use_udperms == 1) {
-            // delete old permissions on the module
-            SiteModuleAccess::query()->where('module', $id)->delete();
+        // delete old permissions on the module
+        SiteModuleAccess::query()->where('module', $id)->delete();
 
-            if (is_array($usrgroups)) {
-                foreach ($usrgroups as $value) {
-                    SiteModuleAccess::query()->create([
-                        'module' => (int) $id,
-                        'usergroup' => stripslashes($value),
-                    ]);
-                }
+        if (is_array($usrgroups)) {
+            foreach ($usrgroups as $value) {
+                SiteModuleAccess::query()->create([
+                    'module' => (int) $id,
+                    'usergroup' => stripslashes($value),
+                ]);
             }
         }
     }
@@ -403,11 +400,6 @@ if (!function_exists('saveDocumentAccessPermissons')) {
         $modx = evo();
 
         $docgroups = $_POST['docgroups'] ?? '';
-
-        // check for permission update access
-        if ($modx->getConfig('use_udperms') != 1) {
-            return;
-        }
 
         // delete old permissions on the tv
         SiteTmplvarAccess::query()->where('tmplvarid', '=', $id)->delete();

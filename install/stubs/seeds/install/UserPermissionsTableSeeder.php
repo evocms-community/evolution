@@ -88,6 +88,10 @@ class UserPermissionsTableSeeder extends Seeder
                 'disabled' => 0, 'group_id' => 2
             ],
             [
+                'name'     => 'Create new Resources in the root folder', 'key' => 'udperms_allowroot', 'lang_key' => 'udperms_allowroot_title',
+                'disabled' => 0, 'group_id' => 2
+            ],
+            [
                 'name'     => 'Edit a Resource', 'key' => 'edit_document', 'lang_key' => 'role_edit_doc',
                 'disabled' => 0, 'group_id' => 2
             ],
@@ -329,7 +333,5 @@ class UserPermissionsTableSeeder extends Seeder
 
         ];
         \DB::table('permissions')->insert($insertArray);
-
-
     }
 }

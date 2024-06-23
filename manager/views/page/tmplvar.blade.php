@@ -543,7 +543,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                 </div>
             </div>
 
-            @if(config('global.use_udperms') && evo()->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
+            @if(evo()->hasAnyPermissions(['manage_groups', 'manage_tv_permissions']))
                 <div class="tab-page" id="tabAccess">
                     <h2 class="tab">{{ __('global.access_permissions') }}</h2>
                     <script>tpTmplvars.addTabPage(document.getElementById('tabAccess'));</script>

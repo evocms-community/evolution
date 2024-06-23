@@ -585,7 +585,7 @@ class Frame extends AbstractController implements PageControllerInterface
             $items = [];
 
             // 1. modules from DB
-            if ($_SESSION['mgrRole'] != 1 && ManagerTheme::getCore()->getConfig('use_udperms') === true) {
+            if ($_SESSION['mgrRole'] != 1) {
                 $modules = SiteModule::select('site_modules.id', 'site_modules.name', 'site_modules.icon', 'member_groups.member')
                     ->withoutProtected()
                     ->lockedView()

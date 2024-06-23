@@ -34,9 +34,9 @@ class Permissions
      */
     public function checkPermissions(): bool
     {
-        $udperms_allowroot = evo()->getConfig('udperms_allowroot', '');
+        $udperms_allowroot = evo()->hasPermission('udperms_allowroot');
 
-        if ($this->role == 1 || !evo()->getConfig('use_udperms') || (!$this->document && $udperms_allowroot == 1)) {
+        if ($this->role == 1 || (!$this->document && $udperms_allowroot == 1)) {
             return true;
         }
 

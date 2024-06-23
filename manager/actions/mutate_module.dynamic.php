@@ -449,8 +449,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
         <!-- access permission -->
         <?php
-        if (evo()->getConfig('use_udperms') &&
-            evo()->hasAnyPermissions(['manage_groups', 'manage_module_permissions'])
+        if (evo()->hasAnyPermissions(['manage_groups', 'manage_module_permissions'])
         ): ?>
             <div class="tab-page" id="tabPermissions">
                 <h2 class="tab"><?= __('global.access_permissions') ?></h2>

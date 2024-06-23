@@ -1644,8 +1644,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 <?php
                 /*******************************
                  * Document Access Permissions */
-                if (evo()->getConfig('use_udperms') &&
-                    evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])
+                if (evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])
                 ) {
                     $groupsarray = [];
                     $sql = '';

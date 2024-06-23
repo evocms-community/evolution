@@ -95,10 +95,6 @@ class SystemInfo extends AbstractController implements PageControllerInterface
                 'data'   => phpversion(),
                 'render' => 'manager::' . $this->getView() . '.phpversion'
             ],
-            'access_permissions' => [
-                'is_lexicon' => true,
-                'data'       => __('global.' . (ManagerTheme::getCore()->getConfig('use_udperms') ? 'enabled' : 'disabled'))
-            ],
             'servertime'         => [
                 'is_lexicon' => true,
                 'data'       => date('H:i:s', time())
