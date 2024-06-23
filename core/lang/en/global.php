@@ -31,6 +31,7 @@ $_lang["sunday"] = 'Sunday';
 // templates
 $_lang["template"] = 'Template';
 $_lang["templates"] = 'Templates';
+$_lang['templatecontroller'] = 'Template Controller';
 $_lang["template_assignedtv_tab"] = 'Assigned Template Variables';
 $_lang["template_code"] = 'Template code (html)';
 $_lang["template_desc"] = 'Description';
