@@ -35,7 +35,7 @@ class HtmlFormatter
             '<span style="font-style:italic;">$1</span>',
         );
         if ($decode) {
-            $string = htmlentities($string);
+            $string = entities($string);
         }
 
         return '<pre>' . preg_replace($find, $replace, $string) . '</pre>';

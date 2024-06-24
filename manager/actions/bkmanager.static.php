@@ -660,7 +660,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                             foreach ($detailFields as $label) {
                                                 $fileLabel = '# ' . $label;
                                                 if (str_contains($line, $fileLabel)) {
-                                                    $details[$label] = e(
+                                                    $details[$label] = entities(
                                                         trim(
                                                             str_replace([
                                                                 $fileLabel,
