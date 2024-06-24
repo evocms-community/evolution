@@ -6,7 +6,6 @@ use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteSnippet;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(22,'edit_snippet'), 'duplicate'=>array(98,'new_snippet'), 'remove'=>array(25,'delete_snippet')),
 class Snippets extends AbstractResources implements TabControllerInterface
@@ -30,7 +29,7 @@ class Snippets extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasAnyPermissions([
+        return evo()->hasAnyPermissions([
             'new_snippet',
             'edit_snippet'
         ]);

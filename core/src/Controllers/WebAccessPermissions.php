@@ -1,13 +1,12 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Models\User;
-use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Facades\ManagerTheme;
-use EvolutionCMS\Models\MembergroupName;
-use EvolutionCMS\Models\DocumentgroupName;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\DocumentGroup;
+use EvolutionCMS\Models\DocumentgroupName;
 use EvolutionCMS\Models\MemberGroup;
+use EvolutionCMS\Models\MembergroupName;
+use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\User;
 
 class WebAccessPermissions extends AbstractController implements PageControllerInterface
 {
@@ -18,7 +17,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('manage_groups');
+        return evo()->hasPermission('manage_groups');
     }
 
     public function process() : bool
@@ -48,7 +47,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
                     if(isset($search) && $search) {
                         $list = $list->where('username', 'LIKE', '%'.$search.'%');
                     }
-                    $list = $list->paginate(ManagerTheme::getCore()->getConfig('number_of_results'));
+                    $list = $list->paginate(evo()->getConfig('number_of_results'));
                 break;
 
                 case 'documents':
@@ -68,7 +67,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
                     if(isset($search) && $search) {
                         $list = $list->where('pagetitle', 'LIKE', '%'.$search.'%');
                     }
-                    $list = $list->paginate(ManagerTheme::getCore()->getConfig('number_of_results'));
+                    $list = $list->paginate(evo()->getConfig('number_of_results'));
                 break;
 
                 default:

@@ -16,19 +16,19 @@ class DeleteUser extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('delete_user');
+        return evo()->hasPermission('delete_user');
     }
 
     public function process() : bool
     {
         if($_GET['id'] == evo()->getLoginUserID()){
-            EvolutionCMS()->webAlertAndQuit(Lang::get('global.delete_yourself'));
+            evo()->webAlertAndQuit(Lang::get('global.delete_yourself'));
         }
         $user = UserAttribute::query()->where('internalKey', $_GET['id'])->first();
         if($user->role == 1){
             $otherAdmin = UserAttribute::query()->where('role', 1)->where('internalKey', '!=', $_GET['id'])->count();
             if($otherAdmin == 0){
-                EvolutionCMS()->webAlertAndQuit(Lang::get('global.delete_last_admin'));
+                evo()->webAlertAndQuit(Lang::get('global.delete_last_admin'));
             }
         }
         try {
@@ -37,7 +37,7 @@ class DeleteUser extends AbstractController implements PageControllerInterface
             foreach ($exception->getValidationErrors() as $errors){
                 if(is_array($errors)){
                     foreach ($errors as $error){
-                        EvolutionCMS()->webAlertAndQuit($error);
+                        evo()->webAlertAndQuit($error);
                     }
                 }
             }

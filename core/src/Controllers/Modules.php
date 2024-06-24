@@ -24,7 +24,7 @@ class Modules extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()
+        return evo()
             ->hasAnyPermissions([
                 'exec_module',
                 'new_module',
@@ -55,9 +55,9 @@ class Modules extends AbstractController implements PageControllerInterface
         // context menu
         $cm = new ContextMenu('cntxm', 150);
 
-        $cm->addItem(__('global.run_module'), "js:menuAction(1)", ManagerTheme::getStyle('icon_play'), (!ManagerTheme::getCore()
+        $cm->addItem(__('global.run_module'), "js:menuAction(1)", ManagerTheme::getStyle('icon_play'), (!evo()
             ->hasPermission('exec_module') ? 1 : 0));
-        if (ManagerTheme::getCore()
+        if (evo()
             ->hasAnyPermissions([
                 'new_module',
                 'edit_module',
@@ -65,11 +65,11 @@ class Modules extends AbstractController implements PageControllerInterface
             ])) {
             $cm->addSeparator();
         }
-        $cm->addItem(__('global.edit'), 'js:menuAction(2)', ManagerTheme::getStyle('icon_edit'), (!ManagerTheme::getCore()
+        $cm->addItem(__('global.edit'), 'js:menuAction(2)', ManagerTheme::getStyle('icon_edit'), (!evo()
             ->hasPermission('edit_module') ? 1 : 0));
-        $cm->addItem(__('global.duplicate'), 'js:menuAction(3)', ManagerTheme::getStyle('icon_clone'), (!ManagerTheme::getCore()
+        $cm->addItem(__('global.duplicate'), 'js:menuAction(3)', ManagerTheme::getStyle('icon_clone'), (!evo()
             ->hasPermission('new_module') ? 1 : 0));
-        $cm->addItem(__('global.delete'), 'js:menuAction(4)', ManagerTheme::getStyle('icon_trash'), (!ManagerTheme::getCore()
+        $cm->addItem(__('global.delete'), 'js:menuAction(4)', ManagerTheme::getStyle('icon_trash'), (!evo()
             ->hasPermission('delete_module') ? 1 : 0));
 
         return [

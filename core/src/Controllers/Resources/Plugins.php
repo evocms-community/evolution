@@ -30,7 +30,7 @@ class Plugins extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasAnyPermissions([
+        return evo()->hasAnyPermissions([
             'new_plugin',
             'edit_plugin'
         ]);

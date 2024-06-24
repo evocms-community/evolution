@@ -4,7 +4,6 @@ use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Permissions as PermissionsModel;
 use EvolutionCMS\Models\PermissionsGroups as PermissionsGroupsModel;
-use EvolutionCMS\Facades\ManagerTheme;
 
 class PermissionsGroups extends AbstractController implements PageControllerInterface
 {
@@ -15,7 +14,7 @@ class PermissionsGroups extends AbstractController implements PageControllerInte
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('edit_role');
+        return evo()->hasPermission('edit_role');
     }
 
     public function process(): bool

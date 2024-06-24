@@ -2,7 +2,6 @@
 
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\UserManager\Facades\UserManager;
@@ -16,7 +15,7 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('save_user');
+        return evo()->hasPermission('save_user');
     }
 
     public function process(): bool

@@ -3,7 +3,6 @@
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
 use EvolutionCMS\Models\PermissionsGroups;
-use EvolutionCMS\Facades\ManagerTheme;
 
 class PermissionsGroupsList extends AbstractResources implements TabControllerInterface
 {
@@ -26,7 +25,7 @@ class PermissionsGroupsList extends AbstractResources implements TabControllerIn
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('edit_user');
+        return evo()->hasPermission('edit_user');
     }
 
     /**

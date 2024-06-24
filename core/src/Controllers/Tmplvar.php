@@ -143,10 +143,10 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     public function canView(): bool
     {
         if ($this->getIndex() == 300) {
-            return ManagerTheme::getCore()->hasPermission('new_template');
+            return evo()->hasPermission('new_template');
         }
         if ($this->getIndex() == 301) {
-            return ManagerTheme::getCore()->hasPermission('edit_template');
+            return evo()->hasPermission('edit_template');
         }
 
         return false;
@@ -157,7 +157,7 @@ class Tmplvar extends AbstractController implements PageControllerInterface
      */
     public function process(): bool
     {
-        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
+        evo()->lockElement($this->elementType, $this->getElementId());
         $this->object = $this->parameterData();
         $this->parameters = [
             'data'              => $this->object,
@@ -326,7 +326,7 @@ class Tmplvar extends AbstractController implements PageControllerInterface
 
     private function callEvent($name): string
     {
-        $out = ManagerTheme::getCore()->invokeEvent($name, [
+        $out = evo()->invokeEvent($name, [
             'id'          => $this->getElementId(),
             'controller'  => $this,
             'forfrontend' => 1
@@ -342,10 +342,10 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     {
         return [
             'select'    => 1,
-            'save'      => ManagerTheme::getCore()->hasPermission('save_template'),
-            'new'       => ManagerTheme::getCore()->hasPermission('new_template'),
-            'duplicate' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('new_template'),
-            'delete'    => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('delete_template'),
+            'save'      => evo()->hasPermission('save_template'),
+            'new'       => evo()->hasPermission('new_template'),
+            'duplicate' => $this->object->getKey() && evo()->hasPermission('new_template'),
+            'delete'    => $this->object->getKey() && evo()->hasPermission('delete_template'),
             'cancel'    => 1
         ];
     }

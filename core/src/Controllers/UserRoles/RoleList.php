@@ -3,7 +3,6 @@
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
 use EvolutionCMS\Models\UserRole;
-use EvolutionCMS\Facades\ManagerTheme;
 
 class RoleList extends AbstractResources implements TabControllerInterface
 {
@@ -26,7 +25,7 @@ class RoleList extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('edit_user');
+        return evo()->hasPermission('edit_user');
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\ManagerLog as ManagerLogModel;
 
@@ -18,10 +17,10 @@ class ManagerLog extends AbstractController implements PageControllerInterface
         switch ($this->getIndex()) {
             // list
             case 13:
-                return ManagerTheme::getCore()->hasPermission('logs');
+                return evo()->hasPermission('logs');
             // truncate
             case 55:
-                return ManagerTheme::getCore()->hasPermission('settings');
+                return evo()->hasPermission('settings');
         }
         return false;
     }

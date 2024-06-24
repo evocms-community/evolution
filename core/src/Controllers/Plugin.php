@@ -30,11 +30,11 @@ class Plugin extends AbstractController implements PageControllerInterface
     {
         switch ($this->getIndex()) {
             case 101:
-                $out = ManagerTheme::getCore()->hasPermission('new_plugin');
+                $out = evo()->hasPermission('new_plugin');
                 break;
 
             case 102:
-                $out = ManagerTheme::getCore()->hasPermission('edit_plugin');
+                $out = evo()->hasPermission('edit_plugin');
                 break;
 
             default:
@@ -49,7 +49,7 @@ class Plugin extends AbstractController implements PageControllerInterface
      */
     public function process() : bool
     {
-        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
+        evo()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
 
@@ -127,8 +127,8 @@ class Plugin extends AbstractController implements PageControllerInterface
         $internal = array();
         if (isset($this->object->plugincode)) {
             $snippetcode = $this->object->plugincode;
-            $parsed = ManagerTheme::getCore()->parseDocBlockFromString($snippetcode);
-            $out = ManagerTheme::getCore()->convertDocBlockIntoList($parsed);
+            $parsed = evo()->parseDocBlockFromString($snippetcode);
+            $out = evo()->convertDocBlockIntoList($parsed);
             $internal[0]['events'] = isset($parsed['events']) ? $parsed['events'] : '';
         }
 
@@ -150,7 +150,7 @@ class Plugin extends AbstractController implements PageControllerInterface
 
     private function callEvent($name): string
     {
-        $out = ManagerTheme::getCore()->invokeEvent($name, [
+        $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -165,10 +165,10 @@ class Plugin extends AbstractController implements PageControllerInterface
     {
         return [
             'select'    => 1,
-            'save'      => ManagerTheme::getCore()->hasPermission('save_plugin'),
-            'new'       => ManagerTheme::getCore()->hasPermission('new_plugin'),
-            'duplicate' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('new_plugin'),
-            'delete'    => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_plugin'),
+            'save'      => evo()->hasPermission('save_plugin'),
+            'new'       => evo()->hasPermission('new_plugin'),
+            'duplicate' => !empty($this->object->getKey()) && evo()->hasPermission('new_plugin'),
+            'delete'    => !empty($this->object->getKey()) && evo()->hasPermission('delete_plugin'),
             'cancel'    => 1
         ];
     }

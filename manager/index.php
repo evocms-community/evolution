@@ -156,7 +156,7 @@ if (!isset($_SESSION['SystemAlertMsgQueque'])) {
 $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
 
 // send the charset header
-header('Content-Type: text/html; charset=' . ManagerTheme::getCharset());
+header('Content-Type: text/html; charset=UTF-8');
 
 $action = 0;
 

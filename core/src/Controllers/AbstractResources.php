@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use Illuminate\Support\Arr;
 
 abstract class AbstractResources extends AbstractController
@@ -70,7 +69,7 @@ abstract class AbstractResources extends AbstractController
 
         foreach ($out as &$value) {
             $value = iconv(
-                ManagerTheme::getCore()->getConfig('modx_charset', 'utf-8')
+                evo()->getConfig('modx_charset', 'utf-8')
                 , 'utf-8'
                 , $value
             );

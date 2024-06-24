@@ -6,7 +6,6 @@ use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteModule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(108,'edit_module'), 'duplicate'=>array(111,'new_module'), 'remove'=>array(110,'delete_module')),
 class Modules extends AbstractResources implements TabControllerInterface
@@ -29,7 +28,7 @@ class Modules extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasAnyPermissions([
+        return evo()->hasAnyPermissions([
             'exec_module',
             'new_module',
             'edit_module',
@@ -86,10 +85,10 @@ class Modules extends AbstractResources implements TabControllerInterface
 
     protected function parameterActionName() : string
     {
-        if (ManagerTheme::getCore()->hasPermission('edit_module')) {
+        if (evo()->hasPermission('edit_module')) {
             return 'actions.edit';
         }
-        if (ManagerTheme::getCore()->hasPermission('exec_module')) {
+        if (evo()->hasPermission('exec_module')) {
             return 'actions.run';
         }
         return '';

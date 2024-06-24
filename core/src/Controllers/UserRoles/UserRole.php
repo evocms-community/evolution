@@ -30,10 +30,10 @@ class UserRole extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_role')) {
+        if (!evo()->hasPermission('edit_role')) {
             return false;
         }
-        if (!ManagerTheme::getCore()->hasPermission('new_role')) {
+        if (!evo()->hasPermission('new_role')) {
             return false;
         }
 
@@ -49,10 +49,10 @@ class UserRole extends AbstractController implements PageControllerInterface
             $id = $this->getElementId();
             $count = UserAttribute::where('role',$id)->count();
             if($id==1){
-                ManagerTheme::getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
+                evo()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
             }
             if($count>0){
-                ManagerTheme::getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
+                evo()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
             }
             RolePermissions::query()->where('role_id', $id)->delete();
             UserRoleModel::destroy($id);
@@ -75,15 +75,15 @@ class UserRole extends AbstractController implements PageControllerInterface
     {
         $id = $this->getElementId();
         $mode = $this->getIndex();
-        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
+        evo()->lockElement($this->elementType, $this->getElementId());
 
-        if (!ManagerTheme::getCore()->hasPermission('save_role')) {
-            ManagerTheme::alertAndQuit('error_no_privileges');
+        if (!evo()->hasPermission('save_role')) {
+            evo()->webAlertAndQuit('error_no_privileges');
         }
 
         if (!isset($_POST['name']) || $_POST['name'] == '') {
-            ManagerTheme::getCore()->getManagerApi()->saveFormValues();
-            ManagerTheme::getCore()->webAlertAndQuit(
+            evo()->getManagerApi()->saveFormValues();
+            evo()->webAlertAndQuit(
                 'Please enter a name for this role!',
                 "index.php?a=$mode" . ($mode == 35 ? "&id=$id" : '')
             );
@@ -142,7 +142,7 @@ class UserRole extends AbstractController implements PageControllerInterface
             }
         }
 
-        ManagerTheme::getCore()->getManagerApi()->clearSavedFormValues();
+        evo()->getManagerApi()->clearSavedFormValues();
 
         if (!empty($_POST['stay'])) {
             $a = $_POST['stay'] == '2' ? '35&id=' . $role->getKey() : '38';
@@ -157,7 +157,7 @@ class UserRole extends AbstractController implements PageControllerInterface
      */
     public function getParameters(array $params = []): array
     {
-        ManagerTheme::getCore()->getManagerApi()->loadFormValues();
+        evo()->getManagerApi()->loadFormValues();
 
         $id = $this->getElementId();
         $permissionsRole = [];
@@ -267,9 +267,9 @@ class UserRole extends AbstractController implements PageControllerInterface
     {
         return [
             'select' => 1,
-            'save' => ManagerTheme::getCore()->hasPermission('save_role'),
-            'new' => ManagerTheme::getCore()->hasPermission('new_role'),
-            'delete' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_role'),
+            'save' => evo()->hasPermission('save_role'),
+            'new' => evo()->hasPermission('new_role'),
+            'delete' => !empty($this->object->getKey()) && evo()->hasPermission('delete_role'),
             'cancel' => 1,
         ];
     }

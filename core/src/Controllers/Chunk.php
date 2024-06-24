@@ -1,7 +1,6 @@
 <?php namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
-use EvolutionCMS\Models;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteHtmlsnippet;
@@ -31,10 +30,10 @@ class Chunk extends AbstractController implements PageControllerInterface
     public function canView(): bool
     {
         if($this->getIndex() == 77) {
-            return ManagerTheme::getCore()->hasPermission('new_chunk');
+            return evo()->hasPermission('new_chunk');
         }
         if($this->getIndex() == 78) {
-            return ManagerTheme::getCore()->hasPermission('edit_chunk');
+            return evo()->hasPermission('edit_chunk');
         }
         return false;
     }
@@ -44,7 +43,7 @@ class Chunk extends AbstractController implements PageControllerInterface
      */
     public function process() : bool
     {
-        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
+        evo()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
         $this->parameters = [
@@ -98,7 +97,7 @@ class Chunk extends AbstractController implements PageControllerInterface
             }
         }
 
-        ManagerTheme::getCore()->setConfig('which_editor', $this->which_editor);
+        evo()->setConfig('which_editor', $this->which_editor);
 
         return $data;
     }
@@ -141,7 +140,7 @@ class Chunk extends AbstractController implements PageControllerInterface
 
     protected function callEventOnRichTextEditorRegister()
     {
-        $out = ManagerTheme::getCore()->invokeEvent('OnRichTextEditorRegister', [
+        $out = evo()->invokeEvent('OnRichTextEditorRegister', [
             'controller' => $this
         ]);
         if (empty($out) && !is_array($out)) {
@@ -161,7 +160,7 @@ class Chunk extends AbstractController implements PageControllerInterface
             $editor = 'none';
         }
 
-        $out = ManagerTheme::getCore()->invokeEvent('OnRichTextEditorInit', [
+        $out = evo()->invokeEvent('OnRichTextEditorInit', [
             'editor' => $editor,
             'elements' => ['post'],
             'controller' => $this
@@ -176,7 +175,7 @@ class Chunk extends AbstractController implements PageControllerInterface
 
     protected function callEventDefault($name)
     {
-        $out = ManagerTheme::getCore()->invokeEvent($name, [
+        $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -191,10 +190,10 @@ class Chunk extends AbstractController implements PageControllerInterface
     {
         return [
             'select' => 1,
-            'save' => ManagerTheme::getCore()->hasPermission('save_chunk'),
-            'new' => ManagerTheme::getCore()->hasPermission('new_chunk'),
-            'duplicate' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('new_chunk'),
-            'delete' => !empty($this->object->getKey()) && ManagerTheme::getCore()->hasPermission('delete_chunk'),
+            'save' => evo()->hasPermission('save_chunk'),
+            'new' => evo()->hasPermission('new_chunk'),
+            'duplicate' => !empty($this->object->getKey()) && evo()->hasPermission('new_chunk'),
+            'delete' => !empty($this->object->getKey()) && evo()->hasPermission('delete_chunk'),
             'cancel' => 1
         ];
     }

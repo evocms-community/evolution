@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use Illuminate\Support\Collection;
@@ -17,7 +16,7 @@ class SystemInfo extends AbstractController implements PageControllerInterface
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = ManagerTheme::getCore()->getDatabase();
+        $this->database = evo()->getDatabase();
     }
 
     /**
@@ -25,7 +24,7 @@ class SystemInfo extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('logs');
+        return evo()->hasPermission('logs');
     }
 
     /**
@@ -83,13 +82,13 @@ class SystemInfo extends AbstractController implements PageControllerInterface
             'modx_version'       => [
                 'is_lexicon' => true,
                 'data'       => implode(' ', [
-                    ManagerTheme::getCore()->getVersionData('version'),
-                    ManagerTheme::getCore()->getVersionData('new_version')
+                    evo()->getVersionData('version'),
+                    evo()->getVersionData('new_version'),
                 ])
             ],
             'release_date'       => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getCore()->getVersionData('release_date')
+                'data' => evo()->getVersionData('release_date'),
             ],
             'PHP Version'        => [
                 'data'   => phpversion(),
@@ -101,19 +100,19 @@ class SystemInfo extends AbstractController implements PageControllerInterface
             ],
             'localtime'          => [
                 'is_lexicon' => true,
-                'data'       => date('H:i:s', time() + ManagerTheme::getCore()->getConfig('server_offset_time'))
+                'data' => date('H:i:s', time() + evo()->getConfig('server_offset_time')),
             ],
             'serveroffset'       => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getCore()->getConfig('server_offset_time') / (60 * 60) . ' h'
+                'data' => evo()->getConfig('server_offset_time') / (60 * 60) . ' h',
             ],
             'database_name'      => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.database')
+                'data' => evo()->getService('config')->get('database.connections.default.database'),
             ],
             'database_server'    => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.host')
+                'data' => evo()->getService('config')->get('database.connections.default.host'),
             ],
             'database_version'   => [
                 'is_lexicon' => true,
@@ -129,7 +128,7 @@ class SystemInfo extends AbstractController implements PageControllerInterface
             ],
             'table_prefix'       => [
                 'is_lexicon' => true,
-                'data'       => ManagerTheme::getCore()->getService('config')->get('database.connections.default.prefix')
+                'data' => evo()->getService('config')->get('database.connections.default.prefix'),
             ],
             'cfg_base_path'      => [
                 'is_lexicon' => true,
