@@ -3,7 +3,6 @@
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\SiteContent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 if (!function_exists('makeHTML')) {
     /**
@@ -36,7 +35,7 @@ if (!function_exists('makeHTML')) {
             $_SESSION['tree_sortdir'] = 'ASC';
         }
 
-        $sc = DB::getTablePrefix() . 'site_content';
+        $sc = evo()->getDatabase()->getFullTableName('site_content');
 
         switch ($_SESSION['tree_sortby']) {
             case 'createdon':
@@ -44,9 +43,9 @@ if (!function_exists('makeHTML')) {
             case 'publishedon':
             case 'pub_date':
             case 'unpub_date':
-            $sortBy =
-                'CASE WHEN ' . $sc . '.' . $_SESSION['tree_sortby'] . ' IS NULL THEN 1 ELSE 0 END, ' . $sc . '.' .
-                $_SESSION['tree_sortby'];
+                $sortBy =
+                    'CASE WHEN ' . $sc . '.' . $_SESSION['tree_sortby'] . ' IS NULL THEN 1 ELSE 0 END, ' . $sc . '.' .
+                    $_SESSION['tree_sortby'];
                 break;
             default:
                 $sortBy = $sc . '.' . $_SESSION['tree_sortby'];
