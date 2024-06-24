@@ -1,5 +1,6 @@
 <?php namespace EvolutionCMS;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
@@ -517,31 +518,35 @@ class UrlProcessor
     {
         $out = false;
         if ($alias !== '') {
-            $query = $this->core->getDatabase()->query(
+            $table = DB::getTablePrefix() . 'site_content';
+
+            $rs = DB::select(
                 "SELECT
                     `sc`.`id` AS `hidden_id`,
                     `children`.`id` AS `child_id`,
                     children.alias AS `child_alias`,
                     COUNT(`grandsons`.`id`) AS `grandsons_count`
-                    FROM " . $this->core->getDatabase()->getFullTableName('site_content') . " AS `sc`
-                    JOIN " . $this->core->getDatabase()->getFullTableName('site_content') . " AS `children` ON `children`.`parent` = `sc`.`id`
-                    LEFT JOIN " . $this->core->getDatabase()->getFullTableName('site_content') . " AS `grandsons` ON `grandsons`.`parent` = `children`.`id`
+                    FROM " . $table . " AS `sc`
+                    JOIN " . $table . " AS `children` ON `children`.`parent` = `sc`.`id`
+                    LEFT JOIN " . $table . " AS `grandsons` ON `grandsons`.`parent` = `children`.`id`
                     WHERE `sc`.`parent` = " . $parentid . " AND `sc`.`alias_visible` = '0'
                     GROUP BY `children`.`id`"
             );
-            while ($child = $this->core->getDatabase()->getRow($query)) {
-                if ($child['child_alias'] == $alias || $child['child_id'] == $alias) {
-                    $out = $child['child_id'];
+
+            foreach ($rs as $child) {
+                if ($child->child_alias == $alias || $child->child_id == $alias) {
+                    $out = $child->child_id;
                     break;
                 }
 
-                if ($child['grandsons_count'] > 0 && ($id = $this->getHiddenIdFromAlias($child['child_id'], $alias))) {
+                if ($child->grandsons_count > 0 && ($id = $this->getHiddenIdFromAlias($child->child_id, $alias))) {
                     $out = $id;
                     break;
                 }
             }
         }
-        return $out ? $out : null;
+
+        return $out ?: null;
     }
 
     /**

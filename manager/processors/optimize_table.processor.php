@@ -18,8 +18,8 @@ if (isset($_REQUEST['t'])) {
     // Set the item name for logger
     $_SESSION['itemname'] = $_REQUEST['t'];
 
-    if (evo()->getDatabase()->getConfig('driver') != 'pgsql') {
-        evo()->getDatabase()->optimize($_REQUEST['t']);
+    if (DB::getDriverName() != 'pgsql') {
+        DB::statement('OPTIMIZE TABLE ' . $_REQUEST['t']);
     }
 } elseif (isset($_REQUEST['u'])) {
     if (empty($_REQUEST['u'])) {
