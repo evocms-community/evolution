@@ -414,7 +414,7 @@ use EvolutionCMS\Facades\ManagerTheme;
         <form name="sortFrm" id="sortFrm">
             <div class="form-group">
                 <input type="hidden" name="dt"
-                       value="<?= isset($_REQUEST['dt']) ? htmlspecialchars($_REQUEST['dt']) : '' ?>"/>
+                       value="<?= isset($_REQUEST['dt']) ? e($_REQUEST['dt']) : '' ?>"/>
                 <label>{{ __('global.sort_tree') }}</label>
                 <select name="sortby" class="form-control">
                     <option value="isfolder"

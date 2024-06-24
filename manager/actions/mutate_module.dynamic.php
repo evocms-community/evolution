@@ -187,7 +187,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 }
                                 ?>
                                 <input name="name" type="text" maxlength="100"
-                                       value="<?= evo()->getPhpCompat()->htmlspecialchars($content['name']) ?>"
+                                       value="<?= e($content['name']) ?>"
                                        class="form-control form-control-lg" onchange="documentDirty=true;"/>
                                 <?php
                                 if (evo()->hasPermission('save_role')): ?>
@@ -227,7 +227,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     echo "\t\t\t" . '<option value="' . $v['id'] . '"' .
                                         ((isset($content['category']) && $content['category'] == $v['id'])
                                             ? ' selected="selected"' : '') . '>' .
-                                        evo()->getPhpCompat()->htmlspecialchars($v['category']) . "</option>\n";
+                                        e($v['category']) . "</option>\n";
                                 }
                                 ?>
                             </select>
@@ -306,7 +306,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
                 ?>
                 <textarea dir="ltr" class="phptextarea" name="post" rows="20" wrap="soft"
-                          onchange="documentDirty=true;"><?= evo()->getPhpCompat()->htmlspecialchars(
+                          onchange="documentDirty=true;"><?= e(
                         $strOut
                     ) ?></textarea>
             </div>
