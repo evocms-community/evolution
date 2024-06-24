@@ -407,7 +407,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                     echo '<tr>' . "\n" .
                                         '<td><label class="form-check form-check-label"><input type="checkbox" name="chk[]" class="form-check-input" value="' .
                                         $db_status['Name'] . '"' .
-                                        (strstr($table_string, $db_status['Name']) === false ? ''
+                                        (!str_contains($table_string, $db_status['Name']) ? ''
                                             : ' checked="checked"') . ' /><b class="text-primary">' .
                                         $db_status['Name'] . '</b></label></td>' . "\n";
                                     echo '<td class="text-xs-center">' .
@@ -450,8 +450,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
                                     echo '<td class="text-xs-right">' .
                                         nicesize($db_status['Data_length'] - $db_status['Data_free']) . '</td>' . "\n" .
-                                        '<td class="text-xs-right">' . evo()->nicesize($db_status['Index_length']) .
-                                        '</td>' . "\n" . '<td class="text-xs-right">' . evo()->nicesize(
+                                        '<td class="text-xs-right">' . nicesize($db_status['Index_length']) .
+                                        '</td>' . "\n" . '<td class="text-xs-right">' . nicesize(
                                             $db_status['Index_length'] + $db_status['Data_length'] +
                                             $db_status['Data_free']
                                         ) . '</td>' . "\n" . "</tr>";
@@ -492,7 +492,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
             <script>tpDBM.addTabPage(document.getElementById('tabRestore'))</script>
 
             <div class="container container-body">
-                <?= $ph['result_msg_import'] ?>
+                <?= $ph['result_msg_import'] ?? '' ?>
                 <div class="element-edit-message-tab alert alert-warning">
                     <?= __('global.bkmgr_restore_msg') ?>
                 </div>
@@ -515,13 +515,13 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     }
 
                     if (isset($_SESSION['last_result'])) {
-                        $last_result = $_SESSION['last_result'];
+                        $last_result = array_filter((array) $_SESSION['last_result']);
                         unset($_SESSION['last_result']);
                         if (count($last_result) < 1) {
                             $result = '';
                         } else {
-                            $last_result = array_merge([], array_diff($last_result, ['']));
-                            foreach ($last_result['0'] as $k => $v) {
+                            $title = [];
+                            foreach ($last_result[0] as $k => $v) {
                                 $title[] = $k;
                             }
                             $result = '<thead><tr><th>' . implode('</th><th>', $title) . '</th></tr></thead>';
@@ -551,12 +551,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <p>
                         <label><input type="radio" name="sel"
                                       onclick="showhide('file');" <?= checked(
-                                !isset($_SESSION['console_mode']) || $_SESSION['console_mode'] !== 'text'
+                                $_SESSION['console_mode'] !== 'text'
                             ) ?> /> <?= __('global.bkmgr_run_sql_file_label') ?>
                         </label>
                         <label><input type="radio" name="sel"
                                       onclick="showhide('textarea');" <?= checked(
-                                isset($_SESSION['console_mode']) && $_SESSION['console_mode'] === 'text'
+                                $_SESSION['console_mode'] === 'text'
                             ) ?> /> <?= __('global.bkmgr_run_sql_direct_label') ?>
                         </label>
                     </p>
@@ -585,7 +585,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
             <script>tpDBM.addTabPage(document.getElementById('tabSnapshot'))</script>
 
             <div class="container container-body">
-                <?= $ph['result_msg_snapshot'] ?>
+                <?= $ph['result_msg_snapshot'] ?? '' ?>
                 <div class="element-edit-message-tab alert alert-warning">
                     <?= parsePlaceholder(
                         __('global.bkmgr_snapshot_msg'),
@@ -667,13 +667,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                                                 ':',
                                                                 '`',
                                                             ], '', $line)
-                                                        ),
-                                                        ENT_QUOTES
+                                                        )
                                                     );
                                                 }
                                             }
                                             $count++;
-                                        };
+                                        }
                                         fclose($file);
 
                                         $tooltip = 'Generation Time: ' . $details['Generation Time'] . "\n";
@@ -718,7 +717,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
 $tab = get_by_key($_GET, 'tab', false);
 if (is_numeric($tab)) {
-    echo '<script>tpDBM.setSelectedIndex( ' . $_GET['tab'] . ' );</script>';
+    echo '<script>tpDBM.setSelectedIndex(' . $_GET['tab'] . ');</script>';
 }
 
 include_once MODX_MANAGER_PATH . 'includes/footer.inc.php'; // send footer
@@ -729,6 +728,6 @@ include_once MODX_MANAGER_PATH . 'includes/footer.inc.php'; // send footer
 /**
  * @deprecated use EvolutionCMS\Support\MysqlDumper
  */
-class Mysqldumper extends EvolutionCMS\Support\MysqlDumper
+class MysqlDumper extends EvolutionCMS\Support\MysqlDumper
 {
 }
