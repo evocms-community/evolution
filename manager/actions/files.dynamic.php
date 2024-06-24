@@ -556,10 +556,9 @@ if (get_by_key($_REQUEST, 'mode') == "edit" || get_by_key($_REQUEST, 'mode') == 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td>
-                        <textarea dir="ltr" name="content" id="content" class="phptextarea"><?= htmlentities(
+                        <textarea dir="ltr" name="content" id="content" class="phptextarea"><?= e(
                                 $buffer,
-                                ENT_COMPAT,
-                                ManagerTheme::getCharset()
+                                ENT_COMPAT
                             ) ?></textarea>
                     </td>
                 </tr>

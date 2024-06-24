@@ -3,11 +3,10 @@
 use EvolutionCMS\Facades\ManagerTheme;
 
 ?><!DOCTYPE html>
-<html dir="{{ ManagerTheme::getTextDir() }}" lang="{{ ManagerTheme::getLang() }}"
-      xml:lang="{{ ManagerTheme::getLang() }}">
+<html lang="{{ config('global.manager_language') }}" xml:lang="{{ config('global.manager_language') }}">
 <head>
     <title>{{ config('global.site_name') }} - (Evolution CMS Manager)</title>
-    <meta http-equiv="Content-Type" content="text/html; charset={{ ManagerTheme::getCharset() }}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
     <meta name="theme-color" content="#1d2023"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -59,7 +58,7 @@ use EvolutionCMS\Facades\ManagerTheme;
           theme_mode: '{{ ManagerTheme::getThemeStyle() }}',
           which_browser: '{{ $user['which_browser'] }}',
           layout: {{ (int) config('global.manager_layout') }},
-          textdir: '{{ ManagerTheme::getTextDir() }}',
+          textdir: 'ltr',
           global_tabs: {{ (int) config('global.global_tabs') }}
         },
         lang: {

@@ -33,9 +33,6 @@ use EvolutionCMS\Facades\ManagerTheme;
                             {!! str_replace(['&lt;strong&gt;', '&lt;/strong&gt;'], ['<strong>', '</strong>'], e($item->description)) !!}
                         </span>
                     </a>
-                    @if(ManagerTheme::getTextDir() !== 'ltr')
-                        &rlm;
-                    @endif
                 </span>
             </div>
             <div class="btnCell">

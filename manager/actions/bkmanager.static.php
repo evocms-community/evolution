@@ -659,8 +659,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                             $line = fgets($file);
                                             foreach ($detailFields as $label) {
                                                 $fileLabel = '# ' . $label;
-                                                if (strpos($line, $fileLabel) !== false) {
-                                                    $details[$label] = htmlentities(
+                                                if (str_contains($line, $fileLabel)) {
+                                                    $details[$label] = e(
                                                         trim(
                                                             str_replace([
                                                                 $fileLabel,
@@ -668,8 +668,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                                                 '`',
                                                             ], '', $line)
                                                         ),
-                                                        ENT_QUOTES,
-                                                        ManagerTheme::getCharset()
+                                                        ENT_QUOTES
                                                     );
                                                 }
                                             }
