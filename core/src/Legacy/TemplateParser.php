@@ -9,7 +9,7 @@ Class TemplateParser
      * @return string
      */
     public function output($config = array(), $data = array()) {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         $output = '';
         $action = !empty($config['action']) ? $config['action'] : (!empty($_REQUEST['a']) ? $_REQUEST['a'] : '');
@@ -65,7 +65,7 @@ Class TemplateParser
      * @return string
      */
     private function render($data) {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         global $_lang, $_country_lang;
 

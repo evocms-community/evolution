@@ -48,7 +48,7 @@ class SiteUpdateCommand extends Command
 
     public function startUpdate()
     {
-        $evo = EvolutionCMS();
+        $evo = evo();
         $updateRepository = $evo->getConfig('UpgradeRepository');
         if ($updateRepository == '') {
             $updateRepository = 'evocms-community/evolution';

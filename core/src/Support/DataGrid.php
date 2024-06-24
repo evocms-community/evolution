@@ -102,7 +102,7 @@ class DataGrid implements DataGridInterface
 
     public function render()
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $columnHeaderStyle = ($this->columnHeaderStyle) ? "style='" . $this->columnHeaderStyle . "'" : '';
         $columnHeaderClass = ($this->columnHeaderClass) ? "class='" . $this->columnHeaderClass . "'" : "";
         $cssStyle = ($this->cssStyle) ? "style='" . $this->cssStyle . "'" : '';

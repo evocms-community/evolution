@@ -55,7 +55,7 @@ class LogHandler
         $itemid = "",
         $itemname = ""
     ) {
-        $modx = evolutionCMS();
+        $modx = evo();
         $this->entry['msg'] = $msg; // writes testmessage to the object
         $this->entry['action'] = empty($action) ? $modx->getManagerApi()->action : $action;    // writes the action to the object
 
@@ -83,7 +83,7 @@ class LogHandler
      */
     public function writeToLog()
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if ($this->entry['internalKey'] == "") {
             $modx->webAlertAndQuit("Logging error: internalKey not set.");

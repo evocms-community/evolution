@@ -28,7 +28,7 @@ class Mail extends PHPMailer
     public function init($modx = null)
     {
         if ($modx === null) {
-            $modx = evolutionCMS();
+            $modx = evo();
         }
         $this->modx = $modx;
         $this->PluginDir = MODX_MANAGER_PATH . 'includes/controls/phpmailer/';
@@ -39,8 +39,8 @@ class Mail extends PHPMailer
                 $this->SMTPSecure = $modx->getConfig('smtp_secure') === 'none' ? '' : $modx->getConfig('smtp_secure');
                 $this->Port = $modx->getConfig('smtp_port');
                 $this->Host = $modx->getConfig('smtp_host');
-                $this->SMTPAuth = $modx->getConfig('smtp_auth') === '1' ? true : false;
-                $this->SMTPAutoTLS = $modx->getConfig('smtp_autotls') === '0' ? false : true;
+                $this->SMTPAuth = $modx->getConfig('smtp_auth') === '1';
+                $this->SMTPAutoTLS = !($modx->getConfig('smtp_autotls') === '0');
                 $this->Username = $modx->getConfig('smtp_username');
                 if ($modx['config']->has('cms.settings.smtppw')) {
                     $this->Password = $modx['config']->get('cms.settings.smtppw');
@@ -150,7 +150,7 @@ class Mail extends PHPMailer
             'prevent' => &$prevent
         ]);
 
-        return $prevent ? true : parent::send();
+        return $prevent || parent::send();
     }
 
     /**

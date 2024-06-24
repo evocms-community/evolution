@@ -17,7 +17,7 @@ class PhpCompat implements PhpCompatInterface
     public function htmlspecialchars($str = '', $flags = ENT_COMPAT, $encode = '', $safecount = 0)
     {
         $safecount++;
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if (1000 < $safecount) {
             exit("error too many loops '{$safecount}'");
@@ -51,6 +51,6 @@ class PhpCompat implements PhpCompatInterface
 
     public function entities($data)
     {
-        return entities($data, evolutionCMS()->getConfig('modx_charset', 'UTF-8'));
+        return entities($data, evo()->getConfig('modx_charset', 'UTF-8'));
     }
 }

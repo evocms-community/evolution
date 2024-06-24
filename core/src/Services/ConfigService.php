@@ -12,7 +12,7 @@ class ConfigService
      */
     public function get(string $config = '', $default = null)
     {
-        return EvolutionCMS()->getConfig($config, $default);
+        return evo()->getConfig($config, $default);
     }
 
     /**
@@ -23,6 +23,6 @@ class ConfigService
      */
     public function set($name, $value)
     {
-        EvolutionCMS()->setConfig($name, $value);
+        evo()->setConfig($name, $value);
     }
 }

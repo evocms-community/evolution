@@ -191,7 +191,7 @@ class SiteContent extends Eloquent\Model
         parent::boot();
 
         static::updating(static function (SiteContent $entity) {
-            $entity->editedby = evolutionCMS()->getLoginUserID();
+            $entity->editedby = evo()->getLoginUserID();
         });
 
         static::saving(static function (SiteContent $entity) {
@@ -204,7 +204,7 @@ class SiteContent extends Eloquent\Model
         });
 
         static::creating(static function (SiteContent $entity) {
-            $entity->createdby = evolutionCMS()->getLoginUserID();
+            $entity->createdby = evo()->getLoginUserID();
         });
         // When entity is created, the appropriate
         // data will be put into the closure table.
@@ -300,7 +300,7 @@ class SiteContent extends Eloquent\Model
      */
     public function getNodeNameAttribute()
     {
-        $key = evolutionCMS()->getConfig('resource_tree_node_name', 'pagetitle');
+        $key = evo()->getConfig('resource_tree_node_name', 'pagetitle');
         if (mb_strtolower($key) === 'nodename') {
             $key = 'pagetitle';
         }
@@ -2055,8 +2055,8 @@ class SiteContent extends Eloquent\Model
     {
         $query->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id');
         $query->where(function ($query) {
-            $docgrp = EvolutionCMS()->getUserDocGroups();
-            if (EvolutionCMS()->isFrontend()) {
+            $docgrp = evo()->getUserDocGroups();
+            if (evo()->isFrontend()) {
                 $query->where('privateweb', 0);
             } else {
                 $query->whereRaw('1 = ' . ($_SESSION['mgrRole'] ?? 0));
@@ -2104,7 +2104,7 @@ class SiteContent extends Eloquent\Model
 
     public function scopeTvFilter($query, $filters = '', $outerSep = ';', $innerSep = ':')
     {
-        $prefix = EvolutionCMS()->getDatabase()->getConfig('prefix');
+        $prefix = evo()->getDatabase()->getConfig('prefix');
         $filters = explode($outerSep, trim($filters));
         foreach ($filters as $filter) {
             if (empty($filter)) {
@@ -2164,7 +2164,7 @@ class SiteContent extends Eloquent\Model
 
     public function scopeTvOrderBy($query, $orderBy = '', $sep = ':')
     {
-        $prefix = EvolutionCMS()->getDatabase()->getConfig('prefix');
+        $prefix = evo()->getDatabase()->getConfig('prefix');
         $orderBy = explode(',', trim($orderBy));
         foreach ($orderBy as $parts) {
             if (empty(trim($parts))) {

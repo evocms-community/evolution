@@ -139,7 +139,7 @@ class ManagerApi implements ManagerApiInterface
      */
     public function genV1Hash(string $password, string $seed = '1'): string
     { // $seed is user_id basically
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if (isset($modx->config['pwd_hash_algo']) && !empty($modx->config['pwd_hash_algo'])) {
             $algorithm = $modx->getConfig('pwd_hash_algo');
@@ -173,9 +173,7 @@ class ManagerApi implements ManagerApiInterface
             $password = sha1($salt . $password);
         }
 
-        $result = strtolower($algorithm) . '>' . md5($salt . $password) . substr(md5($salt), 0, 8);
-
-        return $result;
+        return strtolower($algorithm) . '>' . md5($salt . $password) . substr(md5($salt), 0, 8);
     }
 
     /**
@@ -184,7 +182,7 @@ class ManagerApi implements ManagerApiInterface
      */
     public function getV1UserHashAlgorithm(string $uid): string
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $tbl_manager_users = $modx->getDatabase()->getFullTableName('users');
         $uid = $modx->getDatabase()->escape($uid);
         $rs = $modx->getDatabase()->select('password', $tbl_manager_users, "id='{$uid}'");
@@ -303,7 +301,7 @@ class ManagerApi implements ManagerApiInterface
      */
     public function checkSystemChecksum()
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if (!isset($modx->config['check_files_onlogin']) || empty($modx->config['check_files_onlogin'])) {
             return '0';
@@ -360,7 +358,7 @@ class ManagerApi implements ManagerApiInterface
      */
     public function saveLastUserSetting($settings, $val = '')
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if (!empty($settings)) {
             if (!is_array($settings)) {
@@ -386,7 +384,7 @@ class ManagerApi implements ManagerApiInterface
      */
     public function loadDatePicker($path): string
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         include_once($path);
         $dp = new \DATEPICKER();
 

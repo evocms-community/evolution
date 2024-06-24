@@ -125,7 +125,7 @@ class SiteModule extends Eloquent\Model
             $builder->leftJoin('site_module_access', 'site_module_access.module', '=', 'site_modules.id')
                 ->leftJoin('member_groups', 'member_groups.user_group', '=', 'site_module_access.usergroup')
                 ->whereNull('site_module_access.usergroup')
-                ->orWhere('member_groups.member', '=', (int)evolutionCMS()->getLoginUserID('mgr'));
+                ->orWhere('member_groups.member', '=', (int) evo()->getLoginUserID('mgr'));
         }
 
         return $builder;

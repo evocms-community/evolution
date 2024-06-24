@@ -53,7 +53,7 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
                 $user = UserManager::edit($userData);
                 if (isset($userData['password'])) {
                     $userData['clearPassword'] = $userData['password'];
-                    $user->password = EvolutionCMS()->getPasswordHash()->HashPassword($userData['password']);
+                    $user->password = evo()->getPasswordHash()->HashPassword($userData['password']);
                     $user->cachepwd = '';
                     $user->save();
                 }
@@ -140,7 +140,7 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
 
         if (isset($userData['role'])
             && $userData['role'] != $user->attributes->role
-            && EvolutionCMS()->hasPermission('save_role')) {
+            && evo()->hasPermission('save_role')) {
             UserManager::setRole(['id' => $user->getKey(), 'role' => $userData['role']]);
         }
 
@@ -158,8 +158,8 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
         }
         $this->parameters['cancel_url'] = "index.php?a=99";
         if ($userData['passwordnotifymethod'] == 'e') {
-            $websignupemail_message = EvolutionCMS()->getConfig('websignupemail_message');
-            $site_url = EvolutionCMS()->getConfig('site_url');
+            $websignupemail_message = evo()->getConfig('websignupemail_message');
+            $site_url = evo()->getConfig('site_url');
             sendMailMessageForUser($user->attributes->email, $user->username, $userData['password'], $user->attributes->fullname, $websignupemail_message, $site_url);
 
         }
