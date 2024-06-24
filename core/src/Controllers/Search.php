@@ -228,8 +228,7 @@ class Search extends AbstractController implements PageControllerInterface
                      ->toArray() as $row) {
             $templates[] = [
                 'value'    => $row['id'],
-                'title'    => htmlspecialchars($row['templatename'], ENT_QUOTES, evo()
-                        ->getConfig('modx_charset')) . ' (' . $row['id'] . ')',
+                'title'    => e($row['templatename'], ENT_QUOTES) . ' (' . $row['id'] . ')',
                 'selected' => $row['id'] == $templateid ? ' selected' : ''
             ];
         }

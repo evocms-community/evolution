@@ -133,7 +133,7 @@ class ExceptionHandler
         }
         if (is_readable($file)) {
             $source = file($file);
-            $source = $this->container->getPhpCompat()->htmlspecialchars($source[$line - 1]);
+            $source = e($source[$line - 1]);
         } else {
             $source = "";
         } //Error $nr in $file at $line: <div><code>$source</code></div>
@@ -180,15 +180,12 @@ class ExceptionHandler
 
         if (isset($_SERVER['HTTP_HOST'])) {
             $request_uri = "http://" . $_SERVER['HTTP_HOST'] . ($_SERVER["SERVER_PORT"] == 80 ? "" : (":" . $_SERVER["SERVER_PORT"])) . $_SERVER['REQUEST_URI'];
-            $request_uri = $this->container->getPhpCompat()->htmlspecialchars($request_uri, ENT_QUOTES,
-                $this->container->getConfig('modx_charset'));
+            $request_uri = e($request_uri, ENT_QUOTES);
         } else {
             $request_uri = '';
         }
-        $ua = $this->container->getPhpCompat()->htmlspecialchars($_SERVER['HTTP_USER_AGENT'], ENT_QUOTES,
-            $this->container->getConfig('modx_charset'));
-        $referer = $this->container->getPhpCompat()->htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_QUOTES,
-            $this->container->getConfig('modx_charset'));
+        $ua = e($_SERVER['HTTP_USER_AGENT'], ENT_QUOTES);
+        $referer = e($_SERVER['HTTP_REFERER'], ENT_QUOTES);
         if ($is_error) {
             $str = '<h2 style="color:red">&laquo; Evolution CMS Parse Error &raquo;</h2>';
             if ($msg != 'PHP Parse Error') {
@@ -492,8 +489,7 @@ class ExceptionHandler
                     }
                     case is_scalar($arg):
                     {
-                        $out = strlen($arg) > 20 ? 'string $var' . $tmp : ("'" . $this->container->getPhpCompat()->htmlspecialchars(str_replace("'",
-                                "\\'", $arg)) . "'");
+                        $out = strlen($arg) > 20 ? 'string $var' . $tmp : ("'" . e(str_replace("'", "\\'", $arg)) . "'");
                         break;
                     }
                     case is_bool($arg):

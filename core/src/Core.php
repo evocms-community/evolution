@@ -2087,9 +2087,9 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if ($this->dumpSnippets) {
             $eventtime = $this->getMicroTime() - $eventtime;
             $eventtime = sprintf('%2.2f ms', $eventtime * 1000);
-            $code = str_replace("\t", '  ', $this->getPhpCompat()->htmlspecialchars($value));
-            $piece = str_replace("\t", '  ', $this->getPhpCompat()->htmlspecialchars($piece));
-            $print_r_params = str_replace("\t", '  ', $this->getPhpCompat()->htmlspecialchars('$modx->event->params = ' . print_r($params, true)));
+            $code = str_replace("\t", '  ', e($value));
+            $piece = str_replace("\t", '  ', e($piece));
+            $print_r_params = str_replace("\t", '  ', e('$modx->event->params = ' . print_r($params, true)));
             $this->snippetsCode .= '<fieldset style="margin:1em;"><legend><b>' . $snippetObject['name'] . '</b>(' . $eventtime . ')</legend><pre style="white-space: pre-wrap;background-color:#fff;width:90%%;">[[' . $piece . ']]</pre><pre style="white-space: pre-wrap;background-color:#fff;width:90%%;">' . $print_r_params . '</pre><pre style="white-space: pre-wrap;background-color:#fff;width:90%%;">' . $code . '</pre></fieldset>';
 
             $this->snippetsTime[] = array('sname' => $key, 'time' => $eventtime);
@@ -5946,7 +5946,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         if (!$isSafe) {
             $msg = $phpcode . "\n" . $this->currentSnippet . "\n" . print_r($_SERVER, true);
-            $title = 'Unknown eval was executed (' . ($this->getPhpCompat()->htmlspecialchars(substr(trim($phpcode), 0, 50))) . ')';
+            $title = 'Unknown eval was executed (' . (e(substr(trim($phpcode), 0, 50))) . ')';
 
             $this->getService('ExceptionHandler')
                 ->messageQuit($title, '', true, '', '', 'Parser', $msg);
@@ -5963,7 +5963,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         $output = $echo . $return;
         modx_sanitize_gpc($output);
-        return $this->getPhpCompat()->htmlspecialchars($output); // Maybe, all html tags are dangerous
+        return e($output); // Maybe, all html tags are dangerous
     }
 
     /**
