@@ -670,8 +670,10 @@ function bold($cond = false)
                             if (count($evtnames) > 0) {
                                 echoEventRows($evtnames);
                             }
-                            echo '<hr class="clear">';
-                            echo '<div class="form-group"><b>' . $services[$srv - 1] . '</b></div>';
+                            if(isset($services[$srv - 1])) {
+                                echo '<hr class="clear">';
+                                echo '<div class="form-group"><b>' . $services[$srv - 1] . '</b></div>';
+                            }
                         }
                         // display group name
                         if ($grp != $row['groupname']) {
