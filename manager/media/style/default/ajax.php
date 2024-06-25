@@ -11,6 +11,7 @@ use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\User;
 use EvolutionCMS\Models\UserRole;
+use Illuminate\Support\Facades\DB;
 
 define('IN_MANAGER_MODE', true); // we use this to make sure files are accessed through
 define('MODX_API_MODE', true);
@@ -115,7 +116,7 @@ if (isset($action)) {
 
         // elements
         case '76':
-            $elements = isset($_REQUEST['elements']) && is_scalar($_REQUEST['elements']) ? htmlentities($_REQUEST['elements']) : '';
+            $elements = isset($_REQUEST['elements']) && is_scalar($_REQUEST['elements']) ? entities($_REQUEST['elements']) : '';
 
             if ($elements) {
                 $output = '';

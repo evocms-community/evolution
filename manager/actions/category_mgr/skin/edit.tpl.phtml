@@ -55,9 +55,9 @@ use EvolutionCMS\Facades\ManagerTheme;
                             <input type="checkbox" name="<?= $view->get('request_key'); ?>[edit][data][<?= $category['id'] ?>][delete]" value="1"/>
                         </td>
                         <td class="text-xs-center">
-                            <a class="btn btn-outline-danger" onclick="return confirm(`<?= $view->txt('are_you_sure'); ?>`);" href="<?= $view->get('url'); ?>&amp;<?= $view->get('request_key'); ?>[delete]=<?= $category['id']; ?>&amp;<?= $view->get('request_key'); ?>[category]=<?= urlencode($category['category']); ?>" data-tooltip="<?= htmlspecialchars($category['category']) ?>::<?= sprintf(
+                            <a class="btn btn-outline-danger" onclick="return confirm(`<?= $view->txt('are_you_sure'); ?>`);" href="<?= $view->get('url'); ?>&amp;<?= $view->get('request_key'); ?>[delete]=<?= $category['id']; ?>&amp;<?= $view->get('request_key'); ?>[category]=<?= urlencode($category['category']); ?>" data-tooltip="<?= e($category['category']) ?>::<?= sprintf(
                                 $view->txt('cm_delete_element_x_now'),
-                                htmlspecialchars($category['category'])
+                                e($category['category'])
                             ); ?>"><i class="<?= ManagerTheme::getStyle('icon_info_triangle') ?>"></i> <?= $view->txt('delete'); ?></a>
                         </td>
                     </tr>

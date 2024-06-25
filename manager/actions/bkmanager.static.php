@@ -1,6 +1,7 @@
 <?php
 
 use EvolutionCMS\Facades\ManagerTheme;
+use Illuminate\Support\Facades\DB;
 
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
@@ -9,7 +10,7 @@ if (!evo()->hasPermission('bk_manager')) {
     evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
-$dbase = evo()->getDatabase()->getConfig('database');
+$dbase = DB::getDatabaseName();
 
 if (!evo()->getConfig('snapshot_path')) {
     if (is_dir(MODX_BASE_PATH . 'temp/backup/')) {
@@ -26,7 +27,7 @@ if (file_exists($tempFile)) {
 
 // Backup Manager by Raymond:
 $mode = $_POST['mode'] ?? '';
-$driver = evo()->getDatabase()->getConfig('driver');
+$driver = DB::getDriverName();
 
 if ($mode == 'restore1') {
     if (!empty($_POST['textarea'])) {
@@ -46,9 +47,9 @@ if ($mode == 'restore1') {
                 $tempfile_path = MODX_BASE_PATH . 'assets/backup/temp.php';
                 file_put_contents($tempfile_path, file_get_contents($_FILES['sqlfile']['tmp_name']));
 
-                $dump_request = 'PGPASSWORD="' . evo()->getDatabase()->getConfig('password') . '" psql --host ' .
-                    evo()->getDatabase()->getConfig('host') . ' --username ' .
-                    evo()->getDatabase()->getConfig('username') . ' --dbname ' . $dbase . ' < ' . $tempfile_path;
+                $dump_request = 'PGPASSWORD="' . DB::getConfig('password') . '" psql --host ' .
+                    DB::getConfig('host') . ' --username ' .
+                    DB::getConfig('username') . ' --dbname ' . $dbase . ' < ' . $tempfile_path;
                 exec($dump_request, $data, $data_second);
                 unlink($tempfile_path);
                 break;
@@ -66,9 +67,9 @@ if ($mode == 'restore1') {
         switch ($driver) {
             case 'pgsql':
 
-                $dump_request = 'PGPASSWORD="' . evo()->getDatabase()->getConfig('password') . '" psql --host ' .
-                    evo()->getDatabase()->getConfig('host') . ' --username ' .
-                    evo()->getDatabase()->getConfig('username') . ' --dbname ' . $dbase . ' < ' . $path;
+                $dump_request = 'PGPASSWORD="' . DB::getConfig('password') . '" psql --host ' .
+                    DB::getConfig('host') . ' --username ' .
+                    DB::getConfig('username') . ' --dbname ' . $dbase . ' < ' . $path;
                 exec($dump_request, $data, $data_second);
 
                 break;
@@ -106,8 +107,8 @@ if ($mode == 'restore1') {
             }
             $table_str = ' -t ' . implode(' -t ', $tables);
 
-            $dump_request = 'pg_dump postgresql://' . evo()->getDatabase()->getConfig('username') . ':' .
-                evo()->getDatabase()->getConfig('password') . '@' . evo()->getDatabase()->getConfig('host') . '/' .
+            $dump_request = 'pg_dump postgresql://' . DB::getConfig('username') . ':' .
+                DB::getConfig('password') . '@' . DB::getConfig('host') . '/' .
                 $dbase . ' --clean --inserts --no-owner --no-privileges ' . $table_str . '> ' . $tempfile_path;
 
             exec($dump_request, $data, $data_second);
@@ -156,15 +157,15 @@ if ($mode == 'restore1') {
 //            $output = "# " . addslashes(evo()->getPhpCompat()->entities(evo()->getConfig('site_name'))) . " Database Dump{$lf}";
 //            $output .= "# Evolution CMS Version:{$version['version']}{$lf}";
 //            $output .= "# {$lf}";
-//            $output .= "# Host: {evo()->getDatabase()->getConfig('host')}{$lf}";
+//            $output .= "# Host: {DB::getConfig('host')}{$lf}";
 //            $output .= "# Generation Time: " . evo()->toDateFormat(time()) . $lf;
-//            $output .= "# Server version: " . evo()->getDatabase()->getVersion() . $lf;
+//            $output .= "# Server version: " . DB::getPdo()->getAttribute(\PDO::ATTR_SERVER_VERSION) . $lf;
 //            $output .= "# PHP Version: " . phpversion() . $lf;
-//            $output .= "# Database: `{evo()->getDatabase()->getConfig('database')}`{$lf}";
+//            $output .= "# Database: `{$dbase}`{$lf}";
 //            $output .= "# Description: " . trim($_REQUEST['backup_title']) . "{$lf}";
 //            $output .= "#";
-            $dump_request = 'pg_dump postgresql://' . evo()->getDatabase()->getConfig('username') . ':' .
-                evo()->getDatabase()->getConfig('password') . '@' . evo()->getDatabase()->getConfig('host') . '/' .
+            $dump_request = 'pg_dump postgresql://' . DB::getConfig('username') . ':' .
+                DB::getConfig('password') . '@' . DB::getConfig('host') . '/' .
                 $dbase . ' --clean --inserts --no-owner --no-privileges > ' . $path;
 
             exec($dump_request, $data, $data_second);
@@ -175,10 +176,8 @@ if ($mode == 'restore1') {
             }
             break;
         default:
-            $sql = "SHOW TABLE STATUS FROM `$dbase` LIKE '" .
-                evo()->getDatabase()->escape(evo()->getDatabase()->getConfig('prefix')) . "%'";
-            $rs = evo()->getDatabase()->query($sql);
-            $tables = evo()->getDatabase()->getColumn('Name', $rs);
+            $sql = "SHOW TABLE STATUS FROM `$dbase` LIKE '" . DB::getTablePrefix() . "%'";
+            $tables = array_column(DB::select($sql), 'Name');
 
             @set_time_limit(120); // set timeout limit to 2 minutes
             $dumper = new \EvolutionCMS\Support\MysqlDumper($dbase);
@@ -350,39 +349,32 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 </thead>
                                 <tbody>
                                 <?php
-                                $prefix = evo()->getDatabase()->escape(evo()->getDatabase()->getConfig('prefix'));
+                                $prefix = DB::getTablePrefix();
 
-                                switch (evo()->getDatabase()->getConfig()['driver']) {
+                                switch (DB::getDriverName()) {
                                     case 'pgsql':
                                         $sql = "SELECT *, tablename as Name
-                 FROM pg_catalog.pg_tables WHERE
-            schemaname != 'information_schema' AND tablename LIKE '%" . $prefix . "%'";
+                                        FROM pg_catalog.pg_tables WHERE
+                                        schemaname != 'information_schema' AND tablename LIKE '%" . $prefix . "%'";
 
-                                        $array = evo()->getDatabase()->makeArray(
-                                            evo()->getDatabase()->query($sql)
-                                        );
+                                        $array = DB::select($sql);
                                         break;
 
                                     case 'mysql':
-                                        $q = evo()->getDatabase()->query(
-                                            "SHOW VARIABLES LIKE 'information_schema_stats_expiry'"
-                                        );
-                                        $mysql8 = evo()->getDatabase()->getRow($q);
+                                        $mysql8 =
+                                            DB::selectOne("SHOW VARIABLES LIKE 'information_schema_stats_expiry'");
                                         if ($mysql8) {
-                                            evo()->getDatabase()->query(
+                                            DB::select(
                                                 "SET @STATS_EXPIRY = @@SESSION.information_schema_stats_expiry, @@SESSION.information_schema_stats_expiry = 0"
                                             );
                                         }
 
-                                        $sql =
-                                            'SHOW TABLE STATUS FROM `' . evo()->getDatabase()->getConfig('database') .
-                                            '` LIKE "' . $prefix . '%"';
-                                        $array = evo()->getDatabase()->makeArray(
-                                            evo()->getDatabase()->query($sql)
+                                        $array = DB::select(
+                                            'SHOW TABLE STATUS FROM `' . $dbase . '` LIKE "' . $prefix . '%"'
                                         );
 
                                         if ($mysql8) {
-                                            evo()->getDatabase()->query(
+                                            DB::select(
                                                 "SET @@SESSION.information_schema_stats_expiry = @STATS_EXPIRY"
                                             );
                                         }
@@ -395,6 +387,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                 $total = 0;
                                 $totaloverhead = 0;
                                 foreach ($array as $db_status) {
+                                    $db_status = (array) $db_status;
+
                                     if (isset($db_status['tablename'])) {
                                         $db_status['Name'] = $db_status['tablename'];
                                     }
@@ -407,7 +401,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                     echo '<tr>' . "\n" .
                                         '<td><label class="form-check form-check-label"><input type="checkbox" name="chk[]" class="form-check-input" value="' .
                                         $db_status['Name'] . '"' .
-                                        (strstr($table_string, $db_status['Name']) === false ? ''
+                                        (!str_contains($table_string, $db_status['Name']) ? ''
                                             : ' checked="checked"') . ' /><b class="text-primary">' .
                                         $db_status['Name'] . '</b></label></td>' . "\n";
                                     echo '<td class="text-xs-center">' .
@@ -419,8 +413,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
                                     // Enable record deletion for certain tables (TRUNCATE TABLE) if they're not already empty
                                     $truncateable = [
-                                        evo()->getDatabase()->getConfig('prefix') . 'event_log',
-                                        evo()->getDatabase()->getConfig('prefix') . 'manager_log',
+                                        DB::getTablePrefix() . 'event_log',
+                                        DB::getTablePrefix() . 'manager_log',
                                     ];
                                     if (evo()->hasPermission('settings') &&
                                         in_array($db_status['Name'], $truncateable) && $db_status['Rows'] > 0
@@ -450,8 +444,8 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
                                     echo '<td class="text-xs-right">' .
                                         nicesize($db_status['Data_length'] - $db_status['Data_free']) . '</td>' . "\n" .
-                                        '<td class="text-xs-right">' . evo()->nicesize($db_status['Index_length']) .
-                                        '</td>' . "\n" . '<td class="text-xs-right">' . evo()->nicesize(
+                                        '<td class="text-xs-right">' . nicesize($db_status['Index_length']) .
+                                        '</td>' . "\n" . '<td class="text-xs-right">' . nicesize(
                                             $db_status['Index_length'] + $db_status['Data_length'] +
                                             $db_status['Data_free']
                                         ) . '</td>' . "\n" . "</tr>";
@@ -492,7 +486,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
             <script>tpDBM.addTabPage(document.getElementById('tabRestore'))</script>
 
             <div class="container container-body">
-                <?= $ph['result_msg_import'] ?>
+                <?= $ph['result_msg_import'] ?? '' ?>
                 <div class="element-edit-message-tab alert alert-warning">
                     <?= __('global.bkmgr_restore_msg') ?>
                 </div>
@@ -515,13 +509,13 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     }
 
                     if (isset($_SESSION['last_result'])) {
-                        $last_result = $_SESSION['last_result'];
+                        $last_result = array_filter((array) $_SESSION['last_result']);
                         unset($_SESSION['last_result']);
                         if (count($last_result) < 1) {
                             $result = '';
                         } else {
-                            $last_result = array_merge([], array_diff($last_result, ['']));
-                            foreach ($last_result['0'] as $k => $v) {
+                            $title = [];
+                            foreach ($last_result[0] as $k => $v) {
                                 $title[] = $k;
                             }
                             $result = '<thead><tr><th>' . implode('</th><th>', $title) . '</th></tr></thead>';
@@ -551,12 +545,12 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <p>
                         <label><input type="radio" name="sel"
                                       onclick="showhide('file');" <?= checked(
-                                !isset($_SESSION['console_mode']) || $_SESSION['console_mode'] !== 'text'
+                                $_SESSION['console_mode'] !== 'text'
                             ) ?> /> <?= __('global.bkmgr_run_sql_file_label') ?>
                         </label>
                         <label><input type="radio" name="sel"
                                       onclick="showhide('textarea');" <?= checked(
-                                isset($_SESSION['console_mode']) && $_SESSION['console_mode'] === 'text'
+                                $_SESSION['console_mode'] === 'text'
                             ) ?> /> <?= __('global.bkmgr_run_sql_direct_label') ?>
                         </label>
                     </p>
@@ -585,7 +579,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
             <script>tpDBM.addTabPage(document.getElementById('tabSnapshot'))</script>
 
             <div class="container container-body">
-                <?= $ph['result_msg_snapshot'] ?>
+                <?= $ph['result_msg_snapshot'] ?? '' ?>
                 <div class="element-edit-message-tab alert alert-warning">
                     <?= parsePlaceholder(
                         __('global.bkmgr_snapshot_msg'),
@@ -659,22 +653,20 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                             $line = fgets($file);
                                             foreach ($detailFields as $label) {
                                                 $fileLabel = '# ' . $label;
-                                                if (strpos($line, $fileLabel) !== false) {
-                                                    $details[$label] = htmlentities(
+                                                if (str_contains($line, $fileLabel)) {
+                                                    $details[$label] = entities(
                                                         trim(
                                                             str_replace([
                                                                 $fileLabel,
                                                                 ':',
                                                                 '`',
                                                             ], '', $line)
-                                                        ),
-                                                        ENT_QUOTES,
-                                                        ManagerTheme::getCharset()
+                                                        )
                                                     );
                                                 }
                                             }
                                             $count++;
-                                        };
+                                        }
                                         fclose($file);
 
                                         $tooltip = 'Generation Time: ' . $details['Generation Time'] . "\n";
@@ -719,7 +711,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
 
 $tab = get_by_key($_GET, 'tab', false);
 if (is_numeric($tab)) {
-    echo '<script>tpDBM.setSelectedIndex( ' . $_GET['tab'] . ' );</script>';
+    echo '<script>tpDBM.setSelectedIndex(' . $_GET['tab'] . ');</script>';
 }
 
 include_once MODX_MANAGER_PATH . 'includes/footer.inc.php'; // send footer
@@ -730,6 +722,6 @@ include_once MODX_MANAGER_PATH . 'includes/footer.inc.php'; // send footer
 /**
  * @deprecated use EvolutionCMS\Support\MysqlDumper
  */
-class Mysqldumper extends EvolutionCMS\Support\MysqlDumper
+class MysqlDumper extends EvolutionCMS\Support\MysqlDumper
 {
 }

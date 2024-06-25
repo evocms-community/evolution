@@ -14,7 +14,7 @@ class ChangePassword extends AbstractController implements PageControllerInterfa
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('save_password');
+        return evo()->hasPermission('save_password');
     }
 
     public function process() : bool
@@ -25,7 +25,7 @@ class ChangePassword extends AbstractController implements PageControllerInterfa
             foreach ($exception->getValidationErrors() as $errors){
                 if(is_array($errors)){
                     foreach ($errors as $error){
-                        EvolutionCMS()->webAlertAndQuit($error, 'index.php?a=28');
+                        evo()->webAlertAndQuit($error, 'index.php?a=28');
                     }
                 }
             }

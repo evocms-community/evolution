@@ -17,7 +17,7 @@ class Search extends AbstractController implements PageControllerInterface
 
     public function canView(): bool
     {
-        return ManagerTheme::getCore()
+        return evo()
             ->hasPermission('view_document');
     }
 
@@ -67,7 +67,7 @@ class Search extends AbstractController implements PageControllerInterface
         $idFromAlias = false;
         if (isset($_REQUEST['url']) && $_REQUEST['url'] !== '') {
             $url = $_REQUEST['url'];
-            $friendly_url_suffix = ManagerTheme::getCore()
+            $friendly_url_suffix = evo()
                 ->getConfig('friendly_url_suffix');
             $base_url = MODX_BASE_URL;
             $site_url = MODX_SITE_URL;
@@ -78,7 +78,7 @@ class Search extends AbstractController implements PageControllerInterface
             if (substr($url, 0, 4) === 'http') {
                 $url = preg_replace('@^' . $site_url . '@', '', $url);
             }
-            $idFromAlias = ManagerTheme::getCore()
+            $idFromAlias = evo()
                 ->getIdFromAlias($url);
         }
 
@@ -228,8 +228,7 @@ class Search extends AbstractController implements PageControllerInterface
                      ->toArray() as $row) {
             $templates[] = [
                 'value'    => $row['id'],
-                'title'    => htmlspecialchars($row['templatename'], ENT_QUOTES, ManagerTheme::getCore()
-                        ->getConfig('modx_charset')) . ' (' . $row['id'] . ')',
+                'title'    => e($row['templatename'], ENT_QUOTES) . ' (' . $row['id'] . ')',
                 'selected' => $row['id'] == $templateid ? ' selected' : ''
             ];
         }
@@ -245,9 +244,9 @@ class Search extends AbstractController implements PageControllerInterface
 
         if ($searchfields != '') {
             //docs
-            if (ManagerTheme::getCore()
-                    ->hasPermission('new_document') && ManagerTheme::getCore()
-                    ->hasPermission('edit_document') && ManagerTheme::getCore()
+            if (evo()
+                    ->hasPermission('new_document') && evo()
+                    ->hasPermission('edit_document') && evo()
                     ->hasPermission('save_document')) {
 
                 $results = $this->getResults();
@@ -273,7 +272,7 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //templates
-            if (ManagerTheme::getCore()
+            if (evo()
                 ->hasPermission('edit_template')) {
 
                 $results = SiteTemplate::query()
@@ -303,10 +302,10 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //tvs
-            if (ManagerTheme::getCore()
-                    ->hasPermission('edit_template') && ManagerTheme::getCore()
-                    ->hasPermission('edit_snippet') && ManagerTheme::getCore()
-                    ->hasPermission('edit_chunk') && ManagerTheme::getCore()
+            if (evo()
+                    ->hasPermission('edit_template') && evo()
+                    ->hasPermission('edit_snippet') && evo()
+                    ->hasPermission('edit_chunk') && evo()
                     ->hasPermission('edit_plugin')) {
 
                 $results = SiteTmplvar::query()
@@ -340,7 +339,7 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //Chunks
-            if (ManagerTheme::getCore()
+            if (evo()
                 ->hasPermission('edit_chunk')) {
 
                 $results = SiteHtmlsnippet::query()
@@ -370,7 +369,7 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //Snippets
-            if (ManagerTheme::getCore()
+            if (evo()
                 ->hasPermission('edit_snippet')) {
 
                 $results = SiteSnippet::query()
@@ -402,7 +401,7 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //plugins
-            if (ManagerTheme::getCore()
+            if (evo()
                 ->hasPermission('edit_plugin')) {
 
                 $results = SitePlugin::query()
@@ -434,7 +433,7 @@ class Search extends AbstractController implements PageControllerInterface
             }
 
             //modules
-            if (ManagerTheme::getCore()
+            if (evo()
                 ->hasPermission('edit_module')) {
 
                 $results = SiteModule::query()
@@ -499,10 +498,10 @@ class Search extends AbstractController implements PageControllerInterface
             ], [
                 '\(',
                 '\)'
-            ], entities(trim($search), ManagerTheme::getCore()
+            ], entities(trim($search), evo()
                 ->getConfig('modx_charset'))) . ')!isu';
 
-        return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, ManagerTheme::getCore()
+        return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, evo()
             ->getConfig('modx_charset')));
     }
 }

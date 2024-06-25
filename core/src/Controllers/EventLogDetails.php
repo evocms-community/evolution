@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\EventLog;
 
@@ -13,7 +12,7 @@ class EventLogDetails extends AbstractController implements PageControllerInterf
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('view_eventlog');
+        return evo()->hasPermission('view_eventlog');
     }
 
     public function process() : bool

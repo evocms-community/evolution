@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteContent;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +13,7 @@ class SiteSchedule extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('view_eventlog');
+        return evo()->hasPermission('view_eventlog');
     }
 
     /**
@@ -37,7 +36,7 @@ class SiteSchedule extends AbstractController implements PageControllerInterface
      */
     protected function publishDocuments()
     {
-        return SiteContent::where('pub_date', '>', ManagerTheme::getCore()->timestamp())
+        return SiteContent::where('pub_date', '>', evo()->timestamp())
             ->orderBy('pub_date', 'asc')
             ->get();
     }
@@ -47,7 +46,7 @@ class SiteSchedule extends AbstractController implements PageControllerInterface
      */
     protected function unPublishDocuments()
     {
-        return SiteContent::where('unpub_date', '>', ManagerTheme::getCore()->timestamp())
+        return SiteContent::where('unpub_date', '>', evo()->timestamp())
             ->orderBy('unpub_date', 'asc')
             ->get();
     }

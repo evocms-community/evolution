@@ -1,10 +1,10 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SitePlugin;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SystemSetting;
+
 use function extension_loaded;
 use function is_array;
 
@@ -38,7 +38,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()
+        return evo()
             ->hasPermission('settings');
     }
 
@@ -95,7 +95,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
                     ]
                 ];
             }
-            if ($row['id'] == get_by_key(ManagerTheme::getCore()->config, 'default_template')) {
+            if ($row['id'] == get_by_key(evo()->config, 'default_template')) {
                 $templates['oldTmpId'] = $row['id'];
                 $templates['oldTmpName'] = $row['templatename'];
             }
@@ -189,8 +189,8 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
         // reload system settings from the database.
         // this will prevent user-defined settings from being saved as system setting
         $out = array_merge(
-            ManagerTheme::getCore()->config,
-            ManagerTheme::getCore()
+            evo()->config,
+            evo()
                 ->getFactorySettings(),
             SystemSetting::all()
                 ->pluck('setting_value', 'setting_name')
@@ -244,7 +244,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
      */
     protected function parameterPasswordHash(): array
     {
-        $managerApi = ManagerTheme::getCore()
+        $managerApi = evo()
             ->getManagerApi();
 
         return [
@@ -301,7 +301,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
      */
     private function callEvent(string $name)
     {
-        $out = ManagerTheme::getCore()
+        $out = evo()
             ->invokeEvent($name);
         if (is_array($out)) {
             $out = implode('', $out);

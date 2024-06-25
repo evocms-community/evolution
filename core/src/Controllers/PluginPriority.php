@@ -1,12 +1,10 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SitePluginEvent;
 use EvolutionCMS\Models\SystemEventname;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
 
 class PluginPriority extends AbstractController implements PageControllerInterface
 {
@@ -17,7 +15,7 @@ class PluginPriority extends AbstractController implements PageControllerInterfa
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('save_plugin');
+        return evo()->hasPermission('save_plugin');
     }
 
     /**
@@ -47,7 +45,7 @@ class PluginPriority extends AbstractController implements PageControllerInterfa
 
         if (isset($_POST['priority']) && is_array($_POST['priority'])) {
             $updateMsg = true;
-            $db        = ManagerTheme::getCore()->getDatabase();
+            $db = evo()->getDatabase();
             $tableName = $db->getFullTableName('site_plugin_events');
 
             foreach ($_POST['priority'] as $eventId => $pluginsOrder) {
@@ -66,7 +64,7 @@ class PluginPriority extends AbstractController implements PageControllerInterfa
             }
 
             // empty cache
-            ManagerTheme::getCore()->clearCache('full');
+            evo()->clearCache('full');
         }
 
         $this->parameters['updateMsg'] = $updateMsg;

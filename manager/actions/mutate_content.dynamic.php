@@ -593,7 +593,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     foreach ($parentsResult->toArray() as $row) {
                         $out .= '<li class="breadcrumbs__li">
                                 <a href="index.php?a=27&id=' . $row['id'] . '" class="breadcrumbs__a">' .
-                            htmlspecialchars($row['pagetitle'], ENT_QUOTES, evo()->getConfig('modx_charset')) . '</a>
+                            e($row['pagetitle'], ENT_QUOTES) . '</a>
                                 <span class="breadcrumbs__sep">&gt;</span>
                             </li>';
                     }
@@ -641,7 +641,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td>
                                     <input name="pagetitle" type="text" maxlength="255"
-                                           value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           value="<?= e(
                                                stripslashes(get_by_key($content, 'pagetitle', '', 'is_scalar'))
                                            ) ?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true"/>
                                     <script>document.getElementsByName('pagetitle')[0].focus()</script>
@@ -655,7 +655,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td>
                                     <input name="longtitle" type="text" maxlength="255"
-                                           value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           value="<?= e(
                                                stripslashes(get_by_key($content, 'longtitle', '', 'is_scalar'))
                                            ) ?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true"/>
                                 </td>
@@ -668,7 +668,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td>
                                     <input name="description" type="text" maxlength="255"
-                                           value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           value="<?= e(
                                                stripslashes(get_by_key($content, 'description', '', 'is_scalar'))
                                            ) ?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true"/>
                                 </td>
@@ -693,7 +693,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td>
                                     <input name="link_attributes" type="text" maxlength="255"
-                                           value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           value="<?= e(
                                                stripslashes(
                                                    get_by_key($content, 'link_attributes', '', 'is_scalar')
                                                )
@@ -738,8 +738,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td valign="top">
                                         <textarea id="introtext" name="introtext" class="inputBox" rows="3" cols=""
-                                                  onchange="documentDirty=true;"><?= evo()->getPhpCompat()
-                                                ->htmlspecialchars(
+                                                  onchange="documentDirty=true;"><?= e(
                                                     stripslashes(get_by_key($content, 'introtext', '', 'is_scalar'))
                                                 ) ?></textarea>
                                 </td>
@@ -811,7 +810,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 </td>
                                 <td>
                                     <input name="menutitle" type="text" maxlength="255"
-                                           value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                           value="<?= e(
                                                stripslashes(get_by_key($content, 'menutitle', '', 'is_scalar'))
                                            ) ?>" class="inputBox" onchange="documentDirty=true;"/>
                                 </td>
@@ -971,8 +970,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                 ?>
                                                 <div class="section-editor clearfix">
                                                         <textarea id="ta" name="ta"
-                                                                  onchange="documentDirty=true;"><?= evo()
-                                                                ->getPhpCompat()->htmlspecialchars(
+                                                                  onchange="documentDirty=true;"><?= e(
                                                                     $htmlContent
                                                                 ) ?></textarea>
                                                 </div>
@@ -988,8 +986,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                                 ];
                                             } else {
                                                 echo "\t" .
-                                                    '<div><textarea class="phptextarea" id="ta" name="ta" rows="20" wrap="soft" onchange="documentDirty=true;">', evo(
-                                                )->getPhpCompat()->htmlspecialchars(
+                                                    '<div><textarea class="phptextarea" id="ta" name="ta" rows="20" wrap="soft" onchange="documentDirty=true;">', e(
                                                     get_by_key($content, 'content', '')
                                                 ), '</textarea></div>' . "\n";
                                             }

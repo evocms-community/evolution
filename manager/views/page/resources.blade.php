@@ -28,7 +28,7 @@ use EvolutionCMS\Facades\ManagerTheme;
 
             @foreach($tabs as $tab)
                 @if($tab instanceof EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface)
-                    @include(ManagerTheme::getViewName($tab->getView()), $tab->getParameters())
+                    @include('manager::' . $tab->getView(), $tab->getParameters())
                 @else
                     {!! $tab !!}
                 @endif

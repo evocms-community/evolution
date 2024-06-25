@@ -55,7 +55,7 @@ class LogInOut extends AbstractController implements PageControllerInterface
 
     public function simpleLogin()
     {
-        if (EvolutionCMS()->getConfig('use_captcha') == 1) {
+        if (evo()->getConfig('use_captcha') == 1) {
             if (!isset ($_SESSION['veriword'])) {
                 jsAlert(Lang::get('global.login_processor_captcha_config'));
                 exit();
@@ -76,7 +76,7 @@ class LogInOut extends AbstractController implements PageControllerInterface
             }
         }
         $log = new LogHandler();
-        $log->initAndWriteLog('Logged in', EvolutionCMS()->getLoginUserID('mgr'), $_SESSION['mgrShortname'], '58', '-', 'EVO');
+        $log->initAndWriteLog('Logged in', evo()->getLoginUserID('mgr'), $_SESSION['mgrShortname'], '58', '-', 'EVO');
 
         $id = 0;
 // check if we should redirect user to a web page

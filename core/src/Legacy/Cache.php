@@ -30,7 +30,7 @@ class Cache
      */
     public function __construct()
     {
-        $this->request_time = $_SERVER['REQUEST_TIME'] + evolutionCMS()->getConfig('server_offset_time');
+        $this->request_time = $_SERVER['REQUEST_TIME'] + evo()->getConfig('server_offset_time');
     }
 
     /**
@@ -85,7 +85,7 @@ class Cache
     {
         // modx:returns child's parent
         if (empty($this->aliases)) {
-            $db = evolutionCMS()->getDatabase();
+            $db = evo()->getDatabase();
             $q = $db->query("SELECT `id`, `alias`, `parent`, `alias_visible` FROM {$db->getFullTableName('site_content')} WHERE `deleted` = 0 AND `isfolder` = 1");
 
             while ($row = $db->getRow($q)) {
@@ -185,7 +185,7 @@ class Cache
         $content .= '$recent_update=\'' . $this->request_time . '\';' . "\n";
         $content .= '$cacheRefreshTime=\'' . $cacheRefreshTime . '\';' . "\n";
 
-        $filename = evolutionCMS()->getSitePublishingFilePath();
+        $filename = evo()->getSitePublishingFilePath();
         if (!$handle = fopen($filename, 'w')) {
             exit("Cannot open file ({$filename}");
         }

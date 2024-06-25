@@ -361,28 +361,7 @@ $resourceArray = [
 switch ($actionToTake) {
     case 'new':
         // invoke OnBeforeDocFormSave event
-        switch (evo()->config['docid_incrmnt_method']) {
-            case '1':
-                $id = SiteContent::withTrashed()
-                    ->leftJoin('site_content as t1', function ($join) {
-                        $join->on(
-                            DB::raw(evo()->getDatabase()->getFullTableName('site_content') . '.id +1'),
-                            '=',
-                            't1.id'
-                        );
-                    })
-                    ->whereNull('t1.id')->min('site_content.id');
-                $id++;
-
-                break;
-            case '2':
-                $id = SiteContent::query()->max('id');
-                $id++;
-                break;
-
-            default:
-                $id = '';
-        }
+        $id = '';
 
         evo()->invokeEvent('OnBeforeDocFormSave', [
             'mode' => 'new',

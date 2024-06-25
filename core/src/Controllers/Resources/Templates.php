@@ -6,7 +6,6 @@ use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteTemplate;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array( 'edit'=>array(16,'edit_template'), 'duplicate'=>array(96,'new_template'), 'remove'=>array(21,'delete_template') ),
 class Templates extends AbstractResources implements TabControllerInterface
@@ -30,7 +29,7 @@ class Templates extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasAnyPermissions([
+        return evo()->hasAnyPermissions([
             'new_template',
             'edit_template'
         ]);

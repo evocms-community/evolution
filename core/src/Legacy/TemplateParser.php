@@ -9,7 +9,7 @@ Class TemplateParser
      * @return string
      */
     public function output($config = array(), $data = array()) {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         $output = '';
         $action = !empty($config['action']) ? $config['action'] : (!empty($_REQUEST['a']) ? $_REQUEST['a'] : '');
@@ -65,10 +65,12 @@ Class TemplateParser
      * @return string
      */
     private function render($data) {
-        $modx = evolutionCMS(); global $_lang, $_country_lang;
+        $modx = evo();
+
+        global $_lang, $_country_lang;
 
         $data['lang.name'] = (isset($_lang[$data['alias']]) ? $_lang[$data['alias']] : $data['alias']);
-        $data['value'] = (isset($_POST[$data['name']][$data['value']]) ? $_POST[$data['name']][$data['value']] : (isset($data['value']) ? $modx->getPhpCompat()->htmlspecialchars($data['value']) : ''));
+        $data['value'] = ($_POST[$data['name']][$data['value']] ?? (isset($data['value']) ? e($data['value']) : ''));
         $data['readonly'] = ($data['readonly'] ? ' readonly' : '');
 
         $output = '';

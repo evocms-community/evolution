@@ -4,6 +4,6 @@ use EvolutionCMS\Facades\ManagerTheme;
 
 // get the page to manage files
 extract(ManagerTheme::getViewAttributes());
-echo ManagerTheme::view('partials.header')->render();
+echo view('manager::partials.header')->render();
 include_once ManagerTheme::getFileProcessor('actions/files.dynamic.php');
-echo ManagerTheme::view('partials.footer')->render();
+echo view('manager::partials.footer')->render();

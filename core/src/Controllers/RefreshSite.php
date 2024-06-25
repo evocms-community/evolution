@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Models\SiteContent;
@@ -17,7 +16,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = ManagerTheme::getCore()->getDatabase();
+        $this->database = evo()->getDatabase();
     }
 
     /**
@@ -32,7 +31,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
     {
         // (un)publishing of documents, version 2!
         // first, publish document waiting to be published
-        $time = ManagerTheme::getCore()->timestamp();
+        $time = evo()->timestamp();
 
         $this->parameters = [
             'num_rows_pub' => $this->publishDocuments($time),
@@ -40,12 +39,12 @@ class RefreshSite extends AbstractController implements PageControllerInterface
         ];
 
         ob_start();
-            ManagerTheme::getCore()->clearCache('full', true);
+        evo()->clearCache('full', true);
             $this->parameters['cache_log'] = ob_get_contents();
         ob_end_clean();
 
         // invoke OnSiteRefresh event
-        ManagerTheme::getCore()->invokeEvent("OnSiteRefresh");
+        evo()->invokeEvent("OnSiteRefresh");
 
         return true;
     }

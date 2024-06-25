@@ -1,6 +1,5 @@
 <?php namespace EvolutionCMS\Controllers;
 
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteTmplvar;
 
@@ -11,7 +10,7 @@ class TmplvarRank extends AbstractController implements PageControllerInterface
     public function canView(): bool
     {
         if ($this->getIndex() == 305) {
-            return ManagerTheme::getCore()
+            return evo()
                 ->hasPermission('save_template');
         }
 
@@ -69,7 +68,7 @@ class TmplvarRank extends AbstractController implements PageControllerInterface
                 $updated = true;
             }
             // empty cache
-            ManagerTheme::getCore()
+            evo()
                 ->clearCache('full');
         }
 

@@ -26,15 +26,15 @@ use EvolutionCMS\Facades\ManagerTheme;
                                    data-id="{{ $item->id }}" data-catid="{{ $item->category }}"
                                    href="{{ $item->makeUrl($action) }}">
                     @endif
-                                    @if(empty($item->icon))
-                                        <i class="{{ ManagerTheme::getStyle('icon_module') }}"></i>
-                                    @else
-                                        <i class="{{ $item->icon }}"></i>
-                                    @endif
-                                    @if($item->locked)
-                                        <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>
-                                    @endif
-                                    {{ $item->name }}
+                        @if(empty($item->icon))
+                            <i class="{{ ManagerTheme::getStyle('icon_module') }}"></i>
+                        @else
+                            <i class="{{ $item->icon }}"></i>
+                        @endif
+                        @if($item->locked)
+                            <i class="{{ ManagerTheme::getStyle('icon_lock') }}"></i>
+                        @endif
+                        {{ $item->name }}
                         <small>({{ $item->id }})</small>
                         <span class="elements_descr">
                             {{ $item->caption }}
@@ -44,9 +44,6 @@ use EvolutionCMS\Facades\ManagerTheme;
                         </span>
                         @else
                             </a>
-                        @endif
-                        @if(ManagerTheme::getTextDir() !== 'ltr')
-                            &rlm;
                     @endif
                 </span>
             </div>

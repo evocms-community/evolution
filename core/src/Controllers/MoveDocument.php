@@ -2,7 +2,6 @@
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
-use EvolutionCMS\Models;
 use EvolutionCMS\Legacy\Permissions;
 use EvolutionCMS\Models\SiteContent;
 use Exception;
@@ -16,7 +15,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('save_document');
+        return evo()->hasPermission('save_document');
     }
 
     public function process() : bool
@@ -48,7 +47,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
 
         $document = $this->getDocument($documentID);
 
-        $parents = ManagerTheme::getCore()->getParentIds($newParentID);
+        $parents = evo()->getParentIds($newParentID);
         if (\in_array($document->getKey(), $parents, true)) {
             ManagerTheme::alertAndQuit('error_movedocument2');
         }
@@ -58,7 +57,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
             $this->checkNewParentPermission($newParentID);
         }
 
-        $evtOut = ManagerTheme::getCore()->invokeEvent('OnBeforeMoveDocument', [
+        $evtOut = evo()->invokeEvent('OnBeforeMoveDocument', [
             'id' => $document->getKey(),
             'old_parent' => $document->parent,
             'new_parent' => $newParentID
@@ -97,14 +96,14 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         // Set the item name for logger
         $_SESSION['itemname'] = $document->pagetitle;
 
-        ManagerTheme::getCore()->invokeEvent('OnAfterMoveDocument', [
+        evo()->invokeEvent('OnAfterMoveDocument', [
             'id' => $document->getKey(),
             'old_parent'  => $document->parent,
             'new_parent'  => $newParentID
         ]);
 
         // empty cache & sync site
-        ManagerTheme::getCore()->clearCache('full');
+        evo()->clearCache('full');
 
         header('Location: index.php?a=3&id=' . $document->getKey() . '&r=9');
     }
@@ -116,7 +115,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
 
         // check permissions on the document
         $udperms = new Permissions();
-        $udperms->user     = ManagerTheme::getCore()->getLoginUserID('mgr');
+        $udperms->user = evo()->getLoginUserID('mgr');
         $udperms->document = $document->getKey();
         $udperms->role     = $_SESSION['mgrRole'];
 
@@ -153,7 +152,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
     protected function checkNewParentPermission($id)
     {
         $udperms           = new Permissions;
-        $udperms->user     = ManagerTheme::getCore()->getLoginUserID('mgr');
+        $udperms->user = evo()->getLoginUserID('mgr');
         $udperms->document = $id;
         $udperms->role     = $_SESSION['mgrRole'];
 

@@ -22,7 +22,7 @@ class Router extends IlluminateRouter implements BindingRegistrar, RegistrarCont
     {
         if (!$this->hasFallbackToParser) {
             $this->addRoute(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], '{any}', function () {
-                EvolutionCMS()->executeParser();
+                evo()->executeParser();
                 exit();
             })->where('any', '.*')->middleware('web')->fallback();
 

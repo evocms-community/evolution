@@ -88,7 +88,7 @@ class Database extends Manager
             return $out;
         } catch (Exception $exception) {
             if ($watchError === true) {
-                evolutionCMS()->getService('ExceptionHandler')->messageQuit(e($exception->getMessage()) . '<br><br>' . e($sql));
+                evo()->getService('ExceptionHandler')->messageQuit(e($exception->getMessage()) . '<br><br>' . e($sql));
             }
         }
     }
@@ -480,7 +480,7 @@ class Database extends Manager
 
         $out = false;
         if (!$from) {
-            evolutionCMS()->getService('ExceptionHandler')->messageQuit("Empty \$from parameters in DBAPI::delete().");
+            evo()->getService('ExceptionHandler')->messageQuit("Empty \$from parameters in DBAPI::delete().");
         } else {
             $from = $this->replaceFullTableName($from);
             $where = trim($where);
@@ -595,7 +595,7 @@ class Database extends Manager
     {
         $out = false;
         if (!$intotable) {
-            evolutionCMS()->getService('ExceptionHandler')->messageQuit("Empty \$intotable parameters in DBAPI::insert().");
+            evo()->getService('ExceptionHandler')->messageQuit("Empty \$intotable parameters in DBAPI::insert().");
         } else {
             $intotable = $this->replaceFullTableName($intotable);
             if (!is_array($fields)) {
@@ -628,7 +628,7 @@ class Database extends Manager
                 }
             }
             if (($lid = $this->getInsertId()) === false) {
-                evolutionCMS()->getService('ExceptionHandler')->messageQuit("Couldn't get last insert key!");
+                evo()->getService('ExceptionHandler')->messageQuit("Couldn't get last insert key!");
             }
 
             $out = $lid;
@@ -656,7 +656,7 @@ class Database extends Manager
     {
         $out = false;
         if (!$table) {
-            evolutionCMS()->getService('ExceptionHandler')->messageQuit('Empty ' . $table . ' parameter in DBAPI::update().');
+            evo()->getService('ExceptionHandler')->messageQuit('Empty ' . $table . ' parameter in DBAPI::update().');
         } else {
             $table = $this->replaceFullTableName($table);
             if (is_array($fields)) {
@@ -696,7 +696,7 @@ class Database extends Manager
     {
         $metadata = [];
         if (!empty($table) && is_scalar($table)) {
-            switch (EvolutionCMS()->getDatabase()->getConfig('driver')) {
+            switch (evo()->getDatabase()->getConfig('driver')) {
                 case 'pgsql':
                     $sql = " SELECT * FROM information_schema.columns WHERE table_name = '" . $table . "';";
                     break;
@@ -706,7 +706,7 @@ class Database extends Manager
             }
             if ($ds = $this->query($sql)) {
                 while ($row = $this->getRow($ds)) {
-                    switch (EvolutionCMS()->getDatabase()->getConfig('driver')) {
+                    switch (evo()->getDatabase()->getConfig('driver')) {
                         case 'pgsql':
                             $fieldName = $row['column_name'];
                             break;

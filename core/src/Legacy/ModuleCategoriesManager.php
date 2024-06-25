@@ -49,7 +49,7 @@ class ModuleCategoriesManager extends Categories
      */
     public function get(string $key)
     {
-        $modx = evolutionCMS();
+        $modx = evo();
 
         if (isset($this->params[$key])) {
             return $this->params[$key];

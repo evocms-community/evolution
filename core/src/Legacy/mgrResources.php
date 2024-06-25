@@ -78,8 +78,8 @@ class mgrResources
     public function queryItemsFromDB()
     {
         foreach ($this->types as $resourceTable => $type) {
-            if (evolutionCMS()->hasAnyPermissions($type['permissions'])) {
-                $nameField = isset($type['name']) ? $type['name'] : 'name';
+            if (evo()->hasAnyPermissions($type['permissions'])) {
+                $nameField = $type['name'] ?? 'name';
                 $this->items[$resourceTable] = $this->queryResources($resourceTable, $nameField);
             }
         }
@@ -92,7 +92,7 @@ class mgrResources
      */
     public function queryResources($resourceTable, $nameField = 'name')
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         global $_lang;
 
         $allowed = array(

@@ -6,7 +6,6 @@ use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteHtmlsnippet;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use EvolutionCMS\Facades\ManagerTheme;
 
 //'actions'=>array('edit'=>array(78,'edit_chunk'), 'duplicate'=>array(97,'new_chunk'), 'remove'=>array(80,'delete_chunk')),
 class Chunks extends AbstractResources implements TabControllerInterface
@@ -30,7 +29,7 @@ class Chunks extends AbstractResources implements TabControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasAnyPermissions([
+        return evo()->hasAnyPermissions([
             'new_chunk',
             'edit_chunk'
         ]);

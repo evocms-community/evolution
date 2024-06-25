@@ -62,7 +62,7 @@ class ErrorHandler
      */
     public function includeLang($context = 'common')
     {
-        $modx = evolutionCMS();
+        $modx = evo();
         $_lang = array();
 
         $context = trim($context, '/');

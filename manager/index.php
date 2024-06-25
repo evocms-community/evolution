@@ -48,6 +48,7 @@
  *          content
  */
 use EvolutionCMS\Facades\ManagerTheme;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 
 if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
@@ -142,7 +143,7 @@ $modx->mstart = $mstart;
 $modx->sid = session_id();
 
 $_lang = __('global');
-Lang::setLocale(ManagerTheme::getLang());
+Lang::setLocale(Config::get('global.manager_language', 'en'));
 
 //$settings = evo()->allConfig();
 //extract($settings, EXTR_OVERWRITE);
@@ -155,7 +156,7 @@ if (!isset($_SESSION['SystemAlertMsgQueque'])) {
 $SystemAlertMsgQueque = &$_SESSION['SystemAlertMsgQueque'];
 
 // send the charset header
-header('Content-Type: text/html; charset=' . ManagerTheme::getCharset());
+header('Content-Type: text/html; charset=UTF-8');
 
 $action = 0;
 

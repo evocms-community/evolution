@@ -32,9 +32,6 @@ use EvolutionCMS\Facades\ManagerTheme;
                             {!! $item->description !!}
                         </span>
                     </a>
-                    @if(ManagerTheme::getTextDir() !== 'ltr')
-                        &rlm;
-                    @endif
                 </span>
             </div>
             <div class="btnCell">

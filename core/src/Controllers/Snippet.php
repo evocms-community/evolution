@@ -28,11 +28,11 @@ class Snippet extends AbstractController implements PageControllerInterface
     {
         switch ($this->getIndex()) {
             case 22:
-                $out = ManagerTheme::getCore()->hasPermission('edit_snippet');
+                $out = evo()->hasPermission('edit_snippet');
                 break;
 
             case 23:
-                $out = ManagerTheme::getCore()->hasPermission('new_snippet');
+                $out = evo()->hasPermission('new_snippet');
                 break;
 
             default:
@@ -47,7 +47,7 @@ class Snippet extends AbstractController implements PageControllerInterface
      */
     public function process(): bool
     {
-        ManagerTheme::getCore()->lockElement($this->elementType, $this->getElementId());
+        evo()->lockElement($this->elementType, $this->getElementId());
 
         $this->object = $this->parameterData();
 
@@ -123,8 +123,8 @@ class Snippet extends AbstractController implements PageControllerInterface
             return '';
         }
 
-        return ManagerTheme::getCore()->convertDocBlockIntoList(
-            ManagerTheme::getCore()->parseDocBlockFromString(
+        return evo()->convertDocBlockIntoList(
+            evo()->parseDocBlockFromString(
                 $this->object->snippet
             )
         );
@@ -143,7 +143,7 @@ class Snippet extends AbstractController implements PageControllerInterface
 
     private function callEvent($name): string
     {
-        $out = ManagerTheme::getCore()->invokeEvent($name, [
+        $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
             'controller' => $this
         ]);
@@ -159,10 +159,10 @@ class Snippet extends AbstractController implements PageControllerInterface
     {
         return [
             'select' => 1,
-            'save' => ManagerTheme::getCore()->hasPermission('save_snippet'),
-            'new' => ManagerTheme::getCore()->hasPermission('new_snippet'),
-            'duplicate' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('new_snippet'),
-            'delete' => $this->object->getKey() && ManagerTheme::getCore()->hasPermission('delete_snippet'),
+            'save' => evo()->hasPermission('save_snippet'),
+            'new' => evo()->hasPermission('new_snippet'),
+            'duplicate' => $this->object->getKey() && evo()->hasPermission('new_snippet'),
+            'delete' => $this->object->getKey() && evo()->hasPermission('delete_snippet'),
             'cancel' => 1
         ];
     }

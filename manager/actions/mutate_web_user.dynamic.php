@@ -130,7 +130,7 @@ if (isset($_REQUEST['newrole'])) {
             $query['id'] = $user;
         }
         $query['newrole'] = $_REQUEST['newrole'];
-        $modx->getManagerApi()->saveFormValues(87);
+        evo()->getManagerApi()->saveFormValues(87);
         redirect('index.php?' . http_build_query($query))->send();
     } else {
         $userdata['role'] = $_REQUEST['newrole'];
@@ -406,8 +406,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             <td><?= __('global.username'); ?>:
                             </td>
                             <td>
-                                <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i>&nbsp;<b><?= evo()
-                                        ->getPhpCompat()->htmlspecialchars(
+                                <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i>&nbsp;<b><?= e(
                                             !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
                                                 : $usernamedata['username']
                                         ); ?></b> - <span class="comment">
@@ -415,7 +414,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                        onClick="changeName();return false;"><?= __('global.change_name') ?></a>
                                 </span>
                                 <input type="hidden" name="oldusername"
-                                       value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                       value="<?= e(
                                            !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
                                                : $usernamedata['username']
                                        ); ?>"/>
@@ -430,7 +429,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="newusername" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                   value="<?= e(
                                        $_POST['newusername'] ?? $usernamedata['username']
                                    ); ?>" onChange="documentDirty=true;" maxlength="100"/>
                         </td>
@@ -500,7 +499,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="fullname" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                   value="<?= e(
                                        $_POST['fullname'] ?? $userdata['fullname']
                                    ); ?>" onChange="documentDirty=true;"/>
                         </td>
@@ -510,7 +509,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="first_name" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['first_name']); ?>"
+                                   value="<?= e($userdata['first_name']); ?>"
                                    onChange="documentDirty=true;"/>
                         </td>
                     </tr>
@@ -519,7 +518,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="middle_name" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['middle_name']); ?>"
+                                   value="<?= e($userdata['middle_name']); ?>"
                                    onChange="documentDirty=true;"/>
                         </td>
                     </tr>
@@ -528,7 +527,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="last_name" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['last_name']); ?>"
+                                   value="<?= e($userdata['last_name']); ?>"
                                    onChange="documentDirty=true;"/>
                         </td>
                     </tr>
@@ -539,7 +538,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td>
                             <input type="text" name="email" class="inputBox" value="<?= $_POST['email'] ??
                                 $userdata['email']; ?>" onChange="documentDirty=true;"/>
-                            <input type="hidden" name="oldemail" value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                            <input type="hidden" name="oldemail" value="<?= e(
                                 !empty($userdata['oldemail']) ? $userdata['oldemail'] : $userdata['email']
                             ); ?>"/>
                         </td>
@@ -573,7 +572,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="street" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['street']); ?>"
+                                   value="<?= e($userdata['street']); ?>"
                                    onChange="documentDirty=true;"/>
                         </td>
                     </tr>
@@ -582,7 +581,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <input type="text" name="city" class="inputBox"
-                                   value="<?= evo()->getPhpCompat()->htmlspecialchars($userdata['city']); ?>"
+                                   value="<?= e($userdata['city']); ?>"
                                    onChange="documentDirty=true;"/>
                         </td>
                     </tr>
@@ -663,7 +662,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         </td>
                         <td>
                             <textarea type="text" name="comment" class="inputBox" rows="5"
-                                      onChange="documentDirty=true;"><?= evo()->getPhpCompat()->htmlspecialchars(
+                                      onChange="documentDirty=true;"><?= e(
                                     $_POST['comment'] ?? $userdata['comment']
                                 ); ?></textarea>
                         </td>
@@ -1258,7 +1257,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                         <td><?= __('global.filemanager_path_title') ?></td>
                         <td>
                             <input onChange="documentDirty=true;" type='text' maxlength='255' style="width: 300px;"
-                                   name="filemanager_path" value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                                   name="filemanager_path" value="<?= e(
                                 $usersettings['filemanager_path'] ?? ''
                             ); ?>">
                         </td>
@@ -1440,7 +1439,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                 }
                 ?>
                 <div class='comment'><?= __('global.user_photo_message') ?></div>
-                <input type="text" id="photo" name="photo" value="<?= evo()->getPhpCompat()->htmlspecialchars(
+                <input type="text" id="photo" name="photo" value="<?= e(
                     $_POST['photo'] ?? $userdata['photo']
                 ); ?>" onchange="documentDirty=true;"/>
                 <input type="button"
@@ -1448,9 +1447,9 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                        onclick="BrowseServer('photo')"/>
                 <div class="col-12" style="padding-left: 0;">
                     <div id="image_for_photo" class="image_for_field"
-                         data-image="<?= evo()->getPhpCompat()->htmlspecialchars($out); ?>"
+                         data-image="<?= e($out); ?>"
                          onclick="BrowseServer('photo')"
-                         style="background-image: url('<?= evo()->getPhpCompat()->htmlspecialchars($out) ?>');"></div>
+                         style="background-image: url('<?= e($out) ?>');"></div>
                     <script>document.getElementById('photo').
                         addEventListener('change', evoRenderTvImageCheck, false)</script>
                 </div>

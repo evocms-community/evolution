@@ -28,7 +28,7 @@ if (!defined('IN_MANAGER_MODE')) {
 |
 */
 
-$modx = evolutionCMS();
+$modx = evo();
 
 $artisan = new EvolutionCMS\Console($modx, $modx['events'], $modx->version());
 

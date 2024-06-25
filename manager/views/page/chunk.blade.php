@@ -99,7 +99,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                         'for' => 'name',
                         'label' => __('global.htmlsnippet_name'),
                         'element' => '<div class="form-control-name clearfix">' .
-                            ManagerTheme::view('form.inputElement', [
+                            view('manager::form.inputElement', [
                                 'name' => 'name',
                                 'value' => $data->name,
                                 'class' => 'form-control-lg',
@@ -107,7 +107,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                             ]) .
                             (evo()->hasPermission('save_role')
                             ? '<label class="custom-control" data-tooltip="' . __('global.lock_htmlsnippet') . "\n" . __('global.lock_htmlsnippet_msg') .'">' .
-                            ManagerTheme::view('form.inputElement', [
+                            view('manager::form.inputElement', [
                                 'type' => 'checkbox',
                                 'name' => 'locked',
                                 'checked' => ($data->locked == 1)

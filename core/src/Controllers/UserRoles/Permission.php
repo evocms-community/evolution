@@ -4,7 +4,6 @@ namespace EvolutionCMS\Controllers\UserRoles;
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Permissions;
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Models\PermissionsGroups as PermissionsGroupsModel;
 
 class Permission extends AbstractController implements PageControllerInterface
@@ -16,7 +15,7 @@ class Permission extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        return ManagerTheme::getCore()->hasPermission('edit_role');
+        return evo()->hasPermission('edit_role');
     }
 
     /**

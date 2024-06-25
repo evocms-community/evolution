@@ -14,7 +14,7 @@ class AuthServices
     public function __construct()
     {
         $this->user = User::query()
-            ->find(EvolutionCMS()->getLoginUserID());
+            ->find(evo()->getLoginUserID());
 
         if (!is_null($this->user)) {
             $this->user->email = $this->user->attributes->email;
@@ -117,7 +117,7 @@ class AuthServices
                 $matchPassword = false;
 
                 // check user password - local authentication
-                $hashType = EvolutionCMS()->getManagerApi()->getHashType($this->user->password);
+                $hashType = evo()->getManagerApi()->getHashType($this->user->password);
 
                 if ($hashType == 'phpass') {
                     $matchPassword = login(

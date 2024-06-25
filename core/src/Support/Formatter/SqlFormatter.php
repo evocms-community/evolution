@@ -1460,9 +1460,9 @@ class SqlFormatter
             $token = $token[self::TOKEN_VALUE];
         } else {
             if (defined('ENT_IGNORE')) {
-                $token = htmlentities($token[self::TOKEN_VALUE], ENT_COMPAT | ENT_IGNORE, 'UTF-8');
+                $token = entities($token[self::TOKEN_VALUE], ENT_COMPAT | ENT_IGNORE);
             } else {
-                $token = htmlentities($token[self::TOKEN_VALUE], ENT_COMPAT, 'UTF-8');
+                $token = entities($token[self::TOKEN_VALUE], ENT_COMPAT);
             }
         }
 
@@ -1703,7 +1703,7 @@ class SqlFormatter
         $sql = preg_replace('#[ \t]{2,}#', ' ', $sql);
 
         // syntax highlight
-        $sql = htmlspecialchars($sql, ENT_IGNORE, 'UTF-8');
+        $sql = e($sql, ENT_IGNORE);
         $sql = preg_replace_callback('#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])('.static::KEYWORDS1.')(?=[\\s,)])|(?<=[\\s,(=])('.static::KEYWORDS2.')(?=[\\s,)=])#is', function ($matches) {
             if (! empty($matches[1])) { // comment
                 return '<em style="color:gray">'.$matches[1].'</em>';
@@ -1719,10 +1719,10 @@ class SqlFormatter
         $bindings = array_map(function ($binding) use ($pdo) {
             if (is_array($binding) === true) {
                 $binding = implode(', ', array_map(function ($value) {
-                    return is_string($value) === true ? htmlspecialchars('\''.$value.'\'', ENT_NOQUOTES, 'UTF-8') : $value;
+                    return is_string($value) === true ? e('\''.$value.'\'', ENT_NOQUOTES) : $value;
                 }, $binding));
 
-                return htmlspecialchars('('.$binding.')', ENT_NOQUOTES, 'UTF-8');
+                return e('('.$binding.')', ENT_NOQUOTES);
             }
 
             if (is_string($binding) === true && (preg_match('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{10FFFF}]#u', $binding) || preg_last_error())) {
@@ -1730,7 +1730,7 @@ class SqlFormatter
             }
 
             if (is_string($binding) === true) {
-                $text = htmlspecialchars($pdo ? $pdo->quote($binding) : '\''.$binding.'\'', ENT_NOQUOTES, 'UTF-8');
+                $text = e($pdo ? $pdo->quote($binding) : '\''.$binding.'\'', ENT_NOQUOTES);
 
                 return '<span title="Length '.strlen($text).' characters">'.$text.'</span>';
             }
@@ -1741,15 +1741,15 @@ class SqlFormatter
                     $info = stream_get_meta_data($binding);
                 }
 
-                return '<i'.(isset($info['uri']) ? ' title="'.htmlspecialchars($info['uri'], ENT_NOQUOTES, 'UTF-8').'"' : null)
-                    .'>&lt;'.htmlspecialchars($type, ENT_NOQUOTES, 'UTF-8').' resource&gt;</i>';
+                return '<i'.(isset($info['uri']) ? ' title="'.e($info['uri'], ENT_NOQUOTES).'"' : null)
+                    .'>&lt;'.e($type, ENT_NOQUOTES).' resource&gt;</i>';
             }
 
             if ($binding instanceof DateTime) {
-                return htmlspecialchars('\''.$binding->format('Y-m-d H:i:s').'\'', ENT_NOQUOTES, 'UTF-8');
+                return e('\''.$binding->format('Y-m-d H:i:s').'\'', ENT_NOQUOTES);
             }
 
-            return htmlspecialchars($binding, ENT_NOQUOTES, 'UTF-8');
+            return e($binding, ENT_NOQUOTES);
         }, $bindings);
         $sql = str_replace(['%', '?'], ['%%', '%s'], $sql);
 

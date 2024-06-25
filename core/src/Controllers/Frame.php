@@ -21,7 +21,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
         if ($this->frame > 9) {
             // this is to stop the debug thingy being attached to the framesets
-            ManagerTheme::getCore()->setConfig('enable_debug', false);
+            evo()->setConfig('enable_debug', false);
         }
         if (!empty($this->frame)) {
             $this->setView('frame.' . $this->frame);
@@ -46,7 +46,7 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->initSession();
 
         // invoke OnManagerPreFrameLoader
-        ManagerTheme::getCore()->invokeEvent(
+        evo()->invokeEvent(
             'OnManagerPreFrameLoader',
             [
                 'action' => ManagerTheme::getActionId(),
@@ -54,7 +54,7 @@ class Frame extends AbstractController implements PageControllerInterface
         );
 
         $body_class = '';
-        $tree_width = ManagerTheme::getCore()->getConfig('manager_tree_width');
+        $tree_width = evo()->getConfig('manager_tree_width');
         $this->parameters['tree_min_width'] = 0;
 
         if (isset($_COOKIE['MODX_widthSideBar'])) {
@@ -71,16 +71,16 @@ class Frame extends AbstractController implements PageControllerInterface
         $theme_modes = ['', 'lightness', 'light', 'dark', 'darkness'];
         if (isset($_COOKIE['MODX_themeMode']) && !empty($theme_modes[$_COOKIE['MODX_themeMode']])) {
             $body_class .= ' ' . $theme_modes[$_COOKIE['MODX_themeMode']];
-        } elseif (!empty($theme_modes[ManagerTheme::getCore()->getConfig('manager_theme_mode')])) {
-            $body_class .= ' ' . $theme_modes[ManagerTheme::getCore()->getConfig('manager_theme_mode')];
+        } elseif (!empty($theme_modes[evo()->getConfig('manager_theme_mode')])) {
+            $body_class .= ' ' . $theme_modes[evo()->getConfig('manager_theme_mode')];
         }
 
-        $navbar_position = ManagerTheme::getCore()->getConfig('manager_menu_position');
+        $navbar_position = evo()->getConfig('manager_menu_position');
         if ($navbar_position === 'left') {
             $body_class .= ' navbar-left navbar-left-icon-and-text';
         }
 
-        if (isset(ManagerTheme::getCore()->pluginCache['ElementsInTree'])) {
+        if (isset(evo()->pluginCache['ElementsInTree'])) {
             $body_class .= ' ElementsInTree';
         }
 
@@ -100,22 +100,22 @@ class Frame extends AbstractController implements PageControllerInterface
 
         foreach ($unlockTranslations as $key => $value) {
             $unlockTranslations[$key] = iconv(
-                ManagerTheme::getCore()->getConfig('modx_charset'),
+                evo()->getConfig('modx_charset'),
                 'utf-8',
                 $value
             );
         }
         $this->parameters['unlockTranslations'] = $unlockTranslations;
 
-        $user = ManagerTheme::getCore()->getUserInfo(ManagerTheme::getCore()->getLoginUserID('mgr'));
+        $user = evo()->getUserInfo(evo()->getLoginUserID('mgr'));
         if ((isset($user['which_browser']) && $user['which_browser'] == 'default') || (!isset($user['which_browser']))) {
-            $user['which_browser'] = ManagerTheme::getCore()->getConfig('which_browser');
+            $user['which_browser'] = evo()->getConfig('which_browser');
         }
         $this->parameters['user'] = $user;
 
         $this->registerCss();
 
-        $flag = $user['role'] == 1 || ManagerTheme::getCore()->hasAnyPermissions([
+        $flag = $user['role'] == 1 || evo()->hasAnyPermissions([
             'edit_template',
             'edit_chunk',
             'edit_snippet',
@@ -126,9 +126,9 @@ class Frame extends AbstractController implements PageControllerInterface
             'exec_module',
         ]);
 
-        ManagerTheme::getCore()->setConfig(
+        evo()->setConfig(
             'global_tabs',
-            (int) (ManagerTheme::getCore()->getConfig('global_tabs') && $flag)
+            (int) (evo()->getConfig('global_tabs') && $flag)
         );
 
         $this->makeMenu();
@@ -209,7 +209,7 @@ class Frame extends AbstractController implements PageControllerInterface
             ->menuRemoveLocks()
             ->menuUpdateTree();
 
-        $menu = ManagerTheme::getCore()->invokeEvent('OnManagerMenuPrerender', ['menu' => $this->sitemenu]);
+        $menu = evo()->invokeEvent('OnManagerMenuPrerender', ['menu' => $this->sitemenu]);
         if (\is_array($menu)) {
             $newmenu = [];
             foreach ($menu as $item) {
@@ -280,7 +280,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementTypes()
     {
-        $flag = ManagerTheme::getCore()->hasAnyPermissions(
+        $flag = evo()->hasAnyPermissions(
             ['edit_template', 'edit_snippet', 'edit_chunk', 'edit_plugin', 'category_manager', 'file_manager']
         );
 
@@ -307,7 +307,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuModules()
     {
-        if (!ManagerTheme::getCore()->hasPermission('exec_module')) {
+        if (!evo()->hasPermission('exec_module')) {
             return $this;
         }
 
@@ -330,7 +330,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuUsers()
     {
-        $flag = ManagerTheme::getCore()->hasAnyPermissions(
+        $flag = evo()->hasAnyPermissions(
             ['edit_user', 'edit_role', 'manage_groups']
         );
 
@@ -357,7 +357,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuTools()
     {
-        $flag = ManagerTheme::getCore()->hasAnyPermissions(
+        $flag = evo()->hasAnyPermissions(
             ['empty_cache', 'bk_manager', 'remove_locks', 'import_static', 'export_static']
         );
 
@@ -396,7 +396,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementTemplates()
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_template')) {
+        if (!evo()->hasPermission('edit_template')) {
             return;
         }
 
@@ -417,7 +417,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementTv()
     {
-        if (!ManagerTheme::getCore()->hasAnyPermissions(['edit_template', 'edit_role'])) {
+        if (!evo()->hasAnyPermissions(['edit_template', 'edit_role'])) {
             return;
         }
 
@@ -438,7 +438,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementChunks()
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_chunk')) {
+        if (!evo()->hasPermission('edit_chunk')) {
             return;
         }
 
@@ -459,7 +459,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementSnippets()
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_snippet')) {
+        if (!evo()->hasPermission('edit_snippet')) {
             return;
         }
 
@@ -480,7 +480,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementPlugins()
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_plugin')) {
+        if (!evo()->hasPermission('edit_plugin')) {
             return;
         }
 
@@ -501,7 +501,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuElementModules()
     {
-        if (!ManagerTheme::getCore()->hasPermission('edit_module')) {
+        if (!evo()->hasPermission('edit_module')) {
             return;
         }
 
@@ -522,7 +522,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuFiles()
     {
-        if (!ManagerTheme::getCore()->hasPermission('file_manager')) {
+        if (!evo()->hasPermission('file_manager')) {
             return $this;
         }
 
@@ -545,7 +545,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuCategories()
     {
-        if (!ManagerTheme::getCore()->hasPermission('category_manager')) {
+        if (!evo()->hasPermission('category_manager')) {
             return $this;
         }
 
@@ -568,7 +568,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuNewModule()
     {
-        $flag = ManagerTheme::getCore()->hasAnyPermissions(
+        $flag = evo()->hasAnyPermissions(
             ['new_module', 'edit_module', 'save_module']
         );
 
@@ -581,7 +581,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuRunModules()
     {
-        if (ManagerTheme::getCore()->hasPermission('exec_module')) {
+        if (evo()->hasPermission('exec_module')) {
             $items = [];
 
             // 1. modules from DB
@@ -618,7 +618,7 @@ class Frame extends AbstractController implements PageControllerInterface
             }
 
             // 2. modules from files
-            foreach (ManagerTheme::getCore()->modulesFromFile as $module) {
+            foreach (evo()->modulesFromFile as $module) {
                 if (!empty($module['properties']['hidden'])) {
                     continue;
                 }
@@ -652,7 +652,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuUserManagement()
     {
-        $flag = ManagerTheme::getCore()->hasPermission('edit_user');
+        $flag = evo()->hasPermission('edit_user');
 
         if (!$flag) {
             return $this;
@@ -677,7 +677,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuRoleManagement()
     {
-        if (ManagerTheme::getCore()->hasPermission('edit_role')) {
+        if (evo()->hasPermission('edit_role')) {
             $this->sitemenu['role_management_title'] = [
                 'role_management_title',
                 'users',
@@ -698,7 +698,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuWebPermissions()
     {
-        if (!ManagerTheme::getCore()->hasPermission('manage_groups')) {
+        if (!evo()->hasPermission('manage_groups')) {
             return $this;
         }
 
@@ -775,7 +775,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuBkManager()
     {
-        if (!ManagerTheme::getCore()->hasPermission('bk_manager')) {
+        if (!evo()->hasPermission('bk_manager')) {
             return $this;
         }
 
@@ -798,7 +798,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function menuRemoveLocks()
     {
-        if (!ManagerTheme::getCore()->hasPermission('remove_locks')) {
+        if (!evo()->hasPermission('remove_locks')) {
             return $this;
         }
 

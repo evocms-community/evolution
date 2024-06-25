@@ -189,9 +189,7 @@ $pagetitle = empty($id) ? evo()->getConfig('site_name') : $pagetitle;
 </script>
 
 <h1>
-    <i class="<?= ManagerTheme::getStyle('icon_sort_num_asc') ?>"></i><?= ($pagetitle ? evo()->getPhpCompat()->entities(
-            $pagetitle
-        ) . '<small>(' . $id . ')</small>' : __('global.sort_menuindex')) ?>
+    <i class="<?= ManagerTheme::getStyle('icon_sort_num_asc') ?>"></i><?= ($pagetitle ? e($pagetitle) . '<small>(' . $id . ')</small>' : __('global.sort_menuindex')) ?>
 </h1>
 
 <?= ManagerTheme::getStyle('actionbuttons.dynamic.save') ?>

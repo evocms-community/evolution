@@ -50,14 +50,14 @@
                             <table class="tracy-collapsed Laravel-DatabasePanel-explain">
                                 <tr>
                                     <?php foreach ($query['explains'][0] as $col => $value): ?>
-                                        <th><?php echo htmlspecialchars($col, ENT_NOQUOTES, 'UTF-8') ?></th>
+                                        <th><?= e($col, ENT_NOQUOTES) ?></th>
                                     <?php endforeach ?>
                                 </tr>
                                 <?php foreach ($query['explains'] as $row): ?>
                                     <tr>
                                         <?php foreach ($row as $col): ?>
                                             <?php if (is_null($col)) {$col = '';} ?>
-                                            <td><?php echo htmlspecialchars($col, ENT_NOQUOTES, 'UTF-8') ?></td>
+                                            <td><?= e($col, ENT_NOQUOTES) ?></td>
                                         <?php endforeach ?>
                                     </tr>
                                 <?php endforeach ?>
