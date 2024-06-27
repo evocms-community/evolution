@@ -181,7 +181,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
         document.userform.blockeduntil.value = ''
         document.userform.blockedafter.value = ''
         document.userform.failedlogincount.value = 0
-        blocked.innerHTML = <?=json_encode('<b>'.__('global.unblock_message').'</b>', JSON_UNESCAPED_SLASHES)?>;
+        blocked.innerHTML = <?=json_encode('<b>' . __('global.unblock_message') . '</b>', JSON_UNESCAPED_SLASHES)?>;
         blocked.className = 'TD'
         el.value = 0
       } else {
@@ -190,7 +190,7 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
     } else {
       if (confirm(`<?= __('global.confirm_block'); ?>`) === true) {
         document.userform.blocked.value = 1
-        blocked.innerHTML = <?=json_encode('<b>'.__('global.block_message').'</b>', JSON_UNESCAPED_SLASHES)?>
+        blocked.innerHTML = <?=json_encode('<b>' . __('global.block_message') . '</b>', JSON_UNESCAPED_SLASHES)?>;
         blocked.className = 'warning'
         el.value = 1
       } else {
@@ -304,7 +304,9 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
   function evoRenderTvImageCheck (a) {
     var b = document.getElementById('image_for_' + a.target.id),
       c = new Image
-    a.target.value ? (c.src = (a.target.value.search(/^https?:\/\//i) < 0 ? "<?php echo evo()->getConfig('site_url')?>" : '') + a.target.value, c.onerror = function () {
+    a.target.value ? (c.src = (a.target.value.search(/^https?:\/\//i) < 0
+      ? "<?php echo evo()->getConfig('site_url')?>"
+      : '') + a.target.value, c.onerror = function () {
       b.style.backgroundImage = '', b.setAttribute('data-image', '')
     }, c.onload = function () {
       b.style.backgroundImage = 'url(\'' + this.src + '\')', b.setAttribute('data-image', this.src)
@@ -407,9 +409,9 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                             </td>
                             <td>
                                 <i class="<?= ManagerTheme::getStyle('icon_web_user') ?>"></i>&nbsp;<b><?= e(
-                                            !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
-                                                : $usernamedata['username']
-                                        ); ?></b> - <span class="comment">
+                                        !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']
+                                            : $usernamedata['username']
+                                    ); ?></b> - <span class="comment">
                                     <a href="javascript:;"
                                        onClick="changeName();return false;"><?= __('global.change_name') ?></a>
                                 </span>
@@ -464,16 +466,22 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                                 <?= __('global.password_gen_specify'); ?>
                                 <br/>
                                 <div>
-                                    <label for="specifiedpassword" style="width:120px"><?= __('global.change_password_new') ?>:</label>
+                                    <label for="specifiedpassword" style="width:120px"><?= __(
+                                            'global.change_password_new'
+                                        ) ?>:</label>
                                     <input type="password" name="specifiedpassword" onChange="documentdirty=true;"
                                            onKeyPress="document.userform.passwordgenmethod[1].checked=true;" size="20"/>
                                     <br/>
-                                    <label for="confirmpassword" style="width:120px"><?= __('global.change_password_confirm') ?>:</label>
+                                    <label for="confirmpassword" style="width:120px"><?= __(
+                                            'global.change_password_confirm'
+                                        ) ?>:</label>
                                     <input type="password" name="confirmpassword" onChange="documentdirty=true;"
                                            onKeyPress="document.userform.passwordgenmethod[1].checked=true;" size="20"/>
                                     <br/>
                                     <small>
-                                        <span class="warning" style="font-weight:normal"><?= __('global.password_gen_length') ?></span>
+                                        <span class="warning" style="font-weight:normal"><?= __(
+                                                'global.password_gen_length'
+                                            ) ?></span>
                                     </small>
                                 </div>
                             </fieldset>
@@ -1471,7 +1479,9 @@ $displayStyle = ($_SESSION['browser'] === 'modern') ? 'table-row' : 'block';
                 <h2 class="tab"><?= __('global.web_access_permissions') ?></h2>
                 <script>tpUser.addTabPage(document.getElementById('tabPermissions'))</script>
                 <p><a href="javascript:;"
-                      onclick="document.getElementsByName('user_groups[]').forEach(e => e.checked ^= 1) ; return false;"><?= __('global.access_permissions_user_toggle') ?></a></p>
+                      onclick="document.getElementsByName('user_groups[]').forEach(e => e.checked ^= 1) ; return false;"><?= __(
+                            'global.access_permissions_user_toggle'
+                        ) ?></a></p>
                 <p><?= __('global.access_permissions_user_message') ?></p>
                 <?php
                 $webgroupnames = MembergroupName::query()->orderBy('name')->get();
