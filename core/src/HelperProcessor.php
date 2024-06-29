@@ -115,9 +115,10 @@ class HelperProcessor
         $outputFilename = MODX_BASE_PATH . $fNamePref . $fName . $fNameSuf;
         if (!file_exists($outputFilename)) {
             $phpThumb = new \phpthumb();
-            $phpThumb->config_cache_directory = MODX_BASE_PATH . $defaultCacheFolder;
-            $phpThumb->config_temp_directory = $defaultCacheFolder;
-            $phpThumb->config_document_root = MODX_BASE_PATH;
+            $phpThumb->setParameter('config_cache_directory', MODX_BASE_PATH . $defaultCacheFolder);
+            $phpThumb->setParameter('config_temp_directory', MODX_BASE_PATH . $defaultCacheFolder);
+            $phpThumb->setParameter('config_document_root', MODX_BASE_PATH);
+            $phpThumb->setCacheDirectory();
             $phpThumb->setSourceFilename(MODX_BASE_PATH . $input);
             foreach ($params as $key => $value) {
                 $phpThumb->setParameter($key, $value);
