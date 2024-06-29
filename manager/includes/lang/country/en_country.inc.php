@@ -1,18 +1,4 @@
 <?php
-/**
- * MODX Country list language file
- *
- * @version 1.0.15
- * @date 2014/02/24
- *
- * @language English
- * @package modx
- * @subpackage manager
- *
- * Array keys refer to the ID number that is saved in the database
- *
- * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
- */
 $_country_lang['1'] = 'Afghanistan'; // Afghanistan
 $_country_lang['2'] = 'Albania'; // Albania
 $_country_lang['3'] = 'Algeria'; // Algeria
