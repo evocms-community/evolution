@@ -1,5 +1,4 @@
 <?php
-$_lang["test"] = "test";
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'About Evolution CMS';
 
