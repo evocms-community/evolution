@@ -614,15 +614,23 @@ class ExceptionHandler
             $trace = $exception->getTrace();
         }
 
+        $line = $exception->getLine();
+        $file = $exception->getFile();
+        if (is_readable($file)) {
+            $source = file($file);
+            $source = $this->container->getPhpCompat()->htmlspecialchars($source[$line - 1]);
+        } else {
+            $source = "";
+        }
         $this->messageQuit(
             $exception->getMessage(),
             '',
             true,
             '',
-            $exception->getFile(),
+            $file,
+            $source,
             '',
-            '',
-            $exception->getLine(),
+            $line,
             '',
             $trace
         );
