@@ -6,7 +6,7 @@
         <table>
             <tr>
                 <th>Event</th>
-                <th>Execute Time</th>
+                <th>Payload</th>
             </tr>
             <?php foreach ($events as $key => $value): ?>
                 <tr>
@@ -17,11 +17,12 @@
                     </th>
                     <td>
                         <?php
-                            echo Tracy\Dumper::toHtml(Arr::get($value, 'payload'), [
+                            $value = Arr::get($value, 'payload');
+                            echo $value ? Tracy\Dumper::toHtml($value, [
                                 Tracy\Dumper::LIVE => true,
                                 Tracy\Dumper::TRUNCATE => 50,
                                 Tracy\Dumper::COLLAPSE => true,
-                            ]);
+                            ]) : '';
                         ?>
                     </td>
                 </tr>
