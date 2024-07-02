@@ -202,24 +202,21 @@ class ManagerTheme implements ManagerThemeInterface
         }
     }
 
-    protected function loadLang($lang = 'english')
+    protected function loadLang($lang = 'en')
     {
-        $_lang = array();
-        $modx_lang_attribute = $this->getLang();
-        $modx_manager_charset = $this->getCharset();
-        $modx_textdir = $this->getTextDir();
+        $_lang = [];
 
         include EVO_CORE_PATH . 'lang/en/global.php';
 
         // now include_once different language file as english
-        if (!isset($lang) || !file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
-            $lang = 'english'; // if not set, get the english language file.
+        if (empty($lang) || !file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
+            $lang = 'en'; // if not set, get the english language file.
         }
 
         // $length_eng_lang = count($_lang);
         //// Not used for now, required for difference-check with other languages than english (i.e. inside installer)
 
-        if ($lang !== 'english' && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
+        if ($lang !== 'en' && file_exists(EVO_CORE_PATH . 'lang/' . $lang . '/global.php')) {
             include EVO_CORE_PATH . 'lang/' . $lang . '/global.php';
         }
 
@@ -234,12 +231,12 @@ class ManagerTheme implements ManagerThemeInterface
         }
         $this->lexicon = $_lang;
         $this->langName = $lang;
-        $this->lang = $modx_lang_attribute;
+        $this->lang = $lang;
         app()->setLocale($lang);
-        $this->setTextDir($modx_textdir);
-        $this->setCharset($modx_manager_charset);
-        $this->getCore()->setConfig('lang_code', $this->getLang());
-        $this->getCore()->setConfig('manager_language', $this->getLangName());
+        $this->setTextDir(in_array($lang, ['fa', 'he']) ? 'rtl' : 'ltr');
+        $this->setCharset(evo()->getConfig('modx_charset', 'UTF-8'));
+        $this->getCore()->setConfig('lang_code', $lang);
+        $this->getCore()->setConfig('manager_language', $lang);
 
         return $lang;
     }
