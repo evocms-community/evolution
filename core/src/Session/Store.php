@@ -21,11 +21,6 @@ class Store extends \Illuminate\Session\Store
         $this->serialization = $serialization;
     }
 
-    public function getName()
-    {
-        return SESSION_COOKIE_NAME;
-    }
-
     /**
      * Start the session, reading the data from a handler.
      *
