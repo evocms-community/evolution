@@ -5060,6 +5060,16 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     }
 
     /**
+     * Returns the placeholders array
+     *
+     * @return array Placeholders array
+     */
+    public function getPlaceholders()
+    {
+        return $this->placeholders;
+    }
+
+    /**
      * Returns current user id.
      *
      * @param string $context . Default is an empty string which indicates the method should automatically pick 'web (frontend) or 'mgr' (backend)
