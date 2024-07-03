@@ -5118,6 +5118,11 @@ class DocumentParser
         }
     }
 
+    public function getPlaceholders()
+    {
+        return $this->placeholders;
+    }
+
     /**
      * Returns the manager relative URL/path with respect to the site root.
      *
