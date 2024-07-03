@@ -5021,6 +5021,16 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     }
 
     /**
+     * Returns the placeholders array
+     *
+     * @return array Placeholders array
+     */
+    public function getPlaceholders()
+    {
+        return $this->placeholders;
+    }
+
+    /**
      * For use by toPlaceholders(); For setting an array or object element as placeholder.
      *
      * @param string $key
