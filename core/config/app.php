@@ -41,7 +41,7 @@ return [
         'Laravel_Redis' => Illuminate\Redis\RedisServiceProvider::class,
         'Laravel_Validator' => Illuminate\Validation\ValidationServiceProvider::class,
 
-	'Evolution_Translation' => EvolutionCMS\Providers\TranslationServiceProvider::class,
+        'Evolution_Translation' => EvolutionCMS\Providers\TranslationServiceProvider::class,
         'Evolution_Auth' => EvolutionCMS\Providers\AuthServiceProvider::class,
         'Evolution_Observers' => EvolutionCMS\Providers\ObserversServiceProvider::class,
         'Evolution_Pagination' => EvolutionCMS\Providers\PaginationServiceProvider::class,
