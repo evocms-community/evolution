@@ -182,7 +182,7 @@ return [
     'middleware' => [
 
         'mgr' => [
-            Illuminate\Session\Middleware\StartSession::class,
+            EvolutionCMS\Middleware\StartSession::class,
             EvolutionCMS\Middleware\VerifyCsrfToken::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class,
             Illuminate\View\Middleware\ShareErrorsFromSession::class,
@@ -201,7 +201,7 @@ return [
         */
 
         'global' => [
-            Illuminate\Session\Middleware\StartSession::class,
+            EvolutionCMS\Middleware\StartSession::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class,
             Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ],
