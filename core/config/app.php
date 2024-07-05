@@ -149,7 +149,6 @@ return [
         'Evolution_ManagerAPI'        => EvolutionCMS\Providers\ManagerApiServiceProvider::class,
         'Evolution_MODIFIERS'         => EvolutionCMS\Providers\ModifiersServiceProvider::class,
         'Evolution_phpass'            => EvolutionCMS\Providers\PasswordHashServiceProvider::class,
-        'Evolution_PHPCOMPAT'         => EvolutionCMS\Providers\PhpCompatServiceProvider::class,
         'Evolution_DocBlock'          => EvolutionCMS\Providers\DocBlockServiceProvider::class,
         'Evolution_ManagerTheme'      => EvolutionCMS\Providers\ManagerThemeServiceProvider::class,
         'Evolution_UrlProcessor'      => EvolutionCMS\Providers\UrlProcessorServiceProvider::class,
@@ -182,7 +181,7 @@ return [
     'middleware' => [
 
         'mgr' => [
-            Illuminate\Session\Middleware\StartSession::class,
+            EvolutionCMS\Middleware\StartSession::class,
             EvolutionCMS\Middleware\VerifyCsrfToken::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class,
             Illuminate\View\Middleware\ShareErrorsFromSession::class,
@@ -201,7 +200,7 @@ return [
         */
 
         'global' => [
-            Illuminate\Session\Middleware\StartSession::class,
+            EvolutionCMS\Middleware\StartSession::class,
             Illuminate\Routing\Middleware\SubstituteBindings::class,
             Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ],

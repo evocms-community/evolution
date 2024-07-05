@@ -116,7 +116,7 @@ if (isset($action)) {
 
         // elements
         case '76':
-            $elements = isset($_REQUEST['elements']) && is_scalar($_REQUEST['elements']) ? entities($_REQUEST['elements']) : '';
+            $elements = isset($_REQUEST['elements']) && is_scalar($_REQUEST['elements']) ? e($_REQUEST['elements']) : '';
 
             if ($elements) {
                 $output = '';
@@ -269,7 +269,7 @@ if (isset($action)) {
                             ($row['locked'] ? ' locked' : '') . '"><a id="a_' . $a . '__id_' . $row['id'] .
                             '" href="index.php?a=' . $a . '&id=' . $row['id'] .
                             '" target="main" data-parent-id="a_76__elements_' . $elements . '">' .
-                            entities($row['name'], evo()->getConfig('modx_charset')) . ' <small class="text-muted">(' .
+                            e($row['name']) . ' <small class="text-muted">(' .
                             $row['id'] . ')</small></a></li>';
                     }
                 }
@@ -309,7 +309,7 @@ if (isset($action)) {
                 foreach ($sql->take($limit)->get() as $row) {
                     $items .= '<li class="item"><a id="a_' . $a . '__id_' . $row->id . '" ' .
                         ($row->id == 1 ? '' : 'href="index.php?a=' . $a . '&id=' . $row->id . '" target="main"') . '>' .
-                        entities($row->name, evo()->getConfig('modx_charset')) . ' <small>(' . $row->id .
+                        e($row->name) . ' <small>(' . $row->id .
                         ')</small></a></li>';
                 }
             }
@@ -352,7 +352,7 @@ if (isset($action)) {
                 foreach ($sql->take($limit)->get() as $row) {
                     $items .= '<li class="item ' . ($row->blocked ? 'disabled' : '') . '"><a id="a_' . $a . '__id_' .
                         $row->id . '" href="index.php?a=' . $a . '&id=' . $row->id . '" target="main">' .
-                        entities($row->username, evo()->getConfig('modx_charset')) . ' <small class="text-muted">(' .
+                        e($row->username) . ' <small class="text-muted">(' .
                         $row->id . ')</small></a></li>';
                 }
             }
@@ -383,7 +383,7 @@ if (isset($action)) {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i> ' .
-                                        entities($row['name'], evo()->getConfig('modx_charset')),
+                                        e($row['name']),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
@@ -395,20 +395,20 @@ if (isset($action)) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i> ' .
-                                        entities($row['description'], evo()->getConfig('modx_charset')),
+                                        e($row['description']),
                                 ];
                             }
                         } else {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i> ' .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
                                         __('global.new_snippet'),
                                     'url' => "index.php?a=23&itemname=" .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                             ];
                         }
@@ -422,7 +422,7 @@ if (isset($action)) {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i> ' .
-                                        entities($row['name'], evo()->getConfig('modx_charset')),
+                                        e($row['name']),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
@@ -434,20 +434,20 @@ if (isset($action)) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i> ' .
-                                        entities($row['description'], evo()->getConfig('modx_charset')),
+                                        e($row['description']),
                                 ];
                             }
                         } else {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i> ' .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
                                         __('global.new_htmlsnippet'),
                                     'url' => "index.php?a=77&itemname=" .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                             ];
                         }
@@ -460,7 +460,7 @@ if (isset($action)) {
                             $row = $chunk->toArray();
                             $contextmenu = [
                                 'header' => [
-                                    'innerText' => entities($row['name'], evo()->getConfig('modx_charset')),
+                                    'innerText' => e($row['name']),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
@@ -472,18 +472,18 @@ if (isset($action)) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i> ' .
-                                        entities($row['description'], evo()->getConfig('modx_charset')),
+                                        e($row['description']),
                                 ];
                             }
                         } else {
                             $snippet = SiteSnippet::query()->where('name', $name)->first();
 
                             if (!is_null($snippet)) {
-                                $row = $snippets->toArray();
+                                $row = $snippet->toArray();
                                 $contextmenu = [
                                     'header' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i> ' .
-                                            entities($row['name'], evo()->getConfig('modx_charset')),
+                                            e($row['name']),
                                     ],
                                     'item' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
@@ -495,26 +495,26 @@ if (isset($action)) {
                                     $contextmenu['seperator'] = '';
                                     $contextmenu['description'] = [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i> ' .
-                                            entities($row['description'], evo()->getConfig('modx_charset')),
+                                            e($row['description']),
                                     ];
                                 }
                             } else {
                                 $contextmenu = [
                                     'header' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i> ' .
-                                            entities($name, evo()->getConfig('modx_charset')),
+                                            e($name),
                                     ],
                                     'item' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
                                             __('global.new_htmlsnippet'),
                                         'url' => "index.php?a=77&itemname=" .
-                                            entities($name, evo()->getConfig('modx_charset')),
+                                            e($name),
                                     ],
                                     'item2' => [
                                         'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
                                             __('global.new_snippet'),
                                         'url' => "index.php?a=23&itemname=" .
-                                            entities($name, evo()->getConfig('modx_charset')),
+                                            e($name),
                                     ],
                                 ];
                             }
@@ -575,7 +575,7 @@ if (isset($action)) {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i> ' .
-                                        entities($row['name'], evo()->getConfig('modx_charset')),
+                                        e($row['name']),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_edit') . '"></i> ' .
@@ -587,20 +587,20 @@ if (isset($action)) {
                                 $contextmenu['seperator'] = '';
                                 $contextmenu['description'] = [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_info') . '"></i> ' .
-                                        entities($row['description'], evo()->getConfig('modx_charset')),
+                                        e($row['description']),
                                 ];
                             }
                         } else {
                             $contextmenu = [
                                 'header' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i> ' .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                                 'item' => [
                                     'innerHTML' => '<i class="' . ManagerTheme::getStyle('icon_add') . '"></i> ' .
                                         __('global.new_tmplvars'),
                                     'url' => "index.php?a=300&itemname=" .
-                                        entities($name, evo()->getConfig('modx_charset')),
+                                        e($name),
                                 ],
                             ];
                         }

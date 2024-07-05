@@ -4,6 +4,7 @@ use EvolutionCMS\Facades\Console;
 use Composer\Console\Application;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\ArrayInput;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @see: https://github.com/laravel-zero/foundation/blob/5.6/src/Illuminate/Foundation/Console/ClearCompiledCommand.php
@@ -53,27 +54,18 @@ class SiteUpdateCommand extends Command
         if ($updateRepository == '') {
             $updateRepository = 'evocms-community/evolution';
         }
-        $ch = curl_init();
-        $url = 'https://api.github.com/repos/' . $updateRepository . '/tags';
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_REFERER, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: updateNotify widget'));
-        $info = curl_exec($ch);
-        curl_close($ch);
-        if (substr($info, 0, 1) != '[') {
-            return;
+        $response = Http::get('https://api.github.com/repos/' . $updateRepository . '/releases');
+        if(!$response->successful() || empty($response->json())) {
+            die('Failed to receive releases info');
         }
+        $info = $response->json();
         $currentVersion = $evo->getVersionData();
         $arrayVersion = explode('.', $currentVersion['version']);
         $currentMajorVersion = array_shift($arrayVersion);
 
-        $info = json_decode($info, true);
         foreach ($info as $key => $val) {
 
-            $arrayVersion = explode('.', $val['name']);
+            $arrayVersion = explode('.', $val['tag_name']);
             if ($currentMajorVersion == array_shift($arrayVersion)) {
 
                 $git['version'] = $val['name'];
@@ -91,7 +83,7 @@ class SiteUpdateCommand extends Command
             }
         }
         $git['version'] = $this->argument('version');
-
+        die(var_dump($git['version']));
         if ($git['version'] == 'null') {
             if (isset($git['stable'])) {
                 if (version_compare($currentVersion['version'], $git['stable'], '!=')) {

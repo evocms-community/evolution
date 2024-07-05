@@ -618,7 +618,7 @@ class ExceptionHandler
         $file = $exception->getFile();
         if (is_readable($file)) {
             $source = file($file);
-            $source = $this->container->getPhpCompat()->htmlspecialchars($source[$line - 1]);
+            $source = e($source[$line - 1]);
         } else {
             $source = "";
         }

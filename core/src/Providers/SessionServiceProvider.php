@@ -2,98 +2,30 @@
 
 namespace EvolutionCMS\Providers;
 
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\Request;
+use EvolutionCMS\Session\SessionManager;
+use Illuminate\Contracts\Cache\Factory as CacheFactory;
+use EvolutionCMS\Middleware\StartSession;
 use Illuminate\Session\SessionServiceProvider as IlluminateSessionServiceProvider;
-use Illuminate\Session\SessionManager;
 
 class SessionServiceProvider extends IlluminateSessionServiceProvider
 {
-    /**
-     * Register the session manager instance.
-     *
-     * @return void
-     */
+    public function register()
+    {
+        $this->registerSessionManager();
+
+        $this->registerSessionDriver();
+
+        $this->app->singleton(StartSession::class, function ($app) {
+            return new StartSession($app->make(SessionManager::class), function () use ($app) {
+                return $app->make(CacheFactory::class);
+            });
+        });
+    }
+
     protected function registerSessionManager()
     {
-        parent::registerSessionManager();
-        $this->app->alias('session', SessionManager::class);
-        //register_shutdown_function([$this, 'handleExitWithSession']);
-    }
-
-    /**
-     * Handle shutdown from parser.
-     *
-     * @return void
-     */
-    public function handleExitWithSession()
-    {
-        if (!$this->app->has('request')) {
-            return;
-        }
-
-        $request = request();
-
-        if (!$this->sessionConfigured() ||
-            !$request->getSession() ||
-            !$this->exitedFromParser($request)) {
-            return;
-        }
-
-        $this->storeCurrentUrl($request, $request->session());
-
-        $this->saveSession();
-    }
-
-    /**
-     * Store the current URL for the request if necessary.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @return void
-     */
-    protected function storeCurrentUrl(Request $request, $session)
-    {
-        if ($request->method() === 'GET' &&
-            $request->route() instanceof Route &&
-            ! $request->ajax() &&
-            ! $request->prefetch()) {
-            $session->setPreviousUrl($request->fullUrl());
-        }
-    }
-
-    /**
-     * Save the session data to storage.
-     *
-     * @return void
-     */
-    protected function saveSession()
-    {
-        $this->app->session->driver()->save();
-    }
-
-    /**
-     * Determine if a session driver has been configured.
-     *
-     * @return bool
-     */
-    protected function sessionConfigured()
-    {
-        return !is_null($this->app->session->getSessionConfig()['driver'] ?? null);
-    }
-
-    /**
-     * Determine if request was fell back to parser.
-     *
-     * @return bool
-     */
-    protected function exitedFromParser(Request $request)
-    {
-        if (!empty($this->app->documentObject)) {
-            return true;
-        }
-
-        $route = $request->route();
-        return empty($route) || $route->isFallback;
+        $this->app->singleton('session', function ($app) {
+            return new SessionManager($app);
+        });
     }
 }

@@ -38,33 +38,6 @@ if (!function_exists('generate_password')) {
     }
 }
 
-if (!function_exists('entities')) {
-    /**
-     * @param string $string
-     * @param string $charset
-     *
-     * @return string
-     */
-    function entities(string $string, string $charset = 'UTF-8'): string
-    {
-        return htmlentities($string, ENT_COMPAT | ENT_SUBSTITUTE, $charset, false);
-    }
-}
-
-if (!function_exists('html_escape')) {
-    /**
-     * @param $str
-     * @param string $charset
-     *
-     * @return string
-     * @deprecated use entities()
-     */
-    function html_escape($str, string $charset = 'UTF-8'): string
-    {
-        return entities($str, $charset);
-    }
-}
-
 if (!function_exists('get_by_key')) {
     /**
      * @param mixed $data

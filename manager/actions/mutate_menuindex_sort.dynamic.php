@@ -196,7 +196,7 @@ $pagetitle = empty($id) ? evo()->getConfig('site_name') : $pagetitle;
 
 <div class="tab-page">
     <div class="container container-body">
-        <b><?= evo()->getPhpCompat()->entities($pagetitle) ?> (<?= $id ?>)</b>
+        <b><?= e($pagetitle) ?> (<?= $id ?>)</b>
         <?php
         if ($resourcesList) {
             ?>

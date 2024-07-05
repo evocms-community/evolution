@@ -224,10 +224,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $this->Event = &$this->event; // alias for backward compatibility
         $this->time = $_SERVER['REQUEST_TIME']; // for having global timestamp
 
-        if (!is_cli()) {
-            session($_SESSION);
-        }
-
         $this->getService('ExceptionHandler');
         $this->checkAuth();
         $this->getSettings();
@@ -3171,15 +3167,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function webAlertAndQuit($msg, $url = '')
     {
-        $manager_charset = Arr::get($GLOBALS, 'modx_manager_charset', $this->getConfig('modx_charset'));
-        $lang_attribute = Arr::get($GLOBALS, 'modx_lang_attribute', $this->getConfig('lang_code'));
-
-        if (Arr::get($GLOBALS, 'modx_textdir', $this->getConfig('manager_direction')) === 'rtl') {
-            $textdir = 'rtl';
-        } else {
-            $textdir = 'ltr';
-        }
-
+        $textdir = in_array(evo()->getLocale(), ['fa', 'he']) ? 'rtl' : 'ltr';
         if (stripos($url, 'javascript:') === 0) {
             $fnc = substr($url, 11);
         } elseif ($url === '#') {
@@ -3203,10 +3191,10 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         ob_get_clean();
         echo '<!DOCTYPE html>
-            <html lang="' . $lang_attribute . '" dir="' . $textdir . '">
+            <html lang="' . evo()->getLocale() . '" dir="' . $textdir . '">
                 <head>
                 <title>Evolution CMS :: Alert</title>
-                <meta http-equiv="Content-Type" content="text/html; charset=' . $manager_charset . ';">
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
                 ' . $style . "
                 <script>
                     function __alertQuit() {
@@ -5482,7 +5470,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             $t = preg_replace('~\[\+(.*?)\+\]~', '', $t); //placeholders
             $t = preg_replace('~{{(.*?)}}~', '', $t); //chunks
         }
-        
+
         return $t;
     }
 
@@ -6407,17 +6395,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     }
 
     // php compat
-
-    /**
-     * @param $str
-     * @param int $flags
-     * @param string $encode
-     * @return mixed
-     */
-    public function htmlspecialchars($str, $flags = ENT_COMPAT, $encode = '')
-    {
-        return $this->getPhpCompat()->htmlspecialchars($str, $flags, $encode);
-    }
 
     /**
      * @param $string

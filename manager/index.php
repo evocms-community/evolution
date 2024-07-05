@@ -122,12 +122,6 @@ if ($php_ver_comp < 0) {
     exit;
 }
 
-// check if iconv is installed
-if (!function_exists('iconv')) {
-    echo 'It is important to install/enable extension iconv. Please speak to your host if you don´t know how to enable it.';
-    exit;
-}
-
 // set the document_root :|
 if (empty($_SERVER['DOCUMENT_ROOT'])) {
     $_SERVER['DOCUMENT_ROOT'] = str_replace(

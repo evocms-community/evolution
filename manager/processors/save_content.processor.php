@@ -57,7 +57,7 @@ $aliasvisible = (int) $_POST['alias_visible'];
 
 /************* webber ********/
 $sd = isset($_POST['dir']) && strtolower($_POST['dir']) === 'asc' ? '&dir=ASC' : '&dir=DESC';
-$sb = isset($_POST['sort']) ? '&sort=' . entities($_POST['sort'], evo()->getConfig('modx_charset')) : '&sort=pub_date';
+$sb = isset($_POST['sort']) ? '&sort=' . e($_POST['sort']) : '&sort=pub_date';
 $pg = isset($_POST['page']) ? '&page=' . (int) $_POST['page'] : '';
 $add_path = $sd . $sb . $pg;
 

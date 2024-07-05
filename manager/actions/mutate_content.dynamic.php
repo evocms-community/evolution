@@ -540,8 +540,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     <input type="hidden" name="MAX_FILE_SIZE" value="<?= evo()->getConfig('upload_maxsize') ?>"/>
     <input type="hidden" name="refresh_preview" value="0"/>
     <input type="hidden" name="newtemplate" value=""/>
-    <input type="hidden" name="dir" value="<?= entities($dir, evo()->getConfig('modx_charset')) ?>"/>
-    <input type="hidden" name="sort" value="<?= entities($sort, evo()->getConfig('modx_charset')) ?>"/>
+    <input type="hidden" name="dir" value="<?= e($dir) ?>"/>
+    <input type="hidden" name="sort" value="<?= e($sort) ?>"/>
     <input type="hidden" name="page" value="<?= $page ?>"/>
 
     <fieldset id="create_edit">
@@ -549,10 +549,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         <h1>
             <i class="<?= ManagerTheme::getStyle('icon_edit') ?>"></i><?php
             if (isset($_REQUEST['id'])) {
-                echo entities(
-                        iconv_substr($content['pagetitle'], 0, 50, evo()->getConfig('modx_charset')),
-                        evo()->getConfig('modx_charset')
-                    ) . (iconv_strlen($content['pagetitle'], evo()->getConfig('modx_charset')) > 50 ? '...' : '') .
+                echo e(
+                        Str::limit($content['pagetitle'], 50)) .
                     '<small>(' . (int) $_REQUEST['id'] . ')</small>';
             } else {
                 if (evo()->getManagerApi()->action == '4') {
@@ -715,9 +713,8 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                         <i id="llock" class="<?= ManagerTheme::getStyle('icon_chain') ?>"
                                            onclick="enableLinkSelection(!allowLinkSelection);"></i>
                                         <input name="ta" id="ta" type="text" maxlength="255"
-                                               value="<?= (!empty($content['content']) ? entities(
-                                                   stripslashes($content['content']),
-                                                   evo()->getConfig('modx_charset')
+                                               value="<?= (!empty($content['content']) ? e(
+                                                   stripslashes($content['content'])
                                                ) : 'http://') ?>" class="inputBox"
                                                onchange="documentDirty=true;"/>
                                         <input type="button"
@@ -893,10 +890,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                     ?>
                                     <i id="plock" class="<?= ManagerTheme::getStyle('icon_folder') ?>"
                                        onclick="enableParentSelection(!allowParentSelection);"></i>
-                                    <b><span id="parentName"><?= (isset($_REQUEST['pid']) ? entities($_REQUEST['pid'])
-                                                : $content['parent']) ?> (<?= entities($parentname) ?>)</span></b>
+                                    <b><span id="parentName"><?= (isset($_REQUEST['pid']) ? e($_REQUEST['pid'])
+                                                : $content['parent']) ?> (<?= e($parentname) ?>)</span></b>
                                     <input type="hidden" name="parent"
-                                           value="<?= (isset($_REQUEST['pid']) ? entities($_REQUEST['pid'])
+                                           value="<?= (isset($_REQUEST['pid']) ? e($_REQUEST['pid'])
                                                : $content['parent']) ?>" onchange="documentDirty=true;"/>
                                 </td>
                             </tr>

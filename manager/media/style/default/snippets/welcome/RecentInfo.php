@@ -113,10 +113,10 @@ foreach ($contents->get()->toArray() as $ph) {
         ManagerTheme::getStyle('icon_info') . ManagerTheme::getStyle('icon_size_fix') . '"></i></a>'
     );
 
-    $ph['longtitle'] = $ph['longtitle'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['longtitle']);
-    $ph['description'] = $ph['description'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['description']);
-    $ph['introtext'] = $ph['introtext'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['introtext']);
-    $ph['alias'] = $ph['alias'] == '' ? '(<i>[%not_set%]</i>)' : entities($ph['alias']);
+    $ph['longtitle'] = $ph['longtitle'] == '' ? '(<i>[%not_set%]</i>)' : e($ph['longtitle']);
+    $ph['description'] = $ph['description'] == '' ? '(<i>[%not_set%]</i>)' : e($ph['description']);
+    $ph['introtext'] = $ph['introtext'] == '' ? '(<i>[%not_set%]</i>)' : e($ph['introtext']);
+    $ph['alias'] = $ph['alias'] == '' ? '(<i>[%not_set%]</i>)' : e($ph['alias']);
 
     $ph['edit_date'] = evo()->toDateFormat(strtotime($ph['editedon']));
 

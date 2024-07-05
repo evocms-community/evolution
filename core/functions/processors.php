@@ -458,7 +458,7 @@ if (!function_exists('sendMailMessageForUser')) {
                 $uid,
                 $pwd,
                 $ufn,
-                $modx->getPhpCompat()->entities($modx->getConfig('site_name')),
+                e($modx->getConfig('site_name')),
                 $emailsender,
                 $emailsender,
                 $url,

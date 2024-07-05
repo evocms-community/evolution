@@ -242,13 +242,13 @@ use Illuminate\Support\Facades\Lang;
                 //$class .= ($children['isfolder'] ? ' font-weight-bold' : '');
                 if (evo()->hasPermission('edit_document')) {
                     $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&id=' .
-                        $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . entities(
+                        $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . e(
                             $children['pagetitle'],
                             config('global.modx_charset')
                         ) . '</span></a></span>';
                 } else {
                     $title =
-                        '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . entities(
+                        '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . e(
                             $children['pagetitle'],
                             config('global.modx_charset')
                         ) . '</span></span>';
@@ -352,10 +352,7 @@ use Illuminate\Support\Facades\Lang;
 
     <h1>
         <i class="{{ ManagerTheme::getStyle('icon_info') }}"></i>
-        {{ entities(iconv_substr($content['pagetitle'], 0, 50, config('global.modx_charset')), config('global.modx_charset')) }}
-        @if(iconv_strlen($content['pagetitle'], config('global.modx_charset')) > 50)
-            ...
-        @endif
+        {{ Str::limit($content['pagetitle'], 50, '...') }}
         <small>({{ (int)$_REQUEST['id'] }})</small>
     </h1>
 
@@ -380,29 +377,26 @@ use Illuminate\Support\Facades\Lang;
                     </tr>
                     <tr>
                         <td width="200" valign="top">{{ __('global.resource_title') }}:</td>
-                        <td><b><?= entities($content['pagetitle']) ?></b></td>
+                        <td><b><?= e($content['pagetitle']) ?></b></td>
                     </tr>
                     <tr>
                         <td width="200" valign="top">{{ __('global.long_title') }}:</td>
                         <td>
-                            <small><?= $content['longtitle'] != '' ? entities(
-                                    $content['longtitle'],
-                                    config('global.modx_charset')
+                            <small><?= $content['longtitle'] != '' ? e(
+                                    $content['longtitle']
                                 ) : "(<i>" . __('global.not_set') . "</i>)" ?></small>
                         </td>
                     </tr>
                     <tr>
                         <td valign="top">{{ __('global.resource_description') }}:</td>
-                        <td><?= $content['description'] != '' ? entities(
-                                $content['description'],
-                                config('global.modx_charset')
+                        <td><?= $content['description'] != '' ? e(
+                                $content['description']
                             ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
                         <td valign="top">{{ __('global.resource_summary') }}:</td>
-                        <td><?= $content['introtext'] != '' ? entities(
-                                $content['introtext'],
-                                config('global.modx_charset')
+                        <td><?= $content['introtext'] != '' ? e(
+                                $content['introtext']
                             ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
@@ -412,9 +406,8 @@ use Illuminate\Support\Facades\Lang;
                     </tr>
                     <tr>
                         <td valign="top">{{ __('global.resource_alias') }}:</td>
-                        <td><?= $content['alias'] != '' ? entities(
-                                $content['alias'],
-                                config('global.modx_charset')
+                        <td><?= $content['alias'] != '' ? e(
+                                $content['alias']
                             ) : "(<i>" . __('global.not_set') . "</i>)" ?></td>
                     </tr>
                     <tr>
@@ -426,7 +419,7 @@ use Illuminate\Support\Facades\Lang;
                     <tr>
                         <td>{{ __('global.page_data_created') }}:</td>
                         <td><?= evo()->toDateFormat(strtotime($content['createdon'])) ?>
-                            (<b><?= entities($createdbyname, config('global.modx_charset')) ?></b>)
+                            (<b><?= e($createdbyname) ?></b>)
                         </td>
                     </tr>
                     <?php
@@ -434,7 +427,7 @@ use Illuminate\Support\Facades\Lang;
                     <tr>
                         <td>{{ __('global.page_data_edited') }}:</td>
                         <td><?= evo()->toDateFormat(strtotime($content['editedon'])) ?>
-                            (<b><?= entities($editedbyname, config('global.modx_charset')) ?></b>)
+                            (<b><?= e($editedbyname) ?></b>)
                         </td>
                     </tr>
                         <?php
@@ -477,7 +470,7 @@ use Illuminate\Support\Facades\Lang;
                     </tr>
                     <tr>
                         <td>{{ __('global.resource_opt_menu_index') }}:</td>
-                        <td><?= entities($content['menuindex'], config('global.modx_charset')) ?></td>
+                        <td><?= e($content['menuindex']) ?></td>
                     </tr>
                     <tr>
                         <td>{{ __('global.resource_opt_show_menu') }}:</td>
@@ -509,9 +502,8 @@ use Illuminate\Support\Facades\Lang;
                         <td>{{ __('global.page_data_template') }}:</td>
                         <td><?= $content['template'] == 0
                                 ? "(<i>" . __('global.not_set') . "</i>)"
-                                : entities(
-                                    $templatename,
-                                    config('global.modx_charset')
+                                : e(
+                                    $templatename
                                 ) ?></td>
                     </tr>
                     <tr>
@@ -539,7 +531,7 @@ use Illuminate\Support\Facades\Lang;
                     <div class="form-group clearfix">
                         @if($numRecords > 0)
                             <div class="float-xs-left">
-                                <span class="publishedDoc">{{ $numRecords }} {{ __('global.resources_in_container') }} (<strong>{{ entities($content['pagetitle'], config('global.modx_charset')) }}</strong>)</span>
+                                <span class="publishedDoc">{{ $numRecords }} {{ __('global.resources_in_container') }} (<strong>{{ e($content['pagetitle']) }}</strong>)</span>
                             </div>
                         @endif
                         <div class="float-right">

@@ -100,7 +100,7 @@ class MysqlDumper implements MysqlDumperInterface
 
         // Set header
         $output = "#{$lf}";
-        $output .= "# " . addslashes($modx->getPhpCompat()->entities($modx->getConfig('site_name'))) . " Database Dump{$lf}";
+        $output .= "# " . addslashes(e($modx->getConfig('site_name'))) . " Database Dump{$lf}";
         $output .= "# Evolution CMS Version:{$version['version']}{$lf}";
         $output .= "# {$lf}";
         $output .= "# Host: {$this->database_server}{$lf}";
@@ -230,7 +230,7 @@ class MysqlDumper implements MysqlDumperInterface
 
             $output = '';
         }
-        
+
         $output = "{$lf}{$lf}# --------------------------------------------------------{$lf}{$lf}";
         $output .= "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;{$lf}{$lf}";
         $output .= "SET @@sql_mode := @old_sql_mode ;{$lf}";

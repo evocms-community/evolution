@@ -622,14 +622,6 @@ abstract class AbstractLaravel extends Container implements ApplicationContract
     }
 
     /**
-     * @return Legacy\PhpCompat
-     */
-    public function getPhpCompat(): Legacy\PhpCompat
-    {
-        return $this->getService('PHPCOMPAT');
-    }
-
-    /**
      * @return Legacy\PasswordHash
      */
     public function getPasswordHash(): Legacy\PasswordHash
