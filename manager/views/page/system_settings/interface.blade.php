@@ -29,21 +29,6 @@ use EvolutionCMS\Facades\ManagerTheme;
         <div class="split my-1"></div>
 
         @include('manager::form.select', [
-            'name' => 'modx_charset',
-            'label' => __('global.charset_title'),
-            'small' => '[(modx_charset)]',
-            'value' => $settings['modx_charset'],
-            'attributes' => 'onChange="documentDirty=true;" size="1"',
-            'options' => include EVO_CORE_PATH . '/factory/charsets.php',
-            'comment' =>
-                (isset($disabledSettings['modx_charset']) ? __('global.setting_from_file') . '<br>' : '') .
-                __('global.charset_message'),
-            'disabled' => $disabledSettings['modx_charset'] ?? null,
-        ])
-
-        <div class="split my-1"></div>
-
-        @include('manager::form.select', [
             'name' => 'manager_theme',
             'label' => __('global.manager_theme'),
             'small' => '[(manager_theme)]',

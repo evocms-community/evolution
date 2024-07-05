@@ -26,10 +26,6 @@ class SystemSettingsTableSeeder extends Seeder
                 'setting_value' => '0',
             ],
             [
-                'setting_name' => 'modx_charset',
-                'setting_value' => 'UTF-8',
-            ],
-            [
                 'setting_name' => 'site_name',
                 'setting_value' => 'My Evolution Site',
             ],
