@@ -746,7 +746,7 @@ $_lang["help"] = 'Даведка';
 $_lang["help_msg"] = '<b>Вы можаце атрымаць бясплатную падтрымку супольнасці, наведаўшы <a href="http://forums.modx.com/" target="_blank">форумы Evolution CMS</a>. Таксама ўзрастае колькасць дакументацыі і кіраўніцтваў па Evolution CMS, якія апісваюць практычна кожны аспект Evolution CMS.</p><p>Мы таксама плануем прапанаваць камерцыйную падтрымку для Evolution CMS. Калі вы цікавіцеся, калі ласка, звярніцеся да нас.';
 $_lang["help_title"] = 'Даведка';
 $_lang["hide_tree"] = 'Схаваць дрэва сайтаў';
-$_lang["home"] = 'Галоўная';  
+$_lang["home"] = 'Галоўная';
 
 $_lang["icon"] = 'Значок';
 $_lang["icon_description"] = 'Значэнне CSS класу, напр. fa fa-star';
@@ -1333,7 +1333,7 @@ $_lang["bkmgr_run_sql_direct_label"] = 'Прамое выкананне кама
 $_lang["bkmgr_run_sql_submit"] = 'Выканаць аднаўленне';
 $_lang["bkmgr_run_sql_result"] = 'Вынік';
 $_lang["bkmgr_snapshot_title"] = 'Захаванне і аднаўленне здымка';
-$_lang["bkmgr_snapshot_msg"] = '<p>Змесціва базы дадзеных захоўваецца ў каталогу сервера і можа быць адноўлена адтуль. <br />Размяшчэнне: [+snapshot_path+] ($modx->config[\'snapshot_path\'])</p>';
+$_lang["bkmgr_snapshot_msg"] = '<p>Змесціва базы дадзеных захоўваецца ў каталогу сервера і можа быць адноўлена адтуль. <br />Размяшчэнне: /assets/backup/</p>';
 $_lang["bkmgr_snapshot_submit"] = 'Зрабіць здымак';
 $_lang["bkmgr_snapshot_list_title"] = 'Спіс здымкаў';
 $_lang["bkmgr_restore_submit"] = 'Аднавіць гэтыя даныя';
@@ -1488,7 +1488,7 @@ $_lang["minifyphp_incache_message"] = 'Аптымізуйце PHP-код (сні
 $_lang["logout_reminder_msg"] = "Памятайце: на [дата] здаецца, што вы забылі выйсці з сістэмы. Калі ласка, у будучыні не забывайце рабіць гэта пасля завяршэння працы.";
 
 $_lang["allow_eval_title"] = "Дазвол на выкананне PHP-кода ў вызовах сніпетаў";
-$_lang["allow_eval_msg"] = "Для распрацоўкі: выкарыстоўвайце $modx->safeEval().";
+$_lang["allow_eval_msg"] = "Для распрацоўкі: выкарыстоўвайце \$modx-&gt;safeEval().";
 $_lang["allow_eval_with_scan"] = "Выконваць толькі дазволеныя функцыі";
 $_lang["allow_eval_with_scan_at_post"] = "Выканаць ўсё, але ў POST толькі дазволеныя функцыі";
 $_lang["allow_eval_everytime_eval"] = "Неабмежавана (выкарыстоўвайце толькі для адладкі)";
