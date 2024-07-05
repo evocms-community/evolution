@@ -121,7 +121,8 @@ class SystemSettings extends AbstractController implements ManagerTheme\PageCont
             }
         }
         $dir->close();
-
+        ksort($lang_keys_select);
+        
         return $lang_keys_select;
     }
 
