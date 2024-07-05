@@ -285,7 +285,7 @@ if (!function_exists('getTVDisplayFormat')) {
                             'class' => $params['class'],
                             'src' => $src,
                             'id' => ($params['id'] ? $params['id'] : ''),
-                            'alt' => $modx->getPhpCompat()->htmlspecialchars($params['alttext']),
+                            'alt' => e($params['alttext']),
                             'style' => $params['style'],
                         ];
                         if (isset($params['align']) && $params['align'] !== 'none') {
@@ -363,7 +363,7 @@ if (!function_exists('getTVDisplayFormat')) {
                         // setup the link attributes
                         $attr = [
                             'href' => $url,
-                            'title' => $params['title'] ? $modx->getPhpCompat()->htmlspecialchars($params['title'])
+                            'title' => $params['title'] ? e($params['title'])
                                 : $name,
                             'class' => $params['class'],
                             'style' => $params['style'],
@@ -376,7 +376,7 @@ if (!function_exists('getTVDisplayFormat')) {
 
                         // Output the link
                         $o .= '<a' . rtrim($attributes) . '>' .
-                            ($params['text'] ? $modx->getPhpCompat()->htmlspecialchars($params['text']) : $name) .
+                            ($params['text'] ? e($params['text']) : $name) .
                             '</a>';
                     }
                 }
@@ -420,7 +420,7 @@ if (!function_exists('getTVDisplayFormat')) {
                 $o = '<div class="MODX_RichTextWidget"><textarea id="' . $id . '" name="' . $id . '" style="width:' .
                     $w . '; height:' . $h . ';">';
 
-                $o .= $modx->getPhpCompat()->htmlspecialchars($value);
+                $o .= e($value);
                 $o .= '</textarea></div>';
                 $replace_richtext = [$id];
                 // setup editors
@@ -717,24 +717,24 @@ if (!function_exists('renderFormElement')) {
                 case 'text': // handler for regular text boxes
                 case 'rawtext'; // non-htmlentity converted text boxes
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '" value="' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '" ' . $field_style . ' tvtype="' .
+                        e($field_value) . '" ' . $field_style . ' tvtype="' .
                         $field_type . '" onchange="documentDirty=true;" style="width:100%%" />';
 
                     break;
                 case 'email': // handles email input fields
                     $field_html .= '<input type="email" id="tv' . $field_id . '" name="tv' . $field_id . '" value="' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '" ' . $field_style . ' tvtype="' .
+                        e($field_value) . '" ' . $field_style . ' tvtype="' .
                         $field_type . '" onchange="documentDirty=true;" style="width:100%%" />';
                     break;
                 case 'number': // handles the input of numbers
                     $field_html .= '<input type="number" id="tv' . $field_id . '" name="tv' . $field_id . '" value="' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '" ' . $field_style . ' tvtype="' .
+                        e($field_value) . '" ' . $field_style . ' tvtype="' .
                         $field_type . '" onchange="documentDirty=true;" style="width:100%%" />';
                     break;
                 case 'textareamini': // handler for textarea mini boxes
                     $field_html .= '<textarea id="tv' . $field_id . '" name="tv' . $field_id .
                         '" cols="40" rows="5" onchange="documentDirty=true;" style="width:100%%">' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '</textarea>';
+                        e($field_value) . '</textarea>';
                     break;
                 case 'textarea': // handler for textarea boxes
                 case 'rawtextarea': // non-htmlentity convertex textarea boxes
@@ -742,7 +742,7 @@ if (!function_exists('renderFormElement')) {
                 case 'richtext': // handler for textarea boxes
                     $field_html .= '<textarea id="tv' . $field_id . '" name="tv' . $field_id .
                         '" cols="40" rows="15" onchange="documentDirty=true;" style="width:100%%">' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '</textarea>';
+                        e($field_value) . '</textarea>';
                     break;
                 case 'date':
                     $field_id = str_replace([
@@ -786,9 +786,9 @@ if (!function_exists('renderFormElement')) {
                         if ($itemvalue == '') {
                             $itemvalue = $item;
                         }
-                        $field_html .= '<option value="' . $modx->getPhpCompat()->htmlspecialchars($itemvalue) . '"' .
+                        $field_html .= '<option value="' . e($itemvalue) . '"' .
                             ($itemvalue == $field_value ? ' selected="selected"' : '') . '>' .
-                            $modx->getPhpCompat()->htmlspecialchars($item) . '</option>';
+                            e($item) . '</option>';
                     }
                     $field_html .= '</select>';
                     break;
@@ -817,9 +817,9 @@ if (!function_exists('renderFormElement')) {
                         if ($itemvalue == '') {
                             $itemvalue = $item;
                         }
-                        $field_html .= '<option value="' . $modx->getPhpCompat()->htmlspecialchars($itemvalue) . '"' .
+                        $field_html .= '<option value="' . e($itemvalue) . '"' .
                             ($itemvalue == $field_value ? ' selected="selected"' : '') . '>' .
-                            $modx->getPhpCompat()->htmlspecialchars($item) . '</option>';
+                            e($item) . '</option>';
                     }
                     $field_html .= '</select>';
                     break;
@@ -848,9 +848,9 @@ if (!function_exists('renderFormElement')) {
                         if ($itemvalue == '') {
                             $itemvalue = $item;
                         }
-                        $field_html .= '<option value="' . $modx->getPhpCompat()->htmlspecialchars($itemvalue) . '"' .
+                        $field_html .= '<option value="' . e($itemvalue) . '"' .
                             ($itemvalue == $field_value ? ' selected="selected"' : '') . '>' .
-                            $modx->getPhpCompat()->htmlspecialchars($item) . '</option>';
+                            e($item) . '</option>';
                     }
                     $field_html .= '</select>';
                     break;
@@ -875,7 +875,7 @@ if (!function_exists('renderFormElement')) {
                     }
                     $field_html .= '</select></td><td>';
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '" value="' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '" width="100" ' . $field_style .
+                        e($field_value) . '" width="100" ' . $field_style .
                         ' onchange="documentDirty=true;" /></td></tr></table>';
                     break;
                 case 'checkbox': // handles check boxes
@@ -910,7 +910,7 @@ if (!function_exists('renderFormElement')) {
                         }
                         $checked = in_array($value, $values) ? ' checked="checked"' : '';
                         $param = [
-                            $modx->getPhpCompat()->htmlspecialchars($value),
+                            e($value),
                             $i,
                             $field_id,
                             $checked,
@@ -941,7 +941,7 @@ if (!function_exists('renderFormElement')) {
                             $itemvalue = $item;
                         }
                         $field_html .= '<input type="radio" value="' .
-                            $modx->getPhpCompat()->htmlspecialchars($itemvalue) . '" id="tv_' . $i . '" name="tv' .
+                            e($itemvalue) . '" id="tv_' . $i . '" name="tv' .
                             $field_id . '" ' . ($itemvalue == $field_value ? 'checked="checked"' : '') .
                             ' onchange="documentDirty=true;" /><label for="tv_' . $i . '" class="radio">' . $item .
                             '</label><br />';
@@ -1016,7 +1016,7 @@ if (!function_exists('renderFormElement')) {
                         '[+field_type+]' => $field_type,
                         '[+field_id+]' => $field_id,
                         '[+default_text+]' => $default_text,
-                        '[+field_value+]' => $modx->getPhpCompat()->htmlspecialchars($field_value),
+                        '[+field_value+]' => e($field_value),
                         '[+field_style+]' => $field_style,
                     ];
                     $custom_output = str_replace(array_keys($replacements), $replacements, $custom_output);
@@ -1028,7 +1028,7 @@ if (!function_exists('renderFormElement')) {
 
                 default: // the default handler -- for errors, mostly
                     $field_html .= '<input type="text" id="tv' . $field_id . '" name="tv' . $field_id . '" value="' .
-                        $modx->getPhpCompat()->htmlspecialchars($field_value) . '" ' . $field_style .
+                        e($field_value) . '" ' . $field_style .
                         ' onchange="documentDirty=true;" />';
             } // end switch statement
         } else {
@@ -1045,7 +1045,7 @@ if (!function_exists('renderFormElement')) {
                 '[+field_type+]' => $field_type,
                 '[+field_id+]' => $field_id,
                 '[+default_text+]' => $default_text,
-                '[+field_value+]' => $modx->getPhpCompat()->htmlspecialchars($field_value),
+                '[+field_value+]' => e($field_value),
                 '[+field_style+]' => $field_style,
             ];
             $custom_output = str_replace(array_keys($replacements), $replacements, $custom_output);

@@ -261,7 +261,7 @@ if (!function_exists('makeHTML')) {
                 ($row['searchable'] == 0 ? __('global.no') : __('global.yes'));
             $title .= '[+lf+]' . __('global.page_data_cacheable') . ': ' .
                 ($row['cacheable'] == 0 ? __('global.no') : __('global.yes'));
-            $title = evo()->getPhpCompat()->htmlspecialchars($title);
+            $title = e($title);
             $title = str_replace('[+lf+]', ' &#13;', $title);   // replace line-breaks with empty space as fall-back
 
             $data = [
@@ -649,7 +649,7 @@ if (!function_exists('getNodeTitle')) {
                 $nodeTitle = $row['pagetitle'];
         }
 
-        return evo()->getPhpCompat()->htmlspecialchars(
+        return e(
             str_replace([
                 "\r\n",
                 "\n",

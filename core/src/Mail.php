@@ -62,7 +62,7 @@ class Mail extends PHPMailer
         if (isset($modx->config['email_sender_method']) && !$modx->config['email_sender_method']) {
             $this->Sender = $modx->getConfig('emailsender');
         }
-        $this->FromName = $modx->getPhpCompat()->entities($modx->getConfig('site_name'));
+        $this->FromName = e($modx->getConfig('site_name'));
         $this->isHTML(true);
 
         if (isset($modx->config['mail_charset']) && !empty($modx->config['mail_charset'])) {
@@ -143,7 +143,7 @@ class Mail extends PHPMailer
     {
         $this->Body = removeSanitizeSeed($this->Body);
         $this->Subject = removeSanitizeSeed($this->Subject);
-        
+
         $prevent = false;
         $this->modx->invokeEvent('OnBeforeMailSend', [
             'mailer'  => $this,

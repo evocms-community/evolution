@@ -23,17 +23,18 @@ class TemplateProcessor
         $controller = '';
         $doc = $this->core->documentObject;
         $namespace = trim($this->core->getConfig('ControllerNamespace'));
-        if(isset($doc['templatealias']) && $doc['templatealias'] != ''){
+        if (isset($doc['templatealias']) && $doc['templatealias'] != '') {
             $templateAlias = $doc['templatealias'];
             $controller = $doc['templatecontroller'] ?? '';
-        }else {
-            if($doc['template'] === 0) {
+        } else {
+            if ($doc['template'] === 0) {
                 $templateAlias = '_blank';
-                if(!empty($namespace) && class_exists($namespace . 'Blank') && is_subclass_of($namespace . 'Blank', TemplateController::class)) {
+                if (!empty($namespace) && class_exists($namespace . 'Blank') && is_subclass_of($namespace . 'Blank',
+                        TemplateController::class)) {
                     $controller = 'Blank';
                 }
             } else {
-                $query = SiteTemplate::select(['templatecontroller','templatealias'])->find($doc['template']);
+                $query = SiteTemplate::select(['templatecontroller', 'templatealias'])->find($doc['template']);
                 $templateAlias = $query->templatealias;
                 $controller = $query->templatecontroller;
             }
@@ -54,13 +55,12 @@ class TemplateProcessor
                 if (isset($doc['id'])) {
                     $documentObject = $this->core->makeDocumentObject($doc['id']);
                     $data = [
-                        'modx' => $this->core,
+                        'modx'           => $this->core,
                         'documentObject' => $documentObject,
                     ];
-                    $this->core->addDataToView($documentObject);
                 } else {
                     $data = [
-                        'modx' => $this->core,
+                        'modx'           => $this->core,
                         'documentObject' => [],
                     ];
                 }
@@ -68,42 +68,16 @@ class TemplateProcessor
                 if ($this->core->isChunkProcessor('DLTemplate')) {
                     app('DLTemplate')->blade->share($data);
                 }
-                if (!empty($namespace)) {
-                    if(!empty($controller) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller, TemplateController::class)) {
-                        $controller = $namespace . $controller;
-                        $controller = new $controller;
-                        $controller->setView($templateAlias);
-                        $controller->process();
-                        $this->core->addDataToView($controller->getViewData());
-                        $view = $controller->getView();
-                        if(!empty($view)) {
-                            $templateAlias = $view;
-                        }
-                    } elseif($this->core['view']->exists($templateAlias)) {
-                        $baseClassName = $namespace . 'BaseController';
-                        if (class_exists($baseClassName)) { //Проверяем есть ли Base класс
-                            $classArray = explode('.', $templateAlias);
-                            $classArray = array_map(
-                                function ($item) {
-                                    return $this->setPsrClassNames($item);
-                                },
-                                $classArray
-                            );
-                            $classViewPart = implode('.', $classArray);
-                            $className = str_replace('.', '\\', $classViewPart);
-                            $className = $namespace . ucfirst($className) . 'Controller';
-                            if (!class_exists(
-                                $className
-                            )) { //Проверяем есть ли контроллер по алиасу, если нет, то помещаем Base
-                                $className = $baseClassName;
-                            }
-                            $controller = $this->core->make($className);
-                            if (method_exists($controller, 'main')) {
-                                $this->core->call([$controller, 'main']);
-                            }
-                        } else {
-                            $this->core->logEvent(0, 3, $baseClassName . ' not exists!');
-                        }
+                if (!empty($namespace) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller,
+                        TemplateController::class)) {
+                    $controller = $namespace . $controller;
+                    $controller = new $controller;
+                    $controller->setView($templateAlias);
+                    $controller->process();
+                    $this->core->addDataToView($controller->getViewData());
+                    $view = $controller->getView();
+                    if (!empty($view)) {
+                        $templateAlias = $view;
                     }
                 }
                 $template = $templateAlias;
@@ -135,7 +109,7 @@ class TemplateProcessor
     }
 
     /**
-     * @param string $templateAlias
+     * @param  string  $templateAlias
      * @return string
      */
     private function setPsrClassNames(string $templateAlias): string

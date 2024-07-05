@@ -149,7 +149,6 @@ return [
         'Evolution_ManagerAPI'        => EvolutionCMS\Providers\ManagerApiServiceProvider::class,
         'Evolution_MODIFIERS'         => EvolutionCMS\Providers\ModifiersServiceProvider::class,
         'Evolution_phpass'            => EvolutionCMS\Providers\PasswordHashServiceProvider::class,
-        'Evolution_PHPCOMPAT'         => EvolutionCMS\Providers\PhpCompatServiceProvider::class,
         'Evolution_DocBlock'          => EvolutionCMS\Providers\DocBlockServiceProvider::class,
         'Evolution_ManagerTheme'      => EvolutionCMS\Providers\ManagerThemeServiceProvider::class,
         'Evolution_UrlProcessor'      => EvolutionCMS\Providers\UrlProcessorServiceProvider::class,
