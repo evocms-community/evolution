@@ -6405,17 +6405,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
     // php compat
 
     /**
-     * @param $str
-     * @param int $flags
-     * @param string $encode
-     * @return mixed
-     */
-    public function htmlspecialchars($str, $flags = ENT_COMPAT, $encode = '')
-    {
-        return $this->getPhpCompat()->htmlspecialchars($str, $flags, $encode);
-    }
-
-    /**
      * @param $string
      * @param bool $returnData
      * @return bool|mixed
