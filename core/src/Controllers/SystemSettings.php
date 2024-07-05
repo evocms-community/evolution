@@ -124,7 +124,8 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
             }
         }
         $dir->close();
-
+        ksort($lang_keys_select);
+        
         return $lang_keys_select;
     }
 
