@@ -269,11 +269,11 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li id="account" class="dropdown account">
                             <a href="javascript:;" class="dropdown-toggle" onclick="return false;">
                                     <span class="username">
-                                        <?= entities($user['username'], config('global.modx_charset')) ?>
+                                        <?= e($user['username'], config('global.modx_charset')) ?>
                                     </span>
                                 @if ($user['photo'])
                                     <span class="icon photo"
-                                          style="background-image: url(<?= MODX_SITE_URL . entities($user['photo'], config('global.modx_charset')) ?>);"></span>
+                                          style="background-image: url(<?= MODX_SITE_URL . e($user['photo'], config('global.modx_charset')) ?>);"></span>
                                 @else
                                     <span class="icon"><i class="{{ ManagerTheme::getStyle('icon_user') }}"></i></span>
                                 @endif
@@ -349,7 +349,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                                 ? 'style="color:#ffff8a;"' : '';
                                         $version = 'Evolution CE';
                                         echo '<li><span class="dropdown-item" title="' .
-                                            evo()->getPhpCompat()->entities(config('global.site_name')) .
+                                            e(config('global.site_name')) .
                                             ' &ndash; ' . evo()->getVersionData('full_appname') . '" ' . $style . '>' .
                                             $version . ' ' . config('global.settings_version') . '</span></li>';
                                         ?>

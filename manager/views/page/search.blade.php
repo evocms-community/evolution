@@ -44,7 +44,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <div class="col-md-3 col-lg-2">{{ __('global.search_criteria_top') }}</div>
                     <div class="col-md-9 col-lg-10">
                         <input name="searchfields" type="text"
-                                value="{{ entities(get_by_key($_REQUEST, 'searchfields', '', 'is_scalar'), config('global.modx_charset')) }}" />
+                                value="{{ get_by_key($_REQUEST, 'searchfields', '', 'is_scalar') }}" />
                         <small class="form-text">{{ __('global.search_criteria_top_msg') }}</small>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <div class="col-md-3 col-lg-2">URL</div>
                     <div class="col-md-9 col-lg-10">
                         <input name="url" type="text"
-                                value="{{ entities(get_by_key($_REQUEST, 'url', '', 'is_scalar'), config('global.modx_charset')) }}" />
+                                value="{{ get_by_key($_REQUEST, 'url', '', 'is_scalar') }}" />
                         <small class="form-text">{{ __('global.search_criteria_url_msg') }}</small>
                     </div>
                 </div>
@@ -74,7 +74,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     <div class="col-md-3 col-lg-2">{{ __('global.search_criteria_content') }}</div>
                     <div class="col-md-9 col-lg-10">
                         <input name="content" type="text"
-                                value="{{ entities(get_by_key($_REQUEST, 'content', '', 'is_scalar'), config('global.modx_charset')) }}" />
+                                value="{{ get_by_key($_REQUEST, 'content', '', 'is_scalar') }}" />
                         <small class="form-text">{{ __('global.search_criteria_content_msg') }}</small>
                     </div>
                 </div>

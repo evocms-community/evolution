@@ -163,7 +163,7 @@ use EvolutionCMS\Models\ActiveUserSession;
             <td><b>[+logincount+]</b></td>
         </tr>
     </table>';
-    
+
     $loginCount = $_SESSION['mgrLogincount'] + 1;
     $ph['UserInfo'] = evo()->parseText($tpl, [
         'username' => evo()->getLoginUserName(),
@@ -320,7 +320,7 @@ use EvolutionCMS\Models\ActiveUserSession;
     $ph['modx_security_notices_content'] = $feedData['modx_security_notices_content'] ?? [];
     $ph['modx_news_content'] = $feedData['modx_news_content'] ?? [];
     $ph['theme'] = config('global.manager_theme');
-    $ph['site_name'] = evo()->getPhpCompat()->entities(config('global.site_name'));
+    $ph['site_name'] = e(config('global.site_name'));
 
     $ph['modx_security_notices'] = __('global.security_notices_tab');
     $ph['modx_security_notices_title'] = __('global.security_notices_title');

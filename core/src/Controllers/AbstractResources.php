@@ -67,14 +67,6 @@ abstract class AbstractResources extends AbstractController
     {
         $out = Arr::only(__('global'), $keys);
 
-        foreach ($out as &$value) {
-            $value = iconv(
-                evo()->getConfig('modx_charset', 'utf-8')
-                , 'utf-8'
-                , $value
-            );
-        }
-
         return $out;
     }
 }

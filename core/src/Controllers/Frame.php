@@ -98,13 +98,6 @@ class Frame extends AbstractController implements PageControllerInterface
             'type8' => __('global.lock_element_type_8'),
         ];
 
-        foreach ($unlockTranslations as $key => $value) {
-            $unlockTranslations[$key] = iconv(
-                evo()->getConfig('modx_charset'),
-                'utf-8',
-                $value
-            );
-        }
         $this->parameters['unlockTranslations'] = $unlockTranslations;
 
         $user = evo()->getUserInfo(evo()->getLoginUserID('mgr'));
