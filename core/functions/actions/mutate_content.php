@@ -428,8 +428,7 @@ if (!function_exists('getTVDisplayFormat')) {
                         // setup the link attributes
                         $attr = [
                             'href' => $url,
-                            'title' => e($params['title'])
-                                : $name,
+                            'title' => $params['title'] ? e($params['title']) : $name,
                             'class' => $params['class'],
                             'style' => $params['style'],
                             'target' => $params['target'],
