@@ -26,6 +26,16 @@ if( ! function_exists('evolutionCMS')) {
     }
 }
 
+if (!function_exists('evo')) {
+    /**
+     * @return DocumentParser
+     */
+    function evo()
+    {
+        return evolutionCMS();
+    }
+}
+
 /**
  * @return string
  */
