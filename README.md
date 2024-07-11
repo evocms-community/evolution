@@ -2,7 +2,7 @@
 
 ![evocms](https://user-images.githubusercontent.com/523389/167645693-694ca1c1-fb53-45d5-aa63-e3d8c5e1cc84.jpg)
 
-[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evocms-community/evolution) [![GitHub release](https://img.shields.io/github/release/evocms-community/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v7.4-green.svg?php=7.4) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
+[![CMS Evolution](https://img.shields.io/badge/CMS-Evolution-brightgreen.svg)](https://github.com/evocms-community/evolution) [![GitHub release](https://img.shields.io/github/release/evocms-community/evolution.svg)](https://github.com/evocms-community/evolution/releases) ![PHP version](https://img.shields.io/badge/PHP->=v8.1-green.svg?php=8.1) [![Documentation](https://img.shields.io/badge/Documentation-processed-orange.svg)](https://github.com/evocms-community/docs/)
 
 
 ## What is Evolution CMS
@@ -25,7 +25,7 @@ Most significant, though, is **Evolution CMS's** ability to empower you to quick
 
 ## Install
 You can use the single click installer: [Evolution CMS Installer](https://github.com/evocms-community/installer)
-Evolution CMS requires **PHP >= 7.4**, 8.1 is recommended.
+Evolution CMS requires **PHP >= 8.1**.
 
 To install the latest version with Composer:
 1. Go to the site root folder.
