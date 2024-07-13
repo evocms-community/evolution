@@ -9,15 +9,23 @@ class Panel extends AbstractPanel
      *
      * @return array
      */
+
+    public function getPanel()
+    {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return $this->render('panel');
+        }
+    }
+
     protected function getAttributes()
     {
         $rows = [];
-        if ($this->hasEvolutionCMS() === true && \defined('SESSION_COOKIE_NAME')) {
-            $rows = [
-                'cookieId' => SESSION_COOKIE_NAME
-            ];
-        }
         if (session_status() === PHP_SESSION_ACTIVE) {
+            if ($this->hasEvolutionCMS() === true && \defined('SESSION_COOKIE_NAME')) {
+                $rows = [
+                    'cookieId' => SESSION_COOKIE_NAME
+                ];
+            }
             $rows['sessionId'] = session_id();
             $rows['data'] = $_SESSION;
         }
