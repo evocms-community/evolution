@@ -86,7 +86,7 @@ class Store extends \Illuminate\Session\Store
      */
     public function all()
     {
-        return $_SESSION;
+        return $_SESSION ?? [];
     }
 
     /**
@@ -97,7 +97,7 @@ class Store extends \Illuminate\Session\Store
      */
     public function only(array $keys)
     {
-        return Arr::only($_SESSION, $keys);
+        return Arr::only($_SESSION ?? [], $keys);
     }
 
     /**
@@ -108,7 +108,7 @@ class Store extends \Illuminate\Session\Store
      */
     public function except(array $keys)
     {
-        return Arr::except($_SESSION, $keys);
+        return Arr::except($_SESSION ?? [], $keys);
     }
 
     /**
@@ -159,7 +159,7 @@ class Store extends \Illuminate\Session\Store
      */
     public function get($key, $default = null)
     {
-        return Arr::get($_SESSION, $key, $default);
+        return Arr::get($_SESSION ?? [], $key, $default);
     }
 
     /**

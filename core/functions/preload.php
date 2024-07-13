@@ -94,6 +94,9 @@ if (!function_exists('startCMSSession')) {
         if (is_cli()) {
             return;
         }
+        if(defined('NO_SESSION') && !defined('IN_MANAGER_MODE')) {
+            return;
+        }
 
         session_name(SESSION_COOKIE_NAME);
         removeInvalidCmsSessionIds(SESSION_COOKIE_NAME);
