@@ -46,7 +46,7 @@ class Panel extends AbstractPanel
         $events = $this->evolution['events'];
 
         $events->listen('evolution.*', function ($key, $payload) use ($id) {
-	    $payload = array_filter($payload);
+	    $payload = array_filter($payload)[0] ?? [];
             $execTime = Debugger::timer($id);
             $editorLink = static::editorLink(static::findSource());
             $this->totalTime += $execTime;
