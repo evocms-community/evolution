@@ -1,173 +1,235 @@
 <?php namespace EvolutionCMS\Console;
 
 use EvolutionCMS\Facades\Console;
-use Composer\Console\Application;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\ArrayInput;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @see: https://github.com/laravel-zero/foundation/blob/5.6/src/Illuminate/Foundation/Console/ClearCompiledCommand.php
  */
 class SiteUpdateCommand extends Command
 {
+    protected $currentVersion = '';
+    protected $updateData = [];
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'make:site {command_site=update} {version=null}';
+    protected $signature = 'make:update {version? : Version to install} {--force : Force update download}';
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update site';
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Searching and installing Evolution CMS updates';
 
     /**
      * Execute the console command.
      *
      * @return void
      */
+    public function __construct()
+    {
+        parent::__construct();
+        $currentVersion = evo()->getVersionData();
+        $this->currentVersion = $currentVersion['version'];
+        $this->currentVersion = '3.1.25';
+    }
+
     public function handle()
     {
-        switch ($this->argument('command_site')) {
-            case 'pizdato':
-                echo 'Remove MODX REVO and install Evolution CMS' . "\n";
-                $this->startUpdate();
-                break;
-            case 'update':
-                $this->startUpdate();
-                break;
+        $this->getUpdateData();
+        if(empty($this->updateData)) {
+            $this->error('No updates found');
+
+            return Command::FAILURE;
+        }
+
+        if($this->checkUpdate() && $this->update()) {
+            return;
+        } else {
+            return Command::FAILURE;
         }
     }
 
-    public function startUpdate()
+    protected function getUpdateData()
     {
-        $evo = EvolutionCMS();
-        $updateRepository = $evo->getConfig('UpgradeRepository');
-        if ($updateRepository == '') {
-            $updateRepository = 'evocms-community/evolution';
-        }
-        $ch = curl_init();
-        $url = 'https://api.github.com/repos/' . $updateRepository . '/tags';
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_REFERER, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: updateNotify widget'));
-        $info = curl_exec($ch);
-        curl_close($ch);
-        if (substr($info, 0, 1) != '[') {
+        $updateVersion = $this->argument('version');
+        $_currentVersion = explode('.', $this->currentVersion);
+        $info = cache()->remember('updatedata', 3600, function() {
+            $updateRepository = evo()->getConfig('UpgradeRepository', 'evocms-community/evolution');
+            $response = Http::get('https://api.github.com/repos/' . $updateRepository . '/releases');
+            if (!$response->successful() || empty($response->json())) {
+
+                return [];
+            }
+            return $response->json();
+        });
+        if (empty($info)) {
+            $this->error("Failed to receive releases list");
+            $this->newLine();
+
             return;
         }
-        $currentVersion = $evo->getVersionData();
-        $arrayVersion = explode('.', $currentVersion['version']);
-        $currentMajorVersion = array_shift($arrayVersion);
 
-        $info = json_decode($info, true);
-        foreach ($info as $key => $val) {
+        if(!empty($updateVersion)) {
+            $this->info('Searching for ' . $updateVersion);
+            $this->newLine();
+            foreach ($info as $item) {
+                if (!empty($updateVersion) && $updateVersion == $item['tag_name']) {
+                    $this->updateData = [
+                        'version' => $updateVersion,
+                        'url'     => $item['zipball_url'],
+                    ];
 
-            $arrayVersion = explode('.', $val['name']);
-            if ($currentMajorVersion == array_shift($arrayVersion)) {
-
-                $git['version'] = $val['name'];
-
-                if (strpos($val['name'], 'alpha')) {
-                    $git['alpha'] = $val['name'];
+                    return;
+                }
+            }
+        } else {
+            $this->info('Searching for the latest update...');
+            foreach ($info as $item) {
+                $_version = explode('.', $item['tag_name']);
+                if ($_version[0] !== $_currentVersion[0] || $_version[1] !== $_currentVersion[1]) {
                     continue;
-                } elseif (strpos($val['name'], 'beta')) {
-                    $git['beta'] = $val['name'];
+                }
+                if (strpos($item['tag_name'], 'alpha') !== false || strpos($item['tag_name'],
+                        'beta') !== false || strpos($item['tag_name'], 'RC') !== false) {
                     continue;
-                } else {
-                    $git['stable'] = $val['name'];
-                    break;
+                }
+                if (version_compare($this->currentVersion, $item['tag_name'], '<')) {
+                    $this->updateData = [
+                        'version' => $item['tag_name'],
+                        'url'     => $item['zipball_url'],
+                    ];
+                    $this->info('Found ' . $item['tag_name']);
+                    $this->newLine();
+
+                    return;
                 }
             }
         }
-        $git['version'] = $this->argument('version');
+    }
 
-        if ($git['version'] == 'null') {
-            if (isset($git['stable'])) {
-                if (version_compare($currentVersion['version'], $git['stable'], '!=')) {
-                    $git['version'] = $git['stable'];
-                }
+    protected function checkUpdate()
+    {
+        if($this->argument('version')) {
+            $updateVersion = $this->argument('version');
+            $_updateVersion = explode('.', $updateVersion);
+            $_currentVersion = explode('.', $this->currentVersion);
+            if(count($_updateVersion) < 3) {
+                $this->error('Failed to install ' . $updateVersion);
+
+                return false;
+            }
+            if(strpos($updateVersion, 'alpha') !== false || strpos($updateVersion, 'beta') !== false || strpos($updateVersion, 'RC') !== false)  {
+                $this->warn('You are going to install unstable version');
+            }
+
+
+            if($_updateVersion[0] > $_currentVersion[0] || $_updateVersion[1] > $_currentVersion[1]) {
+                $this->warn('You are going to install major update. Please, read the release notes.');
+            }
+        } else {
+            $updateVersion = $this->updateData['version'];
+        }
+
+        if(version_compare($this->currentVersion, $updateVersion, '>=')) {
+            $this->error('You have a newer version of Evolution CMS (' . $this->currentVersion . ')');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function update()
+    {
+        $this->info("Downloading {$this->updateData['version']}...");
+        $updateZip = MODX_BASE_PATH . $this->updateData['version'] . '.zip';
+        if(!file_exists($updateZip) || !is_readable($updateZip) || $this->option('force')) {
+            $response = Http::sink($updateZip)->get($this->updateData['url']);
+            if ($response->failed()) {
+                $this->error('Failed to download ' . $this->updateData['version']);
+
+                return false;
             }
         }
-        if ($git['version'] != '' && $git['version'] != 'null') {
-            $url = 'https://github.com/' . $updateRepository . '/archive/' . $git['version'] . '.zip';
-            echo "Start download EvolutionCMS\n";
-            $url = file_get_contents($url);
-            if(!$url) die("Failed to download EvolutionCMS\n");
+        $this->info("Unpacking {$this->updateData['version']}...");
+        $temp_dir = MODX_BASE_PATH . '_temp' . md5($this->updateData['version']);
+        SELF::rmdirs($temp_dir);
 
-            $file = MODX_BASE_PATH . 'new_version.zip';
-
-            file_put_contents($file, $url);
-            echo "Start unpacking EvolutionCMS\n";
-
-            $temp_dir = MODX_BASE_PATH . '_temp' . md5(time());
-            //run unzip and install
-
-            $zip = new \ZipArchive;
-            $res = $zip->open($file);
-            $zip->extractTo($temp_dir);
-            $zip->close();
-            unlink($file);
-
+        //run unzip and install
+        $zip = new \ZipArchive;
+        if($zip->open($updateZip) && $zip->extractTo($temp_dir) && $zip->close()) {
             if ($handle = opendir($temp_dir)) {
                 while (false !== ($name = readdir($handle))) {
                     if ($name != '.' && $name != '..') $dir = $name;
                 }
                 closedir($handle);
             }
-            SELF::rmdirs(EVO_CORE_PATH . 'src/');
-            SELF::rmdirs(EVO_CORE_PATH . 'modifiers/');
-            SELF::rmdirs(EVO_CORE_PATH . 'lang/');
-            SELF::rmdirs(EVO_CORE_PATH . 'includes/');
-            SELF::rmdirs(EVO_CORE_PATH . 'functions/');
-            SELF::rmdirs(EVO_CORE_PATH . 'factory/');
-            SELF::rmdirs(EVO_CORE_PATH . 'database/');
-            SELF::rmdirs($temp_dir . '/' . $dir . '/core/vendor/');
+        }
+        if(!isset($dir)) {
+            $this->error('Failed to unpack update');
 
-            putenv('COMPOSER_HOME=' . EVO_CORE_PATH . 'composer');
-            $input = new ArrayInput(array('command' => 'update'));
-            $application = new Application();
-            $application->setAutoExit(false);
+            return false;
+        }
 
-            SELF::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
-            SELF::rmdirs($temp_dir);
+        $this->newLine();
+        //run migrations
+        $this->info('Running migrations...');
+        if (Console::call('migrate', ['--path' => $temp_dir . '/' . $dir . '/install/stubs/migrations', '--force' => true])) {
+            $this->error('Failed to run migrations');
 
-            $delete_file = MODX_BASE_PATH . 'install/stubs/file_for_delete.txt';
-            if (file_exists($delete_file)) {
-                $files = explode("\n", file_get_contents($delete_file));
-                foreach ($files as $file) {
-                    $file = str_replace('{core}', EVO_CORE_PATH, $file);
-                    if (file_exists($file)) {
-                        if (is_dir($file)) {
-                            SELF::rmdirs($file);
-                        } else {
-                            unlink($file);
-                        }
+            return false;
+        };
+
+        //run seeds
+        $this->info('Running seeders...');
+        $namespace = 'EvolutionCMS\\Installer\\Update\\';
+        foreach (glob($temp_dir . '/' . $dir . '/install/stubs/seeds/{$folder}/*.php') as $filename) {
+            include_once $filename;
+            $class = $namespace . basename($filename, '.php');
+            if (class_exists($class) && is_subclass_of($class, 'Illuminate\\Database\\Seeder')) {
+                if(Console::call('db:seed', ['--class' => '\\' . $class])) {
+                    $this->error('Failed to run seeders');
+
+                    return false;
+                };
+            }
+        }
+        $delete_file = $temp_dir . '/' . $dir . '/install/stubs/file_for_delete.txt';
+        if (file_exists($delete_file)) {
+            $files = explode("\n", file_get_contents($delete_file));
+            foreach ($files as $file) {
+                $file = str_replace('{core}', EVO_CORE_PATH, $file);
+                if (file_exists($file)) {
+                    if (is_dir($file)) {
+                        SELF::rmdirs($file);
+                    } else {
+                        unlink($file);
                     }
                 }
             }
-
-            if (!$application->run($input)) {
-                echo "Run Migrations\n";
-                exec('php  ../install/cli-install.php --typeInstall=2 --removeInstall=y');
-                echo "Remove Install Directory\n";
-                self::rmdirs(MODX_BASE_PATH . 'install');
-            } else {
-                echo "\nUpdate failed because of composer errors. Fix them, then run cli-install: \n\nphp  ../install/cli-install.php --typeInstall=2 --removeInstall=y\n";
-            }
-        } else {
-            echo "You are using the latest version\n";
         }
+
+        //cleanup
+        $this->newLine();
+        $this->info('Cleaning up...');
+        $this->newLine();
+        SELF::rmdirs(EVO_CORE_PATH . 'src/');
+        SELF::rmdirs(EVO_CORE_PATH . 'modifiers/');
+        SELF::rmdirs(EVO_CORE_PATH . 'lang/');
+        SELF::rmdirs(EVO_CORE_PATH . 'includes/');
+        SELF::rmdirs(EVO_CORE_PATH . 'functions/');
+        SELF::rmdirs(EVO_CORE_PATH . 'factory/');
+
+        SELF::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
+        SELF::rmdirs($temp_dir);
+        unlink($updateZip);
+
+        $this->warn("Run 'composer update --no-dev' to finish update");
     }
 
     static public function moveFiles($src, $dest)
