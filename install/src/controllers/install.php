@@ -29,10 +29,10 @@ global $moduleDependencies;
 global $errors;
 
 // set timout limit
-@ set_time_limit(120); // used @ to prevent warning when using safe mode?
+@set_time_limit(120); // used @ to prevent warning when using safe mode?
 
-$installMode = (int)$_POST['installmode'];
-$installData = (int)!empty($_POST['installdata']);
+$installMode = (int) $_POST['installmode'];
+$installData = (int) !empty($_POST['installdata']);
 
 // get db info from post
 $database_server = $_POST['databasehost'];
@@ -51,7 +51,7 @@ $managerlanguage = $_POST['managerlanguage'];
 $custom_placeholders = array();
 
 // set session name variable
-if (!isset ($site_sessionname)) {
+if (!isset($site_sessionname)) {
     $site_sessionname = 'SN' . uniqid('');
 }
 
@@ -67,7 +67,7 @@ if (count($a) > 1) {
     array_pop($a);
 }
 $pth = implode('install', $a);
-unset ($a);
+unset($a);
 $base_url = $url . (substr($url, -1) !== '/' ? '/' : '');
 $base_path = $pth . (substr($pth, -1) !== '/' ? '/' : '');
 
@@ -82,9 +82,9 @@ try {
 
     include dirname(__DIR__) . '/processor/result.php';
 
-    if($installMode == 1){
+    if ($installMode == 1) {
         $installLevel = 3;
-    }else {
+    } else {
         $installLevel = 1;
     }
     // select database
@@ -131,15 +131,15 @@ try {
 
         @chmod($filename, 0777);
 
-        if (@ !$handle = fopen($filename, 'w')) {
+        if (@!$handle = fopen($filename, 'w')) {
             $configFileFailed = true;
         }
 
         // write $somecontent to our opened file.
-        if (@ fwrite($handle, $configString) === false) {
+        if (@fwrite($handle, $configString) === false) {
             $configFileFailed = true;
         }
-        @ fclose($handle);
+        @fclose($handle);
 
         // try to chmod the config file go-rwx (for suexeced php)
         @chmod($filename, 0404);
@@ -156,7 +156,7 @@ try {
             try {
                 $siteContent = \EvolutionCMS\Models\SiteContent::query()->count();
                 $errors += 1;
-            }catch (PDOException $exception){
+            } catch (PDOException $exception) {
                 $installLevel = 3;
             }
 
@@ -164,8 +164,6 @@ try {
             $installLevel = 3;
         }
     }
-
-
 
     if ($installLevel === 3) {
 
@@ -189,11 +187,11 @@ try {
         define('MODX_BASE_PATH', dirname(dirname(dirname(__DIR__))) . '/');
 
         define('MODX_SITE_URL', $_SERVER['HTTP_HOST'] . '/');
-        if(file_exists(MODX_BASE_PATH.'core/storage/bootstrap/services.php')){
-            unlink(MODX_BASE_PATH.'core/storage/bootstrap/services.php');
+        if (file_exists(MODX_BASE_PATH . 'core/storage/bootstrap/services.php')) {
+            unlink(MODX_BASE_PATH . 'core/storage/bootstrap/services.php');
         }
 
-        include(MODX_BASE_PATH . '/index.php');
+        include MODX_BASE_PATH . '/index.php';
         if ($installMode != 0 && $database_type == 'pgsql') {
 
             $result = \DB::table('migrations_install')->select('id')->orderBy('id', 'DESC')->first();
@@ -201,7 +199,7 @@ try {
                 $new_id = $result->id;
                 $new_id++;
                 $table = table_prefix('migrations_install') . '_id_seq';
-                \DB::statement('ALTER SEQUENCE '.$table.' RESTART WITH ' . $new_id);
+                \DB::statement('ALTER SEQUENCE ' . $table . ' RESTART WITH ' . $new_id);
             }
         }
 
@@ -228,7 +226,6 @@ try {
         } else {
             seed('update');
         }
-
 
         $installLevel = 4;
 
@@ -268,7 +265,7 @@ try {
     $installDataLevel = array();
     $errorData = false;
     // Install Templates
-    if ($installLevel === 5 && (isset ($_POST['template']) || $installData)) {
+    if ($installLevel === 5 && (isset($_POST['template']) || $installData)) {
         $selTemplates = $_POST['template'] ?? [];
         foreach ($moduleTemplates as $k => $moduleTemplate) {
             if (!is_array($moduleTemplate)) {
@@ -284,9 +281,9 @@ try {
                 ),
                 'type' => '', // update, create
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
             $installSample = in_array('sample', $moduleTemplate[6]) && $installData === 1;
             if ($installSample || in_array($k, $selTemplates)) {
@@ -298,7 +295,7 @@ try {
                 $save_sql_id_as = $moduleTemplate[7]; // Nessecary for demo-site
                 if (!file_exists($filecontent)) {
                     $installDataLevel['templates'][$moduleTemplate[0]]['error'] = array(
-                        'type' => 'file_not_found'
+                        'type' => 'file_not_found',
                     );
                 } else {
                     // Create the category if it does not already exist
@@ -315,8 +312,8 @@ try {
                         $installDataLevel['templates'][$moduleTemplate[0]]['type'] = 'update';
                         $siteTemplate->content = $template;
                         $siteTemplate->description = $desc;
-                        $siteTemplate->category = (int)$category_id;
-                        $siteTemplate->locked = (int)$locked;
+                        $siteTemplate->category = (int) $category_id;
+                        $siteTemplate->locked = (int) $locked;
                         $siteTemplate->save();
 
                         if ($save_sql_id_as !== null) {
@@ -326,7 +323,7 @@ try {
                     } else {
                         $installDataLevel['templates'][$moduleTemplate[0]]['type'] = 'create';
                         $siteTemplate = \EvolutionCMS\Models\SiteTemplate::create(['templatename' => $name, 'description' => $desc,
-                            'content' => $template, 'category' => (int)$category_id, 'locked' => (int)$locked]);
+                            'content' => $template, 'category' => (int) $category_id, 'locked' => (int) $locked]);
 
                         if ($save_sql_id_as !== null) {
                             $custom_placeholders[$save_sql_id_as] = $siteTemplate->getKey();
@@ -340,7 +337,7 @@ try {
     }
 
     // Install Template Variables
-    if ($installLevel === 5 && $errorData === false && (isset ($_POST['tv']) || $installData)) {
+    if ($installLevel === 5 && $errorData === false && (isset($_POST['tv']) || $installData)) {
         $selTVs = $_POST['tv'] ?? [];
         foreach ($moduleTVs as $k => $moduleTV) {
             $templateVariablesData = array(
@@ -355,15 +352,15 @@ try {
                 'input_default' => $moduleTV[5],
                 'output_widget' => $moduleTV[6],
                 'output_widget_params' => $moduleTV[7],
-                'assignments' => $moduleTV[9]
+                'assignments' => $moduleTV[9],
             );
             $installDataLevel['tvs'][$moduleTV[0]] = array(
                 'data' => $templateVariablesData,
                 'type' => '', // update, create
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
 
             $installSample = in_array('sample', $moduleTV[12]) && $installData == 1;
@@ -381,8 +378,10 @@ try {
                     \EvolutionCMS\Models\SiteTmplvarTemplate::where('tmplvarid', $templateVariable->getKey());
                     foreach ($assignments as $assignment) {
                         $template = \EvolutionCMS\Models\SiteTemplate::where('templatename', $assignment)->first();
-                        if (!is_null($template))
+                        if (!is_null($template)) {
                             \EvolutionCMS\Models\SiteTmplvarTemplate::query()->create(['tmplvarid' => $templateVariable->getKey(), 'templateid' => $template->getKey()]);
+                        }
+
                     }
                 }
             }
@@ -390,7 +389,7 @@ try {
     }
 
     // Install Chunks
-    if ($installLevel === 5 && $errorData === false && (isset ($_POST['chunk']) || $installData)) {
+    if ($installLevel === 5 && $errorData === false && (isset($_POST['chunk']) || $installData)) {
         $selChunks = $_POST['chunk'] ?? [];
         foreach ($moduleChunks as $k => $moduleChunk) {
             if (!is_array($moduleChunk)) {
@@ -402,13 +401,13 @@ try {
                     'category' => $moduleChunk[3],
                     'overwrite' => $moduleChunk[4],
                     'file' => $moduleChunk[2],
-                    'installset' => $moduleChunk[5]
+                    'installset' => $moduleChunk[5],
                 ),
                 'type' => '', // update, create, overwrite, skip
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
             $installSample = in_array('sample', $moduleChunk[5]) && $installData == 1;
             $count_new_name = 0;
@@ -421,7 +420,7 @@ try {
 
                 if (!file_exists($filecontent)) {
                     $installDataLevel['chunks'][$moduleChunk[0]]['error'] = array(
-                        'type' => 'file_not_found'
+                        'type' => 'file_not_found',
                     );
                 } else {
                     // Create the category if it does not already exist
@@ -464,7 +463,7 @@ try {
     }
 
     // Install Modules
-    if ($installLevel === 5 && $errorData === false && (isset ($_POST['module']) || $installData)) {
+    if ($installLevel === 5 && $errorData === false && (isset($_POST['module']) || $installData)) {
         $selModules = $_POST['module'] ?? [];
         foreach ($moduleModules as $k => $moduleModule) {
             if (!is_array($moduleModule)) {
@@ -481,9 +480,9 @@ try {
                 ),
                 'type' => '', // update, create
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
             $installSample = in_array('sample', $moduleModule[7]) && $installData == 1;
             if ($installSample || in_array($k, $selModules)) {
@@ -496,7 +495,7 @@ try {
                 $category = $moduleModule[6];
                 if (!file_exists($filecontent)) {
                     $installDataLevel['modules'][$moduleModule[0]]['error'] = array(
-                        'type' => 'file_not_found'
+                        'type' => 'file_not_found',
                     );
                 } else {
                     // Create the category if it does not already exist
@@ -514,7 +513,7 @@ try {
                         $moduleRecord->properties = $props;
                         $moduleRecord->modulecode = $module;
                         $moduleRecord->description = $desc;
-                        $moduleRecord->enable_sharedparams = (int)$shared;
+                        $moduleRecord->enable_sharedparams = (int) $shared;
                         $moduleRecord->save();
 
                     } else {
@@ -522,7 +521,7 @@ try {
                         $properties = parseProperties($properties, true);
                         \EvolutionCMS\Models\SiteModule::create(['name' => $name,
                             'description' => $desc, 'modulecode' => $module, 'properties' => $properties,
-                            'guid' => $guid, 'enable_sharedparams' => (int)$shared, 'category' => $category]);
+                            'guid' => $guid, 'enable_sharedparams' => (int) $shared, 'category' => $category]);
                     }
                 }
             } else {
@@ -531,7 +530,7 @@ try {
         }
     }
     // Install Plugins
-    if ($installLevel === 5 && $errorData === false && (isset ($_POST['plugin']) || $installData)) {
+    if ($installLevel === 5 && $errorData === false && (isset($_POST['plugin']) || $installData)) {
         $selPlugs = $_POST['plugin'] ?? [];
         foreach ($modulePlugins as $k => $modulePlugin) {
             if (!is_array($modulePlugin)) {
@@ -545,13 +544,13 @@ try {
                     'guid' => $modulePlugin[5],
                     'disabled' => $modulePlugin[9],
                     'events' => explode(',', $modulePlugin[4]),
-                    'props' => $modulePlugin[3]
+                    'props' => $modulePlugin[3],
                 ),
                 'type' => '', // update, create
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
 
             $installSample = is_array($modulePlugin[8]) && in_array('sample', $modulePlugin[8]) && $installData == 1;
@@ -563,7 +562,10 @@ try {
                 $properties = $modulePlugin[3];
                 $events = explode(',', $modulePlugin[4]);
                 $guid = $modulePlugin[5];
-                if (is_null($guid)) $guid = '';
+                if (is_null($guid)) {
+                    $guid = '';
+                }
+
                 $category = $modulePlugin[6];
                 $leg_names = '';
                 $disabled = $modulePlugin[9];
@@ -573,7 +575,7 @@ try {
                 }
                 if (!file_exists($filecontent)) {
                     $installDataLevel['plugins'][$modulePlugin[0]]['error'] = array(
-                        'type' => 'file_not_found'
+                        'type' => 'file_not_found',
                     );
                 } else {
 
@@ -678,9 +680,8 @@ try {
         }
     }
 
-
     // Install Snippets
-    if ($installLevel === 5 && $errorData === false && (isset ($_POST['snippet']) || $installData)) {
+    if ($installLevel === 5 && $errorData === false && (isset($_POST['snippet']) || $installData)) {
         $selSnips = $_POST['snippet'] ?? [];
         foreach ($moduleSnippets as $k => $moduleSnippet) {
             if (!is_array($moduleSnippet)) {
@@ -691,13 +692,13 @@ try {
                     'desc' => $moduleSnippet[1],
                     'category' => $moduleSnippet[4],
                     'props' => $moduleSnippet[3],
-                    'file' => $moduleSnippet[2]
+                    'file' => $moduleSnippet[2],
                 ),
                 'type' => '', // update, create, skip
                 /*'error' => array(
-                    'type' => '' // sql, file_not_found
-                    'content' => ''
-                )*/
+            'type' => '' // sql, file_not_found
+            'content' => ''
+            )*/
             );
             $installSample = in_array('sample', $moduleSnippet[5]) && $installData == 1;
             if ($installSample || in_array($k, $selSnips)) {
@@ -708,7 +709,7 @@ try {
                 $category = $moduleSnippet[4];
                 if (!file_exists($filecontent)) {
                     $installDataLevel['snippets'][$moduleSnippet[0]]['error'] = array(
-                        'type' => 'file_not_found'
+                        'type' => 'file_not_found',
                     );
                 } else {
                     // Create the category if it does not already exist
@@ -733,7 +734,7 @@ try {
                         $installDataLevel['snippets'][$moduleSnippet[0]]['type'] = 'create';
                         $properties = parseProperties($properties, true);
                         \EvolutionCMS\Models\SiteSnippet::create(['name' => $name, 'description' => $desc, 'snippet' => $snippet,
-                            'properties' => $properties, 'category' => (int)$category]);
+                            'properties' => $properties, 'category' => (int) $category]);
 
                     }
                 }
@@ -755,7 +756,7 @@ try {
             for ($i = 0; $i < $sqlErrors; $i++) {
                 $installDataLevel['demo']['error'][] = array(
                     'content' => $sqlParser->mysqlErrors[$i]['error'],
-                    'sql' => $sqlParser->mysqlErrors[$i]['sql']
+                    'sql' => $sqlParser->mysqlErrors[$i]['sql'],
                 );
             }
             $errorData = true;
@@ -765,7 +766,7 @@ try {
             $rs = mysqli_query($sqlParser->conn, $sql);
             if (mysqli_num_rows($rs)) {
                 $row = mysqli_fetch_assoc($rs);
-                $sql = "UPDATE `" . table_prefix('site_content') . "` SET template=" . (int)$row['id'] . " WHERE template=4";
+                $sql = "UPDATE `" . table_prefix('site_content') . "` SET template=" . (int) $row['id'] . " WHERE template=4";
                 mysqli_query($sqlParser->conn, $sql);
             }
         }
@@ -784,13 +785,13 @@ try {
             $installDependencyLevel[$dependency['module']] = array(
                 // 'type' => '' //create, update
                 /*'error' => array(
-                    'type' => 'sql',
-                    'content' => ''
+                'type' => 'sql',
+                'content' => ''
                 )*/
                 /*'extra' => array(
-                    'type' => '', //error, done
-                    'content' => '' //dependency name or error message
-                )*/
+            'type' => '', //error, done
+            'content' => '' //dependency name or error message
+            )*/
             );
             $modules = \EvolutionCMS\Models\SiteModule::where('name', $dependency['module'])->first();
 
@@ -801,20 +802,20 @@ try {
 
             $extraId = $dependencyRecord->getKey();
             $moduleDependenciesRecord = \EvolutionCMS\Models\SiteModuleDepobj::query()
-                ->where('module', (int)$moduleId)
-                ->where('resource', (int)$extraId)
-                ->where('type', (int)$dependency['type'])->first();
+                ->where('module', (int) $moduleId)
+                ->where('resource', (int) $extraId)
+                ->where('type', (int) $dependency['type'])->first();
             // setup extra as module dependency
 
             if (is_null($moduleDependenciesRecord)) {
-                $moduleDependenciesRecord = \EvolutionCMS\Models\SiteModuleDepobj::create(['module' => (int)$moduleId,
-                    'resource' => (int)$extraId, 'type' => (int)$dependency['type']]);
+                $moduleDependenciesRecord = \EvolutionCMS\Models\SiteModuleDepobj::create(['module' => (int) $moduleId,
+                    'resource' => (int) $extraId, 'type' => (int) $dependency['type']]);
 
                 $installDependencyLevel[$dependency['module']]['type'] = 'create';
             } else {
-                $moduleDependenciesRecord->module = (int)$moduleId;
-                $moduleDependenciesRecord->resource = (int)$extraId;
-                $moduleDependenciesRecord->type = (int)$dependency['type'];
+                $moduleDependenciesRecord->module = (int) $moduleId;
+                $moduleDependenciesRecord->resource = (int) $extraId;
+                $moduleDependenciesRecord->type = (int) $dependency['type'];
                 $moduleDependenciesRecord->save();
 
                 $installDependencyLevel[$dependency['module']]['type'] = 'update';
@@ -823,9 +824,8 @@ try {
                 // set extra guid for plugins and snippets
                 $dependencyRecord = \DB('site_' . $dependency['table'])->where($dependency['column'], $dependency['name'])->first();
 
-
                 if (!is_null($dependencyRecord)) {
-                    $dependencyRecord->moduleguid = (int)$moduleGuid;
+                    $dependencyRecord->moduleguid = (int) $moduleGuid;
                     $dependencyRecord->save();
 
                 }
@@ -837,9 +837,9 @@ try {
     }
 
     if ($installLevel === 7) {
-        if (file_exists(MODX_BASE_PATH.'assets/cache/installProc.inc.php')) {
-            @chmod(MODX_BASE_PATH.'assets/cache/installProc.inc.php', 0755);
-            unlink(MODX_BASE_PATH.'assets/cache/installProc.inc.php');
+        if (file_exists(MODX_BASE_PATH . 'assets/cache/installProc.inc.php')) {
+            @chmod(MODX_BASE_PATH . 'assets/cache/installProc.inc.php', 0755);
+            unlink(MODX_BASE_PATH . 'assets/cache/installProc.inc.php');
         }
         file_put_contents(EVO_CORE_PATH . '.install', time());
 
