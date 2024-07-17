@@ -126,12 +126,7 @@ try {
         $configString = file_get_contents(dirname(__DIR__, 2) . '/stubs/files/config/database/connections/default.tpl');
         $configString = parse($configString, $confph);
 
-        if (is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
-            $filename = EVO_CORE_PATH . 'custom/config/database/connections/default.php';
-        } else {
-            $filename = EVO_CORE_PATH . 'config/database/connections/default.php';
-        }
-
+        $filename = EVO_CORE_PATH . 'config/database/connections/default.php';
         $configFileFailed = false;
 
         @chmod($filename, 0777);
