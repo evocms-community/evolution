@@ -54,6 +54,11 @@ return [
             'path' => EVO_STORAGE_PATH . 'rss/',
         ],
 
+        'updater' => [
+            'driver' => 'file',
+            'path' => EVO_STORAGE_PATH . 'updater/',
+        ],
+
         'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
