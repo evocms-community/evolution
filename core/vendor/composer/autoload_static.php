@@ -421,8 +421,8 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
-            1 => __DIR__ . '/..' . '/illuminate/collections',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
+            1 => __DIR__ . '/..' . '/illuminate/macroable',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 
@@ -989,7 +989,7 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         'Composer\\Util\\HttpDownloader' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/HttpDownloader.php',
         'Composer\\Util\\Http\\CurlDownloader' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/CurlDownloader.php',
         'Composer\\Util\\Http\\CurlResponse' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/CurlResponse.php',
-        'Composer\\Util\\Http\\ProxyHelper' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/ProxyHelper.php',
+        'Composer\\Util\\Http\\ProxyItem' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/ProxyItem.php',
         'Composer\\Util\\Http\\ProxyManager' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/ProxyManager.php',
         'Composer\\Util\\Http\\RequestProxy' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/RequestProxy.php',
         'Composer\\Util\\Http\\Response' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Http/Response.php',
@@ -1698,6 +1698,7 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         'EvolutionCMS\\Providers\\SessionServiceProvider' => __DIR__ . '/../..' . '/src/Providers/SessionServiceProvider.php',
         'EvolutionCMS\\Providers\\TemplateProcessorServiceProvider' => __DIR__ . '/../..' . '/src/Providers/TemplateProcessorServiceProvider.php',
         'EvolutionCMS\\Providers\\TracyServiceProvider' => __DIR__ . '/../..' . '/src/Providers/TracyServiceProvider.php',
+        'EvolutionCMS\\Providers\\TranslationServiceProvider' => __DIR__ . '/../..' . '/src/Providers/TranslationServiceProvider.php',
         'EvolutionCMS\\Providers\\UrlProcessorServiceProvider' => __DIR__ . '/../..' . '/src/Providers/UrlProcessorServiceProvider.php',
         'EvolutionCMS\\Salo\\Console\\InstallCommand' => __DIR__ . '/..' . '/evolution-cms/salo/src/Console/InstallCommand.php',
         'EvolutionCMS\\Salo\\Console\\PublishCommand' => __DIR__ . '/..' . '/evolution-cms/salo/src/Console/PublishCommand.php',
@@ -4216,7 +4217,9 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         'Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
         'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
+        'Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
+        'Symfony\\Contracts\\Service\\ServiceMethodsSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceMethodsSubscriberTrait.php',
         'Symfony\\Contracts\\Service\\ServiceProviderInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceProviderInterface.php',
         'Symfony\\Contracts\\Service\\ServiceSubscriberInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberInterface.php',
         'Symfony\\Contracts\\Service\\ServiceSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberTrait.php',

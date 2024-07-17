@@ -50,6 +50,8 @@ class DocumentEdit extends DocumentCreate
      */
     public $tvs = [];
 
+    protected $mode = 'edit';
+
     /**
      * UserRegistration constructor.
      * @param  array  $documentData

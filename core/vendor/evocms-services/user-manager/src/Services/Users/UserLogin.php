@@ -280,9 +280,8 @@ class UserLogin implements UserServiceInterface
 
         EvolutionCMS()->cleanupExpiredLocks();
         EvolutionCMS()->cleanupMultipleActiveUsers();
-        if(!defined('NO_SESSION')) {
-            $this->writeSession();
-        }
+        $this->writeSession();
+        
         // successful login so reset fail count and update key values
         $this->user->attributes->failedlogincount = 0;
         $this->user->attributes->logincount += 1;

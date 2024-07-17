@@ -4,6 +4,7 @@ namespace Pathologic\EvolutionCMS\MODxAPI;
 
 use EvolutionCMS\UrlProcessor;
 use Pathologic\EvolutionCMS\MODxAPI\Traits\ContentTV;
+use Exception;
 
 /**
  * Class modResource

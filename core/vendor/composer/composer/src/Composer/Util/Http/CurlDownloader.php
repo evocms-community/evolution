@@ -23,13 +23,14 @@ use Composer\Util\AuthHelper;
 use Composer\Util\Url;
 use Composer\Util\HttpDownloader;
 use React\Promise\Promise;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
  * @internal
  * @author Jordi Boggiano <j.boggiano@seld.be>
  * @author Nicolas Grekas <p@tchwork.com>
  * @phpstan-type Attributes array{retryAuthFailure: bool, redirects: int<0, max>, retries: int<0, max>, storeAuth: 'prompt'|bool, ipResolve: 4|6|null}
- * @phpstan-type Job array{url: non-empty-string, origin: string, attributes: Attributes, options: mixed[], progress: mixed[], curlHandle: \CurlHandle, filename: string|null, headerHandle: resource, bodyHandle: resource, resolve: callable, reject: callable}
+ * @phpstan-type Job array{url: non-empty-string, origin: string, attributes: Attributes, options: mixed[], progress: mixed[], curlHandle: \CurlHandle, filename: string|null, headerHandle: resource, bodyHandle: resource, resolve: callable, reject: callable, primaryIp: string}
  */
 class CurlDownloader
 {
@@ -51,10 +52,6 @@ class CurlDownloader
     private $maxRedirects = 20;
     /** @var int */
     private $maxRetries = 3;
-    /** @var ProxyManager */
-    private $proxyManager;
-    /** @var bool */
-    private $supportsSecureProxy;
     /** @var array<int, string[]> */
     protected $multiErrors = [
         CURLM_BAD_HANDLE => ['CURLM_BAD_HANDLE', 'The passed-in handle is not a valid CURLM handle.'],
@@ -116,11 +113,6 @@ class CurlDownloader
         }
 
         $this->authHelper = new AuthHelper($io, $config);
-        $this->proxyManager = ProxyManager::getInstance();
-
-        $version = curl_version();
-        $features = $version['features'];
-        $this->supportsSecureProxy = defined('CURL_VERSION_HTTPS_PROXY') && ($features & CURL_VERSION_HTTPS_PROXY);
     }
 
     /**
@@ -184,12 +176,13 @@ class CurlDownloader
         }
 
         $errorMessage = '';
-        // @phpstan-ignore-next-line
-        set_error_handler(static function ($code, $msg) use (&$errorMessage): void {
+        set_error_handler(static function (int $code, string $msg) use (&$errorMessage): bool {
             if ($errorMessage) {
                 $errorMessage .= "\n";
             }
             $errorMessage .= Preg::replace('{^fopen\(.*?\): }', '', $msg);
+
+            return true;
         });
         $bodyHandle = fopen($bodyTarget, 'w+b');
         restore_error_handler();
@@ -225,8 +218,14 @@ class CurlDownloader
 
         $version = curl_version();
         $features = $version['features'];
-        if (0 === strpos($url, 'https://') && \defined('CURL_VERSION_HTTP2') && \defined('CURL_HTTP_VERSION_2_0') && (CURL_VERSION_HTTP2 & $features)) {
+        if (0 === strpos($url, 'https://') && \defined('CURL_VERSION_HTTP2') && \defined('CURL_HTTP_VERSION_2_0') && (CURL_VERSION_HTTP2 & $features) !== 0) {
             curl_setopt($curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+        }
+
+        // curl 8.7.0 - 8.7.1 has a bug whereas automatic accept-encoding header results in an error when reading the response
+        // https://github.com/composer/composer/issues/11913
+        if (isset($version['version']) && in_array($version['version'], ['8.7.0', '8.7.1'], true) && \defined('CURL_VERSION_LIBZ') && (CURL_VERSION_LIBZ & $features) !== 0) {
+            curl_setopt($curlHandle, CURLOPT_ENCODING, "gzip");
         }
 
         $options['http']['header'] = $this->authHelper->addAuthenticationHeader($options['http']['header'], $origin, $url);
@@ -244,26 +243,8 @@ class CurlDownloader
             }
         }
 
-        // Always set CURLOPT_PROXY to enable/disable proxy handling
-        // Any proxy authorization is included in the proxy url
-        $proxy = $this->proxyManager->getProxyForRequest($url);
-        if ($proxy->getUrl() !== '') {
-            curl_setopt($curlHandle, CURLOPT_PROXY, $proxy->getUrl());
-        }
-
-        // Curl needs certificate locations for secure proxies.
-        // CURLOPT_PROXY_SSL_VERIFY_PEER/HOST are enabled by default
-        if ($proxy->isSecure()) {
-            if (!$this->supportsSecureProxy) {
-                throw new TransportException('Connecting to a secure proxy using curl is not supported on PHP versions below 7.3.0.');
-            }
-            if (!empty($options['ssl']['cafile'])) {
-                curl_setopt($curlHandle, CURLOPT_PROXY_CAINFO, $options['ssl']['cafile']);
-            }
-            if (!empty($options['ssl']['capath'])) {
-                curl_setopt($curlHandle, CURLOPT_PROXY_CAPATH, $options['ssl']['capath']);
-            }
-        }
+        $proxy = ProxyManager::getInstance()->getProxyForRequest($url);
+        curl_setopt_array($curlHandle, $proxy->getCurlOptions($options['ssl'] ?? []));
 
         $progress = array_diff_key(curl_getinfo($curlHandle), self::$timeInfo);
 
@@ -279,9 +260,10 @@ class CurlDownloader
             'bodyHandle' => $bodyHandle,
             'resolve' => $resolve,
             'reject' => $reject,
+            'primaryIp' => '',
         ];
 
-        $usingProxy = $proxy->getFormattedUrl(' using proxy (%s)');
+        $usingProxy = $proxy->getStatus(' using proxy (%s)');
         $ifModified = false !== stripos(implode(',', $options['http']['header']), 'if-modified-since:') ? ' if modified' : '';
         if ($attributes['redirects'] === 0 && $attributes['retries'] === 0) {
             $this->io->writeError('Downloading ' . Url::sanitize($url) . $usingProxy . $ifModified, true, IOInterface::DEBUG);
@@ -503,6 +485,18 @@ class CurlDownloader
                     if ($this->jobs[$i]['options']['max_file_size'] < $progress['size_download']) {
                         $this->rejectJob($this->jobs[$i], new MaxFileSizeExceededException('Maximum allowed download size reached. Downloaded ' . $progress['size_download'] . ' of allowed ' .  $this->jobs[$i]['options']['max_file_size'] . ' bytes'));
                     }
+                }
+
+                if (isset($progress['primary_ip']) && $progress['primary_ip'] !== $this->jobs[$i]['primaryIp']) {
+                    if (
+                        isset($this->jobs[$i]['options']['prevent_ip_access_callable']) &&
+                        is_callable($this->jobs[$i]['options']['prevent_ip_access_callable']) &&
+                        $this->jobs[$i]['options']['prevent_ip_access_callable']($progress['primary_ip'])
+                    ) {
+                        $this->rejectJob($this->jobs[$i], new TransportException(sprintf('IP "%s" is blocked for "%s".', $progress['primary_ip'], $progress['url'])));
+                    }
+
+                    $this->jobs[$i]['primaryIp'] = (string) $progress['primary_ip'];
                 }
 
                 // TODO progress

@@ -80,6 +80,8 @@ class Installer
     // used/declared in SolverProblemsException, carried over here for completeness
     public const ERROR_DEPENDENCY_RESOLUTION_FAILED = 2;
     public const ERROR_AUDIT_FAILED = 5;
+    // technically exceptions are thrown with various status codes >400, but the process exit code is normalized to 100
+    public const ERROR_TRANSPORT_EXCEPTION = 100;
 
     /**
      * @var IOInterface
@@ -176,6 +178,10 @@ class Installer
     protected $errorOnAudit = false;
     /** @var Auditor::FORMAT_* */
     protected $auditFormat = Auditor::FORMAT_SUMMARY;
+    /** @var list<string> */
+    private $ignoredTypes = ['php-ext', 'php-ext-zend'];
+    /** @var list<string>|null */
+    private $allowedTypes = null;
 
     /** @var bool */
     protected $updateMirrors = false;
@@ -492,7 +498,7 @@ class Installer
             $request->setUpdateAllowList($this->updateAllowList, $this->updateAllowTransitiveDependencies);
         }
 
-        $pool = $repositorySet->createPool($request, $this->io, $this->eventDispatcher, $this->createPoolOptimizer($policy));
+        $pool = $repositorySet->createPool($request, $this->io, $this->eventDispatcher, $this->createPoolOptimizer($policy), $this->ignoredTypes, $this->allowedTypes);
 
         $this->io->writeError('<info>Updating dependencies</info>');
 
@@ -532,10 +538,7 @@ class Installer
             return $exitCode;
         }
 
-        // exists as of composer/semver 3.3.0
-        if (method_exists('Composer\Semver\CompilingMatcher', 'clear')) { // @phpstan-ignore-line
-            \Composer\Semver\CompilingMatcher::clear();
-        }
+        \Composer\Semver\CompilingMatcher::clear();
 
         // write lock
         $platformReqs = $this->extractPlatformRequirements($this->package->getRequires());
@@ -746,11 +749,24 @@ class Installer
                 $request->fixLockedPackage($package);
             }
 
-            foreach ($this->locker->getPlatformRequirements($this->devMode) as $link) {
-                $request->requireName($link->getTarget(), $link->getConstraint());
+            $rootRequires = $this->package->getRequires();
+            if ($this->devMode) {
+                $rootRequires = array_merge($rootRequires, $this->package->getDevRequires());
+            }
+            foreach ($rootRequires as $link) {
+                if (PlatformRepository::isPlatformPackage($link->getTarget())) {
+                    $request->requireName($link->getTarget(), $link->getConstraint());
+                }
             }
 
-            $pool = $repositorySet->createPool($request, $this->io, $this->eventDispatcher);
+            foreach ($this->locker->getPlatformRequirements($this->devMode) as $link) {
+                if (!isset($rootRequires[$link->getTarget()])) {
+                    $request->requireName($link->getTarget(), $link->getConstraint());
+                }
+            }
+            unset($rootRequires, $link);
+
+            $pool = $repositorySet->createPool($request, $this->io, $this->eventDispatcher, null, $this->ignoredTypes, $this->allowedTypes);
 
             // solve dependencies
             $solver = new Solver($policy, $pool, $this->io);
@@ -1101,6 +1117,32 @@ class Installer
             $composer->getEventDispatcher(),
             $composer->getAutoloadGenerator()
         );
+    }
+
+    /**
+     * Packages of those types are ignored, by default php-ext and php-ext-zend are ignored
+     *
+     * @param list<string> $types
+     * @return $this
+     */
+    public function setIgnoredTypes(array $types): self
+    {
+        $this->ignoredTypes = $types;
+
+        return $this;
+    }
+
+    /**
+     * Only packages of those types are allowed if set to non-null
+     *
+     * @param list<string>|null $types
+     * @return $this
+     */
+    public function setAllowedTypes(?array $types): self
+    {
+        $this->allowedTypes = $types;
+
+        return $this;
     }
 
     /**

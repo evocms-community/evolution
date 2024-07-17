@@ -111,8 +111,8 @@ class UserHashChangePassword implements UserServiceInterface
 
         // invoke OnManagerChangePassword event
         EvolutionCMS()->invokeEvent('OnUserChangePassword', array(
-            'userid' => $this->userData['id'],
-            'username' => $_SESSION[$this->context. 'Shortname'],
+            'userid' => $user->id,
+            'username' => $user->username,
             'userpassword' => $this->userData['password']
         ));
         return $user;

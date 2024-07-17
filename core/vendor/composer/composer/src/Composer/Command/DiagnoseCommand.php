@@ -44,6 +44,8 @@ use Composer\XdebugHandler\XdebugHandler;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ExecutableFinder;
+use Composer\Util\Http\ProxyManager;
+use Composer\Util\Http\RequestProxy;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -115,10 +117,21 @@ EOT
         $io->write('Checking https connectivity to packagist: ', false);
         $this->outputResult($this->checkHttp('https', $config));
 
-        $opts = stream_context_get_options(StreamContextFactory::getContext('http://example.org'));
-        if (!empty($opts['http']['proxy'])) {
+        $proxyManager = ProxyManager::getInstance();
+        $protos = $config->get('disable-tls') === true ? ['http'] : ['http', 'https'];
+        try {
+            foreach ($protos as $proto) {
+                $proxy = $proxyManager->getProxyForRequest($proto.'://repo.packagist.org');
+                if ($proxy->getStatus() !== '') {
+                    $type = $proxy->isSecure() ? 'HTTPS' : 'HTTP';
+                    $io->write('Checking '.$type.' proxy with '.$proto.': ', false);
+                    $this->outputResult($this->checkHttpProxy($proxy, $proto));
+                }
+            }
+        } catch (TransportException $e) {
             $io->write('Checking HTTP proxy: ', false);
-            $this->outputResult($this->checkHttpProxy());
+            $status = $this->checkConnectivityAndComposerNetworkHttpEnablement();
+            $this->outputResult(is_string($status) ? $status : $e);
         }
 
         if (count($oauth = $config->get('github-oauth')) > 0) {
@@ -186,7 +199,7 @@ EOT
         }
 
         $io->write('OpenSSL version: ' . (defined('OPENSSL_VERSION_TEXT') ? '<comment>'.OPENSSL_VERSION_TEXT.'</comment>' : '<error>missing</error>'));
-        $io->write('cURL version: ' . $this->getCurlVersion());
+        $io->write('curl version: ' . $this->getCurlVersion());
 
         $finder = new ExecutableFinder;
         $hasSystemUnzip = (bool) $finder->find('unzip');
@@ -298,31 +311,38 @@ EOT
     }
 
     /**
-     * @return string|true|\Exception
+     * @return string|\Exception
      */
-    private function checkHttpProxy()
+    private function checkHttpProxy(RequestProxy $proxy, string $protocol)
     {
         $result = $this->checkConnectivityAndComposerNetworkHttpEnablement();
         if ($result !== true) {
             return $result;
         }
 
-        $protocol = extension_loaded('openssl') ? 'https' : 'http';
         try {
-            $json = $this->httpDownloader->get($protocol . '://repo.packagist.org/packages.json')->decodeJson();
-            $hash = reset($json['provider-includes']);
-            $hash = $hash['sha256'];
-            $path = str_replace('%hash%', $hash, key($json['provider-includes']));
-            $provider = $this->httpDownloader->get($protocol . '://repo.packagist.org/'.$path)->getBody();
+            $proxyStatus = $proxy->getStatus();
 
-            if (hash('sha256', $provider) !== $hash) {
-                return 'It seems that your proxy is modifying http traffic on the fly';
+            if ($proxy->isExcludedByNoProxy()) {
+                return '<info>SKIP</> <comment>Because repo.packagist.org is '.$proxyStatus.'</>';
             }
+
+            $json = $this->httpDownloader->get($protocol.'://repo.packagist.org/packages.json')->decodeJson();
+            if (isset($json['provider-includes'])) {
+                $hash = reset($json['provider-includes']);
+                $hash = $hash['sha256'];
+                $path = str_replace('%hash%', $hash, key($json['provider-includes']));
+                $provider = $this->httpDownloader->get($protocol.'://repo.packagist.org/'.$path)->getBody();
+
+                if (hash('sha256', $provider) !== $hash) {
+                    return '<warning>It seems that your proxy ('.$proxyStatus.') is modifying '.$protocol.' traffic on the fly</>';
+                }
+            }
+
+            return '<info>OK</> <comment>'.$proxyStatus.'</>';
         } catch (\Exception $e) {
             return $e;
         }
-
-        return true;
     }
 
     /**
@@ -658,6 +678,12 @@ EOT
             $warnings['onedrive'] = PHP_VERSION;
         }
 
+        if (extension_loaded('uopz')
+            && !(filter_var(ini_get('uopz.disable'), FILTER_VALIDATE_BOOLEAN)
+            || filter_var(ini_get('uopz.exit'), FILTER_VALIDATE_BOOLEAN))) {
+            $warnings['uopz'] = true;
+        }
+
         if (!empty($errors)) {
             foreach ($errors as $error => $current) {
                 switch ($error) {
@@ -769,6 +795,11 @@ EOT
                     case 'onedrive':
                         $text = "The Windows OneDrive folder is not supported on PHP versions below 7.2.23 and 7.3.10.".PHP_EOL;
                         $text .= "Upgrade your PHP ({$current}) to use this location with Composer.".PHP_EOL;
+                        break;
+
+                    case 'uopz':
+                        $text = "The uopz extension ignores exit calls and may not work with all Composer commands.".PHP_EOL;
+                        $text .= "Disabling it when using Composer is recommended.";
                         break;
 
                     default:

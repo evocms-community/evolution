@@ -2,10 +2,14 @@
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
+use EvolutionCMS\Models\SiteTmplvarTemplate;
+use EvolutionCMS\Models\UserAttribute;
+use EvolutionCMS\Models\UserRoleVar;
 use EvolutionCMS\UserManager\Interfaces\UserServiceInterface;
 use EvolutionCMS\Models\User;
 use EvolutionCMS\Models\UserValue;
 use EvolutionCMS\Models\SiteTmplvar;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\Rule;
 
@@ -94,35 +98,38 @@ class UserSaveValues implements UserServiceInterface
 
         $id = $this->userData['id'];
         unset($this->userData['id']);
+        $role = UserAttribute::select('role')->where('internalKey', $id)->value('role');
 
         $values = $this->excludeStandardFields($this->userData);
 
-        $tmplvars = SiteTmplvar::select('site_tmplvars.*', 'user_values.id AS value_id', 'user_values.value')
-            ->whereIn('name', array_keys($values))
-            ->leftJoin('user_values', function($query) use ($id) {
-                $query->on('user_values.userid', '=', \DB::raw($id));
-                $query->on('user_values.tmplvarid', '=', 'site_tmplvars.id');
-            })
-            ->get();
+        $tmplvars = Cache::store('array')->rememberForever('roletmplvars' . $role,
+            function () use ($role) {
+                return Cache::rememberForever('roletmplvars' . $role, function () use ($role) {
+                    return UserRoleVar::query()->select('site_tmplvars.*')
+                        ->where('roleid', $role)
+                        ->join('site_tmplvars', 'site_tmplvars.id', '=', 'user_role_vars.tmplvarid')->get();
+                });
+            });
+        $tvs = [];
 
         foreach ($tmplvars as $tmplvar) {
-            $value = (string) $values[$tmplvar->name];
-
-            if ($value != '') {
-                if ($tmplvar->value_id) {
-                    UserValue::where('id', $tmplvar->value_id)->update([
-                        'value' => $value,
-                    ]);
-                } else {
-                    UserValue::create([
-                        'tmplvarid' => $tmplvar->id,
-                        'userid'    => $id,
-                        'value'     => $value,
-                    ]);
-                }
-            } else if ($tmplvar->value_id) {
-                UserValue::where('id', $tmplvar->value_id)->delete();
+            if (isset($this->userData[$tmplvar->name]) && !is_null($this->userData[$tmplvar->name]) && $this->userData[$tmplvar->name] != $tmplvar->default_text) {
+                $tvs['save'][] = ['id' => $tmplvar->id, 'value' => $this->userData[$tmplvar->name]];
+            } else {
+                $tvs['delete'][] = $tmplvar->id;
             }
+        }
+
+        foreach ($tvs['save'] as $value) {
+            UserValue::updateOrCreate([
+                'userid' => $id, 'tmplvarid' => $value['id']
+            ], ['value' => $value['value']]);
+        }
+        if(isset($tvs['delete'])) {
+            UserValue::query()
+                ->whereIn('tmplvarid', $tvs['delete'])
+                ->where('userid', $id)
+                ->delete();
         }
 
         if ($this->cache) {

@@ -1,17 +1,6 @@
 # MODxAPI
 Legacy libs for Evolution CMS 3.0.
 
-## Installation
-Add "pathologic/modxapi" to "require" section of your core/custom/composer.json, then run "composer update" in core folder:
-```
-{
-  "require": {
-    ...
-    "pathologic/modxapi": "*"
-    ...
-  }
-}
-```
 ## Usage
 Update FormLister to the latest version.
 

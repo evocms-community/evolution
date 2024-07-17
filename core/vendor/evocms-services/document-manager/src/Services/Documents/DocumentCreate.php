@@ -51,6 +51,8 @@ class DocumentCreate implements DocumentServiceInterface
      */
     public $tvs = [];
 
+    protected $mode = 'create';
+
     /**
      * UserRegistration constructor.
      * @param  array  $documentData
@@ -309,21 +311,28 @@ class DocumentCreate implements DocumentServiceInterface
                 });
             });
         foreach ($tmplvars as $tmplvar) {
-            if (isset($this->documentData[$tmplvar->name])) {
-                $this->tvs[] = ['id' => $tmplvar->id, 'value' => $this->documentData[$tmplvar->name]];
+            if (isset($this->documentData[$tmplvar->name]) && !is_null($this->documentData[$tmplvar->name]) && $this->documentData[$tmplvar->name] != $tmplvar->default_text) {
+                $this->tvs['save'][] = ['id' => $tmplvar->id, 'value' => $this->documentData[$tmplvar->name]];
+            } else {
+                $this->tvs['delete'][] = $tmplvar->id;
             }
         }
-
     }
 
     public function saveTVs()
     {
-        foreach ($this->tvs as $value) {
-            \EvolutionCMS\Models\SiteTmplvarContentvalue::updateOrCreate([
+        foreach ($this->tvs['save'] as $value) {
+            SiteTmplvarContentvalue::updateOrCreate([
                 'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']
             ], ['value' => $value['value']]);
         }
-
+        if($this->mode == 'edit' && isset($this->tvs['delete'])) {
+            SiteTmplvarContentvalue::query()
+                ->whereIn('tmplvarid', $this->tvs['delete'])
+                ->where('contentid', $this->documentData['id'])
+                ->delete();
+        }
+        $this->tvs = [];
     }
 
     public function updateParent()
