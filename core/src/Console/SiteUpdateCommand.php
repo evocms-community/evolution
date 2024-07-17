@@ -35,7 +35,6 @@ class SiteUpdateCommand extends Command
         parent::__construct();
         $currentVersion = evo()->getVersionData();
         $this->currentVersion = $currentVersion['version'];
-        $this->currentVersion = '3.1.25';
     }
 
     public function handle()
