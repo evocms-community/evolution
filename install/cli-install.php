@@ -2,7 +2,6 @@
 
 use EvolutionCMS\Facades\Console;
 
-
 $base_path = dirname(__DIR__) . '/';
 define('MODX_API_MODE', true);
 define('MODX_BASE_PATH', $base_path);
@@ -357,7 +356,12 @@ class InstallEvo
         $configString = file_get_contents('stubs/files/config/database/connections/default.tpl');
         $configString = parse($configString, $confph);
 
-        $filename = EVO_CORE_PATH . 'config/database/connections/default.php';
+        if (is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
+            $filename = EVO_CORE_PATH . 'custom/config/database/connections/default.php';
+        } else {
+            $filename = EVO_CORE_PATH . 'config/database/connections/default.php';
+        }
+
         $configFileFailed = false;
 
         @chmod($filename, 0777);
@@ -366,10 +370,10 @@ class InstallEvo
             $configFileFailed = true;
         }
         // write $somecontent to our opened file.
-        if (@ fwrite($handle, $configString) === false) {
+        if (@fwrite($handle, $configString) === false) {
             $configFileFailed = true;
         }
-        @ fclose($handle);
+        @fclose($handle);
 
         // try to chmod the config file go-rwx (for suexeced php)
         @chmod($filename, 0404);
@@ -440,7 +444,7 @@ class InstallEvo
                         $params['modx_category'],
                         $params['legacy_names'] ?? "",
                         array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false,
-                        $params['disabled'] ?? 0
+                        $params['disabled'] ?? 0,
                     );
                 }
             }
@@ -463,9 +467,9 @@ class InstallEvo
                     // parse comma-separated legacy names and prepare them for sql IN clause
                     $leg_names = preg_split('/\s*,\s*/', $modulePlugin[7]);
                 }
-                if (!file_exists($filecontent))
+                if (!file_exists($filecontent)) {
                     echo $name . " " . $filecontent . " not found ";
-                else {
+                } else {
                     // disable legacy versions based on legacy_names provided
                     if (count($leg_names)) {
                         \EvolutionCMS\Models\SitePlugin::query()->whereIn('name', $leg_names)->update(['disabled' => 1]);
@@ -547,7 +551,6 @@ class InstallEvo
                         }
                     }
 
-
                 }
 
             }
@@ -573,10 +576,10 @@ class InstallEvo
                         $params['guid'] ?? "",
                         $params['shareparams'] ?? 0,
                         $params['modx_category'] ?? "",
-                        array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false
+                        array_key_exists('installset', $params) ? preg_split("/\s*,\s*/", $params['installset']) : false,
                     );
                 }
-                if ((int)$params['shareparams'] || !empty($params['dependencies'])) {
+                if ((int) $params['shareparams'] || !empty($params['dependencies'])) {
                     $dependencies = explode(',', $params['dependencies']);
                     foreach ($dependencies as $dependency) {
                         $dependency = explode(':', $dependency);
@@ -587,7 +590,7 @@ class InstallEvo
                                     'table' => 'templates',
                                     'column' => 'templatename',
                                     'type' => 50,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                             case 'tv':
@@ -597,7 +600,7 @@ class InstallEvo
                                     'table' => 'tmplvars',
                                     'column' => 'name',
                                     'type' => 60,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                             case 'chunk':
@@ -607,7 +610,7 @@ class InstallEvo
                                     'table' => 'htmlsnippets',
                                     'column' => 'name',
                                     'type' => 10,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                             case 'snippet':
@@ -616,7 +619,7 @@ class InstallEvo
                                     'table' => 'snippets',
                                     'column' => 'name',
                                     'type' => 40,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                             case 'plugin':
@@ -625,7 +628,7 @@ class InstallEvo
                                     'table' => 'plugins',
                                     'column' => 'name',
                                     'type' => 30,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                             case 'resource':
@@ -634,7 +637,7 @@ class InstallEvo
                                     'table' => 'content',
                                     'column' => 'pagetitle',
                                     'type' => 20,
-                                    'name' => trim($dependency[1])
+                                    'name' => trim($dependency[1]),
                                 );
                                 break;
                         }
@@ -653,9 +656,9 @@ class InstallEvo
                 $guid = $moduleModule[4];
                 $shared = $moduleModule[5];
                 $category = $moduleModule[6];
-                if (!file_exists($filecontent))
+                if (!file_exists($filecontent)) {
                     echo $name . " " . $filecontent . " not found ";
-                else {
+                } else {
 
                     // Create the category if it does not already exist
                     $category = getCreateDbCategory($category);
@@ -695,10 +698,14 @@ class InstallEvo
         if ($this->removeInstall == 'y') {
             $path = __DIR__ . '/';
             removeFolder($path);
-            if (file_exists(MODX_BASE_PATH . '.tx'))
+            if (file_exists(MODX_BASE_PATH . '.tx')) {
                 removeFolder(MODX_BASE_PATH . '.tx');
-            if (file_exists(MODX_BASE_PATH . 'README.md'))
+            }
+
+            if (file_exists(MODX_BASE_PATH . 'README.md')) {
                 unlink(MODX_BASE_PATH . 'README.md');
+            }
+
             echo 'Install folder deleted!' . PHP_EOL . PHP_EOL;
         }
     }
