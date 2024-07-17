@@ -35,7 +35,6 @@ class SiteUpdateCommand extends Command
         parent::__construct();
         $currentVersion = evo()->getVersionData();
         $this->currentVersion = $currentVersion['version'];
-        $this->currentVersion = '3.1.25';
     }
 
     public function handle()
@@ -58,7 +57,7 @@ class SiteUpdateCommand extends Command
     {
         $updateVersion = $this->argument('version');
         $_currentVersion = explode('.', $this->currentVersion);
-        $info = cache()->remember('updatedata', 3600, function() {
+        $info = cache()->store('updater')->remember('updatedata', 3600, function() {
             $updateRepository = evo()->getConfig('UpgradeRepository', 'evocms-community/evolution');
             $response = Http::get('https://api.github.com/repos/' . $updateRepository . '/releases');
             if (!$response->successful() || empty($response->json())) {
