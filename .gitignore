@@ -46,6 +46,7 @@
 # Core
 /core/.install
 /core/storage/sessions/*
+/core/vendor/*
 
 # Manager
 /manager/includes/config.inc.php
