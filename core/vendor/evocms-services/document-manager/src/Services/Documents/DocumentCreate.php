@@ -4,10 +4,11 @@ use EvolutionCMS\DocumentManager\Interfaces\DocumentServiceInterface;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\SiteTmplvarContentvalue;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
+use \EvolutionCMS\Models\User;
 
 class DocumentCreate implements DocumentServiceInterface
 {
@@ -77,7 +78,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle' => ['required'],
-            'template'  => ['required'],
+            'template' => ['required'],
         ];
     }
 
@@ -88,7 +89,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle.required' => Lang::get("global.required_field", ['field' => 'pagetitle']),
-            'template.required'  => Lang::get("global.required_field", ['field' => 'template']),
+            'template.required' => Lang::get("global.required_field", ['field' => 'template']),
         ];
 
     }
@@ -117,8 +118,8 @@ class DocumentCreate implements DocumentServiceInterface
         if ($this->events) {
             EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
                 'mode' => 'new',
-                'id'   => null,
-                'doc'  => &$this->documentData
+                'id' => null,
+                'doc' => &$this->documentData,
             ]);
         }
 
@@ -139,10 +140,9 @@ class DocumentCreate implements DocumentServiceInterface
             // invoke OnDocFormSave event
             EvolutionCMS()->invokeEvent("OnDocFormSave", [
                 'mode' => 'new',
-                'id'   => $this->documentData['id'],
+                'id' => $this->documentData['id'],
             ]);
         }
-
 
         $_SESSION['itemname'] = $this->documentData['pagetitle'];
 
@@ -180,7 +180,6 @@ class DocumentCreate implements DocumentServiceInterface
             $this->documentData['id'] = false;
         }
 
-
         if (isset($this->documentData['pagetitle']) && trim($this->documentData['pagetitle']) == "") {
             if ($this->documentData['type'] == "reference") {
                 $this->documentData['pagetitle'] = Lang::get('global.untitled_weblink');
@@ -188,7 +187,6 @@ class DocumentCreate implements DocumentServiceInterface
                 $this->documentData['pagetitle'] = Lang::get('global.untitled_resource');
             }
         }
-
 
         if (!isset($this->documentData['pub_date'])) {
             $this->documentData['pub_date'] = 0;
@@ -224,16 +222,16 @@ class DocumentCreate implements DocumentServiceInterface
                 if (!EvolutionCMS()->getConfig('allow_duplicate_alias')) {
 
                     if (SiteContent::query()
-                            ->withTrashed()
-                            ->where('id', '<>', $this->documentData['id'])
-                            ->where('alias', $this->documentData['alias'])->count() > 0) {
+                        ->withTrashed()
+                        ->where('id', '<>', $this->documentData['id'])
+                        ->where('alias', $this->documentData['alias'])->count() > 0) {
                         $cnt = 1;
                         $tempAlias = $this->documentData['alias'];
 
                         while (\EvolutionCMS\Models\SiteContent::query()
-                                ->withTrashed()
-                                ->where('id', '<>', $this->documentData['id'])
-                                ->where('alias', $tempAlias)->count() > 0) {
+                            ->withTrashed()
+                            ->where('id', '<>', $this->documentData['id'])
+                            ->where('alias', $tempAlias)->count() > 0) {
                             $tempAlias = $this->documentData['alias'];
                             $tempAlias .= $cnt;
                             $cnt++;
@@ -242,17 +240,17 @@ class DocumentCreate implements DocumentServiceInterface
                     }
                 } else {
                     if (SiteContent::query()
-                            ->withTrashed()
-                            ->where('id', '<>', $this->documentData['id'])
-                            ->where('alias', $this->documentData['alias'])
-                            ->where('parent', $this->documentData['parent'])->count() > 0) {
+                        ->withTrashed()
+                        ->where('id', '<>', $this->documentData['id'])
+                        ->where('alias', $this->documentData['alias'])
+                        ->where('parent', $this->documentData['parent'])->count() > 0) {
                         $cnt = 1;
                         $tempAlias = $this->documentData['alias'];
                         while (\EvolutionCMS\Models\SiteContent::query()
-                                ->withTrashed()
-                                ->where('id', '<>', $this->documentData['id'])
-                                ->where('alias', $tempAlias)
-                                ->where('parent', $this->documentData['parent'])->count() > 0) {
+                            ->withTrashed()
+                            ->where('id', '<>', $this->documentData['id'])
+                            ->where('alias', $tempAlias)
+                            ->where('parent', $this->documentData['parent'])->count() > 0) {
                             $tempAlias = $this->documentData['alias'];
                             $tempAlias .= $cnt;
                             $cnt++;
@@ -283,7 +281,7 @@ class DocumentCreate implements DocumentServiceInterface
                     ->withTrashed()
                     ->where('id', '<>', $this->documentData['id'])
                     ->where('alias', $this->documentData['alias'])->where('parent',
-                        $this->documentData['parent'])->first();
+                    $this->documentData['parent'])->first();
                 if (!is_null($docid)) {
                     throw new ServiceActionException(sprintf(\Lang::get('global.duplicate_alias_found'), $docid->id, $this->documentData['alias']));
                 }
@@ -323,10 +321,10 @@ class DocumentCreate implements DocumentServiceInterface
     {
         foreach ($this->tvs['save'] as $value) {
             SiteTmplvarContentvalue::updateOrCreate([
-                'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']
+                'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id'],
             ], ['value' => $value['value']]);
         }
-        if($this->mode == 'edit' && isset($this->tvs['delete'])) {
+        if ($this->mode == 'edit' && isset($this->tvs['delete'])) {
             SiteTmplvarContentvalue::query()
                 ->whereIn('tmplvarid', $this->tvs['delete'])
                 ->where('contentid', $this->documentData['id'])
