@@ -157,7 +157,7 @@ class SiteUpdateCommand extends Command
         }
         $this->info("Unpacking {$this->updateData['version']}...");
         $temp_dir = MODX_BASE_PATH . '_temp' . md5($this->updateData['version']);
-        SELF::rmdirs($temp_dir);
+        self::rmdirs($temp_dir);
 
         //run unzip and install
         $zip = new \ZipArchive;
@@ -178,16 +178,18 @@ class SiteUpdateCommand extends Command
         $this->newLine();
         //run migrations
         $this->info('Running migrations...');
-        if (Console::call('migrate', ['--path' => $temp_dir . '/' . $dir . '/install/stubs/migrations', '--force' => true])) {
+        if (Console::call('migrate', ['--path' => $temp_dir . '/' . $dir . '/install/stubs/migrations', '--force' => true, '--realpath' => true])) {
             $this->error('Failed to run migrations');
 
             return false;
         };
+        echo Console::output();
+        $this->newLine();
 
         //run seeds
         $this->info('Running seeders...');
         $namespace = 'EvolutionCMS\\Installer\\Update\\';
-        foreach (glob($temp_dir . '/' . $dir . '/install/stubs/seeds/{$folder}/*.php') as $filename) {
+        foreach (glob($temp_dir . '/' . $dir . '/install/stubs/seeds/update/*.php') as $filename) {
             include_once $filename;
             $class = $namespace . basename($filename, '.php');
             if (class_exists($class) && is_subclass_of($class, 'Illuminate\\Database\\Seeder')) {
@@ -198,6 +200,7 @@ class SiteUpdateCommand extends Command
                 };
             }
         }
+
         $delete_file = $temp_dir . '/' . $dir . '/install/stubs/file_for_delete.txt';
         if (file_exists($delete_file)) {
             $files = explode("\n", file_get_contents($delete_file));
@@ -205,7 +208,7 @@ class SiteUpdateCommand extends Command
                 $file = str_replace('{core}', EVO_CORE_PATH, $file);
                 if (file_exists($file)) {
                     if (is_dir($file)) {
-                        SELF::rmdirs($file);
+                        self::rmdirs($file);
                     } else {
                         unlink($file);
                     }
@@ -217,15 +220,15 @@ class SiteUpdateCommand extends Command
         $this->newLine();
         $this->info('Cleaning up...');
         $this->newLine();
-        SELF::rmdirs(EVO_CORE_PATH . 'src/');
-        SELF::rmdirs(EVO_CORE_PATH . 'modifiers/');
-        SELF::rmdirs(EVO_CORE_PATH . 'lang/');
-        SELF::rmdirs(EVO_CORE_PATH . 'includes/');
-        SELF::rmdirs(EVO_CORE_PATH . 'functions/');
-        SELF::rmdirs(EVO_CORE_PATH . 'factory/');
-
-        SELF::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
-        SELF::rmdirs($temp_dir);
+        self::rmdirs(EVO_CORE_PATH . 'src/');
+        self::rmdirs(EVO_CORE_PATH . 'modifiers/');
+        self::rmdirs(EVO_CORE_PATH . 'lang/');
+        self::rmdirs(EVO_CORE_PATH . 'includes/');
+        self::rmdirs(EVO_CORE_PATH . 'functions/');
+        self::rmdirs(EVO_CORE_PATH . 'factory/');
+        self::rmdirs($temp_dir . '/' . $dir . 'install/');
+        self::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
+        self::rmdirs($temp_dir);
         unlink($updateZip);
 
         $this->warn("Run 'composer update --no-dev' to finish update");

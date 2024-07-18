@@ -4,9 +4,9 @@
 define('MODX_API_MODE', true);
 
 require __DIR__ . '/bootstrap.php';
-
+$input = new Symfony\Component\Console\Input\ArgvInput;
 if (!defined('IN_INSTALL_MODE')) {
-    if (!file_exists(__DIR__ . '/config/database/connections/default.php')) {
+    if (strpos((string)$input, 'make:site') !== false) {
         define('IN_INSTALL_MODE', true);
     } else {
         define('IN_INSTALL_MODE', false);
@@ -28,13 +28,11 @@ if (!defined('IN_MANAGER_MODE')) {
 |
 */
 
-$modx = evo();
-
-$artisan = new EvolutionCMS\Console($modx, $modx['events'], $modx->version());
+$artisan = new EvolutionCMS\Console(evo(), evo()['events'], evo()->version());
 
 $status = $artisan->run(
-    $input = new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\ConsoleOutput
+        $input,
+        new Symfony\Component\Console\Output\ConsoleOutput
 );
 
 exit($status);
