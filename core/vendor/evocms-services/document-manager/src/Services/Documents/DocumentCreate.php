@@ -5,6 +5,7 @@ use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
+use EvolutionCMS\Models\SiteTmplvarContentvalue;
 use \EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;

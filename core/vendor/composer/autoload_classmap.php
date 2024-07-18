@@ -1127,6 +1127,7 @@ return array(
     'EvolutionCMS\\Traits\\Models\\TimeMutator' => $baseDir . '/src/Traits/Models/TimeMutator.php',
     'EvolutionCMS\\Traits\\Path' => $baseDir . '/src/Traits/Path.php',
     'EvolutionCMS\\Traits\\Settings' => $baseDir . '/src/Traits/Settings.php',
+    'EvolutionCMS\\Translation\\FileLoader' => $baseDir . '/src/Translation/FileLoader.php',
     'EvolutionCMS\\UrlProcessor' => $baseDir . '/src/UrlProcessor.php',
     'EvolutionCMS\\UserManager\\Exceptions\\TokenExpiredException' => $vendorDir . '/evocms-services/user-manager/src/Exceptions/TokenExpiredException.php',
     'EvolutionCMS\\UserManager\\Facades\\UserManager' => $vendorDir . '/evocms-services/user-manager/src/Facades/UserManager.php',

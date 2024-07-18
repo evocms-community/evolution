@@ -340,8 +340,8 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -1739,6 +1739,7 @@ class ComposerStaticInit6064fde4f52f543f5d9514d30e5f77d6
         'EvolutionCMS\\Traits\\Models\\TimeMutator' => __DIR__ . '/../..' . '/src/Traits/Models/TimeMutator.php',
         'EvolutionCMS\\Traits\\Path' => __DIR__ . '/../..' . '/src/Traits/Path.php',
         'EvolutionCMS\\Traits\\Settings' => __DIR__ . '/../..' . '/src/Traits/Settings.php',
+        'EvolutionCMS\\Translation\\FileLoader' => __DIR__ . '/../..' . '/src/Translation/FileLoader.php',
         'EvolutionCMS\\UrlProcessor' => __DIR__ . '/../..' . '/src/UrlProcessor.php',
         'EvolutionCMS\\UserManager\\Exceptions\\TokenExpiredException' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Exceptions/TokenExpiredException.php',
         'EvolutionCMS\\UserManager\\Facades\\UserManager' => __DIR__ . '/..' . '/evocms-services/user-manager/src/Facades/UserManager.php',

@@ -3,7 +3,7 @@
         'name' => 'evocms/core',
         'pretty_version' => '3.1.x-dev',
         'version' => '3.1.9999999.9999999-dev',
-        'reference' => '02e9defc5cc63998ae1f91e8ebf78ec0f76260f7',
+        'reference' => '7052101ac68c2c1b514fc620fa42299645d482e1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -164,9 +164,9 @@
             'dev_requirement' => false,
         ),
         'evocms-services/document-manager' => array(
-            'pretty_version' => '1.0.16',
-            'version' => '1.0.16.0',
-            'reference' => '6da322ebbaa59275392c58d17a26bcf945287e05',
+            'pretty_version' => '1.0.17',
+            'version' => '1.0.17.0',
+            'reference' => '809468bb96261d9f161f2f1e25c13cc88fac6b85',
             'type' => 'library',
             'install_path' => __DIR__ . '/../evocms-services/document-manager',
             'aliases' => array(),
@@ -184,7 +184,7 @@
         'evocms/core' => array(
             'pretty_version' => '3.1.x-dev',
             'version' => '3.1.9999999.9999999-dev',
-            'reference' => '02e9defc5cc63998ae1f91e8ebf78ec0f76260f7',
+            'reference' => '7052101ac68c2c1b514fc620fa42299645d482e1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -634,8 +634,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(

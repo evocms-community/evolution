@@ -1364,20 +1364,20 @@
         },
         {
             "name": "evocms-services/document-manager",
-            "version": "1.0.16",
-            "version_normalized": "1.0.16.0",
+            "version": "1.0.17",
+            "version_normalized": "1.0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evocms-community/DocumentManager.git",
-                "reference": "6da322ebbaa59275392c58d17a26bcf945287e05"
+                "reference": "809468bb96261d9f161f2f1e25c13cc88fac6b85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evocms-community/DocumentManager/zipball/6da322ebbaa59275392c58d17a26bcf945287e05",
-                "reference": "6da322ebbaa59275392c58d17a26bcf945287e05",
+                "url": "https://api.github.com/repos/evocms-community/DocumentManager/zipball/809468bb96261d9f161f2f1e25c13cc88fac6b85",
+                "reference": "809468bb96261d9f161f2f1e25c13cc88fac6b85",
                 "shasum": ""
             },
-            "time": "2024-07-17T12:03:05+00:00",
+            "time": "2024-07-18T08:20:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1396,7 +1396,7 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/evocms-community/DocumentManager/tree/1.0.16"
+                "source": "https://github.com/evocms-community/DocumentManager/tree/1.0.17"
             },
             "install-path": "../evocms-services/document-manager"
         },
