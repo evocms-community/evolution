@@ -1,8 +1,13 @@
 <?php
 // Determine upgradeability
 $upgradeable = 0;
-if (is_file(EVO_CORE_PATH . 'config/database/connections/default.php')) { // Include the file so we can test its validity
-    $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+if(is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
+    $configFile = EVO_CORE_PATH . 'custom/config/database/connections/default.php';
+} else {
+    $configFile = EVO_CORE_PATH . 'config/database/connections/default.php';
+}
+if (is_file($configFile)) { // Include the file so we can test its validity
+    $db_config = include_once $configFile;
     // We need to have all connection settings - tho prefix may be empty so we have to ignore it
     if (isset($db_config['database'])) {
         try {
