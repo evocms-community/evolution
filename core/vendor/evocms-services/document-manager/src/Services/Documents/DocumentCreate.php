@@ -312,7 +312,8 @@ class DocumentCreate implements DocumentServiceInterface
                 });
             });
         foreach ($tmplvars as $tmplvar) {
-            if (isset($this->documentData[$tmplvar->name]) && !is_null($this->documentData[$tmplvar->name]) && $this->documentData[$tmplvar->name] != $tmplvar->default_text) {
+            if(!isset($this->documentData[$tmplvar->name])) continue;
+            if (!is_null($this->documentData[$tmplvar->name]) && $this->documentData[$tmplvar->name] != $tmplvar->default_text) {
                 $this->tvs['save'][] = ['id' => $tmplvar->id, 'value' => $this->documentData[$tmplvar->name]];
             } else {
                 $this->tvs['delete'][] = $tmplvar->id;
@@ -322,10 +323,12 @@ class DocumentCreate implements DocumentServiceInterface
 
     public function saveTVs()
     {
-        foreach ($this->tvs['save'] as $value) {
-            SiteTmplvarContentvalue::updateOrCreate([
-                'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']
-            ], ['value' => $value['value']]);
+        if(isset($this->tvs['save'])) {
+            foreach ($this->tvs['save'] as $value) {
+                SiteTmplvarContentvalue::updateOrCreate([
+                    'contentid' => $this->documentData['id'], 'tmplvarid' => $value['id']
+                ], ['value' => $value['value']]);
+            }
         }
         if($this->mode == 'edit' && isset($this->tvs['delete'])) {
             SiteTmplvarContentvalue::query()

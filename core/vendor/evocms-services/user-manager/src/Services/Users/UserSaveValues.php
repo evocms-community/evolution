@@ -113,17 +113,20 @@ class UserSaveValues implements UserServiceInterface
         $tvs = [];
 
         foreach ($tmplvars as $tmplvar) {
-            if (isset($this->userData[$tmplvar->name]) && !is_null($this->userData[$tmplvar->name]) && $this->userData[$tmplvar->name] != $tmplvar->default_text) {
+            if(!isset($this->userData[$tmplvar->name])) continue;
+            if (!is_null($this->userData[$tmplvar->name]) && $this->userData[$tmplvar->name] != $tmplvar->default_text) {
                 $tvs['save'][] = ['id' => $tmplvar->id, 'value' => $this->userData[$tmplvar->name]];
             } else {
                 $tvs['delete'][] = $tmplvar->id;
             }
         }
 
-        foreach ($tvs['save'] as $value) {
-            UserValue::updateOrCreate([
-                'userid' => $id, 'tmplvarid' => $value['id']
-            ], ['value' => $value['value']]);
+        if(isset($tvs['save'])) {
+            foreach ($tvs['save'] as $value) {
+                UserValue::updateOrCreate([
+                    'userid' => $id, 'tmplvarid' => $value['id']
+                ], ['value' => $value['value']]);
+            }
         }
         if(isset($tvs['delete'])) {
             UserValue::query()

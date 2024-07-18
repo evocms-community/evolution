@@ -1323,12 +1323,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/evocms-community/DocumentManager.git",
-                "reference": "809468bb96261d9f161f2f1e25c13cc88fac6b85"
+                "reference": "49db639591db035a559d45ce08c0220f4856727b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evocms-community/DocumentManager/zipball/809468bb96261d9f161f2f1e25c13cc88fac6b85",
-                "reference": "809468bb96261d9f161f2f1e25c13cc88fac6b85",
+                "url": "https://api.github.com/repos/evocms-community/DocumentManager/zipball/49db639591db035a559d45ce08c0220f4856727b",
+                "reference": "49db639591db035a559d45ce08c0220f4856727b",
                 "shasum": ""
             },
             "type": "library",
@@ -1350,20 +1350,20 @@
             "support": {
                 "source": "https://github.com/evocms-community/DocumentManager/tree/1.0.17"
             },
-            "time": "2024-07-18T08:20:24+00:00"
+            "time": "2024-07-18T08:36:02+00:00"
         },
         {
             "name": "evocms-services/user-manager",
-            "version": "1.0.24",
+            "version": "1.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evocms-community/UserManager.git",
-                "reference": "8f58d74efbd8db6a4579cc466b79ce07e14ab80a"
+                "reference": "8c3ada1e67ea4de7e610760557deb39c6153dab2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evocms-community/UserManager/zipball/8f58d74efbd8db6a4579cc466b79ce07e14ab80a",
-                "reference": "8f58d74efbd8db6a4579cc466b79ce07e14ab80a",
+                "url": "https://api.github.com/repos/evocms-community/UserManager/zipball/8c3ada1e67ea4de7e610760557deb39c6153dab2",
+                "reference": "8c3ada1e67ea4de7e610760557deb39c6153dab2",
                 "shasum": ""
             },
             "type": "library",
@@ -1383,9 +1383,9 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/evocms-community/UserManager/tree/1.0.24"
+                "source": "https://github.com/evocms-community/UserManager/tree/1.0.25"
             },
-            "time": "2024-07-17T12:01:34+00:00"
+            "time": "2024-07-18T08:39:26+00:00"
         },
         {
             "name": "evolution-cms/salo",
