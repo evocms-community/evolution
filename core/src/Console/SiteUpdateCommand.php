@@ -178,16 +178,18 @@ class SiteUpdateCommand extends Command
         $this->newLine();
         //run migrations
         $this->info('Running migrations...');
-        if (Console::call('migrate', ['--path' => $temp_dir . '/' . $dir . '/install/stubs/migrations', '--force' => true])) {
+        if (Console::call('migrate', ['--path' => $temp_dir . '/' . $dir . '/install/stubs/migrations', '--force' => true, '--realpath' => true])) {
             $this->error('Failed to run migrations');
 
             return false;
         };
+        echo Console::output();
+        $this->newLine();
 
         //run seeds
         $this->info('Running seeders...');
         $namespace = 'EvolutionCMS\\Installer\\Update\\';
-        foreach (glob($temp_dir . '/' . $dir . '/install/stubs/seeds/{$folder}/*.php') as $filename) {
+        foreach (glob($temp_dir . '/' . $dir . '/install/stubs/seeds/update/*.php') as $filename) {
             include_once $filename;
             $class = $namespace . basename($filename, '.php');
             if (class_exists($class) && is_subclass_of($class, 'Illuminate\\Database\\Seeder')) {
@@ -198,6 +200,7 @@ class SiteUpdateCommand extends Command
                 };
             }
         }
+
         $delete_file = $temp_dir . '/' . $dir . '/install/stubs/file_for_delete.txt';
         if (file_exists($delete_file)) {
             $files = explode("\n", file_get_contents($delete_file));
@@ -223,7 +226,7 @@ class SiteUpdateCommand extends Command
         SELF::rmdirs(EVO_CORE_PATH . 'includes/');
         SELF::rmdirs(EVO_CORE_PATH . 'functions/');
         SELF::rmdirs(EVO_CORE_PATH . 'factory/');
-
+        SELF::rmdirs($temp_dir . '/' . $dir . 'install/');
         SELF::moveFiles($temp_dir . '/' . $dir, MODX_BASE_PATH);
         SELF::rmdirs($temp_dir);
         unlink($updateZip);
