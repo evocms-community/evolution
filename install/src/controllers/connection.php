@@ -1,5 +1,5 @@
 <?php
-$installMode = isset($_POST['installmode']) ? (int)$_POST['installmode'] : 0;
+$installMode = isset($_POST['installmode']) ? (int) $_POST['installmode'] : 0;
 
 // Determine upgradeability
 $upgradeable = 0;
@@ -7,16 +7,22 @@ if ($installMode === 0) {
     $database_name = '';
     $database_server = 'localhost';
     $table_prefix = base_convert(mt_rand(10, 20), 10, 36) .
-        substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), mt_rand(0, 33), 3) .
+    substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), mt_rand(0, 33), 3) .
         '_';
 } else {
     $database_name = '';
 
-    if (! is_file(EVO_CORE_PATH . 'config/database/connections/default.php')) {
+    if (is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
+        $configFile = EVO_CORE_PATH . 'custom/config/database/connections/default.php';
+    } else {
+        $configFile = EVO_CORE_PATH . 'config/database/connections/default.php';
+    }
+
+    if (!is_file($configFile)) {
         $upgradeable = 0;
     } else {
         // Include the file so we can test its validity
-        $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+        $db_config = include_once $configFile;
         $database_server = $db_config['host'];
         $database_collation = $db_config['collation'];
         $database_connection_method = $db_config['method'];
@@ -27,7 +33,7 @@ if ($installMode === 0) {
         if (isset($db_config['database'])) {
             $database_name = trim($db_config['database'], '`');
             try {
-                $conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'],'', isset($db_config['port']) ? $db_config['port'] : null);
+                $conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'], '', isset($db_config['port']) ? $db_config['port'] : null);
                 $result = mysqli_select_db($conn, $database_name);
             } catch (Exception $e) {
                 $conn = false;
@@ -45,7 +51,7 @@ if ($installMode === 0) {
 }
 
 // check the database collation if not specified in the configuration
-if ($upgradeable && (! isset($database_connection_charset) || empty($database_connection_charset))) {
+if ($upgradeable && (!isset($database_connection_charset) || empty($database_connection_charset))) {
     if (!$rs = mysqli_query($conn, "show session variables like 'collation_database'")) {
         $rs = mysqli_query($conn, "show session variables like 'collation_server'");
     }
@@ -69,9 +75,9 @@ if ($upgradeable && (!isset($database_connection_method) || empty($database_conn
 $ph['database_name'] = isset($_POST['database_name']) ? $_POST['database_name'] : $database_name;
 $ph['tableprefix'] = isset($_POST['tableprefix']) ? $_POST['tableprefix'] : $table_prefix;
 $ph['selected_set_character_set'] =
-    isset($database_connection_method) && $database_connection_method === 'SET CHARACTER SET' ? 'selected' : '';
+isset($database_connection_method) && $database_connection_method === 'SET CHARACTER SET' ? 'selected' : '';
 $ph['selected_set_names'] =
-    isset($database_connection_method) && $database_connection_method === 'SET NAMES' ? 'selected' : '';
+isset($database_connection_method) && $database_connection_method === 'SET NAMES' ? 'selected' : '';
 $ph['show#connection_method'] = (($installMode == 0) || ($installMode == 2)) ? 'block' : 'none';
 $ph['database_collation'] = isset($_POST['database_collation']) ? $_POST['database_collation'] : $database_collation;
 $ph['show#AUH'] = ($installMode == 0) ? 'block' : 'none';

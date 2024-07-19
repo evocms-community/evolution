@@ -13,7 +13,10 @@ if (!function_exists('f_owc')) {
             fwrite($hnd, $data);
             fclose($hnd);
 
-            if (null !== $mode) chmod($path, $mode);
+            if (null !== $mode) {
+                chmod($path, $mode);
+            }
+
         } catch (Exception $e) {
             // Nothing, this is NOT normal
             unset($e);
@@ -21,8 +24,10 @@ if (!function_exists('f_owc')) {
     }
 }
 
-$installMode = isset($_POST['installmode']) ? (int)$_POST['installmode'] : 0;
-if (!isset($_lang)) $_lang = array();
+$installMode = isset($_POST['installmode']) ? (int) $_POST['installmode'] : 0;
+if (!isset($_lang)) {
+    $_lang = array();
+}
 
 echo '<div class="stepcontainer">
       <ul class="progressbar">
@@ -40,7 +45,6 @@ echo '<h3>' . $_lang['summary_setup_check'] . '</h3>';
 
 $errors = 0;
 
-
 // check PHP version
 define('PHP_MIN_VERSION', '8.1.0');
 $phpMinVersion = PHP_MIN_VERSION; // Maybe not necessary. For backward compatibility
@@ -54,10 +58,9 @@ if (version_compare(phpversion(), PHP_MIN_VERSION) < 0) {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 // check if iconv is available
 echo '<p>' . $_lang['checking_iconv'];
-$iconv = (int)function_exists('iconv');
+$iconv = (int) function_exists('iconv');
 if ($iconv == '0') {
     echo '<span class="notok">' . $_lang['failed'] . '</span></p><p><strong>' . $_lang['checking_iconv_note'] . '</strong></p>';
     $errors++;
@@ -73,7 +76,6 @@ if ($_SESSION['test'] != 1) {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 // check directories
 // cache exists?
 //echo '<p>' . $_lang['checking_if_cache_exist'];
@@ -84,7 +86,6 @@ if ($_SESSION['test'] != 1) {
 //    echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 //}
 
-
 // cache writable?
 echo '<p>' . $_lang['checking_if_cache_writable'];
 if (!is_writable("../assets/cache")) {
@@ -93,7 +94,6 @@ if (!is_writable("../assets/cache")) {
 } else {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
-
 
 // cache files writable?
 echo '<p>' . $_lang['checking_if_cache_file_writable'];
@@ -108,7 +108,6 @@ if (!is_writable($tmp)) {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 //echo '<p>'.$_lang['checking_if_cache_file2_writable'];
 //if ( ! is_writable("../assets/cache/sitePublishing.idx.php")) {
 //    $errors++;
@@ -116,7 +115,6 @@ if (!is_writable($tmp)) {
 //} else {
 //    echo '<span class="ok">'.$_lang['ok'].'</span></p>';
 //}
-
 
 // File Browser directories exists?
 echo '<p>' . $_lang['checking_if_images_exist'];
@@ -132,7 +130,6 @@ switch (true) {
         echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 // File Browser directories writable?
 echo '<p>' . $_lang['checking_if_images_writable'];
 switch (true) {
@@ -147,7 +144,6 @@ switch (true) {
         echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 // export exists?
 echo '<p>' . $_lang['checking_if_export_exists'];
 if (!file_exists("../assets/export")) {
@@ -157,7 +153,6 @@ if (!file_exists("../assets/export")) {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
 
-
 // export writable?
 echo '<p>' . $_lang['checking_if_export_writable'];
 if (!is_writable("../assets/export")) {
@@ -166,7 +161,6 @@ if (!is_writable("../assets/export")) {
 } else {
     echo '<span class="ok">' . $_lang['ok'] . '</span></p>';
 }
-
 
 // config.inc.php writable?
 echo '<p>' . $_lang['checking_if_config_exist_and_writable'];
@@ -186,7 +180,12 @@ if (!$isWriteable) {
 
 // connect to the database
 if ($installMode == 1) {
-    $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+    if (is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
+        $db_config = include_once EVO_CORE_PATH . 'custom/config/database/connections/default.php';
+    } else {
+        $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+    }
+
     $database_server = $db_config['host'];
     $database_server .= ':' . $db_config['port'];
     $database_user = $db_config['username'];
@@ -229,14 +228,14 @@ try {
 }
 
 // check the database collation if not specified in the configuration
-if (!isset ($database_connection_charset) || empty ($database_connection_charset)) {
+if (!isset($database_connection_charset) || empty($database_connection_charset)) {
     if (!$rs = mysqli_query($conn, "show session variables like 'collation_database'")) {
         $rs = mysqli_query($conn, "show session variables like 'collation_server'");
     }
     if ($rs && $collation = mysqli_fetch_row($rs)) {
         $database_collation = $collation[1];
     }
-    if (empty ($database_collation)) {
+    if (empty($database_collation)) {
         $database_collation = 'utf8_unicode_ci';
     }
     $database_charset = substr($database_collation, 0, strpos($database_collation, '_') - 1);
@@ -380,24 +379,37 @@ $agreeToggle = $errors > 0 ? '' : ' onclick="if(document.getElementById(\'chkagr
 
         <input type="hidden" value="<?php echo $_POST['installdata'] ?? '' ?>" name="installdata"/>
         <?php
-        $templates = isset ($_POST['template']) ? $_POST['template'] : array();
-        foreach ($templates as $i => $template) echo '<input type="hidden" name="template[]" value="' . $template . '" />';
+$templates = isset($_POST['template']) ? $_POST['template'] : array();
+foreach ($templates as $i => $template) {
+    echo '<input type="hidden" name="template[]" value="' . $template . '" />';
+}
 
-        $tvs = isset ($_POST['tv']) ? $_POST['tv'] : array();
-        foreach ($tvs as $i => $tv) echo '<input type="hidden" name="tv[]" value="' . $tv . '" />';
+$tvs = isset($_POST['tv']) ? $_POST['tv'] : array();
+foreach ($tvs as $i => $tv) {
+    echo '<input type="hidden" name="tv[]" value="' . $tv . '" />';
+}
 
-        $chunks = isset ($_POST['chunk']) ? $_POST['chunk'] : array();
-        foreach ($chunks as $i => $chunk) echo '<input type="hidden" name="chunk[]" value="' . $chunk . '" />';
+$chunks = isset($_POST['chunk']) ? $_POST['chunk'] : array();
+foreach ($chunks as $i => $chunk) {
+    echo '<input type="hidden" name="chunk[]" value="' . $chunk . '" />';
+}
 
-        $snippets = isset ($_POST['snippet']) ? $_POST['snippet'] : array();
-        foreach ($snippets as $i => $snippet) echo '<input type="hidden" name="snippet[]" value="' . $snippet . '" />';
+$snippets = isset($_POST['snippet']) ? $_POST['snippet'] : array();
+foreach ($snippets as $i => $snippet) {
+    echo '<input type="hidden" name="snippet[]" value="' . $snippet . '" />';
+}
 
-        $plugins = isset ($_POST['plugin']) ? $_POST['plugin'] : array();
-        foreach ($plugins as $i => $plugin) echo '<input type="hidden" name="plugin[]" value="' . $plugin . '" />';
+$plugins = isset($_POST['plugin']) ? $_POST['plugin'] : array();
+foreach ($plugins as $i => $plugin) {
+    echo '<input type="hidden" name="plugin[]" value="' . $plugin . '" />';
+}
 
-        $modules = isset ($_POST['module']) ? $_POST['module'] : array();
-        foreach ($modules as $i => $module) echo '<input type="hidden" name="module[]" value="' . $module . '" />';
-        ?>
+$modules = isset($_POST['module']) ? $_POST['module'] : array();
+foreach ($modules as $i => $module) {
+    echo '<input type="hidden" name="module[]" value="' . $module . '" />';
+}
+
+?>
     </div>
 
     <h2><?php echo $_lang['agree_to_terms']; ?></h2>
