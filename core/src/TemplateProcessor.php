@@ -40,62 +40,50 @@ class TemplateProcessor
             }
         }
 
-        switch (true) {
-            case $this->core['view']->exists('tpl-' . $doc['template'] . '_doc-' . $doc['id']):
-                $template = 'tpl-' . $doc['template'] . '_doc-' . $doc['id'];
-                break;
-            case $this->core['view']->exists('doc-' . $doc['id']):
-                $template = 'doc-' . $doc['id'];
-                break;
-            case $this->core['view']->exists('tpl-' . $doc['template']):
-                $template = 'tpl-' . $doc['template'];
-                break;
-            case $this->core['view']->exists($templateAlias):
-            case !empty($controller):
-                if (isset($doc['id'])) {
-                    $documentObject = $this->core->makeDocumentObject($doc['id']);
-                    $data = [
-                        'modx'           => $this->core,
-                        'documentObject' => $documentObject,
-                    ];
-                    $this->core->addDataToView($documentObject);
-                } else {
-                    $data = [
-                        'modx'           => $this->core,
-                        'documentObject' => [],
-                    ];
+        if ($this->core['view']->exists($templateAlias) || !empty($controller)) {
+            if (isset($doc['id'])) {
+                $documentObject = $this->core->makeDocumentObject($doc['id']);
+                $data = [
+                    'modx'           => $this->core,
+                    'documentObject' => $documentObject,
+                ];
+                $this->core->addDataToView($documentObject);
+            } else {
+                $data = [
+                    'modx'           => $this->core,
+                    'documentObject' => [],
+                ];
+            }
+            $this->core['view']->share($data);
+
+            if ($this->core->isChunkProcessor('DLTemplate')) {
+                app('DLTemplate')->blade->share($data);
+            }
+            if (!empty($namespace) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller,
+                    TemplateController::class)) {
+                $controller = $namespace . $controller;
+                $controller = new $controller;
+                $controller->setView($templateAlias);
+                $controller->process();
+                $this->core->addDataToView($controller->getViewData());
+                $view = $controller->getView();
+                if (!empty($view)) {
+                    $templateAlias = $view;
                 }
-                $this->core['view']->share($data);
-                
-                if ($this->core->isChunkProcessor('DLTemplate')) {
-                    app('DLTemplate')->blade->share($data);
+            }
+            $template = $templateAlias;
+        } else {
+            $content = $doc['template'] ? $this->core->documentContent : $doc['content'];
+            if (!$content) {
+                $content = $doc['content'];
+            }
+            if (strpos($content, '@FILE:') === 0) {
+                $template = str_replace('@FILE:', '', trim($content));
+                if (!$this->core['view']->exists($template)) {
+                    $this->core->documentObject['template'] = 0;
+                    $this->core->documentContent = $doc['content'];
                 }
-                if (!empty($namespace) && class_exists($namespace . $controller) && is_subclass_of($namespace . $controller,
-                        TemplateController::class)) {
-                    $controller = $namespace . $controller;
-                    $controller = new $controller;
-                    $controller->setView($templateAlias);
-                    $controller->process();
-                    $this->core->addDataToView($controller->getViewData());
-                    $view = $controller->getView();
-                    if (!empty($view)) {
-                        $templateAlias = $view;
-                    }
-                }
-                $template = $templateAlias;
-                break;
-            default:
-                $content = $doc['template'] ? $this->core->documentContent : $doc['content'];
-                if (!$content) {
-                    $content = $doc['content'];
-                }
-                if (strpos($content, '@FILE:') === 0) {
-                    $template = str_replace('@FILE:', '', trim($content));
-                    if (!$this->core['view']->exists($template)) {
-                        $this->core->documentObject['template'] = 0;
-                        $this->core->documentContent = $doc['content'];
-                    }
-                }
+            }
         }
 
         return $template;
