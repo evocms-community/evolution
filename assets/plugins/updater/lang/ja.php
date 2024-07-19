@@ -28,4 +28,4 @@ $_lang['error_openssl'] = 'あなたはPHPでOpenSSL機能を有効にする必�
 $_lang['error_overwrite'] = 'EVOのファイルは上書きできません';
 $_lang['error_failedtogetfeed'] = 'フィードを取得できませんでした';
 
-$_lang['artisan_update'] = '更新するには、フォルダからコンソールコマンドを実行する必要があります <b>core</b>: <b>php artisan make:site update</b>';
+$_lang['artisan_update'] = '更新するには、フォルダからコンソールコマンドを実行する必要があります <b>core</b>: <b>php artisan make:update</b>';

@@ -28,4 +28,4 @@ $_lang['error_openssl'] = 'You need to enable OpenSSL function in PHP';
 $_lang['error_overwrite'] = 'Evolution CMS files are not available for overwriting';
 $_lang['error_failedtogetfeed'] = 'Failed to retrieve feed';
 
-$_lang['artisan_update'] = 'For update run console command from <b>core</b> folder: <b>php artisan make:site update</b>';
+$_lang['artisan_update'] = 'For update run console command from <b>core</b> folder: <b>php artisan make:update</b>';

@@ -23,4 +23,4 @@ $_lang['error_zip'] = 'Необходимо включить функцию ZIP 
 $_lang['error_openssl'] = 'Необходимо включить функцию OpenSSL в PHP';
 $_lang['error_overwrite'] = 'Файлы Evolution CMS не доступны для перезаписи';
 
-$_lang['artisan_update'] = 'Для обновления нужно выполнить консольную команду из папки <b>core</b>: <b>php artisan make:site update</b>';
+$_lang['artisan_update'] = 'Для обновления нужно выполнить консольную команду из папки <b>core</b>: <b>php artisan make:update</b>';
