@@ -1,7 +1,7 @@
 <?php
-$installMode = isset($_POST['installmode']) ? (int)$_POST['installmode'] : 0;
+$installMode = isset($_POST['installmode']) ? (int) $_POST['installmode'] : 0;
 
-switch($installMode){
+switch ($installMode) {
     case 0:
     case 2:
         $database_collation = $_POST['database_collation'] ?? 'utf8mb4_general_ci';
@@ -11,13 +11,18 @@ switch($installMode){
         $_SESSION['databaseloginname'] = $_POST['databaseloginname'];
         break;
     case 1:
-        $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+        if (is_file(EVO_CORE_PATH . 'custom/config/database/connections/default.php')) {
+            $db_config = include_once EVO_CORE_PATH . 'custom/config/database/connections/default.php';
+        } else {
+            $db_config = include_once EVO_CORE_PATH . 'config/database/connections/default.php';
+        }
+
         $database_collation = $db_config['collation'];
         $database_connection_charset = $db_config['charset'];
-        if (@ $conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'], '',
+        if (@$conn = mysqli_connect($db_config['host'], $db_config['username'], $db_config['password'], '',
             $db_config['port'] ?? null
         )) {
-            if (@ mysqli_query($conn, 'USE `' . $db_config['database'] . '`')) {
+            if (@mysqli_query($conn, 'USE `' . $db_config['database'] . '`')) {
                 if (!$rs = mysqli_query($conn, "show session variables like 'collation_database'")) {
                     $rs = mysqli_query($conn, "show session variables like 'collation_server'");
                 }
@@ -26,16 +31,21 @@ switch($installMode){
                 }
             }
         }
-        if (empty ($database_collation)) $database_collation = 'utf8mb4_general_ci';
+        if (empty($database_collation)) {
+            $database_collation = 'utf8mb4_general_ci';
+        }
 
         $database_charset = substr($database_collation, 0, strpos($database_collation, '_'));
-        if (empty ($database_connection_charset)) {
+        if (empty($database_connection_charset)) {
             $database_connection_charset = $database_charset;
         }
 
-        if (empty ($database_connection_method)) {
+        if (empty($database_connection_method)) {
             $database_connection_method = 'SET CHARACTER SET';
-            if (function_exists('mysqli_set_charset')) mysqli_set_charset($conn, $database_connection_charset);
+            if (function_exists('mysqli_set_charset')) {
+                mysqli_set_charset($conn, $database_connection_charset);
+            }
+
         }
         if ($database_connection_method != 'SET NAMES' && $database_connection_charset != $database_charset) {
             $database_connection_method = 'SET NAMES';
@@ -70,16 +80,16 @@ $ph['cmsadminemail'] = trim($_POST['cmsadminemail'] ?? '');
 $ph['cmspassword'] = trim($_POST['cmspassword'] ?? '');
 $ph['cmspasswordconfirm'] = trim($_POST['cmspasswordconfirm'] ?? '');
 
-$ph['checked'] = isset ($_POST['installdata']) && $_POST['installdata'] == '1' ? 'checked' : '';
+$ph['checked'] = isset($_POST['installdata']) && $_POST['installdata'] == '1' ? 'checked' : '';
 
 # load setup information file
 include_once dirname(__DIR__) . '/processor/result.php';
 $ph['templates'] = getTemplates($moduleTemplates);
-$ph['tvs']       = getTVs($moduleTVs);
-$ph['chunks']    = getChunks($moduleChunks);
-$ph['modules']   = getModules($moduleModules);
-$ph['plugins']   = getPlugins($modulePlugins);
-$ph['snippets']  = getSnippets($moduleSnippets);
+$ph['tvs'] = getTVs($moduleTVs);
+$ph['chunks'] = getChunks($moduleChunks);
+$ph['modules'] = getModules($moduleModules);
+$ph['plugins'] = getPlugins($modulePlugins);
+$ph['snippets'] = getSnippets($moduleSnippets);
 
 $ph['action'] = ($installMode == 1) ? 'mode' : 'connection';
 
