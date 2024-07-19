@@ -58,6 +58,7 @@ class TemplateProcessor
                         'modx'           => $this->core,
                         'documentObject' => $documentObject,
                     ];
+                    $this->core->addDataToView($documentObject);
                 } else {
                     $data = [
                         'modx'           => $this->core,
@@ -65,6 +66,7 @@ class TemplateProcessor
                     ];
                 }
                 $this->core['view']->share($data);
+                
                 if ($this->core->isChunkProcessor('DLTemplate')) {
                     app('DLTemplate')->blade->share($data);
                 }
