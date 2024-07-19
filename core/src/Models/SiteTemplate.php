@@ -61,6 +61,7 @@ class SiteTemplate extends Eloquent\Model
 	protected $fillable = [
 		'templatename',
         'templatealias',
+        'templatecontroller',
 		'description',
 		'editor_type',
 		'category',

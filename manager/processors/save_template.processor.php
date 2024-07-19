@@ -210,6 +210,7 @@ switch ($_POST['mode']) {
             ->update([
                 'templatename' => $templatename,
                 'templatealias' => $templatealias,
+                'templatecontroller' => $templatecontroller,
                 'description' => $description,
                 'content' => $template,
                 'locked' => $locked,
