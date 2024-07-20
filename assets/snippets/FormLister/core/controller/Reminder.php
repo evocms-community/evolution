@@ -161,12 +161,13 @@ class Reminder extends Form
                     $url = $this->getCFGDef('resetTo',
                         isset($this->modx->documentIdentifier) && $this->modx->documentIdentifier > 0 ? $this->modx->documentIdentifier : $this->modx->getConfig('site_start'));
                     $uidName = $this->getCFGDef('uidName', $this->uidField);
-                    $this->setField('reset.url', $this->modx->makeUrl($url, "",
-                        http_build_query([
-                            $uidName         => $this->getField($this->uidField),
-                            $this->hashField => $hash
-                        ]),
-                        'full'));
+                    $query =  http_build_query([$uidName => $this->getField($this->uidField), $this->hashField => $hash]);
+                    if(is_numeric($url)) {
+                        $url = $this->modx->makeUrl($url, "", $query, 'full');
+                    } else {
+                        $url = $this->modx->getConfig('site_url') . $url . '?' . $query;
+                    }
+                    $this->setField('reset.url', $url);
                     $this->mailConfig['to'] = $this->user->get('email');
                     parent::process();
                 } else {

@@ -117,11 +117,15 @@ class Activate extends Form
                 $password = $this->getField('password');
                 if ($hash = $this->getUserHash($uid)){
                     $this->setFields($this->user->toArray());
-                    $url = $this->getCFGDef('activateTo', isset($this->modx->documentIdentifier) && $this->modx->documentIdentifier > 0 ? $this->modx->documentIdentifier : $this->config['site_start']);
+                    $url = $this->getCFGDef('activateTo', isset($this->modx->documentIdentifier) && $this->modx->documentIdentifier > 0 ? $this->modx->documentIdentifier : $this->modx->getConfig('site_start'));
                     $uidName = $this->getCFGDef('uidName', $this->user->fieldPKName());
-                    $this->setField('activate.url', $this->modx->makeUrl($url, "",
-                        http_build_query([$uidName => $this->getField('id'), 'hash' => $hash]),
-                        'full'));
+                    $query = http_build_query([$uidName => $this->getField($this->userField), 'hash' => $hash]);
+                    if(is_numeric($url)) {
+                        $url = $this->modx->makeUrl($url, "", $query, 'full');
+                    } else {
+                        $url = $this->modx->getConfig('site_url') . $url . '?' . $query;
+                    }
+                    $this->setField('activate.url', $url);
                     $this->mailConfig['to'] = $this->user->get('email');
                     parent::process();
                 } else {

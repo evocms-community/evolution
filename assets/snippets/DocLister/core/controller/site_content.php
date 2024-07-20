@@ -217,7 +217,7 @@ class site_contentDocLister extends DocLister
                     $i++;
                 }
             } else {
-                $noneTPL = $this->getCFGDef('noneTPL', '');
+                $noneTPL = $this->getCFGDef('noneTPL', $this->getCFGDef('noneTpl', ''));
                 $out = ($noneTPL != '') ? $this->parseChunk($noneTPL, $sysPlh) : '';
             }
             $out = $this->renderWrap($out);

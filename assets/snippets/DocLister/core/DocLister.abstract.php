@@ -218,7 +218,7 @@ abstract class DocLister
         }
         $this->lexicon = new \Helpers\Lexicon($this->modx, [
             'langDir' => 'assets/snippets/DocLister/core/lang/',
-            'lang'    => $this->getCFGDef('lang', $this->modx->getConfig('lang_code')),
+            'lang'    => $this->getCFGDef('lang', $this->modx->getLocale()),
             'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler')
         ]);
 
@@ -268,7 +268,7 @@ abstract class DocLister
 
         $this->setLocate();
 
-        $this->getCustomLang($this->getCFGDef('customLang', $this->getCFGDef('lexicon')));
+        $this->getCustomLang($this->getCFGDef('customLang', $this->getCFGDef('lexicon', '')));
 
         $this->loadExtender($this->getCFGDef("extender", ""));
 
@@ -276,7 +276,7 @@ abstract class DocLister
             $this->extender['request']->init($this, $this->getCFGDef("requestActive", ""));
         }
         $this->_filters = $this->getFilters($this->getCFGDef('filters', ''));
-        $this->ownerTPL = $this->getCFGDef("ownerTPL", "");
+        $this->ownerTPL = $this->getCFGDef('ownerTPL', $this->getCFGDef("ownerTpl", ''));
         $DLTemplate = DLTemplate::getInstance($modx);
         if ($path = $this->getCFGDef('templatePath')) {
             $DLTemplate->setTemplatePath($path);

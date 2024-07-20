@@ -105,7 +105,7 @@ class onetableDocLister extends DocLister
             $this->toPlaceholders(count($this->_docs), 1, "display"); // [+display+] - сколько показано на странице.
             $i = 1;
             $sysPlh = $this->renameKeyArr($this->_plh, $this->getCFGDef("sysKey", "dl"));
-            $noneTPL = $this->getCFGDef("noneTPL", "");
+            $noneTPL = $this->getCFGDef('noneTPL', $this->getCFGDef('noneTpl', ''));
             if (count($this->_docs) == 0 && $noneTPL != '') {
                 $out = $this->parseChunk($noneTPL, $sysPlh);
             } else {
@@ -121,7 +121,7 @@ class onetableDocLister extends DocLister
                 $this->skippedDocs = 0;
                 foreach ($this->_docs as $item) {
                     $this->renderTPL = $tpl;
-                    
+
                     $item[$this->getCFGDef("sysKey", "dl") . '.summary'] = $extSummary ? $this->getSummary(
                         $item,
                         $extSummary

@@ -154,7 +154,7 @@ abstract class Core
         }
         $this->lexicon = new Lexicon($modx, [
             'langDir' => 'assets/snippets/FormLister/core/lang/',
-            'lang'    => $this->getCFGDef('lang', $this->modx->getConfig('lang_code')),
+            'lang'    => $this->getCFGDef('lang', $this->modx->getLocale()),
             'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler')
         ]);
         $this->lexicon->fromFile('csrf');

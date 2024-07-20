@@ -11,13 +11,13 @@ include_once('site_content.php');
  */
 class site_content_menuDocLister extends site_contentDocLister
 {
-    public $levels = array();
+    public $levels = [];
     protected $currentLevel = 1;
-    protected $docTvs = array();
-    protected $IDs = array();
-    protected $activeBranch = array();
-    protected $countChildren = array();
-    protected $display = array();
+    protected $docTvs = [];
+    protected $IDs = [];
+    protected $activeBranch = [];
+    protected $countChildren = [];
+    protected $display = [];
 
     /**
      * Очистка массива $IDs по которому потом будет производиться выборка документов
@@ -44,7 +44,7 @@ class site_content_menuDocLister extends site_contentDocLister
         if ($ids = $this->getCFGDef('documents')) {
             $this->levels = $this->extCache->load('menudata');
             if ($this->levels === false) {
-                $this->levels = array();
+                $this->levels = [];
                 $this->setIDs($ids);
                 $docs = $this->getDocList();
                 $display = count($docs);
@@ -98,7 +98,7 @@ class site_content_menuDocLister extends site_contentDocLister
         $displayKey = 'menudisplay' . $maxDepth;
         $this->levels = $this->extCache->load($key);
         if ($this->levels === false) {
-            $this->levels = array();
+            $this->levels = [];
             $currentLevel = &$this->currentLevel;
             $currentLevel = 1;
             if ($this->getCFGDef('showParent', 0) && in_array(0, $this->IDs)) {
@@ -114,7 +114,7 @@ class site_content_menuDocLister extends site_contentDocLister
                     $docs = $this->getChildrenList();
                 }
                 if ($currentLevel == 1 && $joinMenus) {
-                    $tmp = array();
+                    $tmp = [];
                     $display = 0;
                     $iteration = 1;
                     foreach ($docs as $id => $item) {
@@ -143,7 +143,7 @@ class site_content_menuDocLister extends site_contentDocLister
                 }
                 $this->levels[$currentLevel++] = $docs;
                 $this->IDs = array_keys($docs);
-                $this->AddTable = array();
+                $this->AddTable = [];
             }
             $this->extCache->save($this->levels, $key);
             $this->extCache->save($this->display, $displayKey);
@@ -165,15 +165,15 @@ class site_content_menuDocLister extends site_contentDocLister
         if ($tvlist != '') {
             $this->docTvs = $this->extCache->load('tvs');
             if ($this->docTvs === false) {
-                $this->docTvs = array();
-                $ids = array();
+                $this->docTvs = [];
+                $ids = [];
                 foreach ($this->levels as $level => $docs) {
                     $ids = array_merge($ids, array_keys($docs));
                 }
                 if (!empty($ids)) {
                     $tv = $this->extTV->getTVList($ids, $tvlist);
                     if (!is_array($tv)) {
-                        $tv = array();
+                        $tv = [];
                     }
                     $this->docTvs = $tv;
                 }
@@ -211,31 +211,19 @@ class site_content_menuDocLister extends site_contentDocLister
         }
         $this->countChildren = $this->extCache->load('countChildren');
         if ($this->countChildren === false) {
-            $this->countChildren = array();
-            $ids = array();
+            $this->countChildren = [];
+            $ids = [];
             $out = &$this->countChildren;
-            foreach ($this->levels as $level => $docs) {
+            foreach ($this->levels as $docs) {
                 $ids = array_merge($ids, array_keys($docs));
             }
-            $maxDepth = count($this->levels);
-            $currentDepth = 1;
-            while ($currentDepth <= $maxDepth) {
-                $_ids = implode(',', $ids);
-                if (empty($_ids)) {
-                    break;
-                }
-                $q = $this->dbQuery("SELECT `parent`,COUNT(*) as `count` FROM {$this->getTable('site_content')} WHERE `parent` IN ({$_ids}) AND `published`=1 AND `deleted`=0 GROUP BY `parent`");
-                $_ids = array();
-                while ($row = $this->modx->db->getRow($q)) {
-                    $_ids[] = $row['parent'];
-                    $out[$row['parent']] = $row['count'];
-                }
-                if (!empty($_ids)) {
-                    $ids = $this->diff($ids, $_ids);
-                } else {
-                    break;
-                }
-                $currentDepth++;
+            foreach ($ids as $id) {
+                $out[$id] = 0;
+            }
+            $ids = implode(',', $ids);
+            $q = $this->dbQuery("SELECT `parent`,COUNT(*) as `count` FROM {$this->getTable('site_content')} WHERE `parent` IN ({$ids}) AND `published`=1 AND `deleted`=0 AND `isfolder` = 0 GROUP BY `parent`");
+            while ($row = $this->modx->db->getRow($q)) {
+                $out[$row['parent']] += $row['count'];
             }
             $this->extCache->save($this->countChildren, 'countChildren');
         }
@@ -250,7 +238,7 @@ class site_content_menuDocLister extends site_contentDocLister
     private function diff($b, $a)
     {
         $at = array_flip($a);
-        $d = array();
+        $d = [];
         foreach ($b as $i) {
             if (!isset($at[$i])) {
                 $d[] = $i;
@@ -266,7 +254,7 @@ class site_content_menuDocLister extends site_contentDocLister
     protected function getBranchCacheKey()
     {
         $depth = count($this->levels);
-        $out = array();
+        $out = [];
         while ($depth > 0) {
             $ids = array_keys($this->levels[$depth]);
             foreach ($this->activeBranch as $id) {
@@ -295,7 +283,7 @@ class site_content_menuDocLister extends site_contentDocLister
         $this->debug->debug(array('Render data with template ' => $tpl), 'render', 2, array('html'));
         if (empty($this->levels)) {
             $noneTpl = $this->getCFGDef('noneTpl');
-            $out = $noneTpl ? $this->parseChunk($noneTpl, array()) : '';
+            $out = $noneTpl ? $this->parseChunk($noneTpl, []) : '';
         } else {
             $out = $this->_render($tpl);
         }
@@ -321,8 +309,10 @@ class site_content_menuDocLister extends site_contentDocLister
             $docs = $this->levels;
             /** @var prepare_DL_Extender_ $extPrepare */
             $extPrepare = $this->getExtender('prepare');
+            $countChildren = !empty($this->countChildren);
             while ($currentLevel > 0) {
                 foreach ($docs[$currentLevel] as $id => &$data) {
+
                     if ($out = $this->prepareData($data)) {
                         if (is_array($out)) {
                             $data = $out;
@@ -421,6 +411,9 @@ class site_content_menuDocLister extends site_contentDocLister
         $data['url'] = $this->makeUrl($data);
         if ($this->getCFGDef('countChildren', 0)) {
             $data['count'] = isset($this->countChildren[$data['id']]) ? $this->countChildren[$data['id']] : 0;
+            if(isset($this->countChildren[$data['parent']])) {
+                $this->countChildren[$data['parent']] += $data['count'];
+            }
         }
 
         if ($out = $extE->init($this, compact('data'))) {
@@ -437,7 +430,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $data
      * @return string
      */
-    public function parseOuter($data = array())
+    public function parseOuter($data = [])
     {
         $tpl = $this->getCFGDef('outerTpl', '@CODE:<ul[+classes+]>[+wrap+]</ul>');
         $classes = '';
@@ -463,7 +456,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $data
      * @return string
      */
-    public function parseRow($data = array())
+    public function parseRow($data = [])
     {
         $out = '';
         foreach ($data as $iteration => $item) {
@@ -480,7 +473,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $data
      * @return string
      */
-    protected function makeUrl($data = array())
+    protected function makeUrl($data = [])
     {
         $out = '';
         if ($this->getCFGDef('makeUrl', 1)) {
@@ -514,7 +507,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $data
      * @return array
      */
-    protected function getClasses($data = array())
+    protected function getClasses($data = [])
     {
         $classes = isset($data['classes']) ? $data['classes'] : array(
             'rowClass'     => '',
@@ -570,7 +563,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $data
      * @return string
      */
-    protected function getRowTemplate($data = array())
+    protected function getRowTemplate($data = [])
     {
         $tpl = $this->getCFGDef('rowTpl', '@CODE:<li[+classes+]><a href="[+url+]">[+title+]</a></li>');
         if (!empty($data['wrap'])) {
@@ -650,9 +643,9 @@ class site_content_menuDocLister extends site_contentDocLister
                     $currentLevel--;
                 }
                 unset($data);
-                $out = array();
+                $out = [];
                 $joinMenus = $this->getCFGDef('joinMenus', 0) && !$this->getCFGDef('showParent', 0);
-                foreach ($docs[0] as $id => $data) {
+                foreach ($docs[0] ?? [] as $id => $data) {
                     if (isset($data['children'])) {
                         if ($joinMenus) {
                             $out = array_merge($out, $data['children']);
@@ -684,7 +677,7 @@ class site_content_menuDocLister extends site_contentDocLister
      * @param array $array
      * @return string
      */
-    public function getJSON($data = array(), $fields = array(), $array = array()) {
+    public function getJSON($data = [], $fields = [], $array = []) {
         return json_encode($this->getMenuData(), JSON_UNESCAPED_UNICODE);
     }
 

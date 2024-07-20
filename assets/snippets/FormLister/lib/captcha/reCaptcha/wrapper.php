@@ -44,13 +44,13 @@ class ReCaptchaWrapper implements CaptchaInterface
     {
         $siteKey = \APIhelpers::getkey($this->cfg, 'siteKey');
         $reCAPTCHAversion = \APIhelpers::getkey($this->cfg, 'reCAPTCHAversion', "2");
-		$classButton = \APIhelpers::getkey($this->cfg, 'classButton', "g-recaptcha");
-		$textButton = \APIhelpers::getkey($this->cfg, 'textButton', "Submit");
+	$classButton = \APIhelpers::getkey($this->cfg, 'classButton', "g-recaptcha");
+	$textButton = \APIhelpers::getkey($this->cfg, 'textButton', "Submit");
         $type = \APIhelpers::getkey($this->cfg, 'type', 'image');
         $size = \APIhelpers::getkey($this->cfg, 'size', 'normal');
         $tabindex = \APIhelpers::getkey($this->cfg, 'tabindex', 0);
         $theme = \APIhelpers::getkey($this->cfg, 'theme', 'light');
-        $id = \APIhelpers::getkey($this->cfg, 'id');
+        $id = \APIhelpers::getkey($this->cfg, 'captchaid', \APIhelpers::getkey($this->cfg, 'id'));
         $id = 'id="' . $id . '-recaptcha"';
         $badge = \APIhelpers::getkey($this->cfg, 'badge', 'bottomright');
         $callback = \APIhelpers::getkey($this->cfg, 'callback', '');

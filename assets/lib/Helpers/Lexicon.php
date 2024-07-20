@@ -3,6 +3,7 @@
 use APIhelpers;
 use DocumentParser;
 use Helpers\Lexicon\AbstractLexiconHandler;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * Class Lexicon
@@ -68,21 +69,21 @@ class Lexicon
         $langDir = empty($langDir) ? MODX_BASE_PATH . $this->config->getCFGDef('langDir',
                 'lang/') : MODX_BASE_PATH . $langDir;
         if (empty($lang)) {
-            $lang = $this->config->getCFGDef('lang', $this->modx->getConfig('lang_code'));
+            $lang = $this->config->getCFGDef('lang', $this->modx->getLocale());
         }
 
         if (is_scalar($name) && !empty($name)) {
             $name = array($name);
         }
 
-	if (is_array($name)) {
+	    if (is_array($name)) {
     	    foreach ($name as $n) {
         	if ($lang != 'english' && $lang != 'en') {
             	    $this->loadLexiconFile($n, 'en', $langDir);
                 }
 	        $this->loadLexiconFile($n, $lang, $langDir);
             }
-	}	
+	}
 
         return $this->getLexicon();
     }
@@ -128,7 +129,7 @@ class Lexicon
      */
     public function fromArray ($lang = array())
     {
-        $language = $this->config->getCFGDef('lang', $this->modx->getConfig('manager_language'));
+        $language = $this->config->getCFGDef('lang', $this->modx->getLocale());
         if(is_array($lang) && !isset($lang[$language])) {
             $language = $this->getAlias($language);
         }
@@ -151,6 +152,9 @@ class Lexicon
         $out = APIhelpers::getkey($this->lexicon, $key, $default);
         if (!is_null($this->lexiconHandler)) {
             $out = $this->lexiconHandler->get($key, $out);
+        }
+        if($out == $default && class_exists(Lang::class)) {
+            $out = Lang::has($key) ? Lang::get($key) : $default;
         }
 
         return $out;
@@ -176,7 +180,7 @@ class Lexicon
     public function parse ($tpl)
     {
         if (is_scalar($tpl) && !empty($tpl)) {
-            if (preg_match_all("/\[\%([a-zA-Z0-9\.\_\-]+)\%\]/", $tpl, $match)) {
+            if (preg_match_all("/\[\%([a-zA-Z0-9\.\_\-:]+)\%\]/", $tpl, $match)) {
                 $langVal = array();
                  foreach ($match[1] as $item) {
                     $langVal[] = $this->get($item);
