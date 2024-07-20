@@ -526,7 +526,7 @@ class DocumentParser
         $this->getUserSettings();
         $this->setLocale($this->config['lang_code']);
         $this->invokeEvent('OnLoadSettings', ['config' => &$this->config]);
-        $this->config['locale'] = $this->getLocale();
+        $this->config['locale'] = $this->config['lang_code'] = $this->getLocale();
     }
 
     private function recoverySiteCache()
