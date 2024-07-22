@@ -936,6 +936,7 @@ INSERT IGNORE INTO `{PREFIX}system_settings`
 ('manager_theme','default'),
 ('server_offset_time','0'),
 ('manager_language','{MANAGERLANGUAGE}'),
+('lang_code','{LANGCODE}'),
 ('modx_charset','UTF-8'),
 ('site_name','My Evolution Site'),
 ('site_start','1'),

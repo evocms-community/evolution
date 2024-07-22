@@ -90,7 +90,28 @@ class SqlParser {
 			    $idata = str_replace(substr($idata, $s,$e-$s),' Removed non upgradeable items', $idata);
             }
 		}
-
+        $_langFiles= array (
+            "en" => "english",
+            "bg" => "bulgarian",
+            "cs" => "czech",
+            "da" => "danish",
+            "fi" => "finnish-utf8",
+            "fr" => "francais-utf8",
+            "de" => "german",
+            "he" => "hebrew",
+            "it" => "italian",
+            "ja" => "japanese-utf8",
+            "nl" => "nederlands-utf8",
+            "no" => "norwegian",
+            "fa" => "persian",
+            "pl" => "polish-utf8",
+            "pt" => "portuguese-br-utf8",
+            "ru" => "russian-UTF8",
+            "es" => "spanish-utf8",
+            "sv" => "svenska"
+        );
+        $lang_code = array_search($this->managerlanguage, $_langFiles);
+        $lang_code = $lang_code === false ? 'en' : $lang_code;
 		// replace {} tags
 		$idata = str_replace('{PREFIX}', $this->prefix, $idata);
 		$idata = str_replace('{TABLEENCODING}', $this->getTableEncoding(), $idata);
@@ -100,7 +121,8 @@ class SqlParser {
 		$idata = str_replace('{IMAGEPATH}', $this->imgPath, $idata);
 		$idata = str_replace('{IMAGEURL}', $this->imgUrl, $idata);
 		$idata = str_replace('{FILEMANAGERPATH}', $this->fileManagerPath, $idata);
-		$idata = str_replace('{MANAGERLANGUAGE}', $this->managerlanguage, $idata);
+		$idata = str_replace('{MANAGERLANGUAGE}', $_langFiles[$lang_code], $idata);
+		$idata = str_replace('{LANGCODE}', $lang_code, $idata);
 		$idata = str_replace('{AUTOTEMPLATELOGIC}', $this->autoTemplateLogic, $idata);
 		/*$idata = str_replace('{VERSION}', $modx_version, $idata);*/
 
