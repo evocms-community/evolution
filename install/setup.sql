@@ -52,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}document_groups` (
   `document` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `document` (`document`),
-  KEY `document_group` (`document_group`),
   UNIQUE INDEX `ix_dg_id` (`document_group`,`document`)
 ) ENGINE=MyISAM {TABLEENCODING} COMMENT='Contains data used for access permissions.';
 
@@ -160,7 +159,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_content` (
   `hidemenu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Hide document from menu',
   `alias_visible` INT(2) NOT NULL DEFAULT '1',
   PRIMARY KEY  (`id`),
-  KEY `id` (`id`),
   KEY `parent` (`parent`),
   KEY aliasidx (`alias`),
   KEY typeidx (`type`),
@@ -305,7 +303,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}site_tmplvar_contentvalues` (
   `contentid` int(10) NOT NULL default '0' COMMENT 'Site Content Id',
   `value` mediumtext,
   PRIMARY KEY  (id),
-  KEY idx_tmplvarid (tmplvarid),
   KEY idx_id (contentid),
   FULLTEXT KEY `value_ft_idx` (`value`),
   UNIQUE INDEX `ix_tvid_contentid` (`tmplvarid`,`contentid`)
@@ -466,8 +463,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}user_settings` (
   `setting_name` varchar(50) NOT NULL default '',
   `setting_value` text,
   PRIMARY KEY ( `user` , `setting_name` ),
-  KEY `setting_name` (`setting_name`),
-  KEY `user` (`user`)
+  KEY `setting_name` (`setting_name`)
 ) ENGINE=MyISAM {TABLEENCODING} COMMENT='Contains backend user settings.';
 
 CREATE TABLE IF NOT EXISTS `{PREFIX}web_groups` (
