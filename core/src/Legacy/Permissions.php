@@ -56,7 +56,6 @@ class Permissions
         );
 
         return SiteContent::query()
-            ->select('id')
             ->when(
                 $docgrp,
                 fn($query) => $query->leftJoin('document_groups', 'site_content.id', '=', 'document_groups.document')
