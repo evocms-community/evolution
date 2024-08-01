@@ -63,6 +63,7 @@ class Permissions
                         ->orWhere('site_content.privatemgr', 0)),
                 fn($query) => $query->where('privatemgr', 0)
             )
+            ->where('site_content.id', $this->document)
             ->exists();
     }
 }
