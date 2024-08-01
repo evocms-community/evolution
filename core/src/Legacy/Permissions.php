@@ -55,16 +55,13 @@ class Permissions
             document group is not assigned to a web user group and visa versa.
          */
 
-        $docgrp = implode(
-            ' || dg.document_group = ',
-            $_SESSION['mgrDocgroups'] ?? []
-        );
+        $docgrp = $_SESSION['mgrDocgroups'] ?? [];
 
         return SiteContent::query()
             ->when(
                 $docgrp,
                 fn($query) => $query->leftJoin('document_groups', 'site_content.id', '=', 'document_groups.document')
-                    ->where(fn($q) => $q->where('document_groups.document_group', $docgrp)
+                    ->where(fn($q) => $q->whereIn('document_groups.document_group', $docgrp)
                         ->orWhere('site_content.privatemgr', 0)),
                 fn($query) => $query->where('privatemgr', 0)
             )
