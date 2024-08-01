@@ -50,10 +50,7 @@ class Permissions
             document group is not assigned to a web user group and visa versa.
          */
 
-        $docgrp = implode(
-            ' || dg.document_group = ',
-            $_SESSION['mgrDocgroups'] ?? []
-        );
+        $docgrp = $_SESSION['mgrDocgroups'] ?? [];
 
         return SiteContent::query()
             ->when(
