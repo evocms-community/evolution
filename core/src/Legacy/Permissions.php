@@ -52,7 +52,7 @@ class Permissions
 
         $docgrp = $_SESSION['mgrDocgroups'] ?? [];
 
-        return SiteContent::query()
+        return SiteContent::withTrashed()
             ->when(
                 $docgrp,
                 fn($query) => $query->leftJoin('document_groups', 'site_content.id', '=', 'document_groups.document')
