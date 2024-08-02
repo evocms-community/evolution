@@ -129,3 +129,10 @@ if(! function_exists('csrf_field')) {
         return '<input type="hidden" name="_token" value="' . csrf_token() . '">';
     }
 }
+
+if(! function_exists('e')) {
+    function e($value, $doubleEncode = true)
+    {
+        return htmlspecialchars((string)($value ?? ''), ENT_QUOTES, 'UTF-8', $doubleEncode);
+    }
+}
