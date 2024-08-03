@@ -68,10 +68,10 @@ class Mail extends PHPMailer
         if (isset($modx->config['mail_charset']) && !empty($modx->config['mail_charset'])) {
             $mail_charset = $modx->getConfig('mail_charset');
         } else {
-            if (substr($modx->getConfig('manager_language'), 0, 8) === 'japanese') {
+            if (evo()->getLocale() === 'ja') {
                 $mail_charset = 'jis';
             } else {
-                $mail_charset = $modx->getConfig('modx_charset');
+                $mail_charset = 'utf-8';
             }
         }
 
@@ -100,7 +100,7 @@ class Mail extends PHPMailer
         }
         if (extension_loaded('mbstring')) {
             mb_language($this->mb_language);
-            mb_internal_encoding($modx->getConfig('modx_charset'));
+            mb_internal_encoding('utf-8');
         }
         $exconf = MODX_MANAGER_PATH . 'includes/controls/phpmailer/config.inc.php';
         if (is_file($exconf)) {
