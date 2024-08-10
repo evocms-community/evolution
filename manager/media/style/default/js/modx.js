@@ -2211,6 +2211,10 @@
                 if (modx.main.getQueryVariable('type', a)) {
                     b += '&type=' + modx.main.getQueryVariable('type', a);
                 }
+
+                let m = a.match(/modules\/(.*?)$/)?.[1];
+                m && (b += m);
+
                 b = modx.toHash(b);
             }
             return b;
