@@ -1,7 +1,10 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent;
+use Illuminate\Support\Str;
 
 /**
  * EvolutionCMS\Models\SiteTemplate
@@ -9,6 +12,8 @@ use EvolutionCMS\Traits;
  * @property int $id
  * @property string $templatename
  * @property string $description
+ * @property string $templatealias
+ * @property string $templatecontroller
  * @property int $editor_type
  * @property int $category
  * @property string $icon
@@ -44,33 +49,46 @@ class SiteTemplate extends Eloquent\Model
         Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
-	const CREATED_AT = 'createdon';
-	const UPDATED_AT = 'editedon';
+    const CREATED_AT = 'createdon';
+    const UPDATED_AT = 'editedon';
     protected $dateFormat = 'U';
 
-	protected $casts = [
-		'editor_type' => 'int',
-		'category' => 'int',
-		'template_type' => 'int',
-		'locked' => 'int',
-		'selectable' => 'int',
-		'createdon' => 'int',
-		'editedon' => 'int'
-	];
+    protected $attributes = [
+        'templatename' => 'Untitled template',
+        'templatealias' => '',
+        'templatecontroller' => '',
+        'description' => 'Template',
+        'editor_type' => 0,
+        'category' => 0,
+        'icon' => '',
+        'template_type' => 0,
+        'locked' => 0,
+        'selectable' => 1,
+    ];
 
-	protected $fillable = [
-		'templatename',
+    protected $casts = [
+        'editor_type' => 'int',
+        'category' => 'int',
+        'template_type' => 'int',
+        'locked' => 'int',
+        'selectable' => 'int',
+        'createdon' => 'int',
+        'editedon' => 'int',
+    ];
+
+    protected $fillable = [
+        'templatename',
         'templatealias',
         'templatecontroller',
-		'description',
-		'editor_type',
-		'category',
-		'icon',
-		'template_type',
-		'content',
-		'locked',
-		'selectable'
-	];
+        'description',
+        'editor_type',
+        'category',
+        'icon',
+        'template_type',
+        'content',
+        'locked',
+        'selectable',
+    ];
 
     protected $managerActionsMap = [
         'actions.cancel' => 76,
@@ -79,21 +97,71 @@ class SiteTemplate extends Eloquent\Model
             'actions.edit' => 16,
             'actions.save' => 20,
             'actions.delete' => 21,
-            'actions.duplicate' => 96
-        ]
+            'actions.duplicate' => 96,
+        ],
     ];
 
-	public function getNameAttribute()
+    public function getNameAttribute()
     {
         return $this->templatename;
     }
 
-    public function setNameAttribute($val)
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setNameAttribute($value): static
     {
-        $this->templatename = $val;
+        $this->templatename = $value;
+
+        return $this;
     }
 
-    public function categories() : Eloquent\Relations\BelongsTo
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setTemplatealiasAttribute($value): static
+    {
+        $this->attributes['templatealias'] = Str::lower(evo()->stripAlias(trim($value)));
+
+        return $this;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setCategoryAttribute($value): static
+    {
+        $category = Category::query()->findOrNew($value);
+
+        if ($category->exists) {
+            $this->attributes['category'] = $category->getKey();
+        } elseif ($value) {
+            $this->attributes['category'] = $category->updateOrCreate(['category' => $value])->getKey();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setSelectableAttribute($value): static
+    {
+        $this->attributes['selectable'] =
+            $this->getKey() == evo()->getConfig('default_template') ? 1 : ($value ? 1 : 0);
+
+        return $this;
+    }
+
+    public function categories(): Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'category', 'id');
     }
@@ -111,15 +179,15 @@ class SiteTemplate extends Eloquent\Model
     /**
      * @return Eloquent\Relations\BelongsToMany
      */
-    public function tvs() : Eloquent\Relations\BelongsToMany
+    public function tvs(): Eloquent\Relations\BelongsToMany
     {
-
         return $this->belongsToMany(
             SiteTmplvar::class,
             (new SiteTmplvarTemplate())->getTable(),
             'templateid',
             'tmplvarid'
-        )->withPivot('rank')
+        )
+            ->withPivot('rank')
             ->orderBy('pivot_rank', 'ASC');
     }
 
@@ -138,7 +206,7 @@ class SiteTemplate extends Eloquent\Model
         return array_key_exists($this->getKey(), self::getLockedElements(1));
     }
 
-    public function getAlreadyEditInfoAttribute() :? array
+    public function getAlreadyEditInfoAttribute(): ?array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(1)[$this->getKey()] : null;
     }

@@ -1,6 +1,7 @@
 @extends('manager::template.page')
 @section('content')
-    <?php /** @var EvolutionCMS\Models\SiteTemplate $data */ ?>
+    <?php
+    /** @var EvolutionCMS\Models\SiteTemplate $data */ ?>
     @push('scripts.top')
         <script>
           var actions = {
@@ -29,40 +30,9 @@
           }
 
           document.addEventListener('DOMContentLoaded', function () {
-            var h1help = document.querySelector('h1 > .help')
-            h1help.onclick = function () {
+            document.querySelector('h1 > .help').onclick = function () {
               document.querySelector('.element-edit-message').classList.toggle('show')
             }
-
-            var checkContainer = document.getElementById('assigned-blade-file'),
-              filenameLabel = document.getElementById('blade-filename'),
-              alias = document.getElementById('templatealias'),
-              check = document.getElementById('createbladefile')
-
-            var updateFilename = function (value) {
-              var filename = value
-              filename = filename.replace(/\s*/g, '')
-              filename = filename.replace(/[^a-zA-Z0-9_-]+/g, '')
-
-              if (filename == value && filename != '') {
-                filenameLabel.innerText = '/views/' + filename + '.blade.php'
-                checkContainer.style.display = 'block'
-                check.disabled = false
-              } else {
-                checkContainer.style.display = 'none'
-                check.disabled = true
-              }
-            }
-
-            alias.addEventListener('change', function (event) {
-              updateFilename(this.value)
-            })
-
-            alias.addEventListener('input', function (event) {
-              updateFilename(this.value)
-            })
-
-            updateFilename(alias.value)
           })
 
         </script>
@@ -94,7 +64,7 @@
 
         <div class="tab-pane" id="templatesPane">
             <script>
-              var tp = new WebFXTabPane(document.getElementById('templatesPane'),
+              const tp = new WebFXTabPane(document.getElementById('templatesPane'),
                       {{ get_by_key($modx->config, 'remember_last_tab') ? 1 : 0 }})
             </script>
 
@@ -113,21 +83,22 @@
                                     'name' => 'templatename',
                                     'value' => $data->templatename,
                                     'class' => 'form-control-lg',
-                                    'attributes' => 'onchange="documentDirty=true;"'
+                                    'attributes' => 'onchange="documentDirty=true;"',
                                 ]) .
                                 ($modx->hasPermission('save_role')
                                 ? '<label class="custom-control" data-tooltip="' . __('global.lock_template') . "\n" . __('global.lock_template_msg') .'">' .
                                  view('manager::form.inputElement', [
                                     'type' => 'checkbox',
                                     'name' => 'locked',
-                                    'checked' => ($data->locked == 1)
+                                    'checked' => $data->locked == 1,
+                                    'value' => 1
                                  ]) .
                                  '<i class="' . $_style['icon_lock'] . '"></i>
                                  </label>
                                  <small class="form-text text-danger hide" id="savingMessage"></small>
                                  <script>if (!document.getElementsByName(\'templatename\')[0].value) document.getElementsByName(\'templatename\')[0].focus();</script>'
                                 : '') .
-                                '</div>'
+                                '</div>',
                         ])
 
                         @include('manager::form.input', [
@@ -135,7 +106,7 @@
                             'id' => 'templatealias',
                             'label' => __('global.alias'),
                             'value' => $data->templatealias,
-                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
+                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
                         ])
 
                         @include('manager::form.input', [
@@ -143,7 +114,7 @@
                             'id' => 'templatecontroller',
                             'label' => __('global.templatecontroller'),
                             'value' => $data->templatecontroller,
-                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
+                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
                         ])
 
                         @include('manager::form.input', [
@@ -151,47 +122,50 @@
                             'id' => 'description',
                             'label' => __('global.template_desc'),
                             'value' => $data->description,
-                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"'
+                            'attributes' => 'onchange="documentDirty=true;" maxlength="255"',
                         ])
 
                         @include('manager::form.select', [
-                            'name' => 'categoryid',
-                            'id' => 'categoryid',
+                            'name' => 'category',
+                            'id' => 'category',
                             'label' => __('global.existing_category'),
                             'value' => $data->category,
                             'first' => [
-                                'text' => ''
+                                'text' => '',
                             ],
                             'options' => $categories->pluck('category', 'id'),
-                            'attributes' => 'onchange="documentDirty=true;"'
+                            'attributes' => 'onchange="documentDirty=true;"',
                         ])
 
                         @include('manager::form.input', [
                             'name' => 'newcategory',
                             'id' => 'newcategory',
                             'label' => __('global.new_category'),
-                            'value' => $data->newcategory ?? '',
-                            'attributes' => 'onchange="documentDirty=true;" maxlength="45"'
+                            'value' => '',
+                            'attributes' => 'onchange="documentDirty=true;" maxlength="45"',
                         ])
 
                     </div>
 
-                    <div class="form-group" id="assigned-blade-file" style="display: none;">
-                        {{ __('global.template_assigned_blade_file') }}: <strong id="blade-filename"></strong>
+                    <div class="form-group">
+                        @if(file_exists(MODX_BASE_PATH . 'views/' . $data->templatealias . '.blade.php'))
+                            {{ __('global.template_assigned_blade_file') }}:
+                            <strong>/views/{{ $data->templatealias }}.blade.php</strong>
+                        @else
+                            <div class="create-check">
+                                <label>
+                                    @include('manager::form.inputElement', [
+                                        'name' => 'createbladefile',
+                                        'id' => 'createbladefile',
+                                        'type' => 'checkbox',
+                                        'checked' => false,
+                                        'attributes' => 'onchange="documentDirty=true;"',
+                                    ])
 
-                        <div class="create-check" style="display: none;">
-                            <label>
-                                @include('manager::form.inputElement', [
-                                    'name' => 'createbladefile',
-                                    'id' => 'createbladefile',
-                                    'type' => 'checkbox',
-                                    'checked' => false,
-                                    'attributes' => 'onchange="documentDirty=true;"'
-                                ])
-
-                                {{ __('global.template_create_blade_file') }}
-                            </label>
-                        </div>
+                                    {{ __('global.template_create_blade_file') }}
+                                </label>
+                            </div>
+                        @endif
                     </div>
 
                     @if($modx->hasPermission('save_role'))
@@ -201,8 +175,9 @@
                                     'name' => 'selectable',
                                     'id' => 'selectable',
                                     'type' => 'checkbox',
-                                    'checked' => ($data->selectable == 1),
-                                    'attributes' => 'onchange="documentDirty=true;"'
+                                    'checked' => $data->selectable == 1,
+                                    'value' => 1,
+                                    'attributes' => 'onchange="documentDirty=true;"',
                                 ])
                                 {{ __('global.template_selectable') }}
                             </label>
@@ -220,7 +195,7 @@
                         'value' => $data->post ?? $data->content,
                         'class' => 'phptextarea',
                         'rows' => 20,
-                        'attributes' => 'onChange="documentDirty=true;"'
+                        'attributes' => 'onChange="documentDirty=true;"',
                     ])
                 </div>
                 <!-- HTML text editor end -->
@@ -250,7 +225,7 @@
                             @foreach($data->tvs as $item)
                                 @include('manager::page.template.tv', [
                                     'item' => $item,
-                                    'tvSelected' => [$item->getKey()]
+                                    'tvSelected' => [$item->getKey()],
                                 ])
                             @endforeach
                         </ul>
