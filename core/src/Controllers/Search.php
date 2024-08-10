@@ -10,6 +10,7 @@ use EvolutionCMS\Models\SiteSnippet;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\SiteTmplvarContentvalue;
+use Illuminate\Support\Str;
 
 class Search extends AbstractController implements PageControllerInterface
 {
@@ -188,19 +189,8 @@ class Search extends AbstractController implements PageControllerInterface
                 $result['rowClass'] .= ' deletedNode';
             }
 
-            if (function_exists('mb_strlen') && function_exists('mb_substr')) {
-                $result['pagetitle'] = mb_strlen($result['pagetitle'],
-                    ManagerTheme::getCharset()) > 70 ? mb_substr($result['pagetitle'], 0, 70,
-                        ManagerTheme::getCharset()) . "..." : $result['pagetitle'];
-                $result['description'] = mb_strlen($result['description'],
-                    ManagerTheme::getCharset()) > 70 ? mb_substr($result['description'], 0, 70,
-                        ManagerTheme::getCharset()) . "..." : $result['description'];
-            } else {
-                $result['pagetitle'] = strlen($result['pagetitle']) > 20 ? substr($result['pagetitle'], 0,
-                        20) . '...' : $result['pagetitle'];
-                $result['description'] = strlen($result['description']) > 35 ? substr($result['description'], 0,
-                        35) . '...' : $result['description'];
-            }
+            $result['pagetitle'] = Str::limit($result['pagetitle'], 70);
+            $result['description'] = Str::limit($result['description'], 70);
         }
 
         return $results;
