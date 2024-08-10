@@ -3563,11 +3563,8 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if (!$this->getDatabase()->getConnection()->getDatabaseName()) {
             return;
         }
-        if (strpos($this['config']->get('database.connections.default.charset'), 'utf8') === 0 && extension_loaded('mbstring')) {
-            $esc_source = mb_substr($source, 0, 50, 'UTF-8');
-        } else {
-            $esc_source = substr($source, 0, 50);
-        }
+        
+        $esc_source = Str::limit($source, 50);
 
         $LoginUserID = $this->getLoginUserID();
         if ($LoginUserID == '') {
