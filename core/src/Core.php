@@ -3564,7 +3564,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return;
         }
         
-        $esc_source = Str::limit($source, 50);
+        $esc_source = Str::limit($source, 47);
 
         $LoginUserID = $this->getLoginUserID();
         if ($LoginUserID == '') {
