@@ -6,7 +6,7 @@ define('MODX_API_MODE', true);
 require __DIR__ . '/bootstrap.php';
 $input = new Symfony\Component\Console\Input\ArgvInput;
 if (!defined('IN_INSTALL_MODE')) {
-    if (strpos((string)$input, 'make:site') !== false) {
+    if (strpos((string)$input, 'make:update') !== false) {
         define('IN_INSTALL_MODE', true);
     } else {
         define('IN_INSTALL_MODE', false);
