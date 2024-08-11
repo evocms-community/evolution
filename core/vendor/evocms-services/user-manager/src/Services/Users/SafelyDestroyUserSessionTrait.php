@@ -21,10 +21,6 @@ trait SafelyDestroyUserSessionTrait
 
     protected function safelyDestroyUserSession()
     {
-        if (defined('NO_SESSION')) {
-            return;
-        }
-
         foreach ($this->userSessionFields as $field) {
             unset($_SESSION[$this->context . $field]);
         }
