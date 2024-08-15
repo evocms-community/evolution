@@ -129,7 +129,7 @@ if ($role != 1 && $wdgVisibility == 'AdminOnly') {
         }
         if ($_GET['q'] == $_SESSION['updatelink']) {
             $tpl = file_get_contents(MODX_BASE_PATH . 'assets/plugins/updater/updater.tpl');
-            $tpl = str_replace(['[+update_link+]', '[+site_url+]'], [$_SESSION['updatedata']['url'], MODX_SITE_URL], $tpl);
+            $tpl = str_replace(['[+update_url+]', '[+site_url+]'], [$_SESSION['updatedata']['url'], MODX_SITE_URL], $tpl);
             file_put_contents(MODX_BASE_PATH . 'update.php', $tpl);
             if ($result === false) {
                 echo 'Update failed: cannot write to ' . MODX_BASE_PATH . 'update.php';
