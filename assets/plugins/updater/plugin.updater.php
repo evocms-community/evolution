@@ -37,8 +37,8 @@ if ($role != 1 && $wdgVisibility == 'AdminOnly') {
     $_lang = array();
     $plugin_path = MODX_BASE_PATH . "assets/plugins/updater/";
     include($plugin_path . 'lang/en.php');
-    if (file_exists($plugin_path . 'lang/' . evo()->getConfig('manager_language') . '.php')) {
-        include($plugin_path . 'lang/' . evo()->getConfig('manager_language') . '.php');
+    if (file_exists($plugin_path . 'lang/' . evo()->getLocale() . '.php')) {
+        include($plugin_path . 'lang/' . evo()->getLocale() . '.php');
     }
 
     $e = evo()->event;
