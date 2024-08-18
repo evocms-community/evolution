@@ -488,10 +488,8 @@ class Search extends AbstractController implements PageControllerInterface
             ], [
                 '\(',
                 '\)'
-            ], entities(trim($search), evo()
-                ->getConfig('modx_charset'))) . ')!isu';
+            ], e(trim($search))) . ')!isu';
 
-        return preg_replace($regexp, '<span class="text-danger">$1</span>', entities($text, evo()
-            ->getConfig('modx_charset')));
+        return preg_replace($regexp, '<span class="text-danger">$1</span>', e($text));
     }
 }

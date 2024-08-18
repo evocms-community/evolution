@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>[(site_name)] (Evolution CMS Content Manager)</title>
-	<meta http-equiv="content-type" content="text/html; charset=[(modx_charset)]" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/ico" href="[+favicon+]">
 	<meta name="robots" content="noindex, nofollow" />
 	<style type="text/css">

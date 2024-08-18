@@ -95,13 +95,13 @@ if (evo()->getManagerApi()->action == '88') {
 }
 // avoid doubling htmlspecialchars (already encoded in DB)
 foreach ($userdata as $key => $val) {
-    $userdata[$key] = html_entity_decode($val ?? '', ENT_NOQUOTES, evo()->getConfig('modx_charset'));
+    $userdata[$key] = html_entity_decode($val ?? '', ENT_NOQUOTES, 'UTF-8');
 }
 
 $usernamedata['username'] = html_entity_decode(
     get_by_key($usernamedata, 'username', ''),
     ENT_NOQUOTES,
-    evo()->getConfig('modx_charset')
+    'UTF-8'
 );
 
 // restore saved form

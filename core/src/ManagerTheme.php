@@ -235,7 +235,7 @@ class ManagerTheme implements ManagerThemeInterface
         $this->lang = $lang;
         app()->setLocale($lang);
         $this->setTextDir(in_array($lang, ['fa', 'he']) ? 'rtl' : 'ltr');
-        $this->setCharset(evo()->getConfig('modx_charset', 'UTF-8'));
+        $this->setCharset('UTF-8');
         $this->getCore()->setConfig('lang_code', $lang);
         $this->getCore()->setConfig('manager_language', $lang);
 

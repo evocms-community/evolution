@@ -802,7 +802,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         // send out content-type and content-disposition headers
         if (IN_PARSER_MODE == "true") {
             $type = !empty($this->documentObject['contentType']) ? $this->documentObject['contentType'] : "text/html";
-            header('Content-Type: ' . $type . '; charset=' . $this->getConfig('modx_charset'));
+            header('Content-Type: ' . $type . '; charset=utf-8');
             // if (($this->documentIdentifier == $this->config['error_page']) || $redirect_error)
             //   header('HTTP/1.0 404 Not Found');
             if (!$this->checkPreview() && $this->documentObject['content_dispo'] == 1) {

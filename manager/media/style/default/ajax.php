@@ -51,7 +51,7 @@ $docGroups = isset($_SESSION['mgrDocgroups']) && is_array($_SESSION['mgrDocgroup
 
 // set limit sql query
 $limit = evo()->getConfig('number_of_results');
-header('Content-Type: text/html; charset=' . evo()->getConfig('modx_charset'), true);
+header('Content-Type: text/html; charset=utf-8', true);
 
 if (isset($action)) {
     switch ($action) {

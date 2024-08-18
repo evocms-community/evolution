@@ -165,7 +165,7 @@ class Mail extends PHPMailer
 
         switch ($this->CharSet) {
             case 'ISO-2022-JP':
-                $body = mb_convert_encoding($body, 'JIS', $this->modx->getConfig('modx_charset'));
+                $body = mb_convert_encoding($body, 'JIS', 'UTF-8');
                 if (ini_get('safe_mode')) {
                     $mode = 'normal';
                 } else {
@@ -251,7 +251,7 @@ class Mail extends PHPMailer
             $msg = $this->Lang('instantiate') . "<br />\n";
             $msg .= "{$this->Subject}<br />\n";
             $msg .= "{$this->FromName}&lt;{$this->From}&gt;<br />\n";
-            $msg .= mb_convert_encoding($body, $this->modx->getConfig('modx_charset'), $this->CharSet);
+            $msg .= mb_convert_encoding($body, 'UTF-8', $this->CharSet);
             $this->SetError($msg);
 
             return false;

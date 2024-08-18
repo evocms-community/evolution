@@ -269,11 +269,11 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <li id="account" class="dropdown account">
                             <a href="javascript:;" class="dropdown-toggle" onclick="return false;">
                                     <span class="username">
-                                        <?= e($user['username'], config('global.modx_charset')) ?>
+                                        <?= e($user['username']) ?>
                                     </span>
                                 @if ($user['photo'])
                                     <span class="icon photo"
-                                          style="background-image: url(<?= MODX_SITE_URL . e($user['photo'], config('global.modx_charset')) ?>);"></span>
+                                          style="background-image: url(<?= MODX_SITE_URL . e($user['photo']) ?>);"></span>
                                 @else
                                     <span class="icon"><i class="{{ ManagerTheme::getStyle('icon_user') }}"></i></span>
                                 @endif

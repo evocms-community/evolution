@@ -596,7 +596,7 @@ if (!function_exists('getTVDisplayFormat')) {
                     // remove delimiter from checkbox and listbox-multiple TVs
                     $value = str_replace('||', '', $value);
                 }
-                $o = htmlentities($value, ENT_NOQUOTES, $modx->getConfig('modx_charset'));
+                $o = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
                 break;
 
             case 'custom_widget':

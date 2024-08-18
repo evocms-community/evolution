@@ -243,14 +243,12 @@ use Illuminate\Support\Facades\Lang;
                 if (evo()->hasPermission('edit_document')) {
                     $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&id=' .
                         $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . e(
-                            $children['pagetitle'],
-                            config('global.modx_charset')
+                            $children['pagetitle']
                         ) . '</span></a></span>';
                 } else {
                     $title =
                         '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . e(
-                            $children['pagetitle'],
-                            config('global.modx_charset')
+                            $children['pagetitle']
                         ) . '</span></span>';
                 }
 

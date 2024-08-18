@@ -705,7 +705,7 @@ if (!function_exists('_htmlentities')) {
 
         $array = json_encode($array, JSON_UNESCAPED_UNICODE);
 
-        return htmlentities($array, ENT_COMPAT, evo()->getConfig('modx_charset'));
+        return htmlentities($array, ENT_COMPAT, 'UTF-8');
     }
 }
 
