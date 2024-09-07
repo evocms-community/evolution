@@ -3392,7 +3392,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         $activeUserSids = ActiveUserSession::all();
         if ($activeUserSids->count() > 0) {
-            $activeUserSids = $activeUserSids->pluck('sid');
+            $activeUserSids = $activeUserSids->pluck('sid')->toArray();
         } else {
             $activeUserSids = [];
         }
