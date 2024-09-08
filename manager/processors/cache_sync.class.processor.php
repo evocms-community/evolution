@@ -52,6 +52,7 @@ class synccache
      */
     public function escapeSingleQuotes($s)
     {
+        $s = $s ?? '';
         if ($s === '') {
             return $s;
         }
@@ -67,6 +68,10 @@ class synccache
      */
     public function escapeDoubleQuotes($s)
     {
+        $s = $s ?? '';
+        if ($s === '') {
+            return $s;
+        }
         $q1 = array("\\", "\"", "\r", "\n", "\$");
         $q2 = array("\\\\", "\\\"", "\\r", "\\n", "\\$");
 
