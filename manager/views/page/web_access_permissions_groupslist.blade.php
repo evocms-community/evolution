@@ -1,14 +1,11 @@
 @extends('manager::template.page')
 @section('content')
-
-
-
         <div class="tab-page">
             <div class="container container-body">
                 <div class="row searchbar form-group align-items-center">
                     <div class="col-sm-6 input-group">
                         <h1>
-                            <i class="{{ $_style['icon_web_user_access'] }}"></i>{{ $_GET['list'] == 'users' ? ManagerTheme::getLexicon('users_list') : ManagerTheme::getLexicon('documents_list') }} в группе {{ $group['name'] }}</i>
+                            <i class="{{ $_style['icon_web_user_access'] }}"></i>{{ $_GET['list'] == 'users' ? ManagerTheme::getLexicon('users_list') : ManagerTheme::getLexicon('documents_list') }} ({{ $group['name'] }})</i>
                         </h1>
                     </div>
                     <div class="col-sm-6 ">
@@ -16,10 +13,10 @@
                             @csrf
                             <div class="input-group float-right w-auto">
                                 <input type="hidden" name="delete" value="" />
-                                <input class="form-control form-control-sm" name="search" type="text" value="{{ $_POST['search'] ?? '' }}" placeholder="Поиск">
+                                <input class="form-control form-control-sm" name="search" type="text" value="{{ $_POST['search'] ?? '' }}" placeholder="{{ ManagerTheme::getLexicon('search') }}">
                                 <div class="input-group-append">
-                                    <a class="btn btn-secondary btn-sm" href="javascript:;" title="Поиск" onclick="searchResource(); return false;"><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-secondary btn-sm" href="javascript:;" title="Сброс" onclick="resetSearch(); return false;"><i class="fa fa-refresh"></i></a>
+                                    <a class="btn btn-secondary btn-sm" href="javascript:;" title="{{ ManagerTheme::getLexicon('search') }}" onclick="searchResource(); return false;"><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-secondary btn-sm" href="javascript:;" title="{{ ManagerTheme::getLexicon('reset') }}" onclick="resetSearch(); return false;"><i class="fa fa-refresh"></i></a>
                                 </div>
                             </div>
                         </form>
@@ -45,7 +42,7 @@
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td><a href="?a={{ $_GET['list'] == 'users' ? 88 : 27 }}&id={{ $item->getKey() }}" target="main">{{ $_GET['list'] == 'users' ? $item->username : $item->pagetitle }}</a></td>
-                                            <td><a title="Удалить из группы" href="javascript:;" onclick="deleteItem({{ $item->getKey() }}); return false;"><i class="fa fa-close fa-fw"></i></a></td>
+                                            <td><a title="{{ ManagerTheme::getLexicon('remove_from_group') }}" href="javascript:;" onclick="deleteItem({{ $item->getKey() }}); return false;"><i class="fa fa-close fa-fw"></i></a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -130,4 +127,3 @@
     }
 </script>
 @endsection
-
