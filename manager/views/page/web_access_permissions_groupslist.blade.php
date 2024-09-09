@@ -10,8 +10,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             <div class="row searchbar form-group align-items-center">
                 <div class="col-sm-6 input-group">
                     <h1>
-                        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ $_GET['list'] == 'users' ? __('global.users_list') : __('global.documents_list') }}
-                        в группе {{ $group['name'] }}</i>
+                        <i class="{{ ManagerTheme::getStyle('icon_web_user_access') }}"></i>{{ $_GET['list'] == 'users' ? __('global.users_list') : __('global.documents_list') }} ({{ $group['name'] }})</i>
                     </h1>
                 </div>
                 <div class="col-sm-6 ">
@@ -20,11 +19,11 @@ use EvolutionCMS\Facades\ManagerTheme;
                         <div class="input-group float-right w-auto">
                             <input type="hidden" name="delete" value=""/>
                             <input class="form-control form-control-sm" name="search" type="text"
-                                   value="{{ $_POST['search'] ?? '' }}" placeholder="Поиск">
+                                   value="{{ $_POST['search'] ?? '' }}" placeholder="{{ __('global.search') }}">
                             <div class="input-group-append">
-                                <a class="btn btn-secondary btn-sm" href="javascript:;" title="Поиск"
+                                <a class="btn btn-secondary btn-sm" href="javascript:;" title="{{ __('global.search') }}"
                                    onclick="searchResource(); return false;"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-secondary btn-sm" href="javascript:;" title="Сброс"
+                                <a class="btn btn-secondary btn-sm" href="javascript:;" title="{{ __('global.reset') }}"
                                    onclick="resetSearch(); return false;"><i class="fa fa-refresh"></i></a>
                             </div>
                         </div>
@@ -53,7 +52,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                                     <td><a href="?a={{ $_GET['list'] == 'users' ? 88 : 27 }}&id={{ $item->getKey() }}"
                                            target="main">{{ $_GET['list'] == 'users' ? $item->username : $item->pagetitle }}</a>
                                     </td>
-                                    <td><a title="Удалить из группы" href="javascript:;"
+                                    <td><a title="{{ __('global.remove_from_group') }}" href="javascript:;"
                                            onclick="deleteItem({{ $item->getKey() }}); return false;"><i
                                                     class="fa fa-close fa-fw"></i></a></td>
                                 </tr>
@@ -147,4 +146,3 @@ use EvolutionCMS\Facades\ManagerTheme;
       }
     </script>
 @endsection
-
