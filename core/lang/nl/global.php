@@ -1580,4 +1580,6 @@ $_lang["setting_from_file"] = '<strong class="text-danger">Parameter waarde word
 $_lang['disable'] = 'Uitschakelen';
 $_lang['enable'] = 'Inschakelen';
 
+$_lang['remove_from_group'] = 'Verwijderen uit groep';
+
 return $_lang;
