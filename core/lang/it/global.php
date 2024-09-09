@@ -1588,4 +1588,6 @@ $_lang["setting_from_file"] = '<strong class="text-danger">Il valore del paramet
 $_lang['disable'] = 'Disabilita';
 $_lang['enable'] = 'Abilita';
 
+$_lang['remove_from_group'] = 'Rimuovi dal gruppo';
+
 return $_lang;
