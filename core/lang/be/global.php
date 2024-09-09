@@ -1578,4 +1578,6 @@ $_lang["setting_from_file"] = '<strong class="text-danger">Значэнне па
 $_lang['disable'] = 'Адключыць';
 $_lang['enable'] = 'Уключыць';
 
+$_lang['remove_from_group'] = 'Выдаліць з групы';
+
 return $_lang;
