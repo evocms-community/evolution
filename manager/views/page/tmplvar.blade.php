@@ -35,7 +35,7 @@
                 } catch (e) {
                     currentProps = {};
                 }
-                if (typeof defaultProperties[ctrl.value] !== 'undefined' && (JSON.stringify(savedProperties) === '{}' || JSON.stringify(currentProps) === '{}')) {
+                if (typeof defaultProperties[ctrl.value] !== 'undefined' && (Object.keys(savedProperties).length === 0 || Object.keys(currentProps).length === 0)) {
                     var stringified = JSON.stringify(defaultProperties[ctrl.value], null, 2);
                     if (typeof myCodeMirrors != 'undefined') {
                         myCodeMirrors['properties'].setValue(stringified);
