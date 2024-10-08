@@ -2,7 +2,7 @@
 /*
 *************************************************************************
 	Evolution CMS Content Management System and PHP Application Framework ("EVO")
-	Managed and maintained by Dmytro Lukianenko and the	EVO community
+	Managed and maintained by the EVO community
 *************************************************************************
 	EVO is an opensource PHP/MySQL content management system and content
 	management framework that is flexible, adaptable, supports XHTML/CSS
@@ -28,8 +28,8 @@
 	along with EVO (located in "/assets/docs/"); if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1335, USA
 
-	For more information on EVO please visit https://evo.im/
-	Github: https://github.com/evolution-cms/evolution/
+	For more information on EVO please visit https://evo-cms.com/
+	Github: https://github.com/evocms-community/evolution/
 
 **************************************************************************
 	Based on MODX Evolution CMS and Application Framework
