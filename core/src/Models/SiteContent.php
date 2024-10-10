@@ -2061,9 +2061,8 @@ class SiteContent extends Eloquent\Model
         $query->where(function ($query) {
             $docgrp = evo()->getUserDocGroups();
             if (evo()->isFrontend()) {
-                $query->where('privateweb', 0);
+                $query->where('site_content.privateweb', 0);
             } else {
-                $query->whereRaw('1 = ' . $role);
                 $query->orWhere('site_content.privatemgr', 0);
             }
             if ($docgrp) {
