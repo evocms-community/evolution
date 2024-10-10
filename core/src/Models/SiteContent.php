@@ -2053,13 +2053,17 @@ class SiteContent extends Eloquent\Model
 
     public function scopeWithoutProtected($query)
     {
+        $role = (int)($_SESSION['mgrRole'] ?? 0);
+        
+        if($role === 1) return $query;
+        
         $query->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id');
         $query->where(function ($query) {
             $docgrp = evo()->getUserDocGroups();
             if (evo()->isFrontend()) {
                 $query->where('privateweb', 0);
             } else {
-                $query->whereRaw('1 = ' . ($_SESSION['mgrRole'] ?? 0));
+                $query->whereRaw('1 = ' . $role);
                 $query->orWhere('site_content.privatemgr', 0);
             }
             if ($docgrp) {
