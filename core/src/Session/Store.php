@@ -42,6 +42,7 @@ class Store extends \Illuminate\Session\Store
      */
     public function save()
     {
+        $this->ageFlashData();
     }
 
     /**
