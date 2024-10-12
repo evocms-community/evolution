@@ -14,7 +14,8 @@ class ChangeActiveUsersPrimaryIndex extends Migration
     public function up()
     {
         Schema::table('active_users', function (Blueprint $table) {
-            $table->dropPrimary()->primary(['sid', 'internalKey']);
+            $table->dropPrimary();
+            $table->primary(['sid', 'internalKey']);
         });
     }
 
@@ -26,7 +27,8 @@ class ChangeActiveUsersPrimaryIndex extends Migration
     public function down()
     {
         Schema::table('active_users', function (Blueprint $table) {
-            $table->dropPrimary()->primary('sid');
+            $table->dropPrimary();
+            $table->primary('sid');
         });
     }
 }
