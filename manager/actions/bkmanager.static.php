@@ -680,14 +680,22 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                                    data-tooltip="<?= $tooltip ?>"></i></td>
                                             <td><?= $filesize ?></td>
                                             <td><?= $details['Description'] ?></td>
+                                            <? if (version_compare($details['Evolution CMS Version'], evo()->getVersionData()['version'], '<')): ?>
+                                            <td style="color:red;"><?= $details['Evolution CMS Version'] ?></td>
+                                            <? else: ?>
                                             <td><?= $details['Evolution CMS Version'] ?></td>
+                                            <? endif; ?>
                                             <td><?= $details['Database'] ?></td>
+                                            <? if (version_compare($details['Evolution CMS Version'], evo()->getVersionData()['version'], '<')): ?>
+                                            <td></td>
+                                            <? else: ?>
                                             <td>
                                                 <a href="javascript:;" onclick="confirmRevert('<?= $filename ?>');"
                                                    title="<?= $tooltip ?>">
                                                     <?= __('global.bkmgr_restore_submit') ?>
                                                 </a>
                                             </td>
+                                            <? endif; ?>
                                         </tr>
                                         <?php
                                     }
