@@ -742,7 +742,7 @@ $_lang["group_access_permissions"] = 'Benutzergruppenberechtigungen';
 $_lang['group_tvs'] = 'TVs gruppieren';
 $_lang["guid"] = 'Eindeutige Identifikationsnummer (GUID)';
 $_lang["help"] = 'Hilfe';
-$_lang["help_msg"] = '<p>Sie können kostenlos Support im <a href="http://forums.modx.com/" target="_blank">EVO Forum</a> erhalten. Zusätzlich werden die <a href="http://evolution-docs.com" target="_blank">EVO Dokumentation und Anleitungen</a> regelmäßig erweitert.</p><p>Desweiteren planen wir auch kostenpflichtigen professionellen Support anzubieten. Bitte <a href="mailto:dmi3yy@evo.im?subject=EVO Commercial Support Inquiry">senden Sie uns bei Interesse eine Email</a>.</p>';
+$_lang["help_msg"] = '<p>Sie können kostenlos Support im <a href="https://forum.evo-cms.com/" target="_blank">EVO Forum</a> erhalten. Zusätzlich werden die <a href="https://docs.evo-cms.com/" target="_blank">EVO Dokumentation und Anleitungen</a> regelmäßig erweitert.</p><p>Desweiteren planen wir auch kostenpflichtigen professionellen Support anzubieten.</p>';
 $_lang["help_title"] = 'Hilfe';
 $_lang["hide_tree"] = 'Baum verbergern';
 $_lang["home"] = 'Dashboard';
