@@ -743,7 +743,7 @@ $_lang["group_access_permissions"] = 'Доступ груп користувач
 $_lang['group_tvs'] = 'Групувати ТВ параметри';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Допомога';
-$_lang["help_msg"] = '<p>Ви можете отримати безкоштовну Допомогу спільноти EVO <a href="http://modx.im" target="_blank">на форумах EVO</a>. Дивіться також <a href="http://docs.evolution-cms.com" target="_blank">\'Документація і уроки по EVO\'</a>, де докладно описано кожен аспект системи.</p>';
+$_lang["help_msg"] = '<p>Ви можете отримати безкоштовну Допомогу спільноти EVO <a href="https://community.evocms.ru/" target="_blank">на форумах EVO</a>. Дивіться також <a href="https://docs.evo-cms.com/" target="_blank">\'Документація і уроки по EVO\'</a>, де докладно описано кожен аспект системи.</p>';
 $_lang["help_title"] = 'Допомога';
 $_lang["hide_tree"] = 'Сховати дерево';
 $_lang["home"] = 'Головна';
