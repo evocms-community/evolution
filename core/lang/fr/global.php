@@ -742,7 +742,7 @@ $_lang["group_access_permissions"] = 'Accès des Groupes d\'Utilisateurs';
 $_lang['group_tvs'] = 'Groupe de TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Aide';
-$_lang["help_msg"] = '<p>Vous pouvez obtenir de l\'aide en <a href="https://forum.evo-cms.com/" target="_blank">consultant les forums de EVO. Il existe également <a href="https://docs.evo-cms.com/" target="_blank">une documentation et des guides pour EVO qui abordent tous les aspects de l\'utilisation de EVO.</p><p>De plus, nous proposerons bientôt des offres de support commercial.';
+$_lang["help_msg"] = '<p>Vous pouvez obtenir de l\'aide en <a href="https://forum.evo-cms.com/" target="_blank">consultant les forums de EVO. Il existe également <a href="https://docs.evo-cms.com/" target="_blank">une documentation et des guides pour EVO qui abordent tous les aspects de l\'utilisation de EVO.</p><p>De plus, nous proposerons bientôt des offres de support commercial.</p>';
 $_lang["help_title"] = 'Aide';
 $_lang["hide_tree"] = 'Cacher l\'Arbre du Site';
 $_lang["home"] = 'Accueil';
