@@ -82,7 +82,7 @@ $_lang["errors"] = 'errores';
 $_lang["failed"] = '¡Falló!';
 $_lang["guid_set"] = 'Ajuste del GUID';
 $_lang["help"] = '!Ayuda!';
-$_lang["help_link"] = 'https://forum.evo.im/';
+$_lang["help_link"] = 'https://forum.evo-cms.com/';
 $_lang["help_title"] = 'La asistencia para la instalación en los foros de Evolution CMS';
 $_lang["iagree_box"] = 'Estoy de acuerdo con los términos de <a href="../assets/docs/license.txt" target="_blank">la licencia de Evolution CMS</a>.  Para las traducciones de la licencia GPL version 2, por favor visitar <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">el sitio del Sistema Operativo GNU</a>.';
 $_lang["install"] = 'Instalar';
@@ -186,7 +186,7 @@ $_lang["unable_install_template"] = 'No se pudo instalar la plantilla (template)
 $_lang["upgrade_note"] = '<strong>NOTA:</strong> Antes de navegar por su sitio debe entrar al admin con una cuenta de administrador, revisar y guardar sus configuraciones de sistema.';
 $_lang["upgraded"] = 'Fue actualizado';
 $_lang["validate_referer_title"] = 'Validar encabezados HTTP_REFERER?';
-$_lang["visit_forum"] = ', visite los <a href="https://forum.evo.im/" target="_blank">Foros de Evolution CMS</a>.';
+$_lang["visit_forum"] = ', visite los <a href="https://forum.evo-cms.com/" target="_blank">Foros de Evolution CMS</a>.';
 $_lang["warning"] = '!ADVERTENCIA!';
 $_lang["welcome_message_start"] = 'Por primero, elija el tipo de instalación a efectuarse:';
 $_lang["welcome_message_text"] = 'Este programa le guiará por el resto de la instalación.';
