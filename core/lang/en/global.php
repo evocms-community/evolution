@@ -742,7 +742,7 @@ $_lang["group_access_permissions"] = 'User group access';
 $_lang['group_tvs'] = 'Group TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Help';
-$_lang["help_msg"] = '<p>You can obtain free community support by <a href="http://forums.modx.com/" target="_blank">visiting the Evolution CMS Forums</a>. There is also a growing body of <a href="http://evolution-docs.com" target="_blank">Evolution CMS Documentation and Guides</a> that touch on virtually every aspect of Evolution CMS.</p><p>We are planning to offer commercial support services for Evolution CMS as well. Please <a href="mailto:dmi3yy@evo.im?subject=Evolution CMS Commercial Support Inquiry">email us if you\'re interested</a>.</p>';
+$_lang["help_msg"] = '<p>You can obtain free community support by <a href="https://forum.evo-cms.com/" target="_blank">visiting the Evolution CMS Forums</a>. There is also a growing body of <a href="https://docs.evo-cms.com" target="_blank">Evolution CMS Documentation and Guides</a> that touch on virtually every aspect of Evolution CMS.</p><p>We are planning to offer commercial support services for Evolution CMS as well.</p>';
 $_lang["help_title"] = 'Help';
 $_lang["hide_tree"] = 'Hide Site Tree';
 $_lang["home"] = 'Dashboard';
