@@ -753,7 +753,7 @@ $_lang["group_access_permissions"] = 'El acceso de grupo de usuarios';
 $_lang['group_tvs'] = 'El grupo de variables de plantilla (TV)';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Ayuda';
-$_lang["help_msg"] = '<p>Puede obtener soporte gratuito de la comunidad <a href="http://forums.modx.com" target="_blank">visitando los foros de Evolution CMS</a>.  También hay un cumulo creciente de <a href="http://evolution-docs.com" target="_blank">Documentación y Guías EVO</a> que tocan virtualmente todos los aspectos de EVO.</p><p>Estamos planeando ofrecer servicios de soporte comercial para Evolution CMS. Por favor, <a href="mailto:hello@modx.com?subject=MODX Commercial Support Inquiry">envíenos usted un mensaje si está interesado</a>.';
+$_lang["help_msg"] = '<p>Puede obtener soporte gratuito de la comunidad <a href="https://forum.evo-cms.com/" target="_blank">visitando los foros de Evolution CMS</a>.  También hay un cumulo creciente de <a href="https://docs.evo-cms.com/" target="_blank">Documentación y Guías EVO</a> que tocan virtualmente todos los aspectos de EVO.</p><p>Estamos planeando ofrecer servicios de soporte comercial para Evolution CMS.</p>';
 $_lang["help_title"] = 'Ayuda';
 $_lang["hide_tree"] = 'Ocultar el árbol';
 $_lang["home"] = 'Cuadro de mando';

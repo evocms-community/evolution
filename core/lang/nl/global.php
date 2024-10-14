@@ -742,7 +742,7 @@ $_lang["group_access_permissions"] = 'Groepstoegang';
 $_lang['group_tvs'] = 'TV groep';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Help';
-$_lang["help_msg"] = '<p>U kunt ondersteuning verkrijgen door <a href="http://forums.modx.com/" target="_blank">de EVO-forums te bezoeken</a> of bekijk de <a href="http://evolution-docs.com" target="_blank">EVO documentatie site.</a></p>';
+$_lang["help_msg"] = '<p>U kunt ondersteuning verkrijgen door <a href="https://forum.evo-cms.com/" target="_blank">de EVO-forums te bezoeken</a> of bekijk de <a href="https://docs.evo-cms.com/" target="_blank">EVO documentatie site.</a></p>';
 $_lang["help_title"] = 'Help';
 $_lang["hide_tree"] = 'Website boomstructuur verbergen';
 $_lang["home"] = 'Start';

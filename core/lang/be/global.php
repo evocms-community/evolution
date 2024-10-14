@@ -608,7 +608,7 @@ $_lang["createdon"] = 'Дата стварэння';
 $_lang["create_new"] = 'Стварыць новы';
 
 $_lang["credits"] = 'Крэдыты';
-$_lang["credits_shouts_msg"] = '<p>Evolution CMS кіруецца і падтрымліваецца на <a href="https://evo-cms.com/" target="_blank">evo-cms.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>Evolution CMS кіруецца і падтрымліваецца на <a href="https://evocms.ru/" target="_blank">evocms.ru</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Дадайце карыстальніцкія тыпы кантэнту для рэсурсаў. Каб дадаць новы запіс, увядзіце тып кантэнту ў тэкставае поле і націсніце кнопку «Дадаць».';
 $_lang["custom_contenttype_title"] = 'Карыстальніцкія тыпы кантэнту';
 
@@ -742,7 +742,7 @@ $_lang["group_access_permissions"] = 'Доступ групы карысталь
 $_lang['group_tvs'] = 'Групавыя поля TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Даведка';
-$_lang["help_msg"] = '<b>Вы можаце атрымаць бясплатную падтрымку супольнасці, наведаўшы <a href="http://forums.modx.com/" target="_blank">форумы Evolution CMS</a>. Таксама ўзрастае колькасць дакументацыі і кіраўніцтваў па Evolution CMS, якія апісваюць практычна кожны аспект Evolution CMS.</p><p>Мы таксама плануем прапанаваць камерцыйную падтрымку для Evolution CMS. Калі вы цікавіцеся, калі ласка, звярніцеся да нас.';
+$_lang["help_msg"] = '<p>Вы можаце атрымаць бясплатную падтрымку супольнасці, наведаўшы <a href="https://community.evocms.ru/" target="_blank">форумы Evolution CMS</a>. Таксама ўзрастае колькасць дакументацыі і кіраўніцтваў па Evolution CMS, якія апісваюць практычна кожны аспект Evolution CMS.</p><p>Мы таксама плануем прапанаваць камерцыйную падтрымку для Evolution CMS. Калі вы цікавіцеся, калі ласка, звярніцеся да нас.</p>';
 $_lang["help_title"] = 'Даведка';
 $_lang["hide_tree"] = 'Схаваць дрэва сайтаў';
 $_lang["home"] = 'Галоўная';
