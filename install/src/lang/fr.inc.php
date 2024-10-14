@@ -82,7 +82,7 @@ $_lang["errors"] = 'erreurs';
 $_lang["failed"] = 'ECHEC!';
 $_lang["guid_set"] = 'GUID sauvé';
 $_lang["help"] = 'Aide!';
-$_lang["help_link"] = 'https://forum.evo.im/';
+$_lang["help_link"] = 'https://forum.evo-cms.com/';
 $_lang["help_title"] = 'Aide à l\'installation sur les forums de MODX';
 $_lang["iagree_box"] = 'J\'accepte les termes de <a href="../assets/docs/license.txt" target="_blank">la licence MODX</a>. Pour consulter une traduction de la licence GPL version 2, visitez le <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html" target="_blank">site du système d\'exploitation GNU</a>.';
 $_lang["install"] = 'Installation';
@@ -186,7 +186,7 @@ $_lang["unable_install_template"] = 'Impossible d\'installer le Modèle.  Fichie
 $_lang["upgrade_note"] = '<strong>NOTE:</strong> Avant de visiter le site, il est conseillé de vous connecter en tant qu\'administrateur au Gestionnaire et de vérifier les paramètres de configuration système.';
 $_lang["upgraded"] = 'Mis à jour';
 $_lang["validate_referer_title"] = 'Autorisez vous les entêtes HTTP_REFERER?';
-$_lang["visit_forum"] = ', visitez les <a href="https://forum.evo.im/" target="_blank">forums de Evolution CMS</a>.';
+$_lang["visit_forum"] = ', visitez les <a href="https://forum.evo-cms.com/" target="_blank">forums de Evolution CMS</a>.';
 $_lang["warning"] = 'ATTENTION!';
 $_lang["welcome_message_start"] = 'Pour commencer, choisissez le type d\'installation à réaliser:';
 $_lang["welcome_message_text"] = 'Ce programme vous guidera tout au long du processus d\'installation.';
