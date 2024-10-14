@@ -743,7 +743,7 @@ $_lang["group_access_permissions"] = 'Доступ групп пользоват
 $_lang['group_tvs'] = 'Группировать ТВ параметры';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Помощь';
-$_lang["help_msg"] = '<p>Вы можете получить бесплатную помощь сообщества Evolution CMS <a href="http://modx.im" target="_blank">на форумах Evolution CMS</a>. Смотрите также <a href="http://docs.evolution-cms.com" target="_blank">\'Документация и уроки по Evolution CMS\'</a>, где подробно описан каждый аспект системы.</p>';
+$_lang["help_msg"] = '<p>Вы можете получить бесплатную помощь сообщества Evolution CMS <a href="https://community.evocms.ru/" target="_blank">на форумах Evolution CMS</a>. Смотрите также <a href="https://docs.evo-cms.com/" target="_blank">\'Документация и уроки по Evolution CMS\'</a>, где подробно описан каждый аспект системы.</p>';
 $_lang["help_title"] = 'Помощь';
 $_lang["hide_tree"] = 'Спрятать дерево';
 $_lang["home"] = 'Главная';
