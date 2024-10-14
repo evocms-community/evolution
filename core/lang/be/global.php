@@ -608,7 +608,7 @@ $_lang["createdon"] = 'Дата стварэння';
 $_lang["create_new"] = 'Стварыць новы';
 
 $_lang["credits"] = 'Крэдыты';
-$_lang["credits_shouts_msg"] = '<p>Evolution CMS кіруецца і падтрымліваецца на <a href="https://evo-cms.com/" target="_blank">evo-cms.com</a>.</p>';
+$_lang["credits_shouts_msg"] = '<p>Evolution CMS кіруецца і падтрымліваецца на <a href="https://evocms.ru/" target="_blank">evocms.ru</a>.</p>';
 $_lang["custom_contenttype_message"] = 'Дадайце карыстальніцкія тыпы кантэнту для рэсурсаў. Каб дадаць новы запіс, увядзіце тып кантэнту ў тэкставае поле і націсніце кнопку «Дадаць».';
 $_lang["custom_contenttype_title"] = 'Карыстальніцкія тыпы кантэнту';
 
