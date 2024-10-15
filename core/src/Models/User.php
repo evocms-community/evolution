@@ -1,11 +1,13 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * EvolutionCMS\Models\WebUser
- *
  * @property int $id
  * @property string $username
  * @property string $password
@@ -13,52 +15,50 @@ use EvolutionCMS\Traits;
  * @property string $refresh_token
  * @property string $access_token
  * @property string $valid_to
- *
- * @mixin \Eloquent
  */
-class User extends Eloquent\Model
+class User extends Model
 {
     use Traits\Models\ManagerActions;
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $hidden = [
-		'password',
+    protected $hidden = [
+        'password',
         'cachepwd',
         'verified_key',
-	];
+    ];
 
-	protected $fillable = [
-		'username',
-		'password',
-		'cachepwd',
-		'verified_key',
-		'refresh_token',
-		'access_token',
-		'valid_to'
-	];
+    protected $fillable = [
+        'username',
+        'password',
+        'cachepwd',
+        'verified_key',
+        'refresh_token',
+        'access_token',
+        'valid_to',
+    ];
 
-    public function attributes()
+    public function attributes(): HasOne
     {
-        return $this->hasOne(UserAttribute::class,'internalKey','id');
+        return $this->hasOne(UserAttribute::class, 'internalKey', 'id');
     }
 
-    public function memberGroups()
+    public function memberGroups(): HasMany
     {
-        return $this->hasMany(MemberGroup::class,'member','id');
+        return $this->hasMany(MemberGroup::class, 'member', 'id');
     }
 
-    public function settings()
+    public function settings(): HasMany
     {
-        return $this->hasMany(UserSetting::class,'user','id');
+        return $this->hasMany(UserSetting::class, 'user', 'id');
     }
 
-    public function values()
+    public function values(): HasMany
     {
-        return $this->hasMany(UserValue::class,'userid','id');
+        return $this->hasMany(UserValue::class, 'userid', 'id');
     }
 
-    public function delete()
+    public function delete(): ?bool
     {
         $this->memberGroups()->delete();
         $this->attributes()->delete();

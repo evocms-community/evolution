@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\Resources;
+<?php
+
+namespace EvolutionCMS\Controllers\Resources;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -11,6 +13,7 @@ use Illuminate\Support\Collection;
 class Modules extends AbstractResources implements TabControllerInterface
 {
     protected string $view = 'page.resources.modules';
+
     /**
      * {@inheritdoc}
      */
@@ -33,7 +36,7 @@ class Modules extends AbstractResources implements TabControllerInterface
             'new_module',
             'edit_module',
             'save_module',
-            'delete_module'
+            'delete_module',
         ]);
     }
 
@@ -43,7 +46,7 @@ class Modules extends AbstractResources implements TabControllerInterface
             parent::getParameters(),
             [
                 'tabPageName' => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }
@@ -51,7 +54,7 @@ class Modules extends AbstractResources implements TabControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function getParameters(array $params = []) : array
+    public function getParameters(array $params = []): array
     {
         $params = array_merge($this->getBaseParams(), $params);
 
@@ -62,35 +65,38 @@ class Modules extends AbstractResources implements TabControllerInterface
         return array_merge([
             'categories' => $this->parameterCategories(),
             'outCategory' => $this->parameterOutCategory(),
-            'action' => $this->parameterActionName()
+            'action' => $this->parameterActionName(),
         ], $params);
     }
 
-    protected function parameterOutCategory() : Collection
+    protected function parameterOutCategory(): Collection
     {
-        return SiteModule::where('category', '=', 0)
-            ->orderBy('name', 'ASC')
-            ->lockedView()
+        return SiteModule::lockedView()
+            ->where('category', 0)
+            ->orderBy('name')
             ->get();
     }
 
-    protected function parameterCategories() : Collection
+    protected function parameterCategories(): Collection
     {
         return Category::with('modules')
-            ->whereHas('modules', function (Builder $builder) {
+            ->whereHas('modules', function (Builder | SiteModule $builder) {
                 return $builder->lockedView();
-            })->orderBy('rank', 'ASC')
+            })
+            ->orderBy('rank')
             ->get();
     }
 
-    protected function parameterActionName() : string
+    protected function parameterActionName(): string
     {
         if (evo()->hasPermission('edit_module')) {
             return 'actions.edit';
         }
+
         if (evo()->hasPermission('exec_module')) {
             return 'actions.run';
         }
+
         return '';
     }
 }

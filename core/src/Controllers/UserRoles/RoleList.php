@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\UserRoles;
+<?php
+
+namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -14,7 +16,7 @@ class RoleList extends AbstractResources implements TabControllerInterface
     public function getTabName($withIndex = true): string
     {
         if ($withIndex) {
-            return 'tabRoles-'.$this->getIndex();
+            return 'tabRoles-' . $this->getIndex();
         }
 
         return 'tabRoles';
@@ -35,20 +37,18 @@ class RoleList extends AbstractResources implements TabControllerInterface
     {
         $params = array_merge($this->getBaseParams(), $params);
 
-
         return array_merge([
-            'roles' => UserRole::orderBy('name')->get(),
+            'roles' => UserRole::query()->orderBy('name')->get(),
         ], $params);
-
     }
 
-    protected function getBaseParams()
+    protected function getBaseParams(): array
     {
         return array_merge(
             parent::getParameters(),
             [
-                'tabPageName'      => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabPageName' => $this->getTabName(false),
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }

@@ -1,11 +1,12 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\EventLog
- *
  * @property int $id
  * @property int $eventid
  * @property int $createdon
@@ -21,35 +22,14 @@ use EvolutionCMS\Traits;
  *
  * Virtual
  * @property-read \Carbon\Carbon $created_at
- *
- * @mixin \Eloquent
  */
-class EventLog extends Eloquent\Model
+class EventLog extends Model
 {
     use Traits\Models\ManagerActions,
         Traits\Models\TimeMutator;
 
-	protected $table = 'event_log';
-
     const CREATED_AT = 'createdon';
     const UPDATED_AT = null;
-    protected $dateFormat = 'U';
-
-	protected $casts = [
-		'eventid' => 'int',
-		'type' => 'int',
-		'user' => 'int',
-		'usertype' => 'int'
-	];
-
-	protected $fillable = [
-		'eventid',
-		'type',
-		'user',
-		'usertype',
-		'source',
-		'description'
-	];
 
     public const TYPE_INFORMATION = 1;
     public const TYPE_WARNING = 2;
@@ -58,17 +38,37 @@ class EventLog extends Eloquent\Model
     public const USER_MGR = 0;
     public const USER_WEB = 1;
 
-    public function isInformationType() : bool
+    protected $table = 'event_log';
+
+    protected $dateFormat = 'U';
+
+    protected $casts = [
+        'eventid' => 'int',
+        'type' => 'int',
+        'user' => 'int',
+        'usertype' => 'int',
+    ];
+
+    protected $fillable = [
+        'eventid',
+        'type',
+        'user',
+        'usertype',
+        'source',
+        'description',
+    ];
+
+    public function isInformationType(): bool
     {
         return $this->type === static::TYPE_INFORMATION;
     }
 
-    public function isWarningType() : bool
+    public function isWarningType(): bool
     {
         return $this->type === static::TYPE_WARNING;
     }
 
-    public function isErrorType() : bool
+    public function isErrorType(): bool
     {
         return $this->type === static::TYPE_ERROR;
     }
@@ -89,15 +89,16 @@ class EventLog extends Eloquent\Model
                 $out = $this->mgruser;
                 break;
         }
+
         return $out;
     }
 
-    public function webuser() : Eloquent\Relations\BelongsTo
+    public function webuser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user', 'id');
     }
 
-    public function mgruser() : Eloquent\Relations\BelongsTo
+    public function mgruser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user', 'id');
     }

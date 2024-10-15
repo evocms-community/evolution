@@ -7,6 +7,7 @@ use Illuminate\Console\Events;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 
@@ -45,7 +46,7 @@ class Console extends Artisan
      */
     private function SetRequestForConsole()
     {
-        $uri = evo()->getConfig('site_url');
+        $uri = Config::get('global.site_url');
         $components = parse_url($uri);
         $server = $_SERVER;
 

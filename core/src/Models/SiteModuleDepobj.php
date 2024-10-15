@@ -1,31 +1,30 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\SiteModuleDepobj
- *
  * @property int $id
  * @property int $module
  * @property int $resource
  * @property int $type
- *
- * @mixin \Eloquent
  */
-class SiteModuleDepobj extends Eloquent\Model
+class SiteModuleDepobj extends Model
 {
-	protected $table = 'site_module_depobj';
-	public $timestamps = false;
+    protected $table = 'site_module_depobj';
 
-	protected $casts = [
-		'module' => 'int',
-		'resource' => 'int',
-		'type' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-		'module',
-		'resource',
-		'type'
-	];
+    protected $casts = [
+        'module' => 'int',
+        'resource' => 'int',
+        'type' => 'int',
+    ];
+
+    protected $fillable = [
+        'module',
+        'resource',
+        'type',
+    ];
 }

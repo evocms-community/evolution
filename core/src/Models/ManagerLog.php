@@ -1,10 +1,10 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\ManagerLog
- *
  * @property int $id
  * @property int $timestamp
  * @property int $internalKey
@@ -15,29 +15,28 @@ use Illuminate\Database\Eloquent;
  * @property string $message
  * @property string $ip
  * @property string $useragent
- *
- * @mixin \Eloquent
  */
-class ManagerLog extends Eloquent\Model
+class ManagerLog extends Model
 {
-	protected $table = 'manager_log';
-	public $timestamps = false;
+    protected $table = 'manager_log';
 
-	protected $casts = [
-		'timestamp' => 'int',
-		'internalKey' => 'int',
-		'action' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-		'timestamp',
-		'internalKey',
-		'username',
-		'action',
-		'itemid',
-		'itemname',
-		'message',
-		'ip',
-		'useragent'
-	];
+    protected $casts = [
+        'timestamp' => 'int',
+        'internalKey' => 'int',
+        'action' => 'int',
+    ];
+
+    protected $fillable = [
+        'timestamp',
+        'internalKey',
+        'username',
+        'action',
+        'itemid',
+        'itemname',
+        'message',
+        'ip',
+        'useragent',
+    ];
 }

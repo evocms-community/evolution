@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS\Legacy;
 
 use EvolutionCMS\Models;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @class: synccache
@@ -30,7 +31,7 @@ class Cache
      */
     public function __construct()
     {
-        $this->request_time = $_SERVER['REQUEST_TIME'] + evo()->getConfig('server_offset_time');
+        $this->request_time = $_SERVER['REQUEST_TIME'] + Config::get('global.server_offset_time');
     }
 
     /**
@@ -436,7 +437,7 @@ class Cache
                 continue;
             }
 
-            list($type, $text) = $token;
+            [$type, $text] = $token;
 
             switch ($type) {
                 case T_COMMENT:

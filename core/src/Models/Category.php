@@ -1,81 +1,83 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * EvolutionCMS\Models\Category
- *
  * @property int $id
  * @property string $category
  * @property int $rank
  *
  * HasMany
- * @property Eloquent\Collection $templates
- * @property Eloquent\Collection $chunks
- * @property Eloquent\Collection $snippets
- * @property Eloquent\Collection $plugins
- * @property Eloquent\Collection $modules
- * @property Eloquent\Collection $tvs
+ * @property Collection $templates
+ * @property Collection $chunks
+ * @property Collection $snippets
+ * @property Collection $plugins
+ * @property Collection $modules
+ * @property Collection $tvs
  *
  * Virtual
  * @property string $name Alias for templatename
- *
- * @mixin \Eloquent
  */
-class Category extends Eloquent\Model
+class Category extends Model
 {
     use Traits\Models\ManagerActions;
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $casts = [
-		'rank' => 'int',
-		'category' => 'string'
-	];
+    protected $casts = [
+        'rank' => 'int',
+        'category' => 'string',
+    ];
 
-	protected $fillable = [
-		'category',
-		'rank'
-	];
+    protected $fillable = [
+        'category',
+        'rank',
+    ];
 
-    public function templates() : Eloquent\Relations\HasMany
+    public function templates(): HasMany
     {
         return $this->hasMany(SiteTemplate::class, 'category', 'id')->orderBy('templatename', 'ASC');
     }
 
-    public function chunks() : Eloquent\Relations\HasMany
+    public function chunks(): HasMany
     {
         return $this->hasMany(SiteHtmlsnippet::class, 'category', 'id')->orderBy('name', 'ASC');
     }
 
-    public function snippets() : Eloquent\Relations\HasMany
+    public function snippets(): HasMany
     {
         return $this->hasMany(SiteSnippet::class, 'category', 'id')->orderBy('name', 'ASC');
     }
 
-    public function plugins() : Eloquent\Relations\HasMany
+    public function plugins(): HasMany
     {
         return $this->hasMany(SitePlugin::class, 'category', 'id')->orderBy('name', 'ASC');
     }
 
-    public function modules() : Eloquent\Relations\HasMany
+    public function modules(): HasMany
     {
         return $this->hasMany(SiteModule::class, 'category', 'id')->orderBy('name', 'ASC');
     }
 
-    public function tvs() : Eloquent\Relations\HasMany
+    public function tvs(): HasMany
     {
         return $this->hasMany(SiteTmplvar::class, 'category', 'id')->orderBy('name', 'ASC');
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         return $this->category;
     }
 
-    public function setNameAttribute($val)
+    public function setNameAttribute($val): static
     {
         $this->category = $val;
+
+        return $this;
     }
 }

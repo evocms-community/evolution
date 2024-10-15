@@ -1,6 +1,7 @@
 <?php namespace EvolutionCMS\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 trait Helpers
 {
@@ -21,7 +22,7 @@ trait Helpers
     public function now() : Carbon
     {
         return Carbon::now()->addSeconds(
-            evo()->getConfig('server_offset_time')
+            Config::get('global.server_offset_time')
         );
     }
 

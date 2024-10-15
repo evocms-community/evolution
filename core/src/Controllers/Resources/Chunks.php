@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\Resources;
+<?php
+
+namespace EvolutionCMS\Controllers\Resources;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -31,17 +33,17 @@ class Chunks extends AbstractResources implements TabControllerInterface
     {
         return evo()->hasAnyPermissions([
             'new_chunk',
-            'edit_chunk'
+            'edit_chunk',
         ]);
     }
 
-    protected function getBaseParams()
+    protected function getBaseParams(): array
     {
         return array_merge(
             parent::getParameters(),
             [
                 'tabPageName' => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }
@@ -59,24 +61,25 @@ class Chunks extends AbstractResources implements TabControllerInterface
 
         return array_merge([
             'categories' => $this->parameterCategories(),
-            'outCategory' => $this->parameterOutCategory()
+            'outCategory' => $this->parameterOutCategory(),
         ], $params);
     }
 
     protected function parameterOutCategory(): Collection
     {
-        return SiteHtmlsnippet::where('category', '=', 0)
-            ->orderBy('name', 'ASC')
-            ->lockedView()
+        return SiteHtmlsnippet::lockedView()
+            ->where('category', 0)
+            ->orderBy('name')
             ->get();
     }
 
     protected function parameterCategories(): Collection
     {
         return Category::with('chunks')
-            ->whereHas('chunks', function (Builder $builder) {
+            ->whereHas('chunks', function (Builder | SiteHtmlsnippet $builder) {
                 return $builder->lockedView();
-            })->orderBy('rank', 'ASC')
+            })
+            ->orderBy('rank')
             ->get();
     }
 }

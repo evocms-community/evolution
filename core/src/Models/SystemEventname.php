@@ -1,35 +1,36 @@
-<?php namespace EvolutionCMS\Models;
+<?php
+
+namespace EvolutionCMS\Models;
 
 use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * EvolutionCMS\Models\SystemEventname
- *
  * @property int $id
  * @property string $name
  * @property int $service
  * @property string $groupname
  *
- * @mixin \Eloquent
- *
  * BelongsToMany
- * @property Eloquent\Collection $plugins
+ * @property Collection $plugins
  */
-class SystemEventname extends Eloquent\Model
+class SystemEventname extends Model
 {
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $casts = [
-		'service' => 'int'
-	];
+    protected $casts = [
+        'service' => 'int',
+    ];
 
-	protected $fillable = [
-		'name',
-		'service',
-		'groupname'
-	];
+    protected $fillable = [
+        'name',
+        'service',
+        'groupname',
+    ];
 
-    public function plugins() : Eloquent\Relations\BelongsToMany
+    public function plugins(): BelongsToMany
     {
         return $this->belongsToMany(
             SitePlugin::class,

@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SitePluginEvent;
@@ -24,36 +26,34 @@ class PluginPriority extends AbstractController implements PageControllerInterfa
     public function getParameters(array $params = []): array
     {
         return parent::getParameters([
-            'events' => $this->getEventsParameter()
+            'events' => $this->getEventsParameter(),
         ]);
     }
 
-    protected function getEventsParameter() : Collection
+    protected function getEventsParameter(): Collection
     {
         return SystemEventname::with(
             [
                 'plugins' => function (BelongsToMany $query) {
                     $query->orderBy('priority');
-                }
+                },
             ]
         )->whereHas('plugins')->orderBy('name')->get();
     }
 
-    public function process() : bool
+    public function process(): bool
     {
         $updateMsg = false;
 
         if (isset($_POST['priority']) && is_array($_POST['priority'])) {
             $updateMsg = true;
-            $db = evo()->getDatabase();
-            $tableName = $db->getFullTableName('site_plugin_events');
 
             foreach ($_POST['priority'] as $eventId => $pluginsOrder) {
                 if (!is_numeric($eventId) || !is_array($pluginsOrder)) {
                     continue;
                 }
 
-                if (\count($pluginsOrder) > 0) {
+                if (count($pluginsOrder) > 0) {
                     foreach ($pluginsOrder as $priority => $pluginId) {
                         SitePluginEvent::query()
                             ->where('pluginid', intval($pluginId))

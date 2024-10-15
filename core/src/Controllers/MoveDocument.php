@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
@@ -18,20 +20,22 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         return evo()->hasPermission('save_document');
     }
 
-    public function process() : bool
+    public function process(): bool
     {
-        if ((int)$this->getIndex() === 52) {
+        if ((int) $this->getIndex() === 52) {
             $this->handle();
+
             return false;
         }
 
         $this->processDisplay();
+
         return true;
     }
 
-    protected function handle()
+    protected function handle(): void
     {
-        $newParentID = (int)get_by_key($_REQUEST, 'new_parent', 0, 'is_scalar');
+        $newParentID = (int) get_by_key($_REQUEST, 'new_parent', 0, 'is_scalar');
         $documentID = $this->getElementId();
 
         // ok, two things to check.
@@ -60,24 +64,26 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         $evtOut = evo()->invokeEvent('OnBeforeMoveDocument', [
             'id' => $document->getKey(),
             'old_parent' => $document->parent,
-            'new_parent' => $newParentID
+            'new_parent' => $newParentID,
         ]);
 
-        if (\is_array($evtOut) && count($evtOut) > 0) {
-            $newParent = (int)array_pop($evtOut);
+        if (is_array($evtOut) && count($evtOut) > 0) {
+            $newParent = (int) array_pop($evtOut);
             if ($newParent === $document->parent) {
                 ManagerTheme::alertAndQuit('error_movedocument2');
             } else {
                 $newParentID = $newParent;
             }
         }
+
         if ($newParentID > 0) {
             $parentDocument = $this->getDocument($newParentID);
             if ($parentDocument->deleted) {
                 ManagerTheme::alertAndQuit('error_parent_deleted');
-            };
+            }
+
             $children = allChildren($document->getKey());
-            if (\in_array($parentDocument->getKey(), $children, true)) {
+            if (in_array($parentDocument->getKey(), $children, true)) {
                 ManagerTheme::alertAndQuit('You cannot move a document to a child document!', false);
             }
 
@@ -91,6 +97,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         } else {
             $document->parent = 0;
         }
+
         $document->save();
 
         // Set the item name for logger
@@ -98,8 +105,8 @@ class MoveDocument extends AbstractController implements PageControllerInterface
 
         evo()->invokeEvent('OnAfterMoveDocument', [
             'id' => $document->getKey(),
-            'old_parent'  => $document->parent,
-            'new_parent'  => $newParentID
+            'old_parent' => $document->parent,
+            'new_parent' => $newParentID,
         ]);
 
         // empty cache & sync site
@@ -108,7 +115,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         header('Location: index.php?a=3&id=' . $document->getKey() . '&r=9');
     }
 
-    protected function processDisplay() : bool
+    protected function processDisplay(): bool
     {
         $id = $this->getElementId();
         $document = $this->getDocument($id);
@@ -117,7 +124,7 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         $udperms = new Permissions();
         $udperms->user = evo()->getLoginUserID('mgr');
         $udperms->document = $document->getKey();
-        $udperms->role     = $_SESSION['mgrRole'];
+        $udperms->role = $_SESSION['mgrRole'];
 
         if (!$udperms->checkPermissions()) {
             ManagerTheme::alertAndQuit('access_permission_denied');
@@ -131,10 +138,11 @@ class MoveDocument extends AbstractController implements PageControllerInterface
     }
 
     /**
-     * @param string|int $id
+     * @param int|string $id
+     *
      * @return SiteContent
      */
-    protected function getDocument($id) : SiteContent
+    protected function getDocument(int | string $id): SiteContent
     {
         try {
             if ($id <= 0) {
@@ -149,12 +157,12 @@ class MoveDocument extends AbstractController implements PageControllerInterface
         return $document;
     }
 
-    protected function checkNewParentPermission($id)
+    protected function checkNewParentPermission($id): void
     {
-        $udperms           = new Permissions;
+        $udperms = new Permissions;
         $udperms->user = evo()->getLoginUserID('mgr');
         $udperms->document = $id;
-        $udperms->role     = $_SESSION['mgrRole'];
+        $udperms->role = $_SESSION['mgrRole'];
 
         if ($udperms->checkPermissions()) {
             return;

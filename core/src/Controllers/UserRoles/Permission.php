@@ -1,4 +1,5 @@
 <?php
+
 namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
@@ -39,7 +40,7 @@ class Permission extends AbstractController implements PageControllerInterface
     /**
      * @return void
      */
-    public function updateOrCreate()
+    public function updateOrCreate(): void
     {
         $group_id = $_POST['group_id'];
         if (isset($_POST['newcategory']) && $_POST['newcategory'] != '') {

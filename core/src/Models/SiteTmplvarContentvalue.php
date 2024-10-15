@@ -1,38 +1,37 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\SiteTmplvarContentvalue
- *
  * @property int $id
  * @property int $tmplvarid
  * @property int $contentid
  * @property string $value
- *
- * @mixin \Eloquent
  */
-class SiteTmplvarContentvalue extends Eloquent\Model
+class SiteTmplvarContentvalue extends Model
 {
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $casts = [
-		'tmplvarid' => 'int',
-		'contentid' => 'int'
-	];
+    protected $casts = [
+        'tmplvarid' => 'int',
+        'contentid' => 'int',
+    ];
 
-	protected $fillable = [
-		'tmplvarid',
-		'contentid',
-		'value'
-	];
+    protected $fillable = [
+        'tmplvarid',
+        'contentid',
+        'value',
+    ];
 
-    public function resource()
+    public function resource(): BelongsTo
     {
         return $this->belongsTo(SiteContent::class, 'contentid', 'id');
     }
 
-    public function tmplvar()
+    public function tmplvar(): BelongsTo
     {
         return $this->belongsTo(SiteTmplvar::class, 'tmplvarid', 'id');
     }

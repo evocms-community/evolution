@@ -1,34 +1,35 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * EvolutionCMS\Models\MembergroupName
- *
  * @property int $id
  * @property string $name
  *
  * BelongsToMany
- * @property Eloquent\Collection $users
- * @property Eloquent\Collection $documentGroups
- *
- * @mixin \Eloquent
+ * @property Collection $users
+ * @property Collection $documentGroups
  */
-class MembergroupName extends Eloquent\Model
+class MembergroupName extends Model
 {
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
-    public function users(): Eloquent\Relations\BelongsToMany
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'member_groups', 'user_group', 'member');
     }
 
-    public function documentGroups(): Eloquent\Relations\BelongsToMany
+    public function documentGroups(): BelongsToMany
     {
-        return $this->belongsToMany(DocumentgroupName::class, 'membergroup_access', 'membergroup', 'documentgroup')->withPivot(['id', 'context']);
+        return $this->belongsToMany(DocumentgroupName::class, 'membergroup_access', 'membergroup', 'documentgroup')
+            ->withPivot(['id', 'context']);
     }
 }

@@ -19,7 +19,6 @@ class Actions extends AbstractController implements PageControllerInterface
         $action = ManagerTheme::getActionId();
 
         if ($action === null) {
-            $_style = ManagerTheme::getStyle();
             // first we check to see if this is a frameset request
             Debugger::$showBar = false;
             // this looks to be a top-level frameset request, so let's serve up a frameset

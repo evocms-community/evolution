@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\UserRoles;
+<?php
+
+namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
@@ -26,13 +28,14 @@ class PermissionsGroups extends AbstractController implements PageControllerInte
         }
         if (isset($_POST['a'])) {
             $this->updateOrCreate();
+
             return true;
         }
 
         return true;
     }
 
-    public function updateOrCreate()
+    public function updateOrCreate(): void
     {
         $id = $this->getElementId();
         $group = PermissionsGroupsModel::query()->firstOrNew(['id' => $id]);
@@ -46,6 +49,7 @@ class PermissionsGroups extends AbstractController implements PageControllerInte
     {
         $group = PermissionsGroupsModel::query()->firstOrNew(['name' => $name]);
         $group->save();
+
         return $group->getKey();
     }
 
@@ -55,8 +59,9 @@ class PermissionsGroups extends AbstractController implements PageControllerInte
     public function getParameters(array $params = []): array
     {
         $id = $this->getElementId();
+
         return [
-            'groups' => PermissionsGroupsModel::findOrNew($id)
+            'groups' => PermissionsGroupsModel::query()->findOrNew($id),
         ];
     }
 }

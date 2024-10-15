@@ -72,9 +72,9 @@ class Database extends Manager
     {
         try {
             $start = microtime(true);
-            $pdo = \DB::connection()->getPdo();
+            $pdo = DB::connection()->getPdo();
             $out = [];
-            if (\is_array($sql)) {
+            if (is_array($sql)) {
                 foreach ($sql as $query) {
                     $out[] = $pdo->prepare($this->replaceFullTableName($query));
                 }
@@ -82,7 +82,7 @@ class Database extends Manager
                 $out = $pdo->prepare($this->replaceFullTableName($sql));
             }
             $out->execute();
-            \DB::connection()->logQuery($sql, [], (microtime(true) - $start));
+            DB::connection()->logQuery($sql, [], (microtime(true) - $start));
             $this->conn = $pdo;
             $this->saveAffectedRows($out);
             return $out;
@@ -234,7 +234,7 @@ class Database extends Manager
 
     public function getFullTableName($table)
     {
-        return $this->getConnection()->getConfig('prefix') . $table;
+        return DB::getTablePrefix() . $table;
     }
 
     public function getTableName($table)
@@ -424,12 +424,12 @@ class Database extends Manager
 
     public function getVersion()
     {
-        return \DB::connection()->getPdo()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        return DB::connection()->getPdo()->getAttribute(\PDO::ATTR_SERVER_VERSION);
     }
 
     public function getConfig($option = null)
     {
-        return $this->getConnection()->getConfig($option);
+        return DB::getConfig($option);
     }
 
     /**
@@ -497,7 +497,7 @@ class Database extends Manager
                 $limit = "LIMIT {$limit}";
             }
 
-            $out = \DB::statement("DELETE FROM {$from} {$where} {$orderBy} {$limit}");
+            $out = DB::statement("DELETE FROM {$from} {$where} {$orderBy} {$limit}");
         }
         return $out;
     }
@@ -507,7 +507,7 @@ class Database extends Manager
      */
     public function disconnect()
     {
-        \DB::disconnect();
+        DB::disconnect();
     }
 
     /**
@@ -696,7 +696,7 @@ class Database extends Manager
     {
         $metadata = [];
         if (!empty($table) && is_scalar($table)) {
-            switch (evo()->getDatabase()->getConfig('driver')) {
+            switch (DB::getDriverName()) {
                 case 'pgsql':
                     $sql = " SELECT * FROM information_schema.columns WHERE table_name = '" . $table . "';";
                     break;
@@ -706,7 +706,7 @@ class Database extends Manager
             }
             if ($ds = $this->query($sql)) {
                 while ($row = $this->getRow($ds)) {
-                    switch (evo()->getDatabase()->getConfig('driver')) {
+                    switch (DB::getDriverName()) {
                         case 'pgsql':
                             $fieldName = $row['column_name'];
                             break;

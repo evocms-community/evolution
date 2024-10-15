@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\Users;
+<?php
+
+namespace EvolutionCMS\Controllers\Users;
 
 use EvolutionCMS\Controllers\AbstractController;
 use EvolutionCMS\Exceptions\ServiceValidationException;
@@ -17,14 +19,14 @@ class ChangePassword extends AbstractController implements PageControllerInterfa
         return evo()->hasPermission('save_password');
     }
 
-    public function process() : bool
+    public function process(): bool
     {
         try {
             UserManager::changeManagerPassword($_POST);
-        }catch (ServiceValidationException $exception){
-            foreach ($exception->getValidationErrors() as $errors){
-                if(is_array($errors)){
-                    foreach ($errors as $error){
+        } catch (ServiceValidationException $exception) {
+            foreach ($exception->getValidationErrors() as $errors) {
+                if (is_array($errors)) {
+                    foreach ($errors as $error) {
                         evo()->webAlertAndQuit($error, 'index.php?a=28');
                     }
                 }
@@ -34,8 +36,5 @@ class ChangePassword extends AbstractController implements PageControllerInterfa
         header("Location: index.php?a=99");
         exit();
     }
-
-
-
 
 }
