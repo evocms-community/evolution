@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\ClosureTable;
@@ -7,11 +9,6 @@ use EvolutionCMS\Models\SiteContent;
 class UpdateTree extends AbstractController implements PageControllerInterface
 {
     protected string $view = 'page.update_tree';
-
-    /**
-     * @var \EvolutionCMS\Interfaces\DatabaseInterface
-     */
-    protected $database;
 
     /**
      * {@inheritdoc}
@@ -38,18 +35,15 @@ class UpdateTree extends AbstractController implements PageControllerInterface
                     $item->closure = new ClosureTable();
                     $item->closure->insertNode($ancestor, $descendant);
                     $parents[] = $descendant;
-
                 }
                 $result = SiteContent::query()->whereIn('parent', $parents)->get();
             }
 
             $this->parameters['end'] = round((microtime(true) - $start), 2);
             $this->parameters['finish'] = 1;
-
         }
 
         return true;
     }
-
 
 }

@@ -1,11 +1,15 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteModule;
 use EvolutionCMS\Models\SiteSnippet;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Snippet extends AbstractController implements PageControllerInterface
 {
@@ -13,33 +17,24 @@ class Snippet extends AbstractController implements PageControllerInterface
 
     protected int $elementType = 4;
 
-    protected $events = [
+    protected array $events = [
         'OnSnipFormPrerender',
-        'OnSnipFormRender'
+        'OnSnipFormRender',
     ];
 
     /** @var SiteSnippet|null */
-    private $object;
+    private ?SiteSnippet $object;
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        switch ($this->getIndex()) {
-            case 22:
-                $out = evo()->hasPermission('edit_snippet');
-                break;
-
-            case 23:
-                $out = evo()->hasPermission('new_snippet');
-                break;
-
-            default:
-                $out = false;
-        }
-
-        return $out;
+        return match ($this->getIndex()) {
+            22 => evo()->hasPermission('edit_snippet'),
+            23 => evo()->hasPermission('new_snippet'),
+            default => false,
+        };
     }
 
     /**
@@ -68,12 +63,12 @@ class Snippet extends AbstractController implements PageControllerInterface
     /**
      * @return SiteSnippet
      */
-    protected function parameterData()
+    protected function parameterData(): SiteSnippet
     {
         $id = $this->getElementId();
 
-        /** @var SiteSnippet $data */
-        $data = SiteSnippet::firstOrNew(['id' => $id]);
+        /** @var Builder | SiteSnippet $data */
+        $data = SiteSnippet::query()->firstOrNew(['id' => $id]);
 
         if ($data->exists) {
             if (empty($data->count())) {
@@ -101,19 +96,20 @@ class Snippet extends AbstractController implements PageControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Category::orderBy('rank', 'ASC')
-            ->orderBy('category', 'ASC')
+        return Category::query()
+            ->orderBy('rank')
+            ->orderBy('category')
             ->get();
     }
 
-    protected function parameterImportParams()
+    protected function parameterImportParams(): array
     {
         return SiteModule::query()->join('site_module_depobj', function ($join) {
             $join->on('site_module_depobj.module', '=', 'site_modules.id');
-            $join->on('site_module_depobj.type', '=', \DB::raw(40));
+            $join->on('site_module_depobj.type', '=', DB::raw(40));
         })->join('site_snippets', 'site_snippets.id', '=', 'site_module_depobj.resource')
             ->where('site_module_depobj.resource', $this->object->getKey())
-            ->where('site_modules.enable_sharedparams', 1)->orderBy('site_modules.name', 'ASC')->get()
+            ->where('site_modules.enable_sharedparams', 1)->orderBy('site_modules.name')->get()
             ->pluck('name', 'guid')->toArray();
     }
 
@@ -145,17 +141,17 @@ class Snippet extends AbstractController implements PageControllerInterface
     {
         $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
-            'controller' => $this
+            'controller' => $this,
         ]);
 
-        if (\is_array($out)) {
+        if (is_array($out)) {
             return implode('', $out);
         }
 
-        return (string)$out;
+        return (string) $out;
     }
 
-    protected function parameterActionButtons()
+    protected function parameterActionButtons(): array
     {
         return [
             'select' => 1,
@@ -163,7 +159,7 @@ class Snippet extends AbstractController implements PageControllerInterface
             'new' => evo()->hasPermission('new_snippet'),
             'duplicate' => $this->object->getKey() && evo()->hasPermission('new_snippet'),
             'delete' => $this->object->getKey() && evo()->hasPermission('delete_snippet'),
-            'cancel' => 1
+            'cancel' => 1,
         ];
     }
 }

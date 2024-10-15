@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\UserRoles;
+<?php
+
+namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -14,7 +16,7 @@ class PermissionsGroupsList extends AbstractResources implements TabControllerIn
     public function getTabName($withIndex = true): string
     {
         if ($withIndex) {
-            return 'tabPermissionsGroups-'.$this->getIndex();
+            return 'tabPermissionsGroups-' . $this->getIndex();
         }
 
         return 'tabPermissionsGroups';
@@ -36,18 +38,17 @@ class PermissionsGroupsList extends AbstractResources implements TabControllerIn
         $params = array_merge($this->getBaseParams(), $params);
 
         return array_merge([
-            'groups' => PermissionsGroups::orderBy('id')->get(),
+            'groups' => PermissionsGroups::query()->orderBy('id')->get(),
         ], $params);
-
     }
 
-    protected function getBaseParams()
+    protected function getBaseParams(): array
     {
         return array_merge(
             parent::getParameters(),
             [
-                'tabPageName'      => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabPageName' => $this->getTabName(false),
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }

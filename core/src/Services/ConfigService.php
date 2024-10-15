@@ -2,6 +2,8 @@
 
 namespace EvolutionCMS\Services;
 
+use Illuminate\Support\Facades\Config;
+
 class ConfigService
 {
     /**
@@ -12,7 +14,7 @@ class ConfigService
      */
     public function get(string $config = '', $default = null)
     {
-        return evo()->getConfig($config, $default);
+        return Config::get('global.' . $config, $default);
     }
 
     /**

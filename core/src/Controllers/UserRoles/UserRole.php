@@ -3,11 +3,10 @@
 namespace EvolutionCMS\Controllers\UserRoles;
 
 use EvolutionCMS\Controllers\AbstractController;
-use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Category;
-use EvolutionCMS\Models\RolePermissions;
 use EvolutionCMS\Models\PermissionsGroups;
+use EvolutionCMS\Models\RolePermissions;
 use EvolutionCMS\Models\SiteTmplvar;
 use EvolutionCMS\Models\UserAttribute;
 use EvolutionCMS\Models\UserRole as UserRoleModel;
@@ -20,6 +19,7 @@ class UserRole extends AbstractController implements PageControllerInterface
     protected string $view = 'page.user_roles.user_role';
 
     protected int $elementType = 8;
+
     /**
      * @var UserRoleModel|null
      */
@@ -47,12 +47,18 @@ class UserRole extends AbstractController implements PageControllerInterface
     {
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
             $id = $this->getElementId();
-            $count = UserAttribute::where('role',$id)->count();
-            if($id==1){
-                evo()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
+            $count = UserAttribute::query()->where('role', $id)->count();
+            if ($id == 1) {
+                evo()->webAlertAndQuit(
+                    "The role you are trying to delete is the admin role. This role cannot be deleted!",
+                    "index.php?a=35&id={$id}"
+                );
             }
-            if($count>0){
-                evo()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
+            if ($count > 0) {
+                evo()->webAlertAndQuit(
+                    "There are users with this role. It can't be deleted.",
+                    "index.php?a=35&id={$id}"
+                );
             }
             RolePermissions::query()->where('role_id', $id)->delete();
             UserRoleModel::destroy($id);
@@ -71,7 +77,7 @@ class UserRole extends AbstractController implements PageControllerInterface
     /**
      * @return void
      */
-    public function updateOrCreate()
+    public function updateOrCreate(): void
     {
         $id = $this->getElementId();
         $mode = $this->getIndex();
@@ -89,6 +95,7 @@ class UserRole extends AbstractController implements PageControllerInterface
             );
         }
 
+        /** @var UserRoleModel $role */
         $role = UserRoleModel::query()->findOrNew($id);
         $role->name = $_POST['name'];
         $role->description = $_POST['description'];
@@ -206,8 +213,8 @@ class UserRole extends AbstractController implements PageControllerInterface
     protected function parameterCategories(): Collection
     {
         return Category::query()
-            ->orderBy('rank', 'ASC')
-            ->orderBy('category', 'ASC')
+            ->orderBy('rank')
+            ->orderBy('category')
             ->get();
     }
 
@@ -227,8 +234,8 @@ class UserRole extends AbstractController implements PageControllerInterface
     protected function parameterTvOutCategory(array $ignore = []): Collection
     {
         $query = SiteTmplvar::with('userRoles')
-            ->where('category', '=', 0)
-            ->orderBy('name', 'ASC');
+            ->where('category', 0)
+            ->orderBy('name');
 
         if (!empty($ignore)) {
             $query = $query->whereNotIn('id', $ignore);
@@ -255,7 +262,7 @@ class UserRole extends AbstractController implements PageControllerInterface
 
                 return $builder;
             })
-            ->orderBy('rank', 'ASC');
+            ->orderBy('rank');
 
         return $query->get();
     }

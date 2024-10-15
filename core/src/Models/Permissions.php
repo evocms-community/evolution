@@ -1,11 +1,12 @@
-<?php namespace EvolutionCMS\Models;
+<?php
+
+namespace EvolutionCMS\Models;
 
 use EvolutionCMS\Traits\Models\ManagerActions;
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * EvolutionCMS\Models\Permissions
- *
  * @property int $id
  * @property string $name
  * @property string $key
@@ -17,10 +18,8 @@ use Illuminate\Database\Eloquent;
  * Virtual
  * @property-read \Carbon\Carbon $created_at
  * @property-read \Carbon\Carbon $updated_at
- *
- * @mixin \Eloquent
  */
-class Permissions extends Eloquent\Model
+class Permissions extends Model
 {
     use ManagerActions;
 
@@ -30,22 +29,21 @@ class Permissions extends Eloquent\Model
         'id' => [
             'actions.edit' => 135,
             'actions.save' => 135,
-            'actions.delete' => 135
-        ]
+            'actions.delete' => 135,
+        ],
     ];
 
-	protected $fillable = [
-		'name',
-		'key',
-		'lang_key',
-		'group_id',
-		'disabled',
-	];
+    protected $fillable = [
+        'name',
+        'key',
+        'lang_key',
+        'group_id',
+        'disabled',
+    ];
 
-
-    public function attributes()
+    public function attributes(): HasOne
     {
-        return $this->hasOne(PermissionsGroups::class,'id','group_id');
+        return $this->hasOne(PermissionsGroups::class, 'id', 'group_id');
     }
 
 }

@@ -1,12 +1,14 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
- * EvolutionCMS\Models\SiteModule
- *
  * @property int $id
  * @property string $name
  * @property string $description
@@ -38,48 +40,48 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @method static Builder|SiteModule lockedView()
  * @method static Builder|SiteModule withoutProtected()
- * @mixin \Eloquent
  */
-class SiteModule extends Eloquent\Model
+class SiteModule extends Model
 {
     use Traits\Models\ManagerActions,
         Traits\Models\LockedElements,
         Traits\Models\TimeMutator;
 
-	const CREATED_AT = 'createdon';
-	const UPDATED_AT = 'editedon';
+    const CREATED_AT = 'createdon';
+    const UPDATED_AT = 'editedon';
+
     protected $dateFormat = 'U';
 
-	protected $casts = [
-		'editor_type' => 'int',
-		'disabled' => 'int',
-		'category' => 'int',
-		'wrap' => 'int',
-		'locked' => 'int',
-		'enable_resource' => 'int',
-		'createdon' => 'int',
-		'editedon' => 'int',
-		'enable_sharedparams' => 'int'
-	];
+    protected $casts = [
+        'editor_type' => 'int',
+        'disabled' => 'int',
+        'category' => 'int',
+        'wrap' => 'int',
+        'locked' => 'int',
+        'enable_resource' => 'int',
+        'createdon' => 'int',
+        'editedon' => 'int',
+        'enable_sharedparams' => 'int',
+    ];
 
-	protected $fillable = [
-		'name',
-		'description',
-		'editor_type',
-		'disabled',
-		'category',
-		'wrap',
-		'locked',
-		'icon',
-		'enable_resource',
-		'resourcefile',
-		'guid',
-		'enable_sharedparams',
-		'properties',
-		'modulecode'
-	];
+    protected $fillable = [
+        'name',
+        'description',
+        'editor_type',
+        'disabled',
+        'category',
+        'wrap',
+        'locked',
+        'icon',
+        'enable_resource',
+        'resourcefile',
+        'guid',
+        'enable_sharedparams',
+        'properties',
+        'modulecode',
+    ];
 
-	protected $managerActionsMap = [
+    protected array $managerActionsMap = [
         'actions.cancel' => 76,
         'actions.new' => 107,
         'id' => [
@@ -90,36 +92,36 @@ class SiteModule extends Eloquent\Model
             'actions.delete' => 110,
             'actions.duplicate' => 111,
             'actions.run' => 112,
-            'actions.dependency' => 113
-        ]
+            'actions.dependency' => 113,
+        ],
     ];
 
-    public function categories() : Eloquent\Relations\BelongsTo
+    public function categories(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category', 'id');
     }
 
-    public function categoryName($default = '')
+    public function categoryName($default = ''): string
     {
         return $this->categories === null ? $default : $this->categories->category;
     }
 
-    public function categoryId()
+    public function categoryId(): ?int
     {
         return $this->categories === null ? null : $this->categories->getKey();
     }
 
-    public function getCreatedAtAttribute()
+    public function getCreatedAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->createdon);
     }
 
-    public function getUpdatedAtAttribute()
+    public function getUpdatedAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->editedon);
     }
 
-    public function scopeWithoutProtected(Builder $builder)
+    public function scopeWithoutProtected(Builder $builder): Builder
     {
         if ($_SESSION['mgrRole'] != 1) {
             $builder->leftJoin('site_module_access', 'site_module_access.module', '=', 'site_modules.id')
@@ -131,12 +133,12 @@ class SiteModule extends Eloquent\Model
         return $builder;
     }
 
-    public function getIsAlreadyEditAttribute()
+    public function getIsAlreadyEditAttribute(): bool
     {
         return array_key_exists($this->getKey(), self::getLockedElements(6));
     }
 
-    public function getAlreadyEditInfoAttribute() :? array
+    public function getAlreadyEditInfoAttribute(): ?array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(6)[$this->getKey()] : null;
     }

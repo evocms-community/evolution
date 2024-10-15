@@ -1,11 +1,15 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteModule;
 use EvolutionCMS\Models\SitePlugin;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Plugin extends AbstractController implements PageControllerInterface
 {
@@ -13,13 +17,13 @@ class Plugin extends AbstractController implements PageControllerInterface
 
     protected int $elementType = 5;
 
-    protected $events = [
+    protected array $events = [
         'OnPluginFormPrerender',
-        'OnPluginFormRender'
+        'OnPluginFormRender',
     ];
 
     /** @var SitePlugin|null */
-    private $object;
+    private ?SitePlugin $object;
 
     protected $internal;
 
@@ -28,26 +32,17 @@ class Plugin extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        switch ($this->getIndex()) {
-            case 101:
-                $out = evo()->hasPermission('new_plugin');
-                break;
-
-            case 102:
-                $out = evo()->hasPermission('edit_plugin');
-                break;
-
-            default:
-                $out = false;
-        }
-
-        return $out;
+        return match ($this->getIndex()) {
+            101 => evo()->hasPermission('new_plugin'),
+            102 => evo()->hasPermission('edit_plugin'),
+            default => false,
+        };
     }
 
     /**
      * {@inheritdoc}
      */
-    public function process() : bool
+    public function process(): bool
     {
         evo()->lockElement($this->elementType, $this->getElementId());
 
@@ -62,7 +57,7 @@ class Plugin extends AbstractController implements PageControllerInterface
             'docBlockList' => $this->parameterDocBlockList(),
             'internal' => $this->internal,
             'events' => $this->parameterEvents(),
-            'actionButtons' => $this->parameterActionButtons()
+            'actionButtons' => $this->parameterActionButtons(),
         ];
 
         return true;
@@ -71,12 +66,12 @@ class Plugin extends AbstractController implements PageControllerInterface
     /**
      * @return SitePlugin
      */
-    protected function parameterData()
+    protected function parameterData(): SitePlugin
     {
         $id = $this->getElementId();
 
-        /** @var SitePlugin $data */
-        $data = SitePlugin::firstOrNew(['id' => $id]);
+        /** @var Builder | SitePlugin $data */
+        $data = SitePlugin::query()->firstOrNew(['id' => $id]);
 
         if ($data->exists) {
             if (empty($data->count())) {
@@ -104,32 +99,32 @@ class Plugin extends AbstractController implements PageControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Category::orderBy('rank', 'ASC')
-            ->orderBy('category', 'ASC')
+        return Category::query()
+            ->orderBy('rank')
+            ->orderBy('category')
             ->get();
     }
 
     protected function parameterImportParams(): array
     {
-
         return SiteModule::query()->join('site_module_depobj', function ($join) {
             $join->on('site_module_depobj.module', '=', 'site_modules.id');
-            $join->on('site_module_depobj.type', '=', \DB::raw(30));
+            $join->on('site_module_depobj.type', '=', DB::raw(30));
         })->join('site_plugins', 'site_plugins.id', '=', 'site_module_depobj.resource')
             ->where('site_module_depobj.resource', $this->object->getKey())
-            ->where('site_modules.enable_sharedparams', 1)->orderBy('site_modules.name', 'ASC')->get()
+            ->where('site_modules.enable_sharedparams', 1)->orderBy('site_modules.name')->get()
             ->pluck('name', 'guid')->toArray();
     }
 
     protected function parameterDocBlockList()
     {
         $out = '';
-        $internal = array();
+        $internal = [];
         if (isset($this->object->plugincode)) {
             $snippetcode = $this->object->plugincode;
             $parsed = evo()->parseDocBlockFromString($snippetcode);
             $out = evo()->convertDocBlockIntoList($parsed);
-            $internal[0]['events'] = isset($parsed['events']) ? $parsed['events'] : '';
+            $internal[0]['events'] = $parsed['events'] ?? '';
         }
 
         $this->internal = json_encode($internal);
@@ -152,24 +147,25 @@ class Plugin extends AbstractController implements PageControllerInterface
     {
         $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
-            'controller' => $this
+            'controller' => $this,
         ]);
-        if (\is_array($out)) {
+
+        if (is_array($out)) {
             $out = implode('', $out);
         }
 
-        return (string)$out;
+        return (string) $out;
     }
 
-    protected function parameterActionButtons()
+    protected function parameterActionButtons(): array
     {
         return [
-            'select'    => 1,
-            'save'      => evo()->hasPermission('save_plugin'),
-            'new'       => evo()->hasPermission('new_plugin'),
+            'select' => 1,
+            'save' => evo()->hasPermission('save_plugin'),
+            'new' => evo()->hasPermission('new_plugin'),
             'duplicate' => !empty($this->object->getKey()) && evo()->hasPermission('new_plugin'),
-            'delete'    => !empty($this->object->getKey()) && evo()->hasPermission('delete_plugin'),
-            'cancel'    => 1
+            'delete' => !empty($this->object->getKey()) && evo()->hasPermission('delete_plugin'),
+            'cancel' => 1,
         ];
     }
 }

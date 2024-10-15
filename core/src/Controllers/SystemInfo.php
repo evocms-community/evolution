@@ -1,22 +1,21 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use PDO;
 
 class SystemInfo extends AbstractController implements PageControllerInterface
 {
     protected string $view = 'page.sysinfo';
 
-    /**
-     * @var \EvolutionCMS\Interfaces\DatabaseInterface
-     */
-    protected $database;
-
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = evo()->getDatabase();
     }
 
     /**
@@ -39,117 +38,96 @@ class SystemInfo extends AbstractController implements PageControllerInterface
 
     protected function resolveCharset()
     {
-        switch ($this->database->getConfig()['driver']) {
-            case 'pgsql':
-                $result = $this->database->query("SELECT * FROM pg_settings WHERE name='client_encoding'");
-                $charset = $this->database->getRow($result, 'num');
-                return $charset[1];
-                break;
-            case 'mysql':
-                $res = $this->database->query("show variables like 'character_set_database'");
-                $charset = $this->database->getRow($res, 'num');
-
-                return $charset[1];
-                break;
-            default :
-                return 'none';
-        }
+        return match (DB::getDriverName()) {
+            'pgsql' => DB::selectOne("SELECT * FROM pg_settings WHERE name='client_encoding'")->setting,
+            'mysql' => DB::selectOne("show variables like 'character_set_database'")->Value,
+            default => 'none',
+        };
     }
 
     protected function resolveCollation()
     {
-        switch ($this->database->getConfig()['driver']) {
-            case 'pgsql':
-                $result = $this->database->query("SELECT * FROM pg_settings WHERE name = 'lc_collate'");
-                $charset = $this->database->getRow($result, 'num');
-                return $charset[1];
-                break;
-            case 'mysql':
-                $res = $this->database->query("show variables like 'collation_database'");
-                $collation = $this->database->getRow($res, 'num');
-
-                return $collation[1];
-                break;
-            default :
-                return 'none';
-        }
-
+        return match (DB::getDriverName()) {
+            'pgsql' => DB::selectOne("SELECT * FROM pg_settings WHERE name = 'lc_collate'")->setting,
+            'mysql' => DB::selectOne("show variables like 'collation_database'")->Value,
+            default => 'none',
+        };
     }
 
     protected function parameterServerArr(): Collection
     {
         return new Collection([
-            'modx_version'       => [
+            'modx_version' => [
                 'is_lexicon' => true,
-                'data'       => implode(' ', [
+                'data' => implode(' ', [
                     evo()->getVersionData('version'),
                     evo()->getVersionData('new_version'),
-                ])
+                ]),
             ],
-            'release_date'       => [
+            'release_date' => [
                 'is_lexicon' => true,
                 'data' => evo()->getVersionData('release_date'),
             ],
-            'PHP Version'        => [
-                'data'   => phpversion(),
-                'render' => 'manager::' . $this->getView() . '.phpversion'
+            'PHP Version' => [
+                'data' => phpversion(),
+                'render' => 'manager::' . $this->getView() . '.phpversion',
             ],
-            'servertime'         => [
+            'servertime' => [
                 'is_lexicon' => true,
-                'data'       => date('H:i:s', time())
+                'data' => date('H:i:s', time()),
             ],
-            'localtime'          => [
+            'localtime' => [
                 'is_lexicon' => true,
-                'data' => date('H:i:s', time() + evo()->getConfig('server_offset_time')),
+                'data' => date('H:i:s', time() + Config::get('global.server_offset_time')),
             ],
-            'serveroffset'       => [
+            'serveroffset' => [
                 'is_lexicon' => true,
-                'data' => evo()->getConfig('server_offset_time') / (60 * 60) . ' h',
+                'data' => Config::get('global.server_offset_time') / (60 * 60) . ' h',
             ],
-            'database_name'      => [
+            'database_name' => [
                 'is_lexicon' => true,
-                'data' => evo()->getService('config')->get('database.connections.default.database'),
+                'data' => DB::getDatabaseName(),
             ],
-            'database_server'    => [
+            'database_server' => [
                 'is_lexicon' => true,
-                'data' => evo()->getService('config')->get('database.connections.default.host'),
+                'data' => DB::getConfig('host'),
             ],
-            'database_version'   => [
+            'database_version' => [
                 'is_lexicon' => true,
-                'data'       => $this->database->getVersion()
+                'data' => DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION),
             ],
-            'database_charset'   => [
+            'database_charset' => [
                 'is_lexicon' => true,
-                'data'       => $this->resolveCharset()
+                'data' => $this->resolveCharset(),
             ],
             'database_collation' => [
                 'is_lexicon' => true,
-                'data'       => $this->resolveCollation()
+                'data' => $this->resolveCollation(),
             ],
-            'table_prefix'       => [
+            'table_prefix' => [
                 'is_lexicon' => true,
-                'data' => evo()->getService('config')->get('database.connections.default.prefix'),
+                'data' => DB::getTablePrefix(),
             ],
-            'cfg_base_path'      => [
+            'cfg_base_path' => [
                 'is_lexicon' => true,
-                'data'       => MODX_BASE_PATH
+                'data' => MODX_BASE_PATH,
             ],
-            'cfg_base_url'       => [
+            'cfg_base_url' => [
                 'is_lexicon' => true,
-                'data'       => MODX_BASE_URL
+                'data' => MODX_BASE_URL,
             ],
-            'cfg_manager_url'    => [
+            'cfg_manager_url' => [
                 'is_lexicon' => true,
-                'data'       => MODX_MANAGER_URL
+                'data' => MODX_MANAGER_URL,
             ],
-            'cfg_manager_path'   => [
+            'cfg_manager_path' => [
                 'is_lexicon' => true,
-                'data'       => MODX_MANAGER_PATH
+                'data' => MODX_MANAGER_PATH,
             ],
-            'cfg_site_url'       => [
+            'cfg_site_url' => [
                 'is_lexicon' => true,
-                'data'       => MODX_SITE_URL
-            ]
+                'data' => MODX_SITE_URL,
+            ],
         ]);
     }
 }

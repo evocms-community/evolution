@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\EventLog;
@@ -15,9 +17,9 @@ class EventLogDetails extends AbstractController implements PageControllerInterf
         return evo()->hasPermission('view_eventlog');
     }
 
-    public function process() : bool
+    public function process(): bool
     {
-        $this->parameters['log'] = EventLog::findOrNew($this->getElementId());
+        $this->parameters['log'] = EventLog::query()->findOrNew($this->getElementId());
 
         return true;
     }

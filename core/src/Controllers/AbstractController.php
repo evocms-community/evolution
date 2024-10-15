@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\ControllerInterface;
@@ -44,11 +46,12 @@ abstract class AbstractController implements ControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function setView($view) : bool
+    public function setView($view): bool
     {
         if (View::exists(ManagerTheme::getViewName($view))) {
             $this->view = $view;
         }
+
         return $view === $this->getView();
     }
 
@@ -76,7 +79,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function process() : bool
+    public function process(): bool
     {
         return true;
     }
@@ -90,7 +93,7 @@ abstract class AbstractController implements ControllerInterface
             $this->getView(),
             $this->getParameters($params)
         )->with([
-            'controller' => $this
+            'controller' => $this,
         ])->render();
     }
 
@@ -120,6 +123,6 @@ abstract class AbstractController implements ControllerInterface
      */
     public function getElementId(): int
     {
-        return (int)get_by_key($_REQUEST, 'id', 0, 'is_scalar');
+        return (int) get_by_key($_REQUEST, 'id', 0, 'is_scalar');
     }
 }

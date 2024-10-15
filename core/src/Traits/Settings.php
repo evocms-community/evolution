@@ -1,4 +1,8 @@
-<?php namespace EvolutionCMS\Traits;
+<?php
+
+namespace EvolutionCMS\Traits;
+
+use Illuminate\Support\Facades\Config;
 
 trait Settings
 {
@@ -9,6 +13,7 @@ trait Settings
 
     /**
      * Needs only for the configCompatibility hack
+     *
      * @var array
      */
     protected $saveConfig = [];
@@ -76,7 +81,7 @@ trait Settings
     public function setConfig($name, $value)
     {
         $this->config[$name] = $value;
-        config()->set('global.' . $name, $value);
+        Config::set('global.' . $name, $value);
     }
 
     /**
@@ -86,16 +91,17 @@ trait Settings
     {
         return array_merge(
             $this->config,
-            $this['config']->get('cms.settings', [])
+            Config::get('global', [])
         );
     }
+
     /**
      * {@inheritdoc}
      */
     public function getConfig($name = '', $default = null)
     {
         $config = get_by_key(
-            $this->config,
+            $this->allConfig(),
             $name,
             ''
         );
@@ -104,10 +110,7 @@ trait Settings
             $config = $default;
         }
 
-        $value = $this['config']->get(
-            'cms.settings.' . $name,
-            $config
-        );
+        $value = Config::get('cms.settings.' . $name, $config);
 
         return $this->castAttribute($name, $value);
     }
@@ -118,7 +121,7 @@ trait Settings
     public function getSettings()
     {
         $this->config = array_merge($this->getFactorySettings(), $this->config);
-        config()->set('global', $this->config);
+        Config::set('global', $this->config);
 
         // setup default site id - new installation should generate a unique id for the site.
         if ($this->getConfig('site_id', '') === '') {
@@ -160,16 +163,18 @@ trait Settings
     public function getFactorySettings(): array
     {
         $out = include EVO_CORE_PATH . 'factory/settings.php';
-        return \is_array($out) ? $out : [];
+
+        return is_array($out) ? $out : [];
     }
 
     /**
      * Cast an attribute to a native PHP type.
      *
-     * @see \Illuminate\Database\Eloquent\Concerns\HasAttributes::castAttribute
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
+     *
      * @return mixed
+     * @see \Illuminate\Database\Eloquent\Concerns\HasAttributes::castAttribute
      */
     protected function castAttribute($key, $value)
     {
@@ -202,12 +207,13 @@ trait Settings
 
     /**
      * Hack for compatibility Laravel with EvolutionCMS
+     *
      * @TODO: This is dirty code. Any ideas?
      *
      * @return array
      */
     protected function configCompatibility(): array
     {
-        return array_merge($this->config, ['view' => $this['config']->get('view')]);
+        return array_merge($this->config, ['view' => Config::get('view')]);
     }
 }

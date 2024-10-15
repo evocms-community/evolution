@@ -19,6 +19,7 @@ use EvolutionCMS\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use PHPMailer\PHPMailer\Exception;
@@ -2456,11 +2457,11 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                         $seclimit = DocumentGroup::query()
                             ->join('site_content')
                             ->where('document_groups.document', 'sc.id')
-                            ->where('site_content.alias', \DB::Raw($identifier))
+                            ->where('site_content.alias', DB::Raw($identifier))
                             ->exists();
                     } else {
                         $seclimit = DocumentGroup::query()
-                            ->where('document', \DB::Raw($identifier))
+                            ->where('document', DB::Raw($identifier))
                             ->exists();
                     }
                     if ($seclimit) {
@@ -2495,7 +2496,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
                     ->join('site_tmplvar_templates', 'site_tmplvar_templates.tmplvarid', '=', 'site_tmplvars.id')
                     ->leftJoin('site_tmplvar_contentvalues', function ($join) use ($documentObject) {
                         $join->on('site_tmplvar_contentvalues.tmplvarid', '=', 'site_tmplvars.id');
-                        $join->on('site_tmplvar_contentvalues.contentid', '=', \DB::raw((int) $documentObject['id']));
+                        $join->on('site_tmplvar_contentvalues.contentid', '=', DB::raw((int) $documentObject['id']));
                     })->where('site_tmplvar_templates.templateid', $documentObject['template'])->get();
 
                 $tmplvars = [];
@@ -2548,12 +2549,12 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             return [];
         }
 
-        $rs = \DB::table('site_tmplvars as tv')
+        $rs = DB::table('site_tmplvars as tv')
             ->select('tv.*', 'tvc.value', 'tv.default_text')
             ->join('site_tmplvar_templates as tvtpl', 'tvtpl.tmplvarid', '=', 'tv.id')
             ->leftJoin('site_tmplvar_contentvalues as tvc', function ($join) use ($documentObject) {
                 $join->on('tvc.tmplvarid', '=', 'tv.id');
-                $join->on('tvc.contentid', '=', \DB::raw((int) $documentObject['id']));
+                $join->on('tvc.contentid', '=', DB::raw((int) $documentObject['id']));
             })->where('tvtpl.templateid', (int) $documentObject['template'])->get();
 
         $tmplvars = [];
@@ -3560,7 +3561,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function logEvent($evtid, $type, $msg, $source = 'Parser')
     {
-        if (!$this->getDatabase()->getConnection()->getDatabaseName()) {
+        if (!DB::getDatabaseName()) {
             return;
         }
         
@@ -3724,11 +3725,11 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             $trim = $limit;
         }
 
-        $count = \DB::table($target)->count();
+        $count = DB::table($target)->count();
         $over = $count - $limit;
         if (0 < $over) {
             $trim = ($over + $trim);
-            \DB::table($target)->take($trim)->delete();
+            DB::table($target)->take($trim)->delete();
         }
     }
 
@@ -4891,13 +4892,13 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         $rs = SiteTmplvar::query()
             ->select($fields)
-            ->selectRaw(" IF(" . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value != '', " . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value, " . $this->getDatabase()->getConfig('prefix') . "site_tmplvars.default_text) as value")
+            ->selectRaw(" IF(" . DB::getTablePrefix() . "site_tmplvar_contentvalues.value != '', " . DB::getTablePrefix() . "site_tmplvar_contentvalues.value, " . DB::getTablePrefix() . "site_tmplvars.default_text) as value")
             ->join('site_tmplvar_templates', 'site_tmplvar_templates.tmplvarid', '=', 'site_tmplvars.id')
             ->leftJoin('site_tmplvar_contentvalues', function ($join) use ($docid) {
                 $join->on('site_tmplvar_contentvalues.tmplvarid', '=', 'site_tmplvars.id');
-                $join->on('site_tmplvar_contentvalues.contentid', '=', \DB::raw($docid));
+                $join->on('site_tmplvar_contentvalues.contentid', '=', DB::raw($docid));
             })
-            ->whereRaw($query . " AND " . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_templates.templateid = '" . $docRow['template'] . "'");
+            ->whereRaw($query . " AND " . DB::getTablePrefix() . "site_tmplvar_templates.templateid = '" . $docRow['template'] . "'");
         if ($sort != '') {
             $rs = $rs->orderByRaw($sort);
         }

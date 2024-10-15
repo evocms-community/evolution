@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
@@ -18,124 +20,124 @@ class Tmplvar extends AbstractController implements PageControllerInterface
 
     protected int $elementType = 2;
 
-    protected $standartTypes = [
-        'text'             => 'Text',
-        'textarea'         => 'Textarea',
-        'textareamini'     => 'Textarea (Mini)',
-        'richtext'         => 'RichText',
-        'dropdown'         => 'DropDown List Menu',
-        'listbox'          => 'Listbox (Single-Select)',
+    protected array $standartTypes = [
+        'text' => 'Text',
+        'textarea' => 'Textarea',
+        'textareamini' => 'Textarea (Mini)',
+        'richtext' => 'RichText',
+        'dropdown' => 'DropDown List Menu',
+        'listbox' => 'Listbox (Single-Select)',
         'listbox-multiple' => 'Listbox (Multi-Select)',
-        'option'           => 'Radio Options',
-        'checkbox'         => 'Check Box',
-        'image'            => 'Image',
-        'file'             => 'File',
-        'url'              => 'URL',
-        'email'            => 'Email',
-        'number'           => 'Number',
-        'date'             => 'Date'
+        'option' => 'Radio Options',
+        'checkbox' => 'Check Box',
+        'image' => 'Image',
+        'file' => 'File',
+        'url' => 'URL',
+        'email' => 'Email',
+        'number' => 'Number',
+        'date' => 'Date',
     ];
 
-    protected $displayWidgets = [
-        'datagrid'      => 'Data Grid',
-        'richtext'      => 'RichText',
-        'viewport'      => 'View Port',
-        'custom_widget' => 'Custom Widget'
+    protected array $displayWidgets = [
+        'datagrid' => 'Data Grid',
+        'richtext' => 'RichText',
+        'viewport' => 'View Port',
+        'custom_widget' => 'Custom Widget',
     ];
 
-    protected $displayFormats = [
+    protected array $displayFormats = [
         'htmlentities' => 'HTML Entities',
-        'date'         => 'Date Formatter',
-        'unixtime'     => 'Unixtime',
-        'delim'        => 'Delimited List',
-        'htmltag'      => 'HTML Generic Tag',
-        'hyperlink'    => 'Hyperlink',
-        'image'        => 'Image',
-        'string'       => 'String Formatter'
+        'date' => 'Date Formatter',
+        'unixtime' => 'Unixtime',
+        'delim' => 'Delimited List',
+        'htmltag' => 'HTML Generic Tag',
+        'hyperlink' => 'Hyperlink',
+        'image' => 'Image',
+        'string' => 'String Formatter',
     ];
 
-    protected $defaultProperties = [
-        'text'             => [],
-        'textarea'         => [],
-        'textareamini'     => [],
-        'richtext'         => [],
-        'dropdown'         => [],
-        'listbox'          => [],
+    protected array $defaultProperties = [
+        'text' => [],
+        'textarea' => [],
+        'textareamini' => [],
+        'richtext' => [],
+        'dropdown' => [],
+        'listbox' => [],
         'listbox-multiple' => [],
-        'option'           => [],
-        'checkbox'         => [],
-        'image'            => [
+        'option' => [],
+        'checkbox' => [],
+        'image' => [
             'width' => [
                 [
-                    'label'   => 'Width',
-                    'type'    => 'text',
-                    'value'   => '120',
+                    'label' => 'Width',
+                    'type' => 'text',
+                    'value' => '120',
                     'default' => '120',
-                    'desc'    => ''
-                ]
+                    'desc' => '',
+                ],
             ],
             'height' => [
                 [
-                    'label'   => 'Height',
-                    'type'    => 'text',
-                    'value'   => '120',
+                    'label' => 'Height',
+                    'type' => 'text',
+                    'value' => '120',
                     'default' => '120',
-                    'desc'    => ''
-                ]
+                    'desc' => '',
+                ],
             ],
             'thumbnailer' => [
                 [
-                    'label'   => 'Thumbnailer',
-                    'type'    => 'text',
-                    'value'   => '',
+                    'label' => 'Thumbnailer',
+                    'type' => 'text',
+                    'value' => '',
                     'default' => '',
-                    'desc'    => ''
-                ]
+                    'desc' => '',
+                ],
             ],
         ],
-        'file'             => [],
-        'url'              => [],
-        'email'            => [],
-        'number'           => [
+        'file' => [],
+        'url' => [],
+        'email' => [],
+        'number' => [
             'step' => [
                 [
-                    'label'   => 'step',
-                    'type'    => 'text',
-                    'value'   => '1',
+                    'label' => 'step',
+                    'type' => 'text',
+                    'value' => '1',
                     'default' => '1',
-                    'desc'    => ''
-                ]
+                    'desc' => '',
+                ],
             ],
-            'min'  => [
+            'min' => [
                 [
-                    'label'   => 'min',
-                    'type'    => 'text',
-                    'value'   => '',
+                    'label' => 'min',
+                    'type' => 'text',
+                    'value' => '',
                     'default' => '',
-                    'desc'    => ''
-                ]
+                    'desc' => '',
+                ],
             ],
-            'max'  => [
+            'max' => [
                 [
-                    'label'   => 'max',
-                    'type'    => 'text',
-                    'value'   => '',
+                    'label' => 'max',
+                    'type' => 'text',
+                    'value' => '',
                     'default' => '',
-                    'desc'    => ''
-                ]
-            ]
+                    'desc' => '',
+                ],
+            ],
         ],
-        'date'             => []
+        'date' => [],
     ];
 
-    protected $events = [
+    protected array $events = [
         'OnRichTextEditorRegister',
         'OnTVFormPrerender',
         'OnTVFormRender',
     ];
 
     /** @var SiteTmplvar|null */
-    private $object;
+    private ?SiteTmplvar $object;
 
     /**
      * {@inheritdoc}
@@ -160,22 +162,22 @@ class Tmplvar extends AbstractController implements PageControllerInterface
         evo()->lockElement($this->elementType, $this->getElementId());
         $this->object = $this->parameterData();
         $this->parameters = [
-            'data'              => $this->object,
-            'elementType'       => $this->elementType,
-            'categories'        => $this->parameterCategories(),
-            'types'             => $this->parameterTypes(),
-            'display'           => $this->parameterDisplay(),
+            'data' => $this->object,
+            'elementType' => $this->elementType,
+            'categories' => $this->parameterCategories(),
+            'types' => $this->parameterTypes(),
+            'display' => $this->parameterDisplay(),
             'categoriesWithTpl' => $this->parameterCategoriesWithTpl(),
-            'tplOutCategory'    => $this->parameterTplOutCategory(),
-            'roles'             => $this->parameterRoles(),
-            'action'            => $this->getIndex(),
-            'events'            => $this->parameterEvents(),
-            'actionButtons'     => $this->parameterActionButtons(),
-            'groupsArray'       => $this->getGroupsArray(),
+            'tplOutCategory' => $this->parameterTplOutCategory(),
+            'roles' => $this->parameterRoles(),
+            'action' => $this->getIndex(),
+            'events' => $this->parameterEvents(),
+            'actionButtons' => $this->parameterActionButtons(),
+            'groupsArray' => $this->getGroupsArray(),
             'defaultProperties' => json_encode($this->defaultProperties),
             // :TODO delete
-            'origin'            => isset($_REQUEST['or']) ? (int) $_REQUEST['or'] : 76,
-            'originId'          => isset($_REQUEST['oid']) ? (int) $_REQUEST['oid'] : null
+            'origin' => isset($_REQUEST['or']) ? (int) $_REQUEST['or'] : 76,
+            'originId' => isset($_REQUEST['oid']) ? (int) $_REQUEST['oid'] : null,
         ];
 
         return true;
@@ -184,14 +186,14 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     /**
      * @return SiteTmplvar
      */
-    protected function parameterData()
+    protected function parameterData(): SiteTmplvar
     {
         $id = $this->getElementId();
 
         /** @var SiteTmplvar $data */
         $data = SiteTmplvar::with('templates')
             ->firstOrNew(['id' => $id], [
-                'category' => (int) get_by_key($_REQUEST, 'catid', 0)
+                'category' => (int) get_by_key($_REQUEST, 'catid', 0),
             ]);
 
         if ($id > 0) {
@@ -216,8 +218,9 @@ class Tmplvar extends AbstractController implements PageControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Category::orderBy('rank', 'ASC')
-            ->orderBy('category', 'ASC')
+        return Category::query()
+            ->orderBy('rank')
+            ->orderBy('category')
             ->get();
     }
 
@@ -225,22 +228,22 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     {
         return [
             0 => ['optgroup' => $this->parameterStandartTypes()],
-            1 => ['optgroup' => $this->parameterCustomTypes()]
+            1 => ['optgroup' => $this->parameterCustomTypes()],
         ];
     }
 
     protected function parameterStandartTypes(): array
     {
         return [
-            'name'    => 'Standard Type',
-            'options' => $this->standartTypes
+            'name' => 'Standard Type',
+            'options' => $this->standartTypes,
         ];
     }
 
     protected function parameterCustomTypes(): array
     {
         $customTvs = [
-            'custom_tv' => 'Custom Input'
+            'custom_tv' => 'Custom Input',
         ];
 
         $finder = Finder::create()
@@ -263,8 +266,8 @@ class Tmplvar extends AbstractController implements PageControllerInterface
         }
 
         return [
-            'name'    => 'Custom Type',
-            'options' => $customTvs
+            'name' => 'Custom Type',
+            'options' => $customTvs,
         ];
     }
 
@@ -272,31 +275,31 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     {
         return [
             0 => ['optgroup' => $this->parameterDisplayWidgets()],
-            1 => ['optgroup' => $this->parameterDisplayFormats()]
+            1 => ['optgroup' => $this->parameterDisplayFormats()],
         ];
     }
 
     protected function parameterDisplayWidgets(): array
     {
         return [
-            'name'    => 'Widgets',
-            'options' => $this->displayWidgets
+            'name' => 'Widgets',
+            'options' => $this->displayWidgets,
         ];
     }
 
     protected function parameterDisplayFormats(): array
     {
         return [
-            'name'    => 'Formats',
-            'options' => $this->displayFormats
+            'name' => 'Formats',
+            'options' => $this->displayFormats,
         ];
     }
 
     protected function parameterTplOutCategory(): Collection
     {
         return SiteTemplate::with('tvs')
-            ->where('category', '=', 0)
-            ->orderBy('templatename', 'ASC')
+            ->where('category', 0)
+            ->orderBy('templatename')
             ->get();
     }
 
@@ -304,13 +307,13 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     {
         return Category::with('templates.tvs')
             ->whereHas('templates')
-            ->orderBy('rank', 'ASC')
+            ->orderBy('rank')
             ->get();
     }
 
     protected function parameterRoles(): Collection
     {
-        return UserRole::with('tvs')->orderBy('name', 'ASC')->get();
+        return UserRole::with('tvs')->orderBy('name')->get();
     }
 
     protected function parameterEvents(): array
@@ -327,26 +330,27 @@ class Tmplvar extends AbstractController implements PageControllerInterface
     private function callEvent($name): string
     {
         $out = evo()->invokeEvent($name, [
-            'id'          => $this->getElementId(),
-            'controller'  => $this,
-            'forfrontend' => 1
+            'id' => $this->getElementId(),
+            'controller' => $this,
+            'forfrontend' => 1,
         ]);
-        if (\is_array($out)) {
+
+        if (is_array($out)) {
             $out = implode('', $out);
         }
 
         return (string) $out;
     }
 
-    protected function parameterActionButtons()
+    protected function parameterActionButtons(): array
     {
         return [
-            'select'    => 1,
-            'save'      => evo()->hasPermission('save_template'),
-            'new'       => evo()->hasPermission('new_template'),
+            'select' => 1,
+            'save' => evo()->hasPermission('save_template'),
+            'new' => evo()->hasPermission('new_template'),
             'duplicate' => $this->object->getKey() && evo()->hasPermission('new_template'),
-            'delete'    => $this->object->getKey() && evo()->hasPermission('delete_template'),
-            'cancel'    => 1
+            'delete' => $this->object->getKey() && evo()->hasPermission('delete_template'),
+            'cancel' => 1,
         ];
     }
 
@@ -360,33 +364,35 @@ class Tmplvar extends AbstractController implements PageControllerInterface
         return array_unique(array_map('intval', get_by_key($_POST, 'role', [], 'is_array')));
     }
 
-    private function getGroupsArray()
+    private function getGroupsArray(): array
     {
         $id = $this->getElementId();
-        return SiteTmplvarAccess::where('tmplvarid', $id)->get()->pluck('documentgroup')->toArray();
+
+        return SiteTmplvarAccess::query()->where('tmplvarid', $id)->get()->pluck('documentgroup')->toArray();
     }
 
-    public function isSelectedTemplate(SiteTemplate $item)
+    public function isSelectedTemplate(SiteTemplate $item): bool
     {
         return (
             $this->object->templates->contains('id', $item->getKey())
-            || \in_array(
+            || in_array(
                 $item->getKey(),
-                $this->getSelectedTplFromRequest(), true
+                $this->getSelectedTplFromRequest(),
+                true
             )
         );
     }
 
-    public function isSelectedRole(UserRole $item)
+    public function isSelectedRole(UserRole $item): bool
     {
         return (
             $this->object->userRoles->contains('id', $item->getKey())
-            || \in_array(
+            || in_array(
                 $item->getKey(),
-                $this->getSelectedRoleFromRequest(), true
+                $this->getSelectedRoleFromRequest(),
+                true
             )
         );
     }
-
 
 }

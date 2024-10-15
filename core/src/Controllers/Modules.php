@@ -80,10 +80,9 @@ class Modules extends AbstractController implements PageControllerInterface
 
     protected function getModules() : Collection
     {
-        return SiteModule::query()
-            ->orderBy('name', 'ASC')
-            ->withoutProtected()
+        return SiteModule::withoutProtected()
             ->lockedView()
+            ->orderBy('name')
             ->get();
     }
 
@@ -93,10 +92,10 @@ class Modules extends AbstractController implements PageControllerInterface
     protected function getCategories(): Collection
     {
         return Category::with('modules')
-            ->whereHas('modules', function (Builder $builder) {
+            ->whereHas('modules', function (Builder | SiteModule $builder) {
                 return $builder->withoutProtected()->lockedView();
             })
-            ->orderBy('rank', 'ASC')
+            ->orderBy('rank')
             ->get();
     }
 }

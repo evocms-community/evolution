@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SiteContent;
@@ -27,27 +29,29 @@ class SiteSchedule extends AbstractController implements PageControllerInterface
         return [
             'publishedDocs' => $pub,
             'unpublishedDocs' => $unPub,
-            'allDocs' => $pub->merge($unPub)
+            'allDocs' => $pub->merge($unPub),
         ];
     }
 
     /**
      * @return Collection
      */
-    protected function publishDocuments()
+    protected function publishDocuments(): Collection
     {
-        return SiteContent::where('pub_date', '>', evo()->timestamp())
-            ->orderBy('pub_date', 'asc')
+        return SiteContent::query()
+            ->where('pub_date', '>', evo()->timestamp())
+            ->orderBy('pub_date')
             ->get();
     }
 
     /**
      * @return Collection
      */
-    protected function unPublishDocuments()
+    protected function unPublishDocuments(): Collection
     {
-        return SiteContent::where('unpub_date', '>', evo()->timestamp())
-            ->orderBy('unpub_date', 'asc')
+        return SiteContent::query()
+            ->where('unpub_date', '>', evo()->timestamp())
+            ->orderBy('unpub_date')
             ->get();
     }
 }

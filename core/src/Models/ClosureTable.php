@@ -1,6 +1,8 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Basic ClosureTable model. Performs actions on the relationships table.
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  *
  * @package Franzose\ClosureTable
  */
-class ClosureTable extends Eloquent
+class ClosureTable extends Model
 {
     /**
      * The table associated with the model.
@@ -39,6 +41,7 @@ class ClosureTable extends Eloquent
      *
      * @param mixed $ancestorId
      * @param mixed $descendantId
+     *
      * @return void
      */
     public function insertNode($ancestorId, $descendantId)
@@ -69,7 +72,7 @@ class ClosureTable extends Eloquent
             $descendantId,
             $ancestorId,
             $descendantId,
-            $descendantId
+            $descendantId,
         ]);
 
         return array_map(static function ($row) {
@@ -81,6 +84,7 @@ class ClosureTable extends Eloquent
      * Make a node a descendant of another ancestor or makes it a root node.
      *
      * @param mixed $ancestorId
+     *
      * @return void
      */
     public function moveNodeTo($ancestorId = null)
@@ -115,7 +119,7 @@ class ClosureTable extends Eloquent
 
         $this->getConnection()->statement($query, [
             $ancestorId,
-            $this->descendant
+            $this->descendant,
         ]);
     }
 
@@ -150,7 +154,7 @@ class ClosureTable extends Eloquent
         $this->getConnection()->delete($query, [
             $this->descendant,
             $this->descendant,
-            $this->descendant
+            $this->descendant,
         ]);
     }
 
@@ -171,7 +175,7 @@ class ClosureTable extends Eloquent
      */
     public function getAncestorAttribute(): int
     {
-        return (int)$this->getAttributeFromArray($this->getAncestorColumn());
+        return (int) $this->getAttributeFromArray($this->getAncestorColumn());
     }
 
     /**
@@ -211,7 +215,7 @@ class ClosureTable extends Eloquent
      */
     public function getDescendantAttribute(): int
     {
-        return (int)$this->getAttributeFromArray($this->getDescendantColumn());
+        return (int) $this->getAttributeFromArray($this->getDescendantColumn());
     }
 
     /**
@@ -251,7 +255,7 @@ class ClosureTable extends Eloquent
      */
     public function getDepthAttribute(): int
     {
-        return (int)$this->getAttributeFromArray($this->getDepthColumn());
+        return (int) $this->getAttributeFromArray($this->getDepthColumn());
     }
 
     /**

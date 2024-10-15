@@ -1,40 +1,39 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\MemberGroup
- *
  * @property int $id
  * @property int $user_group
  * @property int $member
- *
- * @mixin \Eloquent
  */
-class MemberGroup extends Eloquent\Model
+class MemberGroup extends Model
 {
     use Traits\Models\ManagerActions;
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $casts = [
-		'user_group' => 'int',
-		'member' => 'int'
-	];
+    protected $casts = [
+        'user_group' => 'int',
+        'member' => 'int',
+    ];
 
-	protected $fillable = [
-		'user_group',
-		'member'
-	];
+    protected $fillable = [
+        'user_group',
+        'member',
+    ];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'member','id');
+        return $this->belongsTo(User::class, 'member', 'id');
     }
 
-    public function group()
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(MembergroupName::class, 'user_group','id');
+        return $this->belongsTo(MembergroupName::class, 'user_group', 'id');
     }
 }

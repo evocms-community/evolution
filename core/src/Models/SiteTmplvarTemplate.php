@@ -1,35 +1,35 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\SiteTmplvarTemplate
- *
  * @property int $tmplvarid
  * @property int $templateid
  * @property int $rank
- *
- * @mixin \Eloquent
  */
-class SiteTmplvarTemplate extends Eloquent\Model
+class SiteTmplvarTemplate extends Model
 {
-	public $incrementing = false;
-	public $timestamps = false;
+    public $incrementing = false;
 
-	protected $casts = [
-		'tmplvarid' => 'int',
-		'templateid' => 'int',
-		'rank' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-	    'tmplvarid',
+    protected $casts = [
+        'tmplvarid' => 'int',
+        'templateid' => 'int',
+        'rank' => 'int',
+    ];
+
+    protected $fillable = [
+        'tmplvarid',
         'templateid',
-		'rank'
-	];
+        'rank',
+    ];
 
-    public function tmplvar()
+    public function tmplvar(): BelongsTo
     {
-        return $this->belongsTo(SiteTmplvar::class, 'tmplvarid','id');
+        return $this->belongsTo(SiteTmplvar::class, 'tmplvarid', 'id');
     }
 }

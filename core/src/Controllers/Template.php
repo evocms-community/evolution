@@ -1,12 +1,14 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\Category;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SiteTmplvar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent;
 
 class Template extends AbstractController implements PageControllerInterface
 {
@@ -14,32 +16,33 @@ class Template extends AbstractController implements PageControllerInterface
 
     protected int $elementType = 1;
 
-    protected $events = [
+    protected array $events = [
         'OnTempFormPrerender',
-        'OnTempFormRender'
+        'OnTempFormRender',
     ];
 
     /** @var SiteTemplate|null */
-    private $object;
+    private ?SiteTemplate $object;
 
     /**
      * {@inheritdoc}
      */
     public function canView(): bool
     {
-        if($this->getIndex() == 16) {
+        if ($this->getIndex() == 16) {
             return evo()->hasPermission('edit_template');
         }
-        if($this->getIndex() == 19) {
+        if ($this->getIndex() == 19) {
             return evo()->hasPermission('new_template');
         }
+
         return false;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function process() : bool
+    public function process(): bool
     {
         evo()->lockElement($this->elementType, $this->getElementId());
 
@@ -47,23 +50,25 @@ class Template extends AbstractController implements PageControllerInterface
         $this->parameters = [
             'data' => $this->object,
             'elementType' => $this->elementType,
-            'categories'       => $this->parameterCategories(),
-            'tvSelected'       => $this->parameterTvSelected(),
+            'categories' => $this->parameterCategories(),
+            'tvSelected' => $this->parameterTvSelected(),
             'categoriesWithTv' => $this->parameterCategoriesWithTv(
                 $this->object->tvs->reject(
                     function (SiteTmplvar $item) {
                         return $item->category === 0;
-                    })->pluck('id')->toArray()
+                    }
+                )->pluck('id')->toArray()
             ),
-            'tvOutCategory'    => $this->parameterTvOutCategory(
+            'tvOutCategory' => $this->parameterTvOutCategory(
                 $this->object->tvs->reject(
                     function (SiteTmplvar $item) {
                         return $item->category !== 0;
-                    })->pluck('id')->toArray()
+                    }
+                )->pluck('id')->toArray()
             ),
-            'action'           => $this->getIndex(),
-            'events'           => $this->parameterEvents(),
-            'actionButtons'    => $this->parameterActionButtons()
+            'action' => $this->getIndex(),
+            'events' => $this->parameterEvents(),
+            'actionButtons' => $this->parameterActionButtons(),
         ];
 
         return true;
@@ -72,16 +77,16 @@ class Template extends AbstractController implements PageControllerInterface
     /**
      * @return SiteTemplate
      */
-    protected function parameterData()
+    protected function parameterData(): SiteTemplate
     {
         $id = $this->getElementId();
 
         /** @var SiteTemplate $data */
         $data = SiteTemplate::with('tvs')
-            ->firstOrNew(['id'   => $id], [
-                    'category'   => (int)get_by_key($_REQUEST, 'catid', 0),
-                    'selectable' => 1
-                ]);
+            ->firstOrNew(['id' => $id], [
+                'category' => (int) get_by_key($_REQUEST, 'catid', 0),
+                'selectable' => 1,
+            ]);
 
         if ($id > 0) {
             if (!$data->exists) {
@@ -107,12 +112,13 @@ class Template extends AbstractController implements PageControllerInterface
 
     protected function parameterCategories(): Collection
     {
-        return Category::orderBy('rank', 'ASC')
-            ->orderBy('category', 'ASC')
+        return Category::query()
+            ->orderBy('rank')
+            ->orderBy('category')
             ->get();
     }
 
-    protected function parameterTvSelected()
+    protected function parameterTvSelected(): array
     {
         return array_unique(array_map('intval', get_by_key($_POST, 'assignedTv', [], 'is_array')));
     }
@@ -120,8 +126,8 @@ class Template extends AbstractController implements PageControllerInterface
     protected function parameterTvOutCategory(array $ignore = []): Collection
     {
         $query = SiteTmplvar::with('templates')
-            ->where('category', '=', 0)
-            ->orderBy('name', 'ASC');
+            ->where('category', 0)
+            ->orderBy('name');
 
         if (!empty($ignore)) {
             $query = $query->whereNotIn('id', $ignore);
@@ -133,19 +139,20 @@ class Template extends AbstractController implements PageControllerInterface
     protected function parameterCategoriesWithTv(array $ignore = []): Collection
     {
         $query = Category::with('tvs.templates')
-            ->whereHas('tvs', function(Eloquent\Builder $builder) use
-            (
+            ->whereHas('tvs', function (Builder $builder) use (
                 $ignore
             ) {
                 if (!empty($ignore)) {
                     $builder = $builder->whereNotIn(
                         (new SiteTmplvar)->getTable() . '.id'
-                        , $ignore
+                        ,
+                        $ignore
                     );
                 }
+
                 return $builder;
             })
-            ->orderBy('rank', 'ASC');
+            ->orderBy('rank');
 
         return $query->get();
     }
@@ -165,24 +172,25 @@ class Template extends AbstractController implements PageControllerInterface
     {
         $out = evo()->invokeEvent($name, [
             'id' => $this->getElementId(),
-            'controller' => $this
+            'controller' => $this,
         ]);
-        if (\is_array($out)) {
+
+        if (is_array($out)) {
             return implode('', $out);
         }
 
-        return (string)$out;
+        return (string) $out;
     }
 
-    protected function parameterActionButtons()
+    protected function parameterActionButtons(): array
     {
         return [
-            'select'    => 1,
-            'save'      => evo()->hasPermission('save_template'),
-            'new'       => evo()->hasPermission('new_template'),
+            'select' => 1,
+            'save' => evo()->hasPermission('save_template'),
+            'new' => evo()->hasPermission('new_template'),
             'duplicate' => $this->object->getKey() && evo()->hasPermission('new_template'),
-            'delete'    => $this->object->getKey() && evo()->hasPermission('delete_template'),
-            'cancel'    => 1
+            'delete' => $this->object->getKey() && evo()->hasPermission('delete_template'),
+            'cancel' => 1,
         ];
     }
 }

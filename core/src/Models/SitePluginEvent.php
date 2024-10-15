@@ -1,33 +1,32 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\SitePluginEvent
- *
  * @property int $pluginid
  * @property int $evtid
  * @property int $priority
- *
- * @mixin \Eloquent
  */
-class SitePluginEvent extends Eloquent\Model
+class SitePluginEvent extends Model
 {
     use Traits\Models\ManagerActions;
 
-	public $incrementing = false;
-	public $timestamps = false;
+    public $incrementing = false;
 
-	protected $casts = [
-		'pluginid' => 'int',
-		'evtid' => 'int',
-		'priority' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-		'pluginid',
-		'evtid',
-		'priority'
-	];
+    protected $casts = [
+        'pluginid' => 'int',
+        'evtid' => 'int',
+        'priority' => 'int',
+    ];
+
+    protected $fillable = [
+        'pluginid',
+        'evtid',
+        'priority',
+    ];
 }

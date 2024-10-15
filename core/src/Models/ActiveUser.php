@@ -1,10 +1,11 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\ActiveUser
- *
  * @property string $sid
  * @property int $internalKey
  * @property string $username
@@ -12,20 +13,20 @@ use Illuminate\Database\Eloquent;
  * @property string $action
  * @property int $id
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\EvolutionCMS\Models\ActiveUser locked($action, $id = null, $userId = null)
- *
- * @mixin \Eloquent
+ * @method static Builder|ActiveUser locked($action, $id = null, $userId = null)
  */
-class ActiveUser extends Eloquent\Model
+class ActiveUser extends Model
 {
     protected $primaryKey = 'sid';
+
     public $incrementing = false;
+
     public $timestamps = false;
 
     protected $casts = [
         'internalKey' => 'int',
-        'lasthit'     => 'int',
-        'id'          => 'int'
+        'lasthit' => 'int',
+        'id' => 'int',
     ];
 
     protected $fillable = [
@@ -33,6 +34,6 @@ class ActiveUser extends Eloquent\Model
         'username',
         'lasthit',
         'action',
-        'id'
+        'id',
     ];
 }

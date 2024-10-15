@@ -1,7 +1,12 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Legacy\LogHandler;
 use EvolutionCMS\Models\ManagerLog as ManagerLogModel;
+use EvolutionCMS\Support\DataGrid;
+use Illuminate\Support\Facades\Config;
 
 class ManagerLog extends AbstractController implements PageControllerInterface
 {
@@ -14,15 +19,11 @@ class ManagerLog extends AbstractController implements PageControllerInterface
      */
     public function canView(): bool
     {
-        switch ($this->getIndex()) {
-            // list
-            case 13:
-                return evo()->hasPermission('logs');
-            // truncate
-            case 55:
-                return evo()->hasPermission('settings');
-        }
-        return false;
+        return match ($this->getIndex()) {
+            13 => evo()->hasPermission('logs'),
+            55 => evo()->hasPermission('settings'),
+            default => false,
+        };
     }
 
     /**
@@ -44,10 +45,11 @@ class ManagerLog extends AbstractController implements PageControllerInterface
                 header('Location: index.php?a=13');
                 exit();
         }
+
         return true;
     }
 
-    protected function getFormElements()
+    protected function getFormElements(): array
     {
         $logs = ManagerLogModel::query()
             ->select('internalKey', 'username', 'action', 'itemid', 'itemname')
@@ -58,18 +60,18 @@ class ManagerLog extends AbstractController implements PageControllerInterface
         // get all users currently in the log
         $l_users = record_sort(array_unique_multi($logs, 'internalKey'), 'username');
         foreach ($l_users as &$row) {
-            $row['active'] = $row['internalKey'] == get_by_key($_REQUEST, 'searchuser') ? true : false;
+            $row['active'] = $row['internalKey'] == get_by_key($_REQUEST, 'searchuser');
         }
 
         // get all available actions in the log
         $l_actions = record_sort(array_unique_multi($logs, 'action'), 'action');
         foreach ($l_actions as &$row) {
-            $name = \EvolutionCMS\Legacy\LogHandler::getAction($row['action']);
+            $name = LogHandler::getAction($row['action']);
             if ($name == 'Idle') {
                 continue;
             }
 
-            $row['active'] = $row['action'] == get_by_key($_REQUEST, 'action') ? true : false;
+            $row['active'] = $row['action'] == get_by_key($_REQUEST, 'action');
             $row['actionname'] = $name;
         }
         $l_actions = record_sort($l_actions, 'actionname');
@@ -81,16 +83,18 @@ class ManagerLog extends AbstractController implements PageControllerInterface
                 unset($l_items[$id]);
                 continue;
             }
-            $row['active'] = isset($_REQUEST['itemid']) && $row['itemid'] == get_by_key($_REQUEST, 'itemid') ? true : false;
+            $row['active'] =
+                isset($_REQUEST['itemid']) && $row['itemid'] == get_by_key($_REQUEST, 'itemid');
         }
 
         // get all itemname currently in log
         $l_names = record_sort(array_unique_multi($logs, 'itemname'), 'itemname');
         foreach ($l_names as &$row) {
-            $row['active'] = $row['itemname'] == get_by_key($_REQUEST, 'itemname') ? true : false;
+            $row['active'] = $row['itemname'] == get_by_key($_REQUEST, 'itemname');
         }
 
-        $this->amount = get_by_key($_REQUEST, 'amount') != '' ? (int) $_REQUEST['amount'] : evo()->getConfig('number_of_logs');
+        $this->amount =
+            get_by_key($_REQUEST, 'amount') != '' ? (int) $_REQUEST['amount'] : Config::get('global.number_of_logs');
 
         return [
             'users' => $l_users,
@@ -98,13 +102,13 @@ class ManagerLog extends AbstractController implements PageControllerInterface
             'items' => $l_items,
             'names' => $l_names,
             'message' => get_by_key($_REQUEST, 'message'),
-            'datefrom' => isset($_REQUEST['datefrom']) ? $_REQUEST['datefrom'] : '',
-            'dateto' => isset($_REQUEST['dateto']) ? $_REQUEST['dateto'] : '',
+            'datefrom' => $_REQUEST['datefrom'] ?? '',
+            'dateto' => $_REQUEST['dateto'] ?? '',
             'amount' => $this->amount,
         ];
     }
 
-    protected function getItems()
+    protected function getItems(): string
     {
         $items = ManagerLogModel::query()
             ->orderBy('timestamp', 'DESC')
@@ -134,7 +138,7 @@ class ManagerLog extends AbstractController implements PageControllerInterface
         }
 
         // set page size to 0 t show all items
-        $grd = new \EvolutionCMS\Support\DataGrid('', $items, $this->amount);
+        $grd = new DataGrid('', $items, $this->amount);
 
         $grd->pagerClass = '';
         $grd->pagerStyle = 'white-space: normal;';
@@ -150,39 +154,39 @@ class ManagerLog extends AbstractController implements PageControllerInterface
 
         $columns = [
             [ // username
-                'width' => '1%',
-                'align' => 'center',
-                'type' => 'template:<a href="index.php?a=13&searchuser=[+internalKey+]">[+e.value+]</a>',
+              'width' => '1%',
+              'align' => 'center',
+              'type' => 'template:<a href="index.php?a=13&searchuser=[+internalKey+]">[+e.value+]</a>',
             ],
             [ // action
-                'width' => '',
-                'align' => 'center',
-                'type' => 'template:<a href="index.php?a=13&action=[+e.value+]">[+message+]</a>',
+              'width' => '',
+              'align' => 'center',
+              'type' => 'template:<a href="index.php?a=13&action=[+e.value+]">[+message+]</a>',
             ],
             [ // itemid
-                'width' => '1%',
-                'align' => 'center',
-                'type' => '',
+              'width' => '1%',
+              'align' => 'center',
+              'type' => '',
             ],
             [ // itemname
-                'width' => '',
-                'align' => '',
-                'type' => '',
+              'width' => '',
+              'align' => '',
+              'type' => '',
             ],
             [ // time
-                'width' => '1%',
-                'align' => '',
-                'type' => 'date:' . evo()->toDateFormat(null, 'formatOnly') . ' H:i:s',
+              'width' => '1%',
+              'align' => '',
+              'type' => 'date:' . evo()->toDateFormat(null, 'formatOnly') . ' H:i:s',
             ],
             [ // ip
-                'width' => '1%',
-                'align' => '',
-                'type' => '',
+              'width' => '1%',
+              'align' => '',
+              'type' => '',
             ],
             [ // user agent
-                'width' => '10%',
-                'align' => '',
-                'type' => '',
+              'width' => '10%',
+              'align' => '',
+              'type' => '',
             ],
         ];
 

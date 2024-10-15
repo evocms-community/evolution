@@ -1,6 +1,9 @@
-<?php namespace EvolutionCMS\Support;
+<?php
+
+namespace EvolutionCMS\Support;
 
 use EvolutionCMS\Interfaces\MysqlDumperInterface;
+use Illuminate\Support\Facades\DB;
 use PDOStatement;
 
 /**
@@ -36,13 +39,14 @@ class MysqlDumper implements MysqlDumperInterface
 
     /**
      * Field with snapshoot filename
+     *
      * @var string
      */
     private $snapshootFile;
 
-
     /**
      * Mysqldumper constructor.
+     *
      * @param string $dbname
      */
     public function __construct($dbname)
@@ -72,18 +76,18 @@ class MysqlDumper implements MysqlDumperInterface
 
     /**
      * @param string $callBack
+     *
      * @return bool
      */
     public function createDump($callBack)
     {
         $modx = evo();
-        $createtable = array();
-        $dataBaseConfig = $modx->getDatabase()->getConfig();
+        $createtable = [];
 
-        $databaseName = $dataBaseConfig['database'];
-
-        $sql =  'SELECT table_name AS "table", round(((data_length + index_length) / 1024 / 1024)) "size" FROM information_schema.TABLES WHERE table_schema = "'.$databaseName.'"';
-        $tableSizes = array_column($modx->getDatabase()->makeArray($modx->getDatabase()->query($sql)),'size','table');
+        $sql =
+            'SELECT table_name AS "table", round(((data_length + index_length) / 1024 / 1024)) "size" FROM information_schema.TABLES WHERE table_schema = "' .
+            DB::getDatabaseName() . '"';
+        $tableSizes = array_column($modx->getDatabase()->makeArray($modx->getDatabase()->query($sql)), 'size', 'table');
 
         // Set line feed
         $lf = "\n";
@@ -135,7 +139,7 @@ class MysqlDumper implements MysqlDumperInterface
                 }
             }
             if ($callBack === 'snapshot') {
-                if (!preg_match('@^' . $modx->getDatabase()->getConfig('prefix') . '@', $tblval)) {
+                if (!preg_match('@^' . DB::getTablePrefix() . '@', $tblval)) {
                     continue;
                 }
             }
@@ -149,22 +153,22 @@ class MysqlDumper implements MysqlDumperInterface
             $output .= "{$createtable[$tblval][0]};{$lf}";
             $output .= $lf;
 
-            $rowCount = $modx->getDatabase()->getValue($modx->getDatabase()->select("COUNT(*)",$tblval));
-            if(!empty($rowCount)){
+            $rowCount = $modx->getDatabase()->getValue($modx->getDatabase()->select("COUNT(*)", $tblval));
+            if (!empty($rowCount)) {
                 $output .= "#{$lf}# Dumping data for table `{$tblval}`{$lf}#{$lf}";
             }
             file_put_contents($tempfile_path, $output, FILE_APPEND | LOCK_EX);
             $output = '';
 
-            if(empty($rowCount)){
+            if (empty($rowCount)) {
                 continue;
             }
 
             $tableSize = $tableSizes[$tblval];
 
-            $parts = round($tableSize/5);
-            $parts = !empty($parts)?$parts:1;
-            $rowByOneQuery = round($rowCount/$parts);
+            $parts = round($tableSize / 5);
+            $parts = !empty($parts) ? $parts : 1;
+            $rowByOneQuery = round($rowCount / $parts);
 
             $total = intval(($rowCount - 1) / $rowByOneQuery) + 1;
 
@@ -174,23 +178,23 @@ class MysqlDumper implements MysqlDumperInterface
                 $start = $page * $rowByOneQuery - $rowByOneQuery;
                 $result = $modx->getDatabase()->select('*', $tblval, '', '', "$start, $rowByOneQuery");
 
-
-
                 while ($arr = $modx->getDatabase()->getRow($result)) {
                     //формируем блок  значений
                     $insertdump = "(";
-                    if (!is_array($arr)) $arr = array();
+                    if (!is_array($arr)) {
+                        $arr = [];
+                    }
 
                     foreach ($arr as $key => $value) {
                         if (is_null($value)) {
                             $value = 'NULL';
                         } else {
                             $value = addslashes($value);
-                            $value = str_replace(array(
+                            $value = str_replace([
                                 "\r\n",
                                 "\r",
-                                "\n"
-                            ), '\\n', $value);
+                                "\n",
+                            ], '\\n', $value);
                             $value = "'{$value}'";
                         }
                         $insertdump .= $value . ',';
@@ -198,18 +202,17 @@ class MysqlDumper implements MysqlDumperInterface
                     $insertdump = rtrim($insertdump, ',') . ")";
 
                     //если еще небыло значен
-                    if($insertQuerySize === 0){
-                        $output .= $lf."INSERT INTO `{$tblval}` VALUES";
-                    }
-                    else{
+                    if ($insertQuerySize === 0) {
+                        $output .= $lf . "INSERT INTO `{$tblval}` VALUES";
+                    } else {
                         $output .= ",";
                     }
-                    $output .= $lf."  ".$insertdump;
-                    $insertQuerySize+=strlen($insertdump);
+                    $output .= $lf . "  " . $insertdump;
+                    $insertQuerySize += strlen($insertdump);
 
                     //если записали больше 30 строк з запрос ставим ; и сбрасивыем счетчик
-                    if($insertQuerySize>47299){
-                        $output .= ";".$lf;
+                    if ($insertQuerySize > 47299) {
+                        $output .= ";" . $lf;
                         $insertQuerySize = 0;
                     }
                     //если большая строрки пишем в файл чтоб не перегрузить память
@@ -221,8 +224,8 @@ class MysqlDumper implements MysqlDumperInterface
                 }
             }
             //если данные есть, и записано больше 0 строк данных ставим ; в конце
-            if(!empty($output) && $insertQuerySize >0){
-                $output .= ";".$lf;
+            if (!empty($output) && $insertQuerySize > 0) {
+                $output .= ";" . $lf;
             }
 
             //пишем блок в файл
@@ -242,7 +245,7 @@ class MysqlDumper implements MysqlDumperInterface
                 dumpSql($tempfile_path);
                 break;
             case 'snapshot':
-                snapshot($tempfile_path,$this->snapshootFile);
+                snapshot($tempfile_path, $this->snapshootFile);
                 break;
         }
 
@@ -257,7 +260,7 @@ class MysqlDumper implements MysqlDumperInterface
      */
     public function result2Array(int $numinarray, PDOStatement $resource): array
     {
-        $array = array();
+        $array = [];
         while ($row = evo()->getDatabase()->getRow($resource, 'num')) {
             $array[] = $row[$numinarray];
         }
@@ -282,7 +285,7 @@ class MysqlDumper implements MysqlDumperInterface
     public function loadObjectList(string $key, PDOStatement $resource): array
     {
         $modx = evo();
-        $array = array();
+        $array = [];
         while ($row = $modx->getDatabase()->getRow($resource, 'object')) {
             if ($key) {
                 $array[$row->$key] = $row;
@@ -296,13 +299,14 @@ class MysqlDumper implements MysqlDumperInterface
 
     /**
      * @param \stdClass $obj
+     *
      * @return array|null
      */
     public function object2Array($obj)
     {
         $array = null;
         if (is_object($obj)) {
-            $array = array();
+            $array = [];
             foreach (get_object_vars($obj) as $key => $value) {
                 if (is_object($value)) {
                     $array[$key] = $this->object2Array($value);
@@ -315,7 +319,8 @@ class MysqlDumper implements MysqlDumperInterface
         return $array;
     }
 
-    public function setSnapshotFile($file){
+    public function setSnapshotFile($file)
+    {
         $this->snapshootFile = $file;
     }
 

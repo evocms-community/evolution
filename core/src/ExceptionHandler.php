@@ -1,15 +1,18 @@
-<?php namespace EvolutionCMS;
+<?php
 
-use Illuminate\View\ViewException;
+namespace EvolutionCMS;
+
+use EvolutionCMS\Providers\TracyServiceProvider;
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Contracts\Container\Container;
-use AgelxNash\Modx\Evo\Database\Exceptions\ConnectException;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\ViewException;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\ErrorHandler\Error\FatalError;
-use Symfony\Component\ErrorHandler\Error\FatalError as FatalErrorException;
-use EvolutionCMS\Providers\TracyServiceProvider;
 
 /**
  * @see: https://github.com/laravel/framework/blob/5.6/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php
@@ -22,18 +25,19 @@ class ExceptionHandler
      * Create a new exception handler instance.
      *
      * @param Container $container
+     *
      * @return void
      */
     public function __construct(Container $container)
     {
         $this->container = $container;
         $this->container->register(TracyServiceProvider::class);
-        if (!$this->container['config']->get('tracy.active')) {
+        if (!Config::get('tracy.active')) {
             $this->registerHandlers();
         }
     }
 
-    protected function registerHandlers()
+    protected function registerHandlers(): void
     {
         register_shutdown_function([$this, 'handleShutdown']);
         set_exception_handler([$this, 'handleException']);
@@ -46,7 +50,7 @@ class ExceptionHandler
      * @return void
      * @deprecated
      */
-    public function handleShutdown()
+    public function handleShutdown(): void
     {
         $error = error_get_last();
         if ($error !== null && $this->isFatal($error['type'])) {
@@ -59,11 +63,12 @@ class ExceptionHandler
      *
      * @param array $error
      * @param int|null $traceOffset
-     * @return FatalErrorException
+     *
+     * @return FatalError
      */
     protected function fatalExceptionFromError(array $error, $traceOffset = null)
     {
-        return new FatalErrorException(
+        return new FatalError(
             $error['message'], $error['type'], $error
         );
     }
@@ -72,9 +77,10 @@ class ExceptionHandler
      * Determine if the error type is fatal.
      *
      * @param int $type
+     *
      * @return bool
      */
-    protected function isFatal($type)
+    protected function isFatal($type): bool
     {
         return in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE]);
     }
@@ -84,6 +90,7 @@ class ExceptionHandler
      * @param string $text Error message
      * @param string $file File where the error was detected
      * @param string $line Line number within $file
+     *
      * @return boolean
      * @deprecated
      * PHP error handler set by http://www.php.net/manual/en/function.set-error-handler.php
@@ -151,6 +158,7 @@ class ExceptionHandler
      * @param string $text
      * @param string $line
      * @param string $output
+     *
      * @return bool
      */
     public function messageQuit(
@@ -163,9 +171,8 @@ class ExceptionHandler
         $text = '',
         $line = '',
         $output = '',
-        $backtrace = array()
-    )
-    {
+        $backtrace = []
+    ) {
         if (0 < $this->container->messageQuitCount) {
             return;
         }
@@ -174,12 +181,13 @@ class ExceptionHandler
         $MakeTable->setTableClass('grid');
         $MakeTable->setRowRegularClass('gridItem');
         $MakeTable->setRowAlternateClass('gridAltItem');
-        $MakeTable->setColumnWidths(array('100px'));
+        $MakeTable->setColumnWidths(['100px']);
 
-        $table = array();
+        $table = [];
 
         if (isset($_SERVER['HTTP_HOST'])) {
-            $request_uri = "http://" . $_SERVER['HTTP_HOST'] . ($_SERVER["SERVER_PORT"] == 80 ? "" : (":" . $_SERVER["SERVER_PORT"])) . $_SERVER['REQUEST_URI'];
+            $request_uri = "http://" . $_SERVER['HTTP_HOST'] .
+                ($_SERVER["SERVER_PORT"] == 80 ? "" : (":" . $_SERVER["SERVER_PORT"])) . $_SERVER['REQUEST_URI'];
             $request_uri = e($request_uri, ENT_QUOTES);
         } else {
             $request_uri = '';
@@ -197,10 +205,11 @@ class ExceptionHandler
         }
 
         if (!empty ($query)) {
-            $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">SQL &gt; <span id="sqlHolder">' . $query . '</span></pre>';
+            $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">SQL &gt; <span id="sqlHolder">' .
+                $query . '</span></pre>';
         }
 
-        $errortype = array(
+        $errortype = [
             E_ERROR => "ERROR",
             E_WARNING => "WARNING",
             E_PARSE => "PARSING ERROR",
@@ -215,45 +224,46 @@ class ExceptionHandler
             E_STRICT => "STRICT NOTICE",
             E_RECOVERABLE_ERROR => "RECOVERABLE ERROR",
             E_DEPRECATED => "DEPRECATED",
-            E_USER_DEPRECATED => "USER DEPRECATED"
-        );
+            E_USER_DEPRECATED => "USER DEPRECATED",
+        ];
 
         if (!empty($nr) || !empty($file)) {
             if ($text != '') {
-                $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : ' . $text . '</pre>';
+                $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : ' .
+                    $text . '</pre>';
             }
             if ($output != '') {
-                $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">' . $output . '</pre>';
+                $str .= '<pre style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">' .
+                    $output . '</pre>';
             }
             if ($nr !== '') {
-                $table[] = array('ErrorType[num]', $errortype [$nr] . "[" . $nr . "]");
+                $table[] = ['ErrorType[num]', $errortype [$nr] . "[" . $nr . "]"];
             }
             if ($file) {
-                $table[] = array('File', $file);
+                $table[] = ['File', $file];
             }
             if ($line) {
-                $table[] = array('Line', $line);
+                $table[] = ['Line', $line];
             }
-
         }
 
         if ($source != '') {
-            $table[] = array("Source", $source);
+            $table[] = ["Source", $source];
         }
 
         if (!empty($this->currentSnippet)) {
-            $table[] = array('Current Snippet', $this->currentSnippet);
+            $table[] = ['Current Snippet', $this->currentSnippet];
         }
 
         if (!empty($this->event->activePlugin)) {
-            $table[] = array('Current Plugin', $this->event->activePlugin . '(' . $this->event->name . ')');
+            $table[] = ['Current Plugin', $this->event->activePlugin . '(' . $this->event->name . ')'];
         }
 
-        $str .= $MakeTable->create($table, array('Error information', ''));
+        $str .= $MakeTable->create($table, ['Error information', '']);
         $str .= "<br />";
 
-        $table = array();
-        $table[] = array('REQUEST_URI', $request_uri);
+        $table = [];
+        $table[] = ['REQUEST_URI', $request_uri];
 
         if ($this->container->getManagerApi()->action) {
             $actionName = Legacy\LogHandler::getAction($this->container->getManagerApi()->action);
@@ -261,35 +271,36 @@ class ExceptionHandler
                 $actionName = ' - ' . $actionName;
             }
 
-            $table[] = array('Manager action', $this->container->getManagerApi()->action . $actionName);
+            $table[] = ['Manager action', $this->container->getManagerApi()->action . $actionName];
         }
 
         if (preg_match('~^[1-9][0-9]*$~', $this->container->documentIdentifier)) {
             $resource = $this->container->getDocumentObject('id', $this->container->documentIdentifier);
             $url = $this->container->makeUrl($this->container->documentIdentifier, '', '', 'full');
-            $table[] = array(
+            $table[] = [
                 'Resource',
-                '[' . $this->container->documentIdentifier . '] <a href="' . $url . '" target="_blank">' . $resource['pagetitle'] . '</a>'
-            );
+                '[' . $this->container->documentIdentifier . '] <a href="' . $url . '" target="_blank">' .
+                $resource['pagetitle'] . '</a>',
+            ];
         }
-        $table[] = array('Referer', $referer);
-        $table[] = array('User Agent', $ua);
+        $table[] = ['Referer', $referer];
+        $table[] = ['User Agent', $ua];
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $table[] = array('IP', $_SERVER['REMOTE_ADDR']);
+            $table[] = ['IP', $_SERVER['REMOTE_ADDR']];
         }
-        $table[] = array(
+        $table[] = [
             'Current time',
-            date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME'] + $this->container->getConfig('server_offset_time'))
-        );
-        $str .= $MakeTable->create($table, array('Basic info', ''));
+            date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME'] + $this->container->getConfig('server_offset_time')),
+        ];
+        $str .= $MakeTable->create($table, ['Basic info', '']);
         $str .= "<br />";
 
-        $table = array();
-        $table[] = array('MySQL', '[^qt^] ([^q^] Requests)');
-        $table[] = array('PHP', '[^p^]');
-        $table[] = array('Total', '[^t^]');
-        $table[] = array('Memory', '[^m^]');
-        $str .= $MakeTable->create($table, array('Benchmarks', ''));
+        $table = [];
+        $table[] = ['MySQL', '[^qt^] ([^q^] Requests)'];
+        $table[] = ['PHP', '[^p^]'];
+        $table[] = ['Total', '[^t^]'];
+        $table[] = ['Memory', '[^m^]'];
+        $str .= $MakeTable->create($table, ['Benchmarks', '']);
         $str .= "<br />";
 
         $totalTime = ($this->container->getMicroTime() - $this->container->tstart);
@@ -300,14 +311,14 @@ class ExceptionHandler
 
         $queryTime = $this->container->queryTime;
         $phpTime = $totalTime - $queryTime;
-        $queries = isset ($this->container->executedQueries) ? $this->container->executedQueries : 0;
+        $queries = $this->container->executedQueries ?? 0;
         $queryTime = sprintf("%2.4f s", $queryTime);
         $totalTime = sprintf("%2.4f s", $totalTime);
         $phpTime = sprintf("%2.4f s", $phpTime);
 
         $str = str_replace(
-            array('[^q^]', '[^qt^]', '[^p^]', '[^t^]', '[^m^]')
-            , array($queries, $queryTime, $phpTime, $totalTime, $total_mem)
+            ['[^q^]', '[^qt^]', '[^p^]', '[^t^]', '[^m^]']
+            , [$queries, $queryTime, $phpTime, $totalTime, $total_mem]
             , $str
         );
 
@@ -334,12 +345,15 @@ class ExceptionHandler
         } else {
             $source = 'Parser';
         }
+
         if ($msg) {
             $source .= ' / ' . $msg;
         }
-        if (isset($actionName) && !empty($actionName)) {
+
+        if (!empty($actionName)) {
             $source .= $actionName;
         }
+
         switch ($nr) {
             case E_DEPRECATED :
             case E_USER_DEPRECATED :
@@ -352,16 +366,18 @@ class ExceptionHandler
                 $error_level = 3;
         }
 
-        if ($this->container->getDatabase()->getConnection()->getDatabaseName()) {
+        if (DB::getDatabaseName()) {
             $this->container->logEvent(0, $error_level, $str, $source);
         }
 
         if ($error_level === 2 && $this->container->error_reporting < 99) {
             return true;
         }
+
         if ($this->container->error_reporting >= 99 && !isset($_SESSION['mgrValidated'])) {
             return true;
         }
+
         if (!headers_sent()) {
             // Set 500 response header
             if ($error_level !== 2) {
@@ -409,22 +425,29 @@ class ExceptionHandler
             }
 
             echo "\n", $this->renderConsoleBacktrace($backtrace);
-        } else if ($this->shouldDisplay()) {
-            $version = isset($GLOBALS['modx_version']) ? $GLOBALS['modx_version'] : '';
-            $release_date = isset($GLOBALS['release_date']) ? $GLOBALS['release_date'] : '';
+        } else {
+            if ($this->shouldDisplay()) {
+                $version = $GLOBALS['modx_version'] ?? '';
+                $release_date = $GLOBALS['release_date'] ?? '';
 
-            echo '<!DOCTYPE html><html><head><title>Evolution CMS Content Manager ' . $version . ' &raquo; ' . $release_date . '</title>
+                echo '<!DOCTYPE html><html><head><title>Evolution CMS Content Manager ' . $version . ' &raquo; ' .
+                    $release_date . '</title>
                  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-                 <link rel="stylesheet" type="text/css" href="' . MODX_MANAGER_URL . 'media/style/' . $this->container->getConfig('manager_theme',
-                    'default') . '/style.css" />
+                 <link rel="stylesheet" type="text/css" href="' . MODX_MANAGER_URL . 'media/style/' .
+                    $this->container->getConfig(
+                        'manager_theme',
+                        'default'
+                    ) . '/style.css" />
                  <style type="text/css">body { padding:10px; } td {font:inherit;}</style>
                  </head><body>
                  ' . $str . '</body></html>';
-        } else {
-            if (file_exists(EVO_CORE_PATH . 'custom/error_page.html')) {
-                echo file_get_contents(EVO_CORE_PATH . 'custom/error_page.html');
-            } else
-                echo 'Error';
+            } else {
+                if (file_exists(EVO_CORE_PATH . 'custom/error_page.html')) {
+                    echo file_get_contents(EVO_CORE_PATH . 'custom/error_page.html');
+                } else {
+                    echo 'Error';
+                }
+            }
         }
         if (!is_cli()) {
             ob_end_flush();
@@ -434,7 +457,7 @@ class ExceptionHandler
 
     protected function shouldDisplay()
     {
-        return isset($_SESSION['mgrValidated']) || $this->container['config']->get('app.debug');
+        return isset($_SESSION['mgrValidated']) || Config::get('app.debug');
     }
 
     protected function prepareBacktrace($backtrace)
@@ -444,34 +467,31 @@ class ExceptionHandler
 
         foreach ($backtrace as $key => $val) {
             $key++;
-            if (substr($val['function'], 0, 11) === 'messageQuit') {
+            if (str_starts_with($val['function'], 'messageQuit')) {
                 break;
             }
 
-            if (substr($val['function'], 0, 8) === 'phpError') {
+            if (str_starts_with($val['function'], 'phpError')) {
                 break;
             }
 
             if (isset($val['file'])) {
                 $path = str_replace('\\', '/', $val['file']);
-                if (strpos($path, MODX_BASE_PATH) === 0) {
+                if (str_starts_with($path, MODX_BASE_PATH)) {
                     $path = substr($path, strlen(MODX_BASE_PATH));
                 }
             } else {
-                $path ='';
+                $path = '';
             }
 
-            switch (get_by_key($val, 'type')) {
-                case '->':
-                case '::':
-                    $functionName = $val['function'] = $val['class'] . $val['type'] . $val['function'];
-                    break;
-                default:
-                    $functionName = $val['function'];
-            }
+            $functionName = match (get_by_key($val, 'type')) {
+                '->', '::' => $val['function'] = $val['class'] . $val['type'] . $val['function'],
+                default => $val['function'],
+            };
+
             $tmp = 1;
             $_ = (!empty($val['args'])) ? count($val['args']) : 0;
-            $args = array_pad(array(), $_, '$var');
+            $args = array_pad([], $_, '$var');
             $args = implode(", ", $args);
             $modx = &$this;
             $args = preg_replace_callback('/\$var/', function () use ($modx, &$tmp, $val) {
@@ -489,7 +509,8 @@ class ExceptionHandler
                     }
                     case is_scalar($arg):
                     {
-                        $out = strlen($arg) > 20 ? 'string $var' . $tmp : ("'" . e(str_replace("'", "\\'", $arg)) . "'");
+                        $out =
+                            strlen($arg) > 20 ? 'string $var' . $tmp : ("'" . e(str_replace("'", "\\'", $arg)) . "'");
                         break;
                     }
                     case is_bool($arg):
@@ -530,6 +551,7 @@ class ExceptionHandler
 
     /**
      * @param $backtrace
+     *
      * @return string
      */
     public function getBacktrace($backtrace)
@@ -539,6 +561,7 @@ class ExceptionHandler
 
     /**
      * @param $backtrace
+     *
      * @return string
      */
     public function renderBacktrace($backtrace)
@@ -547,20 +570,23 @@ class ExceptionHandler
         $MakeTable->setTableClass('grid');
         $MakeTable->setRowRegularClass('gridItem');
         $MakeTable->setRowAlternateClass('gridAltItem');
-        $table = array();
+        $table = [];
 
         foreach ($backtrace as $line) {
-            $table[] = array(implode("<br />", [
-                "<strong>" . $line['func'] . "</strong>(" . $line['args'] . ")",
-                $line['path'] . " on line " . $line['line'],
-            ]));
+            $table[] = [
+                implode("<br />", [
+                    "<strong>" . $line['func'] . "</strong>(" . $line['args'] . ")",
+                    $line['path'] . " on line " . $line['line'],
+                ]),
+            ];
         }
 
-        return $MakeTable->create($table, array('Backtrace'));
+        return $MakeTable->create($table, ['Backtrace']);
     }
 
     /**
      * @param $backtrace
+     *
      * @return string
      */
     public function renderConsoleBacktrace($backtrace)
@@ -568,7 +594,8 @@ class ExceptionHandler
         $result = '';
 
         foreach ($backtrace as $i => $line) {
-            $result .= '#' . ($i + 1) . '. ' . $line['func'] . '(' . $line['args'] . '), ' . $line['path'] . ' on line ' . $line['line'] . "\n";
+            $result .= '#' . ($i + 1) . '. ' . $line['func'] . '(' . $line['args'] . '), ' . $line['path'] .
+                ' on line ' . $line['line'] . "\n";
         }
 
         return $result;
@@ -578,6 +605,7 @@ class ExceptionHandler
      * Determine if the exception should be reported.
      *
      * @param \Throwable $exception
+     *
      * @return bool
      */
     public function shouldReport(\Throwable $exception)
@@ -587,6 +615,7 @@ class ExceptionHandler
 
     /**
      * @param \Throwable $exception
+     *
      * @deprecated
      */
     public function handleException(\Throwable $exception)
@@ -599,11 +628,12 @@ class ExceptionHandler
         }
 
         if (is_cli() && (
-            $exception instanceof RuntimeException ||
-            $exception instanceof InvalidArgumentException ||
-            $exception instanceof InvalidOptionException ||
-            $exception instanceof CommandNotFoundException
-        )) {
+                $exception instanceof RuntimeException ||
+                $exception instanceof InvalidArgumentException ||
+                $exception instanceof InvalidOptionException ||
+                $exception instanceof CommandNotFoundException
+            )
+        ) {
             echo $exception->getMessage();
             exit;
         }

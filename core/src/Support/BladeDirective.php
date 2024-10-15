@@ -15,7 +15,7 @@ class BladeDirective
 
     public static function config(string $params): string
     {
-        return '<?php echo evo()->getConfig("' . $params . '");?>';
+        return '<?php echo \Illuminate\Support\Facades\Config::get("global."' . $params . ');?>';
     }
 
     public static function phpthumb(string $params): string

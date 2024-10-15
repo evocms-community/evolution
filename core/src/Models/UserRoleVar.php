@@ -2,21 +2,19 @@
 
 namespace EvolutionCMS\Models;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\UserRoleVar
- *
  * @property int $tmplvarid
  * @property int $roleid
  * @property int $rank
- *
- * @mixin \Eloquent
  */
-class UserRoleVar extends Eloquent\Model
+class UserRoleVar extends Model
 {
 	public $incrementing = false;
-	public $timestamps = false;
+
+    public $timestamps = false;
 
 	protected $casts = [
 		'tmplvarid' => 'int',
@@ -30,7 +28,7 @@ class UserRoleVar extends Eloquent\Model
 		'rank'
 	];
 
-    public function tmplvar()
+    public function tmplvar(): BelongsTo
     {
         return $this->belongsTo(SiteTmplvar::class, 'tmplvarid','id');
     }

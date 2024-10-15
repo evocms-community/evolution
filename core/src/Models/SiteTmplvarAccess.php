@@ -1,32 +1,32 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * EvolutionCMS\Models\SiteTmplvarAccess
- *
  * @property int $id
  * @property int $tmplvarid
  * @property int $documentgroup
- *
- * @mixin \Eloquent
  */
-class SiteTmplvarAccess extends Eloquent\Model
+class SiteTmplvarAccess extends Model
 {
-	protected $table = 'site_tmplvar_access';
-	public $timestamps = false;
+    protected $table = 'site_tmplvar_access';
 
-	protected $casts = [
-		'tmplvarid' => 'int',
-		'documentgroup' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-		'tmplvarid',
-		'documentgroup'
-	];
+    protected $casts = [
+        'tmplvarid' => 'int',
+        'documentgroup' => 'int',
+    ];
 
-    public function tmplvar()
+    protected $fillable = [
+        'tmplvarid',
+        'documentgroup',
+    ];
+
+    public function tmplvar(): BelongsTo
     {
         return $this->belongsTo(SiteTmplvar::class, 'tmplvarid', 'id');
     }

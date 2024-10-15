@@ -1,10 +1,10 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\RolePermissions
- *
  * @property int $id
  * @property string $permission
  * @property string $role_id
@@ -14,15 +14,11 @@ use Illuminate\Database\Eloquent;
  * Virtual
  * @property-read \Carbon\Carbon $created_at
  * @property-read \Carbon\Carbon $updated_at
- *
- * @mixin \Eloquent
  */
-class RolePermissions extends Eloquent\Model
+class RolePermissions extends Model
 {
-
-	protected $fillable = [
-		'permission',
-		'role_id',
-	];
-
+    protected $fillable = [
+        'permission',
+        'role_id',
+    ];
 }

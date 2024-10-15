@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use Illuminate\Support\Arr;
 
@@ -9,6 +11,7 @@ abstract class AbstractResources extends AbstractController
     public function setNoData(): self
     {
         $this->noData = true;
+
         return $this;
     }
 
@@ -30,26 +33,41 @@ abstract class AbstractResources extends AbstractController
         return array_merge([
             'index' => $this->getIndex(),
             'mraTranslations' => $this->parameterMraTranslations(),
-            'unlockTranslations' => $this->parameterUnLockTranslations()
+            'unlockTranslations' => $this->parameterUnLockTranslations(),
         ], $params);
     }
 
     protected function parameterMraTranslations(): array
     {
         return $this->makeTranslations([
-            'create_new', 'edit', 'duplicate', 'remove', 'confirm_duplicate_record', 'confirm_delete_template',
-            'confirm_delete_tmplvars', 'confirm_delete_htmlsnippet', 'confirm_delete_snippet', 'confirm_delete_plugin',
-            'confirm_delete_module'
+            'create_new',
+            'edit',
+            'duplicate',
+            'remove',
+            'confirm_duplicate_record',
+            'confirm_delete_template',
+            'confirm_delete_tmplvars',
+            'confirm_delete_htmlsnippet',
+            'confirm_delete_snippet',
+            'confirm_delete_plugin',
+            'confirm_delete_module',
         ]);
     }
 
     protected function parameterUnLockTranslations(): array
     {
         $out = $this->makeTranslations([
-            'unlock_element_id_warning', 'lock_element_type_1', 'lock_element_type_2', 'lock_element_type_3',
-            'lock_element_type_4', 'lock_element_type_5', 'lock_element_type_6', 'lock_element_type_7',
-            'lock_element_type_8'
+            'unlock_element_id_warning',
+            'lock_element_type_1',
+            'lock_element_type_2',
+            'lock_element_type_3',
+            'lock_element_type_4',
+            'lock_element_type_5',
+            'lock_element_type_6',
+            'lock_element_type_7',
+            'lock_element_type_8',
         ]);
+
         return [
             'msg' => get_by_key($out, 'unlock_element_id_warning'),
             'type1' => get_by_key($out, 'lock_element_type_1'),
@@ -65,8 +83,6 @@ abstract class AbstractResources extends AbstractController
 
     private function makeTranslations(array $keys)
     {
-        $out = Arr::only(__('global'), $keys);
-
-        return $out;
+        return Arr::only(__('global'), $keys);
     }
 }
