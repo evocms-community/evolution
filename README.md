@@ -47,6 +47,8 @@ To run **Evolution CMS** using docker make **docker-compose up -d** command in y
 | ------------- | ------------- |
 | Official Website | https://evo-cms.com/ |
 | | https://evocms.ru/ |
+| Community Forums | https://forum.evo-cms.com/ |
+| | https://community.evocms.ru/ |
 | Documentation | https://docs.evo-cms.com |
 | | https://github.com/evocms-community/docs |
 | Downloads | https://github.com/evocms-community/evolution/releases |
