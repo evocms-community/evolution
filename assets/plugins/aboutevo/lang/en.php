@@ -13,7 +13,7 @@ return [
     [
         'icon' => 'fa-users',
         'title' => 'Community forums',
-        'link' => 'https://forum.evo.im/'
+        'link' => 'https://forum.evo-cms.com/'
     ],
     [
         'icon' => 'fa-telegram',
