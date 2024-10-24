@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
@@ -8,15 +10,9 @@ class RefreshSite extends AbstractController implements PageControllerInterface
 {
     protected string $view = 'page.refresh_site';
 
-    /**
-     * @var \EvolutionCMS\Interfaces\DatabaseInterface
-     */
-    protected $database;
-
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
         parent::__construct($managerTheme, $data);
-        $this->database = evo()->getDatabase();
     }
 
     /**
@@ -27,7 +23,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
         return true;
     }
 
-    public function process() : bool
+    public function process(): bool
     {
         // (un)publishing of documents, version 2!
         // first, publish document waiting to be published
@@ -40,7 +36,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
 
         ob_start();
         evo()->clearCache('full', true);
-            $this->parameters['cache_log'] = ob_get_contents();
+        $this->parameters['cache_log'] = ob_get_contents();
         ob_end_clean();
 
         // invoke OnSiteRefresh event
@@ -49,7 +45,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
         return true;
     }
 
-    protected function publishDocuments(int $time) : int
+    protected function publishDocuments(int $time): int
     {
         $query = SiteContent::publishDocuments($time);
 
@@ -60,7 +56,7 @@ class RefreshSite extends AbstractController implements PageControllerInterface
         return $count;
     }
 
-    protected function unPublishDocuments(int $time) : int
+    protected function unPublishDocuments(int $time): int
     {
         $query = SiteContent::unPublishDocuments($time);
 

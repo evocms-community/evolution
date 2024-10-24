@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS;
+<?php
+
+namespace EvolutionCMS;
 
 class Event implements Interfaces\EventInterface
 {
@@ -11,7 +13,7 @@ class Event implements Interfaces\EventInterface
     public $_output;
     public $activated = false;
     public $activePlugin = '';
-    public $params = array();
+    public $params = [];
     /**
      * @var null|Event
      */
@@ -42,8 +44,9 @@ class Event implements Interfaces\EventInterface
     /**
      * Display a message to the user
      *
-     * @global array $SystemAlertMsgQueque
      * @param string $msg The message
+     *
+     * @global array $SystemAlertMsgQueque
      */
     public function alert($msg)
     {
@@ -54,9 +57,10 @@ class Event implements Interfaces\EventInterface
         if (is_array($SystemAlertMsgQueque)) {
             $title = '';
             if ($this->name && $this->activePlugin) {
-                $title = '<div><b>'.$this->activePlugin.'</b> - <span style="color:maroon;">'.$this->name.'</span></div>';
+                $title = '<div><b>' . $this->activePlugin . '</b> - <span style="color:maroon;">' . $this->name .
+                    '</span></div>';
             }
-            $SystemAlertMsgQueque[] = $title.'<div style="margin-left:10px;margin-top:3px;">'.$msg.'</div>';
+            $SystemAlertMsgQueque[] = $title . '<div style="margin-left:10px;margin-top:3px;">' . $msg . '</div>';
         }
     }
 
@@ -64,6 +68,7 @@ class Event implements Interfaces\EventInterface
      * Output
      *
      * @param string $msg
+     *
      * @deprecated see addOutput
      */
     public function output($msg)

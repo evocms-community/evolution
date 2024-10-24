@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\Resources;
+<?php
+
+namespace EvolutionCMS\Controllers\Resources;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -33,17 +35,17 @@ class Tv extends AbstractResources implements TabControllerInterface
             'new_template',
             'edit_template',
             'new_role',
-            'edit_role'
+            'edit_role',
         ]);
     }
 
-    protected function getBaseParams()
+    protected function getBaseParams(): array
     {
         return array_merge(
             parent::getParameters(),
             [
-                'tabPageName'      => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabPageName' => $this->getTabName(false),
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }
@@ -51,7 +53,7 @@ class Tv extends AbstractResources implements TabControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function getParameters(array $params = []) : array
+    public function getParameters(array $params = []): array
     {
         $params = array_merge($this->getBaseParams(), $params);
 
@@ -61,25 +63,26 @@ class Tv extends AbstractResources implements TabControllerInterface
 
         return array_merge([
             'categories' => $this->parameterCategories(),
-            'outCategory' => $this->parameterOutCategory()
+            'outCategory' => $this->parameterOutCategory(),
         ], $params);
     }
 
     protected function parameterOutCategory(): Collection
     {
-        return SiteTmplvar::with('templates')
-            ->where('category', '=', 0)
-            ->orderBy('name', 'ASC')
-            ->lockedView()
+        return SiteTmplvar::lockedView()
+            ->with('templates')
+            ->where('category', 0)
+            ->orderBy('name')
             ->get();
     }
 
     protected function parameterCategories(): Collection
     {
         return Category::with('tvs.templates', 'tvs.userRoles')
-            ->whereHas('tvs', function (Builder $builder) {
+            ->whereHas('tvs', function (Builder | SiteTmplvar $builder) {
                 return $builder->lockedView();
-            })->orderBy('rank', 'ASC')
+            })
+            ->orderBy('rank')
             ->get();
     }
 }

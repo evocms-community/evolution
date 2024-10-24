@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 
@@ -17,15 +19,15 @@ class Password extends AbstractController implements PageControllerInterface
     public function getParameters(array $params = []): array
     {
         return [
-            'actionButtons' => $this->parameterActionButtons()
+            'actionButtons' => $this->parameterActionButtons(),
         ];
     }
 
-    protected function parameterActionButtons()
+    protected function parameterActionButtons(): array
     {
         return [
             'save' => 1,
-            'cancel' => 1
+            'cancel' => 1,
         ];
     }
 }

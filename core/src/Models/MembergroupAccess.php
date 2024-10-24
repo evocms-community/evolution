@@ -1,30 +1,29 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\MembergroupAccess
- *
  * @property int $id
  * @property int $membergroup
  * @property int $documentgroup
- *
- * @mixin \Eloquent
  */
-class MembergroupAccess extends Eloquent\Model
+class MembergroupAccess extends Model
 {
     protected $table = 'membergroup_access';
+
     public $timestamps = false;
 
     protected $casts = [
-        'membergroup'   => 'int',
+        'membergroup' => 'int',
         'documentgroup' => 'int',
-        'context'       => 'int'
+        'context' => 'int',
     ];
 
     protected $fillable = [
         'membergroup',
         'documentgroup',
-        'context'
+        'context',
     ];
 }

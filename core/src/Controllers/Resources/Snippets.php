@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS\Controllers\Resources;
+<?php
+
+namespace EvolutionCMS\Controllers\Resources;
 
 use EvolutionCMS\Controllers\AbstractResources;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
@@ -31,17 +33,17 @@ class Snippets extends AbstractResources implements TabControllerInterface
     {
         return evo()->hasAnyPermissions([
             'new_snippet',
-            'edit_snippet'
+            'edit_snippet',
         ]);
     }
 
-    protected function getBaseParams()
+    protected function getBaseParams(): array
     {
         return array_merge(
             parent::getParameters(),
             [
                 'tabPageName' => $this->getTabName(false),
-                'tabIndexPageName' => $this->getTabName()
+                'tabIndexPageName' => $this->getTabName(),
             ]
         );
     }
@@ -49,7 +51,7 @@ class Snippets extends AbstractResources implements TabControllerInterface
     /**
      * {@inheritdoc}
      */
-    public function getParameters(array $params = []) : array
+    public function getParameters(array $params = []): array
     {
         $params = array_merge($this->getBaseParams(), $params);
 
@@ -59,24 +61,25 @@ class Snippets extends AbstractResources implements TabControllerInterface
 
         return array_merge([
             'categories' => $this->parameterCategories(),
-            'outCategory' => $this->parameterOutCategory()
+            'outCategory' => $this->parameterOutCategory(),
         ], $params);
     }
 
-    protected function parameterOutCategory() : Collection
+    protected function parameterOutCategory(): Collection
     {
-        return SiteSnippet::where('category', '=', 0)
-            ->orderBy('name', 'ASC')
-            ->lockedView()
+        return SiteSnippet::lockedView()
+            ->where('category', 0)
+            ->orderBy('name')
             ->get();
     }
 
-    protected function parameterCategories() : Collection
+    protected function parameterCategories(): Collection
     {
         return Category::with('snippets')
-            ->whereHas('snippets', function (Builder $builder) {
+            ->whereHas('snippets', function (Builder | SiteSnippet $builder) {
                 return $builder->lockedView();
-            })->orderBy('rank', 'ASC')
+            })
+            ->orderBy('rank')
             ->get();
     }
 }

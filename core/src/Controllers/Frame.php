@@ -1,17 +1,22 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Facades\ManagerTheme;
-use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
+use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Models\SiteModule;
+use EvolutionCMS\Support\Formatter\CSSMinify;
+use EvolutionCMS\Support\Menu;
+use Illuminate\Support\Facades\Config;
 
 class Frame extends AbstractController implements PageControllerInterface
 {
     protected string $view;
 
-    protected $frame;
+    protected string $frame;
 
-    protected $sitemenu = [];
+    protected array $sitemenu = [];
 
     public function __construct(ManagerThemeInterface $managerTheme, array $data = [])
     {
@@ -54,14 +59,10 @@ class Frame extends AbstractController implements PageControllerInterface
         );
 
         $body_class = '';
-        $tree_width = evo()->getConfig('manager_tree_width');
         $this->parameters['tree_min_width'] = 0;
 
-        if (isset($_COOKIE['MODX_widthSideBar'])) {
-            $MODX_widthSideBar = $_COOKIE['MODX_widthSideBar'];
-        } else {
-            $MODX_widthSideBar = $tree_width;
-        }
+        $MODX_widthSideBar = $_COOKIE['MODX_widthSideBar'] ?? Config::get('global.manager_tree_width', 20);
+
         $this->parameters['MODX_widthSideBar'] = $MODX_widthSideBar;
 
         if (!$MODX_widthSideBar) {
@@ -71,11 +72,11 @@ class Frame extends AbstractController implements PageControllerInterface
         $theme_modes = ['', 'lightness', 'light', 'dark', 'darkness'];
         if (isset($_COOKIE['MODX_themeMode']) && !empty($theme_modes[$_COOKIE['MODX_themeMode']])) {
             $body_class .= ' ' . $theme_modes[$_COOKIE['MODX_themeMode']];
-        } elseif (!empty($theme_modes[evo()->getConfig('manager_theme_mode')])) {
-            $body_class .= ' ' . $theme_modes[evo()->getConfig('manager_theme_mode')];
+        } elseif (!empty($theme_modes[Config::get('global.manager_theme_mode')])) {
+            $body_class .= ' ' . $theme_modes[Config::get('global.manager_theme_mode')];
         }
 
-        $navbar_position = evo()->getConfig('manager_menu_position');
+        $navbar_position = Config::get('global.manager_menu_position');
         if ($navbar_position === 'left') {
             $body_class .= ' navbar-left navbar-left-icon-and-text';
         }
@@ -101,27 +102,29 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->parameters['unlockTranslations'] = $unlockTranslations;
 
         $user = evo()->getUserInfo(evo()->getLoginUserID('mgr'));
-        if ((isset($user['which_browser']) && $user['which_browser'] == 'default') || (!isset($user['which_browser']))) {
-            $user['which_browser'] = evo()->getConfig('which_browser');
+        if ((isset($user['which_browser']) && $user['which_browser'] == 'default') ||
+            (!isset($user['which_browser']))
+        ) {
+            $user['which_browser'] = Config::get('global.which_browser');
         }
         $this->parameters['user'] = $user;
 
         $this->registerCss();
 
         $flag = $user['role'] == 1 || evo()->hasAnyPermissions([
-            'edit_template',
-            'edit_chunk',
-            'edit_snippet',
-            'edit_plugin',
-            'edit_user',
-            'edit_role',
-            'edit_module',
-            'exec_module',
-        ]);
+                'edit_template',
+                'edit_chunk',
+                'edit_snippet',
+                'edit_plugin',
+                'edit_user',
+                'edit_role',
+                'edit_module',
+                'exec_module',
+            ]);
 
         evo()->setConfig(
             'global_tabs',
-            (int) (evo()->getConfig('global_tabs') && $flag)
+            (int) (Config::get('global.global_tabs') && $flag)
         );
 
         $this->makeMenu();
@@ -140,7 +143,7 @@ class Frame extends AbstractController implements PageControllerInterface
 
     protected function initSession(): void
     {
-        $_SESSION['browser'] = (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 1') !== false) ? 'legacy_IE' : 'modern';
+        $_SESSION['browser'] = str_contains($_SERVER['HTTP_USER_AGENT'], 'MSIE 1') ? 'legacy_IE' : 'modern';
 
         if (isset($_SESSION['onLoginForwardToAction']) && is_int($_SESSION['onLoginForwardToAction'])) {
             $this->parameters['initMainframeAction'] = $_SESSION['onLoginForwardToAction'];
@@ -164,7 +167,7 @@ class Frame extends AbstractController implements PageControllerInterface
             if (!file_exists($themeDir . 'css/styles.min.css') && is_writable($themeDir . 'css')) {
                 $cssFiles = include_once $themeDir . 'CSSMinify.php';
                 if (is_array($cssFiles) && count($cssFiles)) {
-                    $minifier = new \EvolutionCMS\Support\Formatter\CSSMinify();
+                    $minifier = new CSSMinify();
                     foreach ($cssFiles as $item) {
                         $minifier->addFile($item);
                     }
@@ -173,14 +176,15 @@ class Frame extends AbstractController implements PageControllerInterface
             }
 
             if (file_exists($themeDir . 'css/styles.min.css')) {
-                $this->parameters['css'] = ManagerTheme::getThemeDir(false) . 'css/styles.min.css?v=' . EVO_INSTALL_TIME;
+                $this->parameters['css'] =
+                    ManagerTheme::getThemeDir(false) . 'css/styles.min.css?v=' . EVO_INSTALL_TIME;
             }
         }
 
         return $this->parameters['css'];
     }
 
-    protected function makeMenu()
+    protected function makeMenu(): void
     {
         $this->menuBars()
             ->menuSite()
@@ -203,22 +207,24 @@ class Frame extends AbstractController implements PageControllerInterface
             ->menuUpdateTree();
 
         $menu = evo()->invokeEvent('OnManagerMenuPrerender', ['menu' => $this->sitemenu]);
-        if (\is_array($menu)) {
+        if (is_array($menu)) {
             $newmenu = [];
+
             foreach ($menu as $item) {
                 $data = unserialize($item, ['allowed_classes' => false]);
-                if (\is_array($data)) {
+                if (is_array($data)) {
                     foreach ($data as $k => $v) {
                         $newmenu[$k] = $v;
                     }
                 }
             }
-            if (\count($newmenu) > 0) {
+
+            if (count($newmenu) > 0) {
                 $this->sitemenu = $newmenu;
             }
         }
 
-        $this->parameters['menu'] = (new \EvolutionCMS\Support\Menu())
+        $this->parameters['menu'] = (new Menu())
             ->Build(
                 $this->sitemenu,
                 [
@@ -233,7 +239,7 @@ class Frame extends AbstractController implements PageControllerInterface
             );
     }
 
-    protected function menuBars()
+    protected function menuBars(): static
     {
         $this->sitemenu['bars'] = [
             'bars',
@@ -252,12 +258,13 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuSite()
+    protected function menuSite(): static
     {
         $this->sitemenu['site'] = [
             'site',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_tachometer') . '"></i><span class="menu-item-text">' . __('global.home') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_tachometer') . '"></i><span class="menu-item-text">' .
+            __('global.home') . '</span>',
             'index.php?a=2',
             __('global.home'),
             '',
@@ -271,7 +278,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuElementTypes()
+    protected function menuElementTypes(): static
     {
         $flag = evo()->hasAnyPermissions(
             ['edit_template', 'edit_snippet', 'edit_chunk', 'edit_plugin', 'category_manager', 'file_manager']
@@ -284,7 +291,8 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['elements'] = [
             'elements',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_elements') . '"></i><span class="menu-item-text">' . __('global.elements') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_elements') . '"></i><span class="menu-item-text">' .
+            __('global.elements') . '</span>',
             'javascript:;',
             __('global.elements'),
             ' return false;',
@@ -298,7 +306,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuModules()
+    protected function menuModules(): static
     {
         if (!evo()->hasPermission('exec_module')) {
             return $this;
@@ -307,7 +315,8 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['modules'] = [
             'modules',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_modules') . '"></i><span class="menu-item-text">' . __('global.modules') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_modules') . '"></i><span class="menu-item-text">' .
+            __('global.modules') . '</span>',
             'javascript:;',
             __('global.modules'),
             ' return false;',
@@ -321,7 +330,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuUsers()
+    protected function menuUsers(): static
     {
         $flag = evo()->hasAnyPermissions(
             ['edit_user', 'edit_role', 'manage_groups']
@@ -334,7 +343,8 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['users'] = [
             'users',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_users') . '"></i><span class="menu-item-text">' . __('global.users') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_users') . '"></i><span class="menu-item-text">' .
+            __('global.users') . '</span>',
             'javascript:;',
             __('global.users'),
             ' return false;',
@@ -348,7 +358,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuTools()
+    protected function menuTools(): static
     {
         $flag = evo()->hasAnyPermissions(
             ['empty_cache', 'bk_manager', 'remove_locks', 'import_static', 'export_static']
@@ -361,7 +371,8 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['tools'] = [
             'tools',
             'main',
-            '<i class="' . ManagerTheme::getStyle('icon_wrench') . '"></i><span class="menu-item-text">' . __('global.tools') . '</span>',
+            '<i class="' . ManagerTheme::getStyle('icon_wrench') . '"></i><span class="menu-item-text">' .
+            __('global.tools') . '</span>',
             'javascript:;',
             __('global.tools'),
             ' return false;',
@@ -375,28 +386,28 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuElements()
+    protected function menuElements(): static
     {
-        $this->menuElementTemplates();
-        $this->menuElementTv();
-        $this->menuElementChunks();
-        $this->menuElementSnippets();
-        $this->menuElementPlugins();
-        $this->menuElementModules();
-
-        return $this;
+        return $this
+            ->menuElementTemplates()
+            ->menuElementTv()
+            ->menuElementChunks()
+            ->menuElementSnippets()
+            ->menuElementPlugins()
+            ->menuElementModules();
     }
 
-    protected function menuElementTemplates()
+    protected function menuElementTemplates(): static
     {
         if (!evo()->hasPermission('edit_template')) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_templates'] = [
             'element_templates',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_template') . '"></i>' . __('global.templates') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_template') . '"></i>' . __('global.templates') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=0',
             __('global.templates'),
             '',
@@ -406,18 +417,21 @@ class Frame extends AbstractController implements PageControllerInterface
             10,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuElementTv()
+    protected function menuElementTv(): static
     {
         if (!evo()->hasAnyPermissions(['edit_template', 'edit_role'])) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_tplvars'] = [
             'element_tplvars',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i>' . __('global.tmplvars') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_tv') . '"></i>' . __('global.tmplvars') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=1',
             __('global.tmplvars'),
             '',
@@ -427,18 +441,21 @@ class Frame extends AbstractController implements PageControllerInterface
             20,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuElementChunks()
+    protected function menuElementChunks(): static
     {
         if (!evo()->hasPermission('edit_chunk')) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_htmlsnippets'] = [
             'element_htmlsnippets',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i>' . __('global.htmlsnippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_chunk') . '"></i>' . __('global.htmlsnippets') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=2',
             __('global.htmlsnippets'),
             '',
@@ -448,18 +465,21 @@ class Frame extends AbstractController implements PageControllerInterface
             30,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuElementSnippets()
+    protected function menuElementSnippets(): static
     {
         if (!evo()->hasPermission('edit_snippet')) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_snippets'] = [
             'element_snippets',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i>' . __('global.snippets') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_code') . '"></i>' . __('global.snippets') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=3',
             __('global.snippets'),
             '',
@@ -469,18 +489,21 @@ class Frame extends AbstractController implements PageControllerInterface
             40,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuElementPlugins()
+    protected function menuElementPlugins(): static
     {
         if (!evo()->hasPermission('edit_plugin')) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_plugins'] = [
             'element_plugins',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_plugin') . '"></i>' . __('global.plugins') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_plugin') . '"></i>' . __('global.plugins') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=4',
             __('global.plugins'),
             '',
@@ -490,18 +513,21 @@ class Frame extends AbstractController implements PageControllerInterface
             50,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuElementModules()
+    protected function menuElementModules(): static
     {
         if (!evo()->hasPermission('edit_module')) {
-            return;
+            return $this;
         }
 
         $this->sitemenu['element_modules'] = [
             'element_modules',
             'elements',
-            '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>' . __('global.modules') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>' . __('global.modules') . '<i class="' .
+            ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=76&tab=5',
             __('global.modules'),
             '',
@@ -511,9 +537,11 @@ class Frame extends AbstractController implements PageControllerInterface
             60,
             'dropdown-toggle',
         ];
+
+        return $this;
     }
 
-    protected function menuFiles()
+    protected function menuFiles(): static
     {
         if (!evo()->hasPermission('file_manager')) {
             return $this;
@@ -536,7 +564,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuCategories()
+    protected function menuCategories(): static
     {
         if (!evo()->hasPermission('category_manager')) {
             return $this;
@@ -559,35 +587,32 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuNewModule()
+    protected function menuNewModule(): static
     {
-        $flag = evo()->hasAnyPermissions(
+        evo()->hasAnyPermissions(
             ['new_module', 'edit_module', 'save_module']
         );
-
-        if (!$flag) {
-            return $this;
-        }
 
         return $this;
     }
 
-    protected function menuRunModules()
+    protected function menuRunModules(): static
     {
         if (evo()->hasPermission('exec_module')) {
             $items = [];
 
             // 1. modules from DB
             if ($_SESSION['mgrRole'] != 1) {
-                $modules = SiteModule::select('site_modules.id', 'site_modules.name', 'site_modules.icon', 'member_groups.member')
-                    ->withoutProtected()
+                $modules = SiteModule::withoutProtected()
                     ->lockedView()
+                    ->select('site_modules.id', 'site_modules.name', 'site_modules.icon', 'member_groups.member')
                     ->where('site_modules.disabled', 0)
                     ->orderBy('site_modules.name')
                     ->get()
                     ->toArray();
             } else {
-                $modules = SiteModule::where('disabled', '!=', 1)
+                $modules = SiteModule::query()
+                    ->where('disabled', '!=', 1)
                     ->orderBy('name')
                     ->get()
                     ->toArray();
@@ -597,7 +622,8 @@ class Frame extends AbstractController implements PageControllerInterface
                     $items['module' . $row['id']] = [
                         'module' . $row['id'],
                         'modules',
-                        ($row['icon'] != '' ? '<i class="' . e($row['icon']) . '"></i>' : '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>') . e($row['name']),
+                        ($row['icon'] != '' ? '<i class="' . e($row['icon']) . '"></i>'
+                            : '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>') . e($row['name']),
                         'index.php?a=112&id=' . $row['id'],
                         e($row['name']),
                         '',
@@ -619,8 +645,10 @@ class Frame extends AbstractController implements PageControllerInterface
                 $items['module' . $module['id']] = [
                     'module' . $module['id'],
                     'modules',
-                    ($module['icon'] != '' ? '<i class="' . $module['icon'] . '"></i>' : '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>') . $module['name'],
-                    !empty($module['properties']['routes']) ? 'modules/' . $module['id'] : 'index.php?a=112&id=' . $module['id'],
+                    ($module['icon'] != '' ? '<i class="' . $module['icon'] . '"></i>'
+                        : '<i class="' . ManagerTheme::getStyle('icon_module') . '"></i>') . $module['name'],
+                    !empty($module['properties']['routes']) ? 'modules/' . $module['id']
+                        : 'index.php?a=112&id=' . $module['id'],
                     $module['name'],
                     '',
                     '',
@@ -643,7 +671,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuUserManagement()
+    protected function menuUserManagement(): static
     {
         $flag = evo()->hasPermission('edit_user');
 
@@ -654,7 +682,8 @@ class Frame extends AbstractController implements PageControllerInterface
         $this->sitemenu['web_user_management_title'] = [
             'web_user_management_title',
             'users',
-            '<i class="' . ManagerTheme::getStyle('icon_web_user') . '"></i>' . __('global.web_user_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+            '<i class="' . ManagerTheme::getStyle('icon_web_user') . '"></i>' . __('global.web_user_management_title') .
+            '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
             'index.php?a=99',
             __('global.web_user_management_title'),
             '',
@@ -668,13 +697,14 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuRoleManagement()
+    protected function menuRoleManagement(): static
     {
         if (evo()->hasPermission('edit_role')) {
             $this->sitemenu['role_management_title'] = [
                 'role_management_title',
                 'users',
-                '<i class="' . ManagerTheme::getStyle('icon_role') . '"></i>' . __('global.role_management_title') . '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
+                '<i class="' . ManagerTheme::getStyle('icon_role') . '"></i>' . __('global.role_management_title') .
+                '<i class="' . ManagerTheme::getStyle('icon_angle_right') . ' toggle"></i>',
                 'index.php?a=86',
                 __('global.role_management_title'),
                 '',
@@ -689,7 +719,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuWebPermissions()
+    protected function menuWebPermissions(): static
     {
         if (!evo()->hasPermission('manage_groups')) {
             return $this;
@@ -712,7 +742,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuRefreshSite()
+    protected function menuRefreshSite(): static
     {
         $this->sitemenu['refresh_site'] = [
             'refresh_site',
@@ -734,7 +764,8 @@ class Frame extends AbstractController implements PageControllerInterface
                     // href
                     'btn btn-secondary',
                     // class or btn-success
-                    "modx.popup({url:'index.php?a=26', title:'" . __('global.refresh_site') . "', icon: 'fa-recycle', iframe: 'ajax', selector: '.tab-page>.container', position: 'right top', width: 'auto', maxheight: '50%%', wrap: 'body' })",
+                    "modx.popup({url:'index.php?a=26', title:'" . __('global.refresh_site') .
+                    "', icon: 'fa-recycle', iframe: 'ajax', selector: '.tab-page>.container', position: 'right top', width: 'auto', maxheight: '50%%', wrap: 'body' })",
                     // onclick
                     __('global.refresh_site'),
                     // title
@@ -747,7 +778,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuSearch()
+    protected function menuSearch(): static
     {
         $this->sitemenu['search'] = [
             'search',
@@ -766,7 +797,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuBkManager()
+    protected function menuBkManager(): static
     {
         if (!evo()->hasPermission('bk_manager')) {
             return $this;
@@ -789,7 +820,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuRemoveLocks()
+    protected function menuRemoveLocks(): static
     {
         if (!evo()->hasPermission('remove_locks')) {
             return $this;
@@ -812,7 +843,7 @@ class Frame extends AbstractController implements PageControllerInterface
         return $this;
     }
 
-    protected function menuUpdateTree()
+    protected function menuUpdateTree(): static
     {
         $this->sitemenu['update_tree'] = [
             'update_tree',

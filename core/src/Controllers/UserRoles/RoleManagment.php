@@ -1,7 +1,9 @@
-<?php namespace EvolutionCMS\Controllers\UserRoles;
+<?php
 
-use EvolutionCMS\Interfaces\ManagerTheme;
+namespace EvolutionCMS\Controllers\UserRoles;
+
 use EvolutionCMS\Controllers\AbstractResources;
+use EvolutionCMS\Interfaces\ManagerTheme;
 use EvolutionCMS\Interfaces\ManagerTheme\TabControllerInterface;
 
 class RoleManagment extends AbstractResources implements ManagerTheme\PageControllerInterface
@@ -11,7 +13,7 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
     /**
      * Don't change tab index !!!
      */
-    protected $tabs = [
+    protected array $tabs = [
         0 => RoleList::class,
         1 => PermissionsGroupsList::class,
         2 => PermissionsList::class,
@@ -25,8 +27,9 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
         return true;
     }
 
-    public function getParameters(array $params = []) : array
+    public function getParameters(array $params = []): array
     {
+        $activeTab = 0;
         $tabs = [];
         $tab = $this->needTab();
         if ($tab === 0) {
@@ -34,8 +37,7 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
         }
         foreach ($this->tabs as $tabN => $tabClass) {
             if (($tabController = $this->makeTab($tabClass, $tabN)) !== null) {
-
-                if ((string)$tab !== (string)$tabN) {
+                if ((string) $tab !== (string) $tabN) {
                     $tabController->setNoData();
                 } else {
                     $activeTab = $tabController->getTabName();
@@ -47,17 +49,13 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
         return array_merge(compact('tabs'), parent::getParameters($params), compact('activeTab'));
     }
 
-    protected function makeTab($tabClass, int $index = null) :? TabControllerInterface
+    protected function makeTab($tabClass, int $index = null): ?TabControllerInterface
     {
-
         $tabController = null;
-        if (class_exists($tabClass) &&
-            is_a($tabClass, TabControllerInterface::class, true)
-        ) {
-            /** @var TabControllerInterface $tabController */
+        if (class_exists($tabClass) && is_a($tabClass, TabControllerInterface::class, true)) {
             $tabController = new $tabClass($this->managerTheme);
             $tabController->setIndex($index);
-            if (! $tabController->canView()) {
+            if (!$tabController->canView()) {
                 $tabController = null;
             }
         }
@@ -68,7 +66,7 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
     /**
      * {@inheritdoc}
      */
-    public function render(array $params = []) : string
+    public function render(array $params = []): string
     {
         if (!is_ajax() || ($tab = $this->needTab()) === null) {
             return parent::render($params);
@@ -81,17 +79,19 @@ class RoleManagment extends AbstractResources implements ManagerTheme\PageContro
                 $tabController->getParameters()
             );
         }
+
         return '';
     }
 
     protected function needTab()
     {
         return get_by_key(
-            $_GET
-            , 'tab'
-            , 0
-            , function ($val) {
-            return is_numeric($val) && array_key_exists($val, $this->tabs);
-        });
+            $_GET,
+            'tab',
+            0,
+            function ($val) {
+                return is_numeric($val) && array_key_exists($val, $this->tabs);
+            }
+        );
     }
 }

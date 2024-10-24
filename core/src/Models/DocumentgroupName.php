@@ -1,26 +1,23 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * EvolutionCMS\Models\DocumentgroupName
- *
  * @property int $id
  * @property string $name
-
- *
- * BelongsToMany
- * @property Eloquent\Collection $documents
- *
- * @mixin \Eloquent
+ * @property Collection $documents
  */
-class DocumentgroupName extends Eloquent\Model
+class DocumentgroupName extends Model
 {
     public $timestamps = false;
 
     protected $casts = [
         'private_memgroup' => 'int',
-        'private_webgroup' => 'int'
+        'private_webgroup' => 'int',
     ];
 
     protected $fillable = [
@@ -29,9 +26,8 @@ class DocumentgroupName extends Eloquent\Model
         'private_webgroup',
     ];
 
-    public function documents(): Eloquent\Relations\BelongsToMany
+    public function documents(): BelongsToMany
     {
-        return $this->belongsToMany(SiteContent::class, 'document_groups', 'document_group', 'document')
-            ->withTrashed();
+        return $this->belongsToMany(SiteContent::class, 'document_groups', 'document_group', 'document')->withTrashed();
     }
 }

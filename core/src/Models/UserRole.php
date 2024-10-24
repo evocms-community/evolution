@@ -1,11 +1,13 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * EvolutionCMS\Models\UserRole
- *
  * @property int $id
  * @property string $name
  * @property string $description
@@ -86,40 +88,36 @@ use EvolutionCMS\Traits;
  * @property-read null|array $alreadyEditInfo
  * @property-read mixed $already_edit_info
  * @property-read mixed $is_already_edit
- *
- * @mixin \Eloquent
  */
-class UserRole extends Eloquent\Model
+class UserRole extends Model
 {
     use Traits\Models\ManagerActions,
         Traits\Models\LockedElements;
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $casts = [
-		'frames' => 'int',
-		'home' => 'int',
-	];
+    protected $casts = [
+        'frames' => 'int',
+        'home' => 'int',
+    ];
 
+    protected $fillable = [
+        'name',
+        'description',
+    ];
 
-	protected $fillable = [
-		'name',
-		'description',
-	];
-
-    protected $managerActionsMap = [
+    protected array $managerActionsMap = [
         'actions.new' => 38,
         'id' => [
-            'actions.edit' => 35
-        ]
+            'actions.edit' => 35,
+        ],
     ];
 
     /**
-     * @return Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function tvs() : Eloquent\Relations\BelongsToMany
+    public function tvs(): BelongsToMany
     {
-
         return $this->belongsToMany(
             SiteTmplvar::class,
             (new UserRoleVar())->getTable(),
@@ -129,25 +127,25 @@ class UserRole extends Eloquent\Model
             ->orderBy('pivot_rank', 'ASC');
     }
 
-    public function getIsAlreadyEditAttribute()
+    public function getIsAlreadyEditAttribute(): bool
     {
         return array_key_exists($this->getKey(), self::getLockedElements(8));
     }
 
-    public function getAlreadyEditInfoAttribute() :? array
+    public function getAlreadyEditInfoAttribute(): ?array
     {
         return $this->isAlreadyEdit ? self::getLockedElements(8)[$this->getKey()] : null;
     }
 
-    public function roleVar()
+    public function roleVar(): HasMany
     {
         return $this->hasMany(UserRoleVar::class, 'roleid', 'id');
     }
 
-    public function delete()
+    public function delete(): bool
     {
         $this->roleVar()->delete();
 
-        parent::delete();
+        return parent::delete();
     }
 }

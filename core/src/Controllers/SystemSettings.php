@@ -1,12 +1,11 @@
-<?php namespace EvolutionCMS\Controllers;
+<?php
+
+namespace EvolutionCMS\Controllers;
 
 use EvolutionCMS\Interfaces\ManagerTheme\PageControllerInterface;
 use EvolutionCMS\Models\SitePlugin;
 use EvolutionCMS\Models\SiteTemplate;
 use EvolutionCMS\Models\SystemSetting;
-
-use function extension_loaded;
-use function is_array;
 
 class SystemSettings extends AbstractController implements PageControllerInterface
 {
@@ -38,8 +37,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
      */
     public function canView(): bool
     {
-        return evo()
-            ->hasPermission('settings');
+        return evo()->hasPermission('settings');
     }
 
     /**
@@ -73,8 +71,8 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
         $templatesFromDb = SiteTemplate::query()
             ->select('site_templates.templatename', 'site_templates.id', 'categories.category')
             ->leftJoin('categories', 'site_templates.category', '=', 'categories.id')
-            ->orderBy('categories.category', 'ASC')
-            ->orderBy('site_templates.templatename', 'ASC')
+            ->orderBy('categories.category')
+            ->orderBy('site_templates.templatename')
             ->get();
         $templates = [];
         $currentCategory = '';
@@ -91,8 +89,8 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
                 $templates['items'][$i] = [
                     'optgroup' => [
                         'name' => $thisCategory,
-                        'options' => []
-                    ]
+                        'options' => [],
+                    ],
                 ];
             }
             if ($row['id'] == get_by_key(evo()->config, 'default_template')) {
@@ -101,7 +99,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
             }
             $templates['items'][$i]['optgroup']['options'][] = [
                 'text' => $row['templatename'],
-                'value' => $row['id']
+                'value' => $row['id'],
             ];
             $currentCategory = $thisCategory;
         }
@@ -125,7 +123,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
         }
         $dir->close();
         ksort($lang_keys_select);
-        
+
         return $lang_keys_select;
     }
 
@@ -139,7 +137,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
             $seconds = $i * 60 * 60;
             $serverTimes[$seconds] = [
                 'value' => $seconds,
-                'text' => $i
+                'text' => $i,
             ];
         }
 
@@ -154,7 +152,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
         $themes = [];
         $dir = dir(MODX_MANAGER_PATH . 'media/style/');
         while ($file = $dir->read()) {
-            if (strpos($file, '.') === 0 || $file === 'common') {
+            if (str_starts_with($file, '.') || $file === 'common') {
                 continue;
             }
             if (!is_dir(MODX_MANAGER_PATH . 'media/style/' . $file)) {
@@ -252,32 +250,32 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
             'BLOWFISH_Y' => [
                 'value' => 'BLOWFISH_Y',
                 'text' => 'CRYPT_BLOWFISH_Y (salt &amp; stretch)',
-                'disabled' => $managerApi->checkHashAlgorithm('BLOWFISH_Y') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('BLOWFISH_Y') ? 0 : 1,
             ],
             'BLOWFISH_A' => [
                 'value' => 'BLOWFISH_A',
                 'text' => 'CRYPT_BLOWFISH_A (salt &amp; stretch)',
-                'disabled' => $managerApi->checkHashAlgorithm('BLOWFISH_A') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('BLOWFISH_A') ? 0 : 1,
             ],
             'SHA512' => [
                 'value' => 'SHA512',
                 'text' => 'CRYPT_SHA512 (salt &amp; stretch)',
-                'disabled' => $managerApi->checkHashAlgorithm('SHA512') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('SHA512') ? 0 : 1,
             ],
             'SHA256' => [
                 'value' => 'SHA256',
                 'text' => 'CRYPT_SHA256 (salt &amp; stretch)',
-                'disabled' => $managerApi->checkHashAlgorithm('SHA256') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('SHA256') ? 0 : 1,
             ],
             'MD5' => [
                 'value' => 'MD5',
                 'text' => 'CRYPT_MD5 (salt &amp; stretch)',
-                'disabled' => $managerApi->checkHashAlgorithm('MD5') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('MD5') ? 0 : 1,
             ],
             'UNCRYPT' => [
                 'value' => 'UNCRYPT',
                 'text' => 'UNCRYPT(32 chars salt + SHA-1 hash)',
-                'disabled' => $managerApi->checkHashAlgorithm('UNCRYPT') ? 0 : 1
+                'disabled' => $managerApi->checkHashAlgorithm('UNCRYPT') ? 0 : 1,
             ],
         ];
     }
@@ -298,12 +296,13 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
 
     /**
      * @param string $name
+     *
      * @return array|bool|string
      */
-    private function callEvent(string $name)
+    private function callEvent(string $name): bool | array | string
     {
-        $out = evo()
-            ->invokeEvent($name);
+        $out = evo()->invokeEvent($name);
+
         if (is_array($out)) {
             $out = implode('', $out);
         }
@@ -318,7 +317,7 @@ class SystemSettings extends AbstractController implements PageControllerInterfa
     {
         return [
             'save' => 1,
-            'cancel' => 1
+            'cancel' => 1,
         ];
     }
 }

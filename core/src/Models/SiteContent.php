@@ -1,15 +1,23 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use EvolutionCMS\Extensions\Collection;
+namespace EvolutionCMS\Models;
+
 use EvolutionCMS\Traits;
-use Illuminate\Database\Eloquent;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
+use Throwable;
 
 /**
- * EvolutionCMS\Models\SiteContent
- *
  * @property int $id
  * @property string $type
  * @property string $contentType
@@ -52,11 +60,11 @@ use Illuminate\Support\Arr;
  * @property SiteTemplate|null $tpl
  *
  * HasMany
- * @property Eloquent\Collection $children
- * @property Eloquent\Collection $templateValues
+ * @property Collection $children
+ * @property Collection $templateValues
  *
  * BelongsToMany
- * @property Eloquent\Collection $documentGroups
+ * @property Collection $documentGroups
  *
  * Virtual
  * @property-read \Carbon\Carbon $pub_at
@@ -73,27 +81,25 @@ use Illuminate\Support\Arr;
  * @property-read bool $wasNull
  *
  * Scope
- * @method static Eloquent\Builder publishDocuments($time)
- * @method static Eloquent\Builder unPublishDocuments($time)
- *
- * @mixin \Eloquent
+ * @method static Builder publishDocuments($time)
+ * @method static Builder unPublishDocuments($time)
  */
-class SiteContent extends Eloquent\Model
+class SiteContent extends Model
 {
     use Traits\Models\SoftDeletes,
-    Traits\Models\ManagerActions,
-    Traits\Models\TimeMutator;
-
-    protected $table = 'site_content';
+        Traits\Models\ManagerActions,
+        Traits\Models\TimeMutator;
 
     const CREATED_AT = 'createdon';
     const UPDATED_AT = 'editedon';
     const DELETED_AT = 'deletedon';
     const DELETED = 'deleted';
 
-    protected $dateFormat = 'U';
-
     const CHILDREN_RELATION_NAME = 'children';
+
+    protected $table = 'site_content';
+
+    protected $dateFormat = 'U';
 
     /**
      * ClosureTable model instance.
@@ -105,36 +111,65 @@ class SiteContent extends Eloquent\Model
     /**
      * Cached "previous" (i.e. before the model is moved) direct ancestor id of this model.
      *
-     * @var int
+     * @var null|int
      */
-    private $previousParentId;
+    private ?int $previousParentId;
 
     /**
      * Cached "previous" (i.e. before the model is moved) model position.
      *
-     * @var int
+     * @var null|int
      */
-    private $previousPosition;
+    private ?int $previousPosition;
 
     /**
      * Whether this node is being moved to another parent node.
      *
      * @var bool
      */
-    private $isMoved = false;
+    private bool $isMoved = false;
 
     /**
      * Indicates if the model should soft delete.
      *
      * @var bool
      */
-    protected $softDelete = true;
+    protected bool $softDelete = true;
 
-    /**
-     * Entity constructor.
-     *
-     * @param array $attributes
-     */
+    protected $fillable = [
+        'type',
+        'contentType',
+        'pagetitle',
+        'longtitle',
+        'description',
+        'alias',
+        'link_attributes',
+        'published',
+        'pub_date',
+        'unpub_date',
+        'parent',
+        'isfolder',
+        'introtext',
+        'content',
+        'richtext',
+        'template',
+        'menuindex',
+        'searchable',
+        'cacheable',
+        'createdby',
+        'editedby',
+        'deleted',
+        'deletedby',
+        'publishedon',
+        'publishedby',
+        'menutitle',
+        'hide_from_tree',
+        'privateweb',
+        'privatemgr',
+        'content_dispo',
+        'hidemenu',
+        'alias_visible',
+    ];
 
     protected $casts = [
         'published' => 'int',
@@ -161,6 +196,15 @@ class SiteContent extends Eloquent\Model
         'alias_visible' => 'int',
     ];
 
+    protected array $managerActionsMap = [
+        'id' => [
+            'actions.info' => 3,
+        ],
+    ];
+
+    /**
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $position = $this->getPositionColumn();
@@ -185,7 +229,7 @@ class SiteContent extends Eloquent\Model
     }
 
     // adjust boot function
-    public static function boot()
+    public static function boot(): void
     {
         // run parent
         parent::boot();
@@ -235,7 +279,6 @@ class SiteContent extends Eloquent\Model
             if ($parentIdChanged) {
                 $entity->closure->moveNodeTo($entity->parent);
             }
-
         });
 
         // add in custom deleting
@@ -251,56 +294,14 @@ class SiteContent extends Eloquent\Model
             $model->deleted = 0;
             $model->save();
         });
-
     }
-
-    protected $fillable = [
-        'type',
-        'contentType',
-        'pagetitle',
-        'longtitle',
-        'description',
-        'alias',
-        'link_attributes',
-        'published',
-        'pub_date',
-        'unpub_date',
-        'parent',
-        'isfolder',
-        'introtext',
-        'content',
-        'richtext',
-        'template',
-        'menuindex',
-        'searchable',
-        'cacheable',
-        'createdby',
-        'editedby',
-        'deleted',
-        'deletedby',
-        'publishedon',
-        'publishedby',
-        'menutitle',
-        'hide_from_tree',
-        'privateweb',
-        'privatemgr',
-        'content_dispo',
-        'hidemenu',
-        'alias_visible',
-    ];
-
-    protected $managerActionsMap = [
-        'id' => [
-            'actions.info' => 3,
-        ],
-    ];
 
     /**
      * @return mixed
      */
-    public function getNodeNameAttribute()
+    public function getNodeNameAttribute(): mixed
     {
-        $key = evo()->getConfig('resource_tree_node_name', 'pagetitle');
+        $key = Config::get('global.resource_tree_node_name', 'pagetitle');
         if (mb_strtolower($key) === 'nodename') {
             $key = 'pagetitle';
         }
@@ -309,41 +310,41 @@ class SiteContent extends Eloquent\Model
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
-    public function getCreatedAtAttribute()
+    public function getCreatedAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->createdon);
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
-    public function getUpdatedAtAttribute()
+    public function getUpdatedAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->editedon);
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
-    public function getDeletedAtAttribute()
+    public function getDeletedAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->deletedon);
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
-    public function getPubAtAttribute()
+    public function getPubAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->pub_date);
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
-    public function getUnPubAtAttribute()
+    public function getUnPubAtAttribute(): ?Carbon
     {
         return $this->convertTimestamp($this->unpub_date);
     }
@@ -373,6 +374,8 @@ class SiteContent extends Eloquent\Model
     }
 
     /**
+     * @param $parent
+     *
      * @return array
      */
     public function getAllChildren($parent): array
@@ -382,19 +385,21 @@ class SiteContent extends Eloquent\Model
             $ids[] = $child->id;
             $ids = array_merge($ids, $this->getAllChildren($child));
         }
+
         return $ids;
     }
 
     /**
      * @return Collection
      */
-    public function getTvAttribute()
+    public function getTvAttribute(): Collection
     {
-        /** @var Collection $docTv */
         if ($this->tpl->tvs === null) {
             return collect();
         }
+
         $docTv = $this->templateValues->pluck('value', 'tmplvarid');
+
         return $this->tpl->tvs->map(function (SiteTmplvar $value) use ($docTv) {
             $out = $value->default_text;
             if ($docTv->has($value->getKey())) {
@@ -406,15 +411,16 @@ class SiteContent extends Eloquent\Model
     }
 
     /**
-     * @param Eloquent\Builder $builder
+     * @param Builder $builder
      * @param $time
-     * @return Eloquent\Builder
+     *
+     * @return Builder
      */
-    public function scopePublishDocuments(Eloquent\Builder $builder, $time): Eloquent\Builder
+    public function scopePublishDocuments(Builder $builder, $time): Builder
     {
         return $builder->where('pub_date', '<=', $time)
             ->where('pub_date', '>', 0)
-            ->where(function (Eloquent\Builder $query) use ($time) {
+            ->where(function (Builder $query) use ($time) {
                 $query->where('unpub_date', '>', $time)
                     ->orWhere('unpub_date', '=', 0);
             })
@@ -422,11 +428,12 @@ class SiteContent extends Eloquent\Model
     }
 
     /**
-     * @param Eloquent\Builder $builder
+     * @param Builder $builder
      * @param $time
-     * @return Eloquent\Builder
+     *
+     * @return Builder
      */
-    public function scopeUnPublishDocuments(Eloquent\Builder $builder, $time): Eloquent\Builder
+    public function scopeUnPublishDocuments(Builder $builder, $time): Builder
     {
         return $builder->where('unpub_date', '<=', $time)
             ->where('unpub_date', '>', 0)
@@ -434,51 +441,54 @@ class SiteContent extends Eloquent\Model
     }
 
     /**
-     * @return Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function templateValues(): Eloquent\Relations\HasMany
+    public function templateValues(): HasMany
     {
         return $this->hasMany(SiteTmplvarContentvalue::class, 'contentid', 'id');
     }
 
     /**
-     * @return Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function ancestor(): Eloquent\Relations\BelongsTo
+    public function ancestor(): BelongsTo
     {
         return $this->belongsTo(__CLASS__, 'parent')
             ->withTrashed();
     }
 
     /**
-     * @return Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function children(): Eloquent\Relations\HasMany
+    public function children(): HasMany
     {
-        return $this->hasMany(get_class($this), $this->getParentIdColumn())->withTrashed();
+        return $this->hasMany(get_class($this), $this->getParentIdColumn())
+            ->withTrashed();
     }
 
     /**
-     * @return Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function documentGroups(): Eloquent\Relations\BelongsToMany
+    public function documentGroups(): BelongsToMany
     {
         return $this->belongsToMany(DocumentgroupName::class, 'document_groups', 'document', 'document_group');
     }
 
     /**
-     * @return Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function tpl(): Eloquent\Relations\BelongsTo
+    public function tpl(): BelongsTo
     {
-        return $this->belongsTo(SiteTemplate::class, 'template', 'id')->withDefault();
+        return $this->belongsTo(SiteTemplate::class, 'template', 'id')
+            ->withDefault();
     }
 
-    public function newFromBuilder($attributes = [], $connection = null)
+    public function newFromBuilder($attributes = [], $connection = null): SiteContent
     {
         $instance = parent::newFromBuilder($attributes);
         $instance->previousParentId = $instance->parent;
         $instance->previousPosition = $instance->menuindex;
+
         return $instance;
     }
 
@@ -487,7 +497,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function getParentIdAttribute()
+    public function getParentIdAttribute(): int
     {
         return $this->getAttributeFromArray($this->getParentIdColumn());
     }
@@ -497,14 +507,14 @@ class SiteContent extends Eloquent\Model
      *
      * @param int $value
      */
-    public function setParentIdAttribute($value)
+    public function setParentIdAttribute(int $value): void
     {
         if ($this->parent === $value) {
             return;
         }
 
         $parentId = $this->getParentIdColumn();
-        $this->previousParentId = isset($this->original[$parentId]) ? $this->original[$parentId] : null;
+        $this->previousParentId = $this->original[$parentId] ?? null;
         $this->attributes[$parentId] = $value;
     }
 
@@ -513,7 +523,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getQualifiedParentIdColumn()
+    public function getQualifiedParentIdColumn(): string
     {
         return $this->getTable() . '.' . $this->getParentIdColumn();
     }
@@ -523,7 +533,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getParentIdColumn()
+    public function getParentIdColumn(): string
     {
         return 'parent';
     }
@@ -533,7 +543,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getDeletedColumn()
+    public function getDeletedColumn(): string
     {
         return defined('static::DELETED') ? static::DELETED : 'deleted';
     }
@@ -543,7 +553,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getQualifiedDeletedColumn()
+    public function getQualifiedDeletedColumn(): string
     {
         return $this->qualifyColumn($this->getDeletedColumn());
     }
@@ -553,7 +563,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function getPositionAttribute()
+    public function getPositionAttribute(): int
     {
         return $this->getAttributeFromArray($this->getPositionColumn());
     }
@@ -563,15 +573,15 @@ class SiteContent extends Eloquent\Model
      *
      * @param int $value
      */
-    public function setPositionAttribute($value)
+    public function setPositionAttribute(int $value): void
     {
         if ($this->menuindex === $value) {
             return;
         }
 
         $position = $this->getPositionColumn();
-        $this->previousPosition = isset($this->original[$position]) ? $this->original[$position] : null;
-        $this->attributes[$position] = max(0, (int) $value);
+        $this->previousPosition = $this->original[$position] ?? null;
+        $this->attributes[$position] = max(0, $value);
     }
 
     /**
@@ -579,7 +589,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getQualifiedPositionColumn()
+    public function getQualifiedPositionColumn(): string
     {
         return $this->getTable() . '.' . $this->getPositionColumn();
     }
@@ -589,7 +599,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getPositionColumn()
+    public function getPositionColumn(): string
     {
         return 'menuindex';
     }
@@ -599,7 +609,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return string
      */
-    public function getQualifiedRealDepthColumn()
+    public function getQualifiedRealDepthColumn(): string
     {
         return $this->getTable() . '.' . $this->getRealDepthColumn();
     }
@@ -609,7 +619,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function isParent()
+    public function isParent(): bool
     {
         return $this->exists && $this->hasChildren();
     }
@@ -619,7 +629,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->exists && $this->parent === null;
     }
@@ -628,9 +638,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves direct ancestor of a model.
      *
      * @param array $columns
-     * @return Entity|null
+     *
+     * @return SiteContent|null
      */
-    public function getParent(array $columns = ['*'])
+    public function getParent(array $columns = ['*']): ?SiteContent
     {
         return $this->exists ? $this->find($this->parent, $columns) : null;
     }
@@ -642,7 +653,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeAncestors(Builder $builder)
+    public function scopeAncestors(Builder $builder): Builder
     {
         return $this->buildAncestorsQuery($builder, $this->getKey(), false);
     }
@@ -651,11 +662,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for ancestors of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeAncestorsOf(Builder $builder, $id)
+    public function scopeAncestorsOf(Builder $builder, int $id): Builder
     {
         return $this->buildAncestorsQuery($builder, $id, false);
     }
@@ -667,7 +678,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeAncestorsWithSelf(Builder $builder)
+    public function scopeAncestorsWithSelf(Builder $builder): Builder
     {
         return $this->buildAncestorsQuery($builder, $this->getKey(), true);
     }
@@ -676,11 +687,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for ancestors of the node with given ID including that node also.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeAncestorsWithSelfOf(Builder $builder, $id)
+    public function scopeAncestorsWithSelfOf(Builder $builder, int $id): Builder
     {
         return $this->buildAncestorsQuery($builder, $id, true);
     }
@@ -689,12 +700,12 @@ class SiteContent extends Eloquent\Model
      * Builds base ancestors query.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param bool $withSelf
      *
      * @return Builder
      */
-    private function buildAncestorsQuery(Builder $builder, $id, $withSelf)
+    private function buildAncestorsQuery(Builder $builder, int $id, bool $withSelf): Builder
     {
         $depthOperator = $withSelf ? '>=' : '>';
 
@@ -713,9 +724,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves all ancestors of a model.
      *
      * @param array $columns
-     * @return \Franzose\ClosureTable\Extensions\Collection
+     *
+     * @return Collection
      */
-    public function getAncestors(array $columns = ['*'])
+    public function getAncestors(array $columns = ['*']): Collection
     {
         return $this->ancestors()->get($columns);
     }
@@ -725,7 +737,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countAncestors()
+    public function countAncestors(): int
     {
         return $this->ancestors()->count();
     }
@@ -735,7 +747,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasAncestors()
+    public function hasAncestors(): bool
     {
         return (bool) $this->countAncestors();
     }
@@ -744,11 +756,10 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for descendants.
      *
      * @param Builder $builder
-     * @param bool $withSelf
      *
      * @return Builder
      */
-    public function scopeDescendants(Builder $builder)
+    public function scopeDescendants(Builder $builder): Builder
     {
         return $this->buildDescendantsQuery($builder, $this->getKey(), false);
     }
@@ -757,11 +768,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for descendants of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeDescendantsOf(Builder $builder, $id)
+    public function scopeDescendantsOf(Builder $builder, int $id): Builder
     {
         return $this->buildDescendantsQuery($builder, $id, false);
     }
@@ -773,7 +784,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeDescendantsWithSelf(Builder $builder)
+    public function scopeDescendantsWithSelf(Builder $builder): Builder
     {
         return $this->buildDescendantsQuery($builder, $this->getKey(), true);
     }
@@ -782,11 +793,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for descendants including the current node of the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeDescendantsWithSelfOf(Builder $builder, $id)
+    public function scopeDescendantsWithSelfOf(Builder $builder, int $id): Builder
     {
         return $this->buildDescendantsQuery($builder, $id, true);
     }
@@ -795,12 +806,12 @@ class SiteContent extends Eloquent\Model
      * Builds base descendants query.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param bool $withSelf
      *
      * @return Builder
      */
-    private function buildDescendantsQuery(Builder $builder, $id, $withSelf)
+    private function buildDescendantsQuery(Builder $builder, int $id, bool $withSelf): Builder
     {
         $depthOperator = $withSelf ? '>=' : '>';
 
@@ -819,9 +830,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves all descendants of a model.
      *
      * @param array $columns
+     *
      * @return Collection
      */
-    public function getDescendants(array $columns = ['*'])
+    public function getDescendants(array $columns = ['*']): Collection
     {
         return $this->descendants()->get($columns);
     }
@@ -831,7 +843,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countDescendants()
+    public function countDescendants(): int
     {
         return $this->descendants()->count();
     }
@@ -841,7 +853,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasDescendants()
+    public function hasDescendants(): bool
     {
         return (bool) $this->countDescendants();
     }
@@ -853,7 +865,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public function getChildren(array $columns = ['*'])
+    public function getChildren(array $columns = ['*']): Collection
     {
         return $this->children()->get($columns);
     }
@@ -863,7 +875,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countChildren()
+    public function countChildren(): int
     {
         return $this->children()->count();
     }
@@ -873,7 +885,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return (bool) $this->countChildren();
     }
@@ -885,7 +897,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeChildNode(Builder $builder)
+    public function scopeChildNode(Builder $builder): Builder
     {
         return $this->scopeChildNodeOf($builder, $this->getKey());
     }
@@ -894,11 +906,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for child nodes of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeChildNodeOf(Builder $builder, $id)
+    public function scopeChildNodeOf(Builder $builder, int $id): Builder
     {
         $parentId = $this->getParentIdColumn();
 
@@ -915,27 +927,27 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeChildAt(Builder $builder, $position)
+    public function scopeChildAt(Builder $builder, int $position): Builder
     {
         return $this
             ->scopeChildNode($builder)
-            ->where($this->getPositionColumn(), '=', $position);
+            ->where($this->getPositionColumn(), $position);
     }
 
     /**
      * Returns query builder for a child at the given position of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param int $position
      *
      * @return Builder
      */
-    public function scopeChildOf(Builder $builder, $id, $position)
+    public function scopeChildOf(Builder $builder, int $id, int $position): Builder
     {
         return $this
             ->scopeChildNodeOf($builder, $id)
-            ->where($this->getPositionColumn(), '=', $position);
+            ->where($this->getPositionColumn(), $position);
     }
 
     /**
@@ -943,9 +955,10 @@ class SiteContent extends Eloquent\Model
      *
      * @param int $position
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent|null
      */
-    public function getChildAt($position, array $columns = ['*'])
+    public function getChildAt(int $position, array $columns = ['*']): ?SiteContent
     {
         return $this->childAt($position)->first($columns);
     }
@@ -957,7 +970,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeFirstChild(Builder $builder)
+    public function scopeFirstChild(Builder $builder): Builder
     {
         return $this->scopeChildAt($builder, 0);
     }
@@ -966,11 +979,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for the first child node of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeFirstChildOf(Builder $builder, $id)
+    public function scopeFirstChildOf(Builder $builder, int $id): Builder
     {
         return $this->scopeChildOf($builder, $id, 0);
     }
@@ -979,9 +992,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves the first child.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getFirstChild(array $columns = ['*'])
+    public function getFirstChild(array $columns = ['*']): SiteContent
     {
         return $this->getChildAt(0, $columns);
     }
@@ -993,7 +1007,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeLastChild(Builder $builder)
+    public function scopeLastChild(Builder $builder): Builder
     {
         return $this->scopeChildNode($builder)->orderByDesc($this->getPositionColumn());
     }
@@ -1002,11 +1016,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for the last child node of the node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeLastChildOf(Builder $builder, $id)
+    public function scopeLastChildOf(Builder $builder, int $id): Builder
     {
         return $this->scopeChildNodeOf($builder, $id)->orderByDesc($this->getPositionColumn());
     }
@@ -1015,9 +1029,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves the last child.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getLastChild(array $columns = ['*'])
+    public function getLastChild(array $columns = ['*']): SiteContent
     {
         return $this->lastChild()->first($columns);
     }
@@ -1031,7 +1046,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeChildrenRange(Builder $builder, $from, $to = null)
+    public function scopeChildrenRange(Builder $builder, int $from, int $to = null): Builder
     {
         $position = $this->getPositionColumn();
         $query = $this->scopeChildNode($builder)->where($position, '>=', $from);
@@ -1047,13 +1062,13 @@ class SiteContent extends Eloquent\Model
      * Returns query builder to child nodes in the range of the given positions for the node of the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param int $from
      * @param int|null $to
      *
      * @return Builder
      */
-    public function scopeChildrenRangeOf(Builder $builder, $id, $from, $to = null)
+    public function scopeChildrenRangeOf(Builder $builder, int $id, int $from, int $to = null): Builder
     {
         $position = $this->getPositionColumn();
         $query = $this->scopeChildNodeOf($builder, $id)->where($position, '>=', $from);
@@ -1069,11 +1084,12 @@ class SiteContent extends Eloquent\Model
      * Retrieves children within given positions range.
      *
      * @param int $from
-     * @param int $to
+     * @param int|null $to
      * @param array $columns
+     *
      * @return Collection
      */
-    public function getChildrenRange($from, $to = null, array $columns = ['*'])
+    public function getChildrenRange(int $from, int $to = null, array $columns = ['*']): Collection
     {
         return $this->childrenRange($from, $to)->get($columns);
     }
@@ -1082,11 +1098,12 @@ class SiteContent extends Eloquent\Model
      * Appends a child to the model.
      *
      * @param SiteContent $child
-     * @param int $position
+     * @param int|null $position
      * @param bool $returnChild
+     *
      * @return SiteContent
      */
-    public function addChild(SiteContent $child, $position = null, $returnChild = false)
+    public function addChild(SiteContent $child, int $position = null, bool $returnChild = false): SiteContent | static
     {
         if ($this->exists) {
             $position = $position !== null ? $position : $this->getLatestChildPosition();
@@ -1102,7 +1119,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    private function getLatestChildPosition()
+    private function getLatestChildPosition(): int
     {
         $lastChild = $this->lastChild()->first([$this->getPositionColumn()]);
 
@@ -1112,14 +1129,13 @@ class SiteContent extends Eloquent\Model
     /**
      * Appends a collection of children to the model.
      *
-     * @param Entity[] $children
-     * @param int $from
+     * @param SiteContent[] $children
+     * @param null $from
      *
-     * @return Entity
-     * @throws InvalidArgumentException
-     * @throws \Throwable
+     * @return SiteContent
+     * @throws Throwable
      */
-    public function addChildren(array $children, $from = null)
+    public function addChildren(array $children, $from = null): static
     {
         if (!$this->exists) {
             return $this;
@@ -1138,10 +1154,11 @@ class SiteContent extends Eloquent\Model
     /**
      * Appends the given entity to the children relation.
      *
-     * @param Entity $entity
+     * @param SiteContent $entity
+     *
      * @internal
      */
-    public function appendChild(SiteContent $entity)
+    public function appendChild(SiteContent $entity): void
     {
         $this->getChildrenRelation()->add($entity);
     }
@@ -1149,7 +1166,7 @@ class SiteContent extends Eloquent\Model
     /**
      * @return Collection
      */
-    private function getChildrenRelation()
+    private function getChildrenRelation(): Collection
     {
         if (!$this->relationLoaded(static::CHILDREN_RELATION_NAME)) {
             $this->setRelation(static::CHILDREN_RELATION_NAME, new Collection());
@@ -1161,13 +1178,13 @@ class SiteContent extends Eloquent\Model
     /**
      * Removes a model's child with given position.
      *
-     * @param int $position
+     * @param int|null $position
      * @param bool $forceDelete
      *
-     * @return $this
-     * @throws \Throwable
+     * @return SiteContent
+     * @throws Throwable
      */
-    public function removeChild($position = null, $forceDelete = false)
+    public function removeChild(int $position = null, bool $forceDelete = false): static
     {
         if (!$this->exists) {
             return $this;
@@ -1198,17 +1215,19 @@ class SiteContent extends Eloquent\Model
      * Removes model's children within a range of positions.
      *
      * @param int $from
-     * @param int $to
+     * @param int|null $to
      * @param bool $forceDelete
      *
-     * @return $this
+     * @return SiteContent
      * @throws InvalidArgumentException
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function removeChildren($from, $to = null, $forceDelete = false)
+    public function removeChildren(int $from, int $to = null, bool $forceDelete = false): static
     {
         if (!is_numeric($from) || ($to !== null && !is_numeric($to))) {
-            throw new InvalidArgumentException('`from` and `to` are the position boundaries. They must be of type int.');
+            throw new InvalidArgumentException(
+                '`from` and `to` are the position boundaries. They must be of type int.'
+            );
         }
 
         if (!$this->exists) {
@@ -1237,7 +1256,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeSibling(Builder $builder)
+    public function scopeSibling(Builder $builder): Builder
     {
         return $builder->where($this->getParentIdColumn(), '=', $this->parent);
     }
@@ -1246,11 +1265,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for siblings of a node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeSiblingOf(Builder $builder, $id)
+    public function scopeSiblingOf(Builder $builder, int $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id);
     }
@@ -1262,7 +1281,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeSiblings(Builder $builder)
+    public function scopeSiblings(Builder $builder): Builder
     {
         return $this
             ->scopeSibling($builder)
@@ -1273,11 +1292,11 @@ class SiteContent extends Eloquent\Model
      * Return query builder for siblings of a node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeSiblingsOf(Builder $builder, $id)
+    public function scopeSiblingsOf(Builder $builder, int $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1293,7 +1312,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public function getSiblings(array $columns = ['*'])
+    public function getSiblings(array $columns = ['*']): Collection
     {
         return $this->siblings()->get($columns);
     }
@@ -1303,7 +1322,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countSiblings()
+    public function countSiblings(): int
     {
         return $this->siblings()->count();
     }
@@ -1313,7 +1332,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasSiblings()
+    public function hasSiblings(): bool
     {
         return (bool) $this->countSiblings();
     }
@@ -1325,7 +1344,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeNeighbors(Builder $builder)
+    public function scopeNeighbors(Builder $builder): Builder
     {
         $position = $this->menuindex;
 
@@ -1338,11 +1357,11 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for the neighbors of a node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      *
      * @return Builder
      */
-    public function scopeNeighborsOf(Builder $builder, $id)
+    public function scopeNeighborsOf(Builder $builder, int $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1358,7 +1377,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public function getNeighbors(array $columns = ['*'])
+    public function getNeighbors(array $columns = ['*']): Collection
     {
         return $this->neighbors()->get($columns);
     }
@@ -1371,7 +1390,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeSiblingAt(Builder $builder, $position)
+    public function scopeSiblingAt(Builder $builder, int $position): Builder
     {
         return $this
             ->scopeSiblings($builder)
@@ -1382,12 +1401,12 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for a sibling at the given position of a node of the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param int $position
      *
      * @return Builder
      */
-    public function scopeSiblingOfAt(Builder $builder, $id, $position)
+    public function scopeSiblingOfAt(Builder $builder, int $id, int $position): Builder
     {
         return $this
             ->scopeSiblingOf($builder, $id)
@@ -1399,9 +1418,10 @@ class SiteContent extends Eloquent\Model
      *
      * @param int $position
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getSiblingAt($position, array $columns = ['*'])
+    public function getSiblingAt($position, array $columns = ['*']): SiteContent
     {
         return $this->siblingAt($position)->first($columns);
     }
@@ -1413,7 +1433,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeFirstSibling(Builder $builder)
+    public function scopeFirstSibling(Builder $builder): Builder
     {
         return $this->scopeSiblingAt($builder, 0);
     }
@@ -1426,7 +1446,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeFirstSiblingOf(Builder $builder, $id)
+    public function scopeFirstSiblingOf(Builder $builder, $id): Builder
     {
         return $this->scopeSiblingOfAt($builder, $id, 0);
     }
@@ -1435,9 +1455,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves the first model's sibling.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getFirstSibling(array $columns = ['*'])
+    public function getFirstSibling(array $columns = ['*']): SiteContent
     {
         return $this->getSiblingAt(0, $columns);
     }
@@ -1449,7 +1470,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeLastSibling(Builder $builder)
+    public function scopeLastSibling(Builder $builder): Builder
     {
         return $this->scopeSiblings($builder)->orderByDesc($this->getPositionColumn());
     }
@@ -1462,7 +1483,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeLastSiblingOf(Builder $builder, $id)
+    public function scopeLastSiblingOf(Builder $builder, $id): Builder
     {
         return $this
             ->scopeSiblingOf($builder, $id)
@@ -1474,9 +1495,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves the last model's sibling.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getLastSibling(array $columns = ['*'])
+    public function getLastSibling(array $columns = ['*']): SiteContent
     {
         return $this->lastSibling()->first($columns);
     }
@@ -1488,7 +1510,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopePrevSibling(Builder $builder)
+    public function scopePrevSibling(Builder $builder): Builder
     {
         return $this
             ->scopeSibling($builder)
@@ -1503,7 +1525,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopePrevSiblingOf(Builder $builder, $id)
+    public function scopePrevSiblingOf(Builder $builder, $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1516,9 +1538,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves immediate previous sibling of a model.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getPrevSibling(array $columns = ['*'])
+    public function getPrevSibling(array $columns = ['*']): SiteContent
     {
         return $this->prevSibling()->first($columns);
     }
@@ -1530,7 +1553,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopePrevSiblings(Builder $builder)
+    public function scopePrevSiblings(Builder $builder): Builder
     {
         return $this
             ->scopeSibling($builder)
@@ -1545,7 +1568,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopePrevSiblingsOf(Builder $builder, $id)
+    public function scopePrevSiblingsOf(Builder $builder, $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1561,7 +1584,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public function getPrevSiblings(array $columns = ['*'])
+    public function getPrevSiblings(array $columns = ['*']): Collection
     {
         return $this->prevSiblings()->get($columns);
     }
@@ -1571,7 +1594,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countPrevSiblings()
+    public function countPrevSiblings(): int
     {
         return $this->prevSiblings()->count();
     }
@@ -1581,7 +1604,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasPrevSiblings()
+    public function hasPrevSiblings(): bool
     {
         return (bool) $this->countPrevSiblings();
     }
@@ -1593,7 +1616,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeNextSibling(Builder $builder)
+    public function scopeNextSibling(Builder $builder): Builder
     {
         return $this
             ->scopeSibling($builder)
@@ -1608,7 +1631,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeNextSiblingOf(Builder $builder, $id)
+    public function scopeNextSiblingOf(Builder $builder, $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1621,9 +1644,10 @@ class SiteContent extends Eloquent\Model
      * Retrieves immediate next sibling of a model.
      *
      * @param array $columns
-     * @return Entity
+     *
+     * @return SiteContent
      */
-    public function getNextSibling(array $columns = ['*'])
+    public function getNextSibling(array $columns = ['*']): SiteContent
     {
         return $this->nextSibling()->first($columns);
     }
@@ -1635,7 +1659,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeNextSiblings(Builder $builder)
+    public function scopeNextSiblings(Builder $builder): Builder
     {
         return $this
             ->scopeSibling($builder)
@@ -1650,7 +1674,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeNextSiblingsOf(Builder $builder, $id)
+    public function scopeNextSiblingsOf(Builder $builder, $id): Builder
     {
         return $this->buildSiblingQuery($builder, $id, function ($position) {
             return function (Builder $builder) use ($position) {
@@ -1666,7 +1690,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public function getNextSiblings(array $columns = ['*'])
+    public function getNextSiblings(array $columns = ['*']): Collection
     {
         return $this->nextSiblings()->get($columns);
     }
@@ -1676,7 +1700,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return int
      */
-    public function countNextSiblings()
+    public function countNextSiblings(): int
     {
         return $this->nextSiblings()->count();
     }
@@ -1686,7 +1710,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return bool
      */
-    public function hasNextSiblings()
+    public function hasNextSiblings(): bool
     {
         return (bool) $this->countNextSiblings();
     }
@@ -1700,7 +1724,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return Builder
      */
-    public function scopeSiblingsRange(Builder $builder, $from, $to = null)
+    public function scopeSiblingsRange(Builder $builder, int $from, int $to = null): Builder
     {
         $position = $this->getPositionColumn();
 
@@ -1719,13 +1743,13 @@ class SiteContent extends Eloquent\Model
      * Returns query builder for a range of siblings of a node with the given ID.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param int $from
      * @param int|null $to
      *
      * @return Builder
      */
-    public function scopeSiblingsRangeOf(Builder $builder, $id, $from, $to = null)
+    public function scopeSiblingsRangeOf(Builder $builder, int $id, int $from, int $to = null): Builder
     {
         $position = $this->getPositionColumn();
 
@@ -1744,11 +1768,12 @@ class SiteContent extends Eloquent\Model
      * Retrieves siblings within given positions range.
      *
      * @param int $from
-     * @param int $to
+     * @param int|null $to
      * @param array $columns
+     *
      * @return Collection
      */
-    public function getSiblingsRange($from, $to = null, array $columns = ['*'])
+    public function getSiblingsRange(int $from, int $to = null, array $columns = ['*']): Collection
     {
         return $this->siblingsRange($from, $to)->get($columns);
     }
@@ -1757,12 +1782,12 @@ class SiteContent extends Eloquent\Model
      * Builds query for siblings.
      *
      * @param Builder $builder
-     * @param mixed $id
+     * @param int $id
      * @param callable|null $positionCallback
      *
      * @return Builder
      */
-    private function buildSiblingQuery(Builder $builder, $id, callable $positionCallback = null)
+    private function buildSiblingQuery(Builder $builder, int $id, callable $positionCallback = null): Builder
     {
         $parentIdColumn = $this->getParentIdColumn();
         $positionColumn = $this->getPositionColumn();
@@ -1797,9 +1822,10 @@ class SiteContent extends Eloquent\Model
      * @param SiteContent $sibling
      * @param int|null $position
      * @param bool $returnSibling
+     *
      * @return SiteContent
      */
-    public function addSibling(SiteContent $sibling, $position = null, $returnSibling = false)
+    public function addSibling(SiteContent $sibling, int $position = null, bool $returnSibling = false): static
     {
         if ($this->exists) {
             $position = $position === null ? static::getLatestPosition($this) : $position;
@@ -1817,13 +1843,13 @@ class SiteContent extends Eloquent\Model
     /**
      * Appends multiple siblings within the current depth.
      *
-     * @param Entity[] $siblings
-     * @param int|null $from
+     * @param SiteContent[] $siblings
+     * @param null $from
      *
-     * @return Entity
+     * @return SiteContent
      * @throws Throwable
      */
-    public function addSiblings(array $siblings, $from = null)
+    public function addSiblings(array $siblings, $from = null): static
     {
         if (!$this->exists) {
             return $this;
@@ -1848,11 +1874,9 @@ class SiteContent extends Eloquent\Model
      *
      * @return Collection
      */
-    public static function getRoots(array $columns = ['*'])
+    public static function getRoots(array $columns = ['*']): Collection
     {
-        /**
-         * @var Entity $instance
-         */
+        /** @var Builder $instance */
         $instance = new static;
 
         return $instance->whereNull($instance->getParentIdColumn())->get($columns);
@@ -1862,20 +1886,22 @@ class SiteContent extends Eloquent\Model
      * Makes model a root with given position.
      *
      * @param int $position
-     * @return $this
+     *
+     * @return SiteContent
      */
-    public function makeRoot($position)
+    public function makeRoot(int $position): static
     {
-        return $this->moveTo($position, null);
+        return $this->moveTo($position);
     }
 
     /**
      * Adds "parent id" column to columns list for proper tree querying.
      *
      * @param array $columns
+     *
      * @return array
      */
-    protected function prepareTreeQueryColumns(array $columns)
+    protected function prepareTreeQueryColumns(array $columns): array
     {
         return ($columns === ['*'] ? $columns : array_merge($columns, [$this->getParentIdColumn()]));
     }
@@ -1884,23 +1910,22 @@ class SiteContent extends Eloquent\Model
      * Saves models from the given attributes array.
      *
      * @param array $tree
-     * @param SiteContent $parent
+     * @param SiteContent|null $parent
      *
      * @return Collection
      * @throws Throwable
      */
-    public static function createFromArray(array $tree, SiteContent $parent = null)
+    public static function createFromArray(
+        array $tree,
+        SiteContent $parent = null): Collection
     {
         $entities = [];
 
         foreach ($tree as $item) {
             $children = Arr::pull($item, static::CHILDREN_RELATION_NAME);
 
-            /**
-             * @var Entity $entity
-             */
             $entity = new static($item);
-            $entity->parent = $parent ? $parent->getKey() : null;
+            $entity->parent = $parent?->getKey();
             $entity->save();
 
             if ($children !== null) {
@@ -1917,11 +1942,12 @@ class SiteContent extends Eloquent\Model
      * Makes the model a child or a root with given position. Do not use moveTo to move a node within the same ancestor (call position = value and save instead).
      *
      * @param int $position
-     * @param SiteContent|int $ancestor
-     * @return Entity
+     * @param int|SiteContent|null $ancestor
+     *
+     * @return SiteContent
      * @throws InvalidArgumentException
      */
-    public function moveTo($position, $ancestor = null)
+    public function moveTo(int $position, SiteContent | int $ancestor = null): static
     {
         $parentId = $ancestor instanceof self ? $ancestor->getKey() : $ancestor;
 
@@ -1946,11 +1972,11 @@ class SiteContent extends Eloquent\Model
     /**
      * Gets the next sibling position after the last one.
      *
-     * @param Entity $entity
+     * @param SiteContent $entity
      *
      * @return int
      */
-    public static function getLatestPosition(SiteContent $entity)
+    public static function getLatestPosition(SiteContent $entity): int
     {
         $positionColumn = $entity->getPositionColumn();
         $parentIdColumn = $entity->getParentIdColumn();
@@ -1970,7 +1996,7 @@ class SiteContent extends Eloquent\Model
      *
      * @return void
      */
-    private function reorderSiblings()
+    private function reorderSiblings(): void
     {
         $position = $this->getPositionColumn();
 
@@ -1996,9 +2022,9 @@ class SiteContent extends Eloquent\Model
      * @param bool $forceDelete
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
-    public function deleteSubtree($withSelf = false, $forceDelete = false)
+    public function deleteSubtree(bool $withSelf = false, bool $forceDelete = false): void
     {
         $action = ($forceDelete === true ? 'forceDelete' : 'delete');
 
@@ -2016,9 +2042,10 @@ class SiteContent extends Eloquent\Model
      * Create a new Eloquent Collection instance.
      *
      * @param array $models
-     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     * @return Collection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $models = []): Collection
     {
         return new Collection($models);
     }
@@ -2031,32 +2058,54 @@ class SiteContent extends Eloquent\Model
      * @return mixed
      * @throws Throwable
      */
-    private function transactional(callable $callable)
+    private function transactional(callable $callable): mixed
     {
         return $this->getConnection()->transaction($callable);
     }
 
-    public function scopePublished($query)
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopePublished(Builder $query): Builder
     {
         return $query->where('published', '1');
     }
 
-    public function scopeUnpublished($query)
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeUnpublished(Builder $query): Builder
     {
         return $query->where('published', '0');
     }
 
-    public function scopeActive($query)
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('published', '1')->where('deleted', '0');
     }
 
-    public function scopeWithoutProtected($query)
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeWithoutProtected(Builder $query): Builder
     {
-        $role = (int)($_SESSION['mgrRole'] ?? 0);
-        
-        if($role === 1) return $query;
-        
+        $role = (int) ($_SESSION['mgrRole'] ?? 0);
+
+        if ($role === 1) {
+            return $query;
+        }
+
         $query->leftJoin('document_groups', 'document_groups.document', '=', 'site_content.id');
         $query->where(function ($query) {
             $docgrp = evo()->getUserDocGroups();
@@ -2073,7 +2122,15 @@ class SiteContent extends Eloquent\Model
         return $query;
     }
 
-    public function scopeWithTVs($query, $tvList = array(), $sep = ':', $tree = false)
+    /**
+     * @param Builder $query
+     * @param array $tvList
+     * @param string $sep
+     * @param bool $tree
+     *
+     * @return Builder
+     */
+    public function scopeWithTVs(Builder $query, array $tvList = [], string $sep = ':', bool $tree = false): Builder
     {
         $main_table = 'site_content';
         if ($tree) {
@@ -2089,9 +2146,16 @@ class SiteContent extends Eloquent\Model
             }
             $tvs = SiteTmplvar::whereIn('name', array_keys($tvListWithDefaults))->get()->pluck('id', 'name')->toArray();
             foreach ($tvs as $tvname => $tvid) {
-                $query = $query->leftJoin('site_tmplvar_contentvalues as tv_' . $tvname, function ($join) use ($main_table, $tvid, $tvname) {
-                    $join->on($main_table . '.id', '=', 'tv_' . $tvname . '.contentid')->where('tv_' . $tvname . '.tmplvarid', '=', $tvid);
-                });
+                $query = $query->leftJoin(
+                    'site_tmplvar_contentvalues as tv_' . $tvname,
+                    function ($join) use ($main_table, $tvid, $tvname) {
+                        $join->on($main_table . '.id', '=', 'tv_' . $tvname . '.contentid')->where(
+                            'tv_' . $tvname . '.tmplvarid',
+                            '=',
+                            $tvid
+                        );
+                    }
+                );
                 $query = $query->addSelect('tv_' . $tvname . '.value as ' . $tvname);
                 $query = $query->groupBy('tv_' . $tvname . '.value');
                 if (!empty($tvListWithDefaults[$tvname]) && $tvListWithDefaults[$tvname] == 'd') {
@@ -2102,12 +2166,25 @@ class SiteContent extends Eloquent\Model
             }
             $query->groupBy($main_table . '.id');
         }
+
         return $query;
     }
 
-    public function scopeTvFilter($query, $filters = '', $outerSep = ';', $innerSep = ':')
+    /**
+     * @param Builder $query
+     * @param string $filters
+     * @param string $outerSep
+     * @param string $innerSep
+     *
+     * @return Builder
+     */
+    public function scopeTvFilter(
+        Builder $query,
+        string $filters = '',
+        string $outerSep = ';',
+        string $innerSep = ':'): Builder
     {
-        $prefix = evo()->getDatabase()->getConfig('prefix');
+        $prefix = DB::getTablePrefix();
         $filters = explode($outerSep, trim($filters));
         foreach ($filters as $filter) {
             if (empty($filter)) {
@@ -2122,7 +2199,10 @@ class SiteContent extends Eloquent\Model
             $cast = !empty($parts[4]) ? $parts[4] : '';
             $field = 'tv_' . $tvname . '.value';
             if ($type == 'tvd') {
-                $field = \DB::Raw("IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname . "`.`default_text`)");
+                $field = DB::Raw(
+                    "IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname .
+                    "`.`default_text`)"
+                );
             }
             switch (true) {
                 case ($op == 'in'):
@@ -2150,11 +2230,16 @@ class SiteContent extends Eloquent\Model
                     break;
                 case ($cast == 'UNSIGNED'):
                 case ($cast == 'SIGNED'):
-                case (strpos($cast, 'DECIMAL') !== false):
+                case (str_contains($cast, 'DECIMAL')):
                     if ($type == 'tvd') {
-                        $query = $query->whereRaw("CAST(IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname . "`.`default_text`) AS " . $cast . " ) " . $op . " " . $value);
+                        $query = $query->whereRaw(
+                            "CAST(IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname .
+                            "`.`default_text`) AS " . $cast . " ) " . $op . " " . $value
+                        );
                     } else {
-                        $query = $query->whereRaw("CAST(`" . $prefix . 'tv_' . $tvname . "`.`value` AS " . $cast . " ) " . $op . " " . $value);
+                        $query = $query->whereRaw(
+                            "CAST(`" . $prefix . 'tv_' . $tvname . "`.`value` AS " . $cast . " ) " . $op . " " . $value
+                        );
                     }
                     break;
                 default:
@@ -2162,16 +2247,24 @@ class SiteContent extends Eloquent\Model
                     break;
             }
         }
+
         return $query;
     }
 
-    public function scopeTvOrderBy($query, $orderBy = '', $sep = ':')
+    /**
+     * @param Builder $query
+     * @param string $orderBy
+     * @param string $sep
+     *
+     * @return Builder
+     */
+    public function scopeTvOrderBy(Builder $query, string $orderBy = '', string $sep = ':'): Builder
     {
-        $prefix = evo()->getDatabase()->getConfig('prefix');
+        $prefix = DB::getTablePrefix();
         $orderBy = explode(',', trim($orderBy));
         foreach ($orderBy as $parts) {
             if (empty(trim($parts))) {
-                return;
+                return $query;
             }
 
             $part = array_map('trim', explode(' ', trim($parts), 3));
@@ -2179,22 +2272,30 @@ class SiteContent extends Eloquent\Model
             $sortDir = !empty($part[1]) ? $part[1] : 'desc';
             $cast = !empty($part[2]) ? $part[2] : '';
             $withDefaults = false;
-            if (strpos($tvname, $sep) !== false) {
-                list($tvname, $withDefaults) = explode($sep, $tvname, 2);
+            if (str_contains($tvname, $sep)) {
+                [$tvname, $withDefaults] = explode($sep, $tvname, 2);
                 $withDefaults = !empty($withDefaults) && $withDefaults == 'd';
             }
             $field = 'tv_' . $tvname . ".value";
             if ($withDefaults === true) {
-                $field = DB::Raw("IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname . "`.`default_text`)");
+                $field = DB::Raw(
+                    "IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname .
+                    "`.`default_text`)"
+                );
             }
             switch (true) {
                 case ($cast == 'UNSIGNED'):
                 case ($cast == 'SIGNED'):
-                case (strpos($cast, 'DECIMAL') !== false):
+                case (str_contains($cast, 'DECIMAL')):
                     if ($withDefaults === false) {
-                        $query = $query->orderByRaw("CAST(`" . $prefix . 'tv_' . $tvname . "`.`value` AS " . $cast . ") " . $sortDir);
+                        $query = $query->orderByRaw(
+                            "CAST(`" . $prefix . 'tv_' . $tvname . "`.`value` AS " . $cast . ") " . $sortDir
+                        );
                     } else {
-                        $query = $query->orderByRaw("CAST(IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname . "`.`default_text`) AS " . $cast . ") " . $sortDir);
+                        $query = $query->orderByRaw(
+                            "CAST(IFNULL(`" . $prefix . "tv_" . $tvname . "`.`value`, `" . $prefix . "tvd_" . $tvname .
+                            "`.`default_text`) AS " . $cast . ") " . $sortDir
+                        );
                     }
                     break;
                 default:
@@ -2202,55 +2303,68 @@ class SiteContent extends Eloquent\Model
                     break;
             }
         }
+
         return $query;
     }
 
     /**
-     * @param $query
+     * @param Builder $query
      * @param int $depth
+     *
+     * @return Builder
      */
-    public function scopeGetRootTree($query, $depth = 0)
+    public function scopeGetRootTree(Builder $query, int $depth = 0): Builder
     {
         return $query->select('t2.*')
             ->leftJoin('site_content_closure', function ($join) use ($depth) {
                 $join->on('site_content.id', '=', 'site_content_closure.ancestor');
-                $join->on('site_content_closure.depth', '<', \DB::raw($depth));
+                $join->on('site_content_closure.depth', '<', DB::raw($depth));
             })
             ->join('site_content as t2', 't2.id', '=', 'site_content_closure.descendant')
             ->where('site_content.parent', 0);
     }
 
-    //return tvs array [$docid => tvs array()]
-    public static function getTvList($docs, $tvList = array())
+    /**
+     * @param $docs
+     * @param array $tvList
+     *
+     * @return array
+     */
+    public static function getTvList($docs, array $tvList = []): array
     {
-        $docsTV = array();
+        $docsTV = [];
         if (empty($docs)) {
-            return array();
-        } else if (empty($tvList)) {
-            return array();
+            return [];
         } else {
-            $ids = $docs->pluck('id')->toArray();
-            $tvs = SiteTmplvar::whereIn('name', $tvList)->get();
-            $tvNames = $tvs->pluck('default_text', 'name')->toArray();
-            $tvIds = $tvs->pluck('name', 'id')->toArray();
-            $tvValues = SiteTmplvarContentvalue::whereIn('contentid', $ids)->whereIn('tmplvarid', array_keys($tvIds))->get()->toArray();
-            foreach ($tvValues as $tv) {
-                if (empty($tv['value']) && !empty($tvNames[$tvIds[$tv['tmplvarid']]])) {
-                    $tv['value'] = $tvNames[$tvIds[$tv['tmplvarid']]];
+            if (empty($tvList)) {
+                return [];
+            } else {
+                $ids = $docs->pluck('id')->toArray();
+                $tvs = SiteTmplvar::whereIn('name', $tvList)->get();
+                $tvNames = $tvs->pluck('default_text', 'name')->toArray();
+                $tvIds = $tvs->pluck('name', 'id')->toArray();
+                $tvValues =
+                    SiteTmplvarContentvalue::whereIn('contentid', $ids)->whereIn('tmplvarid', array_keys($tvIds))->get()
+                        ->toArray();
+                foreach ($tvValues as $tv) {
+                    if (empty($tv['value']) && !empty($tvNames[$tvIds[$tv['tmplvarid']]])) {
+                        $tv['value'] = $tvNames[$tvIds[$tv['tmplvarid']]];
+                    }
+                    unset($tv['id']);
+                    $docsTV[$tv['contentid']][$tv['tmplvarid']] = $tv;
                 }
-                unset($tv['id']);
-                $docsTV[$tv['contentid']][$tv['tmplvarid']] = $tv;
-            }
-            foreach ($ids as $docid) {
-                foreach ($tvIds as $tvid => $tvname) {
-                    if (empty($docsTV[$docid][$tvid])) {
-                        $docsTV[$docid][$tvid] = array('tmplvarid' => $tvid, 'contentid' => $docid, 'value' => $tvNames[$tvIds[$tvid]]);
+                foreach ($ids as $docid) {
+                    foreach ($tvIds as $tvid => $tvname) {
+                        if (empty($docsTV[$docid][$tvid])) {
+                            $docsTV[$docid][$tvid] =
+                                ['tmplvarid' => $tvid, 'contentid' => $docid, 'value' => $tvNames[$tvIds[$tvid]]];
+                        }
                     }
                 }
             }
         }
         if (!empty($docsTV)) {
-            $tmp = array();
+            $tmp = [];
             foreach ($docsTV as $docid => $tvs) {
                 foreach ($tvs as $tvid => $tv) {
                     $tmp[$docid][$tvIds[$tvid]] = $tv['value'];
@@ -2258,33 +2372,54 @@ class SiteContent extends Eloquent\Model
             }
             $docsTV = $tmp;
         }
+
         return $docsTV;
     }
 
-    //return docs array with tvs
-    public static function tvList($docs, $tvList = array())
+    /**
+     * @param $docs
+     * @param array $tvList
+     *
+     * @return array
+     */
+    public static function tvList($docs, array $tvList = []): array
     {
         if (empty($docs)) {
-            return array();
+            return [];
         } else {
             $docsTV = static::getTvList($docs, $tvList);
             $docs = $docs->toArray();
             $tmp = $docs;
             foreach ($docs as $key => $doc) {
-                $tmp[$key]['tvs'] = !empty($docsTV[$doc['id']]) ? $docsTV[$doc['id']] : array();
+                $tmp[$key]['tvs'] = !empty($docsTV[$doc['id']]) ? $docsTV[$doc['id']] : [];
             }
             $docs = $tmp;
             unset($tmp);
+
             return $docs;
         }
     }
 
-    public function scopeOrderByDate($query, $sortDir = 'desc')
+    /**
+     * @param Builder $query
+     * @param string $sortDir
+     *
+     * @return Builder
+     */
+    public function scopeOrderByDate(Builder $query, string $sortDir = 'desc'): Builder
     {
         return $query->orderByRaw('IF(pub_date!=0,pub_date,createdon) ' . $sortDir);
     }
 
-    public function scopeTagsData($query, $tagsData, $sep = ':', $tagSeparator = ',')
+    /**
+     * @param Builder $query
+     * @param $tagsData
+     * @param string $sep
+     * @param string $tagSeparator
+     *
+     * @return Builder
+     */
+    public function scopeTagsData(Builder $query, $tagsData, string $sep = ':', string $tagSeparator = ','): Builder
     {
         $tmp = explode($sep, $tagsData, 2);
         if (is_numeric($tmp[0])) {
@@ -2295,6 +2430,7 @@ class SiteContent extends Eloquent\Model
             $query->rightJoin('site_content_tags', 'site_content_tags.doc_id', '=', 'site_content.id');
             $query->rightJoin('tags', 'tags.id', '=', 'site_content_tags.tag_id');
         }
+
         return $query;
     }
 }

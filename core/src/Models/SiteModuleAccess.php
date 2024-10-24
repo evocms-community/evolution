@@ -1,28 +1,27 @@
-<?php namespace EvolutionCMS\Models;
+<?php
 
-use Illuminate\Database\Eloquent;
+namespace EvolutionCMS\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * EvolutionCMS\Models\SiteModuleAccess
- *
  * @property int $id
  * @property int $module
  * @property int $usergroup
- *
- * @mixin \Eloquent
  */
-class SiteModuleAccess extends Eloquent\Model
+class SiteModuleAccess extends Model
 {
-	protected $table = 'site_module_access';
-	public $timestamps = false;
+    protected $table = 'site_module_access';
 
-	protected $casts = [
-		'module' => 'int',
-		'usergroup' => 'int'
-	];
+    public $timestamps = false;
 
-	protected $fillable = [
-		'module',
-		'usergroup'
-	];
+    protected $casts = [
+        'module' => 'int',
+        'usergroup' => 'int',
+    ];
+
+    protected $fillable = [
+        'module',
+        'usergroup',
+    ];
 }

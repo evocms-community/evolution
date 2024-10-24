@@ -1,4 +1,6 @@
-<?php namespace EvolutionCMS;
+<?php
+
+namespace EvolutionCMS;
 
 use EvolutionCMS\Controllers\UserRoles\Permission;
 use EvolutionCMS\Controllers\UserRoles\PermissionsGroups;
@@ -10,31 +12,41 @@ use EvolutionCMS\Interfaces\CoreInterface;
 use EvolutionCMS\Interfaces\ManagerThemeInterface;
 use EvolutionCMS\Models\ActiveUser;
 use EvolutionCMS\Models\UserAttribute;
+use EvolutionCMS\Support\Formatter\CSSMinify;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Session\TokenMismatchException;
-use View;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 class ManagerTheme implements ManagerThemeInterface
 {
     /**
      * @var CoreInterface
      */
-    protected $core;
+    protected CoreInterface $core;
 
     /**
      * @var string
      */
-    protected $theme;
-    protected $namespace = 'manager';
-    protected $lang = 'en';
-    protected $langName = 'en';
-    protected $textDir;
-    protected $lexicon = [];
-    protected $charset = 'UTF-8';
-    protected $style = [];
+    protected string $theme;
 
-    protected $actions = [
+    protected string $namespace = 'manager';
+
+    protected string $lang = 'en';
+
+    protected string $langName = 'en';
+
+    protected string $textDir;
+
+    protected array $lexicon = [];
+
+    protected string $charset = 'UTF-8';
+
+    protected array $style = [];
+
+    protected array $actions = [
         /** frame management - show the requested frame */
         1 => Controllers\Frame::class,
         /** show the homepage */
@@ -189,23 +201,23 @@ class ManagerTheme implements ManagerThemeInterface
         $this->theme = $theme;
 
         $this->loadLang(
-            $this->getCore()->getConfig('manager_language')
+            Config::get('global.manager_language')
         );
         if (IN_INSTALL_MODE === false) {
             $this->loadStyle();
         }
 
-        if ($this->getCore()->getConfig('mgr_jquery_path', '') === '') {
-            $this->getCore()->setConfig('mgr_jquery_path', 'media/script/jquery/jquery.min.js');
+        if (Config::get('global.mgr_jquery_path', '') === '') {
+            Config::set('global.mgr_jquery_path', 'media/script/jquery/jquery.min.js');
         }
-        if ($this->getCore()->getConfig('mgr_date_picker_path', '') === '') {
-            $this->getCore()->setConfig('mgr_date_picker_path', 'media/calendar/datepicker.inc.php');
+        if (Config::get('global.mgr_date_picker_path', '') === '') {
+            Config::set('global.mgr_date_picker_path', 'media/calendar/datepicker.inc.php');
         }
     }
 
     protected function loadLang($lang = 'en')
     {
-        $_lang = array();
+        $_lang = [];
 
         include EVO_CORE_PATH . 'lang/en/global.php';
 
@@ -222,7 +234,7 @@ class ManagerTheme implements ManagerThemeInterface
         }
 
         foreach ($_lang as $k => $v) {
-            if (strpos($v, '[+') !== false) {
+            if (str_contains($v, '[+')) {
                 $_lang[$k] = str_replace(
                     ['[+MGR_DIR+]'],
                     [MGR_DIR],
@@ -236,8 +248,8 @@ class ManagerTheme implements ManagerThemeInterface
         app()->setLocale($lang);
         $this->setTextDir(in_array($lang, ['fa', 'he']) ? 'rtl' : 'ltr');
         $this->setCharset('UTF-8');
-        $this->getCore()->setConfig('lang_code', $lang);
-        $this->getCore()->setConfig('manager_language', $lang);
+        Config::set('global.lang_code', $lang);
+        Config::set('global.manager_language', $lang);
 
         return $lang;
     }
@@ -252,7 +264,7 @@ class ManagerTheme implements ManagerThemeInterface
         return $this->lang;
     }
 
-    public function getLangName()
+    public function getLangName(): string
     {
         return $this->langName;
     }
@@ -266,28 +278,31 @@ class ManagerTheme implements ManagerThemeInterface
         return ($notEmpty === null) ? $this->textDir : $notEmpty;
     }
 
-    public function setTextDir($textDir = 'rtl')
+    public function setTextDir($textDir = 'rtl'): static
     {
         $this->textDir = $textDir === 'rtl' ? 'rtl' : 'ltr';
+
+        return $this;
     }
 
     public function getLexicon($key = null, $default = '')
     {
-
         return $key === null ? $this->lexicon : get_by_key($this->lexicon, $key, $default);
     }
 
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }
 
-    public function setCharset($charset)
+    public function setCharset($charset): static
     {
         $this->charset = $charset;
+
+        return $this;
     }
 
-    public function getViewName($name)
+    public function getViewName($name): string
     {
         return $this->namespace . '::' . $name;
     }
@@ -295,20 +310,21 @@ class ManagerTheme implements ManagerThemeInterface
     /**
      * @deprecated
      */
-    protected function loadStyle()
+    protected function loadStyle(): void
     {
         $_style = [];
         $modx = $this->core;
         $_lang = $this->getLexicon();
-        include_once $this->getThemeDir(true) . 'style.php';
+        include_once $this->getThemeDir() . 'style.php';
         $this->style = $_style;
     }
 
     /**
      * @param bool $full
+     *
      * @return string
      */
-    public function getThemeDir($full = true): string
+    public function getThemeDir(bool $full = true): string
     {
         return ($full ? MODX_MANAGER_PATH : '') . 'media/style/' . $this->getTheme() . '/';
     }
@@ -334,7 +350,7 @@ class ManagerTheme implements ManagerThemeInterface
         );
     }
 
-    public function getViewAttributes(array $params = [])
+    public function getViewAttributes(array $params = []): array
     {
         $baseParams = [
             'modx' => $this->getCore(),
@@ -349,7 +365,7 @@ class ManagerTheme implements ManagerThemeInterface
         return array_merge($baseParams, $params);
     }
 
-    public function getFileProcessor($filepath, $theme = null)
+    public function getFileProcessor($filepath, $theme = null): string
     {
         if ($theme === null) {
             $theme = $this->getTheme();
@@ -369,7 +385,7 @@ class ManagerTheme implements ManagerThemeInterface
         return $action === null ? null : get_by_key($this->actions, $action, $action);
     }
 
-    public function setRequest()
+    public function setRequest(): Request
     {
         $request = Request::createFromGlobals();
         $this->core->instance(Request::class, $request);
@@ -378,7 +394,7 @@ class ManagerTheme implements ManagerThemeInterface
         return $request;
     }
 
-    public function handleRoute()
+    public function handleRoute(): void
     {
         $evo = $this->getCore();
         $request = $this->setRequest();
@@ -417,10 +433,10 @@ class ManagerTheme implements ManagerThemeInterface
 
         $controllerName = $this->findController($action);
 
-        if (\is_int($controllerName)) {
+        if (is_int($controllerName)) {
             $out = $this->view('page.' . $action)->render();
         } elseif (class_exists($controllerName) &&
-            \in_array(Interfaces\ManagerTheme\PageControllerInterface::class, class_implements($controllerName), true)
+            in_array(Interfaces\ManagerTheme\PageControllerInterface::class, class_implements($controllerName), true)
         ) {
             /** @var Interfaces\ManagerTheme\PageControllerInterface $controller */
             $controller = new $controllerName($this, $data);
@@ -430,7 +446,14 @@ class ManagerTheme implements ManagerThemeInterface
             } elseif ($controller->checkLocked() === true) {
                 $elementType = $controller->getElementType();
                 $username = $this->getCore()->elementIsLocked($elementType, $controller->getElementId())['username'];
-                $this->alertAndQuit(sprintf($this->getLexicon('lock_msg'), $username, $this->getLexicon('lock_element_type_' . $elementType)), false);
+                $this->alertAndQuit(
+                    sprintf(
+                        $this->getLexicon('lock_msg'),
+                        $username,
+                        $this->getLexicon('lock_element_type_' . $elementType)
+                    ),
+                    false
+                );
             } elseif ($controller->process()) {
                 $out = $controller->render();
             } else {
@@ -443,7 +466,7 @@ class ManagerTheme implements ManagerThemeInterface
 
         /********************************************************************/
         // log action, unless it's a frame request
-        if ($action > 0 && \in_array($action, [1, 2, 7], true) === false) {
+        if ($action > 0 && in_array($action, [1, 2, 7], true) === false) {
             $log = new Legacy\LogHandler;
             $log->initAndWriteLog();
         }
@@ -454,7 +477,7 @@ class ManagerTheme implements ManagerThemeInterface
         return $out;
     }
 
-    public function getItemId()
+    public function getItemId(): ?int
     {
         $out = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
         if ($out <= 0) {
@@ -464,25 +487,25 @@ class ManagerTheme implements ManagerThemeInterface
         return $out;
     }
 
-    public function getActionId()
+    public function getActionId(): ?int
     {
+        $action = null;
+
         // OK, let's retrieve the action directive from the request
-        $option = array('min_range' => 1, 'max_range' => 2000);
+        $option = ['min_range' => 1, 'max_range' => 2000];
+
         if (isset($_GET['a']) && isset($_POST['a'])) {
             $this->alertAndQuit('error_double_action');
         } elseif (isset($_GET['a'])) {
             $action = (int) filter_input(INPUT_GET, 'a', FILTER_VALIDATE_INT, $option);
         } elseif (isset($_POST['a'])) {
             $action = (int) filter_input(INPUT_POST, 'a', FILTER_VALIDATE_INT, $option);
-        } else {
-            $action = null;
         }
 
         return $action;
-        //return isset($_REQUEST['a']) ? (int)$_REQUEST['a'] : 1;
     }
 
-    public function isAuthManager()
+    public function isAuthManager(): bool
     {
         $out = null;
 
@@ -537,7 +560,7 @@ class ManagerTheme implements ManagerThemeInterface
         return isset($_SESSION['mgrValidated']);
     }
 
-    public function hasManagerAccess()
+    public function hasManagerAccess(): bool
     {
         // check if user is allowed to access manager interface
         return $this->getCore()->hasPermission('access_permissions', 'mgr');
@@ -545,9 +568,9 @@ class ManagerTheme implements ManagerThemeInterface
 
     public function getManagerStartupPageId()
     {
-        $homeId = (int) $this->getCore()->getConfig('manager_login_startup');
+        $homeId = (int) Config::get('global.manager_login_startup');
         if ($homeId <= 0) {
-            $homeId = $this->getCore()->getConfig('site_start');
+            $homeId = Config::get('global.site_start');
         }
 
         return $homeId;
@@ -557,19 +580,19 @@ class ManagerTheme implements ManagerThemeInterface
     {
         $plh = [];
 
-        $plh['login_form_position_class'] = 'loginbox-' . $this->getCore()->getConfig('login_form_position');
-        $plh['login_form_style_class'] = 'loginbox-' . $this->getCore()->getConfig('login_form_style');
+        $plh['login_form_position_class'] = 'loginbox-' . Config::get('global.login_form_position');
+        $plh['login_form_style_class'] = 'loginbox-' . Config::get('global.login_form_style');
 
         return $this->makeTemplate('manager.lockout', 'manager_lockout_tpl', $plh, false);
     }
 
-    public function getTemplate($name, $config = null)
+    public function getTemplate($name, $config = null): bool | string | null
     {
-        if (!empty($config) && empty($this->getCore()->getConfig($config))) {
-            $this->getCore()->setConfig($config, MODX_MANAGER_PATH . 'media/style/common/' . $name . '.tpl');
+        if ($config && !Config::get('global.' . $config)) {
+            Config::set('global.' . $config, MODX_MANAGER_PATH . 'media/style/common/' . $name . '.tpl');
         }
 
-        $target = $this->getCore()->getConfig($config);
+        $target = Config::get('global.' . $config);
         $target = str_replace('[+base_path+]', MODX_BASE_PATH, $target);
         $target = $this->getCore()->mergeSettingsContent($target);
 
@@ -577,20 +600,16 @@ class ManagerTheme implements ManagerThemeInterface
         if (empty($content)) {
             if (is_file(MODX_BASE_PATH . $target)) {
                 $target = MODX_BASE_PATH . $target;
-                $content = file_get_contents($target);
             } elseif (is_file($this->getThemeDir() . $name . '.tpl')) {
                 $target = $this->getThemeDir() . $name . '.tpl';
-                $content = file_get_contents($target);
             } elseif (is_file($this->getThemeDir() . 'templates/actions/' . $name . '.tpl')) {
                 $target = $this->getThemeDir() . 'templates/actions/' . $name . '.tpl';
-                $content = file_get_contents($target);
             } elseif (is_file($this->getThemeDir() . 'html/' . $name . '.html')) { // ClipperCMS compatible
                 $target = $this->getThemeDir() . 'html/' . $name . '.html';
-                $content = file_get_contents($target);
             } else {
                 $target = MODX_MANAGER_PATH . 'media/style/common/' . $name . '.tpl';
-                $content = file_get_contents($target);
             }
+            $content = file_get_contents($target);
         }
 
         return $content;
@@ -620,7 +639,8 @@ class ManagerTheme implements ManagerThemeInterface
     {
         $plh = [
             'modx_charset' => $this->getCharset(),
-            'favicon' => (file_exists(MODX_BASE_PATH . 'favicon.ico') ? MODX_SITE_URL : $this->getThemeUrl() . 'images/') . 'favicon.ico',
+            'favicon' => (file_exists(MODX_BASE_PATH . 'favicon.ico') ? MODX_SITE_URL
+                    : $this->getThemeUrl() . 'images/') . 'favicon.ico',
             'homeurl' => $this->getCore()->makeUrl($this->getManagerStartupPageId()),
             'logouturl' => MODX_MANAGER_URL . 'index.php?a=8',
             'year' => date('Y'),
@@ -628,13 +648,13 @@ class ManagerTheme implements ManagerThemeInterface
             'manager_theme_url' => $this->getThemeUrl(),
             'manager_theme_style' => $this->getThemeStyle(),
             'manager_path' => MGR_DIR,
-            'csrf' => csrf_field()->toHtml()
+            'csrf' => csrf_field()->toHtml(),
         ];
 
         // set login logo image
-        $logo = $this->getCore()->getConfig('login_logo', '');
+        $logo = Config::get('global.login_logo', '');
         if ($logo !== '') {
-            if (substr($logo, 0, 4) === "http") {
+            if (str_starts_with($logo, 'http')) {
                 $plh['login_logo'] = $logo;
             } else {
                 $plh['login_logo'] = MODX_SITE_URL . $logo;
@@ -644,15 +664,13 @@ class ManagerTheme implements ManagerThemeInterface
         }
 
         // set login background image
-        $background = $this->getCore()->getConfig('login_bg', '');
+        $background = Config::get('global.login_bg', '');
         if ($background !== '') {
-            if (substr($background, 0, 4) === "http") {
+            if (str_starts_with($background, 'http')) {
                 $plh['login_bg'] = $background;
             } else {
                 $plh['login_bg'] = MODX_SITE_URL . $background;
             }
-
-            $plh['login_bg'] = MODX_SITE_URL . $background;
         } else {
             $plh['login_bg'] = $this->getThemeUrl() . 'images/login/default/login-background.jpg';
         }
@@ -661,7 +679,7 @@ class ManagerTheme implements ManagerThemeInterface
         return $plh;
     }
 
-    public function renderLoginPage()
+    public function renderLoginPage(): string
     {
         $plh = [
             'remember_me' => isset($_COOKIE['modx_remember_manager']) ? 'checked="checked"' : '',
@@ -692,10 +710,14 @@ class ManagerTheme implements ManagerThemeInterface
             }
         }
 
-        if ($this->getCore()->getConfig('use_captcha')) {
+        if (Config::get('global.use_captcha')) {
             $plh['login_captcha_message'] = $this->getLexicon("login_captcha_message");
-            $plh['captcha_image'] = '<a href="' . MODX_MANAGER_URL . '" class="loginCaptcha"><img id="captcha_image" src="' . MODX_MANAGER_URL . 'captcha.php?rand=' . rand() . '" alt="' . $this->getLexicon('login_captcha_message') . '" /></a>';
-            $plh['captcha_input'] = '<label>' . $this->getLexicon('captcha_code') . '</label><input type="text" name="captcha_code" tabindex="3" value="" />';
+            $plh['captcha_image'] =
+                '<a href="' . MODX_MANAGER_URL . '" class="loginCaptcha"><img id="captcha_image" src="' .
+                MODX_MANAGER_URL . 'captcha.php?rand=' . rand() . '" alt="' .
+                $this->getLexicon('login_captcha_message') . '" /></a>';
+            $plh['captcha_input'] = '<label>' . $this->getLexicon('captcha_code') .
+                '</label><input type="text" name="captcha_code" tabindex="3" value="" />';
         }
 
         // login info
@@ -710,15 +732,15 @@ class ManagerTheme implements ManagerThemeInterface
         $html = is_array($evtOut) ? '<div id="onManagerLoginFormRender">' . implode('', $evtOut) . '</div>' : '';
         $plh['OnManagerLoginFormRender'] = $html;
 
-        $plh['login_form_position_class'] = 'loginbox-' . $this->getCore()->getConfig('login_form_position');
-        $plh['login_form_style_class'] = 'loginbox-' . $this->getCore()->getConfig('login_form_style');
+        $plh['login_form_position_class'] = 'loginbox-' . Config::get('global.login_form_position');
+        $plh['login_form_style_class'] = 'loginbox-' . Config::get('global.login_form_style');
 
         $plh['repair_password'] = $this->repairPassword($plh);
 
         return $this->makeTemplate('login', 'manager_login_tpl', $plh, false);
     }
 
-    public function saveAction($action)
+    public function saveAction($action): bool
     {
         $flag = false;
 
@@ -726,7 +748,7 @@ class ManagerTheme implements ManagerThemeInterface
         $this->getCore()->getManagerApi()->action = $action;
 
         if ((int) $action > 1) {
-            ActiveUser::where('internalKey', $this->getCore()->getLoginUserID('mgr'))->forceDelete();
+            ActiveUser::query()->where('internalKey', $this->getCore()->getLoginUserID('mgr'))->forceDelete();
             $activeUser = new ActiveUser;
             $activeUser->sid = session_id();
             $activeUser->internalKey = (int) $this->getCore()->getLoginUserID('mgr');
@@ -772,10 +794,11 @@ class ManagerTheme implements ManagerThemeInterface
     public function isLoadDatePicker(): bool
     {
         $actions = [85, 27, 4, 72, 13, 87, 88];
-        return \in_array($this->getCore()->getManagerApi()->action, $actions, true);
+
+        return in_array($this->getCore()->getManagerApi()->action, $actions, true);
     }
 
-    public function getCssFiles()
+    public function getCssFiles(): array
     {
         return [
             'bootstrap' => MODX_MANAGER_PATH . 'media/style/common/bootstrap/css/bootstrap.min.css',
@@ -792,23 +815,23 @@ class ManagerTheme implements ManagerThemeInterface
         ];
     }
 
-    public function css()
+    public function css(): string
     {
         $css = $this->getThemeUrl() . 'style.css';
         $minCssName = 'css/styles.min.css';
 
         if (!file_exists($this->getThemeDir() . $minCssName) && is_writable($this->getThemeDir() . 'css')) {
             $files = $this->getCssFiles();
-            $evtOut = $this->getCore()->invokeEvent('OnBeforeMinifyCss', array(
+            $evtOut = $this->getCore()->invokeEvent('OnBeforeMinifyCss', [
                 'files' => $files,
                 'source' => 'manager',
                 'theme' => $this->getTheme(),
-            ));
+            ]);
             switch (true) {
                 case empty($evtOut):
-                case \is_array($evtOut) && count($evtOut) === 0:
+                case is_array($evtOut) && count($evtOut) === 0:
                     break;
-                case \is_array($evtOut) && count($evtOut) === 1:
+                case is_array($evtOut) && count($evtOut) === 1:
                     $files = $evtOut[0];
                     break;
                 default:
@@ -817,7 +840,7 @@ class ManagerTheme implements ManagerThemeInterface
                     );
             }
 
-            $minifier = new \EvolutionCMS\Support\Formatter\CSSMinify($files);
+            $minifier = new CSSMinify($files);
             $css = $minifier->minify();
             file_put_contents(
                 $this->getThemeDir() . $minCssName,
@@ -834,18 +857,19 @@ class ManagerTheme implements ManagerThemeInterface
     public function getMainFrameHeaderHTMLBlock(): string
     {
         $evtOut = $this->getCore()->invokeEvent('OnManagerMainFrameHeaderHTMLBlock');
-        return \is_array($evtOut) ? implode("\n", $evtOut) : '';
+
+        return is_array($evtOut) ? implode("\n", $evtOut) : '';
     }
 
     public function getThemeStyle(): string
     {
         $default = 'dark';
-        $modes = array('', 'lightness', 'light', 'dark', 'darkness');
+        $modes = ['', 'lightness', 'light', 'dark', 'darkness'];
 
         $cookie = (int) get_by_key($_COOKIE, 'MODX_themeMode', 0, function ($val) use ($modes) {
-            return (int) $val > 0 && (int) $val <= \count($modes);
+            return (int) $val > 0 && (int) $val <= count($modes);
         });
-        $system = $this->getCore()->getConfig('manager_theme_mode');
+        $system = Config::get('global.manager_theme_mode');
 
         if (!empty($cookie)) {
             $out = $modes[$cookie];
@@ -858,19 +882,20 @@ class ManagerTheme implements ManagerThemeInterface
         return $out;
     }
 
-    public function repairPassword($plh)
+    public function repairPassword($plh): string
     {
         $output = '';
         if (isset($_GET['repair_password'])) {
             return $this->makeTemplate('repair_form', 'manager_login_tpl', $plh, false);
         }
         if (isset($_GET['email'])) {
-            $user = UserAttribute::where('email', $_GET['email'])->first();
+            /** @var UserAttribute $user */
+            $user = UserAttribute::query()->where('email', $_GET['email'])->first();
             if (is_null($user)) {
-                $output .= '<span class="error">' . \Lang::get('global.could_not_find_user') . '</span>';
+                $output .= '<span class="error">' . Lang::get('global.could_not_find_user') . '</span>';
             }
             if ($user->blocked == 1) {
-                $output .= '<span class="error">' . \Lang::get('global.user_is_blocked') . '</span>';
+                $output .= '<span class="error">' . Lang::get('global.user_is_blocked') . '</span>';
             } else {
                 $hash = '';
                 try {
@@ -891,24 +916,25 @@ class ManagerTheme implements ManagerThemeInterface
         return $output . $this->makeTemplate('repair_button', 'manager_login_tpl', $plh, false);
     }
 
-    public function sendRepairMail($email, $hash, $mode)
+    public function sendRepairMail($email, $hash, $mode): string
     {
         $body = '
-                <p>' . \Lang::get('global.forgot_password_email_intro') . ' <a href="' . MODX_MANAGER_URL . '?a=0&hash=' . $hash . '&mode=' . $mode . '">' . \Lang::get('global.forgot_password_email_link') . '</a></p>
-                <p>' . \Lang::get('global.forgot_password_email_instructions') . '</p>
-                <p><small>' . \Lang::get('global.forgot_password_email_fine_print') . '</small></p>';
+                <p>' . Lang::get('global.forgot_password_email_intro') . ' <a href="' . MODX_MANAGER_URL .
+            '?a=0&hash=' . $hash . '&mode=' . $mode . '">' . Lang::get('global.forgot_password_email_link') . '</a></p>
+                <p>' . Lang::get('global.forgot_password_email_instructions') . '</p>
+                <p><small>' . Lang::get('global.forgot_password_email_fine_print') . '</small></p>';
 
-        $param = array();
-        $param['from'] = $this->getCore()->getConfig('site_name') . '<' . $this->getCore()->getConfig('emailsender') . '>';
+        $param = [];
+        $param['from'] = Config::get('global.site_name') . '<' . Config::get('global.emailsender') . '>';
         $param['to'] = $email;
-        $param['subject'] = \Lang::get('global.password_change_request');
+        $param['subject'] = Lang::get('global.password_change_request');
         $param['body'] = $body;
         $rs = $this->getCore()->sendmail($param); //ignore mail errors in this case
 
         if (!$rs) {
-            return '<span class="error">' . \Lang::get('global.error_sending_email') . '</span>';
+            return '<span class="error">' . Lang::get('global.error_sending_email') . '</span>';
         }
 
-        return '<p><b>' . \Lang::get('global.email_sent') . '</b></p>';
+        return '<p><b>' . Lang::get('global.email_sent') . '</b></p>';
     }
 }
