@@ -121,7 +121,7 @@ if (isset($_REQUEST['newrole'])) {
         }
         $query['newrole'] = $_REQUEST['newrole'];
         $modx->getManagerApi()->saveFormValues(87);
-        redirect('index.php?' . http_build_query($query))->send();
+        redirect('index.php?' . http_build_query($query), 302, [], (evo()->getConfig('server_protocol')==='https'))->send();
     } else {
         $userdata['role'] = $_REQUEST['newrole'];
     }
