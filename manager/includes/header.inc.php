@@ -114,6 +114,7 @@ if ($modx->config['manager_theme'] == 'default') {
         actions_plus: '<?= $_style['actions_plus'] ?>'
       };
       evo.urlCheckConnectionToServer = '<?= MODX_MANAGER_URL ?>includes/version.inc.php';
+      evo.locale = '<?= evo()->getLocale() ?>
     </script>
     <script src="media/script/main.js"></script>
     <script>
