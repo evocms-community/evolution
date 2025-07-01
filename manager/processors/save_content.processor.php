@@ -34,7 +34,7 @@ $donthit = (int) $_POST['donthit'];
 $menutitle = $modx->db->escape($_POST['menutitle']);
 $hidemenu = (int) $_POST['hidemenu'];
 $aliasvisible = (int) $_POST['alias_visible'];
-$createdon = strtotime($_POST['createdon']) ?? strtotime('now');
+$createdon = strtotime($_POST['createdon'] ?? 'now');
 
 /************* webber ********/
 $sd = isset($_POST['dir']) && strtolower($_POST['dir']) === 'asc' ? '&dir=ASC' : '&dir=DESC';
