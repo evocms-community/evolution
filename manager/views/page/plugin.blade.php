@@ -34,7 +34,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             }, delete: function() {
               if (confirm(`{{ __('global.confirm_delete_plugin') }}`) === true) {
                 documentDirty = false;
-                document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=104';
+                document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=110&type=plugin';
               }
             }, cancel: function() {
               documentDirty = false;

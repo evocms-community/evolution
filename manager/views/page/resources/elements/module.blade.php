@@ -91,7 +91,7 @@ use EvolutionCMS\Facades\ManagerTheme;
                     @endif
                     @if(evo()->hasPermission('delete_module'))
                         <li>
-                            <a href="{{ $item->makeUrl('actions.delete') }}" target="main"
+                            <a href="{{ $item->makeUrl('actions.delete') }}&type=module" target="main"
                                title="{{ __('global.delete') }}"
                                onclick="return confirm(`{{ __('global.confirm_delete_module') }}`)">
                                 <i class="{{ ManagerTheme::getStyle('icon_trash') }}"></i>

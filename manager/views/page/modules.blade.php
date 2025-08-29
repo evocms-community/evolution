@@ -104,7 +104,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             break;
           case 4:		// delete
             if (confirm(`{{ __('global.confirm_delete_module') }}`) === true) {
-              window.location.href = 'index.php?a=110&id=' + id;
+              window.location.href = 'index.php?a=110&type=module&id=' + id;
             }
             break;
         }

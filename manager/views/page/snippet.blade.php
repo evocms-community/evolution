@@ -35,7 +35,7 @@ use EvolutionCMS\Facades\ManagerTheme;
             }, delete: function () {
               if (confirm(`{{ __('global.confirm_delete_snippet') }}`) === true) {
                 documentDirty = false
-                document.location.href = 'index.php?id={{ $data->getKey() }}&a=25'
+                document.location.href = 'index.php?id={{ $data->getKey() }}&a=110&type=snippet'
               }
             }, cancel: function () {
               documentDirty = false

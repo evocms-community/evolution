@@ -107,7 +107,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     delete: function () {
       if (confirm(`<?= __('global.confirm_delete_module') ?>`) === true) {
         documentDirty = false
-        document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=110'
+        document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=110&type=module'
       }
     },
     cancel: function () {
