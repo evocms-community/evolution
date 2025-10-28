@@ -555,5 +555,9 @@ body,
   border: #414449 1px solid!important;
 }
 
+progress#install_file_prg {
+  width: 100%;
+}
+
 
 

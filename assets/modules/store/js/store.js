@@ -163,6 +163,7 @@ store = {
             if($.isEmptyObject( file )) return;
             $('#install_file_resp').html('');
             $('#install_file_prg').fadeIn();
+            $('#install_file_btn').fadeOut();
             $.ajax({
                 url: link()+'&method=fast',
                 type: 'POST',
@@ -186,13 +187,24 @@ store = {
                     return myXhr;
                 },
             }).done(function(resp){
-                $('#install_file_resp').html(resp);
+                $('#install_file_resp').html(file.name + "<br>" + resp);
                 $('#install_file_prg').fadeOut();
+                $('#install_file_btn').fadeIn();
+				$('progress').attr({
+                    value: 0,
+                });
+                $('#install_file_form')[0].reset();
+                $('#install_file').removeAttr("disabled");
                 console.log("Success: File sent!");
             }).fail(function(resp){
-                $('#install_file_resp').html(resp);
+                $('#install_file_resp').html(file.name + "<br>" + resp);
                 $('#install_file_prg').fadeOut();
+                $('#install_file_btn').fadeIn();
+                $('#install_file').removeAttr("disabled");
                 console.log("Error: File couldn't be sent!");
+            });
+            $('#install_file').attr({
+                disabled: "disabled"
             });
         });
 	},
