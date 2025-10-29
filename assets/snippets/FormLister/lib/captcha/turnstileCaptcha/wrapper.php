@@ -1,3 +1,5 @@
+<?php
+
 use FormLister\CaptchaInterface;
 use FormLister\Core;
 
@@ -122,5 +124,5 @@ class TurnstileWrapper implements CaptchaInterface
     $FormLister->log('turnstile validation result: '.$out);
 
     return $out;
-
+    }
 }
