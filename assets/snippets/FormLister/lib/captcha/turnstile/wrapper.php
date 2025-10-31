@@ -42,7 +42,16 @@ class TurnstileWrapper implements CaptchaInterface
      */
     public function getPlaceholder()
     {
-        return;
+        $siteKey = \APIhelpers::getkey($this->cfg, 'siteKey');
+        $out = '';
+
+        if (empty($siteKey)) {
+            /* Test siteKey from https://developers.cloudflare.com/turnstile/troubleshooting/testing/ */
+            $siteKey = "1x00000000000000000000AA";
+            $out = "<!-- siteKey not configured, substituting test siteKey -->\n";
+        }
+        $out .= "<div class=\"cf-turnstile\" data-sitekey=\"{$siteKey}\"></div>";
+        return $out;
     }
 
     /**
