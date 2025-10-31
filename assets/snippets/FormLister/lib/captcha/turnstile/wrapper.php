@@ -59,8 +59,8 @@ class TurnstileWrapper implements CaptchaInterface
         $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
         $data = [
-            'secret' =>  $secretKey, 
-            'response' =>  $value 
+            'secret' =>  $secretKey,
+            'response' =>  $value
         ];
 
         $remoteip = null;
