@@ -193,8 +193,13 @@ if (isset($_REQUEST['log_submit'])) {
     if (isset($_REQUEST['action']) && $_REQUEST['action'] != 0) {
         $sqladd[] = "action=" . (int)$_REQUEST['action'];
     }
-    if (isset($_REQUEST['itemid']) && $_REQUEST['itemid'] != 0 && $_REQUEST['itemid'] == "-") {
-        $sqladd[] = "itemid='" . (int)$_REQUEST['itemid'] . "'";
+    if (isset($_REQUEST['itemid'])) {
+        if ($_REQUEST['itemid'] != 0 && $_REQUEST['itemid'] != "-") {
+            $sqladd[] = "itemid='" . (int)$_REQUEST['itemid'] . "'";
+        } 
+        elseif ($_REQUEST['itemid'] == "-") {
+            $sqladd[] = "itemid='-'";
+        }
     }
     if (isset($_REQUEST['itemname']) && $_REQUEST['itemname'] != '0') {
         $sqladd[] = "itemname='" . $modx->db->escape($_REQUEST['itemname']) . "'";
