@@ -12,9 +12,6 @@
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
-//$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'ru'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
-$modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS — это платформа для создания сайтов на языке PHP и система управления контентом, распространяемая под лицензией <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
 $_lang["about_title"] = 'Об Evolution CMS';
@@ -1053,13 +1050,6 @@ $_lang["manage_document_permissions"] = 'Управление доступом �
 $_lang["manage_module_permissions"] = 'Управление доступом к модулям';
 $_lang["manage_tv_permissions"] = 'Управление доступом к TV параметрам';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Введите адрес (URL) RSS-ленты новостей Evolution CMS.';
-$_lang["rss_url_news_title"] = 'Лента RSS новостей';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Введите адрес (URL) RSS-ленты безопасности Evolution CMS.';
-$_lang["rss_url_security_title"] = 'Лента RSS безопасности';
-
 $_lang["run_module"] = 'Запуск модуля';
 $_lang["save"] = 'Сохранить';
 $_lang["save_all_changes"] = 'Сохранить изменения';
@@ -1490,9 +1480,6 @@ $_lang["lock_element_type_7"] = "Ресурс";
 $_lang["lock_element_type_8"] = "Роль";
 $_lang["lock_element_editing"] = "Вы редактируете  [+element_type+] с \n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "Этот [+element_type+] заблокирован пользователем [+username+], с ";
-
-$_lang["minifyphp_incache_title"] = 'Сжать код php в файле кэша';
-$_lang["minifyphp_incache_message"] = 'Сжатие PHP кода(снипетов и плагинов) и сохранение в фаил кэша, реф:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a> ';
 
 $_lang["logout_reminder_msg"] = "Напоминание: Похоже [+date+] Вы забыли выйти из системы. Пожалуйста, обратите внимание в будущем, нужно выходить из системы после того как закончили работу.";
 
