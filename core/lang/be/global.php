@@ -1,4 +1,18 @@
 <?php
+/**
+ * EVO Manager language file
+ *
+ * @version 3.1.x
+ * @date 2023/11/28
+ * @author The EVO Project Team
+ *
+ * @language English
+ * @package modx
+ * @subpackage manager
+ *
+ * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
+ */
+
 $_lang["about_msg"] = 'Evolution CMS - гэта <a href="https://evo-cms.com/" target="_blank">PHP-прылажэнне і сістэма кіравання кантэнтам</a>, якая дзейнічае пад ліцэнзіяй <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.</a>';
 $_lang["about_title"] = 'Аб Evolution CMS';
 
@@ -547,7 +561,6 @@ $_lang["configcheck_rb_base_dir_msg"] = 'Гэта можа адбыцца, на�
 $_lang["configcheck_register_globals"] = 'register_globals ўключаны ў файле канфігурацыі php.ini';
 $_lang["configcheck_register_globals_msg"] = 'Гэта змяншае бяспеку сайта, а таксама можа паўзаваць праграмным сродкам. Канфігурацыю php.ini павінны наладжваць адпаведным чынам.';
 $_lang["configcheck_title"] = 'Праверка канфігурацыі Evolution CMS';
-
 $_lang["configcheck_templateswitcher_present"] = 'Выяўлен плагін TemplateSwitcher';
 $_lang["configcheck_templateswitcher_present_delete"] = '<a href="javascript:deleteTemplateSwitcher();">Выдаліць TemplateSwitcher</a>';
 $_lang["configcheck_templateswitcher_present_disable"] = '<a href="javascript:disableTemplateSwitcher();">Адключыць TemplateSwitcher</a>';
@@ -740,7 +753,7 @@ $_lang["further_info"] = 'Дадатковая інфармацыя';
 $_lang["global_tabs"] = 'Глабальныя ўкладкі';
 $_lang["go"] = 'Перайсці';
 $_lang["group_access_permissions"] = 'Доступ групы карыстальнікаў';
-$_lang["group_tvs"] = 'Групавыя поля TV';
+$_lang['group_tvs'] = 'Групавыя поля TV';
 $_lang["guid"] = 'GUID';
 $_lang["help"] = 'Даведка';
 $_lang["help_msg"] = '<b>Вы можаце атрымаць бясплатную падтрымку супольнасці, наведаўшы <a href="http://forums.modx.com/" target="_blank">форумы Evolution CMS</a>. Таксама ўзрастае колькасць дакументацыі і кіраўніцтваў па Evolution CMS, якія апісваюць практычна кожны аспект Evolution CMS.</p><p>Мы таксама плануем прапанаваць камерцыйную падтрымку для Evolution CMS. Калі вы цікавіцеся, калі ласка, звярніцеся да нас.';
@@ -1011,7 +1024,6 @@ $_lang["refresh_title"] = 'Абнавіць сайт';
 $_lang["refresh_tree"] = 'Абнавіць дрэва сайта';
 $_lang["refresh_unpublished"] = 'Публікацыя <b>%s</b> рэсурсаў была адменена.';
 $_lang["release_date"] = 'Дата выпуску';
-
 $_lang["remember_last_tab"] = 'Запомніць апошнія ўкладкі';
 $_lang["remember_last_tab_message"] = 'Старонкі з панэлем укладак загружаюцца з апошняй прагляджанай ўкладкай, замест першай па змаўчанні';
 $_lang["remember_username"] = 'Запомніць мяне';
@@ -1034,13 +1046,6 @@ $_lang["manage_groups"] = 'Кіраванне дакументамі і груп
 $_lang["manage_document_permissions"] = 'Кіраванне дазволамі дакументаў';
 $_lang["manage_module_permissions"] = 'Кіраванне дазволамі модуля';
 $_lang["manage_tv_permissions"] = 'Кіраванне дазволамі ТБ';
-
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Увядзіце URL для стужкі навін Evolution CMS.';
-$_lang["rss_url_news_title"] = 'RSS-стужка навін';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Увядзіце URL для стужкі бяспекі Evolution CMS.';
-$_lang["rss_url_security_title"] = 'Канал бяспекі RSS';
 
 $_lang["run_module"] = 'Запусціць модуль';
 $_lang["save"] = 'Захаваць';
@@ -1148,7 +1153,7 @@ $_lang["sort_alphabetically"] = 'Сартаваць па алфавіце';
 $_lang["sort_asc"] = 'Узыходзячы';
 $_lang["sort_desc"] = 'Па сыходзе';
 $_lang["sort_menuindex"] = 'Сартаванне па індэксе меню';
-$_lang['sort_tree'] = 'Сартаванне дрэва сайтаў';
+$_lang["sort_tree"] = 'Сартаванне дрэва сайтаў';
 $_lang['sort_updating'] = 'Ідзе абнаўленне...';
 $_lang['sort_updated'] = 'Абноўлены!';
 $_lang['sort_nochildren'] = 'Бацька не мае дзяцей';
@@ -1173,7 +1178,6 @@ $_lang["system_email_signup"] = 'Прывітанне [+uid+]
 
 З павагай,
 Адміністратар сайта';
-
 $_lang["system_email_webreminder"] = 'Прывітанне [+uid+]
 
 Каб актываваць новы пароль, націсніце на наступную спасылку:
@@ -1188,7 +1192,6 @@ $_lang["system_email_webreminder"] = 'Прывітанне [+uid+]
 
 З павагай,
 Адміністратар сайта';
-
 $_lang["system_email_websignup"] = 'Прывітанне [+uid+]
 
 Вось вашы дадзеныя для ўваходу ў [+sname+]:
@@ -1200,7 +1203,6 @@ $_lang["system_email_websignup"] = 'Прывітанне [+uid+]
 
 З павагай,
 Адміністратар сайта';
-
 $_lang["table_hoverinfo"] = 'Прагледзіце кароткае апісанне функцыі табліцы, наведваючы мышкай на яе назву (не ўсе табліцы маюць <i>каментарыі</i>).';
 $_lang["table_prefix"] = 'Прэфікс табліцы';
 $_lang["tag"] = 'Тэг';
@@ -1278,7 +1280,6 @@ $_lang["web_user_management_title"] = 'Карыстальнікі';
 $_lang["web_user_management_select_role"] = 'Усе ролі';
 $_lang["web_user_title"] = 'Стварыць/рэдагаваць карыстальніка';
 $_lang["web_users"] = 'Карыстальнікі';
-
 $_lang["weblink"] = 'Вэб-спасылка';
 $_lang["webpwdreminder_message"] = 'Увядзіце паведамленне, якое будзе адпраўляцца вашым вэб-карыстальнікам кожны раз, калі яны запытваюць новы пароль па электроннай пошце. Кантэнт-менеджэр адправіць паведамленне па электроннай пошце з новым паролем і інфармацыяй аб актывацыі.<br /><b>Заўвага:</b> Наступныя запаўняльнікі замяняюцца Менеджарам кантэнту пры адпраўцы паведамлення: <br />[+sname+] - Назва вашага вэб-сайта, <br />[+saddr+] - Ваш адрас электроннай пошты, <br />[+surl+] - URL-адрас вашага сайта, <br />[+ uid+] - імя або ідэнтыфікатар карыстальніка, <br />[+pwd+] - пароль карыстальніка, <br />[+ufn+] - поўнае імя карыстальніка. <br />[+u_first_name+] - Імя карыстальніка. <br />[+u_last_name+] - Прозвішча карыстальніка. <br />[+u_middle_name+] - імя па бацьку карыстальніка. <br />Пакіньце [+uid+] і [+pwd+] у электронным лісце, інакш імя карыстальніка і пароль не будуць адпраўлены па пошце, і вашы карыстальнікі не будуць ведаць сваё імя карыстальніка і пароль!';
 $_lang["webpwdreminder_title"] = 'Вэб-напамін па электроннай пошце';
@@ -1317,7 +1318,7 @@ $_lang["pwd_hash_algo_message"] = 'Выберыце алгарытм хэшав�
 $_lang["enable_bindings_title"] = 'Уключыць каманды @Bindings';
 $_lang["enable_bindings_message"] = 'Дазваляе выкананне функцый PHP праз TV @Bindings. Карысна, калі ў вас ёсць карыстальнікі-менеджэры, якія не павінны мець магчымасць ствараць PHP-код, але павінны мець магчымасць ствараць або рэдагаваць TV. Вывад любога TV з @Binding будзе паказаны як "@Bindings адключаны".';
 $_lang["enable_filter_title"] = 'Уключыць фільтры';
-$_lang["enable_filter_message"] = 'Фільтры дазваляюць маніпуляваць спосабам прадстаўлення або разбору даных у тэгу. Яны дазваляюць змяняць значэнні ўнутры вашых шаблонаў. Гэта аналаг PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Дадатковая інфармацыя</a>'; // todo: зменіць спасылку на дакументацыю
+$_lang["enable_filter_message"] = 'Фільтры дазваляюць маніпуляваць спосабам прадстаўлення або разбору даных у тэгу. Яны дазваляюць змяняць значэнні ўнутры вашых шаблонаў. Гэта аналаг PHx. <a href="https://github.com/modxcms/evolution/issues/623" target="ext_help">Дадатковая інфармацыя</a>'; // todo: change link to documentation
 $_lang["enable_filter_phx_warning"] = 'Калі ўбудова PHx уключана, убудованыя фільтры адключаюцца па змаўчанні.';
 
 $_lang["enable_at_syntax_title"] = 'Уключыць <@SYNTAX>';
@@ -1481,9 +1482,6 @@ $_lang["lock_element_type_7"] = "Рэсурс";
 $_lang["lock_element_type_8"] = "Роля";
 $_lang["lock_element_editing"] = "Вы рэдагуеце гэты [+element_type+] з часу [+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "Гэты [+element_type+] заблакіраваны карыстальнікам [+username+] з часу [+lasthit_df+]";
-
-$_lang["minifyphp_incache_title"] = 'Мініфікацыя PHP-коду ў кэшы сайта';
-$_lang["minifyphp_incache_message"] = 'Аптымізуйце PHP-код (сніпеты і плагіны) і захавайце ў файле кэша сайта. Падрабязнасці ў <a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>.';
 
 $_lang["logout_reminder_msg"] = "Памятайце: на [дата] здаецца, што вы забылі выйсці з сістэмы. Калі ласка, у будучыні не забывайце рабіць гэта пасля завяршэння працы.";
 
