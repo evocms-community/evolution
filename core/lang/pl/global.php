@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'pl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1052,13 +1052,6 @@ $_lang["manage_document_permissions"] = 'Manage document permissions';
 $_lang["manage_module_permissions"] = 'Manage module permissions';
 $_lang["manage_tv_permissions"] = 'Manage TV permissions';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Wprowadź URL źródła wiadomości EVO.';
-$_lang["rss_url_news_title"] = 'Żródło RSS wiadomości';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Wprowadź URL powiadomień bezpieczeństwa EVO.';
-$_lang["rss_url_security_title"] = 'Źródło RSS bezpieczeństwa';
-
 $_lang["run_module"] = 'Uruchom moduł';
 $_lang["save"] = 'Zapisz';
 $_lang["save_all_changes"] = 'Zapisz wszystkie zmiany';
@@ -1494,9 +1487,6 @@ $_lang["lock_element_type_7"] = "Zasób";
 $_lang["lock_element_type_8"] = "Rola";
 $_lang["lock_element_editing"] = "Edytujesz ten [+element_type+] od\n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "Ten [+element_type+] jest zablokowany przez użytkownika\n[+username+] od [+lasthit_df+]";
-
-$_lang["minifyphp_incache_title"] = 'Zmniejsz kod PHP w cache';
-$_lang["minifyphp_incache_message"] = 'Zmniejsz kod PHP (snippetów i wtyczek) i przechowuj go w pliku cache serwisu. Więcej informacji: <a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Przypomnienie: Wygląda na to że [+date+] zapomniałeś się wylogować. Proszę zwrócić w przyszłości uwagę na to aby poprawnie się wylogować po zakończeniu pracy.";
 
