@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'nl'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is een <a href="https://evo-cms.com/" target="_blank">PHP Application Framework en Content Management System</a> gelicenseerd onder <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1052,13 +1052,6 @@ $_lang["manage_document_permissions"] = 'Beheer documenten toegang';
 $_lang["manage_module_permissions"] = 'Beheer module toegang';
 $_lang["manage_tv_permissions"] = 'Beheer Template Variabelen toegang';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Voer de URL in voor de Nieuws Feed.';
-$_lang["rss_url_news_title"] = 'RSS nieuws feed';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Voer de URL in voor de beveiligingsfeed.';
-$_lang["rss_url_security_title"] = 'RSS Beveiliging Feed';
-
 $_lang["run_module"] = 'Module uitvoeren';
 $_lang["save"] = 'Opslaan';
 $_lang["save_all_changes"] = 'Bewaar alle wijzigingen';
@@ -1494,9 +1487,6 @@ $_lang["lock_element_type_7"] = "Pagina";
 $_lang["lock_element_type_8"] = "Rol";
 $_lang["lock_element_editing"] = "U past element [+element_type+] aan sinds\n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "[+element_type+] is geblokkeerd door gebruiker\n[+username+] sinds [+lasthit_df+]";
-
-$_lang["minifyphp_incache_title"] = 'Minify php code in de site cache';
-$_lang["minifyphp_incache_message"] = 'Minify php code (snippets en plugins) en sla op in het site cache bestand. Zie: <a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Ter herinnering: Het lijkt er op dat op [+datum+] je vergeten bent om uit te loggen. In de toekomst kun je dit beter wel doen na je werk!";
 
