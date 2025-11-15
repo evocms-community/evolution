@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'uk'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS - це <a href="https://evo-cms.com/" target="_blank">PHP Application Framework і система керування вмістом</a> ліцензія <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1053,13 +1053,6 @@ $_lang["manage_document_permissions"] = 'Керування правами до�
 $_lang["manage_module_permissions"] = 'Керування правами доступу до модулів';
 $_lang["manage_tv_permissions"] = 'Керування правами доступу до TV-параметрів';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Введіть адресу (URL) RSS-смужки новин EVO.';
-$_lang["rss_url_news_title"] = 'Смужка RSS новин';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Введіть адресу (URL) RSS-стрічки безпеки EVO.';
-$_lang["rss_url_security_title"] = 'Смужка RSS безпеки';
-
 $_lang["run_module"] = 'Запуск модуля';
 $_lang["save"] = 'Зберегти';
 $_lang["save_all_changes"] = 'Зберегти зміни';
@@ -1490,9 +1483,6 @@ $_lang["lock_element_type_7"] = "Ресурс";
 $_lang["lock_element_type_8"] = "Роль";
 $_lang["lock_element_editing"] = "Ви редагуєте  [+element_type+] з \n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "Цей [+element_type+] заблокований користувачем [+username+], з ";
-
-$_lang["minifyphp_incache_title"] = 'Стиснути код php в файлі кеша';
-$_lang["minifyphp_incache_message"] = 'Стиснення PHP коду (сніпетів і плагінів) і збереження в файл кеша, реф:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a> ';
 
 $_lang["logout_reminder_msg"] = "Нагадування: Схоже [+date+] Ви забули вийти з системи. Будь ласка, зверніть увагу в майбутньому, потрібно виходити з системи після того як закінчили роботу.";
 
