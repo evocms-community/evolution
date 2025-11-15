@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'fr'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS est un <a href="https://evo-cms.com/" target="_blank">Framework d’application PHP et un système de gestion de contenu</a> sous license <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1052,13 +1052,6 @@ $_lang["manage_document_permissions"] = 'Gérer les autorisations des documents'
 $_lang["manage_module_permissions"] = 'Gérer les autorisations de modules';
 $_lang["manage_tv_permissions"] = 'Gérer les autorisations des TV';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Entrez l\'URL du flux pour les actualités EVO.';
-$_lang["rss_url_news_title"] = 'Flux RSS des actualités';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Entrez l\'URL du flux pour les bulletins de sécurité EVO.';
-$_lang["rss_url_security_title"] = 'Flux RSS des bulletins de sécurité';
-
 $_lang["run_module"] = 'Lancer le Module';
 $_lang["save"] = 'Enregistrer';
 $_lang["save_all_changes"] = 'Enregistrer tous les changements';
@@ -1471,9 +1464,6 @@ $_lang["lock_element_type_7"] = "Ressource";
 $_lang["lock_element_type_8"] = "Rôle";
 $_lang["lock_element_editing"] = "Vous modifiez [+element_type+] depuis\n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "Ce [+element_type+] est vérouillé par \n[+username+] depuis [+lasthit_df+]";
-
-$_lang["minifyphp_incache_title"] = 'Réduire le code php dans le cache du site';
-$_lang["minifyphp_incache_message"] = 'Réduire le code php (snippets et plugins) et le stocker dans le fichier cache du site, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Rappel : Il semble que le [+date+] vous ayez oublié de vous déconnecter. Veuillez faire attention à l'avenir à le faire une fois votre travail terminé.";
 
