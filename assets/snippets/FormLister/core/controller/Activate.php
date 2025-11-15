@@ -123,7 +123,7 @@ class Activate extends Form
                     if(is_numeric($url)) {
                         $url = $this->modx->makeUrl($url, "", $query, 'full');
                     } else {
-                        $url = $this->modx->getConfig('site_url') . $url . '?' . $query;
+                        $url .= '?' . $query;
                     }
                     $this->setField('activate.url', $url);
                     $this->mailConfig['to'] = $this->user->get('email');

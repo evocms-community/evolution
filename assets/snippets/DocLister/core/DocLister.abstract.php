@@ -5,17 +5,17 @@
  * @license GNU General Public License (GPL), http://www.gnu.org/copyleft/gpl.html
  * @author Agel_Nash <Agel_Nash@xaker.ru>
  */
-include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
-include_once(MODX_BASE_PATH . 'assets/lib/Helpers/FS.php');
-include_once(MODX_BASE_PATH . 'assets/lib/Helpers/Config.php');
-include_once(MODX_BASE_PATH . 'assets/lib/Helpers/Lexicon.php');
-include_once(MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/AbstractLexiconHandler.php');
-include_once(MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/EvoBabelLexiconHandler.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/jsonHelper.class.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/sqlHelper.class.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLTemplate.class.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLCollection.class.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/xnop.class.php');
+include_once MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php';
+include_once MODX_BASE_PATH . 'assets/lib/Helpers/FS.php';
+include_once MODX_BASE_PATH . 'assets/lib/Helpers/Config.php';
+include_once MODX_BASE_PATH . 'assets/lib/Helpers/Lexicon.php';
+include_once MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/AbstractLexiconHandler.php';
+include_once MODX_BASE_PATH . 'assets/lib/Helpers/LexiconHandlers/EvoBabelLexiconHandler.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/jsonHelper.class.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/sqlHelper.class.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLTemplate.class.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLCollection.class.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/xnop.class.php';
 
 /**
  * Class DocLister
@@ -218,8 +218,8 @@ abstract class DocLister
         }
         $this->lexicon = new \Helpers\Lexicon($this->modx, [
             'langDir' => 'assets/snippets/DocLister/core/lang/',
-            'lang'    => $this->getCFGDef('lang', $this->modx->getLocale()),
-            'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler')
+            'lang' => $this->getCFGDef('lang', $this->modx->getLocale()),
+            'handler' => $this->getCFGDef('lexiconHandler', '\\Helpers\\Lexicon\\EvoBabelLexiconHandler'),
         ]);
 
         $this->loadLang(['core', 'json']);
@@ -258,10 +258,10 @@ abstract class DocLister
             $this->parentField = $this->getCFGDef('parentField', $this->parentField);
             $this->extCache = $this->getExtender('cache', true);
             $this->extCache->init($this, [
-                'cache'         => $this->getCFGDef('cache', 1),
-                'cacheKey'      => $this->getCFGDef('cacheKey'),
+                'cache' => $this->getCFGDef('cache', 1),
+                'cacheKey' => $this->getCFGDef('cacheKey'),
                 'cacheLifetime' => $this->getCFGDef('cacheLifetime', 0),
-                'cacheStrategy' => $this->getCFGDef('cacheStrategy')
+                'cacheStrategy' => $this->getCFGDef('cacheStrategy'),
             ]);
             $this->setIDs($IDs);
         }
@@ -276,7 +276,8 @@ abstract class DocLister
             $this->extender['request']->init($this, $this->getCFGDef("requestActive", ""));
         }
         $this->_filters = $this->getFilters($this->getCFGDef('filters', ''));
-        $this->ownerTPL = $this->getCFGDef('ownerTPL', $this->getCFGDef("ownerTpl", ''));
+        $this->ownerTPL = $this->getCFGDef('ownerTpl', $this->getCFGDef('ownerTPL', ''));
+
         $DLTemplate = DLTemplate::getInstance($modx);
         if ($path = $this->getCFGDef('templatePath')) {
             $DLTemplate->setTemplatePath($path);
@@ -383,7 +384,7 @@ abstract class DocLister
                 }
                 $dir = dirname(dirname(__FILE__));
                 if (file_exists($dir . "/lib/DLdebug.class.php")) {
-                    include_once($dir . "/lib/DLdebug.class.php");
+                    include_once $dir . "/lib/DLdebug.class.php";
                     if (class_exists("DLdebug", false)) {
                         $this->debug = new DLdebug($this);
                     }
@@ -512,12 +513,12 @@ abstract class DocLister
         }
 
         if ((int) $this->getCFGDef('display', 0) > 0 && ( //OR paginate in extender's parameter
-                in_array('paginate', $extenders) || $this->getCFGDef('paginate', '') != '' ||
-                $this->getCFGDef('TplPrevP', '') != '' || $this->getCFGDef('TplPage', '') != '' ||
-                $this->getCFGDef('TplCurrentPage', '') != '' || $this->getCFGDef('TplWrapPaginate', '') != '' ||
-                $this->getCFGDef('pageLimit', '') != '' || $this->getCFGDef('pageAdjacents', '') != '' ||
-                $this->getCFGDef('PaginateClass', '') != '' || $this->getCFGDef('TplNextP', '') != ''
-            ) && !$this->_loadExtender('paginate')
+            in_array('paginate', $extenders) || $this->getCFGDef('paginate', '') != '' ||
+            $this->getCFGDef('TplPrevP', '') != '' || $this->getCFGDef('TplPage', '') != '' ||
+            $this->getCFGDef('TplCurrentPage', '') != '' || $this->getCFGDef('TplWrapPaginate', '') != '' ||
+            $this->getCFGDef('pageLimit', '') != '' || $this->getCFGDef('pageAdjacents', '') != '' ||
+            $this->getCFGDef('PaginateClass', '') != '' || $this->getCFGDef('TplNextP', '') != ''
+        ) && !$this->_loadExtender('paginate')
         ) {
             throw new Exception('Error load paginate extender');
         } else {
@@ -652,7 +653,7 @@ abstract class DocLister
         $id = isset($this->modx->documentIdentifier) ? (int) $this->modx->documentIdentifier : 0;
         $docData = isset($this->modx->documentObject) ? $this->modx->documentObject : [];
 
-        return empty($id) ? \APIHelpers::getkey($docData, 'id', 0) : $id;
+        return empty($id)?\APIHelpers::getkey($docData, 'id', 0) : $id;
     }
 
     /**
@@ -728,7 +729,7 @@ abstract class DocLister
                 '%G' => 'o', '%Y' => 'Y', '%y' => 'y',
                 '%P' => 'a', '%p' => 'A', '%l' => 'g', '%I' => 'h', '%H' => 'H', '%M' => 'i', '%S' => 's',
                 '%z' => 'O', '%Z' => 'T',
-                '%s' => 'U'
+                '%s' => 'U',
             ];
             $out = strtr($out, $replace);
         }
@@ -972,7 +973,7 @@ abstract class DocLister
         $docs = count($this->_docs) - $this->skippedDocs;
         $wrap = $this->getCFGDef('prepareWrap');
         if ((($this->getCFGDef("noneWrapOuter",
-                        "1") && $docs == 0) || $docs > 0) && !empty($this->ownerTPL) || !empty($wrap)) {
+            "1") && $docs == 0) || $docs > 0) && !empty($this->ownerTPL) || !empty($wrap)) {
             $this->debug->debug("", "renderWrapTPL", 2);
             $parse = true;
             $plh = [$this->getCFGDef("sysKey", "dl") . ".wrap" => $data];
@@ -982,12 +983,12 @@ abstract class DocLister
             $extPrepare = $this->getExtender('prepare');
             if ($extPrepare) {
                 $params = $extPrepare->init($this, [
-                    'data'      => [
-                        'docs'         => $this->_docs,
-                        'placeholders' => $plh
+                    'data' => [
+                        'docs' => $this->_docs,
+                        'placeholders' => $plh,
                     ],
                     'nameParam' => 'prepareWrap',
-                    'return'    => 'placeholders'
+                    'return' => 'placeholders',
                 ]);
                 if ($params === false) {
                     $out = $data;
@@ -1036,20 +1037,20 @@ abstract class DocLister
                 'reversePagination',
                 0
             ) && $this->extPaginate->currentPage() > 1 ? $this->extPaginate->totalPage() * $this->getCFGDef(
-                    'display',
-                    0
-                ) - $this->extPaginate->totalDocs() : 0;
+                'display',
+                0
+            ) - $this->extPaginate->totalDocs() : 0;
             if ($this->getCFGDef('maxDocs', 0) && !$this->getCFGDef(
-                    'reversePagination',
-                    0
-                ) && $this->extPaginate->currentPage() == $this->extPaginate->totalPage()
+                'reversePagination',
+                0
+            ) && $this->extPaginate->currentPage() == $this->extPaginate->totalPage()
             ) {
                 $iteration += $this->getCFGDef('display', 0);
             }
             $iteration += $this->getCFGDef(
-                    'display',
-                    0
-                ) * ($this->extPaginate->currentPage() - 1) - $offset;
+                'display',
+                0
+            ) * ($this->extPaginate->currentPage() - 1) - $offset;
         }
 
         $data[$this->getCFGDef(
@@ -1174,11 +1175,11 @@ abstract class DocLister
         } else {
             if (!empty($contentField) && !empty($item[$contentField]) && mb_strlen($item[$contentField], 'UTF-8') > 0) {
                 $out = $extSummary->init($this, [
-                    "content"      => $item[$contentField],
-                    "action"       => $this->getCFGDef("summary", ""),
-                    "cutSummary"   => $this->getCFGDef('cutSummary'),
-                    "dotSummary"   => $this->getCFGDef('dotSummary'),
-                    'breakSummary' => $this->getCFGDef('breakSummary')
+                    "content" => $item[$contentField],
+                    "action" => $this->getCFGDef("summary", ""),
+                    "cutSummary" => $this->getCFGDef('cutSummary'),
+                    "dotSummary" => $this->getCFGDef('dotSummary'),
+                    'breakSummary' => $this->getCFGDef('breakSummary'),
                 ]);
             }
         }
@@ -1242,7 +1243,7 @@ abstract class DocLister
         } else {
             if (!class_exists($classname, false) && $classname != '') {
                 if (file_exists(dirname(__FILE__) . "/extender/" . $name . ".extender.inc")) {
-                    include_once(dirname(__FILE__) . "/extender/" . $name . ".extender.inc");
+                    include_once dirname(__FILE__) . "/extender/" . $name . ".extender.inc";
                 }
             }
             if (class_exists($classname, false) && $classname != '') {
@@ -1316,20 +1317,8 @@ abstract class DocLister
             'cleanIDs',
             2
         );
-        $out = [];
-        if (!is_array($IDs)) {
-            $IDs = explode($sep, $IDs ?? '');
-        }
-        foreach ($IDs as $item) {
-            $item = trim($item);
-            if (is_numeric($item) && (int) $item >= 0) { //Fix 0xfffffffff
-                $out[] = (int) $item;
-            }
-        }
-        $out = array_unique($out);
-        $this->debug->debugEnd("cleanIDs");
-
-        return $out;
+        
+        return APIHelpers::cleanIDs($IDs, $sep);
     }
 
     /**
@@ -1440,7 +1429,7 @@ abstract class DocLister
                         // no break
                         case ('' != ($tmp = $this->getCFGDef('order', ''))):
                             $out['order'] = $tmp;
-                        // no break
+                            // no break
                     }
                     if ('' == $out['order'] || !in_array(strtoupper($out['order']), ['ASC', 'DESC'])) {
                         $out['order'] = $orderDef; //Default
@@ -1540,20 +1529,20 @@ abstract class DocLister
         $children = []; // children of each ID
         $ids = [];
         foreach ($data as $i => $r) {
-            $row =& $data[$i];
+            $row = &$data[$i];
             $id = $row[$idName];
             $pid = $row[$pidName];
-            $children[$pid][$id] =& $row;
+            $children[$pid][$id] = &$row;
             if (!isset($children[$id])) {
                 $children[$id] = [];
             }
-            $row['#childNodes'] =& $children[$id];
+            $row['#childNodes'] = &$children[$id];
             $ids[$row[$idName]] = true;
         }
         // Root elements are elements with non-found PIDs.
         $this->_tree = [];
         foreach ($data as $i => $r) {
-            $row =& $data[$i];
+            $row = &$data[$i];
             if (!isset($ids[$row[$pidName]])) {
                 $this->_tree[$row[$idName]] = $row;
             }

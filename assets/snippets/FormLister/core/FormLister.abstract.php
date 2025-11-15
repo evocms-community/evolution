@@ -210,7 +210,7 @@ abstract class Core
         if ($lexicon) {
             $_lexicon = $this->config->loadArray($lexicon);
             if (isset($_lexicon[0])) {
-                $lang = $this->getCFGDef('lang', $this->modx->getConfig('lang_code'));
+                $lang = $this->getCFGDef('lang', $this->modx->getLocale());
                 $langDir = $this->getCFGDef('langDir', 'assets/snippets/FormLister/core/lang/');
                 foreach ($_lexicon as $item) {
                     $this->lexicon->fromFile($item, $lang, $langDir);
@@ -1213,6 +1213,7 @@ abstract class Core
      */
     public function parseChunk($name, array $data, $parseDocumentSource = false)
     {
+        if(empty($name)) return '';
         $isModxChunk = !preg_match('/^@[A-Z]_/', $name);
         $parseDocumentSource = $isModxChunk && ($parseDocumentSource || $this->getCFGDef('parseDocumentSource', 0));
         $rewriteUrls = $this->getCFGDef('rewriteUrls', 1);

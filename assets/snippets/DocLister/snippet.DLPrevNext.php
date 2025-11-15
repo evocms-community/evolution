@@ -1,5 +1,5 @@
 <?php
-if (! defined('MODX_BASE_PATH')) {
+if (!defined('MODX_BASE_PATH')) {
     die('HACK???');
 }
 
@@ -13,11 +13,13 @@ $loop = $loop ?? 0;
 $dl = $modx->runSnippet("DocLister", array_merge($params, ['selectFields' => 'c.id']));
 $children = $dl->getDocs();
 
-if(count($children) < 2) return isset($api) && $api == 1 ? [] : '';
+if (count($children) < 2) {
+    return isset($api) && $api == 1 ? [] : '';
+}
 
 $self = $prev = $next = null;
 foreach ($children as $key => $data) {
-    if (! empty($self)) {
+    if (!empty($self)) {
         $next = $key;
         break;
     }
@@ -42,21 +44,23 @@ if ($next == $prev) {
 
 $dl->config->setConfig(array_merge($params, [
     'idType' => 'documents',
-    'selectFields' => $params['selectFields'] ?? 'c.*'
+    'selectFields' => $params['selectFields'] ?? 'c.*',
 ]));
 $dl->setIDs([$next, $prev]);
 $children = $dl->getJSON($dl->getDocs($tvList ?? ''), ($api ?? 1));
 $children = json_decode($children, true);
 
-$prevnextTPL = $prevnextTPL ?? '@CODE: [+prev+] | [+next+]';
-$prevTPL = $prevTPL ?? '@CODE: <a href="[+url+]">&larr; [+title+]</a>';
-$nextTPL = $nextTPL ?? '@CODE: <a href="[+url+]">[+title+] &rarr;</a>';
-if(isset($api) && $api == 1) {
+// обратная совместимость с параметрами где TPL, а не Tpl
+$prevnextTpl = $prevnextTpl ?? ($prevnextTPL ?? '@CODE: [+prev+] | [+next+]');
+$prevTpl = $prevTpl ?? ($prevTPL ?? '@CODE: <a href="[+url+]">&larr; [+title+]</a>');
+$nextTpl = $nextTpl ?? ($nextTPL ?? '@CODE: <a href="[+url+]">[+title+] &rarr;</a>');
+
+if (isset($api) && $api == 1) {
     $out = ['prev' => empty($prev) ? '' : $children[$prev], 'next' => empty($next) ? '' : $children[$next]];
 } else {
-    $out = $dl->parseChunk($prevnextTPL, [
-        'prev' => empty($prev) ? '' : $dl->parseChunk($prevTPL, $children[$prev]),
-        'next' => empty($next) ? '' : $dl->parseChunk($nextTPL, $children[$next]),
+    $out = $dl->parseChunk($prevnextTpl, [
+        'prev' => empty($prev) ? '' : $dl->parseChunk($prevTpl, $children[$prev]),
+        'next' => empty($next) ? '' : $dl->parseChunk($nextTpl, $children[$next]),
     ]);
 }
 

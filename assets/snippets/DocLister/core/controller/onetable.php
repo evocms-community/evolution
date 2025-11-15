@@ -36,7 +36,6 @@ class onetableDocLister extends DocLister
     protected $masterIdField = '';
     protected $masterParentField = '';
 
-
     /**
      * @abstract
      */
@@ -65,8 +64,10 @@ class onetableDocLister extends DocLister
          */
         if ($extUser = $this->getExtender('user')) {
             $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
-            foreach ($this->_docs as &$item)
-                $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
+            foreach ($this->_docs as &$item) {
+                $item = $extUser->setUserData($item);
+            }
+            //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
         }
 
         return $this->_docs;
@@ -78,10 +79,10 @@ class onetableDocLister extends DocLister
      * @param mixed $IDs список id документов по которым необходима выборка
      * @return array очищенный массив
      */
-    public function setIDs ($IDs)
+    public function setIDs($IDs)
     {
         $this->masterAlias = $this->getCFGDef('masterAlias', $this->masterAlias);
-        $this->masterIdField =  $this->getCFGDef('masterIdField', $this->masterIdField);
+        $this->masterIdField = $this->getCFGDef('masterIdField', $this->masterIdField);
         $this->masterParentField = $this->getCFGDef('masterParentField', $this->masterParentField);
         if ($masterTable = $this->getCFGDef('masterTable', $this->masterTable)) {
             $this->masterTable = $this->getTable($masterTable, $this->masterAlias);
@@ -105,7 +106,7 @@ class onetableDocLister extends DocLister
             $this->toPlaceholders(count($this->_docs), 1, "display"); // [+display+] - сколько показано на странице.
             $i = 1;
             $sysPlh = $this->renameKeyArr($this->_plh, $this->getCFGDef("sysKey", "dl"));
-            $noneTPL = $this->getCFGDef('noneTPL', $this->getCFGDef('noneTpl', ''));
+            $noneTPL = $this->getCFGDef('noneTpl', $this->getCFGDef('noneTPL', ''));
             if (count($this->_docs) == 0 && $noneTPL != '') {
                 $out = $this->parseChunk($noneTPL, $sysPlh);
             } else {
@@ -138,7 +139,7 @@ class onetableDocLister extends DocLister
 
                     $date = $this->getCFGDef('dateSource', 'pub_date');
                     if (isset($item[$date])) {
-                        $_date = is_numeric($item[$date]) && $item[$date] == (int)$item[$date] ? $item[$date] : strtotime($item[$date]);
+                        $_date = is_numeric($item[$date]) && $item[$date] == (int) $item[$date] ? $item[$date] : strtotime($item[$date]);
                         if ($_date !== false) {
                             $_date = $_date + $this->modx->config['server_offset_time'];
                             $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
@@ -157,8 +158,8 @@ class onetableDocLister extends DocLister
 
                     if ($extPrepare) {
                         $item = $extPrepare->init($this, array(
-                            'data'      => $item,
-                            'nameParam' => 'prepare'
+                            'data' => $item,
+                            'nameParam' => 'prepare',
                         ));
                         if ($item === false) {
                             $this->skippedDocs++;
@@ -219,7 +220,7 @@ class onetableDocLister extends DocLister
                 //without break
                 case ((array('1') == $fields || in_array('date', $fields)) && $date != 'date'):
                     if (isset($row[$date])) {
-                        $_date = is_numeric($row[$date]) && $row[$date] == (int)$row[$date] ? $row[$date] : strtotime($row[$date]);
+                        $_date = is_numeric($row[$date]) && $row[$date] == (int) $row[$date] ? $row[$date] : strtotime($row[$date]);
                         if ($_date !== false) {
                             $_date = $_date + $this->modx->config['server_offset_time'];
                             $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
@@ -228,7 +229,7 @@ class onetableDocLister extends DocLister
                             }
                         }
                     }
-                //nobreak
+                    //nobreak
             }
 
             if ($extE && $tmp = $extE->init($this, array('data' => $row))) {
@@ -264,7 +265,6 @@ class onetableDocLister extends DocLister
             $where = ($where ? $where . ' AND ' : '') . $this->_filters['where'];
             $where = sqlHelper::trimLogicalOp($where);
             //------- end of block -------
-
 
             if ($where != '') {
                 $where = array($where);
@@ -311,7 +311,6 @@ class onetableDocLister extends DocLister
         $tmpWhere = ($tmpWhere ? $tmpWhere . ' AND ' : '') . $this->_filters['where'];
         $tmpWhere = sqlHelper::trimLogicalOp($tmpWhere);
         //------- end of block -------
-
 
         if (!empty($tmpWhere)) {
             $where[] = $tmpWhere;
@@ -465,7 +464,8 @@ class onetableDocLister extends DocLister
      * @param bool $full
      * @return string
      */
-    public function getMasterParentField($full = true) {
+    public function getMasterParentField($full = true)
+    {
         $parentField = isset($this->masterParentField) ? $this->masterParentField : '';
         if ($full && !empty($parentField)) {
             $parentField = '`' . $parentField . '`';
@@ -481,9 +481,9 @@ class onetableDocLister extends DocLister
      * @param bool $full
      * @return string
      */
-    public function getMasterPK ($full = true)
+    public function getMasterPK($full = true)
     {
-        $idField = !empty($this->masterIdField) ? $this->masterIdField: 'id';
+        $idField = !empty($this->masterIdField) ? $this->masterIdField : 'id';
         if ($full) {
             $idField = '`' . $idField . '`';
             if (!empty($this->masterAlias)) {
@@ -493,6 +493,5 @@ class onetableDocLister extends DocLister
 
         return $idField;
     }
-
 
 }

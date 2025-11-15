@@ -10,9 +10,9 @@
  *    &limitAfter=`3`
  * ]]
  */
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLCollection.class.php');
-include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
-include_once(MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLReflect.class.php');
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLCollection.class.php';
+include_once MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php';
+include_once MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLReflect.class.php';
 
 $params = is_array($modx->event->params) ? $modx->event->params : array();
 
@@ -29,9 +29,13 @@ if (!in_array($reflectType, array('year', 'month'))) {
     return '';
 }
 
-$wrapTPL = APIHelpers::getkey($params, 'wrapTPL', '@CODE: <div class="reflect-list"><ul>[+wrap+]</ul></div>');
+$wrapTPL = APIHelpers::getkey(
+    $params,
+    'wrapTpl',
+    '@CODE: <div class="reflect-list"><ul>[+wrap+]</ul></div>'
+);
 /**
- * reflectTPL
+ * reflectTpl
  *        Шаблон даты. Поддерживается плейсхолдеры:
  *            [+url+] - ссылка на страницу где настроена фильтрация по документам за выбранную дату
  *            [+monthName+] - Название месяца. Плейсхолдер доступен только в режиме reflectType = month
@@ -43,15 +47,19 @@ $wrapTPL = APIHelpers::getkey($params, 'wrapTPL', '@CODE: <div class="reflect-li
  */
 $reflectTPL = APIHelpers::getkey(
     $params,
-    'reflectTPL',
+    'reflectTpl',
     '@CODE: <li><a href="[+url+]" title="[+title+]">[+title+]</a></li>'
 );
 /**
- * activeReflectTPL
+ * activeReflectTpl
  *        Шаблон активной даты.
- *    Поддерживается такие же плейсхолдеры, как и в шаблоне reflectTPL
+ *    Поддерживается такие же плейсхолдеры, как и в шаблоне reflectTpl
  */
-$activeReflectTPL = APIHelpers::getkey($params, 'activeReflectTPL', '@CODE: <li><span>[+title+]</span></li>');
+$activeReflectTPL = APIHelpers::getkey(
+    $params,
+    'activeReflectTpl',
+    '@CODE: <li><span>[+title+]</span></li>'
+);
 
 list($dateFormat, $sqlDateFormat, $reflectValidator) = DLReflect::switchReflect($reflectType, function () {
     return array('m-Y', '%m-%Y', array('DLReflect', 'validateMonth'));
@@ -145,14 +153,14 @@ $targetID = APIHelpers::getkey($params, 'targetID', $modx->documentObject['id'])
  * Возможные значения: Любое число. 0 расценивается как все доступные месяцы
  * Значение по умолчанию: 0
  */
-$limitBefore = (int)APIHelpers::getkey($params, 'limitBefore', 0);
+$limitBefore = (int) APIHelpers::getkey($params, 'limitBefore', 0);
 /**
  * limitAfter
  *        Число элементов после месяца указанного в activeMonth параметре
  * Возможные значения: Любое число. 0 расценивается как все доступные месяцы
  * Значение по умолчанию: 0
  */
-$limitAfter = (int)APIHelpers::getkey($params, 'limitAfter', 0);
+$limitAfter = (int) APIHelpers::getkey($params, 'limitAfter', 0);
 $display = $limitBefore + 1 + $limitAfter;
 
 $out = '';
@@ -298,20 +306,20 @@ foreach ($outReflects as $reflectItem) {
         list($vMonth, $vYear) = explode('-', $reflectItem, 2);
 
         return array(
-            'monthNum'  => $vMonth,
-            'monthName' => $DLAPI->getMsg('months.' . (int)$vMonth),
-            'year'      => $vYear,
+            'monthNum' => $vMonth,
+            'monthName' => $DLAPI->getMsg('months.' . (int) $vMonth),
+            'year' => $vYear,
         );
     }, function () use ($reflectItem) {
         return array(
-            'year' => $reflectItem
+            'year' => $reflectItem,
         );
     });
     $data = array_merge(array(
-        'title'           => $reflectItem,
-        'url'             => $modx->makeUrl($targetID, '', http_build_query(array($reflectType => $reflectItem))),
-        'reflects'        => $totalReflects->count(),
-        'displayReflects' => $outReflects->count()
+        'title' => $reflectItem,
+        'url' => $modx->makeUrl($targetID, '', http_build_query(array($reflectType => $reflectItem))),
+        'reflects' => $totalReflects->count(),
+        'displayReflects' => $outReflects->count(),
     ), $data);
     $out .= $DLAPI->parseChunk($tpl, $data);
 }
@@ -320,9 +328,9 @@ foreach ($outReflects as $reflectItem) {
  * Заворачиваем в шаблон обертку весь список дат
  */
 $out = $DLAPI->parseChunk($wrapTPL, array(
-    'wrap'            => $out,
-    'reflects'        => $totalReflects->count(),
-    'displayReflects' => $outReflects->count()
+    'wrap' => $out,
+    'reflects' => $totalReflects->count(),
+    'displayReflects' => $outReflects->count(),
 ));
 
 /**

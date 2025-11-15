@@ -400,9 +400,9 @@ class phpthumb_functions {
 
 				$newcolor = self::ImageColorAllocateAlphaSafe(
 					$dst_im,
-					$RealPixel['alpha'] == 127 ? $OverlayPixel['red'] : ($OverlayPixel['alpha'] == 127 ? $RealPixel['red'] : (round($RealPixel['red'] * (1 - $overlaypct)) + ($OverlayPixel['red'] * $overlaypct))),
-					$RealPixel['alpha'] == 127 ? $OverlayPixel['green'] : ($OverlayPixel['alpha'] == 127 ? $RealPixel['green'] : (round($RealPixel['green'] * (1 - $overlaypct)) + ($OverlayPixel['green'] * $overlaypct))),
-					$RealPixel['alpha'] == 127 ? $OverlayPixel['blue'] : ($OverlayPixel['alpha'] == 127 ? $RealPixel['blue'] : (round($RealPixel['blue'] * (1 - $overlaypct)) + ($OverlayPixel['blue'] * $overlaypct))),
+					$RealPixel['alpha'] == 127 ? $OverlayPixel['red']   : ($OverlayPixel['alpha'] == 127 ? $RealPixel['red']   : (round($RealPixel['red']   * (1 - $overlaypct) + ($OverlayPixel['red']   * $overlaypct)))),
+					$RealPixel['alpha'] == 127 ? $OverlayPixel['green'] : ($OverlayPixel['alpha'] == 127 ? $RealPixel['green'] : (round($RealPixel['green'] * (1 - $overlaypct) + ($OverlayPixel['green'] * $overlaypct)))),
+					$RealPixel['alpha'] == 127 ? $OverlayPixel['blue']  : ($OverlayPixel['alpha'] == 127 ? $RealPixel['blue']  : (round($RealPixel['blue']  * (1 - $overlaypct) + ($OverlayPixel['blue']  * $overlaypct)))),
 //					0);
 					min([$RealPixel['alpha'], floor($OverlayPixel['alpha'] * $opacipct)])
 				);
@@ -509,7 +509,7 @@ class phpthumb_functions {
 			if ($apacheLookupURIobject = @apache_lookup_uri($filename)) {
 				$apacheLookupURIarray = array();
 				foreach ($keys as $key) {
-					$apacheLookupURIarray[$key] = @$apacheLookupURIobject->$key;
+					$apacheLookupURIarray[$key] = ($apacheLookupURIobject->$key ?? '');
 				}
 				return $apacheLookupURIarray;
 			}
@@ -721,7 +721,7 @@ class phpthumb_functions {
 		$queries = explode($queryseperator, (string)$parsed_url['query']);
 		$CleanQueries = array();
 		foreach ($queries as $key => $query) {
-			@list($param, $value) = explode('=', $query);
+			list($param, $value) = array_pad(explode('=', $query), 2, '');
 			$CleanQueries[] = strtr($param, $TranslationMatrix).($value ? '='.strtr($value, $TranslationMatrix) : '');
 		}
 		foreach ($CleanQueries as $key => $value) {
@@ -771,8 +771,8 @@ class phpthumb_functions {
 			$tryagain = false;
 			$rawData = self::URLreadFsock($parsed_url['host'], $parsed_url['path'].'?'.$parsed_url['query'], $errstr, true, $parsed_url['port'], $timeout);
 			if ($followredirects && preg_match('#302 [a-z ]+; Location\\: (http.*)#i', $errstr, $matches)) {
-				$matches[1] = trim(@$matches[1]);
-				if (!@$alreadyLookedAtURLs[$matches[1]]) {
+				$matches[1] = trim($matches[1]);
+				if (empty($alreadyLookedAtURLs[$matches[1]])) {
 					// loop through and examine new URL
 					$error .= 'URL "'.$url.'" redirected to "'.$matches[1].'"';
 

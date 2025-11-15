@@ -103,8 +103,10 @@ class site_contentDocLister extends DocLister
          */
         if ($extUser = $this->getExtender('user')) {
             $extUser->init($this, array('fields' => $this->getCFGDef("userFields", "")));
-            foreach ($this->_docs as &$item)
-                $item = $extUser->setUserData($item); //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
+            foreach ($this->_docs as &$item) {
+                $item = $extUser->setUserData($item);
+            }
+            //[+user.id.createdby+], [+user.fullname.publishedby+], [+dl.user.publishedby+]....
         }
         if (1 == $this->getCFGDef('tree', '0')) {
             $this->treeBuild('id', 'parent');
@@ -174,7 +176,7 @@ class site_contentDocLister extends DocLister
                         if (!$item[$date] && $date == 'pub_date' && isset($item['createdon'])) {
                             $date = 'createdon';
                         }
-                        $_date = is_numeric($item[$date]) && $item[$date] == (int)$item[$date] ? $item[$date] : strtotime($item[$date]);
+                        $_date = is_numeric($item[$date]) && $item[$date] == (int) $item[$date] ? $item[$date] : strtotime($item[$date]);
                         if ($_date !== false) {
                             $_date = $_date + $this->modx->config['server_offset_time'];
                             $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
@@ -193,8 +195,8 @@ class site_contentDocLister extends DocLister
 
                     if ($extPrepare) {
                         $item = $extPrepare->init($this, array(
-                            'data'      => $item,
-                            'nameParam' => 'prepare'
+                            'data' => $item,
+                            'nameParam' => 'prepare',
                         ));
                         if ($item === false) {
                             $this->skippedDocs++;
@@ -217,7 +219,7 @@ class site_contentDocLister extends DocLister
                     $i++;
                 }
             } else {
-                $noneTPL = $this->getCFGDef('noneTPL', $this->getCFGDef('noneTpl', ''));
+                $noneTPL = $this->getCFGDef('noneTpl', $this->getCFGDef('noneTPL', ''));
                 $out = ($noneTPL != '') ? $this->parseChunk($noneTPL, $sysPlh) : '';
             }
             $out = $this->renderWrap($out);
@@ -262,7 +264,7 @@ class site_contentDocLister extends DocLister
                     if (!$row[$date] && $date == 'pub_date' && isset($row['createdon'])) {
                         $date = 'createdon';
                     }
-                    $_date = is_numeric($row[$date]) && $row[$date] == (int)$row[$date] ? $row[$date] : strtotime($row[$date]);
+                    $_date = is_numeric($row[$date]) && $row[$date] == (int) $row[$date] ? $row[$date] : strtotime($row[$date]);
                     if ($_date !== false) {
                         $_date = $_date + $this->modx->config['server_offset_time'];
                         $dateFormat = $this->getCFGDef('dateFormat', 'd.m.Y H:i');
@@ -278,7 +280,7 @@ class site_contentDocLister extends DocLister
                     $row['title'] = empty($row['menutitle']) ? $row['pagetitle'] : $row['menutitle'];
                 }
             }
-            if ((bool)$this->getCFGDef('makeUrl', 1) && (array('1') == $fields || in_array('url', $fields))
+            if ((bool) $this->getCFGDef('makeUrl', 1) && (array('1') == $fields || in_array('url', $fields))
             ) {
                 if (isset($row['type']) && $row['type'] == 'reference' && isset($row['content'])) {
                     $row['url'] = is_numeric($row['content']) ? $this->modx->makeUrl(
@@ -434,7 +436,6 @@ class site_contentDocLister extends DocLister
                 }
                 $where .= "c.deleted=0 AND c.published=1";
             }
-
 
             $fields = $this->getCFGDef('selectFields', 'c.*');
             $group = $this->getGroupSQL($this->getCFGDef('groupBy', $this->getPK()));
