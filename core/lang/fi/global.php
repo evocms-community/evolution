@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'fi'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1052,13 +1052,6 @@ $_lang["manage_document_permissions"] = 'Manage document permissions';
 $_lang["manage_module_permissions"] = 'Manage module permissions';
 $_lang["manage_tv_permissions"] = 'Manage TV permissions';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = 'Anna EVO-uutisten osoite (RSS-syöte).';
-$_lang["rss_url_news_title"] = 'RSS / Uutiset';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = 'Anna EVO-tietoturvatiedotteiden osoite (RSS-syöte).';
-$_lang["rss_url_security_title"] = 'RSS / Tietoturvatiedotteet';
-
 $_lang["run_module"] = 'Suorita moduuli';
 $_lang["save"] = 'Tallenna';
 $_lang["save_all_changes"] = 'Tallenna kaikki muutokset';
@@ -1493,9 +1486,6 @@ $_lang["lock_element_type_7"] = "Resource";
 $_lang["lock_element_type_8"] = "Role";
 $_lang["lock_element_editing"] = "You are editing this [+element_type+] since\n[+lasthit_df+]";
 $_lang["lock_element_locked_by"] = "This [+element_type+] is locked by user\n[+username+] since [+lasthit_df+]";
-
-$_lang["minifyphp_incache_title"] = 'Minify php code in site cache';
-$_lang["minifyphp_incache_message"] = 'Minify php code (snippets and plugins) and store in the site cache file, ref:<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "Reminder: It seems on [+date+] you forgot to logout. Please pay attention in future to do so after your work is finished.";
 
