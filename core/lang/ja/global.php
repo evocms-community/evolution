@@ -13,7 +13,7 @@
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
 //$modx_textdir = 'rtl'; // uncomment this line for RTL languages
-$modx_lang_attribute = 'ja'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
+$modx_lang_attribute = 'en'; // Manager HTML/XML Language Attribute see http://en.wikipedia.org/wiki/ISO_639-1
 $modx_manager_charset = 'UTF-8';
 
 $_lang["about_msg"] = 'Evolution CMS is a <a href="https://evo-cms.com/" target="_blank">PHP Application Framework and Content Management System</a> licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.';
@@ -1061,13 +1061,6 @@ $_lang["manage_document_permissions"] = 'Manage document permissions';
 $_lang["manage_module_permissions"] = 'Manage module permissions';
 $_lang["manage_tv_permissions"] = 'Manage TV permissions';
 
-$_lang["rss_url_news_default"] = 'https://github.com/evocms-community/evolution/releases.atom';
-$_lang["rss_url_news_message"] = '管理画面トップの「EVO News」のフィードURL';
-$_lang["rss_url_news_title"] = 'RSS ニュースフィード';
-$_lang["rss_url_security_default"] = 'https://github.com/extras-evolution/security-fix/releases.atom';
-$_lang["rss_url_security_message"] = '管理画面トップの「セキュリティ情報」のフィードURL';
-$_lang["rss_url_security_title"] = 'RSS セキュリティ情報フィード';
-
 $_lang["run_module"] = 'モジュールの実行';
 $_lang["save"] = '保存';
 $_lang["save_all_changes"] = '全ての変更を更新';
@@ -1503,9 +1496,6 @@ $_lang["lock_element_type_7"] = "リソース";
 $_lang["lock_element_type_8"] = "ルール";
 $_lang["lock_element_editing"] = "[+lasthit_df+]から、あなたはこの[+element_type+]を編集しています";
 $_lang["lock_element_locked_by"] = "この [+element_type+] は[+lasthit_df+]からuser\n[+username+] によってロックされました";
-
-$_lang["minifyphp_incache_title"] = 'サイトキャッシュ内のPHPコードを圧縮';
-$_lang["minifyphp_incache_message"] = 'PHPコード（スニペットとプラグイン）を圧縮し、このサイトのキャッシュファイルを保存する、参考：<a href="https://github.com/modxcms/evolution/issues/938" target="_blank">#938</a>';
 
 $_lang["logout_reminder_msg"] = "注意：[+date+]にログアウトを忘れています。あなたの仕事を終えた後は、ログアウトすることに注意を払ってください。";
 
