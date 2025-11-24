@@ -35,12 +35,12 @@ class BufferingLogger extends AbstractLogger
         return $logs;
     }
 
-    public function __sleep(): array
+    public function __serialize(): array
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    public function __wakeup()
+    public function __unserialize(array $data): void
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
@@ -62,7 +62,7 @@ class BufferingLogger extends AbstractLogger
                 }
             }
 
-            error_log(sprintf('%s [%s] %s', date(\DateTimeInterface::RFC3339), $level, $message));
+            error_log(\sprintf('%s [%s] %s', date(\DateTimeInterface::RFC3339), $level, $message));
         }
     }
 }

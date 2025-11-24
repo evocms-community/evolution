@@ -4,11 +4,11 @@ namespace Egulias\EmailValidator\Warning;
 
 class QuotedString extends Warning
 {
-    const CODE = 11;
+    public const CODE = 11;
 
     /**
-     * @param scalar $prevToken
-     * @param scalar $postToken
+     * @param string|int $prevToken
+     * @param string|int $postToken
      */
     public function __construct($prevToken, $postToken)
     {

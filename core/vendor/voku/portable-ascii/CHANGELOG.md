@@ -1,12 +1,31 @@
 # Changelog
 
-### 1.6.1 (2021-01-24)
+### 2.0.3 (2024-11-21)
+
+- use modern phpdocs e.g. list<int> or conditional-return annotations 
+
+### 2.0.2 (2024-11-21)
+
+- small fix for PHP 8.4 (thanks to @gilbertoalbino)
+
+### 2.0.1 (2022-03-08)
+
+- "To people of Russia": There is a war in Ukraine right now. The forces of the Russian Federation are attacking civilians.
+- optimize some phpdocs
+
+### 2.0.0 (2022-01-24)
+
+- prefer "Russian - Passport (2013), ICAO" instead of "Russian - GOST 7.79-2000(B)"
+- fix "Ukrainian" char-mapping (thanks to @Andr1yk0)
+- fix "Persian" char-mapping (thanks to @frost-cyber)
+
+### 1.6.1 (2022-01-24)
 
 - revert: prefer "Russian - Passport (2013), ICAO" instead of "Russian - GOST 7.79-2000(B)"
 - revert: fix "Ukrainian" char-mapping (thanks to @Andr1yk0)
 - revert: fix "Persian" char-mapping (thanks to @frost-cyber)
 
-### 1.6.0 (2021-01-24)
+### 1.6.0 (2022-01-24)
 
 - prefer "Russian - Passport (2013), ICAO" instead of "Russian - GOST 7.79-2000(B)"
 - fix "Ukrainian" char-mapping (thanks to @Andr1yk0) 

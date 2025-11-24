@@ -50,7 +50,7 @@ class FileViewFinder implements ViewFinderInterface
      * @param  array|null  $extensions
      * @return void
      */
-    public function __construct(Filesystem $files, array $paths, array $extensions = null)
+    public function __construct(Filesystem $files, array $paths, ?array $extensions = null)
     {
         $this->files = $files;
         $this->paths = array_map([$this, 'resolvePath'], $paths);
@@ -145,9 +145,7 @@ class FileViewFinder implements ViewFinderInterface
      */
     protected function getPossibleViewFiles($name)
     {
-        return array_map(function ($extension) use ($name) {
-            return str_replace('.', '/', $name).'.'.$extension;
-        }, $this->extensions);
+        return array_map(fn ($extension) => str_replace('.', '/', $name).'.'.$extension, $this->extensions);
     }
 
     /**

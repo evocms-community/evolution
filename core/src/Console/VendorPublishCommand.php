@@ -5,11 +5,11 @@ use Illuminate\Console\Command;
 use League\Flysystem\MountManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
 
 /**
- * @see: https://github.com/laravel-zero/foundation/blob/5.6/src/Illuminate/Foundation/Console/VendorPublishCommand.php
+ * Vendor publish command for Flysystem v3
  */
 class VendorPublishCommand extends Command
 {
@@ -19,18 +19,21 @@ class VendorPublishCommand extends Command
      * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
+
     /**
      * The provider to publish.
      *
      * @var string
      */
     protected $provider = null;
+
     /**
      * The tags to publish.
      *
      * @var array
      */
     protected $tags = [];
+
     /**
      * The console command signature.
      *
@@ -40,12 +43,14 @@ class VendorPublishCommand extends Command
                     {--all : Publish assets for all service providers without prompt.}
                     {--provider= : The service provider that has assets you want to publish.}
                     {--tag=* : One or many tags that have assets you want to publish.}';
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Publish any publishable assets from vendor packages';
+
     /**
      * Create a new command instance.
      *
@@ -57,6 +62,7 @@ class VendorPublishCommand extends Command
         parent::__construct();
         $this->files = $files;
     }
+
     /**
      * Execute the console command.
      *
@@ -65,11 +71,14 @@ class VendorPublishCommand extends Command
     public function handle()
     {
         $this->determineWhatShouldBePublished();
+
         foreach ($this->tags ?: [null] as $tag) {
             $this->publishTag($tag);
         }
+
         $this->info('Publishing complete.');
     }
+
     /**
      * Determine the provider or tag(s) to publish.
      *
@@ -80,13 +89,16 @@ class VendorPublishCommand extends Command
         if ($this->option('all')) {
             return;
         }
+
         list($this->provider, $this->tags) = [
             $this->option('provider'), (array) $this->option('tag'),
         ];
+
         if (! $this->provider && ! $this->tags) {
             $this->promptForProviderOrTag();
         }
     }
+
     /**
      * Prompt for which provider or tag to publish.
      *
@@ -98,11 +110,14 @@ class VendorPublishCommand extends Command
             "Which provider or tag's files would you like to publish?",
             $choices = $this->publishableChoices()
         );
+
         if ($choice == $choices[0] || $choice === null) {
             return;
         }
+
         $this->parseChoice($choice);
     }
+
     /**
      * The choices available via the prompt.
      *
@@ -113,19 +128,20 @@ class VendorPublishCommand extends Command
         return array_merge(
             [
                 '<comment>Publish files from all providers and tags listed below</comment>'
-            ]
-            , preg_filter(
-                '/^/'
-                , '<comment>Provider: </comment>'
-                , Arr::sort(ServiceProvider::publishableProviders())
-            )
-            , preg_filter(
-                '/^/'
-                , '<comment>Tag: </comment>'
-                , Arr::sort(ServiceProvider::publishableGroups())
+            ],
+            preg_filter(
+                '/^/',
+                '<comment>Provider: </comment>',
+                Arr::sort(ServiceProvider::publishableProviders())
+            ),
+            preg_filter(
+                '/^/',
+                '<comment>Tag: </comment>',
+                Arr::sort(ServiceProvider::publishableGroups())
             )
         );
     }
+
     /**
      * Parse the answer that was given via the prompt.
      *
@@ -135,12 +151,14 @@ class VendorPublishCommand extends Command
     protected function parseChoice($choice)
     {
         list($type, $value) = explode(': ', strip_tags($choice));
+
         if ($type === 'Provider') {
             $this->provider = $value;
         } elseif ($type === 'Tag') {
             $this->tags = [$value];
         }
     }
+
     /**
      * Publishes the assets for a tag.
      *
@@ -153,6 +171,7 @@ class VendorPublishCommand extends Command
             $this->publishItem($from, $to);
         }
     }
+
     /**
      * Get all of the paths to publish.
      *
@@ -165,6 +184,7 @@ class VendorPublishCommand extends Command
             $this->provider, $tag
         );
     }
+
     /**
      * Publish the given item from and to the given location.
      *
@@ -183,8 +203,10 @@ class VendorPublishCommand extends Command
             $this->publishDirectory($from, $to);
             return;
         }
+
         $this->error("Can't locate path: <{$from}>");
     }
+
     /**
      * Publish the file to the given path.
      *
@@ -200,6 +222,7 @@ class VendorPublishCommand extends Command
             $this->status($from, $to, 'File');
         }
     }
+
     /**
      * Publish the directory to the given directory.
      *
@@ -211,12 +234,14 @@ class VendorPublishCommand extends Command
     {
         $this->moveManagedFiles(
             new MountManager([
-                'from' => new Flysystem(new LocalAdapter($from)),
-                'to' => new Flysystem(new LocalAdapter($to)),
+                'from' => new Flysystem(new LocalFilesystemAdapter($from)),
+                'to' => new Flysystem(new LocalFilesystemAdapter($to)),
             ])
         );
+
         $this->status($from, $to, 'Directory');
     }
+
     /**
      * Move all the files in the given MountManager.
      *
@@ -225,18 +250,47 @@ class VendorPublishCommand extends Command
      */
     protected function moveManagedFiles($manager)
     {
-        foreach ($manager->listContents('from://', true) as $file) {
-            if($file['type'] !== 'file') {
+        foreach ($manager->listContents('from://', true) as $attributes) {
+            if (!$attributes->isFile()) {
                 continue;
             }
-            if (! $manager->has('to://'.$file['path']) || $this->option('force')) {
-                $manager->put(
-                    'to://'.$file['path']
-                    , $manager->read('from://'.$file['path'])
-                );
+
+            $path = $attributes->path();
+            
+            // Убираем дублирующийся префикс 'from://' если он есть
+            if (strpos($path, 'from://') === 0) {
+                $path = substr($path, 7);
+            }
+
+            $targetPath = 'to://' . $path;
+
+            // Если файл уже существует и нет флага --force, пропускаем
+            if ($manager->fileExists($targetPath) && !$this->option('force')) {
+                $this->components->info("Skipping [{$path}] - already exists.");
+                continue;
+            }
+
+            try {
+                $content = $manager->read('from://' . $path);
+                $manager->write($targetPath, $content);
+                
+                $this->components->task("Published [{$path}]");
+                
+            } catch (\League\Flysystem\UnableToReadFile $e) {
+                $this->components->error("Unable to read file: from://{$path} - " . $e->getMessage());
+                continue;
+            } catch (\League\Flysystem\UnableToWriteFile $e) {
+                // Если файл появился между проверкой и записью
+                if ($manager->fileExists($targetPath) && !$this->option('force')) {
+                    $this->components->warn("File already exists (race condition): {$path}");
+                    continue;
+                }
+                $this->components->error("Unable to write file: {$targetPath} - " . $e->getMessage());
+                throw $e;
             }
         }
     }
+
     /**
      * Create the directory to house the published files if needed.
      *
@@ -249,6 +303,7 @@ class VendorPublishCommand extends Command
             $this->files->makeDirectory($directory, 0755, true);
         }
     }
+
     /**
      * Write a status message to the console.
      *
@@ -259,8 +314,11 @@ class VendorPublishCommand extends Command
      */
     protected function status($from, $to, $type)
     {
+        $fromPath = str_replace(base_path(), '', realpath($from));
+        $toPath = str_replace(base_path(), '', realpath($to));
+
         $this->line(
-            '<info>Copied '.$type.'</info> <comment>['.str_replace(base_path(), '', realpath($from)).']</comment> <info>To</info> <comment>['.str_replace(base_path(), '', realpath($to)).']</comment>'
+            "<info>Copied {$type}</info> <comment>[{$fromPath}]</comment> <info>To</info> <comment>[{$toPath}]</comment>"
         );
     }
 }

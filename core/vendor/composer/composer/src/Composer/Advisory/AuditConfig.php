@@ -21,14 +21,19 @@ use Composer\Config;
 class AuditConfig
 {
     /**
-     * @var array<string>|array<string,string> List of advisory IDs, remote IDs or CVE IDs that reported but not listed as vulnerabilities.
+     * @var bool Whether to run audit
      */
-    public $ignoreList;
+    public $audit;
+
+    /**
+     * @var Auditor::FORMAT_*
+     */
+    public $auditFormat;
 
     /**
      * @var Auditor::ABANDONED_*
      */
-    public $abandoned;
+    public $auditAbandoned;
 
     /**
      * @var bool Should insecure versions be blocked during a composer update/required command
@@ -41,49 +46,152 @@ class AuditConfig
     public $blockAbandoned;
 
     /**
-     * @var array<string> A list of severities for which advisories with matching severity will be ignored.
-     */
-    public $ignoreSeverity;
-
-    /**
      * @var bool Should repositories that are unreachable or return a non-200 status code be ignored.
      */
     public $ignoreUnreachable;
 
     /**
-     * @var array<string>|array<string,string> List of abandoned package names that are reported but let the audit pass.
+     * @var list<string> List of advisory IDs to ignore during auditing
      */
-    public $ignoreAbandonedPackages;
+    public $ignoreListForAudit;
 
     /**
-     * @param array<string>|array<string,string> $ignoreList
-     * @param Auditor::ABANDONED_* $abandoned
-     * @param array<string> $ignoreSeverity
-     * @param array<string>|array<string,string> $ignoreAbandonedPackages
+     * @var list<string> List of advisory IDs to ignore during blocking
      */
-    public function __construct(array $ignoreList, string $abandoned, bool $blockInsecure, bool $blockAbandoned, array $ignoreSeverity, bool $ignoreUnreachable, array $ignoreAbandonedPackages)
+    public $ignoreListForBlocking;
+
+    /**
+     * @var list<string> List of severities to ignore during auditing
+     */
+    public $ignoreSeverityForAudit;
+
+    /**
+     * @var list<string> List of severities to ignore during blocking
+     */
+    public $ignoreSeverityForBlocking;
+
+    /**
+     * @var list<string> List of abandoned packages to ignore during auditing
+     */
+    public $ignoreAbandonedForAudit;
+
+    /**
+     * @var list<string> List of abandoned packages to ignore during blocking
+     */
+    public $ignoreAbandonedForBlocking;
+
+    /**
+     * @param Auditor::FORMAT_* $auditFormat
+     * @param Auditor::ABANDONED_* $auditAbandoned
+     * @param list<string> $ignoreListForAudit
+     * @param list<string> $ignoreListForBlocking
+     * @param list<string> $ignoreSeverityForAudit
+     * @param list<string> $ignoreSeverityForBlocking
+     * @param list<string> $ignoreAbandonedForAudit
+     * @param list<string> $ignoreAbandonedForBlocking
+     */
+    public function __construct(bool $audit, string $auditFormat, string $auditAbandoned, bool $blockInsecure, bool $blockAbandoned, bool $ignoreUnreachable, array $ignoreListForAudit, array $ignoreListForBlocking, array $ignoreSeverityForAudit, array $ignoreSeverityForBlocking, array $ignoreAbandonedForAudit, array $ignoreAbandonedForBlocking)
     {
-        $this->ignoreList = $ignoreList;
-        $this->abandoned = $abandoned;
+        $this->audit = $audit;
+        $this->auditFormat = $auditFormat;
+        $this->auditAbandoned = $auditAbandoned;
         $this->blockInsecure = $blockInsecure;
         $this->blockAbandoned = $blockAbandoned;
-        $this->ignoreSeverity = $ignoreSeverity;
         $this->ignoreUnreachable = $ignoreUnreachable;
-        $this->ignoreAbandonedPackages = $ignoreAbandonedPackages;
+        $this->ignoreListForAudit = $ignoreListForAudit;
+        $this->ignoreListForBlocking = $ignoreListForBlocking;
+        $this->ignoreSeverityForAudit = $ignoreSeverityForAudit;
+        $this->ignoreSeverityForBlocking = $ignoreSeverityForBlocking;
+        $this->ignoreAbandonedForAudit = $ignoreAbandonedForAudit;
+        $this->ignoreAbandonedForBlocking = $ignoreAbandonedForBlocking;
     }
 
-    public static function fromConfig(Config $config): self
+    /**
+     * Parse ignore configuration supporting both simple and detailed formats with apply scopes
+     *
+     * Simple format: ['CVE-123', 'CVE-456'] or ['CVE-123' => 'reason']
+     * Detailed format: ['CVE-123' => ['apply' => 'audit|block|all', 'reason' => '...']]
+     *
+     * @param array<mixed> $config
+     * @return array{audit: list<string>, block: list<string>}
+     */
+    private static function parseIgnoreWithApply(array $config): array
+    {
+        $forAudit = [];
+        $forBlock = [];
+
+        foreach ($config as $key => $value) {
+            // Simple format: ['CVE-123']
+            if (is_int($key) && is_string($value)) {
+                $id = $value;
+                $apply = 'all';
+            }
+            // Simple format with reason: ['CVE-123' => 'reason']
+            elseif (is_string($value)) {
+                $id = $key;
+                $apply = 'all';
+            }
+            // Detailed format: ['CVE-123' => ['apply' => '...', 'reason' => '...']]
+            elseif (is_array($value)) {
+                $id = $key;
+                $apply = $value['apply'] ?? 'all';
+
+                // Validate apply value
+                if (!in_array($apply, ['audit', 'block', 'all'], true)) {
+                    throw new \InvalidArgumentException(
+                        "Invalid 'apply' value for '{$id}': {$apply}. Expected 'audit', 'block', or 'all'."
+                    );
+                }
+            }
+            // Simple format with null: ['CVE-123' => null]
+            elseif ($value === null) {
+                $id = $key;
+                $apply = 'all';
+            }
+            else {
+                continue;
+            }
+
+            // Store in appropriate lists based on apply scope
+            if ($apply === 'audit' || $apply === 'all') {
+                $forAudit[] = $id;
+            }
+            if ($apply === 'block' || $apply === 'all') {
+                $forBlock[] = $id;
+            }
+        }
+
+        return [
+            'audit' => array_values(array_unique($forAudit)),
+            'block' => array_values(array_unique($forBlock)),
+        ];
+    }
+
+    /**
+     * @param Auditor::FORMAT_* $auditFormat
+     */
+    public static function fromConfig(Config $config, bool $audit = true, string $auditFormat = Auditor::FORMAT_SUMMARY): self
     {
         $auditConfig = $config->get('audit');
 
+        // Parse ignore lists with apply scopes
+        $ignoreListParsed = self::parseIgnoreWithApply($auditConfig['ignore'] ?? []);
+        $ignoreAbandonedParsed = self::parseIgnoreWithApply($auditConfig['ignore-abandoned'] ?? []);
+        $ignoreSeverityParsed = self::parseIgnoreWithApply($auditConfig['ignore-severity'] ?? []);
+
         return new self(
-            $auditConfig['ignore'] ?? [],
+            $audit,
+            $auditFormat,
             $auditConfig['abandoned'] ?? Auditor::ABANDONED_FAIL,
             (bool) ($auditConfig['block-insecure'] ?? true),
             (bool) ($auditConfig['block-abandoned'] ?? false),
-            $auditConfig['ignore-severity'] ?? [],
             (bool) ($auditConfig['ignore-unreachable'] ?? false),
-            $auditConfig['ignore-abandoned'] ?? []
+            $ignoreListParsed['audit'],
+            $ignoreListParsed['block'],
+            $ignoreSeverityParsed['audit'],
+            $ignoreSeverityParsed['block'],
+            $ignoreAbandonedParsed['audit'],
+            $ignoreAbandonedParsed['block']
         );
     }
 }

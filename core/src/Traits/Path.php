@@ -43,7 +43,7 @@ trait Path
      *
      * @return string
      */
-    public function langPath()
+    public function langPath($path = '')
     {
         return $this->path('lang');
     }
@@ -85,7 +85,7 @@ trait Path
      *
      * @return string
      */
-    public function storagePath()
+    public function storagePath($path = '')
     {
         return $this->storagePath ?: EVO_STORAGE_PATH;
     }
@@ -153,11 +153,10 @@ trait Path
 
     /**
      * @return string
-     * @deprecated 
      */
     public function getCacheFolder()
     {
-        return 'assets/cache/';
+        return 'cache/';
     }
 
     /**
@@ -196,7 +195,7 @@ trait Path
      */
     public function getCachePath()
     {
-        return EVO_STORAGE_PATH . 'cache/';
+        return EVO_STORAGE_PATH . $this->getCacheFolder();
     }
 
     /**
@@ -387,7 +386,9 @@ trait Path
      */
     public function terminate()
     {
-
+        foreach ($this->terminatingCallbacks as $callback) {
+            $this->call($callback);
+        }
     }
 
 }

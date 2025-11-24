@@ -61,6 +61,13 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public $pluginEvent = [];
 
+
+    /**
+     * The terminating callbacks.
+     *
+     * @var array
+     */
+    protected $terminatingCallbacks = [];
     /**
      * @var array
      */
@@ -318,7 +325,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         if (empty($context)) {
             $context = $this->getContext();
         }
-        if (!empty(evo()->getLoginUserID($context))) {
+        if (evo()->getLoginUserID($context) !== false) {
             $result = $this->checkAccess(evo()->getLoginUserID($context));
             if ($result === false) {
                 \UserManager::logout();
@@ -2731,6 +2738,10 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
             // invoke OnWebPageInit event
             $this->invokeEvent("OnWebPageInit");
 
+            // invoke OnLogPageView event
+            if ($this->getConfig('track_visitors') == 1) {
+                $this->invokeEvent("OnLogPageHit");
+            }
             if ($this->getConfig('seostrict') == '1') {
                 $this->sendStrictURI();
             }
@@ -2811,6 +2822,10 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         // invoke OnWebPageInit event
         $this->invokeEvent('OnWebPageInit');
 
+        // invoke OnLogPageView event
+        if ($this->getConfig('track_visitors') == 1) {
+            $this->invokeEvent('OnLogPageHit');
+        }
         if ($this->getConfig('seostrict') == '1') {
             $this->sendStrictURI();
         }
@@ -2893,6 +2908,11 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
             // write the documentName to the object
             $this->documentName = &$this->documentObject['pagetitle'];
+
+            // check if we should not hit this document
+            if ($this->documentObject['hide_from_tree'] == 1) {
+                $this->setConfig('track_visitors', 0);
+            }
 
             if ($this->documentObject['deleted'] == 1) {
                 $this->sendErrorPage();
@@ -3370,7 +3390,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
 
         $activeUserSids = ActiveUserSession::all();
         if ($activeUserSids->count() > 0) {
-            $activeUserSids = $activeUserSids->pluck('sid')->toArray();
+            $activeUserSids = $activeUserSids->pluck('sid');
         } else {
             $activeUserSids = [];
         }
@@ -4865,15 +4885,14 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $sort = ($sort == '') ? '' : $table . '.' . implode(',' . $table . '.', array_filter(array_map('trim', explode(',', $sort))));
 
         if ($idnames === '*') {
-            $query = $table . '.id<>0';
+            $query = '' . $table . '.id<>0';
         } else {
-            $query = (is_numeric($idnames[0]) ? $table . '.id' : $table . '.name') . " IN ('" . implode("','", $idnames) . "')";
+            $query = (is_numeric($idnames[0]) ? '' . $table . '.id' : '' . $table . '.name') . " IN ('" . implode("','", $idnames) . "')";
         }
 
         $rs = SiteTmplvar::query()
             ->select($fields)
             ->selectRaw(" IF(" . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value != '', " . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value, " . $this->getDatabase()->getConfig('prefix') . "site_tmplvars.default_text) as value")
-            ->selectRaw(" IF(" . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value != '', " . $this->getDatabase()->getConfig('prefix') . "site_tmplvar_contentvalues.value, " . $this->getDatabase()->getConfig('prefix') . "site_tmplvars.id) as tmplvarid")
             ->join('site_tmplvar_templates', 'site_tmplvar_templates.tmplvarid', '=', 'site_tmplvars.id')
             ->leftJoin('site_tmplvar_contentvalues', function ($join) use ($docid) {
                 $join->on('site_tmplvar_contentvalues.tmplvarid', '=', 'site_tmplvars.id');
@@ -4886,11 +4905,6 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         $rs = $rs->get();
 
         $result = $rs->toArray();
-        foreach($result as &$tmplvar)
-        {
-            $tmplvar['id'] = $tmplvar['tmplvarid'];
-            $tmplvar['contentid'] = $docid;
-        }
 
         // get default/built-in template variables
         if (is_array($docRow)) {
@@ -5047,20 +5061,13 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
      */
     public function getLoginUserID($context = '')
     {
-        $out = false;
-
         if (is_cli() && defined('EVO_CLI_USER')) {
             return EVO_CLI_USER;
         }
-
-        if (is_cli()) {
-            return false;
-        }
-
+        $out = false;
         if (empty($context)) {
             $context = $this->getContext();
         }
-
         if (isset($_SESSION[$context . 'Validated'])) {
             $out = $_SESSION[$context . 'InternalKey'];
         }
@@ -6533,5 +6540,38 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         return false;
+    }
+
+    /**
+     * Determine if the application is in debug mode.
+     *
+     * @return bool
+     */
+    public function hasDebugModeEnabled()
+    {
+        return config('app.debug', false);
+    }
+
+    /**
+     * Get the maintenance mode manager instance.
+     *
+     * @return \Illuminate\Contracts\Foundation\MaintenanceMode
+     */
+    public function maintenanceMode()
+    {
+        return $this->make(\Illuminate\Contracts\Foundation\MaintenanceMode::class);
+    }
+
+    /**
+     * Register a terminating callback with the application.
+     *
+     * @param  callable|string  $callback
+     * @return $this
+     */
+    public function terminating($callback)
+    {
+        $this->terminatingCallbacks[] = $callback;
+
+        return $this;
     }
 }
