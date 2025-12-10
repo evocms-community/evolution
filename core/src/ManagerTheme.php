@@ -195,7 +195,7 @@ class ManagerTheme implements ManagerThemeInterface
         }
 
         if ($this->getCore()->getConfig('mgr_jquery_path', '') === '') {
-            $this->getCore()->setConfig('mgr_jquery_path', 'media/script/jquery/jquery.min.js');
+            $this->getCore()->setConfig('mgr_jquery_path', '/assets/js/jquery.min.js');
         }
         if ($this->getCore()->getConfig('mgr_date_picker_path', '') === '') {
             $this->getCore()->setConfig('mgr_date_picker_path', 'media/calendar/datepicker.inc.php');

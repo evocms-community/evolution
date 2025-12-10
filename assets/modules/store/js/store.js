@@ -120,30 +120,29 @@ store = {
 
 		store.types =  eval('('+$('[name="types"]').val()+')');
 
-		$('a.item-reinstall,a.item-update').live('click',function(){
+		$(document).on('click', 'a.item-reinstall, a.item-update', function(){
 			if (confirm($(this).attr('data-text'))) store.install(this);
 			return false;
 		});
-		$('a.item-install').live('click',function(){
+
+		$(document).on('click', 'a.item-install', function(){
 			store.install(this);
 			return false;
 		});
 
-		$('.item-install2').live('click',function(){
+		$(document).on('click', '.item-install2', function(){
 			tpl = '<li data-id="'+$(this).attr('data-id')+'">'+$(this).parent().find('.row-category').text()+'<a href="#">X</a></li>';
 			$('.cart_list ul').append(tpl);
 			return false;
 		});
 
-		$('.category_list a').live('click',function(){
+		$(document).on('click', '.category_list a', function(){
 			$('[name=parent]').val($(this).attr('data-id'));
-			//store.get_list({}, store.update_list );
-
 			store.update_list( store.category[$(this).attr('data-id')] , $(this).attr('data-tpl') );
 			return false;
 		});
 
-		$('.category_list2 a').live('click',function(){
+		$(document).on('click', '.category_list2 a', function(){
 			$('[name=parent]').val($(this).html());
 			store.get_own_list({}, store.updateUserPack );
 			return false;
