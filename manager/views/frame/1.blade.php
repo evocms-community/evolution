@@ -33,7 +33,7 @@
             document.documentElement.className += ' ios';
         }
     </script>
-    <script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="media/script/jquery/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         // GLOBAL variable modx
         var modx = {

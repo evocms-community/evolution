@@ -1,5 +1,5 @@
 <script src="js/customEvent.js" type="text/javascript"></script>
-<script src="<?php echo $this->config['siteURL'] ?>assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.js" type="text/javascript"></script>
 <script src="js/jquery.rightClick.js" type="text/javascript"></script>
 <script src="js/jquery.drag.js" type="text/javascript"></script>
 <script src="js/helper.js" type="text/javascript"></script>
