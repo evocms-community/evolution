@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Paginadata weergeven';
 $_lang["documentation"] = 'Documentatie';
 
 $_lang["duplicate"] = 'Dupliceren';
-$_lang["duplicate_alias_found"] = 'Pagina \'%s\' heeft de alias \'%s\' al in gebruik. Kies een unieke alias voor deze Pagina.';
+$_lang["duplicate_alias_found"] = 'Pagina <strong>:docid</strong> heeft de alias <strong>:alias</strong> al in gebruik. Kies een unieke alias voor deze Pagina.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is gebruikt al de URL alias \'%s\'. Voer een unieke alias in.';
 $_lang["duplicate_alias_message"] = 'Kies \'Ja\' om dubbele aliassen toe te staan wanneer een Pagina wordt opgeslagen. <b>NB: Deze optie kan niet worden gebruikt in combinatie met \'Zoekmachine vriendelijke URL\'s\'.</b>';
 $_lang["duplicate_alias_title"] = 'Dubbele aliassen toestaan';

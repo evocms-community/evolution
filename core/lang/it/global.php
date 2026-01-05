@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Visualizza dati della Risorsa';
 $_lang["documentation"] = 'Documentazione';
 
 $_lang["duplicate"] = 'Duplica';
-$_lang["duplicate_alias_found"] = 'La Risorsa \'%s\' utilizza già l\'alias \'%s\'. Inserire un altro alias.';
+$_lang["duplicate_alias_found"] = 'La Risorsa <strong>:docid</strong> utilizza già l\'alias <strong>:alias</strong>. Inserire un altro alias.';
 $_lang["duplicate_template_alias_found"] = 'Il Template \'%s\' utilizza già l\'alias \'%s\'. Inserire un altro alias.';
 $_lang["duplicate_alias_message"] = 'Qui potete selezionare \'Si\' per permettere gli alias duplicati. <b>NOTA: Questa opzione deve essere usata con l\'opzione \'Percorso URL Semplici\' attiva per evitare problemi di riferimenti alle Risorse.</b>';
 $_lang["duplicate_alias_title"] = 'Permetti alias duplicati:';

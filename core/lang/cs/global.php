@@ -685,7 +685,7 @@ $_lang["doc_data_title"] = 'Náhled na data dokumentu';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Kopírovat';
-$_lang["duplicate_alias_found"] = 'Dokument \'%s\' již používá alias \'%s\'. Prosím zadejte jednoznačný alias.';
+$_lang["duplicate_alias_found"] = 'Dokument <strong>:docid</strong> již používá alias <strong>:alias</strong>. Prosím zadejte jednoznačný alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Zde můžete zvolit \'ano\' k povolení duplicity aliasů, které byly uloženy. <b>POZNÁMKA: Tato volba by měla být použita s volbou "Cesta ke zjednodušenému aliasu" nastavenou na \'Ano\', aby se vyhnulo problémům při odkazování na dokument.</b>';
 $_lang["duplicate_alias_title"] = 'Povolit duplicitu aliasů:';

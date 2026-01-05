@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Se information om ressourcen';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Kopier';
-$_lang["duplicate_alias_found"] = 'Ressourcen \'%s\' bruger allerede dette alias \'%s\'. Indtast et unikt alias';
+$_lang["duplicate_alias_found"] = 'Ressourcen <strong>:docid</strong> bruger allerede dette alias <strong>:alias</strong>. Indtast et unikt alias';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Vælg \'Ja\' for at tillade, at gentagelse af et allerede brugt alias bliver gemt. <b>Bemærk: Denne mulighed bør vælges såfremt,  \'Brug søgevenlig alias sti\' er sat til \'Ja\' for at undgå problemer ved henvisning til en ressource.</b>';
 $_lang["duplicate_alias_title"] = 'Tillad gentagelse af alias:';

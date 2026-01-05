@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'مرور محتوا و داده ی پرونده';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'المثنی';
-$_lang["duplicate_alias_found"] = 'پرونده ی  \'%s\' همکنون در حال استفاده از آلایس \'%s\' است. لطفا یک آلایس مخصوص وارد کنید.';
+$_lang["duplicate_alias_found"] = 'پرونده ی  <strong>:docid</strong> همکنون در حال استفاده از آلایس <strong>:alias</strong> است. لطفا یک آلایس مخصوص وارد کنید.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'در اینجا شما میتوانید \'بلی\' را انتخاب کنید تا آلایس های مشابه حفظ شوند. <b>تذکر: این حالت بایستی به همراه \'مسیر دوستانه ی آلایس\' استفاده شود که آن هم روی \'بلی\' تنظیم شده باشد برای اینکه درذ زمان ارجاع به پرونده ها مشکلی ایجاد نشود.</b>';
 $_lang["duplicate_alias_title"] = 'آلای های مشابه مجاز باشد:';

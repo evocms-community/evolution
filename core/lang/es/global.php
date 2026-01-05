@@ -688,7 +688,7 @@ $_lang["doc_data_title"] = 'Ver los datos de recurso';
 $_lang["documentation"] = 'Documentatión';
 
 $_lang["duplicate"] = 'Duplicar';
-$_lang["duplicate_alias_found"] = 'El recurso \'%s\' está usando ya el alias \'%s\'. Por favor, ingrese un alias único.';
+$_lang["duplicate_alias_found"] = 'El recurso <strong>:docid</strong> está usando ya el alias <strong>:alias</strong>. Por favor, ingrese un alias único.';
 $_lang["duplicate_template_alias_found"] = 'La plantilla (template) \'%s\' está usando ya el alias \'%s\'. Por favor, entre un alias único.';
 $_lang["duplicate_alias_message"] = 'Aquí puede seleccionar \'SÍ\' para permitir guardar los aliases duplicados.
 <b>Nota:</b> Esta opción debe ser usada con la opción "Dirección Alias Amigable" configurada a "SÍ" para así evitar problemas referenciando el recurso.';
@@ -1269,7 +1269,7 @@ $_lang["update_params"] = 'Actualizar la muestra de parámetros';
 $_lang["update_settings_from_language"] = 'Reemplazar el actual con:';
 
 $_lang["upload_maxsize_message"] = 'Ingresa el tamaño máximo de archivo a ser subido por el Administrador de archivos. El tamaño de archivo a subir debe de ser ingresado en bytes. NOTA: ¡Archivos grandes pueden demorar mucho tiempo para subir!
-Ingrese usted el tamaño máximo de archivo que se puede cargar a través del administrador de archivos. El tamaño del archivo de carga se debe ingresar en bytes. 
+Ingrese usted el tamaño máximo de archivo que se puede cargar a través del administrador de archivos. El tamaño del archivo de carga se debe ingresar en bytes.
 <b>Nota:</b> ¡Los archivos grandes pueden tardar mucho en cargarse!';
 $_lang["upload_maxsize_title"] = 'Tamaño máximo de cargar';
 $_lang["uploadable_files_message"] = 'Ingrese una lista de archivos que se pueden cargar en \'assets/files/\' utilizando el explorador de archivos. Ingrese las extensiones (separados por comas) para los tipos de archivo.';

@@ -3,9 +3,10 @@
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Interfaces\ServiceInterface;
+use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentDuplicate extends DocumentCreate
@@ -64,7 +65,6 @@ class DocumentDuplicate extends DocumentCreate
         $this->events = $events;
         $this->cache = $cache;
         $this->currentDate = EvolutionCMS()->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
-
     }
 
     /**
@@ -85,7 +85,6 @@ class DocumentDuplicate extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -99,36 +98,35 @@ class DocumentDuplicate extends DocumentCreate
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
 
-
-        if ($this->events) {
-            $evtOut = EvolutionCMS()->invokeEvent('OnBeforeDocDuplicate', array(
-                'id' => $this->documentData['id']
-            ));
-        }
-        $documentObject = SiteContent::query()->withTrashed()->find($this->documentData['id']);
-        $tvArray = $documentObject->tv->pluck('value', 'name')->toArray();
-
-        $documentArray = array_merge($documentObject->toArray(), $tvArray);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
+        $tvArray = $document
+            ->tv
+            ->pluck('value', 'name')
+            ->toArray();
+        $documentArray = array_merge($document->toArray(), $tvArray);
 
         // Once we've grabbed the document object, start doing some modifications
         if (!isset($this->documentData['toplevel'])) {
             // count duplicates
-            $pagetitle = \EvolutionCMS\Models\SiteContent::withTrashed()->find($this->documentData['id'])->pagetitle;
+            $pagetitle = SiteContent::query()
+                ->withTrashed()
+                ->find($this->documentData['id'])
+                ->pagetitle;
 
-            $count = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->where('pagetitle', 'LIKE', '%' . $pagetitle . ' ' . \Lang::get('global.duplicated_el_suffix') . '%')->count();
+            $count = SiteContent::query()
+                ->withTrashed()
+                ->where('pagetitle', 'LIKE', '%' . $pagetitle . ' ' . \Lang::get('global.duplicated_el_suffix') . '%')
+                ->count();
 
-            if ($count >= 1) {
-                $count = ' ' . ($count + 1);
-            } else {
-                $count = '';
-            }
+            $count = $count >= 1 ? ' ' . ($count + 1) : '';
 
             $documentArray['pagetitle'] = $pagetitle . ' ' . \Lang::get('global.duplicated_el_suffix') . ' ' . $count;
             $documentArray['alias'] = null;
@@ -140,24 +138,47 @@ class DocumentDuplicate extends DocumentCreate
         if (isset($this->documentData['parent'])) {
             $documentArray['parent'] = $this->documentData['parent'];
         }
+
+        if ($this->events) {
+            // invoke OnBeforeDocDuplicate event
+            EvolutionCMS()->invokeEvent('OnBeforeDocDuplicate', [
+                'id' => $this->documentData['id']
+            ]);
+        }
+
         $document = \DocumentManager::create($documentArray);
 
-        $oldDocGroups = \EvolutionCMS\Models\DocumentGroup::query()->where('document', $this->documentData['id'])->get();
+        $oldDocGroups = DocumentGroup::query()
+            ->where('document', $this->documentData['id'])
+            ->get();
+
         foreach ($oldDocGroups->toArray() as $oldDocGroup) {
             unset($oldDocGroup['id']);
             $oldDocGroup['document'] = $document->getKey();
-            \EvolutionCMS\Models\DocumentGroup::query()->insert($oldDocGroup);
+            DocumentGroup::query()->insert($oldDocGroup);
         }
+
         if ($this->events) {
-            $evtOut = EvolutionCMS()->invokeEvent('OnDocDuplicate', array(
+            // invoke OnDocDuplicate event
+            EvolutionCMS()->invokeEvent('OnDocDuplicate', [
                 'id' => $this->documentData['id'],
                 'new_id' => $document->getKey()
-            ));
+            ]);
         }
-        $documents = \EvolutionCMS\Models\SiteContent::withTrashed()->where('parent', $this->documentData['id'])->where('deleted', 0)->orderBy('id')->get();
 
-        foreach ($documents as $item) {
-            \DocumentManager::duplicate(['id' => $item->id, 'parent' => $document->getKey(), 'toplevel' => 1]);
+        $children = SiteContent::query()
+            ->withTrashed()
+            ->where('parent', $this->documentData['id'])
+            ->where('deleted', 0)
+            ->orderBy('id')
+            ->get();
+
+        foreach ($children as $item) {
+            \DocumentManager::duplicate([
+                'id' => $item->id,
+                'parent' => $document->getKey(),
+                'toplevel' => 1
+            ]);
         }
 
         if ($this->cache) {
@@ -184,6 +205,4 @@ class DocumentDuplicate extends DocumentCreate
         $this->validateErrors = $validator->errors()->toArray();
         return !$validator->fails();
     }
-
-
 }

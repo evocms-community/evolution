@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Ver dados do documento';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Duplicar';
-$_lang["duplicate_alias_found"] = 'O Documento \'%s\' já utiliza o apelido (alias) \'%s\'. Por favor indique um apelido único.';
+$_lang["duplicate_alias_found"] = 'O Documento <strong>:docid</strong> já utiliza o apelido (alias) <strong>:alias</strong>. Por favor indique um apelido único.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Aqui pode seleccionar \'Sim\' para permitir que apelidos sejam duplicados quando salvos. <b>NOTA: esta opção deverá ser usada com a opção \'Usar caminho completo com o apelido (alias)\' activa para evitar problemas quando referenciar um documento.</b>';
 $_lang["duplicate_alias_title"] = 'Permitir apelidos duplicados:';

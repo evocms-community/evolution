@@ -3,9 +3,10 @@
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Interfaces\ServiceInterface;
+use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentEdit extends DocumentCreate
@@ -66,7 +67,6 @@ class DocumentEdit extends DocumentCreate
         $this->events = $events;
         $this->cache = $cache;
         $this->currentDate = EvolutionCMS()->timestamp((int) get_by_key($_SERVER, 'REQUEST_TIME', 0));
-
     }
 
     /**
@@ -87,7 +87,6 @@ class DocumentEdit extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -98,9 +97,8 @@ class DocumentEdit extends DocumentCreate
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
-
 
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
@@ -108,34 +106,56 @@ class DocumentEdit extends DocumentCreate
             throw $exception;
         }
 
+        $this->prepareDocument();
         if (isset($this->documentData['pagetitle'])) {
             $this->prepareAliasDocument();
         }
-        $this->prepareEditDocument();
 
-        // invoke OnBeforeDocFormSave event
         if ($this->events) {
+            // invoke OnBeforeDocFormSave event
             EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
-                'mode' => 'upd',
-                'id'   => $this->documentData['id'],
-                'doc'  => &$this->documentData
+                'mode' => $this->mode,
+                'id' => $this->documentData['id'],
+                //
+                'doc' => &$this->documentData
+            ]);
+
+            // old event, compatibility
+            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
+                'mode' => 'upd', // old
+                'id' => $this->documentData['id'],
+                //
+                'doc' => &$this->documentData
             ]);
         }
 
-        $document = SiteContent::query()->withTrashed()->find($this->documentData['id']);
-        $document->update($this->documentData);
+        $updated = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id'])
+            ->update($this->documentData);
+
         $this->prepareTV();
         $this->saveTVs();
-        $this->updateParent();
+        $this->updateParent($this->documentData['parent']);
+        $this->updateParent($this->documentData['parent_old']);
+        $this->secureWebDocument($this->documentData['id']);
+        $this->secureMgrDocument($this->documentData['id']);
+
+        $document = SiteContent::find($this->documentData['id']);
 
         if ($this->events) {
             // invoke OnDocFormSave event
             EvolutionCMS()->invokeEvent("OnDocFormSave", [
-                'mode'  => 'upd',
-                'id'    => $this->documentData['id']
+                'mode' => $this->mode,
+                'id' => $this->documentData['id']
+            ]);
+
+            // old event, compatibility
+            EvolutionCMS()->invokeEvent("OnDocFormSave", [
+                'mode' => 'upd', // old
+                'id' => $this->documentData['id']
             ]);
         }
-
 
         $_SESSION['itemname'] = $this->documentData['pagetitle'];
 
@@ -164,13 +184,18 @@ class DocumentEdit extends DocumentCreate
         return !$validator->fails();
     }
 
-
-    public function prepareEditDocument()
+    public function prepareDocument()
     {
-        $existingDocument = SiteContent::query()->withTrashed()->find($this->documentData['id'])->toArray();
-        $this->documentData['oldparent'] = $existingDocument['parent'];
+        // old document before save
+        $existingDocument = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id'])
+            ->toArray();
+
+        $this->documentData['parent_old'] = $existingDocument['parent'];
+
         if (!isset($this->documentData['parent'])) {
-            $this->documentData['parent'] = $this->documentData['oldparent'];
+            $this->documentData['parent'] = $this->documentData['parent_old'];
         }
         if (!isset($this->documentData['template'])) {
             $this->documentData['template'] = $existingDocument['template'];
@@ -180,6 +205,7 @@ class DocumentEdit extends DocumentCreate
             throw new ServiceActionException("Document is linked to site_start variable and cannot be unpublished!");
         }
         $today = EvolutionCMS()->timestamp();
+
         $this->preparePublicationStatus();
 
         if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && ($this->documentData['pub_date'] > $today || $this->documentData['unpub_date'] != "0")) {
@@ -195,10 +221,18 @@ class DocumentEdit extends DocumentCreate
         }
 
         // check to see document is a folder
-        $child = \EvolutionCMS\Models\SiteContent::withTrashed()->select('id')->where('parent',
-            $this->documentData['id'])->first();
-        if (!is_null($child)) {
+        $child_exist = SiteContent::query()
+            ->withTrashed()
+            ->select('id')
+            ->where('parent', $this->documentData['id'])
+            ->exists();
+        if ($child_exist) {
             $this->documentData['isfolder'] = 1;
+        }
+
+        // not in active parent = deleted
+        if ($this->documentData['parent'] > 0 && empty(SiteContent::find($this->documentData['parent']))) {
+            $resourceArray['deleted'] = 1;
         }
 
         // set publishedon and publishedby
@@ -225,13 +259,13 @@ class DocumentEdit extends DocumentCreate
             $this->documentData['publishedon'] = $existingDocument['publishedon'];
             $this->documentData['publishedby'] = $existingDocument['publishedby'];
         }
-
-
     }
 
-    protected function preparePublicationStatus() {
+    protected function preparePublicationStatus()
+    {
         // determine published status
         $today = EvolutionCMS()->timestamp();
+
         if (empty($this->documentData['pub_date'])) {
             $this->documentData['pub_date'] = 0;
         } else {
@@ -239,16 +273,16 @@ class DocumentEdit extends DocumentCreate
 
             if ($this->documentData['pub_date'] < $today) {
                 $this->documentData['published'] = 1;
-            }
-            elseif ($this->documentData['pub_date'] > $today) {
+            } elseif ($this->documentData['pub_date'] > $today) {
                 $this->documentData['published'] = 0;
             }
         }
 
-        if (empty ($this->documentData['unpub_date'])) {
+        if (empty($this->documentData['unpub_date'])) {
             $this->documentData['unpub_date'] = 0;
         } else {
             $this->documentData['unpub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['unpub_date']);
+
             if ($this->documentData['pub_date'] < $today) {
                 $this->documentData['published'] = 0;
             }

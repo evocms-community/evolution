@@ -5,7 +5,7 @@ use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentDelete extends DocumentCreate
@@ -63,7 +63,6 @@ class DocumentDelete extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-
     }
 
     /**
@@ -84,7 +83,6 @@ class DocumentDelete extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -98,14 +96,15 @@ class DocumentDelete extends DocumentCreate
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
 
-        $document = SiteContent::query()->withTrashed()->find($this->documentData['id']);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
 
         $children = $document->getAllChildren($document);
         $documentDeleteIds = $children;
@@ -128,17 +127,37 @@ class DocumentDelete extends DocumentCreate
                 throw new ServiceActionException("Document is used as the 'Site unauthorized page' and cannot be deleted!");
             }
         }
+
+        if ($this->events) {
+            // invoke OnBeforeDocFormSave event
+            EvolutionCMS()->invokeEvent("OnBeforeDocFormDelete", [
+                'id' => $this->documentData['id'],
+                'doc' => &$this->documentData,
+                'children' => $children,
+            ]);
+        }
+
         SiteContent::query()
             ->withTrashed()
             ->whereIn('id', $documentDeleteIds)
-            ->update(['deleted' => 1,
+            ->update([
+                'deleted' => 1,
                 'deletedby' => EvolutionCMS()->getLoginUserID(),
-                'deletedon' => time()]);
+                'deletedon' => time()
+            ]);
 
+        if ($this->events) {
+            // invoke OnDocFormSave event
+            EvolutionCMS()->invokeEvent("OnDocFormDelete", [
+                'id' => $this->documentData['id'],
+                'children' => $children
+            ]);
+        }
 
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
+
         return $document;
     }
 
@@ -159,6 +178,4 @@ class DocumentDelete extends DocumentCreate
         $this->validateErrors = $validator->errors()->toArray();
         return !$validator->fails();
     }
-
-
 }

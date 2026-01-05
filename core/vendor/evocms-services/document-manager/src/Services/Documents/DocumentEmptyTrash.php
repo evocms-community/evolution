@@ -4,9 +4,11 @@ use EvolutionCMS\DocumentManager\Interfaces\DocumentServiceInterface;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Interfaces\ServiceInterface;
+use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
+use EvolutionCMS\Models\SiteTmplvarContentvalue;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentEmptyTrash implements DocumentServiceInterface
@@ -38,8 +40,7 @@ class DocumentEmptyTrash implements DocumentServiceInterface
      */
     public function getValidationRules(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -47,8 +48,7 @@ class DocumentEmptyTrash implements DocumentServiceInterface
      */
     public function getValidationMessages(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -62,42 +62,54 @@ class DocumentEmptyTrash implements DocumentServiceInterface
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
 
+        $ids = SiteContent::query()
+            ->withTrashed()
+            ->where('deleted', 1)
+            ->pluck('id')
+            ->toArray();
 
-        $ids = \EvolutionCMS\Models\SiteContent::query()->withTrashed()->where('deleted', 1)->pluck('id')->toArray();
         if ($this->events) {
             // invoke OnBeforeEmptyTrash event
-            EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash",
-                array(
-                    "ids" => $ids
-                ));
+            EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash", [
+                "ids" => $ids
+            ]);
         }
+
         // remove the document groups link.
-        \EvolutionCMS\Models\DocumentGroup::query()->whereIn('document', $ids)->delete();
+        DocumentGroup::query()
+            ->whereIn('document', $ids)
+            ->delete();
 
         // remove the TV content values.
-        \EvolutionCMS\Models\SiteTmplvarContentvalue::query()->whereIn('contentid', $ids)->delete();
+        SiteTmplvarContentvalue::query()
+            ->whereIn('contentid', $ids)
+            ->delete();
 
         //'undelete' the document.
-        \EvolutionCMS\Models\SiteContent::query()->withTrashed()->where('deleted', 1)->forceDelete();
+        SiteContent::query()->withTrashed()
+            ->where('deleted', 1)
+            ->forceDelete();
 
-        // invoke OnEmptyTrash event
         if ($this->events) {
-            EvolutionCMS()->invokeEvent("OnEmptyTrash",
-                array(
-                    "ids" => $ids
-                ));
+            // invoke OnEmptyTrash event
+            EvolutionCMS()->invokeEvent("OnEmptyTrash", [
+                "ids" => $ids
+            ]);
         }
+
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
-        return SiteContent::query()->withTrashed()->first();
+
+        return SiteContent::query()
+            ->withTrashed()
+            ->first();
     }
 
     /**
@@ -115,6 +127,4 @@ class DocumentEmptyTrash implements DocumentServiceInterface
     {
         return true;
     }
-
-
 }
