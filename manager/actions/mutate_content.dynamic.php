@@ -8,6 +8,7 @@ $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
 $pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
 $add_path = $sd . $sb . $pg;
+
 /*******************/
 global $content, $richtexteditorIds, $richtexteditorOptions;
 $richtexteditorIds = array();
@@ -102,7 +103,12 @@ if(!empty ($id)) {
 }
 
 // restore saved form
-$formRestored = $modx->getManagerApi()->loadFormValues();
+$formRestored = false;
+if($_GET['r'] == 1) {
+    $formRestored = $modx->getManagerApi()->loadFormValues();
+    unset($_POST['a']);
+    unset($_POST['id']);
+}
 if(isset($_REQUEST['newtemplate'])) {
     $formRestored = true;
 }
@@ -484,7 +490,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 
       <?php
       if (get_by_key($content, 'type') === 'reference' || $modx->getManagerApi()->action == '72') {
-          $ResourceManagerLoaded = true;
+          $ResourceManagerLoaded = true; // ?
       }
       ?>
       /* ]]> */

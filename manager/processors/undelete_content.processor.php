@@ -38,34 +38,26 @@ if (!$document->deletedon) {
     $modx->webAlertAndQuit("Couldn't find document to determine it's date of deletion!");
 }
 
-$children = $document->getAllChildren($document);
+// Run undeleter
+try {
+    $document = \DocumentManager::undelete(['id' => $id]);
+} catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+    // \Log::error('Unexpected error: ' . $e->getMessage());
 
-$documentDeleteIds = $children;
-array_unshift($documentDeleteIds, $id);
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+    return;
+} catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+    // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-$site_content_table = (new \EvolutionCMS\Models\SiteContent())->getTable();
-DB::table($site_content_table)
-    ->whereIn('id', $documentDeleteIds)
-    ->update([
-        'deleted' => 0,
-        'deletedby' => 0,
-        'deletedon' => 0,
-    ]);
-
-$modx->invokeEvent(
-    "OnDocFormUnDelete",
-    array(
-        "id" => $id,
-        "children" => $children,
-    )
-);
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+    return;
+}
 
 // Set the item name for logger
 $_SESSION['itemname'] = $document->pagetitle;
 
-// empty cache
-$modx->clearCache('full');
-
 // finished emptying cache - redirect
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
+$header = "Location: index.php?a=3&r=1&id={$pid}{$add_path}";
 header($header);
