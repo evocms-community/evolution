@@ -21,8 +21,6 @@ $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon
 $pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
 $add_path = $sd . $sb . $pg;
 
-/*****************************/
-
 // check permissions on the document
 $udperms = new EvolutionCMS\Legacy\Permissions();
 $udperms->user = $modx->getLoginUserID('mgr');
@@ -33,56 +31,26 @@ if (!$udperms->checkPermissions()) {
     $modx->webAlertAndQuit($_lang["access_permission_denied"]);
 }
 
-$children = $document->getAllChildren($document);
+// Run deleter
+try {
+    $document = \DocumentManager::delete(['id' => $id]);
+} catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+    // \Log::error('Unexpected error: ' . $e->getMessage());
 
-// invoke OnBeforeDocFormDelete event
-$modx->invokeEvent("OnBeforeDocFormDelete",
-    array(
-        "id" => $id,
-        "children" => $children
-    ));
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+    return;
+} catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+    // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-$documentDeleteIds = $children;
-array_unshift($documentDeleteIds, $id);
-
-foreach ($documentDeleteIds as $deleteId) {
-    if ($modx->getConfig('site_start') == $deleteId) {
-        $modx->webAlertAndQuit("Document is 'Site start' and cannot be deleted!");
-    }
-
-    if ($modx->getConfig('site_unavailable_page') == $deleteId) {
-        $modx->webAlertAndQuit("Document is used as the 'Site unavailable page' and cannot be deleted!");
-    }
-
-    if ($modx->getConfig('error_page') == $deleteId) {
-        $modx->webAlertAndQuit("Document is used as the 'Site error page' and cannot be deleted!");
-    }
-
-    if ($modx->getConfig('unauthorized_page') == $deleteId) {
-        $modx->webAlertAndQuit("Document is used as the 'Site unauthorized page' and cannot be deleted!");
-    }
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+    return;
 }
-
-$site_content_table = (new \EvolutionCMS\Models\SiteContent())->getTable();
-DB::table($site_content_table)
-    ->whereIn('id', $documentDeleteIds)
-    ->update(['deleted' => 1,
-        'deletedby'=>$modx->getLoginUserID('mgr'),
-        'deletedon'=>time()]);
-
-// invoke OnDocFormDelete event
-$modx->invokeEvent("OnDocFormDelete",
-    array(
-        "id" => $id,
-        "children" => $children
-    ));
 
 // Set the item name for logger
 $_SESSION['itemname'] = $document->pagetitle;
 
-// empty cache
-$modx->clearCache('full');
-
 // finished emptying cache - redirect
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
+$header = "Location: index.php?a=3&r=1&id={$pid}{$add_path}";
 header($header);

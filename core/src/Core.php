@@ -446,7 +446,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         }
 
         if ($type === 'REDIRECT_JS') {
-            echo sprintf("<script>window.location.href='%s';</script>", $url);
+            echo sprintf('<script>window.location.href="%s";</script>', $url);
             exit;
         }
 
@@ -3151,7 +3151,7 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         } elseif (!$url) {
             $fnc = 'history.back(-1);';
         } else {
-            $fnc = "window.location.href='" . addslashes($url) . "';";
+            $fnc = 'window.location.href="' . addslashes($url) . '";';
         }
 
         $style = '';
@@ -3169,23 +3169,25 @@ class Core extends AbstractLaravel implements Interfaces\CoreInterface
         echo '<!DOCTYPE html>
             <html lang="' . $lang_attribute . '" dir="' . $textdir . '">
                 <head>
-                <title>Evolution CMS :: Alert</title>
-                <meta http-equiv="Content-Type" content="text/html; charset=' . $manager_charset . ';">
-                ' . $style . "
-                <script>
-                    function __alertQuit() {
-                        var el = document.querySelector('p');
-                        alert(el.innerHTML);
-                        el.remove();
-                        " . $fnc . "
-                    }
-                    window.setTimeout(__alertQuit, 100);
-                </script>
-            </head>
-            <body>
-                <p>" . $msg . '</p>
-            </body>
-        </html>';
+                    <title>Evolution CMS :: Alert</title>
+                    <meta http-equiv="Content-Type" content="text/html; charset=' . $manager_charset . ';" />
+                    ' . $style . '
+                    <script>
+                        function __alertQuit() {
+                            var el = document.querySelector(\'body > p\');
+                            if(el) {
+                                alert(el.innerHTML);
+                                el.remove();
+                            }
+                            ' . $fnc . '
+                        }
+                        window.setTimeout(__alertQuit, 50);
+                    </script>
+                </head>
+                <body>
+                    <p>' . $msg . '</p>
+                </body>
+            </html>';
         exit;
     }
 

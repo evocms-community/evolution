@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Daten der Ressource anzeigen';
 $_lang["documentation"] = 'Dokumentation';
 
 $_lang["duplicate"] = 'Duplizieren';
-$_lang["duplicate_alias_found"] = 'Die Ressource „%s“ verwendet bereits den Alias „%s“. Bitte geben Sie einen eindeutigen Alias ein.';
+$_lang["duplicate_alias_found"] = 'Die Ressource <strong>:docid</strong> verwendet bereits den Alias <strong>:alias</strong>. Bitte geben Sie einen eindeutigen Alias ein.';
 $_lang["duplicate_template_alias_found"] = 'Die Vorlage \'%s\' verwendet bereits den URL-Alias \'%s\'. Bitte geben Sie einen eindeutigen Alias ein.';
 $_lang["duplicate_alias_message"] = 'Wählen Sie „ja“, um zweideutige Alias-Namen zu erlauben. <b>Hinweis:</b> Diese Option sollte zusammen mit der Option „Benutzerfreundliche URLs“ verwendet werden, um etwaige Probleme bei der Ressourcen-Referenzierung zu vermeiden.';
 $_lang["duplicate_alias_title"] = 'Doppelte Aliase zulassen';
@@ -774,9 +774,9 @@ $_lang["import_parent_resource"] = 'Container:';
 $_lang["update_tree"] = 'Baue den Baum wieder auf';
 $_lang["update_tree_description"] = ' <ul>
 <li>- Entwurfsmuster für eine geschlossene Tabelle, das die Arbeit mit dem Dokumentenbaum bequemer und schneller macht </li>
-<li>- Wenn die Daten im Baum nicht über Modelle aktualisiert werden, besteht die Möglichkeit einer falschen Verknüpfung von Dokumenten in der Datenbank</li> 
+<li>- Wenn die Daten im Baum nicht über Modelle aktualisiert werden, besteht die Möglichkeit einer falschen Verknüpfung von Dokumenten in der Datenbank</li>
 <li>- Diese Operation behebt das Problem, wenn site_content nicht über das Modell aktualisiert wird (speichern, erstellen) und die Verknüpfungen (Closure-Tabelle) nicht aktualisiert werden. </li>
-<li>- Dieser Vorgang kann auch im CLI-Modus mit dem Befehl "php artisan closuretable: rebuild" durchgeführt werden.</li> 
+<li>- Dieser Vorgang kann auch im CLI-Modus mit dem Befehl "php artisan closuretable: rebuild" durchgeführt werden.</li>
 </ul>';
 $_lang["update_tree_danger"] = 'Wenn Sie mehr als 1000 Ressourcen haben, ist es besser, diesen Vorgang im CLI-Modus mit dem Befehl \'php artisan closuretable: rebuild\' durchzuführen.';
 $_lang["update_tree_time"] = 'Neuaufbau des Baums abgeschlossen. Dokumente verarbeitet: <b>%s</b><br>Der Import hat <b>%s</b>Sekunden gedauert.';

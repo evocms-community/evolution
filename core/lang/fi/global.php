@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Sivu';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Tee kopio';
-$_lang["duplicate_alias_found"] = 'Sivu nimeltä \'%s\' käyttää jo aliasta \'%s\'. Anna sivulle jokin muu alias.';
+$_lang["duplicate_alias_found"] = 'Sivu nimeltä <strong>:docid</strong> käyttää jo aliasta <strong>:alias</strong>. Anna sivulle jokin muu alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Sallitaanko saman nimisten aliaksien käyttö useassa eri sivuissa. <strong>HUOMAA:</strong> Asetuksen käyttö on turvallista vain jos samanaikaisesti käytetään myös selkokielisiä aliaspolkuja.';
 $_lang["duplicate_alias_title"] = 'Salli saman nimiset aliakset:';

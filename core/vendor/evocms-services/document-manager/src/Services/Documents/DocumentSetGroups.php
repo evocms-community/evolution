@@ -2,9 +2,10 @@
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
+use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentSetGroups extends DocumentCreate
@@ -62,7 +63,6 @@ class DocumentSetGroups extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-
     }
 
     /**
@@ -83,7 +83,6 @@ class DocumentSetGroups extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -97,13 +96,11 @@ class DocumentSetGroups extends DocumentCreate
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
-
 
         $new_groups = [];
         // process the new input
@@ -113,8 +110,10 @@ class DocumentSetGroups extends DocumentCreate
         }
 
         // grab the current set of permissions on this document the user can access
-        $documentGroups = \EvolutionCMS\Models\DocumentGroup::select('id', 'document_group')
-            ->where('document', $this->documentData['id'])->get();
+        $documentGroups = DocumentGroup::query()
+            ->select('id', 'document_group')
+            ->where('document', $this->documentData['id'])
+            ->get();
 
         $old_groups = [];
         foreach ($documentGroups as $documentGroup) {
@@ -131,17 +130,22 @@ class DocumentSetGroups extends DocumentCreate
             }
         }
         if (!empty($insertions)) {
-            \EvolutionCMS\Models\DocumentGroup::query()->insert($insertions);
+            DocumentGroup::query()
+                ->insert($insertions);
         }
         if (!empty($old_groups)) {
-            \EvolutionCMS\Models\DocumentGroup::query()->whereIn('id', $old_groups)->delete();
+            DocumentGroup::query()
+                ->whereIn('id', $old_groups)
+                ->delete();
         }
 
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
 
-        return SiteContent::query()->withTrashed()->find($this->documentData['id']);
+        return SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
     }
 
     /**
@@ -161,6 +165,4 @@ class DocumentSetGroups extends DocumentCreate
         $this->validateErrors = $validator->errors()->toArray();
         return !$validator->fails();
     }
-
-
 }

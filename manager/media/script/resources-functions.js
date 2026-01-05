@@ -20,7 +20,8 @@ function actionDisableElement(t) {
     jQuery.get($t.data('disabled') ? $t.data('enable-href') : $t.data('disable-href'), function (data) {
         $row.fadeTo(100, 1);
 
-        /__alertQuit\(\)/.test(data) && parent.modx.alert(data.match(/\<body\>(.*?)\<\/body\>/s)[0]);
+        // if '__alertQuit' exists show alert with text from BODY > P
+        /__alertQuit\(\)/.test(data) && parent.modx.alert(data.match(/<body>\s*<p>(.*?)<\/p>\s*<\/body>/s)?.[1] || '');
 
         if ($t.data('disabled')) {
             $t.data('disabled', 0);

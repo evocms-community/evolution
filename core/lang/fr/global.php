@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Afficher les données de la Ressource';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Dupliquer';
-$_lang["duplicate_alias_found"] = 'La Ressource «%s» utilise déjà l\'alias «%s». Veuillez entrer un alias unique.';
+$_lang["duplicate_alias_found"] = 'La Ressource <strong>:docid</strong> utilise déjà l\'alias <strong>:alias</strong>. Veuillez entrer un alias unique.';
 $_lang["duplicate_template_alias_found"] = 'Le modèle \'%s\' utilise déjà l’alias d’URL \'%s\'. Veuillez utiliser un alias unique.';
 $_lang["duplicate_alias_message"] = 'Choisissez «Oui» pour autoriser la création d\'alias identiques. <b>NOTE: Pour éviter des problèmes de référencement des Ressources, cette option ne doit être activée que si l\'option «Chemin d\'accès pour les alias simples» est également activée.</b>';
 $_lang["duplicate_alias_title"] = 'Autoriser les doublons d\'alias:';
@@ -1178,7 +1178,7 @@ Mot de passe: [+pwd+]
 
 Une fois connecté au Gestionnaire de Contenu ([+surl+]), vous pourrez changer votre mot de passe.
 
-Salutations, 
+Salutations,
 L\'administrateur du site';
 $_lang["system_email_webreminder"] = 'Bonjour [+uid+]\n\nPour activer votre nouveau mot de passe, cliquez sur le lien suivant:\n\n[+surl+]\n\nSi tout se passe normalement, vous pourrez utiliser le mot de passe suivant pour vous identifier:\n\nMot de passe:[+pwd+]\n\nSi vous n\'aviez pas demandé cet email, alors n\'en tenez pas compte.\n\nSalutations,\nL\'administrateur du site';
 $_lang["system_email_websignup"] = 'Bonjour [+uid+] \n\nVoici vos paramètres de connexion pour [+sname+]:\n\nNom d\'utilisateur: [+uid+]\nMot de passe: [+pwd+]\n\nUne fois connecté en tant que [+sname+] ([+surl+]), vous pourrez changer votre mot de passe.\n\nSalutations,\nL\'administrateur du site';

@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Преглед на данните в докумен
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Дублирайте';
-$_lang["duplicate_alias_found"] = 'Документ \'%s\' използва вече псевдоним \'%s\'. Моля, въведете уникален псевдоним.';
+$_lang["duplicate_alias_found"] = 'Документ <strong>:docid</strong> използва вече псевдоним <strong>:alias</strong>. Моля, въведете уникален псевдоним.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Тук можете да изберете \'Да\' , за да разрешите съхранението на дублирани псевдоними. <b>ЗАБЕЛЕЖКА: Тази опция трябва да се използва след избирането на  \'Да\' на \'Път на псевдонима\', за да се избегнат проблемите при обръщение към документа.</b>';
 $_lang["duplicate_alias_title"] = 'Разрешете дублиране на псевдонимите:';

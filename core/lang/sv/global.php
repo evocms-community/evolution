@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Visa resursdata';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Duplicera';
-$_lang["duplicate_alias_found"] = 'Resursen "%s" använder redan URL-aliaset "%s". Ange ett unikt URL-alias.';
+$_lang["duplicate_alias_found"] = 'Resursen <strong>:docid</strong> använder redan URL-aliaset <strong>:alias</strong>. Ange ett unikt URL-alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Välj "Ja" för att tillåta att dubletter på URL-alias sparas.<br /><b>Notera: Den här inställningen bör användas med "Vänliga URL-aliassökvägar" satt till "Ja" för att undvika problem med refereringen av resurser.</b>';
 $_lang["duplicate_alias_title"] = 'Tillåt dubletter på URL-alias';

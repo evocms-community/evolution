@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Vis dokumentdata';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = 'Dupliser';
-$_lang["duplicate_alias_found"] = 'Dokumentet \'%s\' bruker allerede aliaset \'%s\'. Angie et unikt alias.';
+$_lang["duplicate_alias_found"] = 'Dokumentet <strong>:docid</strong> bruker allerede aliaset <strong>:alias</strong>. Angie et unikt alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Her kan du velge \'Ja\' for å tillate at duplikate alias lagres.<br /><b>NB: Denne innstillingen bør brukes med \'Vanlige aliasøkestier\'-innstillningen satt til \'Ja\' for å unngå problemer med refereringen av dokumenter.</b>';
 $_lang["duplicate_alias_title"] = 'Tillat duplikate alias.';

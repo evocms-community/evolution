@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = 'Pokaż dane dokumentu';
 $_lang["documentation"] = 'Dokumentacja';
 
 $_lang["duplicate"] = 'Kopiuj';
-$_lang["duplicate_alias_found"] = 'Dokument \'%s\' już używa aliasu \'%s\'. Proszę wprowadzić unikalny alias.';
+$_lang["duplicate_alias_found"] = 'Dokument <strong>:docid</strong> już używa aliasu <strong>:alias</strong>. Proszę wprowadzić unikalny alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Wybierz \'tak\' aby pozwolić na zapisywanie takich samych aliasów. <b>Uwaga: Ta opcja powinna być używana z opcją \'Przyjazne ścieżki aliasów\' ustawioną na \'tak\' aby uniknąć problemów przy odwołaniach do dokumentów.</b>';
 $_lang["duplicate_alias_title"] = 'Zezwalaj na identyczne aliasy';

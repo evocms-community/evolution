@@ -4,7 +4,7 @@ use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentUndelete extends DocumentCreate
@@ -62,7 +62,6 @@ class DocumentUndelete extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-
     }
 
     /**
@@ -83,7 +82,6 @@ class DocumentUndelete extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -97,31 +95,49 @@ class DocumentUndelete extends DocumentCreate
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
 
-        $document = SiteContent::withTrashed()->find($this->documentData['id']);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
 
         $children = $document->getAllChildren($document);
-
         $documentDeleteIds = $children;
         array_unshift($documentDeleteIds, $this->documentData['id']);
 
+        if ($this->events) {
+            // invoke OnBeforeDocFormUnDelete event
+            EvolutionCMS()->invokeEvent("OnBeforeDocFormUnDelete", [
+                'id' => $this->documentData['id'],
+                'doc' => &$this->documentData,
+                'children' => $children,
+            ]);
+        }
 
         SiteContent::withTrashed()
             ->whereIn('id', $documentDeleteIds)
-            ->update(['deleted' => 0,
+            ->update([
+                'deleted' => 0,
                 'deletedby' => 0,
-                'deletedon' => 0]);
+                'deletedon' => 0
+            ]);
 
+        if ($this->events) {
+            // invoke OnDocFormUnDelete event
+            EvolutionCMS()->invokeEvent("OnDocFormUnDelete", [
+                'id' => $this->documentData['id'],
+                'children' => $children,
+            ]);
+        }
 
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
+
         return $document;
     }
 
@@ -142,7 +158,4 @@ class DocumentUndelete extends DocumentCreate
         $this->validateErrors = $validator->errors()->toArray();
         return !$validator->fails();
     }
-
-
-
 }

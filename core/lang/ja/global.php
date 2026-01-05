@@ -685,7 +685,7 @@ $_lang["doc_data_title"] = 'リソースの詳細情報';
 $_lang["documentation"] = '参考ドキュメント';
 
 $_lang["duplicate"] = '複製';
-$_lang["duplicate_alias_found"] = 'リソース「%s」が「%s」というエイリアスをすでに使用しています。エイリアスを変更してください。';
+$_lang["duplicate_alias_found"] = 'リソース「<strong>:docid</strong>」が「<strong>:alias</strong>」というエイリアスをすでに使用しています。エイリアスを変更してください。';
 $_lang["duplicate_template_alias_found"] = 'テンプレート「%s」が 「%s」というエイリアスをすでに使用しています。エイリアスを変更してください。';
 $_lang["duplicate_alias_message"] = '同じ階層内でエイリアス名の重複を許可します。この場合、エイリアス名をURL表現に用いると問題が発生する可能性があるため、ご注意ください。';
 $_lang["duplicate_alias_title"] = '重複エイリアスを許可';

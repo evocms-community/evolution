@@ -21,8 +21,6 @@ $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon
 $pg = isset($_REQUEST['page']) ? '&page=' . (int) $_REQUEST['page'] : '';
 $add_path = $sd . $sb . $pg;
 
-/***********************************/
-
 // check permissions on the document
 $udperms = new EvolutionCMS\Legacy\Permissions();
 $udperms->user = $modx->getLoginUserID('mgr');
@@ -33,26 +31,25 @@ if (!$udperms->checkPermissions()) {
     $modx->webAlertAndQuit($_lang["access_permission_denied"]);
 }
 
-// update the document
-\EvolutionCMS\Models\SiteContent::query()->find($id)->update(array(
-    'published' => 0,
-    'pub_date' => 0,
-    'unpub_date' => 0,
-    'editedby' => $modx->getLoginUserID('mgr'),
-    'editedon' => time(),
-    'publishedby' => 0,
-    'publishedon' => 0,
-));
+// Run unpublisher
+try {
+    $document = \DocumentManager::unpublish(['id' => $id]);
+} catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+    // \Log::error('Unexpected error: ' . $e->getMessage());
 
-// invoke OnDocUnPublished  event
-$modx->invokeEvent("OnDocUnPublished", array("docid" => $id));
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+    return;
+} catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+    // \Log::error('Validation error: ' . $e->getValidationErrors());
+
+    $modx->getManagerApi()->saveFormValues(4);
+    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+    return;
+}
 
 // Set the item name for logger
-$_SESSION['itemname'] = $content['pagetitle'];
+$_SESSION['itemname'] = $document->pagetitle;
 
-// empty cache
-$modx->clearCache('full');
-
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
-
+$header = "Location: index.php?a=3&r=1&id={$pid}{$add_path}";
 header($header);

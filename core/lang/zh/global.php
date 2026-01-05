@@ -681,7 +681,7 @@ $_lang["doc_data_title"] = '查看文档数据';
 $_lang["documentation"] = 'Documentation';
 
 $_lang["duplicate"] = '复制';
-$_lang["duplicate_alias_found"] = 'Resource \'%s\' is already using the URL alias \'%s\'. Please enter a unique URL alias.';
+$_lang["duplicate_alias_found"] = 'Resource <strong>:docid</strong> is already using the URL alias <strong>:alias</strong>. Please enter a unique URL alias.';
 $_lang["duplicate_template_alias_found"] = 'Template \'%s\' is already using the URL alias \'%s\'. Please enter a unique alias.';
 $_lang["duplicate_alias_message"] = 'Select \'yes\' to allow duplicate URL aliases to be saved. <b>NOTE: This option should be used with \'Friendly URL alias path\' option set to \'Yes\' in order to avoid problems when referencing a Resource.</b>';
 $_lang["duplicate_alias_title"] = '允许复制别名:';
