@@ -43,11 +43,15 @@ $resourceArray = [
 ];
 
 // get document groups for current user
-$docgrp = array_unique(\EvolutionCMS\Models\MemberGroup::query()
+$userGroups = \EvolutionCMS\Models\MemberGroup::query()
         ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
-        ->where('member_groups.member', $modx->getLoginUserID('mgr'))->pluck('documentgroup')->toArray());
+        ->where('member_groups.member', $modx->getLoginUserID('mgr'))
+        ->pluck('documentgroup')
+        ->toArray();
+$userGroups = array_unique($userGroups);
 
-$document_groups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on')
+// get passed document groups
+$documentGroups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on')
     ? []
     : get_by_key($_POST, 'docgroups', [], 'is_array');
 
@@ -57,9 +61,9 @@ if ($_POST['mode'] == '73' || $_POST['mode'] == '27') {
 }
 
 // ensure that user has not made this document inaccessible to themselves
-if ($_SESSION['mgrRole'] != 1 && !empty($document_groups)) {
+if ($_SESSION['mgrRole'] != 1 && !empty($documentGroups)) {
     // every value is "number,type", have to leave only numbers
-    $document_group_list = implode(',', $document_groups);
+    $document_group_list = implode(',', $documentGroups);
     $document_group_list = array_filter(explode(',', $document_group_list), 'is_numeric');
 
     if (!empty($document_group_list)) {
@@ -150,12 +154,12 @@ switch ($actionToTake) {
             return;
         }
 
-        // create document permissions
-        if ($modx->getConfig('use_udperms') == 1) {
-            // document access permissions
-            $groupsParent = [];
+        // permissions is on
+        if ($modx->getConfig('use_udperms') == '1') {
+            // parent document access permissions
+            $parentGroups = [];
             if ($resourceArray['parent'] != 0) {
-                $groupsParent = \EvolutionCMS\Models\DocumentGroup::query()
+                $parentGroups = \EvolutionCMS\Models\DocumentGroup::query()
                     ->select('document_group', 'document')
                     ->where('document', $resourceArray['parent'])
                     ->pluck('document_group')
@@ -163,55 +167,80 @@ switch ($actionToTake) {
             }
 
             if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
-                if (!empty($document_groups)) {
-                    $new_groups = [];
-                    $groupsToInsert = [];
-                    foreach ($document_groups as $value_pair) {
-                        // first, split the pair (this is a new document, so ignore the second value
-                        [$group] = explode(',', $value_pair); // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
+                // document has groups checked
+                if (!empty($documentGroups)) {
+                    $groups = [];
+
+                    foreach ($documentGroups as $value_pair) {
+                        // first, split the pair (this is a new document, so ignore the second value $link_id)
+                        // @see actions/mutate_content.dynamic.php @ line 1418 (permissions list)
+                        [$group, $link_id] = explode(',', $value_pair);
                         $group = (int) $group;
 
-                        if ($modx->hasPermission('manage_groups')) {
-                            $new_groups[] = ['document_group' => $group, 'document' => $key];
-                            $groupsToInsert[] = $group;
-                            continue;
-                        }
-
-                        if ($modx->hasPermission('manage_document_permissions')) {
-                            if (in_array($group, $docgrp)) {
-                                $new_groups[] = ['document_group' => $group, 'document' => $key];
-                                $groupsToInsert[] = $group;
-                            }
+                        // selected $group is in $userGroups or can manage groups in general
+                        if (in_array($group, $userGroups) || $modx->hasPermission('manage_groups')) {
+                            $groups[] = $group;
                         }
                     }
 
                     if ($modx->hasPermission('manage_document_permissions')) {
-                        foreach ($groupsParent as $group) {
-                            if (!in_array($group, $docgrp)) {
-                                $new_groups[] = ['document_group' => $group, 'document' => $key];
-                                $groupsToInsert[] = $group;
+                        foreach ($parentGroups as $group) {
+                            // also add $group of parent if is in $userGroups
+                            if (!in_array($group, $userGroups)) {
+                                $groups[] = $group;
                             }
                         }
                     }
 
                     if (!$modx->hasPermission('manage_groups')) {
-                        if (!array_intersect($groupsToInsert, $docgrp)) {
-                            foreach ($groupsParent as $group) {
-                                $new_groups[] = ['document_group' => $group, 'document' => $key];
+                        // selected $groups doesn't intersect to $userGroups
+                        if (!array_intersect($groups, $userGroups)) {
+                            // add groups from parent
+                            foreach ($parentGroups as $group) {
+                                $groups[] = $group;
                             }
                         }
                     }
 
-                    if (!empty($new_groups)) {
-                        \EvolutionCMS\Models\DocumentGroup::query()
-                            ->insertOrIgnore($new_groups);
+                    try {
+                        \DocumentManager::setGroups([
+                            'id' => $document->id,
+                            'document_groups' => array_unique($groups),
+                        ]);
+                    } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+                        // \Log::error('Unexpected error: ' . $e->getMessage());
+
+                        $modx->getManagerApi()->saveFormValues(4);
+                        $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                        return;
+                    } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+                        // \Log::error('Validation error: ' . $e->getValidationErrors());
+
+                        $modx->getManagerApi()->saveFormValues(4);
+                        $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                        return;
                     }
                 }
             } else {
                 // inherit document access permissions
-                foreach ($groupsParent as $group) {
-                    \EvolutionCMS\Models\DocumentGroup::query()
-                        ->insert(['document_group' => $group, 'document' => $key]);
+                try {
+                    \DocumentManager::setGroups([
+                        'id' => $document->id,
+                        'document_groups' => $parentGroups,
+                        'check_permissions' => false, // ignore permissions
+                    ]);
+                } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+                    // \Log::error('Unexpected error: ' . $e->getMessage());
+
+                    $modx->getManagerApi()->saveFormValues(4);
+                    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    return;
+                } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+                    // \Log::error('Validation error: ' . $e->getValidationErrors());
+
+                    $modx->getManagerApi()->saveFormValues(4);
+                    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    return;
                 }
             }
         }
@@ -220,17 +249,17 @@ switch ($actionToTake) {
         if ($_POST['stay'] != '') {
             // weblink
             if ($_POST['mode'] == "72") {
-                $a = ($_POST['stay'] == '2') ? "27&id={$document['id']}" : "72&pid={$resourceArray['parent']}";
+                $a = ($_POST['stay'] == '2') ? "27&id={$document->id}" : "72&pid={$resourceArray['parent']}";
             }
 
             // document
             if ($_POST['mode'] == "4") {
-                $a = ($_POST['stay'] == '2') ? "27&id={$document['id']}" : "4&pid={$resourceArray['parent']}";
+                $a = ($_POST['stay'] == '2') ? "27&id={$document->id}" : "4&pid={$resourceArray['parent']}";
             }
 
             $header = "Location: index.php?a={$a}&r=1&stay={$_POST['stay']}";
         } else {
-            $header = "Location: index.php?a=3&r=1&id={$document['id']}";
+            $header = "Location: index.php?a=3&r=1&id={$document->id}";
         }
 
         if (headers_sent()) {
@@ -291,74 +320,37 @@ switch ($actionToTake) {
 
         // set document permissions
         if ($modx->getConfig('use_udperms') == 1) {
-            if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions']) && is_array($document_groups)) {
+            if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
+                $groups = [];
+
                 // process the new input
-                $new_groups = [];
-                foreach ($document_groups as $value_pair) {
-                    // @see actions/mutate_content.dynamic.php @ line 1138 (permissions list)
+                foreach ($documentGroups as $value_pair) {
+                    // @see actions/mutate_content.dynamic.php @ line 1418 (permissions list)
                     [$group, $link_id] = explode(',', $value_pair);
-                    if (in_array($group, $docgrp) || $modx->hasPermission('manage_groups')) {
-                        $new_groups[$group] = $link_id;
+
+                    // selected $group is in $userGroups or can manage groups in general
+                    if (in_array($group, $userGroups) || $modx->hasPermission('manage_groups')) {
+                        $groups[] = $group;
                     }
                 }
 
-                // grab the current set of permissions on this document the user can access
-                $old_groups = [];
-                $documentGroups = \EvolutionCMS\Models\DocumentGroup::query()
-                    ->select('id', 'document_group')
-                    ->where('document', $resourceArray['id'])
-                    ->get();
-                foreach ($documentGroups as $documentGroup) {
-                    if (in_array($documentGroup->document_group, $docgrp) || $modx->hasPermission('manage_groups')) {
-                        $old_groups[$documentGroup->document_group] = $documentGroup->id;
-                    }
-                }
+                try {
+                    \DocumentManager::setGroups([
+                        'id' => $document->id,
+                        'document_groups' => array_unique($groups),
+                    ]);
+                } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+                    // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                // update the permissions in the database
-                $insertions = $deletions = [];
-                foreach ($new_groups as $group => $link_id) {
-                    if (in_array($group, $docgrp) || $modx->hasPermission('manage_groups')) {
-                        if (array_key_exists($group, $old_groups)) {
-                            unset($old_groups[$group]);
-                            continue;
-                        } elseif ($link_id == 'new') {
-                            $insertions[] = [
-                                'document_group' => (int) $group,
-                                'document' => $resourceArray['id']
-                            ];
-                        }
-                    }
-                }
+                    $modx->getManagerApi()->saveFormValues(4);
+                    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    return;
+                } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+                    // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-                if (!empty($insertions)) {
-                    \EvolutionCMS\Models\DocumentGroup::query()
-                        ->insert($insertions);
-                }
-
-                if (!$modx->hasPermission('manage_groups')) {
-                    $remainingGroups = \EvolutionCMS\Models\DocumentGroup::query()
-                        ->select('document_groups.document_group')
-                        ->whereNotIn('id', $old_groups)
-                        ->where('document_groups.document', $resourceArray['id'])
-                        ->pluck('document_group')
-                        ->toArray();
-                    if (!empty($docgrp) && !array_intersect($docgrp, $remainingGroups)) {
-                        $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=27&id={$resourceArray['id']}");
-                        return;
-                    }
-                }
-
-                if (!empty($old_groups)) {
-                    \EvolutionCMS\Models\DocumentGroup::query()
-                        ->whereIn('id', $old_groups)
-                        ->delete();
-                }
-
-                // necessary to remove all permissions as document is public
-                if (empty($document_groups)) {
-                    \EvolutionCMS\Models\DocumentGroup::query()
-                        ->where('document', $resourceArray['id'])
-                        ->delete();
+                    $modx->getManagerApi()->saveFormValues(4);
+                    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    return;
                 }
             }
         }
