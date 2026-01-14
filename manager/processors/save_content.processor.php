@@ -104,7 +104,7 @@ if ($actionToTake != 'create') {
 }
 
 // check to see if the user is allowed to save the document in the place he wants to save it in
-if ($modx->getConfig('use_udperms') == 1) {
+if ($modx->getConfig('use_udperms')) {
     $parent = (int) get_by_key($_POST, 'parent', 0, 'is_scalar');
 
     if ($existingDocument && $existingDocument['parent'] != $parent) {
@@ -155,7 +155,7 @@ switch ($actionToTake) {
         }
 
         // permissions is on
-        if ($modx->getConfig('use_udperms') == '1') {
+        if ($modx->getConfig('use_udperms')) {
             // parent document access permissions
             $parentGroups = [];
             if ($resourceArray['parent'] != 0) {
@@ -167,35 +167,41 @@ switch ($actionToTake) {
             }
 
             if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
-                // document has groups checked
+                // check if document has groups checked
                 if (!empty($documentGroups)) {
                     $groups = [];
 
                     foreach ($documentGroups as $value_pair) {
                         // first, split the pair (this is a new document, so ignore the second value $link_id)
-                        // @see actions/mutate_content.dynamic.php @ line 1418 (permissions list)
+                        // @see actions/mutate_content.dynamic.php @ line 1421 (permissions list)
                         [$group, $link_id] = explode(',', $value_pair);
                         $group = (int) $group;
 
-                        // selected $group is in $userGroups or can manage groups in general
+                        // - The current user belongs to this group (in $userGroups), OR
+                        // - The user has the global 'manage_groups' permission (e.g., admin)
                         if (in_array($group, $userGroups) || $modx->hasPermission('manage_groups')) {
                             $groups[] = $group;
                         }
                     }
 
+                    // If user has 'manage_document_permissions' permission,
+                    // automatically include ALL parent document's groups — even if the user isn't in them.
+                    // This allows privileged users to inherit or assign parent-level permissions.
                     if ($modx->hasPermission('manage_document_permissions')) {
                         foreach ($parentGroups as $group) {
-                            // also add $group of parent if is in $userGroups
-                            if (!in_array($group, $userGroups)) {
-                                $groups[] = $group;
-                            }
+                            // also inherit every $group from parent
+                            $groups[] = $group;
                         }
                     }
 
+                    // If the user does NOT have 'manage_groups' permission,
+                    // and they have NO overlap between their selected groups and their own groups ($userGroups),
+                    // then fall back to inheriting ALL parent groups.
+                    // This ensures non-admin users don't accidentally remove themselves from access.
                     if (!$modx->hasPermission('manage_groups')) {
-                        // selected $groups doesn't intersect to $userGroups
+                        // Check if there's ANY common group between selected groups and user's groups
                         if (!array_intersect($groups, $userGroups)) {
-                            // add groups from parent
+                            // If no overlap, restore all parent groups to prevent lockout
                             foreach ($parentGroups as $group) {
                                 $groups[] = $group;
                             }
@@ -319,7 +325,7 @@ switch ($actionToTake) {
         }
 
         // set document permissions
-        if ($modx->getConfig('use_udperms') == 1) {
+        if ($modx->getConfig('use_udperms')) {
             if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
                 $groups = [];
 

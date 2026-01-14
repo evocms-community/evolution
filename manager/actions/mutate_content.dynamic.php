@@ -487,12 +487,6 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         s = s.replace(/\%26/g, '&'); // &
         return s;
       }
-
-      <?php
-      if (get_by_key($content, 'type') === 'reference' || $modx->getManagerApi()->action == '72') {
-          $ResourceManagerLoaded = true; // ?
-      }
-      ?>
       /* ]]> */
     </script>
     <script>
@@ -1366,17 +1360,26 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                     <?php
                     /*******************************
                      * Document Access Permissions */
-                    if($modx->getConfig('use_udperms') && $modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
-                        $groupsarray = array();
+                    if ($modx->getConfig('use_udperms') && $modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
+                        $groupsarray = [];
                         $sql = '';
 
-                        $userGroups = array_unique(\EvolutionCMS\Models\MemberGroup::query()
-                            ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
-                            ->where('member_groups.member', $modx->getLoginUserID('mgr'))->pluck('documentgroup')->toArray());
+                        // get document groups for current user
+                        $userGroups = \EvolutionCMS\Models\MemberGroup::query()
+                                ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
+                                ->where('member_groups.member', $modx->getLoginUserID('mgr'))
+                                ->pluck('documentgroup')
+                                ->toArray();
+                        $userGroups = array_unique($userGroups);
+
                         $documentId = ($modx->getManagerApi()->action == '27' ? $id : (!empty($_REQUEST['pid']) ? (int)$_REQUEST['pid'] : $content['parent']));
-                        if($documentId > 0) {
+
+                        if ($documentId > 0) {
                             // Load up, the permissions from the parent (if new document) or existing document
-                            $documentGroups = \EvolutionCMS\Models\DocumentGroup::where('document', $documentId)->get();
+                            $documentGroups = \EvolutionCMS\Models\DocumentGroup::query()
+                                ->where('document', $documentId)
+                                ->get();
+
                             foreach ($documentGroups as $documentGroup) {
                                 $groupsarray[] = $documentGroup->document_group . ',' . $documentGroup->id;
                             }
@@ -1389,7 +1392,6 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                 })
                                 ->orderBy('documentgroup_names.name')
                                 ->get();
-
                         } else {
                             // Just load up the names, we're starting clean
                             $groups = \EvolutionCMS\Models\DocumentgroupName::query()
@@ -1399,7 +1401,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         }
 
                         // retain selected doc groups between post
-                        if(isset($_POST['docgroups'])) {
+                        if (isset($_POST['docgroups'])) {
                             $groupsarray = array_merge($groupsarray, $_POST['docgroups']);
                         }
 
@@ -1410,53 +1412,58 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                             'name' => 'docgroups[]',
                             'onclick' => 'makePublic(false);',
                         );
-                        $permissions = array(); // New Permissions array list (this contains the HTML)
-                        $permissions_yes = 0; // count permissions the current mgr user has
-                        $permissions_no = 0; // count permissions the current mgr user doesn't have
+                        $permissions = []; // New Permissions array list (this contains the HTML)
 
                         // Loop through the permissions list
-                        foreach ($groups as $group){
+                        foreach ($groups as $group) {
                             $row = $group->toArray();
                             // Create an inputValue pair (group ID and group link (if it exists))
                             $inputValue = $row['id'] . ',' . ($row['link_id'] ?? 'new');
                             $inputId = 'group-' . $row['id'];
 
                             $checked = in_array($inputValue, $groupsarray);
-                            if($checked) {
+                            if ($checked) {
                                 $notPublic = true;
                             }
 
                             // Setup attributes for this Input box
                             $inputAttributes['id'] = $inputId;
                             $inputAttributes['value'] = $inputValue;
-                            if($checked) {
+
+                            if ($checked) {
                                 $inputAttributes['checked'] = 'checked';
                             } else {
                                 unset($inputAttributes['checked']);
                             }
+
                             $disabled = !(in_array($row['id'], $userGroups) || $modx->hasPermission('manage_groups'));
                             if ($disabled) {
                                 $inputAttributes['disabled'] = 'disabled';
                             } else {
                                 unset($inputAttributes['disabled']);
                             }
+
                             // Create attribute string list
-                            $inputString = array();
-                            foreach($inputAttributes as $k => $v) $inputString[] = $k . '="' . $v . '"';
+                            $inputString = [];
+                            foreach ($inputAttributes as $k => $v) {
+                                $inputString[] = $k . '="' . $v . '"';
+                            }
 
                             // Make the <input> HTML
                             $inputHTML = '<input ' . implode(' ', $inputString) . ' />';
 
-                            $permissions[] = "\t\t" . '<li>' . $inputHTML . '<label for="' . $inputId . '">' . e($row['name']) . '</label></li>';
+                            $permissions[] = '<li>' . $inputHTML . '<label for="' . $inputId . '">' . e($row['name']) . '</label></li>';
                         }
-                        if(count($userGroups) === 0 && !$modx->hasPermission('manage_groups')) {
+
+                        if (count($userGroups) === 0 && !$modx->hasAnyPermission(['manage_groups', 'manage_document_permissions'])) {
                             $permissions = [];
                         }
+
                         // See if the Access Permissions section is worth displaying...
-                        if(!empty($permissions)) {
+                        if (!empty($permissions)) {
                             // Add the "All Document Groups" item if we have rights in both contexts
-                            if($modx->hasPermission('manage_groups') || count($userGroups) == count($permissions)) {
-                                array_unshift($permissions, "\t\t" . '<li><input type="checkbox" class="checkbox" name="chkalldocs" id="groupall"' . (empty($notPublic) ? ' checked="checked"' : '') . ' onclick="makePublic(true);" /><label for="groupall" class="warning">' . $_lang['all_doc_groups'] . '</label></li>');
+                            if ($modx->hasPermission('manage_groups') || count($userGroups) == count($permissions)) {
+                                array_unshift($permissions, '<li><input type="checkbox" class="checkbox" name="chkalldocs" id="groupall"' . (empty($notPublic) ? ' checked="checked"' : '') . ' onclick="makePublic(true);" /><label for="groupall" class="warning">' . $_lang['all_doc_groups'] . '</label></li>');
                             }
                             // Output the permissions list...
                             ?>
@@ -1484,12 +1491,11 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                                       chkpub.checked = true;
                                     }
                                   }
-
                                   /* ]]> */
                                 </script>
                                 <p><?=ManagerTheme::getLexicon('access_permissions_docs_message');?></p>
                                 <ul>
-                                    <?= implode("\n", $permissions) . "\n" ?>
+                                    <?= implode("\r\n", $permissions) . "\r\n" ?>
                                 </ul>
                             </div><!--div class="tab-page" id="tabAccess"-->
                             <?php
