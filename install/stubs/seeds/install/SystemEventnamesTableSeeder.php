@@ -1,12 +1,10 @@
 <?php
-
 namespace EvolutionCMS\Installer\Install;
 
 use Illuminate\Database\Seeder;
 
 class SystemEventnamesTableSeeder extends Seeder
 {
-
     /**
      * Auto generated seed file
      *
@@ -17,14 +15,23 @@ class SystemEventnamesTableSeeder extends Seeder
         \DB::table('system_eventnames')->delete();
 
         \DB::table('system_eventnames')->insert([
+            // after
             ['name' => 'OnAfterLoadDocumentObject', 'service' => '5', 'groupname' => '',],
             ['name' => 'OnAfterMoveDocument', 'service' => '1', 'groupname' => 'Documents',],
+            // before
             ['name' => 'OnBeforeCacheUpdate', 'service' => '4', 'groupname' => '',],
             ['name' => 'OnBeforeChunkFormDelete', 'service' => '1', 'groupname' => 'Chunks',],
             ['name' => 'OnBeforeChunkFormSave', 'service' => '1', 'groupname' => 'Chunks',],
-            ['name' => 'OnBeforeDocDuplicate', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnBeforeDocFormDelete', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnBeforeDocFormSave', 'service' => '1', 'groupname' => 'Documents',],
+            // doc
+            ['name' => 'OnBeforeDocCreate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocDuplicate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocEdit', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocPublish', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocUnpublish', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocDelete', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocUndelete', 'service' => 1, 'groupname' => 'Documents',],
+            //
             ['name' => 'OnBeforeEmptyTrash', 'service' => '1', 'groupname' => 'Documents',],
             ['name' => 'OnBeforeFileBrowserCopy', 'service' => '1', 'groupname' => 'File Browser Events',],
             ['name' => 'OnBeforeFileBrowserDelete', 'service' => '1', 'groupname' => 'File Browser Events',],
@@ -52,22 +59,31 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnBeforeUserLogin', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnBeforeUserLogout', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnBeforeUserSave', 'service' => '1', 'groupname' => 'Users',],
+            //
             ['name' => 'OnCacheUpdate', 'service' => '4', 'groupname' => '',],
+            // chunk
             ['name' => 'OnChunkFormDelete', 'service' => '1', 'groupname' => 'Chunks',],
             ['name' => 'OnChunkFormPrerender', 'service' => '1', 'groupname' => 'Chunks',],
             ['name' => 'OnChunkFormRender', 'service' => '1', 'groupname' => 'Chunks',],
             ['name' => 'OnChunkFormSave', 'service' => '1', 'groupname' => 'Chunks',],
+            //
             ['name' => 'OnCreateDocGroup', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnDocDuplicate', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnDocFormDelete', 'service' => '1', 'groupname' => 'Documents',],
+            // doc form
             ['name' => 'OnDocFormPrerender', 'service' => '1', 'groupname' => 'Documents',],
             ['name' => 'OnDocFormRender', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnDocFormSave', 'service' => '1', 'groupname' => 'Documents',],
             ['name' => 'OnDocFormTemplateRender', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnDocFormUnDelete', 'service' => '1', 'groupname' => 'Documents',],
-            ['name' => 'OnDocPublished', 'service' => '5', 'groupname' => '',],
-            ['name' => 'OnDocUnPublished', 'service' => '5', 'groupname' => '',],
+            // doc
+            ['name' => 'OnDocCreate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocDuplicate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocEdit', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocPublish', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocUnpublish', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocDelete', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocUndelete', 'service' => 1, 'groupname' => 'Documents',],
+            //
             ['name' => 'OnEmptyTrash', 'service' => '1', 'groupname' => 'Documents',],
+            // file
             ['name' => 'OnFileBrowserCopy', 'service' => '1', 'groupname' => 'File Browser Events',],
             ['name' => 'OnFileBrowserDelete', 'service' => '1', 'groupname' => 'File Browser Events',],
             ['name' => 'OnFileBrowserInit', 'service' => '1', 'groupname' => 'File Browser Events',],
@@ -76,6 +92,7 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnFileBrowserUpload', 'service' => '1', 'groupname' => 'File Browser Events',],
             ['name' => 'OnFileManagerSettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
             ['name' => 'OnFileManagerUpload', 'service' => '1', 'groupname' => '',],
+            //
             ['name' => 'OnFriendlyURLSettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
             ['name' => 'OnInterfaceSettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
             ['name' => 'OnLoadDocumentObject', 'service' => '5', 'groupname' => '',],
@@ -85,6 +102,7 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnLogEvent', 'service' => '1', 'groupname' => 'Log Event',],
             ['name' => 'OnMakeDocUrl', 'service' => '5', 'groupname' => '',],
             ['name' => 'OnMakePageCacheKey', 'service' => '4', 'groupname' => '',],
+            // manager
             ['name' => 'OnManagerFrameLoader', 'service' => '2', 'groupname' => '',],
             ['name' => 'OnManagerLoginFormPrerender', 'service' => '2', 'groupname' => '',],
             ['name' => 'OnManagerLoginFormRender', 'service' => '2', 'groupname' => '',],
@@ -101,6 +119,7 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnManagerWelcomeHome', 'service' => '2', 'groupname' => '',],
             ['name' => 'OnManagerWelcomePrerender', 'service' => '2', 'groupname' => '',],
             ['name' => 'OnManagerWelcomeRender', 'service' => '2', 'groupname' => '',],
+            //
             ['name' => 'OnMiscSettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
             ['name' => 'OnModFormDelete', 'service' => '1', 'groupname' => 'Modules',],
             ['name' => 'OnModFormPrerender', 'service' => '1', 'groupname' => 'Modules',],
@@ -110,10 +129,12 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnPageUnauthorized', 'service' => '1', 'groupname' => '',],
             ['name' => 'OnParseDocument', 'service' => '5', 'groupname' => '',],
             ['name' => 'OnParseProperties', 'service' => '5', 'groupname' => '',],
+            // plugin
             ['name' => 'OnPluginFormDelete', 'service' => '1', 'groupname' => 'Plugins',],
             ['name' => 'OnPluginFormPrerender', 'service' => '1', 'groupname' => 'Plugins',],
             ['name' => 'OnPluginFormRender', 'service' => '1', 'groupname' => 'Plugins',],
             ['name' => 'OnPluginFormSave', 'service' => '1', 'groupname' => 'Plugins',],
+            //
             ['name' => 'OnRichTextEditorInit', 'service' => '1', 'groupname' => 'RichText Editor',],
             ['name' => 'OnRichTextEditorRegister', 'service' => '1', 'groupname' => 'RichText Editor',],
             ['name' => 'OnSecuritySettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
@@ -132,6 +153,7 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnTVFormPrerender', 'service' => '1', 'groupname' => 'Template Variables',],
             ['name' => 'OnTVFormRender', 'service' => '1', 'groupname' => 'Template Variables',],
             ['name' => 'OnTVFormSave', 'service' => '1', 'groupname' => 'Template Variables',],
+            // user
             ['name' => 'OnUserAuthentication', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnUserChangePassword', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnUserCreateGroup', 'service' => '1', 'groupname' => 'Users',],
@@ -142,6 +164,7 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnUserLogout', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnUserSave', 'service' => '1', 'groupname' => 'Users',],
             ['name' => 'OnUserSettingsRender', 'service' => '1', 'groupname' => 'System Settings',],
+            //
             ['name' => 'OnWebPageComplete', 'service' => '5', 'groupname' => '',],
             ['name' => 'OnWebPageInit', 'service' => '5', 'groupname' => '',],
             ['name' => 'OnWebPagePrerender', 'service' => '5', 'groupname' => '',],
