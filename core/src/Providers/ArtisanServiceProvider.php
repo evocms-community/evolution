@@ -61,6 +61,7 @@ class ArtisanServiceProvider extends ServiceProvider
         'SiteUpdate' => 'command.siteupdate',
         'Extras' => 'command.extras',
         'RouteList' => 'command.route.list',
+        'CommandMake' => 'command.make.command',
     ];
 
     /**
@@ -425,6 +426,18 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.route.list', function ($app) {
             return new Console\RouteListCommand($app->router);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerCommandMakeCommand()
+    {
+        $this->app->singleton('command.make.command', function ($app) {
+            return new Console\Commands\MakeCommandCommand($app['files']);
         });
     }
 
