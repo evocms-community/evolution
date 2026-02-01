@@ -8,6 +8,7 @@
  * Author: markwillis82
  * Date: 7/7/15
  * update 64j 8/11/17
+ * update ProjectSoft 2026-02-01
  */
 
 // Handles selection from Modx-Ressource-Tree
@@ -1081,6 +1082,7 @@ var autoComplt = (function() {
   return publicProps;
 }());
 
+tinymce.PluginManager.requireLangPack("modxlink","ru");
 tinymce.PluginManager.add('modxlink', function(editor) {
   function createLinkList(callback)
   {
