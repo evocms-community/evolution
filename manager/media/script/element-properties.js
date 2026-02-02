@@ -42,8 +42,8 @@ ElementProperties.prototype = {
                     ar = dp[p].match(/(?:[^\=]|==)+/g); // split by =, not by ==
                     key = ar[0];        // param
                     ar = (ar[1] + '').split(';');
-                    label = ar[0];	// label
-                    dt = ar[1];	    // data type
+                    label = ar[0];    // label
+                    dt = ar[1];        // data type
                     value = this.decode((ar[2]) ? ar[2] : '');
 
                     // convert values to new json-format
@@ -118,7 +118,8 @@ ElementProperties.prototype = {
 
                 switch (type) {
                     case 'int':
-                        c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                    case 'number':
+                        c = '<input type="number" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
                         break;
                     case 'menu':
                         c = '<select name="prop_' + key + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)">';
@@ -181,6 +182,28 @@ ElementProperties.prototype = {
                         break;
                     case 'textarea':
                         c = '<textarea name="prop_' + key + '" rows="4" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)">' + value + '</textarea>';
+                        break;
+                    case 'color':
+                        c = '<label><input type="color" name="prop_' + key + '" value="' + value + '" size="30" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" /></label>&nbsp;';
+                        break;
+                    case 'date':
+                        c = '<input type="date" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
+                    case 'datetime':
+                    case 'datetime-local':
+                        c = '<input type="datetime-local" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
+                    case 'image':
+                        c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+                        c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        c += '<input type="button" value="Вставить" onclick="BrowseServer(\'prop_' + key + '\')">';
+                        c += '</div>';
+                        break;
+                    case 'file':
+                        c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+                        c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        c += '<input type="button" value="Вставить" onclick="BrowseFileServer(\'prop_' + key + '\')">';
+                        c += '</div>';
                         break;
                     default:  // string
                         c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="' + this.name + '.setParameter(\'' + key + '\',\'' + type + '\',this)" />';
