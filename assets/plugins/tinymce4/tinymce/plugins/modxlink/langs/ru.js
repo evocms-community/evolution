@@ -1,0 +1,1 @@
+tinymce.addI18n("ru",{"Search in EVO":"\u041f\u043e\u0438\u0441\u043a \u0432 EVO"});
