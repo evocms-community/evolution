@@ -201,9 +201,10 @@ function bold($cond = false)
                 value = value.replace(/\"/g, '&quot;');
 
                 switch (type) {
-                    case 'int':
-                        c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
-                        break;
+					case 'int':
+					case 'number':
+						c = '<input type="number" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						break;
                     case 'menu':
                         c = '<select name="prop_' + key + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)">';
                         if (currentParams[key] === options) {
@@ -265,6 +266,27 @@ function bold($cond = false)
                         break;
                     case 'textarea':
                         c = '<textarea name="prop_' + key + '" rows="4" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)">' + value + '</textarea>';
+                        break;
+					case 'color':
+						c = '<input type="color" name="prop_' + key + '" value="' + value + '" size="30" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						break;
+					case 'image':
+						c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+						c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						c += '<input type="button" value="<?= $_lang['insert']; ?>" onclick="BrowseServer(\'prop_' + key + '\')">';
+						c += '</div>';
+						break;
+					case 'file':
+						c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+						c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						c += '<input type="button" value="<?= $_lang['insert']; ?>" onclick="BrowseFileServer(\'prop_' + key + '\')">';
+						c += '</div>';
+                    case 'date':
+                        c = '<input type="date" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
+                    case 'datetime':
+                    case 'datetime-local':
+                        c = '<input type="datetime-local" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
                         break;
                     default:  // string
                         c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
