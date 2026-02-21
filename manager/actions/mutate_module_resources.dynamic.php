@@ -69,37 +69,40 @@ if (!empty($_REQUEST['op'])) {
             }
             break;
         case 'del':
-            // convert ids to numbers
-            $opids = array_filter(array_map('intval', $_REQUEST['depid']));
-
-            // get resources that needs to be removed
-            $ds = $modx->db->select('*', $tbl_site_module_depobj, "id IN (" . implode(",", $opids) . ")");
-            // loop through resources and look for plugins and snippets
-            $plids = array();
-            $snids = array();
-            while($row = $modx->db->getRow($ds)) {
-                if($row['type'] == '30') {
-                    $plids[] = $row['resource'];
+            //error prevention if depid is not set
+            if(isset($_REQUEST['depid'])):
+                // convert ids to numbers
+                $opids = array_filter(array_map('intval', $_REQUEST['depid']));
+    
+                // get resources that needs to be removed
+                $ds = $modx->db->select('*', $tbl_site_module_depobj, "id IN (" . implode(",", $opids) . ")");
+                // loop through resources and look for plugins and snippets
+                $plids = array();
+                $snids = array();
+                while($row = $modx->db->getRow($ds)) {
+                    if($row['type'] == '30') {
+                        $plids[] = $row['resource'];
+                    }
+                    if($row['type'] == '40') {
+                        $snids[] = $row['resource'];
+                    }
                 }
-                if($row['type'] == '40') {
-                    $snids[] = $row['resource'];
+                // get guid
+                $ds = $modx->db->select('guid', $tbl_site_modules, "id='{$id}'");
+                $guid = $modx->db->getValue($ds);
+                // reset moduleguid for deleted resources
+                if(($cp = count($plids)) || ($cs = count($snids))) {
+                    if($cp) {
+                        $modx->db->update(array('moduleguid' => ''), $tbl_site_plugins, "id IN (" . implode(',', $plids) . ") AND moduleguid='{$guid}'");
+                    }
+                    if($cs) {
+                        $modx->db->update(array('moduleguid' => ''), $tbl_site_plugins, "id IN (" . implode(',', $snids) . ") AND moduleguid='{$guid}'");
+                    }
+                    // reset cache
+                    $modx->clearCache('full');
                 }
-            }
-            // get guid
-            $ds = $modx->db->select('guid', $tbl_site_modules, "id='{$id}'");
-            $guid = $modx->db->getValue($ds);
-            // reset moduleguid for deleted resources
-            if(($cp = count($plids)) || ($cs = count($snids))) {
-                if($cp) {
-                    $modx->db->update(array('moduleguid' => ''), $tbl_site_plugins, "id IN (" . implode(',', $plids) . ") AND moduleguid='{$guid}'");
-                }
-                if($cs) {
-                    $modx->db->update(array('moduleguid' => ''), $tbl_site_plugins, "id IN (" . implode(',', $snids) . ") AND moduleguid='{$guid}'");
-                }
-                // reset cache
-                $modx->clearCache('full');
-            }
-            $modx->db->delete($tbl_site_module_depobj, "id IN (" . implode(',', $opids) . ")");
+                $modx->db->delete($tbl_site_module_depobj, "id IN (" . implode(',', $opids) . ")");
+            endif;
             break;
     }
 }
