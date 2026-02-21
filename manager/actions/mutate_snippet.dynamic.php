@@ -324,6 +324,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 }
                 v = arrValues.toString();
                 break;
+			case 'color':
+				var regex = /^(#[0-9a-f]{3}|#(?:[0-9a-f]{2}){2,4}|(?:rgb|hsl)a?\((?:-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))$/i,
+					val = ctrl.value;
+				if(regex.test(val)==true){
+					v = val + '';
+				}else{
+					v = "#ffffff";
+				}
             default:
                 v = ctrl.value + '';
                 break;
