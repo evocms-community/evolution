@@ -276,6 +276,13 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
 					case 'color':
 						c = '<input type="color" name="prop_' + key + '" value="' + value + '" size="30" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
 						break;
+                    case 'date':
+                        c = '<input type="date" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
+                    case 'datetime':
+                    case 'datetime-local':
+                        c = '<input type="datetime-local" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
 					case 'image':
 						c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
 						c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
