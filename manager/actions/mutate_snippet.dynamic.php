@@ -196,9 +196,10 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 value = value.replace(/\"/g, '&quot;');
 
                 switch (type) {
-                    case 'int':
-                        c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
-                        break;
+					case 'int':
+					case 'number':
+						c = '<input type="number" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						break;
                     case 'menu':
                         c = '<select name="prop_' + key + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)">';
                         if (currentParams[key] === options) {
@@ -260,6 +261,28 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         break;
                     case 'textarea':
                         c = '<textarea name="prop_' + key + '" rows="4" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)">' + value + '</textarea>';
+                        break;
+					case 'color':
+						c = '<input type="color" name="prop_' + key + '" value="' + value + '" size="30" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						break;
+					case 'image':
+						c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+						c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						c += '<input type="button" value="<?= $_lang["insert"]; ?>" onclick="BrowseServer(\'prop_' + key + '\')">';
+						c += '</div>';
+						break;
+					case 'file':
+						c = '<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">';
+						c += '<input type="text" id="prop_' + key + '" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+						c += '<input type="button" value="<?= $_lang["insert"]; ?>" onclick="BrowseFileServer(\'prop_' + key + '\')">';
+						c += '</div>';
+						break;
+                    case 'date':
+                        c = '<input type="date" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
+                        break;
+                    case 'datetime':
+                    case 'datetime-local':
+                        c = '<input type="datetime-local" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
                         break;
                     default:  // string
                         c = '<input type="text" name="prop_' + key + '" value="' + value + '" onchange="setParameter(\'' + key + '\',\'' + type + '\',this)" />';
@@ -324,6 +347,14 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                 }
                 v = arrValues.toString();
                 break;
+			case 'color':
+				var regex = /^(#[0-9a-f]{3}|#(?:[0-9a-f]{2}){2,4}|(?:rgb|hsl)a?\((?:-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))$/i,
+					val = ctrl.value;
+				if(regex.test(val)==true){
+					v = val + '';
+				}else{
+					v = "#ffffff";
+				}
             default:
                 v = ctrl.value + '';
                 break;
