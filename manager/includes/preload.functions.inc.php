@@ -152,7 +152,7 @@ if(! function_exists('runSnippet')) {
 }
 
 if(! function_exists('parseChunk')) {
-    function runSnippet($chunkName, $data = [])
+    function parseChunk($chunkName, $data = [])
     {
         return \DLTemplate::getInstance(evo())->parseChunk($chunkName, $data);
     }
