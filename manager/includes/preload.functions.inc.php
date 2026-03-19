@@ -136,3 +136,24 @@ if(! function_exists('e')) {
         return htmlspecialchars((string)($value ?? ''), ENT_QUOTES, 'UTF-8', $doubleEncode);
     }
 }
+
+if(! function_exists('db')) {
+    function db()
+    {
+        return evo()->db;
+    }
+}
+
+if(! function_exists('runSnippet')) {
+    function runSnippet($snippetName, $params = [])
+    {
+        return evo()->runSnippet($snippetName, $params);
+    }
+}
+
+if(! function_exists('parseChunk')) {
+    function runSnippet($chunkName, $data = [])
+    {
+        return \DLTemplate::getInstance(evo())->parseChunk($chunkName, $data);
+    }
+}
