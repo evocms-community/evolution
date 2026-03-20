@@ -254,9 +254,13 @@ class image_gd extends image
             $height = @imagesy($image);
             return $image;
 
-        } elseif (is_string($image) &&
-            (false !== (list($width, $height, $t) = @getimagesize($image)))
-        ) {
+        } elseif (is_string($image)) {
+            $info = @getimagesize($image);
+            if ($info === false) {
+                return false;
+            }
+            [$width, $height, $t] = $info;
+    
             switch ($t) {
                 case IMAGETYPE_GIF:
                     $image = @imagecreatefromgif($image);
