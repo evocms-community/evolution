@@ -3,12 +3,12 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('delete_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    $modx->webAlertAndQuit(__('global.error_no_id'));
 }
 
 $document = \EvolutionCMS\Models\SiteContent::withTrashed()->findOrFail($id);
@@ -16,7 +16,7 @@ $document = \EvolutionCMS\Models\SiteContent::withTrashed()->findOrFail($id);
 $pid = ($document->parent == 0 ? $id : $document->parent);
 $parentDeleted = $document->parent > 0 && empty(\EvolutionCMS\Models\SiteContent::find($document->parent));
 if ($parentDeleted) {
-    $modx->webAlertAndQuit($_lang["error_parent_deleted"]);
+    $modx->webAlertAndQuit(__('global.error_parent_deleted'));
 }
 $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
@@ -30,7 +30,7 @@ $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    $modx->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // get the timestamp on which the document was deleted.

@@ -5,16 +5,16 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('settings')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 $defaultSettings = config('cms.settings', []);
 $data = $_POST + $defaultSettings;
 
 // lose the POST now, gets rid of quirky issue with Safari 3 - see FS#972
 unset($_POST);
-if(File::missing(MODX_MANAGER_PATH . '.htaccess')) {
+if (File::missing(MODX_MANAGER_PATH . '.htaccess')) {
     $sample_htaccess = File::get(MODX_MANAGER_PATH . 'ht.access');
-    if(!empty($sample_htaccess)) {
+    if (!empty($sample_htaccess)) {
         File::put(MODX_MANAGER_PATH . '.htaccess', str_replace('/manager/', '/' . MGR_DIR . '/', $sample_htaccess));
     }
 }
@@ -25,21 +25,21 @@ if ($data['friendly_urls'] === '1' && strpos($_SERVER['SERVER_SOFTWARE'], 'IIS')
     if (is_file($htaccess)) {
         $_ = file_get_contents($htaccess);
         if (strpos($_, 'RewriteBase') === false) {
-            $warnings[] = $_lang["settings_friendlyurls_alert2"];
+            $warnings[] = __('global.settings_friendlyurls_alert2');
         } elseif (is_writable($htaccess)) {
             $_ = preg_replace('@RewriteBase.+@', "RewriteBase {$dir}", $_);
             if (!@file_put_contents($htaccess, $_)) {
-                $warnings[] = $_lang["settings_friendlyurls_alert2"];
+                $warnings[] = __('global.settings_friendlyurls_alert2');
             }
         }
     } elseif (is_file($sample_htaccess)) {
         if (!@rename($sample_htaccess, $htaccess)) {
-            $warnings[] = $_lang["settings_friendlyurls_alert"];
+            $warnings[] = __('global.settings_friendlyurls_alert');
         } elseif (MODX_BASE_URL !== '/') {
             $_ = file_get_contents($htaccess);
             $_ = preg_replace('@RewriteBase.+@', "RewriteBase {$dir}", $_);
             if (!@file_put_contents($htaccess, $_)) {
-                $warnings[] = $_lang["settings_friendlyurls_alert2"];
+                $warnings[] = __('global.settings_friendlyurls_alert2');
             }
         }
     }
@@ -125,9 +125,9 @@ if (isset($data) && count($data) > 0) {
         $oldtemplate = (int) $data['old_template'];
         $reset = $data['reset_template'];
         if ($reset == 1) {
-            \EvolutionCMS\Models\SiteContent::where('type', 'document')->update(array('template' => $newtemplate));
+            \EvolutionCMS\Models\SiteContent::where('type', 'document')->update(['template' => $newtemplate]);
         } else if ($reset == 2) {
-            \EvolutionCMS\Models\SiteContent::where('template', $oldtemplate)->update(array('template' => $newtemplate));
+            \EvolutionCMS\Models\SiteContent::where('template', $oldtemplate)->update(['template' => $newtemplate]);
         }
     }
 

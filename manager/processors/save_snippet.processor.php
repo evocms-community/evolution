@@ -3,7 +3,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_snippet')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 if (isset($_GET['disabled'])) {
@@ -13,19 +13,19 @@ if (isset($_GET['disabled'])) {
     try {
         $snippet = EvolutionCMS\Models\SiteSnippet::findOrFail($id);
         // invoke OnBeforeChunkFormSave event
-        $modx->invokeEvent("OnBeforeSnipFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        $modx->invokeEvent('OnBeforeSnipFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
         $_SESSION['itemname'] = $snippet->name;
         $snippet->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
-        $modx->invokeEvent("OnSnipFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
-        $modx->webAlertAndQuit($_lang["error_no_id"]);
+        $modx->invokeEvent('OnSnipFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $modx->webAlertAndQuit(__('global.error_no_id'));
     }
     // empty cache
     $modx->clearCache('full');
@@ -97,25 +97,25 @@ if ($parse_docblock) {
 switch ($_POST['mode']) {
     case '23': // Save new snippet
         // invoke OnBeforeSnipFormSave event
-        $modx->invokeEvent("OnBeforeSnipFormSave", array(
-            "mode" => "new",
-            "id" => $id,
-        ));
+        $modx->invokeEvent('OnBeforeSnipFormSave', [
+            'mode' => 'new',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for new snippets
         if (EvolutionCMS\Models\SiteSnippet::where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(23);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), "index.php?a=23");
+            $modx->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.snippet'), $name), "index.php?a=23");
         }
 
         //do stuff to save the new doc
         $newid = EvolutionCMS\Models\SiteSnippet::create(compact('name', 'description', 'snippet', 'moduleguid', 'locked', 'properties', 'category', 'disabled', 'createdon', 'editedon'))->getKey();
 
         // invoke OnSnipFormSave event
-        $modx->invokeEvent("OnSnipFormSave", array(
-            "mode" => "new",
-            "id" => $newid,
-        ));
+        $modx->invokeEvent('OnSnipFormSave', [
+            'mode' => 'new',
+            'id' => $newid,
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
@@ -135,15 +135,15 @@ switch ($_POST['mode']) {
         break;
     case '22': // Save existing snippet
         // invoke OnBeforeSnipFormSave event
-        $modx->invokeEvent("OnBeforeSnipFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        $modx->invokeEvent('OnBeforeSnipFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
 
         // disallow duplicate names for snippets
         if (EvolutionCMS\Models\SiteSnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(22);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), "index.php?a=22&id={$id}");
+            $modx->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.snippet'), $name), "index.php?a=22&id={$id}");
         }
 
         //do stuff to save the edited doc
@@ -152,10 +152,10 @@ switch ($_POST['mode']) {
         $siteSnippet->update(compact('name', 'description', 'snippet', 'moduleguid', 'locked', 'properties', 'category', 'disabled', 'editedon'));
 
         // invoke OnSnipFormSave event
-        $modx->invokeEvent("OnSnipFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        $modx->invokeEvent('OnSnipFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
@@ -166,7 +166,7 @@ switch ($_POST['mode']) {
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
             $a = ($_POST['stay'] == '2') ? "22&id=$id" : "23";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $header = "Location: index.php?a={$a}&r=2&stay={$_POST['stay']}";
             header($header);
         } else {
             $modx->unlockElement(4, $id);

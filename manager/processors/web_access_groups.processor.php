@@ -3,7 +3,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('manage_groups')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 // web access group processor.
@@ -20,10 +20,10 @@ switch ($operation) {
         } else {
             $id = \EvolutionCMS\Models\MembergroupName::query()->insertGetId(['name' => $newgroup]);
             // invoke OnWebCreateGroup event
-            $modx->invokeEvent('OnCreateUserGroup', array(
+            $modx->invokeEvent('OnCreateUserGroup', [
                 'groupid' => $id,
                 'groupname' => $newgroup,
-            ));
+            ]);
         }
         break;
     case "add_document_group":
@@ -34,10 +34,10 @@ switch ($operation) {
             $id = \EvolutionCMS\Models\DocumentgroupName::query()->insertGetId(['name' => $newgroup]);
 
             // invoke OnCreateDocGroup event
-            $modx->invokeEvent('OnCreateDocGroup', array(
+            $modx->invokeEvent('OnCreateDocGroup', [
                 'groupid' => $id,
                 'groupname' => $newgroup,
-            ));
+            ]);
         }
         break;
     case "delete_user_group":

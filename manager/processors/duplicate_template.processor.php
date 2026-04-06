@@ -3,17 +3,17 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('new_template')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    $modx->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // count duplicates
 $name = EvolutionCMS\Models\SiteTemplate::select('templatename')->findOrFail($id)->templatename;
-$count = EvolutionCMS\Models\SiteTemplate::where('templatename', 'LIKE', "{$name} {$_lang['duplicated_el_suffix']}%'")->count();
+$count = EvolutionCMS\Models\SiteTemplate::where('templatename', 'LIKE', "{$name} {__('global.duplicated_el_suffix')}%'")->count();
 if ($count >= 1) {
     $count = ' ' . ($count + 1);
 } else {
@@ -24,7 +24,7 @@ if ($count >= 1) {
 $template = EvolutionCMS\Models\SiteTemplate::select("templatename", "description", "content", "category")
     ->findOrFail($id);
 $templateNew = $template->replicate();
-$templateNew->templatename .= " {$_lang['duplicated_el_suffix']}{$count}";
+$templateNew->templatename .= " {__('global.duplicated_el_suffix')}{$count}";
 $templateNew->save();
 $newid = $templateNew->id;
 
@@ -41,5 +41,5 @@ $name = EvolutionCMS\Models\SiteTemplate::select('templatename')->findOrFail($ne
 $_SESSION['itemname'] = $name;
 
 // finish duplicating - redirect to new template
-$header = "Location: index.php?r=2&a=16&id=$newid";
+$header = "Location: index.php?r=2&a=16&id={$newid}";
 header($header);

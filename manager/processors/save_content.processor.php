@@ -3,7 +3,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
     return;
 }
 
@@ -16,44 +16,44 @@ $add_path = $sd . $sb . $pg;
 $resourceArray = [
     'id' => is_numeric($_POST['id']) ? $_POST['id'] : '',
     //
-    "introtext" => $_POST['introtext'],
-    "content" => $_POST['ta'],
-    "pagetitle" => $_POST['pagetitle'],
-    "longtitle" => $_POST['longtitle'],
-    "type" => $_POST['type'],
-    "description" => $_POST['description'],
-    "alias" => $_POST['alias'],
-    "link_attributes" => $_POST['link_attributes'],
-    "isfolder" => (int) $_POST['isfolder'],
-    "richtext" => (int) $_POST['richtext'],
-    "published" => (int) $_POST['published'],
-    "parent" => (int) get_by_key($_POST, 'parent', 0, 'is_scalar'),
-    "template" => (int) $_POST['template'],
-    "menuindex" => !empty($_POST['menuindex']) ? (int) $_POST['menuindex'] : 0,
-    "searchable" => (int) $_POST['searchable'],
-    "cacheable" => (int) $_POST['cacheable'],
-    "pub_date" => $_POST['pub_date'],
-    "unpub_date" => $_POST['unpub_date'],
-    "contentType" => $_POST['contentType'],
-    "content_dispo" => (int) $_POST['content_dispo'],
-    "hide_from_tree" => (int) $_POST['hide_from_tree'],
-    "menutitle" => $_POST['menutitle'],
-    "hidemenu" => (int) $_POST['hidemenu'],
-    "alias_visible" => (int) $_POST['alias_visible'],
+    'introtext' => $_POST['introtext'],
+    'content' => $_POST['ta'],
+    'pagetitle' => $_POST['pagetitle'],
+    'longtitle' => $_POST['longtitle'],
+    'type' => $_POST['type'],
+    'description' => $_POST['description'],
+    'alias' => $_POST['alias'],
+    'link_attributes' => $_POST['link_attributes'],
+    'isfolder' => (int) $_POST['isfolder'],
+    'richtext' => (int) $_POST['richtext'],
+    'published' => (int) $_POST['published'],
+    'parent' => (int) get_by_key($_POST, 'parent', 0, 'is_scalar'),
+    'template' => (int) $_POST['template'],
+    'menuindex' => !empty($_POST['menuindex']) ? (int) $_POST['menuindex'] : 0,
+    'searchable' => (int) $_POST['searchable'],
+    'cacheable' => (int) $_POST['cacheable'],
+    'pub_date' => $_POST['pub_date'],
+    'unpub_date' => $_POST['unpub_date'],
+    'contentType' => $_POST['contentType'],
+    'content_dispo' => (int) $_POST['content_dispo'],
+    'hide_from_tree' => (int) $_POST['hide_from_tree'],
+    'menutitle' => $_POST['menutitle'],
+    'hidemenu' => (int) $_POST['hidemenu'],
+    'alias_visible' => (int) $_POST['alias_visible'],
 ];
 
 // get document groups for current user
 $userGroups = \EvolutionCMS\Models\MemberGroup::query()
-        ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
-        ->where('member_groups.member', $modx->getLoginUserID('mgr'))
-        ->pluck('documentgroup')
-        ->toArray();
+    ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
+    ->where('member_groups.member', $modx->getLoginUserID('mgr'))
+    ->pluck('documentgroup')
+    ->toArray();
 $userGroups = array_unique($userGroups);
 
 // get passed document groups
 $documentGroups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on')
-    ? []
-    : get_by_key($_POST, 'docgroups', [], 'is_array');
+? []
+: get_by_key($_POST, 'docgroups', [], 'is_array');
 
 $actionToTake = 'create';
 if ($_POST['mode'] == '73' || $_POST['mode'] == '27') {
@@ -77,11 +77,11 @@ if ($_SESSION['mgrRole'] != 1 && !empty($documentGroups)) {
         if (!$exist) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=27&id={$resourceArray['id']}");
+                $modx->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a=27&id={$resourceArray['id']}");
                 return;
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit($_lang["resource_permissions_error"], 'index.php?a=4');
+                $modx->webAlertAndQuit(__('global.resource_permissions_error'), 'index.php?a=4');
                 return;
             }
         }
@@ -96,7 +96,7 @@ if ($actionToTake != 'create') {
         ->find($resourceArray['id']);
 
     if (is_null($existingDocument)) {
-        $modx->webAlertAndQuit($_lang["error_no_results"]);
+        $modx->webAlertAndQuit(__('global.error_no_results'));
         return;
     }
 
@@ -116,11 +116,11 @@ if ($modx->getConfig('use_udperms')) {
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], "index.php?a=27&id={$resourceArray['id']}");
+                $modx->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a=27&id={$resourceArray['id']}");
                 return;
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], 'index.php?a=4');
+                $modx->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
                 return;
             }
         }

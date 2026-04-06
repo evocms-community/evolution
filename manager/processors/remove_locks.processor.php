@@ -5,7 +5,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 
 if (!isset($_GET['id'])) {
     if (!$modx->hasPermission('remove_locks')) {
-        $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+        $modx->webAlertAndQuit(__('global.error_no_privileges'));
     }
 
     // Remove all locks

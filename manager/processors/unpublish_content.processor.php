@@ -3,12 +3,12 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('save_document') || !$modx->hasPermission('publish_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    $modx->webAlertAndQuit(__('global.error_no_id'));
 }
 
 /************webber ********/
@@ -28,7 +28,7 @@ $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    $modx->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // Run unpublisher

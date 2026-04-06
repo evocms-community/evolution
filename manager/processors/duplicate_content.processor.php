@@ -3,12 +3,12 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('new_document') || !$modx->hasPermission('save_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    $modx->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // check permissions on the document
@@ -20,7 +20,7 @@ $udperms->role = $_SESSION['mgrRole'];
 $udperms->duplicateDoc = true; // непонятно зачем это
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    $modx->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // Run duplicator

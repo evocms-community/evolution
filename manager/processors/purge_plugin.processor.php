@@ -12,7 +12,7 @@ if (!$modx->hasPermission('delete_plugin')) {
 $plugins = \EvolutionCMS\Models\SitePlugin::query()->select('site_plugins.id')->leftJoin('site_plugins as t2', function ($join) {
     $join->on('site_plugins.name', '=', 't2.name')->on('site_plugins.id', '<', 't2.id');
 })->whereNull('t2.id');
-$latestIds = array();
+$latestIds = [];
 foreach ($plugins->get()->toArray() as $row) {
     $latestIds[] = $row['id'];
 }
@@ -31,7 +31,9 @@ foreach ($plugins->get()->toArray() as $row) {
     // Keep latest version of disabled plugins
 
     // invoke OnBeforePluginFormDelete event
-    $modx->invokeEvent('OnBeforePluginFormDelete', array('id' => $id));
+    $modx->invokeEvent('OnBeforePluginFormDelete', [
+        'id' => $id,
+    ]);
 
     // delete the plugin.
 
@@ -46,7 +48,9 @@ foreach ($plugins->get()->toArray() as $row) {
             exit;
         } else {
             // invoke OnPluginFormDelete event
-            $modx->invokeEvent('OnPluginFormDelete', array('id' => $id));
+            $modx->invokeEvent('OnPluginFormDelete', [
+                'id' => $id,
+            ]);
         }
     }
 }

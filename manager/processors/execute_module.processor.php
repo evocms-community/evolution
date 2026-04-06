@@ -6,7 +6,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
 if (!$modx->hasPermission('exec_module')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+    $modx->webAlertAndQuit(__('global.error_no_privileges'));
 }
 if (isset($_GET['id'])) {
     if (is_numeric($_GET['id'])) {
@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
         $id = $_GET['id'];
     }
 } else {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    $modx->webAlertAndQuit(__('global.error_no_id'));
 }
 // check if user has access permission, except admins
 if ($_SESSION['mgrRole'] != 1 && is_numeric($id)) {
