@@ -23,9 +23,8 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnBeforeChunkFormDelete', 'service' => '1', 'groupname' => 'Chunks',],
             ['name' => 'OnBeforeChunkFormSave', 'service' => '1', 'groupname' => 'Chunks',],
             // doc
-            ['name' => 'OnBeforeDocCreate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnBeforeDocSave', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocDuplicate', 'service' => 1, 'groupname' => 'Documents',],
-            ['name' => 'OnBeforeDocEdit', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocPublish', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocUnpublish', 'service' => 1, 'groupname' => 'Documents',],
@@ -73,9 +72,8 @@ class SystemEventnamesTableSeeder extends Seeder
             ['name' => 'OnDocFormRender', 'service' => '1', 'groupname' => 'Documents',],
             ['name' => 'OnDocFormTemplateRender', 'service' => '1', 'groupname' => 'Documents',],
             // doc
-            ['name' => 'OnDocCreate', 'service' => 1, 'groupname' => 'Documents',],
+            ['name' => 'OnDocSave', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnDocDuplicate', 'service' => 1, 'groupname' => 'Documents',],
-            ['name' => 'OnDocEdit', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnDocPublish', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnDocUnpublish', 'service' => 1, 'groupname' => 'Documents',],

@@ -60,10 +60,6 @@ class SystemEventnamesTableSeeder extends Seeder
 
         // --- document event changes
         $insert2 = [
-            ['name' => 'OnBeforeDocCreate', 'service' => 1, 'groupname' => 'Documents',],
-            ['name' => 'OnDocCreate', 'service' => 1, 'groupname' => 'Documents',],
-            ['name' => 'OnBeforeDocEdit', 'service' => 1, 'groupname' => 'Documents',],
-            ['name' => 'OnDocEdit', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnDocSetGroups', 'service' => 1, 'groupname' => 'Documents',],
             ['name' => 'OnBeforeDocPublish', 'service' => 1, 'groupname' => 'Documents',],
@@ -75,13 +71,16 @@ class SystemEventnamesTableSeeder extends Seeder
                 ->insertOrIgnore($el);
         }
 
+        /*
         $delete2 = [
-            'OnBeforeDocFormSave',
-            'OnDocFormSave',
+            //
         ];
         \DB::table('system_eventnames')->whereIn('name', $delete2)->delete();
+        */
 
         $rename2 = [
+            'OnBeforeDocFormSave' => 'OnBeforeDocSave',
+            'OnDocFormSave' => 'OnDocSave',
             'OnBeforeDocFormDelete' => 'OnBeforeDocDelete',
             'OnDocFormDelete' => 'OnDocDelete',
             'OnDocFormUnDelete' => 'OnDocUndelete',
