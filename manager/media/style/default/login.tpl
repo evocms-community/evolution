@@ -319,6 +319,12 @@
                 left: 50%;
                 transform: translate3d(-50%, 0, 0);
             }
+            .copyrights .gpl {
+                padding: .125rem .375rem;
+                background-color: rgba(0, 0, 0, 0.25);
+                border-radius: .25rem;
+                color: #fff;
+            }
         }
         .copyrights a {
             color: #fff

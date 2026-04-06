@@ -59,36 +59,39 @@ switch ($_REQUEST['op']) {
         }
         break;
     case 'del':
-        // convert ids to numbers
-        $opids = array_filter(array_map('intval', $_REQUEST['depid']));
-
-        // get resources that needs to be removed
-        $ds = \EvolutionCMS\Models\SiteModule::query()->whereIn('id', $opids)->get();
-        // loop through resources and look for plugins and snippets
-        $plids = array();
-        $snids = array();
-        foreach ($ds->toArray() as $row) {
-            if ($row['type'] == '30') {
-                $plids[$i] = $row['resource'];
+        // error prevention depid is not set
+        if(isset($_REQUEST['depid'])):
+            // convert ids to numbers
+            $opids = array_filter(array_map('intval', $_REQUEST['depid']));
+    
+            // get resources that needs to be removed
+            $ds = \EvolutionCMS\Models\SiteModule::query()->whereIn('id', $opids)->get();
+            // loop through resources and look for plugins and snippets
+            $plids = array();
+            $snids = array();
+            foreach ($ds->toArray() as $row) {
+                if ($row['type'] == '30') {
+                    $plids[$i] = $row['resource'];
+                }
+                if ($row['type'] == '40') {
+                    $snids[$i] = $row['resource'];
+                }
             }
-            if ($row['type'] == '40') {
-                $snids[$i] = $row['resource'];
+            // get guid
+            $guid = \EvolutionCMS\Models\SiteModule::query()->find($id)->guid;
+            // reset moduleguid for deleted resources
+            if (($cp = count($plids)) || ($cs = count($snids))) {
+                if ($cp) {
+                    \EvolutionCMS\Models\SitePlugin::query()->whereIn('id', $plids)->where('moduleguid', $guid)->update(array('moduleguid' => ''));
+                }
+                if ($cs) {
+                    \EvolutionCMS\Models\SitePlugin::query()->whereIn('id', $plids)->where('moduleguid', $snids)->update(array('moduleguid' => ''));
+                }
+                // reset cache
+                $modx->clearCache('full');
             }
-        }
-        // get guid
-        $guid = \EvolutionCMS\Models\SiteModule::query()->find($id)->guid;
-        // reset moduleguid for deleted resources
-        if (($cp = count($plids)) || ($cs = count($snids))) {
-            if ($cp) {
-                \EvolutionCMS\Models\SitePlugin::query()->whereIn('id', $plids)->where('moduleguid', $guid)->update(array('moduleguid' => ''));
-            }
-            if ($cs) {
-                \EvolutionCMS\Models\SitePlugin::query()->whereIn('id', $plids)->where('moduleguid', $snids)->update(array('moduleguid' => ''));
-            }
-            // reset cache
-            $modx->clearCache('full');
-        }
-        \EvolutionCMS\Models\SiteModuleDepobj::query()->whereIn('id', $opids)->delete();
+            \EvolutionCMS\Models\SiteModuleDepobj::query()->whereIn('id', $opids)->delete();
+        endif;
         break;
 }
 
