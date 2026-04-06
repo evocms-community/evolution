@@ -136,16 +136,50 @@ table th { font-weight: 500; }
 /* elements icons in manage elements */
 div#tabCategory.tab-page ul li ul li { padding-top: 7px; padding-bottom: 7px; }
 /*Fake tables for providing dynamic amount of cells per row*/
+.rTableWrapper {
+    margin: 0 -1.25rem;
+}
 .rTable { display: table; width: 100%; padding: 0; }
-.rTableRow { display: table-row; padding: 0; }
-.rTableHeading { display: table-header-group; }
-.rTableBody { display: table-row-group; }
-.rTableFoot { display: table-footer-group; }
-.lockCell, .mainCell, .btnCell, .rTableHead { display: table-cell; padding: 0; }
-.lockCell { width: 2.5em; padding-left: 10px; }
-.mainCell { width: auto; }
-.btnCell { width: 6em; text-align: right; padding-right: 1rem; }
-.mainCell > span { display: block }
+.rTable .rTableRow { display: table-row; padding: 0; }
+.rTable .rTableHeading { display: table-header-group; }
+.rTable .rTableBody { display: table-row-group; }
+.rTable .rTableFoot { display: table-footer-group; }
+.rTable .lockCell, .rTable .mainCell, .rTable .btnCell, .rTable .rTableHead { display: table-cell; padding: 0; }
+.rTable .lockCell { width: 2.5em; padding-left: 10px; }
+.rTable .mainCell { width: auto; }
+.rTable .btnCell { width: 6em; text-align: right; padding-right: 1rem; }
+.rTable .mainCell > span { display: block }
+.rTableCustom .rTableHead {
+    font-weight: bold;
+}
+.rTableCustom .rTableHead,
+.rTableCustom .mainCell {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.rTableCustom .rTableRow {
+    transition: all 0.1s ease;
+}
+.rTableCustom .rTableRow+div {
+    border-bottom: 1px dotted #dedede;
+}
+.rTableCustom .rTableRow:hover {
+    background: #f9f9f9;
+}
+.rTableCustom .rTableRow .mainCell:first-child {
+    border-left: 3px solid transparent;
+}
+.rTableCustom .rTableRow:hover .mainCell:first-child {
+    border-left: 3px solid #1377c5;
+}
+.rTableCustom .rTableRow .rTableHead:first-child,
+.rTableCustom .rTableRow .mainCell:first-child {
+    padding-left: 1.25rem;
+}
+.rTableCustom .rTableRow .rTableHead:last-child,
+.rTableCustom .rTableRow .mainCell:last-child {
+    padding-right: 1.25rem;
+}
 /* Manage elements general styles */
 a.man_el_name { display: block; padding: .1em 0 .1em 1.25rem; }
 a.man_el_name:hover { text-decoration: none; }
