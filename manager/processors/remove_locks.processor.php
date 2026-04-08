@@ -4,8 +4,8 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
 }
 
 if (!isset($_GET['id'])) {
-    if (!$modx->hasPermission('remove_locks')) {
-        $modx->webAlertAndQuit(__('global.error_no_privileges'));
+    if (!evo()->hasPermission('remove_locks')) {
+        evo()->webAlertAndQuit(__('global.error_no_privileges'));
     }
 
     // Remove all locks
@@ -18,9 +18,9 @@ if (!isset($_GET['id'])) {
     // Remove single locks via AJAX / window.onbeforeunload
     $type = (int) $_GET['type'];
     $id = (int) $_GET['id'];
-    $includeAllUsers = $modx->hasPermission('remove_locks'); // Enables usage of "unlock"-ajax-button
+    $includeAllUsers = evo()->hasPermission('remove_locks'); // Enables usage of "unlock"-ajax-button
     if ($type && $id) {
-        $modx->unlockElement($type, $id, $includeAllUsers);
+        evo()->unlockElement($type, $id, $includeAllUsers);
         echo '1';
         exit;
     } else {

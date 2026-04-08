@@ -2,13 +2,13 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if (!$modx->hasPermission('edit_template')) {
-    $modx->webAlertAndQuit(__('global.error_no_privileges'));
+if (!evo()->hasPermission('edit_template')) {
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit(__('global.error_no_id'));
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 // count duplicates

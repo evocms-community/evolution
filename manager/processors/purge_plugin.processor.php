@@ -3,7 +3,7 @@ if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     exit();
 }
 
-if (!$modx->hasPermission('delete_plugin')) {
+if (!evo()->hasPermission('delete_plugin')) {
     $e->setError(3);
     $e->dumpError();
 }
@@ -31,7 +31,7 @@ foreach ($plugins->get()->toArray() as $row) {
     // Keep latest version of disabled plugins
 
     // invoke OnBeforePluginFormDelete event
-    $modx->invokeEvent('OnBeforePluginFormDelete', [
+    evo()->invokeEvent('OnBeforePluginFormDelete', [
         'id' => $id,
     ]);
 
@@ -48,7 +48,7 @@ foreach ($plugins->get()->toArray() as $row) {
             exit;
         } else {
             // invoke OnPluginFormDelete event
-            $modx->invokeEvent('OnPluginFormDelete', [
+            evo()->invokeEvent('OnPluginFormDelete', [
                 'id' => $id,
             ]);
         }
