@@ -2,14 +2,14 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if (!$modx->hasPermission('save_document')) {
-    $modx->webAlertAndQuit(__('global.error_no_privileges'));
+if (!evo()->hasPermission('save_document')) {
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
     return;
 }
 
 /************* webber ********/
 $sd = isset($_POST['dir']) && strtolower($_POST['dir']) === 'asc' ? '&dir=ASC' : '&dir=DESC';
-$sb = isset($_POST['sort']) ? '&sort=' . entities($_POST['sort'], $modx->getConfig('modx_charset')) : '&sort=pub_date';
+$sb = isset($_POST['sort']) ? '&sort=' . entities($_POST['sort'], evo()->getConfig('modx_charset')) : '&sort=pub_date';
 $pg = isset($_POST['page']) ? '&page=' . (int) $_POST['page'] : '';
 $add_path = $sd . $sb . $pg;
 
@@ -45,7 +45,7 @@ $resourceArray = [
 // get document groups for current user
 $userGroups = \EvolutionCMS\Models\MemberGroup::query()
     ->join('membergroup_access', 'membergroup_access.membergroup', '=', 'member_groups.user_group')
-    ->where('member_groups.member', $modx->getLoginUserID('mgr'))
+    ->where('member_groups.member', evo()->getLoginUserID('mgr'))
     ->pluck('documentgroup')
     ->toArray();
 $userGroups = array_unique($userGroups);
@@ -54,6 +54,70 @@ $userGroups = array_unique($userGroups);
 $documentGroups = (isset($_POST['chkalldocs']) && $_POST['chkalldocs'] == 'on')
 ? []
 : get_by_key($_POST, 'docgroups', [], 'is_array');
+
+// get template variables
+$templateVariables = [];
+
+// get tv id by template id
+$tvIds = \EvolutionCMS\Models\SiteTmplvarTemplate::query()
+    ->where('templateid', $resourceArray['template'])
+    ->pluck('tmplvarid')
+    ->toArray();
+
+// get tv
+$tvs = \EvolutionCMS\Models\SiteTmplvar::query()
+    ->whereIn('id', $tvIds)
+    ->get();
+
+foreach ($tvs->toArray() as $tv) {
+    $tmplvar = '';
+
+    switch ($tv['type']) {
+        case 'url':
+            if (isset($_POST['tv' . $tv['id']])) {
+                $tmplvar = $_POST['tv' . $tv['id']];
+
+                if (isset($_POST['tv' . $tv['id'] . '_prefix']) && $_POST['tv' . $tv['id'] . '_prefix'] != '--') {
+                    $tmplvar = str_replace([
+                        'feed://',
+                        'ftp://',
+                        'http://',
+                        'https://',
+                        'mailto:',
+                    ], '', $tmplvar);
+
+                    $tmplvar = $_POST['tv' . $tv['id'] . '_prefix'] . $tmplvar;
+                }
+            }
+            break;
+
+        case 'file':
+            $tmplvar = $_POST['tv' . $tv['id']] ?? '';
+            break;
+
+        default:
+            $tmp = get_by_key($_POST, 'tv' . $tv['id']);
+
+            if (is_array($tmp)) {
+                // handles checkboxes & multiple selects elements
+                $arr = [];
+
+                foreach ($tmp as $key => $value) {
+                    $arr[count($arr)] = $value;
+                }
+
+                $tmplvar = implode('||', $arr);
+            } else {
+                $tmplvar = $tmp;
+            }
+            break;
+    }
+
+    $templateVariables[$tv['name']] = $tmplvar;
+}
+
+// add tv to resource arr
+$resourceArray = array_merge($resourceArray, $templateVariables);
 
 $actionToTake = 'create';
 if ($_POST['mode'] == '73' || $_POST['mode'] == '27') {
@@ -76,12 +140,12 @@ if ($_SESSION['mgrRole'] != 1 && !empty($documentGroups)) {
 
         if (!$exist) {
             if ($actionToTake == 'edit') {
-                $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a=27&id={$resourceArray['id']}");
+                evo()->getManagerApi()->saveFormValues(27);
+                evo()->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a=27&id={$resourceArray['id']}");
                 return;
             } else {
-                $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(__('global.resource_permissions_error'), 'index.php?a=4');
+                evo()->getManagerApi()->saveFormValues(4);
+                evo()->webAlertAndQuit(__('global.resource_permissions_error'), 'index.php?a=4');
                 return;
             }
         }
@@ -91,12 +155,17 @@ if ($_SESSION['mgrRole'] != 1 && !empty($documentGroups)) {
 // get the document, but only if it already exists
 $existingDocument = null;
 if ($actionToTake != 'create') {
+    if ($resourceArray['id'] == '') {
+        evo()->webAlertAndQuit(__('global.error_no_results'));
+        return;
+    }
+
     $existingDocument = \EvolutionCMS\Models\SiteContent::query()
         ->withTrashed()
         ->find($resourceArray['id']);
 
     if (is_null($existingDocument)) {
-        $modx->webAlertAndQuit(__('global.error_no_results'));
+        evo()->webAlertAndQuit(__('global.error_no_results'));
         return;
     }
 
@@ -104,23 +173,23 @@ if ($actionToTake != 'create') {
 }
 
 // check to see if the user is allowed to save the document in the place he wants to save it in
-if ($modx->getConfig('use_udperms')) {
+if (evo()->getConfig('use_udperms')) {
     $parent = (int) get_by_key($_POST, 'parent', 0, 'is_scalar');
 
     if ($existingDocument && $existingDocument['parent'] != $parent) {
         $udperms = new EvolutionCMS\Legacy\Permissions();
-        $udperms->user = $modx->getLoginUserID('mgr');
+        $udperms->user = evo()->getLoginUserID('mgr');
         $udperms->document = $parent;
         $udperms->role = $_SESSION['mgrRole'];
 
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
-                $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a=27&id={$resourceArray['id']}");
+                evo()->getManagerApi()->saveFormValues(27);
+                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a=27&id={$resourceArray['id']}");
                 return;
             } else {
-                $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
+                evo()->getManagerApi()->saveFormValues(4);
+                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
                 return;
             }
         }
@@ -143,19 +212,19 @@ switch ($actionToTake) {
         } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
             // \Log::error('Unexpected error: ' . $e->getMessage());
 
-            $modx->getManagerApi()->saveFormValues(4);
-            $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+            evo()->getManagerApi()->saveFormValues(4);
+            evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
             return;
         } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
             // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-            $modx->getManagerApi()->saveFormValues(4);
-            $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+            evo()->getManagerApi()->saveFormValues(4);
+            evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
             return;
         }
 
         // permissions is on
-        if ($modx->getConfig('use_udperms')) {
+        if (evo()->getConfig('use_udperms')) {
             // parent document access permissions
             $parentGroups = [];
             if ($resourceArray['parent'] != 0) {
@@ -166,7 +235,7 @@ switch ($actionToTake) {
                     ->toArray();
             }
 
-            if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
+            if (evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
                 // check if document has groups checked
                 if (!empty($documentGroups)) {
                     $groups = [];
@@ -179,7 +248,7 @@ switch ($actionToTake) {
 
                         // - The current user belongs to this group (in $userGroups), OR
                         // - The user has the global 'manage_groups' permission (e.g., admin)
-                        if (in_array($group, $userGroups) || $modx->hasPermission('manage_groups')) {
+                        if (in_array($group, $userGroups) || evo()->hasPermission('manage_groups')) {
                             $groups[] = $group;
                         }
                     }
@@ -187,7 +256,7 @@ switch ($actionToTake) {
                     // If user has 'manage_document_permissions' permission,
                     // automatically include ALL parent document's groups — even if the user isn't in them.
                     // This allows privileged users to inherit or assign parent-level permissions.
-                    if ($modx->hasPermission('manage_document_permissions')) {
+                    if (evo()->hasPermission('manage_document_permissions')) {
                         foreach ($parentGroups as $group) {
                             // also inherit every $group from parent
                             $groups[] = $group;
@@ -198,7 +267,7 @@ switch ($actionToTake) {
                     // and they have NO overlap between their selected groups and their own groups ($userGroups),
                     // then fall back to inheriting ALL parent groups.
                     // This ensures non-admin users don't accidentally remove themselves from access.
-                    if (!$modx->hasPermission('manage_groups')) {
+                    if (!evo()->hasPermission('manage_groups')) {
                         // Check if there's ANY common group between selected groups and user's groups
                         if (!array_intersect($groups, $userGroups)) {
                             // If no overlap, restore all parent groups to prevent lockout
@@ -216,14 +285,14 @@ switch ($actionToTake) {
                     } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                         // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                        $modx->getManagerApi()->saveFormValues(4);
-                        $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                        evo()->getManagerApi()->saveFormValues(4);
+                        evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
                         return;
                     } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
                         // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-                        $modx->getManagerApi()->saveFormValues(4);
-                        $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                        evo()->getManagerApi()->saveFormValues(4);
+                        evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
                         return;
                     }
                 }
@@ -238,14 +307,14 @@ switch ($actionToTake) {
                 } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                     // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                    $modx->getManagerApi()->saveFormValues(4);
-                    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    evo()->getManagerApi()->saveFormValues(4);
+                    evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
                     return;
                 } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
                     // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-                    $modx->getManagerApi()->saveFormValues(4);
-                    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    evo()->getManagerApi()->saveFormValues(4);
+                    evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
                     return;
                 }
             }
@@ -277,28 +346,28 @@ switch ($actionToTake) {
         break;
 
     case 'edit':
-        if ($resourceArray['id'] == $modx->getConfig('site_start') && $resourceArray['published'] == 0) {
-            $modx->getManagerApi()->saveFormValues(27);
-            $modx->webAlertAndQuit("Document is linked to site_start variable and cannot be unpublished!");
+        if ($resourceArray['id'] == evo()->getConfig('site_start') && $resourceArray['published'] == 0) {
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit("Document is linked to site_start variable and cannot be unpublished!");
             return;
         }
 
-        $today = $modx->timestamp();
-        if ($resourceArray['id'] == $modx->getConfig('site_start') && ($resourceArray['pub_date'] > $today || $resourceArray['unpub_date'] != "0")) {
-            $modx->getManagerApi()->saveFormValues(27);
-            $modx->webAlertAndQuit("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
+        $today = evo()->timestamp();
+        if ($resourceArray['id'] == evo()->getConfig('site_start') && ($resourceArray['pub_date'] > $today || $resourceArray['unpub_date'] != "0")) {
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
             return;
         }
 
         if ($resourceArray['parent'] == $resourceArray['id']) {
-            $modx->getManagerApi()->saveFormValues(27);
-            $modx->webAlertAndQuit("Document can not be it's own parent!");
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit("Document can not be it's own parent!");
             return;
         }
 
-        $parents = $modx->getParentIds($resourceArray['parent']);
+        $parents = evo()->getParentIds($resourceArray['parent']);
         if (in_array($resourceArray['id'], $parents)) {
-            $modx->webAlertAndQuit("Document descendant can not be it's parent!");
+            evo()->webAlertAndQuit("Document descendant can not be it's parent!");
             return;
         }
 
@@ -313,20 +382,20 @@ switch ($actionToTake) {
         } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
             // \Log::error('Unexpected error: ' . $e->getMessage());
 
-            $modx->getManagerApi()->saveFormValues(27);
-            $modx->webAlertAndQuit($e->getMessage(), "index.php?a=27&id={$resourceArray['id']}");
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit($e->getMessage(), "index.php?a=27&id={$resourceArray['id']}");
             return;
         } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
             // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-            $modx->getManagerApi()->saveFormValues(27);
-            $modx->webAlertAndQuit($e->getValidationErrors(), "index.php?a=27&id={$resourceArray['id']}");
+            evo()->getManagerApi()->saveFormValues(27);
+            evo()->webAlertAndQuit($e->getValidationErrors(), "index.php?a=27&id={$resourceArray['id']}");
             return;
         }
 
         // set document permissions
-        if ($modx->getConfig('use_udperms')) {
-            if ($modx->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
+        if (evo()->getConfig('use_udperms')) {
+            if (evo()->hasAnyPermissions(['manage_groups', 'manage_document_permissions'])) {
                 $groups = [];
 
                 // process the new input
@@ -335,7 +404,7 @@ switch ($actionToTake) {
                     [$group, $link_id] = explode(',', $value_pair);
 
                     // selected $group is in $userGroups or can manage groups in general
-                    if (in_array($group, $userGroups) || $modx->hasPermission('manage_groups')) {
+                    if (in_array($group, $userGroups) || evo()->hasPermission('manage_groups')) {
                         $groups[] = $group;
                     }
                 }
@@ -348,14 +417,14 @@ switch ($actionToTake) {
                 } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                     // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                    $modx->getManagerApi()->saveFormValues(4);
-                    $modx->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    evo()->getManagerApi()->saveFormValues(4);
+                    evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
                     return;
                 } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
                     // \Log::error('Validation error: ' . $e->getValidationErrors());
 
-                    $modx->getManagerApi()->saveFormValues(4);
-                    $modx->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    evo()->getManagerApi()->saveFormValues(4);
+                    evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
                     return;
                 }
             }
@@ -366,7 +435,7 @@ switch ($actionToTake) {
             $header = "Location: {MODX_SITE_URL}index.php?id={$resourceArray['id']}&z=manprev";
         } else {
             if ($_POST['stay'] != '2' && $resourceArray['id'] > 0) {
-                $modx->unlockElement(7, $resourceArray['id']);
+                evo()->unlockElement(7, $resourceArray['id']);
             }
             if ($_POST['stay'] != '') {
                 if ($resourceArray['type'] == "reference") {
@@ -390,6 +459,6 @@ switch ($actionToTake) {
         break;
 
     default:
-        $modx->webAlertAndQuit("No operation set in request.");
+        evo()->webAlertAndQuit('No operation set in request.');
         return;
 }
