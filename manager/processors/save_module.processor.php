@@ -103,8 +103,9 @@ switch ($_POST['mode']) {
         // disallow duplicate names for new modules
         $count = \EvolutionCMS\Models\SiteModule::query()->where('name', $name)->count();
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(107);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_module'), $name), "index.php?a=107");
+            $action = 107;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_module'), $name), "index.php?a={$action}");
         }
 
         // save the new module
@@ -162,8 +163,9 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteModule::query()->where('name', $name)->where('id', '!=', $id)->count();
 
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(108);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_module'), $name), "index.php?a=108&id={$id}");
+            $action = 108;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_module'), $name), "index.php?a={$action}&id={$id}");
         }
 
         // save the edited module

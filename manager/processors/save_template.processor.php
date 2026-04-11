@@ -99,8 +99,9 @@ switch ($_POST['mode']) {
         // disallow duplicate names for new templates
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->count();
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(19);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.template'), $templatename), "index.php?a=19");
+            $action = 19;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.template'), $templatename), "index.php?a={$action}");
         }
 
         if ($templatealias == '') {
@@ -112,8 +113,9 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatealias', $templatealias)->count();
 
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(19);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_template_alias_found'), $docid, $templatealias), "index.php?a=19");
+            $action = 19;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_template_alias_found'), $docid, $templatealias), "index.php?a={$action}");
         }
         //do stuff to save the new doc
         $newid = \EvolutionCMS\Models\SiteTemplate::query()->insertGetId([
@@ -168,8 +170,9 @@ switch ($_POST['mode']) {
         // disallow duplicate names for templates
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->where('id', '!=', $id)->count();
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(16);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.template'), $templatename), "index.php?a=16&id={$id}");
+            $action = 16;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.template'), $templatename), "index.php?a={$action}&id={$id}");
         }
 
         if ($templatealias == '') {
@@ -181,8 +184,9 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatealias', $templatealias)->where('id', '!=', $id)->count();
 
         if ($count > 0) {
-            evo()->getManagerApi()->saveFormValues(16);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_template_alias_found'), $docid, $templatealias), "index.php?a=16&id={$id}");
+            $action = 16;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_template_alias_found'), $docid, $templatealias), "index.php?a={$action}&id={$id}");
         }
         //do stuff to save the edited doc
         \EvolutionCMS\Models\SiteTemplate::find($id)->update([

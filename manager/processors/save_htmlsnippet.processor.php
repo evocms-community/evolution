@@ -74,8 +74,9 @@ switch ($_POST['mode']) {
 
         // disallow duplicate names for new chunks
         if (EvolutionCMS\Models\SiteHtmlsnippet::where('name', '=', $name)->first()) {
-            evo()->getManagerApi()->saveFormValues(77);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.chunk'), $name), "index.php?a=77");
+            $action = 77;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.chunk'), $name), "index.php?a={$action}");
         }
 
         //do stuff to save the new doc
@@ -112,8 +113,9 @@ switch ($_POST['mode']) {
 
         // disallow duplicate names for chunks
         if (EvolutionCMS\Models\SiteHtmlsnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
-            evo()->getManagerApi()->saveFormValues(78);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.chunk'), $name), "index.php?a=78&id={$id}");
+            $action = 78;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.chunk'), $name), "index.php?a={$action}&id={$id}");
         }
 
         //do stuff to save the edited doc

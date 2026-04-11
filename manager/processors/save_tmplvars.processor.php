@@ -48,14 +48,16 @@ switch ($_POST['mode']) {
 
         // disallow duplicate names for new tvs
         if (EvolutionCMS\Models\SiteTmplvar::where('name', '=', $name)->first()) {
-            evo()->getManagerApi()->saveFormValues(300);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.tv'), $name), "index.php?a=300");
+            $action = 300;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.tv'), $name), "index.php?a={$action}");
         }
         // disallow reserved names
         if (in_array($name, ['id', 'type', 'contentType', 'pagetitle', 'longtitle', 'description', 'alias', 'link_attributes', 'published', 'pub_date', 'unpub_date', 'parent', 'isfolder', 'introtext', 'content', 'richtext', 'template', 'menuindex', 'searchable', 'cacheable', 'createdby', 'createdon', 'editedby', 'editedon', 'deleted', 'deletedon', 'deletedby', 'publishedon', 'publishedby', 'menutitle', 'hide_from_tree', 'privateweb', 'privatemgr', 'content_dispo', 'hidemenu', 'alias_visible', 'id', 'oldusername', 'oldemail', 'newusername', 'fullname', 'first_name', 'middle_name', 'last_name', 'verified', 'newpassword', 'newpasswordcheck', 'passwordgenmethod', 'passwordnotifymethod', 'specifiedpassword', 'confirmpassword', 'email', 'phone', 'mobilephone', 'fax', 'dob', 'country', 'street', 'city', 'state', 'zip', 'gender', 'photo', 'comment', 'role', 'failedlogincount', 'blocked', 'blockeduntil', 'blockedafter', 'user_groups', 'mode', 'blockedmode', 'stay', 'save', 'theme_refresher', 'username'])) {
             $_POST['name'] = '';
-            evo()->getManagerApi()->saveFormValues(300);
-            evo()->webAlertAndQuit(sprintf(__('global.reserved_name_warning'), __('global.tv'), $name), "index.php?a=300");
+            $action = 300;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.reserved_name_warning'), __('global.tv'), $name), "index.php?a={$action}");
         }
 
         // Add new TV
@@ -114,13 +116,17 @@ switch ($_POST['mode']) {
 
         // disallow duplicate names for tvs
         if (EvolutionCMS\Models\SiteTmplvar::where('name', '=', $name)->where('id', '!=', $id)->first()) {
-            evo()->getManagerApi()->saveFormValues(300);
-            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.tv'), $name), "index.php?a=301&id={$id}");
+            $action = 300;
+            $action1 = 301;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.tv'), $name), "index.php?a={$action1}&id={$id}");
         }
         // disallow reserved names
         if (in_array($name, ['id', 'type', 'contentType', 'pagetitle', 'longtitle', 'description', 'alias', 'link_attributes', 'published', 'pub_date', 'unpub_date', 'parent', 'isfolder', 'introtext', 'content', 'richtext', 'template', 'menuindex', 'searchable', 'cacheable', 'createdby', 'createdon', 'editedby', 'editedon', 'deleted', 'deletedon', 'deletedby', 'publishedon', 'publishedby', 'menutitle', 'hide_from_tree', 'privateweb', 'privatemgr', 'content_dispo', 'hidemenu', 'alias_visible', 'id', 'oldusername', 'oldemail', 'newusername', 'fullname', 'first_name', 'middle_name', 'last_name', 'verified', 'newpassword', 'newpasswordcheck', 'passwordgenmethod', 'passwordnotifymethod', 'specifiedpassword', 'confirmpassword', 'email', 'phone', 'mobilephone', 'fax', 'dob', 'country', 'street', 'city', 'state', 'zip', 'gender', 'photo', 'comment', 'role', 'failedlogincount', 'blocked', 'blockeduntil', 'blockedafter', 'user_groups', 'mode', 'blockedmode', 'stay', 'save', 'theme_refresher', 'username'])) {
-            evo()->getManagerApi()->saveFormValues(300);
-            evo()->webAlertAndQuit(sprintf(__('global.reserved_name_warning'), __('global.tv'), $name), "index.php?a=301&id={$id}");
+            $action = 300;
+            $action1 = 301;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit(sprintf(__('global.reserved_name_warning'), __('global.tv'), $name), "index.php?a={$action1}&id={$id}");
         }
 
         // update TV

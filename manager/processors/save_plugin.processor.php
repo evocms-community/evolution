@@ -93,8 +93,9 @@ switch ($_POST['mode']) {
         if ($disabled == '0') {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->count();
             if ($count > 0) {
-                evo()->getManagerApi()->saveFormValues(101);
-                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), 'index.php?a=101');
+                $action = 4;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), "index.php?a={$action}");
             }
         }
 
@@ -148,8 +149,9 @@ switch ($_POST['mode']) {
         if ($disabled == '0') {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->where('id', '!=', $id)->count();
             if ($count > 0) {
-                evo()->getManagerApi()->saveFormValues(102);
-                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), "index.php?a=102&id={$id}");
+                $action = 102;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), "index.php?a={$action}&id={$id}");
             }
         }
 

@@ -140,12 +140,14 @@ if ($_SESSION['mgrRole'] != 1 && !empty($documentGroups)) {
 
         if (!$exist) {
             if ($actionToTake == 'edit') {
-                evo()->getManagerApi()->saveFormValues(27);
-                evo()->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a=27&id={$resourceArray['id']}");
+                $action = 27;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a={$action}&id={$resourceArray['id']}");
                 return;
             } else {
-                evo()->getManagerApi()->saveFormValues(4);
-                evo()->webAlertAndQuit(__('global.resource_permissions_error'), 'index.php?a=4');
+                $action = 4;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(__('global.resource_permissions_error'), "index.php?a={$action}");
                 return;
             }
         }
@@ -184,12 +186,14 @@ if (evo()->getConfig('use_udperms')) {
 
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
-                evo()->getManagerApi()->saveFormValues(27);
-                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a=27&id={$resourceArray['id']}");
+                $action = 27;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a={$action}&id={$resourceArray['id']}");
                 return;
             } else {
-                evo()->getManagerApi()->saveFormValues(4);
-                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), 'index.php?a=4');
+                $action = 4;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(__('global.access_permission_parent_denied'), "index.php?a={$action}");
                 return;
             }
         }
@@ -212,18 +216,21 @@ switch ($actionToTake) {
         } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
             // \Log::error('Unexpected error: ' . $e->getMessage());
 
-            evo()->getManagerApi()->saveFormValues(4);
-            evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+            $action = 4;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
             return;
         } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-            // \Log::error('Validation error: ' . $e->getValidationErrors());
+            // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-            evo()->getManagerApi()->saveFormValues(4);
-            evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+            $action = 4;
+            evo()->getManagerApi()->saveFormValues($action);
+            $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+            evo()->webAlertAndQuit($errors, "index.php?a={$action}");
             return;
         }
 
-        // permissions is on
+        // permissions are on
         if (evo()->getConfig('use_udperms')) {
             // parent document access permissions
             $parentGroups = [];
@@ -285,14 +292,17 @@ switch ($actionToTake) {
                     } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                         // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                        evo()->getManagerApi()->saveFormValues(4);
-                        evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                        $action = 4;
+                        evo()->getManagerApi()->saveFormValues($action);
+                        evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
                         return;
                     } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-                        // \Log::error('Validation error: ' . $e->getValidationErrors());
+                        // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-                        evo()->getManagerApi()->saveFormValues(4);
-                        evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                        $action = 4;
+                        evo()->getManagerApi()->saveFormValues($action);
+                        $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+                        evo()->webAlertAndQuit($errors, "index.php?a={$action}");
                         return;
                     }
                 }
@@ -307,14 +317,17 @@ switch ($actionToTake) {
                 } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                     // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                    evo()->getManagerApi()->saveFormValues(4);
-                    evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    $action = 4;
+                    evo()->getManagerApi()->saveFormValues($action);
+                    evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
                     return;
                 } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-                    // \Log::error('Validation error: ' . $e->getValidationErrors());
+                    // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-                    evo()->getManagerApi()->saveFormValues(4);
-                    evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    $action = 4;
+                    evo()->getManagerApi()->saveFormValues($action);
+                    $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+                    evo()->webAlertAndQuit($errors, "index.php?a={$action}");
                     return;
                 }
             }
@@ -347,20 +360,24 @@ switch ($actionToTake) {
 
     case 'edit':
         if ($resourceArray['id'] == evo()->getConfig('site_start') && $resourceArray['published'] == 0) {
-            evo()->getManagerApi()->saveFormValues(27);
-            evo()->webAlertAndQuit("Document is linked to site_start variable and cannot be unpublished!");
+            $action = 27;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit("Document is linked to 'site_start' variable and cannot be unpublished!");
             return;
         }
 
         $today = evo()->timestamp();
-        if ($resourceArray['id'] == evo()->getConfig('site_start') && ($resourceArray['pub_date'] > $today || $resourceArray['unpub_date'] != "0")) {
-            evo()->getManagerApi()->saveFormValues(27);
-            evo()->webAlertAndQuit("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
+
+        if ($resourceArray['id'] == evo()->getConfig('site_start') && ((int) $resourceArray['pub_date'] > $today || (int) $resourceArray['unpub_date'] != 0)) {
+            $action = 27;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit("Document is linked to 'site_start' variable and cannot have publish or unpublish dates set!");
             return;
         }
 
         if ($resourceArray['parent'] == $resourceArray['id']) {
-            evo()->getManagerApi()->saveFormValues(27);
+            $action = 27;
+            evo()->getManagerApi()->saveFormValues($action);
             evo()->webAlertAndQuit("Document can not be it's own parent!");
             return;
         }
@@ -382,14 +399,17 @@ switch ($actionToTake) {
         } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
             // \Log::error('Unexpected error: ' . $e->getMessage());
 
-            evo()->getManagerApi()->saveFormValues(27);
-            evo()->webAlertAndQuit($e->getMessage(), "index.php?a=27&id={$resourceArray['id']}");
+            $action = 27;
+            evo()->getManagerApi()->saveFormValues($action);
+            evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}&id={$resourceArray['id']}");
             return;
         } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-            // \Log::error('Validation error: ' . $e->getValidationErrors());
+            // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-            evo()->getManagerApi()->saveFormValues(27);
-            evo()->webAlertAndQuit($e->getValidationErrors(), "index.php?a=27&id={$resourceArray['id']}");
+            $action = 27;
+            evo()->getManagerApi()->saveFormValues($action);
+            $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+            evo()->webAlertAndQuit($errors, "index.php?a={$action}&id={$resourceArray['id']}");
             return;
         }
 
@@ -417,14 +437,17 @@ switch ($actionToTake) {
                 } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
                     // \Log::error('Unexpected error: ' . $e->getMessage());
 
-                    evo()->getManagerApi()->saveFormValues(4);
-                    evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+                    $action = 4;
+                    evo()->getManagerApi()->saveFormValues($action);
+                    evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
                     return;
                 } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-                    // \Log::error('Validation error: ' . $e->getValidationErrors());
+                    // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-                    evo()->getManagerApi()->saveFormValues(4);
-                    evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+                    $action = 4;
+                    evo()->getManagerApi()->saveFormValues($action);
+                    $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+                    evo()->webAlertAndQuit($errors, "index.php?a={$action}");
                     return;
                 }
             }

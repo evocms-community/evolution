@@ -29,14 +29,17 @@ try {
 } catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
     // \Log::error('Unexpected error: ' . $e->getMessage());
 
-    evo()->getManagerApi()->saveFormValues(4);
-    evo()->webAlertAndQuit($e->getMessage(), 'index.php?a=4');
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
     return;
 } catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
-    // \Log::error('Validation error: ' . $e->getValidationErrors());
+    // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-    evo()->getManagerApi()->saveFormValues(4);
-    evo()->webAlertAndQuit($e->getValidationErrors(), 'index.php?a=4');
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+    evo()->webAlertAndQuit($errors, "index.php?a={$action}");
     return;
 }
 
