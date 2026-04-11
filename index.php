@@ -58,18 +58,20 @@ $config = [
 if (file_exists(__DIR__ . '/config.php')) {
     $config = array_merge($config, require __DIR__ . '/config.php');
 }
-if (!defined('IN_INSTALL_MODE') && !file_exists($config['core'] . '/.install')) {
+if (!defined('IN_INSTALL_MODE') && !file_exists($config['core'] . '/.install')) { 
+
+    if (is_dir(__DIR__ . '/install')) {
+        header('Location: install/index.php?action=not_installed');
+        exit;
+    }
+
     header('HTTP/1.1 503 Service Temporarily Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     header('Retry-After: 3600');
 
-    $path = __DIR__ . '/install/src/template/not_installed.tpl';
-    if (file_exists($path)) {
-        readfile($path);
-    } else {
-        echo '<h3>Unable to load configuration settings</h3>';
-        echo 'Please run the Evolution CMS install utility';
-    }
+    echo '<h3>Unable to load configuration settings</h3>';
+    echo 'Please run the Evolution CMS install utility';
+
 
     exit;
 }
@@ -78,7 +80,7 @@ if (!defined('IN_INSTALL_MODE')) {
     define('IN_INSTALL_MODE', false);
 }
 if (IN_INSTALL_MODE) {
-// set some settings, and address some IE issues
+    // set some settings, and address some IE issues
     @ini_set('url_rewriter.tags', '');
     @ini_set('session.use_trans_sid', 0);
     @ini_set('session.use_only_cookies', 1);
