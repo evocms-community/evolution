@@ -247,3 +247,29 @@ if (!function_exists('replace_array')) {
         return $out;
     }
 }
+
+if (!function_exists('manager_route')) {
+    /**
+     * Генерирует URL для страницы админ-панели по читаемому имени маршрута
+     *
+     * @param string $name   имя маршрута из config/manager_routes.php
+     * @param array  $params дополнительные GET-параметры (id, tab, …)
+     * @return string полный URL вида MODX_MANAGER_URL . 'index.php?a=...&...'
+     * @throws InvalidArgumentException если маршрут не найден
+     */
+    function manager_route(string $name, array $params = []): string
+    {
+        static $routes = null;
+        if ($routes === null) {
+            $routes = include __DIR__ . '/../config/manager_routes.php';
+        }
+
+        $action = $routes[$name] ?? null;
+        if ($action === null) {
+            throw new \InvalidArgumentException("Неизвестный маршрут админки: $name");
+        }
+
+        $query = array_merge(['a' => $action], $params);
+        return MODX_MANAGER_URL . 'index.php?' . http_build_query($query);
+    }
+}
