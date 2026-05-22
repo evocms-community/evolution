@@ -2,35 +2,50 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if (!$modx->hasPermission('new_document') || !$modx->hasPermission('save_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('new_document') || !evo()->hasPermission('save_document')) {
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
-
-$children = array();
 
 // check permissions on the document
 $udperms = new EvolutionCMS\Legacy\Permissions();
-$udperms->user = $modx->getLoginUserID('mgr');
+$udperms->user = evo()->getLoginUserID('mgr');
 $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
-$udperms->duplicateDoc = true;
+// EvolutionCMS\Legacy\Permissions:
+$udperms->duplicateDoc = true; // непонятно зачем это
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    evo()->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
-// Run the duplicator
-$document = \DocumentManager::duplicate(['id' => $id]);
+// Run duplicator
+try {
+    $document = \DocumentManager::duplicate(['id' => $id]);
+} catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+    // \Log::error('Unexpected error: ' . $e->getMessage());
+
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
+    return;
+} catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+    // \Log::error('Validation errors: ' . $e->getValidationErrors());
+
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+    evo()->webAlertAndQuit($errors, "index.php?a={$action}");
+    return;
+}
 
 // Set the item name for logger
-$name = EvolutionCMS\Models\SiteContent::select('pagetitle')->findOrFail($document->getKey())->pagetitle;
-$_SESSION['itemname'] = $name;
+$_SESSION['itemname'] = $document->pagetitle;
 
 // finish cloning - redirect
-$header = "Location: index.php?r=1&a=3&id=" . $document->getKey();
+$header = "Location: index.php?a=3&r=1&id={$document->getKey()}";
 header($header);

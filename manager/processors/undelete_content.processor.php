@@ -2,13 +2,13 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die("<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.");
 }
-if (!$modx->hasPermission('delete_document')) {
-    $modx->webAlertAndQuit($_lang["error_no_privileges"]);
+if (!evo()->hasPermission('delete_document')) {
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 $id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
 if ($id == 0) {
-    $modx->webAlertAndQuit($_lang["error_no_id"]);
+    evo()->webAlertAndQuit(__('global.error_no_id'));
 }
 
 $document = \EvolutionCMS\Models\SiteContent::withTrashed()->findOrFail($id);
@@ -16,7 +16,7 @@ $document = \EvolutionCMS\Models\SiteContent::withTrashed()->findOrFail($id);
 $pid = ($document->parent == 0 ? $id : $document->parent);
 $parentDeleted = $document->parent > 0 && empty(\EvolutionCMS\Models\SiteContent::find($document->parent));
 if ($parentDeleted) {
-    $modx->webAlertAndQuit($_lang["error_parent_deleted"]);
+    evo()->webAlertAndQuit(__('global.error_parent_deleted'));
 }
 $sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
 $sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
@@ -25,47 +25,42 @@ $add_path = $sd . $sb . $pg;
 
 // check permissions on the document
 $udperms = new EvolutionCMS\Legacy\Permissions();
-$udperms->user = $modx->getLoginUserID('mgr');
+$udperms->user = evo()->getLoginUserID('mgr');
 $udperms->document = $id;
 $udperms->role = $_SESSION['mgrRole'];
 
 if (!$udperms->checkPermissions()) {
-    $modx->webAlertAndQuit($_lang["access_permission_denied"]);
+    evo()->webAlertAndQuit(__('global.access_permission_denied'));
 }
 
 // get the timestamp on which the document was deleted.
 if (!$document->deletedon) {
-    $modx->webAlertAndQuit("Couldn't find document to determine it's date of deletion!");
+    evo()->webAlertAndQuit("Couldn't find document to determine it's date of deletion!");
 }
 
-$children = $document->getAllChildren($document);
+// Run undeleter
+try {
+    $document = \DocumentManager::undelete(['id' => $id]);
+} catch (EvolutionCMS\Exceptions\ServiceActionException $e) {
+    // \Log::error('Unexpected error: ' . $e->getMessage());
 
-$documentDeleteIds = $children;
-array_unshift($documentDeleteIds, $id);
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    evo()->webAlertAndQuit($e->getMessage(), "index.php?a={$action}");
+    return;
+} catch (EvolutionCMS\Exceptions\ServiceValidationException $e) {
+    // \Log::error('Validation errors: ' . $e->getValidationErrors());
 
-$site_content_table = (new \EvolutionCMS\Models\SiteContent())->getTable();
-DB::table($site_content_table)
-    ->whereIn('id', $documentDeleteIds)
-    ->update([
-        'deleted' => 0,
-        'deletedby' => 0,
-        'deletedon' => 0,
-    ]);
-
-$modx->invokeEvent(
-    "OnDocFormUnDelete",
-    array(
-        "id" => $id,
-        "children" => $children,
-    )
-);
+    $action = 4;
+    evo()->getManagerApi()->saveFormValues($action);
+    $errors = implode('<br />', array_reduce($e->getValidationErrors(), 'array_merge', []));
+    evo()->webAlertAndQuit($errors, "index.php?a={$action}");
+    return;
+}
 
 // Set the item name for logger
 $_SESSION['itemname'] = $document->pagetitle;
 
-// empty cache
-$modx->clearCache('full');
-
 // finished emptying cache - redirect
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
+$header = "Location: index.php?a=3&r=1&id={$pid}{$add_path}";
 header($header);

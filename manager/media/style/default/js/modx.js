@@ -1538,15 +1538,19 @@
                         this.show();
                         if (~this.closeactions.indexOf(this.action)) {
                             this.setDocPublished();
-                            modx.get(this.url, function (r) {
-                                /__alertQuit\(\)/.test(r) && modx.alert(r.match(/\<body\>(.*?)\<\/body\>/s)[0]);
+                            modx.get(this.url, function (data) {
+                                // if '__alertQuit' exists show alert with text from BODY > P
+                                /__alertQuit\(\)/.test(data) && modx.alert(data.match(/<body>\s*<p>(.*?)<\/p>\s*<\/body>/s)?.[1] || '');
+
                                 modx.tree.restoreTree();
                             });
                         }
                     }
                 } else if (~this.closeactions.indexOf(this.action)) {
-                    modx.get(this.url, function (r) {
-                        /__alertQuit\(\)/.test(r) && modx.alert(r.match(/\<body\>(.*?)\<\/body\>/s)[0]);
+                    modx.get(this.url, function (data) {
+                        // if '__alertQuit' exists show alert with text from BODY > P
+                        /__alertQuit\(\)/.test(data) && modx.alert(data.match(/<body>\s*<p>(.*?)<\/p>\s*<\/body>/s)?.[1] || '');
+
                         modx.tree.restoreTree();
                     });
                 } else {
@@ -1607,8 +1611,8 @@
                     this.olduid = this.uid;
                     this.uid = modx.urlToUid(this.url);
                     if (!!w.main.__alertQuit) {
-                        w.main.alert = function (a) { };
-                        var message = w.main.document.body.innerHTML;
+                        w.main.alert = function () { };
+                        var message = w.main.document.body.querySelector('p').innerHTML;
                         w.main.document.body.style.display = 'none';
                         history.pushState(null, d.title, modx.getActionFromUrl(this.url, 2) ? modx.MODX_MANAGER_URL : '#' + this.url);
                         w.onpopstate = function () {
@@ -2005,9 +2009,10 @@
                                 o.uid = modx.urlToUid(a.url);
                                 o.event = e;
                                 if (!!e.target.contentWindow.__alertQuit) {
-                                    modx.alert(e.target.contentWindow.document.body.querySelector('p').innerHTML);
-                                    e.target.contentWindow.document.body.innerHTML = '';
                                     e.target.contentWindow.alert = function () { };
+                                    var message = e.target.contentWindow.document.body.querySelector('p').innerHTML;
+                                    e.target.contentWindow.document.body.innerHTML = '';
+                                    modx.alert(message);
                                 } else {
                                     if (modx.getActionFromUrl(a.url, 2) || o.wrap.querySelectorAll('#evo-popup-' + o.uid).length > 1) {
                                         o.el.close();
@@ -2216,7 +2221,7 @@
 
                 let m = a.match(/modules\/(.*?)$/)?.[1];
                 m && (b += m);
-                
+
                 b = modx.toHash(b);
             }
             return b;

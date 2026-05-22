@@ -2,8 +2,8 @@
 if (!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
-if (!$modx->hasPermission('save_plugin')) {
-    $modx->webAlertAndQuit($_lang['error_no_privileges']);
+if (!evo()->hasPermission('save_plugin')) {
+    evo()->webAlertAndQuit(__('global.error_no_privileges'));
 }
 
 if (isset($_GET['disabled'])) {
@@ -13,22 +13,22 @@ if (isset($_GET['disabled'])) {
     try {
         $plugin = EvolutionCMS\Models\SitePlugin::findOrFail($id);
         // invoke OnBeforeChunkFormSave event
-        $modx->invokeEvent("OnBeforePluginFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
+        evo()->invokeEvent('OnBeforePluginFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
         $_SESSION['itemname'] = $plugin->name;
         $plugin->update(['disabled' => $disabled]);
         // invoke OnChunkFormSave event
-        $modx->invokeEvent("OnPluginFormSave", array(
-            "mode" => "upd",
-            "id" => $id,
-        ));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException$e) {
-        $modx->webAlertAndQuit($_lang["error_no_id"]);
+        evo()->invokeEvent('OnPluginFormSave', [
+            'mode' => 'upd',
+            'id' => $id,
+        ]);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        evo()->webAlertAndQuit(__('global.error_no_id'));
     }
     // empty cache
-    $modx->clearCache('full');
+    evo()->clearCache('full');
 
     // finished emptying cache - redirect
     $header = "Location: index.php?a=76&tab=4&r=2";
@@ -44,9 +44,9 @@ $plugincode = $_POST['post'];
 $properties = $_POST['properties'];
 $disabled = isset($_POST['disabled']) && $_POST['disabled'] == 'on' ? '1' : '0';
 $moduleguid = $_POST['moduleguid'];
-$sysevents = !empty($_POST['sysevents']) ? $_POST['sysevents'] : array();
+$sysevents = !empty($_POST['sysevents']) ? $_POST['sysevents'] : [];
 $parse_docblock = isset($_POST['parse_docblock']) && $_POST['parse_docblock'] == '1' ? '1' : '0';
-$currentdate = time() + $modx->config['server_offset_time'];
+$currentdate = time() + evo()->config['server_offset_time'];
 
 //Kyle Jaebker - added category support
 if (empty($_POST['newcategory']) && $_POST['categoryid'] > 0) {
@@ -63,7 +63,7 @@ if ($name == '') {
 }
 
 if ($parse_docblock) {
-    $parsed = $modx->parseDocBlockFromString($plugincode, true);
+    $parsed = evo()->parseDocBlockFromString($plugincode, true);
     $name = isset($parsed['name']) ? $parsed['name'] : $name;
     $sysevents = isset($parsed['events']) ? explode(',', $parsed['events']) : $sysevents;
     $properties = isset($parsed['properties']) ? $parsed['properties'] : $properties;
@@ -80,26 +80,27 @@ if ($parse_docblock) {
     }
 }
 
-$eventIds = array();
+$eventIds = [];
 switch ($_POST['mode']) {
     case '101':
         // invoke OnBeforePluginFormSave event
-        $modx->invokeEvent('OnBeforePluginFormSave', array(
+        evo()->invokeEvent('OnBeforePluginFormSave', [
             'mode' => 'new',
             'id' => $id,
-        ));
+        ]);
 
         // disallow duplicate names for active plugins
         if ($disabled == '0') {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->count();
             if ($count > 0) {
-                $modx->getManagerApi()->saveFormValues(101);
-                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), 'index.php?a=101');
+                $action = 4;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), "index.php?a={$action}");
             }
         }
 
         //do stuff to save the new plugin
-        $newid = \EvolutionCMS\Models\SitePlugin::query()->insertGetId(array(
+        $newid = \EvolutionCMS\Models\SitePlugin::query()->insertGetId([
             'name' => $name,
             'description' => $description,
             'plugincode' => $plugincode,
@@ -110,51 +111,52 @@ switch ($_POST['mode']) {
             'category' => $categoryid,
             'createdon' => $currentdate,
             'editedon' => $currentdate,
-        ));
+        ]);
 
         // save event listeners
         saveEventListeners($newid, $sysevents, $_POST['mode']);
 
         // invoke OnPluginFormSave event
-        $modx->invokeEvent('OnPluginFormSave', array(
+        evo()->invokeEvent('OnPluginFormSave', [
             'mode' => 'new',
             'id' => $newid,
-        ));
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
 
         // empty cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
             $a = ($_POST['stay'] == '2') ? "102&id=$newid" : '101';
-            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
+            $header = "Location: index.php?a={$a}&r=2&stay={$_POST['stay']}";
             header($header);
         } else {
-            $header = 'Location: index.php?a=76&tab=4&r=2';
+            $header = "Location: index.php?a=76&tab=4&r=2";
             header($header);
         }
         break;
     case '102':
         // invoke OnBeforePluginFormSave event
-        $modx->invokeEvent('OnBeforePluginFormSave', array(
+        evo()->invokeEvent('OnBeforePluginFormSave', [
             'mode' => 'upd',
             'id' => $id,
-        ));
+        ]);
 
         // disallow duplicate names for active plugins
         if ($disabled == '0') {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->where('id', '!=', $id)->count();
             if ($count > 0) {
-                $modx->getManagerApi()->saveFormValues(102);
-                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), "index.php?a=102&id={$id}");
+                $action = 102;
+                evo()->getManagerApi()->saveFormValues($action);
+                evo()->webAlertAndQuit(sprintf(__('global.duplicate_name_found_general'), __('global.plugin'), $name), "index.php?a={$action}&id={$id}");
             }
         }
 
         //do stuff to save the edited plugin
-        $newid = \EvolutionCMS\Models\SitePlugin::query()->find($id)->update(array(
+        $newid = \EvolutionCMS\Models\SitePlugin::query()->find($id)->update([
             'name' => $name,
             'description' => $description,
             'plugincode' => $plugincode,
@@ -164,34 +166,34 @@ switch ($_POST['mode']) {
             'properties' => $properties,
             'category' => $categoryid,
             'editedon' => $currentdate,
-        ));
+        ]);
 
         // save event listeners
         saveEventListeners($id, $sysevents, $_POST['mode']);
 
         // invoke OnPluginFormSave event
-        $modx->invokeEvent('OnPluginFormSave', array(
+        evo()->invokeEvent('OnPluginFormSave', [
             'mode' => 'upd',
             'id' => $id,
-        ));
+        ]);
 
         // Set the item name for logger
         $_SESSION['itemname'] = $name;
 
         // empty cache
-        $modx->clearCache('full');
+        evo()->clearCache('full');
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "102&id=$id" : '101';
-            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
+            $a = ($_POST['stay'] == '2') ? "102&id={$id}" : '101';
+            $header = "Location: index.php?a={$a}&r=2&stay={$_POST['stay']}";
             header($header);
         } else {
-            $modx->unlockElement(5, $id);
-            $header = 'Location: index.php?a=76&tab=4&r=2';
+            evo()->unlockElement(5, $id);
+            $header = "Location: index.php?a=76&tab=4&r=2";
             header($header);
         }
         break;
     default:
-        $modx->webAlertAndQuit('No operation set in request.');
+        evo()->webAlertAndQuit('No operation set in request.');
 }
