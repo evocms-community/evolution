@@ -113,12 +113,12 @@
         },
         delete: function () {
           if (confirm("{{ __('global.confirm_delete_permission') }}") === true) {
-            document.location.href = 'index.php?id=' + document.userform.id.value + '&a=135&action=delete'
+            document.location.href = "{{ manager_route('permission_edit', ['tab' => 2, 'action' => 'delete']) }}" + "&id=" + document.userform.id.value
           }
         },
         cancel: function () {
           documentDirty = false
-          document.location.href = 'index.php?a=86&tab=2'
+          document.location.href = "{{ manager_route('role_list', ['tab' => 2]) }}"
         }
       }
     </script>

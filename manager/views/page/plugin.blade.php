@@ -24,16 +24,16 @@
             }, duplicate: function() {
               if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id={{ $data->getKey() }}&a=105";
+                document.location.href = "{!! manager_route('duplicate_plugin', [ 'id' => $data->getKey() ]) !!}";
               }
             }, delete: function() {
               if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_plugin') }}') === true) {
                 documentDirty = false;
-                document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=104';
+                document.location.href = "{!! manager_route('delete_plugin') !!}"+"&id=" + document.mutate.id.value;
               }
             }, cancel: function() {
               documentDirty = false;
-              document.location.href = 'index.php?a=76&tab=4';
+              document.location.href = "{!! manager_route('elements', [ 'tab' => 4 ]) !!}";
             }
           };
 

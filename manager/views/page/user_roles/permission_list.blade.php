@@ -1,6 +1,6 @@
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=86&tab={{ $index }}">
+        <a href="{{ manager_route('role_list', ['tab' => $index]) }}">
             <i class="fa fa-user-tag"></i>{{ __('global.manage_permission') }}
         </a>
     </h2>

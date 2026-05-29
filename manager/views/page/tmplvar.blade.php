@@ -84,13 +84,13 @@
             duplicate: function() {
               if (confirm("{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}") === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id={{ $data->getKey() }}&a=304";
+                document.location.href = "{!! manager_route('duplicate_tv', [ 'id' => $data->getKey() ]) !!}";
               }
             },
             delete: function() {
               if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_tmplvars') }}") === true) {
                 documentDirty = false;
-                document.location.href = 'index.php?id=' + document.mutate.id.value + '&a=303';
+                document.location.href = "{!! manager_route('delete_tv') !!}" + "&id=" + document.mutate.id.value;
               }
             },
             cancel: function() {

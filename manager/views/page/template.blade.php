@@ -14,18 +14,18 @@
                 duplicate: function () {
                     if (confirm("{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}") === true) {
                         documentDirty = false;
-                        document.location.href = "index.php?id={{ $data->getKey() }}&a=96";
+                        document.location.href = "{!! manager_route('duplicate_template', [ 'id' => $data->getKey() ]) !!}";
                     }
                 },
                 delete: function () {
                     if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_template') }}") === true) {
                         documentDirty = false;
-                        document.location.href = 'index.php?id={{ $data->getKey() }}&a=21';
+                        document.location.href = "{!! manager_route('delete_template', [ 'id' => $data->getKey() ]) !!}";
                     }
                 },
                 cancel: function () {
                     documentDirty = false;
-                    document.location.href = 'index.php?a=76&tab=0';
+                    document.location.href = "{!! manager_route('elements', [ 'tab' => 0 ]) !!}";
                 }
             };
 

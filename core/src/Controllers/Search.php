@@ -254,7 +254,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                     foreach ($results as $row) {
                         $output['content']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=27&id=' . $row['id'],
+                            'url' => manager_route('edit_document', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['pagetitle'], $_REQUEST['searchfields']) . ' (' . $this->highlightingCoincidence($row['id'], $_REQUEST['searchfields']) . ')',
                             'class' => $this->addClassForItemList('', !$row['published'], $row['deleted'])
                         ];
@@ -284,7 +284,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['templates']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=16&id=' . $row['id'],
+                            'url' => manager_route('edit_document', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['templatename'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'])
                         ];
@@ -321,7 +321,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['tmplvars']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=301&id=' . $row['id'],
+                            'url' => manager_route('edit_tv', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'])
                         ];
@@ -351,7 +351,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['htmlsnippets']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=78&id=' . $row['id'],
+                            'url' => manager_route('edit_chunk', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -383,7 +383,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['snippets']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=22&id=' . $row['id'],
+                            'url' => manager_route('edit_snippet', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -415,7 +415,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['plugins']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=102&id=' . $row['id'],
+                            'url' => manager_route('edit_plugin', [ 'id'=> $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];
@@ -448,7 +448,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['modules']['results'][] = [
                             'id' => $row['id'],
-                            'url' => 'index.php?a=108&id=' . $row['id'],
+                            'url' => manager_route('edit_module', [ 'id'=> $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['name'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'], $row['disabled'])
                         ];

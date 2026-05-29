@@ -119,7 +119,7 @@
                 <div class="row form-row">
                     <button type="submit" class="btn btn-success"><i class="{{ $_style['icon_search'] }}"></i>
                         {{ ManagerTheme::getLexicon('mgrlog_searchlogs') }}</button>
-                    <a class="btn btn-secondary" href="index.php?a=13" onclick="documentDirty=false;"><i
+                    <a class="btn btn-secondary" href= {{ manager_route('manager_log') }} onclick="documentDirty=false;"><i
                             class="{{ $_style['icon_cancel'] }}"></i>
                         {{ ManagerTheme::getLexicon('cancel') }}</a>
                 </div>

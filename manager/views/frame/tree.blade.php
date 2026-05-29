@@ -14,8 +14,8 @@ if(is_array($evtOut)) {
         <a class="treeButton" id="treeMenu_collapsetree" onclick="modx.tree.collapseTree();" title="{{ ManagerTheme::getLexicon('collapse_tree') }}"><i class="{{ $_style['icon_arrow_up_circle'] }}"></i></a>
 
         @if($modx->hasPermission('new_document'))
-            <a class="treeButton" id="treeMenu_addresource" onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=4', title: '{{ ManagerTheme::getLexicon('add_resource') }}'});" title="{{ ManagerTheme::getLexicon('add_resource') }}"><i class="{{ $_style['icon_document'] }}"></i></a>
-            <a class="treeButton" id="treeMenu_addweblink" onclick="modx.tabs({url:'{{ MODX_MANAGER_URL }}?a=72', title: '{{ ManagerTheme::getLexicon('add_weblink') }}'});" title="{{ ManagerTheme::getLexicon('add_weblink') }}"><i class="{{ $_style['icon_chain'] }}"></i></a>
+            <a class="treeButton" id="treeMenu_addresource" onclick="modx.tabs({url:'{{ manager_route('create_resource') }}', title: '{{ ManagerTheme::getLexicon('add_resource') }}'});" title="{{ ManagerTheme::getLexicon('add_resource') }}"><i class="{{ $_style['icon_document'] }}"></i></a>
+            <a class="treeButton" id="treeMenu_addweblink" onclick="modx.tabs({url:'{{ manager_route('create_weblink') }}', title: '{{ ManagerTheme::getLexicon('add_weblink') }}'});" title="{{ ManagerTheme::getLexicon('add_weblink') }}"><i class="{{ $_style['icon_chain'] }}"></i></a>
         @endif
 
         <a class="treeButton" id="treeMenu_refreshtree" onclick="modx.tree.restoreTree();" title="{{ ManagerTheme::getLexicon('refresh_tree') }}"><i class="{{ $_style['icon_refresh'] }}"></i></a>
@@ -23,7 +23,7 @@ if(is_array($evtOut)) {
         <a class="treeButton" id="treeMenu_sortingtree" onclick="modx.tree.showSorter(event);" title="{{ ManagerTheme::getLexicon('sort_tree') }}"><i class="{{ $_style['icon_sort'] }}"></i></a>
 
         @if($modx->hasPermission('edit_document') && $modx->hasPermission('save_document'))
-        <a class="treeButton" id="treeMenu_sortingindex" onclick="modx.tabs({url: '{{ MODX_MANAGER_URL }}?a=56&id=0', title: '{{ ManagerTheme::getLexicon('sort_menuindex') }}'});" title="{{ ManagerTheme::getLexicon('sort_menuindex') }}"><i class="{{ $_style['icon_sort_num_asc'] }}"></i></a>
+        <a class="treeButton" id="treeMenu_sortingindex" onclick="modx.tabs({url: '{{ manager_route('refresh_tree', [ 'id' => 0 ]) }}', title: '{{ ManagerTheme::getLexicon('sort_menuindex') }}'});" title="{{ ManagerTheme::getLexicon('sort_menuindex') }}"><i class="{{ $_style['icon_sort_num_asc'] }}"></i></a>
         @endif
 
         @if($modx->getConfig('use_browser') && $modx->hasPermission('assets_images'))

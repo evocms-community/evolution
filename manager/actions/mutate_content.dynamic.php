@@ -571,7 +571,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
                         $parentsResult = SiteContent::withTrashed()->select('id','pagetitle')->whereIn('id', $temp)->get();
                         foreach ($parentsResult->toArray() as $row) {
                             $out .= '<li class="breadcrumbs__li">
-                                <a href="index.php?a=27&id=' . $row['id'] . '" class="breadcrumbs__a">' . htmlspecialchars($row['pagetitle'], ENT_QUOTES, $modx->getConfig('modx_charset')) . '</a>
+                                <a href="' . manager_route('edit_document', [ 'id' => $row['id'] ]) . '" class="breadcrumbs__a">' . htmlspecialchars($row['pagetitle'], ENT_QUOTES, $modx->getConfig('modx_charset')) . '</a>
                                 <span class="breadcrumbs__sep">&gt;</span>
                             </li>';
                         }

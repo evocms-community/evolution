@@ -6,7 +6,7 @@
 
     if ($modx->hasPermission('settings') && $modx->getConfig('settings_version') !== $modx->getVersionData('version')) {
         // seems to be a new install - send the user to the configuration page
-        exit('<script type="text/javascript">document.location.href="index.php?a=17";</script>');
+        exit('<script type="text/javascript">document.location.href="'. manager_route('edit_settings').'";</script>');
     }
 
     // set placeholders
@@ -82,7 +82,7 @@
 
     if (!$modx->getConfig('site_status') && $modx->hasPermission('settings')) {
         $ph['show_site_status'] = 'block';
-        $ph['site_status_msg'] = strip_tags($modx->getConfig('site_unavailable_message')) . ' ' . __('global.update_settings_from_language') . ' <a href="?a=17&tab=0" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
+        $ph['site_status_msg'] = strip_tags($modx->getConfig('site_unavailable_message')) . ' ' . __('global.update_settings_from_language') . ' <a href="'. manager_route('edit_settings', [ 'tab' => 0 ]) .'" target="main" class="btn btn-sm btn-success">' . __('global.online') . '</a>';
     } else {
         $ph['show_site_status'] = 'none';
     }
@@ -243,7 +243,7 @@
             ($modx->hasPermission('new_document')
                 ? '
                     <span class="wm_button">
-                        <a target="main" href="index.php?a=4">
+                        <a target="main" href="'. manager_route('create_resource') .'">
                             <i class="' .
                     $_style['icon_document'] .
                     $_style['icon_size_2x'] .
@@ -253,7 +253,7 @@
                         </a>
                     </span>
                     <span class="wm_button">
-                        <a target="main" href="index.php?a=72">
+                        <a target="main" href="'. manager_route('create_weblink').'">
                             <i class="' .
                     $_style['icon_chain'] .
                     $_style['icon_size_2x'] .
@@ -295,7 +295,7 @@
             ($modx->hasPermission('bk_manager')
                 ? '
                     <span class="wm_button">
-                        <a target="main" href="index.php?a=93">
+                        <a target="main" href="'. manager_route('backup') .'">
                             <i class="' .
                     $_style['icon_database'] .
                     $_style['icon_size_2x'] .
@@ -309,7 +309,7 @@
             ($modx->hasPermission('change_password')
                 ? '
                     <span class="wm_button">
-                        <a target="main" href="index.php?a=28">
+                        <a target="main" href="'. manager_route('change_password') .'">
                             <i class="' .
                     $_style['icon_lock'] .
                     $_style['icon_size_2x'] .
@@ -322,7 +322,7 @@
                 : '') .
             '
                     <span class="wm_button">
-                        <a target="_top" href="index.php?a=8">
+                        <a target="_top" href="'. manager_route('logout') .'">
                             <i class="' .
             $_style['icon_logout'] .
             $_style['icon_size_2x'] .

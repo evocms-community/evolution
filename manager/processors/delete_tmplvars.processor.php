@@ -41,7 +41,7 @@ if (!$forced) {
                 <ul>
 <?php
 foreach ($siteTmlvarTemplates as $siteTmlvarTemplate) {
-            echo '<li><span style="width: 200px"><a href="index.php?id=' . $siteTmlvarTemplate->resource->id . '&a=27">' . $siteTmlvarTemplate->resource->pagetitle . '</a></span>' . ($siteTmlvarTemplate->resource->description != '' ? ' - ' . $siteTmlvarTemplate->resource->description : '') . '</li>';
+            echo '<li><span style="width: 200px"><a href="' . manager_route('edit_document', [ 'id' => $siteTmlvarTemplate->resource->id ]) .'">' . $siteTmlvarTemplate->resource->pagetitle . '</a></span>' . ($siteTmlvarTemplate->resource->description != '' ? ' - ' . $siteTmlvarTemplate->resource->description : '') . '</li>';
         }
         ?>
                 </ul>
@@ -74,5 +74,5 @@ $modx->invokeEvent("OnTVFormDelete", array(
 $modx->clearCache('full');
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=76&r=2&tab=1";
+$header = "Location:". manager_route('elements', [ 'r' => 2, 'tab' => 1 ]);
 header($header);

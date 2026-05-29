@@ -34,7 +34,7 @@ if (isset($_GET['selectable'])) {
         $modx->webAlertAndQuit(__('global.error_no_id'));
     }
 
-    $header = 'Location: index.php?a=76&tab=0&r=2';
+    $header = 'Location:'. manager_route('elements', [ 'tab' => 0, 'r' => 2 ]);
     header($header);
     exit;
 }
@@ -101,7 +101,7 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->count();
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(19);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), "index.php?a=19");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), manager_route('create_template'));
         }
 
         if ($templatealias == '') {
@@ -114,7 +114,7 @@ switch ($_POST['mode']) {
 
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(19);
-            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), "index.php?a=19");
+            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), manager_route('create_template'));
         }
         //do stuff to save the new doc
         $newid = \EvolutionCMS\Models\SiteTemplate::query()->insertGetId(array(
@@ -150,11 +150,15 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "16&id=$newid" : "19";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_template" : "create_template";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $newid;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
-            $header = "Location: index.php?a=76&r=2";
+            $header = "Location:". manager_route('elements', [ 'r' => 2 ]);
             header($header);
         }
 
@@ -170,7 +174,7 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteTemplate::where('templatename', $templatename)->where('id', '!=', $id)->count();
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(16);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), "index.php?a=16&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['template'], $templatename), manager_route('edit_template', [ 'id' => $id ]));
         }
 
         if ($templatealias == '') {
@@ -183,7 +187,7 @@ switch ($_POST['mode']) {
 
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(16);
-            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), "index.php?a=16&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang["duplicate_template_alias_found"], $docid, $templatealias), manager_route('edit_template', [ 'id' => $id ]));
         }
         //do stuff to save the edited doc
         \EvolutionCMS\Models\SiteTemplate::find($id)->update(array(
@@ -218,12 +222,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "16&id=$id" : "19";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_template" : "create_template";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params['id'] = $id;
+            }            
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
             $modx->unlockElement(1, $id);
-            $header = "Location: index.php?a=76&r=2";
+            $header = "Location:". manager_route('elements', [ 'r' => 2 ]);
             header($header);
         }
         break;

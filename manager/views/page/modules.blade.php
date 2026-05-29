@@ -38,7 +38,7 @@
                             </td>
                             <td class="tableItem">
                                 @if(evo()->hasAnyPermissions(['edit_module']))
-                                    <a href="index.php?a=108&id={{ $module->getKey() }}" title="{{ __('global.module_edit_click_title') }}">{{ $module->name }}</a>
+                                    <a href="{{ manager_route('edit_module', [ 'id' => $module->getKey() ])  }}" title="{{ __('global.module_edit_click_title') }}">{{ $module->name }}</a>
                                 @else
                                     {{ $module->name }}
                                 @endif
@@ -87,19 +87,19 @@
         switch (a) {
           case 1:		// run module
             dontShowWorker = true; // prevent worker from being displayed
-            window.location.href = 'index.php?a=112&id=' + id;
+            window.location.href = {!! manager_route('modules') !!} + '&id=' + id;
             break;
           case 2:		// edit
-            window.location.href = 'index.php?a=108&id=' + id;
+            window.location.href = {!! manager_route('edit_module') !!} + '&id=' + id;
             break;
           case 3:		// duplicate
             if (confirm('{{ __('global.confirm_duplicate_record') }}') === true) {
-              window.location.href = 'index.php?a=111&id=' + id;
+              window.location.href = {!! manager_route('duplicate_module') !!} + '&id=' + id;
             }
             break;
           case 4:		// delete
             if (confirm('{{ __('global.confirm_delete_module') }}') === true) {
-              window.location.href = 'index.php?a=110&id=' + id;
+              window.location.href = {!! manager_route('delete_module') !!} + '&id=' + id;
             }
             break;
         }
@@ -111,7 +111,7 @@
 
       var actions = {
         new: function() {
-          document.location.href = 'index.php?a=107';
+          document.location.href = "{!! manager_route('create_module') !!}";
         },
       };
 

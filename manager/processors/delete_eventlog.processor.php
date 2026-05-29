@@ -21,5 +21,5 @@ if (isset($_GET['cls']) && $_GET['cls'] == 1) {
 
 $query->delete();
 
-$header = "Location: index.php?a=114";
+$header = "Location:". manager_route('event_log');
 header($header);

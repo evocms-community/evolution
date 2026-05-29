@@ -35,7 +35,7 @@ if (isset($_GET['disabled'])) {
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header = "Location: index.php?a=76&tab=5&r=2";
+    $header = "Location:". manager_route('elements', [ 'tab' => 5, 'r' => 2 ]);
     header($header);
     exit;
 }
@@ -104,7 +104,7 @@ switch ($_POST['mode']) {
         $count = \EvolutionCMS\Models\SiteModule::query()->where('name', $name)->count();
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(107);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_module'], $name), "index.php?a=107");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_module'], $name), manager_route('create_module'));
         }
 
         // save the new module
@@ -143,11 +143,15 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "108&id=$newid" : "107";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $route = ($_POST['stay'] == '2') ? 'edit_module' : 'create_module';
+            $params = ['r' => 2, 'stay' => $_POST['stay']];
+            if ($_POST['stay'] == '2') {
+                $params['id'] = $newid;
+            }
+            $url = manager_route($route, $params);
+            header("Location: " . $url);
         } else {
-            $header = "Location: index.php?a=76&tab=5&r=2";
+            $header = "Location:". manager_route('elements', [ 'tab' => 5, 'r' => 2 ]);
             header($header);
         }
         break;
@@ -163,7 +167,7 @@ switch ($_POST['mode']) {
 
         if ($count > 0) {
             $modx->getManagerApi()->saveFormValues(108);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_module'], $name), "index.php?a=108&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_module'], $name), manager_route('edit_module', [ 'id' => $id ]));
         }
 
         // save the edited module
@@ -201,12 +205,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "108&id=$id" : "107";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $route = ($_POST['stay'] == '2') ? 'edit_module' : 'create_module';
+            $params = ['r' => 2, 'stay' => $_POST['stay']];
+            if ($_POST['stay'] == '2') {
+                $params['id'] = $newid;
+            }
+            $url = manager_route($route, $params);
+            header("Location: " . $url);
         } else {
             $modx->unlockElement(6, $id);
-            $header = "Location: index.php?a=76&tab=5&r=2";
+            $header = "Location:". manager_route('elements', [ 'tab' => 5, 'r' => 2 ]);
             header($header);
         }
         break;

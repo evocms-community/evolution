@@ -101,7 +101,13 @@ if(!function_exists('ls')) {
                 if ($file === '..' || $file === '.') {
                     continue;
                 } elseif (!in_array($file, $excludes) && !in_array($newpath, $protected_path)) {
-                    $dirs_array[$dircounter]['text'] = '<i class="' . $_style['icon_folder'] . ' FilesFolder"></i> <a href="index.php?a=31&mode=drill&path=' . urlencode($newpath) . '"><b>' . $file . '</b></a>';
+                    $dirs_array[$dircounter]['text'] = 
+                        '<i class="' . $_style['icon_folder'] . ' FilesFolder"></i> ' .
+                        '<a href="' . manager_route('files', [
+                            'mode' => 'drill',
+                            'path' => urlencode($newpath)
+                        ]) . '">' .
+                        '<b>' . $file . '</b></a>';
 
                     $dfiles = scandir($newpath);
                     foreach ($dfiles as $i => $infile) {
@@ -137,10 +143,10 @@ if(!function_exists('ls')) {
                         explode('/', substr($newpath, $len,
                             strlen($newpath))))) . '" style="cursor:pointer;" download><i class="' . $_style['icon_download'] . '" title="' . $_lang['file_download_file'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></span>');
                 $files_array[$filecounter]['view'] = (in_array($type,
-                    $inlineviewablefiles)) ? '<a href="index.php?a=31&mode=view&path=' . urlencode($newpath) . '"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>' : $files_array[$filecounter]['view'];
+                    $inlineviewablefiles)) ? '<a href="'. manager_route('files',['mode' => 'view', 'path' => urlencode($newpath)]) .'"><i class="' . $_style['icon_eye'] . '" title="' . $_lang['files_viewfile'] . '"></i></a>' : $files_array[$filecounter]['view'];
                 $files_array[$filecounter]['unzip'] = ($enablefileunzip && $type == '.zip') ? '<a href="javascript:unzipFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_archive'] . '" title="' . $_lang['file_download_unzip'] . '"></i></a>' : '';
                 $files_array[$filecounter]['edit'] = (in_array($type,
-                        $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="index.php?a=31&mode=edit&path=' . urlencode($newpath) . '#file_editfile"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></span>';
+                        $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="'. manager_route('files', ['mode'=> 'edit', 'path' => urlencode($newpath)]) .'#file_editfile"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_edit'] . '" title="' . $_lang['files_editfile'] . '"></i></span>';
                 $files_array[$filecounter]['duplicate'] = (in_array($type,
                         $editablefiles) && is_writable($curpath) && is_writable($newpath)) ? '<a href="javascript:duplicateFile(\'' . urlencode($file) . '\');"><i class="' . $_style['icon_clone'] . '" title="' . $_lang['duplicate'] . '"></i></a>' : '<span class="disabled"><i class="' . $_style['icon_clone'] . '" align="absmiddle" title="' . $_lang['duplicate'] . '"></i></span>';
                 $files_array[$filecounter]['rename'] = (in_array($type,

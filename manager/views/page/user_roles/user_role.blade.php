@@ -180,7 +180,7 @@
         },
         cancel: function () {
           documentDirty = false
-          document.location.href = 'index.php?a=86'
+          document.location.href = "{{ manager_route('role_list')}}"'index.php?a=86'
         }
       }
     </script>

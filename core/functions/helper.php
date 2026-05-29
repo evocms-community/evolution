@@ -273,3 +273,28 @@ if (!function_exists('manager_route')) {
         return MODX_MANAGER_URL . 'index.php?' . http_build_query($query);
     }
 }
+
+if (!function_exists('manager_route_by_action')) {
+    /**
+     * Генерирует URL для страницы админ-панели по числовому ID действия (a=...)
+     *
+     * @param int   $action ID действия из manager_routes.php
+     * @param array $params дополнительные GET-параметры
+     * @return string полный URL
+     * @throws InvalidArgumentException если действие не найдено в маршрутах
+     */
+    function manager_route_by_action(int $action, array $params = []): string
+    {
+        static $routes = null;
+        if ($routes === null) {
+            $routes = include __DIR__ . '/../config/manager_routes.php';
+        }
+
+        $name = array_search($action, $routes, true);
+        if ($name === false) {
+            throw new \InvalidArgumentException("Неизвестный ID действия админки: $action");
+        }
+
+        return manager_route($name, $params);
+    }
+}

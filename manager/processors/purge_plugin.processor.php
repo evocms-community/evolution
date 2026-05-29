@@ -57,4 +57,4 @@ $sync->setCachepath("../assets/cache/");
 $sync->setReport(false);
 $sync->emptyCache(); // first empty the cache
 
-header('Location: index.php?a=76&tab=4');
+header('Location:'.manager_route('elements', [ 'tab' => 4 ]));

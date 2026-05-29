@@ -187,7 +187,7 @@
                     <div class="cell" data-evocp="bgmColor">
                         <ul id="settings" class="nav">
                             <li id="searchform">
-                                <form action="index.php?a=71" method="post" target="main">
+                                <form action={{manager_route('search')}} method="post" target="main">
                                     @csrf
                                     <input type="hidden" value="Search" name="submitok" />
                                     <label for="searchid" class="label_searchid">
@@ -205,13 +205,13 @@
                                     <ul class="dropdown-menu">
                                         @if ($modx->hasPermission('new_document'))
                                             <li>
-                                                <a onclick="" href="index.php?a=4" target="main">
+                                                <a onclick="" href={{manager_route('create_resource')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_document'] }}"></i>{{ ManagerTheme::getLexicon('add_resource') }}
                                                 </a>
                                             </li>
                                             <li>
-                                                <a onclick="" href="index.php?a=72" target="main">
+                                                <a onclick="" href={{manager_route('create_weblink')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_chain'] }}"></i>{{ ManagerTheme::getLexicon('add_weblink') }}
                                                 </a>
@@ -264,14 +264,14 @@
                                 <ul class="dropdown-menu">
                                     @if ($modx->hasPermission('change_password'))
                                         <li>
-                                            <a onclick="" href="index.php?a=28" target="main">
+                                            <a onclick="" href={{manager_route('change_password')}} target="main">
                                                 <i
                                                     class="{{ $_style['icon_lock'] }}"></i>{{ ManagerTheme::getLexicon('change_password') }}
                                             </a>
                                         </li>
                                     @endif
                                     <li>
-                                        <a href="index.php?a=8">
+                                        <a href={{manager_route('logout')}}>
                                             <i
                                                 class="{{ $_style['icon_logout'] }}"></i>{{ ManagerTheme::getLexicon('logout') }}
                                         </a>
@@ -290,7 +290,7 @@
                                     <ul class="dropdown-menu">
                                         @if ($modx->hasPermission('settings'))
                                             <li>
-                                                <a href="index.php?a=17" target="main">
+                                                <a href={{manager_route('edit_settings')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_sliders'] }}"></i>{{ ManagerTheme::getLexicon('edit_settings') }}
                                                 </a>
@@ -298,7 +298,7 @@
                                         @endif
                                         @if ($modx->hasPermission('view_eventlog'))
                                             <li>
-                                                <a href="index.php?a=70" target="main">
+                                                <a href={{manager_route('schedule_site')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_calendar'] }}"></i>{{ ManagerTheme::getLexicon('site_schedule') }}
                                                 </a>
@@ -306,7 +306,7 @@
                                         @endif
                                         @if ($modx->hasPermission('view_eventlog'))
                                             <li>
-                                                <a href="index.php?a=114" target="main">
+                                                <a href={{manager_route('event_log')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_info_triangle'] }}"></i>{{ ManagerTheme::getLexicon('eventlog_viewer') }}
                                                 </a>
@@ -314,13 +314,13 @@
                                         @endif
                                         @if ($modx->hasPermission('logs'))
                                             <li>
-                                                <a href="index.php?a=13" target="main">
+                                                <a href={{manager_route('manager_log')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_user_secret'] }}"></i>{{ ManagerTheme::getLexicon('view_logging') }}
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="index.php?a=53" target="main">
+                                                <a href={{manager_route('system_info')}} target="main">
                                                     <i
                                                         class="{{ $_style['icon_info_circle'] }}"></i>{{ ManagerTheme::getLexicon('view_sysinfo') }}
                                                 </a>
@@ -357,12 +357,12 @@
                     </div>
                 </div>
                 <div id="evo-tab-page-home" class="evo-tab-page show iframe-scroller">
-                    <iframe id="mainframe" src="index.php?a={{ $initMainframeAction }}" scrolling="auto"
+                    <iframe id="mainframe" src={{ manager_route_by_action($initMainframeAction) }} scrolling="auto"
                         frameborder="0" onload="modx.main.onload(event);"></iframe>
                 </div>
             @else
                 <div class="iframe-scroller">
-                    <iframe id="mainframe" name="main" src="index.php?a={{ $initMainframeAction }}"
+                    <iframe id="mainframe" name="main" src={{ manager_route_by_action($initMainframeAction) }}
                         scrolling="auto" frameborder="0" onload="modx.main.onload(event);"></iframe>
                 </div>
             @endif
@@ -537,7 +537,7 @@
                         e.preventDefault();
                         if (modx.config.global_tabs && !e.shiftKey) {
                             modx.tabs({
-                                url: '{{ MODX_MANAGER_URL }}index.php?a=76',
+                                url: '{{ manager_route('elements') }}',
                                 title: '{{ ManagerTheme::getLexicon('elements') }}'
                             });
                         } else {
@@ -546,7 +546,7 @@
                                 randomNum += ' #' + Math.floor((Math.random() * 999999) + 1);
                             }
                             modx.openWindow({
-                                url: '{{ MODX_MANAGER_URL }}index.php?a=76',
+                                url: '{{ manager_route('elements') }}',
                                 title: randomNum
                             });
                         }

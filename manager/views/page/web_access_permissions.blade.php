@@ -5,10 +5,10 @@
             function deletegroup(groupid, type) {
                 if(confirm("{{ ManagerTheme::getLexicon('confirm_delete_group') }}") === true) {
                     if(type === 'usergroup') {
-                        document.location.href = "index.php?a=92&usergroup=" + groupid + "&operation=delete_user_group";
+                        document.location.href = "{!! manager_route('edit_permissions', ['operation' => 'delete_user_group']) !!}"+"&usergroup=" + groupid;
                     }
                     else if(type === 'documentgroup') {
-                        document.location.href = "index.php?a=92&documentgroup=" + groupid + "&operation=delete_document_group";
+                        document.location.href = "{!! manager_route('edit_permissions', ['operation' => 'delete_document_group']) !!}"+"&documentgroup=" + groupid;
                     }
                 }
             }
@@ -74,7 +74,7 @@
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $userGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <a target="main" class="btn btn-success" href="?a=91&list=users&id={{ $userGroup->getKey() }}&tab=0">{{ ManagerTheme::getLexicon('users_list') }}</a>
+                                        <a target="main" class="btn btn-success" href="{{ manager_route('web_permissions', ['list' => 'users', 'id' => $userGroup->getKey(), 'tab' => 0 ]) }}">{{ ManagerTheme::getLexicon('users_list') }}</a>
                                         <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
                                         <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $userGroup->getKey() }}, 'usergroup');" />
                                     </div>
@@ -120,7 +120,7 @@
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="newgroupname" value="{{ $documentGroup->name }}" />
                                     <div class="input-group-btn">
-                                        <a target="main" class="btn btn-success" href="?a=91&list=documents&id={{ $documentGroup->getKey() }}&tab=1">{{ ManagerTheme::getLexicon('documents_list') }}</a>
+                                        <a target="main" class="btn btn-success" href="{{ manager_route('web_permissions', ['list' => 'documents' ,'id'=>$documentGroup->getKey(), 'tab' => 1 ]) }}">{{ ManagerTheme::getLexicon('documents_list') }}</a>
                                         <input class="btn btn-secondary" type="submit" value="{{ ManagerTheme::getLexicon('rename') }}" />
                                         <input class="btn btn-danger" type="button" value="{{ ManagerTheme::getLexicon('delete') }}" onclick="deletegroup({{ $documentGroup->getKey() }},'documentgroup');" />
                                     </div>
@@ -182,7 +182,7 @@
                                         @foreach($userGroup->documentGroups as $documentGroup)
                                             <li>
                                                 {{ $documentGroup->name }} ({{ $documentGroup->pivot->context ? 'web' : 'mgr' }})
-                                                <small><i>(<a class="text-danger" href="index.php?a=92&coupling={{ $documentGroup->pivot->id }}&context={{ $documentGroup->pivot->context }}&operation=remove_document_group_from_user_group">{{ ManagerTheme::getLexicon('remove') }}</a>)</i></small>
+                                                <small><i>(<a class="text-danger" href="{{ manager_route('edit_permissions', ['coupling'=> $documentGroup->pivot->id, 'context' => $documentGroup->pivot->context, 'operation' => 'remove_document_group_from_user_group']) }}">{{ ManagerTheme::getLexicon('remove') }}</a>)</i></small>
                                             </li>
                                         @endforeach
                                     </ul>

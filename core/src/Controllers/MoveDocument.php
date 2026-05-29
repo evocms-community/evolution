@@ -104,7 +104,7 @@ class MoveDocument extends AbstractController implements ManagerTheme\PageContro
         // empty cache & sync site
         $this->managerTheme->getCore()->clearCache('full');
 
-        header('Location: index.php?a=3&id=' . $document->getKey() . '&r=9');
+        header('Location:'. manager_route('about_document', [ 'id' => $document->getKey(), 'r' => 9 ]));
     }
 
     protected function processDisplay() : bool

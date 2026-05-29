@@ -152,12 +152,16 @@ class EditOrNewUser extends AbstractController implements PageControllerInterfac
         }
 
         if ($userData['stay'] != '') {
-            $a = ($userData['stay'] == '2') ? "88&id={$user->getKey()}" : "87";
-            $this->parameters['url'] = "index.php?a={$a}&r=2&stay=" . $userData['stay'];
+            $route = ($userData['stay'] == '2') ? 'edit_user' : 'create_user';
+            $params = ['r' => 2, 'stay' => $userData['stay']];
+            if ($userData['stay'] == '2') {
+                $params['id'] = $user->getKey();
+            }
+            $this->parameters['url'] = manager_route($route, $params);
         } else {
-            $this->parameters['url'] = "index.php?a=99";
+            $this->parameters['url'] = manager_route('user_list');
         }
-        $this->parameters['cancel_url'] = "index.php?a=99";
+        $this->parameters['cancel_url'] = manager_route('user_list');
         if ($userData['passwordnotifymethod'] == 'e') {
             $websignupemail_message = EvolutionCMS()->getConfig('websignupemail_message');
             $site_url = EvolutionCMS()->getConfig('site_url');

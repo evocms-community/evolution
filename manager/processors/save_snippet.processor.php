@@ -31,7 +31,7 @@ if (isset($_GET['disabled'])) {
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header = "Location: index.php?a=76&tab=3&r=2";
+    $header = "Location:". manager_route('elements', [ 'tab' => 3, 'r' => 2 ]);
     header($header);
     exit;
 }
@@ -105,7 +105,7 @@ switch ($_POST['mode']) {
         // disallow duplicate names for new snippets
         if (EvolutionCMS\Models\SiteSnippet::where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(23);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), "index.php?a=23");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), manager_route('create_snippet'));
         }
 
         //do stuff to save the new doc
@@ -125,11 +125,15 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "22&id=$newid" : "23";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_snippet" : "create_snippet";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $newid;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
-            $header = "Location: index.php?a=76&tab=3&r=2";
+            $header = "Location:". manager_route('elements', [ 'tab' => 3, 'r' => 2 ]);
             header($header);
         }
         break;
@@ -143,7 +147,7 @@ switch ($_POST['mode']) {
         // disallow duplicate names for snippets
         if (EvolutionCMS\Models\SiteSnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(22);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), "index.php?a=22&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['snippet'], $name), manager_route('edit_snippet', [ 'id' => $id ]));
         }
 
         //do stuff to save the edited doc
@@ -165,12 +169,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "22&id=$id" : "23";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_snippet" : "create_snippet";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay']];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $id;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
             $modx->unlockElement(4, $id);
-            $header = "Location: index.php?a=76&tab=3&r=2";
+            $header = "Location:". manager_route('elements', [ 'tab' => 3, 'r' => 2 ]);
             header($header);
         }
         break;

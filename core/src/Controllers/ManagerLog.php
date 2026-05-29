@@ -40,7 +40,7 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
             // truncate
             case 55:
                 \EvolutionCMS\Models\ManagerLog::query()->truncate();
-                header('Location: index.php?a=13');
+                header('Location:'. manager_route('manager_log'));
                 exit();
         }
         return true;
@@ -151,12 +151,12 @@ class ManagerLog extends AbstractController implements ManagerTheme\PageControll
             [ // username
                 'width' => '1%',
                 'align' => 'center',
-                'type' => 'template:<a href="index.php?a=13&searchuser=[+internalKey+]">[+e.value+]</a>',
+                'type' => 'template:<a href="'. manager_route('manager_log') .'&searchuser=[+internalKey+]">[+e.value+]</a>',
             ],
             [ // action
                 'width' => '',
                 'align' => 'center',
-                'type' => 'template:<a href="index.php?a=13&action=[+e.value+]">[+message+]</a>',
+                'type' => 'template:<a href="'. manager_route('manager_log') .'&action=[+e.value+]">[+message+]</a>',
             ],
             [ // itemid
                 'width' => '1%',

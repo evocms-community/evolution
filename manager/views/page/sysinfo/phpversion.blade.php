@@ -1,3 +1,3 @@
-<a class="text-underline" href="javascript:;" onclick="dontShowWorker = true;window.location.href = 'index.php?a=200';return false;">
+<a class="text-underline" href="javascript:;" onclick="dontShowWorker = true;window.location.href = '{{ manager_route('php_info') }}';return false;">
     {{ $data }}
 </a>

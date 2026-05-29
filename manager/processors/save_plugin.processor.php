@@ -31,7 +31,7 @@ if (isset($_GET['disabled'])) {
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header = "Location: index.php?a=76&tab=4&r=2";
+    $header = "Location:". manager_route('elements', [ 'tab' => 4, 'r' => 2 ]);
     header($header);
     exit;
 }
@@ -94,7 +94,7 @@ switch ($_POST['mode']) {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->count();
             if ($count > 0) {
                 $modx->getManagerApi()->saveFormValues(101);
-                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), 'index.php?a=101');
+                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), manager_route('create_plugin'));
             }
         }
 
@@ -129,11 +129,15 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "102&id=$newid" : '101';
-            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_plugin" : "create_plugin";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $newid;
+            }
+            $header = 'Location:'. manager_route($route, $params);
             header($header);
         } else {
-            $header = 'Location: index.php?a=76&tab=4&r=2';
+            $header = 'Location:'. manager_route('elements', [ 'tab' => 4, 'r' => 2 ]);
             header($header);
         }
         break;
@@ -149,7 +153,7 @@ switch ($_POST['mode']) {
             $count = \EvolutionCMS\Models\SitePlugin::query()->where('name', $name)->where('disabled', 0)->where('id', '!=', $id)->count();
             if ($count > 0) {
                 $modx->getManagerApi()->saveFormValues(102);
-                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), "index.php?a=102&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['plugin'], $name), manager_route('edit_plugin'));
             }
         }
 
@@ -183,12 +187,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "102&id=$id" : '101';
-            $header = 'Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_plugin" : "create_plugin";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $id;
+            }
+            $header = 'Location:'. manager_route($route, $params);
             header($header);
         } else {
             $modx->unlockElement(5, $id);
-            $header = 'Location: index.php?a=76&tab=4&r=2';
+            $header = 'Location:'. manager_route('elements', [ 'tab' => 4, 'r' => 2 ]);
             header($header);
         }
         break;

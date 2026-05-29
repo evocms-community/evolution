@@ -1,6 +1,6 @@
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=76&tab={{ $index }}"><i class="{{ $_style['icon_tv'] }}"></i>{{ ManagerTheme::getLexicon('tmplvars') }}</a>
+        <a href="{{ manager_route('elements', ['tab' => $index]) }}"><i class="{{ $_style['icon_tv'] }}"></i>{{ ManagerTheme::getLexicon('tmplvars') }}</a>
     </h2>
 
     <script>tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'));</script>

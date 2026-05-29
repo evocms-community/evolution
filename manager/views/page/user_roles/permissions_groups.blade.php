@@ -69,12 +69,12 @@
         },
         delete: function () {
           if (confirm("{{ __('global.confirm_delete_category') }}") === true) {
-            document.location.href = 'index.php?id=' + document.userform.id.value + '&a=136&action=delete'
+            document.location.href = "{{ manager_route('permission_grop_edit', [ 'action' => 'delete']) }}" + "&id=" + document.userform.id.value
           }
         },
         cancel: function () {
           documentDirty = false
-          document.location.href = 'index.php?a=86&tab=1'
+          document.location.href = "{{ manager_route('role_list', ['tab' => 1]) }}"
         }
       }
     </script>

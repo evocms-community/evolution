@@ -31,7 +31,7 @@ if (isset($_GET['disabled'])) {
     $modx->clearCache('full');
 
     // finished emptying cache - redirect
-    $header = "Location: index.php?a=76&tab=2&r=2";
+    $header = "Location:" . manager_route('elements', [ 'tab' => 2, 'r' => 2 ]);
     header($header);
     exit;
 }
@@ -75,7 +75,7 @@ switch ($_POST['mode']) {
         // disallow duplicate names for new chunks
         if (EvolutionCMS\Models\SiteHtmlsnippet::where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(77);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=77");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), manager_route('create_chunk'));
         }
 
         //do stuff to save the new doc
@@ -95,14 +95,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "78&id=$id" : "77";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
-            header($header);
+            $route = ($_POST['stay'] == '2') ? 'edit_chunk' : 'create_chunk';
+            $params = ['r' => 2, 'stay' => $_POST['stay']];
+            if ($_POST['stay'] == '2') {
+                $params['id'] = $id;
+            }
+            $url = manager_route($route, $params);
+            header("Location: " . $url);
         } else {
-            $header = "Location: index.php?a=76&r=2";
-            header($header);
+            header("Location: ". manager_route('elements', ['r' => 2]));
         }
-        break;
     case '78':
         // invoke OnBeforeChunkFormSave event
         $modx->invokeEvent("OnBeforeChunkFormSave", array(
@@ -113,7 +115,7 @@ switch ($_POST['mode']) {
         // disallow duplicate names for chunks
         if (EvolutionCMS\Models\SiteHtmlsnippet::where('id', '!=', $id)->where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(78);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), "index.php?a=78&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['chunk'], $name), manager_route('edit_chunk', [ 'id' => $id ]));
         }
 
         //do stuff to save the edited doc
@@ -135,12 +137,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "78&id=$id" : "77";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_chunk" : "create_chunk";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $id;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
             $modx->unlockElement(3, $id);
-            $header = "Location: index.php?a=76&r=2";
+            $header = "Location:". manager_route('elements', [ 'r' => 2 ]);
             header($header);
         }
         break;

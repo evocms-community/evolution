@@ -41,7 +41,7 @@
                                     @foreach($list as $item)
                                         <tr>
                                             <td>{{ $item->id }}</td>
-                                            <td><a href="?a={{ $_GET['list'] == 'users' ? 88 : 27 }}&id={{ $item->getKey() }}" target="main">{{ $_GET['list'] == 'users' ? $item->username : $item->pagetitle }}</a></td>
+                                            <td><a href="{{ $_GET['list'] == 'users' ? manager_route('edit_user', ['id' => $item->getKey()]) : manager_route('resource_edit', ['id' => $item->getKey()]) }}"target="main">{{ $_GET['list'] == 'users' ? $item->username : $item->pagetitle }}</a></td>
                                             <td><a title="{{ ManagerTheme::getLexicon('remove_from_group') }}" href="javascript:;" onclick="deleteItem({{ $item->getKey() }}); return false;"><i class="fa fa-close fa-fw"></i></a></td>
                                         </tr>
                                     @endforeach

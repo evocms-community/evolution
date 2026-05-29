@@ -10,7 +10,7 @@ if ($contents->count() < 1) {
 }
 $tpl = '<tr>
     <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-nowrap text-right"><span class="label label-info">[+id+]</span></td>
-    <td data-toggle="collapse" data-target=".collapse[+id+]"><a class="[+status+]" title="[%edit_resource%]" href="index.php?a=3&amp;id=[+id+]" target="main">[+pagetitle:htmlentities+]</a></td>
+    <td data-toggle="collapse" data-target=".collapse[+id+]"><a class="[+status+]" title="[%edit_resource%]" href="'. manager_route('about_document') .'&id=[+id+]" target="main">[+pagetitle:htmlentities+]</a></td>
     <td data-toggle="collapse" data-target=".collapse[+id+]" class="text-right text-nowrap">[+edit_date+]</td>
     <td data-toggle="collapse" data-target=".collapse[+id+]">[+username:htmlentities+]</td>
     <td style="text-align: right;" class="actions">[+edit_btn+][+publish_btn+][+delete_btn+][+info_btn+][+preview_btn+]</td>
@@ -32,7 +32,7 @@ $tpl = '<tr>
     </td>
 </tr>';
 
-$btntpl['edit'] = '<a title="[%edit_resource%]" href="index.php?a=27&amp;id=[+id+]" target="main"><i class="'. $_style['icon_edit'] . $_style['icon_size_fix'] . '"></i></a> ';
+$btntpl['edit'] = '<a title="[%edit_resource%]" href="'. manager_route('edit_document') .'&id=[+id+]" target="main"><i class="'. $_style['icon_edit'] . $_style['icon_size_fix'] . '"></i></a> ';
 $btntpl['preview_btn'] = '<a [+preview_disabled+]" title="[%preview_resource%]" target="_blank" href="../index.php?&amp;id=[+id+]"><i class="'. $_style['icon_eye'] . $_style['icon_size_fix'] . '"></i></a> ';
 
 $output = array();
@@ -67,9 +67,9 @@ foreach ($contents->get()->toArray() as $ph) {
 
     if ($modx->hasPermission('delete_document')) {
         if ($ph['deleted'] == 0) {
-            $delete_btn = '<a onclick="return confirm(\'[%confirm_delete_record%]\')" title="[%delete_resource%]" href="index.php?a=6&amp;id=[+id+]" target="main"><i class="'. $_style['icon_trash'] . $_style['icon_size_fix'] . '"></i></a> ';
+            $delete_btn = '<a onclick="return confirm(\'[%confirm_delete_record%]\')" title="[%delete_resource%]" href="'. manager_route('delete_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_trash'] . $_style['icon_size_fix'] . '"></i></a> ';
         } else {
-            $delete_btn = '<a onclick="return confirm(\'[%confirm_undelete%]\')" title="[%undelete_resource%]" href="index.php?a=63&amp;id=[+id+]" target="main"><i class="'. $_style['icon_undo'] . $_style['icon_size_fix'] . '"></i></a> ';
+            $delete_btn = '<a onclick="return confirm(\'[%confirm_undelete%]\')" title="[%undelete_resource%]" href="'. manager_route('undelete_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_undo'] . $_style['icon_size_fix'] . '"></i></a> ';
         }
         $ph['delete_btn'] = str_replace('[+id+]', $docid, $delete_btn);
     } else {
@@ -77,13 +77,13 @@ foreach ($contents->get()->toArray() as $ph) {
     }
 
     if ($ph['deleted'] == 1 && $ph['published'] == 0) {
-        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="index.php?a=61&amp;id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></i></a> ';
+        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></i></a> ';
     } elseif ($ph['deleted'] == 1 && $ph['published'] == 1) {
-        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="index.php?a=61&amp;id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
     } elseif ($ph['deleted'] == 0 && $ph['published'] == 0) {
-        $publish_btn = '<a title="[%publish_resource%]" href="index.php?a=61&amp;id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></a> ';
     } else {
-        $publish_btn = '<a title="[%unpublish_resource%]" href="index.php?a=62&amp;id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a title="[%unpublish_resource%]" href="'. manager_route('unpublication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
     }
 
     $ph['publish_btn'] = str_replace('[+id+]', $docid, $publish_btn);

@@ -142,5 +142,5 @@ if ($updategroupaccess == true) {
     }
 }
 
-$header = "Location: index.php?a=91";
+$header = "Location:". manager_route('web_permissions');
 header($header);

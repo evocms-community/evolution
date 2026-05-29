@@ -110,9 +110,7 @@ class LogInOut extends AbstractController implements ManagerTheme\PageController
             exit();
         }
 
-        header('Location: ' . MODX_MANAGER_URL.'#?a=28');
+        header('Location: ' . manager_route('change_password'));
         exit();
     }
-
-
 }

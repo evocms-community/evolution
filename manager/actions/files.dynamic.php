@@ -225,12 +225,20 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $tpl = '<a class="btn btn-secondary" href="[+href+]" onclick="return getFolderName(this);"><i class="[+image+]"></i><span>[+subject+]</span></a>';
                 $ph['image'] = $_style['icon_folder_open'];
                 $ph['subject'] = $_lang['add_folder'];
-                $ph['href'] = 'index.php?a=31&mode=newfolder&path=' . urlencode($startpath) . '&name=';
+                $ph['href'] = manager_route('files', [
+                    'mode'  => 'newfolder',
+                    'path'  => urlencode($startpath),
+                    'name'  => ''
+                ]);
                 $_ = parsePlaceholder($tpl, $ph);
 
                 $tpl = '<a class="btn btn-secondary" href="[+href+]" onclick="return getFileName(this);"><i class="[+image+]"></i><span>' . $_lang['files.dynamic.php1'] . '</span></a>';
                 $ph['image'] = $_style['icon_document'];
-                $ph['href'] = 'index.php?a=31&mode=newfile&path=' . urlencode($startpath) . '&name=';
+                $ph['href'] = manager_route('files', [
+                    'mode'  => 'newfile',
+                    'path'  => urlencode($startpath),
+                    'name'  => ''
+                ]);
                 $_ .= parsePlaceholder($tpl, $ph);
                 echo $_;
             }
@@ -265,7 +273,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $ph['subject'] = '<span>Top</span>';
             } else {
                 $ph['image'] = '' . $_style['icon_folder_open'] . '';
-                $ph['subject'] = '<a href="index.php?a=31&mode=drill&path=' . $filemanager_path . '">Top</a>/';
+                $ph['subject'] = '<a href="' . manager_route('files', [ 'mode' => 'drill', 'path' => $filemanager_path ]) . '">Top</a>/';
             }
 
             echo parsePlaceholder($tpl, $ph);
@@ -284,7 +292,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                     }
                     $path .= rtrim($v, '/') . '/';
                     if (1 < $count) {
-                        $href = 'index.php?a=31&mode=drill&path=' . urlencode($filemanager_path . $path);
+                        $href = manager_route('files', [ 'mode' => 'drill', 'path' => urlencode($filemanager_path . $path) ]);
                         $pieces[$i] = '<a href="' . $href . '">' . trim($v, '/') . '</a>';
                     } else {
                         $pieces[$i] = '<span>' . trim($v, '/') . '</span>';
