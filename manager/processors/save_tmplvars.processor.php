@@ -165,7 +165,7 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $route = ($_POST['stay'] == '2') ? "301&id=$id" : "300";
+            $route = ($_POST['stay'] == '2') ? 'edit_tv' : 'create_tv';;
             $params = [ 'r' =>2, 'stay' => $_POST['stay'], 'or' => $origin, 'oid' => $originId ];
             if ($_POST['stay'] == '2') {
                 $params ['id'] = $id;

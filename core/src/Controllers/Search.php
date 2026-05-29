@@ -284,7 +284,7 @@ class Search extends AbstractController implements ManagerTheme\PageControllerIn
                                  ->toArray() as $row) {
                         $output['templates']['results'][] = [
                             'id' => $row['id'],
-                            'url' => manager_route('edit_document', [ 'id' => $row['id'] ]),
+                            'url' => manager_route('edit_template', [ 'id' => $row['id'] ]),
                             'title' => $this->highlightingCoincidence($row['templatename'], $_REQUEST['searchfields']),
                             'class' => $this->addClassForItemList($row['locked'])
                         ];

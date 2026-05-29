@@ -116,7 +116,7 @@
                             @foreach($results as $row)
                                 <tr>
                                     <td class="text-center">
-                                        <a href="{{ manager_route('about', ['id'=>$row['id']]) }}" title="{{ ManagerTheme::getLexicon('search_view_docdata') }}">
+                                        <a href="{{ manager_route('about_document', ['id'=>$row['id']]) }}" title="{{ ManagerTheme::getLexicon('search_view_docdata') }}">
                                             <i class="{{ ManagerTheme::getStyle('icon_info') }}"></i>
                                         </a>
                                     </td>
