@@ -77,13 +77,13 @@ foreach ($contents->get()->toArray() as $ph) {
     }
 
     if ($ph['deleted'] == 1 && $ph['published'] == 0) {
-        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></i></a> ';
+        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publish_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></i></a> ';
     } elseif ($ph['deleted'] == 1 && $ph['published'] == 1) {
-        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a class="disabled" title="[%publish_resource%]" href="'. manager_route('publish_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
     } elseif ($ph['deleted'] == 0 && $ph['published'] == 0) {
-        $publish_btn = '<a title="[%publish_resource%]" href="'. manager_route('publication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a title="[%publish_resource%]" href="'. manager_route('publish_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_check'] . $_style['icon_size_fix'] . '"></i></a> ';
     } else {
-        $publish_btn = '<a title="[%unpublish_resource%]" href="'. manager_route('unpublication_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
+        $publish_btn = '<a title="[%unpublish_resource%]" href="'. manager_route('unpublish_resource') .'&id=[+id+]" target="main"><i class="'. $_style['icon_close'] . $_style['icon_size_fix'] . '"></i></a> ';
     }
 
     $ph['publish_btn'] = str_replace('[+id+]', $docid, $publish_btn);

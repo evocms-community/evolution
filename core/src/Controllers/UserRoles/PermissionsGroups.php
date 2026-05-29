@@ -39,7 +39,7 @@ class PermissionsGroups extends AbstractController implements ManagerTheme\PageC
         $group->name = $_POST['name'];
         $group->lang_key = $_POST['lang_key'];
         $group->save();
-        header('Location:'. manager_route('permission_grop_edit', [ 'id' => $group->getKey(), 'r' => '9' ]));
+        header('Location:'. manager_route('permission_group_edit', [ 'id' => $group->getKey(), 'r' => '9' ]));
     }
 
     public static function findCategoryOrNew($name)

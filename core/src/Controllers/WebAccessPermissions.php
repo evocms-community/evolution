@@ -75,7 +75,7 @@ class WebAccessPermissions extends AbstractController implements PageControllerI
                 break;
             }
 
-            $list->setPath(manager_route('web_access_permissions', [
+            $list->setPath(manager_route('web_permissions', [
                 'list' => $_GET['list'],
                 'id' => $groupId
             ]));

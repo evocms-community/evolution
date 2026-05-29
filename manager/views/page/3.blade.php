@@ -55,7 +55,7 @@
         'save'      => '',
         'delete'    => manager_route('delete_resource', [ 'id' => $_REQUEST['id'] ]),
         'cancel'    => $id == 0 ? manager_route('home') : manager_route('about_document', ['r' => 1, 'id' => $id]) . $add_path,
-        'move'      => manager_route('move_recource', [ 'id' => $_REQUEST['id'] ]),
+        'move'      => manager_route('move_resource', [ 'id' => $_REQUEST['id'] ]),
         'duplicate' => manager_route('duplicate_resource', [ 'id' => $_REQUEST['id'] ]),
         'view'      => $modx->getConfig('friendly_urls') ? UrlProcessor::makeUrl($id) : MODX_SITE_URL . 'index.php?id=' . $id,
     ];
@@ -235,8 +235,8 @@
                 }
 
                 $icon_pub_unpub = (!$children['published'])
-                    ? '<a href="' . manager_route('publication_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>'
-                    : '<a href="' . manager_route('unpublication_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
+                    ? '<a href="' . manager_route('publish_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>'
+                    : '<a href="' . manager_route('unpublish_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
 
                 $icon_del_undel = (!$children['deleted'])
                     ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') . '\')" href="' . manager_route('delete_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('delete_resource') . '"><i class="' . $_style['icon_trash'] . '"></i></a>'
@@ -251,7 +251,7 @@
                             'dateOnly')) : '') . '</div>',
                     'status'    => '<div class="text-nowrap">' . ($children['published'] == 0 ? '<span class="unpublishedDoc">' . ManagerTheme::getLexicon('page_data_unpublished') . '</span>' : '<span class="publishedDoc">' . ManagerTheme::getLexicon('page_data_published') . '</span>') . '</div>',
                     'edit'      => '<div class="actions text-center text-nowrap">' . ($modx->hasPermission('edit_document') ? '<a href="' . manager_route('edit_document', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' . $_style['icon_edit'] . '"></i></a>
-                    <a href="' . manager_route('move_recource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
+                    <a href="' . manager_route('move_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
                     class="' . $_style['icon_move'] . '"></i></a>' . $icon_pub_unpub : '') . ($modx->hasPermission('delete_document') ? $icon_del_undel : '') . '</div>'
                 );
             }
