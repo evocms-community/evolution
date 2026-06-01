@@ -59,7 +59,7 @@
         var stay = document.getElementById('stay');
         // Trigger unlock
         if ((stay && stay.value !== '2') || !form_save) {
-          var url = "{{manager_route('remove_lock', [ 'type' => $elementType, 'id' => $data->getKey(), '_token' => ])}}+&_token={{ csrf_token() }}&o=" + Math.random();
+          var url = "{{manager_route('remove_lock', [ 'type' => $elementType, 'id' => $data->getKey() ])}}+&_token={{ csrf_token() }}&o=" + Math.random();
           if (navigator.sendBeacon) {
             navigator.sendBeacon(url)
           } else {

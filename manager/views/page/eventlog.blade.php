@@ -172,7 +172,7 @@
                         $grd->columns = ManagerTheme::getLexicon('type') . ' ,' . ManagerTheme::getLexicon('source') . ' ,' . ManagerTheme::getLexicon('date') . ' ,' . ManagerTheme::getLexicon('event_id') . ' ,' . ManagerTheme::getLexicon('sysinfo_userid');
                         $grd->colWidths = '1%,,1%,1%,1%';
                         $grd->colAligns = 'center,,,center,center';
-                        $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . ManagerTheme::getLexicon('click_to_context') . "'><i class='[+icon+]'></i></a>||template:<a href=". manager_route('event_log_detail')."&id=[+id+] title='" . ManagerTheme::getLexicon('click_to_view_details') . "'>[+source+]</a>||date: " . $modx->toDateFormat(null, 'formatOnly') . ' H:i:s';
+                        $grd->colTypes = "template:<a class='gridRowIcon' href='javascript:;' onclick='return showContentMenu([+id+],event);' title='" . ManagerTheme::getLexicon('click_to_context') . "'><i class='[+icon+]'></i></a>||template:<a href='". manager_route('event_log_detail')."&id=[+id+]' title='" . ManagerTheme::getLexicon('click_to_view_details') . "'>[+source+]</a>||date: " . $modx->toDateFormat(null, 'formatOnly') . ' H:i:s';
                         if ($listmode == '1') {
                             $grd->pageSize = 0;
                         }
