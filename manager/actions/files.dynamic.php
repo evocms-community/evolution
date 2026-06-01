@@ -215,7 +215,7 @@ if (substr($webstart_path, 0, 1) == '/') {
             <?php endif ?>
             <?php
             if (isset($_GET['mode']) && $_GET['mode'] !== 'drill') {
-                $href = 'a=31&path=' . urlencode($_REQUEST['path']);
+                $href = 'a=31&path=' . $_REQUEST['path'];
             } else {
                 $href = 'a=2';
             }
@@ -227,7 +227,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $ph['subject'] = $_lang['add_folder'];
                 $ph['href'] = manager_route('files', [
                     'mode'  => 'newfolder',
-                    'path'  => urlencode($startpath),
+                    'path'  => $startpath,
                     'name'  => ''
                 ]);
                 $_ = parsePlaceholder($tpl, $ph);
@@ -236,7 +236,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $ph['image'] = $_style['icon_document'];
                 $ph['href'] = manager_route('files', [
                     'mode'  => 'newfile',
-                    'path'  => urlencode($startpath),
+                    'path'  => $startpath,
                     'name'  => ''
                 ]);
                 $_ .= parsePlaceholder($tpl, $ph);
@@ -292,7 +292,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                     }
                     $path .= rtrim($v, '/') . '/';
                     if (1 < $count) {
-                        $href = manager_route('files', [ 'mode' => 'drill', 'path' => urlencode($filemanager_path . $path) ]);
+                        $href = manager_route('files', [ 'mode' => 'drill', 'path' => $filemanager_path . $path ]);
                         $pieces[$i] = '<a href="' . $href . '">' . trim($v, '/') . '</a>';
                     } else {
                         $pieces[$i] = '<span>' . trim($v, '/') . '</span>';

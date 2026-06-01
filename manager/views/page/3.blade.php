@@ -462,14 +462,14 @@
                         <div class="float-right">
                             @if($numRecords > 0)
                                 <select size="1" name="sort" class="form-control form-control-sm"
-                                        onchange="document.location='{{ manager_route('about_document', [ 'id' => $id, 'dir' => $dir, 'sort' => '']) }}' + this.options[this.selectedIndex].value">
+                                        onchange="document.location='{!! manager_route('about_document', [ 'id' => $id, 'dir' => $dir, 'sort' => '']) !!}' + this.options[this.selectedIndex].value">
                                     @foreach($filter_sort as $key => $val)
                                         <option value="{{ $key }}"
                                                 @if($key == $sort) selected @endif>{{ $val }}</option>
                                     @endforeach
                                 </select>
                                 <select size="1" name="dir" class="form-control form-control-sm"
-                                        onchange="document.location='{{ manager_route('about_document', [ 'id' => $id, 'sort' => $sort, 'dir' => '']) }}' + this.options[this.selectedIndex].value">
+                                        onchange="document.location='{!! manager_route('about_document', [ 'id' => $id, 'sort' => $sort, 'dir' => '']) !!}' + this.options[this.selectedIndex].value">
                                     @foreach($filter_dir as $key => $val)
                                         <option value="{{ $key }}" @if($key == $dir) selected @endif>{{ $val }}</option>
                                     @endforeach

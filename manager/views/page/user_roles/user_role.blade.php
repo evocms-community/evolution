@@ -175,12 +175,12 @@
         },
         delete: function () {
           if (confirm("{{ __('global.confirm_delete_role') }}") === true) {
-            document.location.href = " {{ manager_route('create_role', ['action' => 'delete']) }}"+"&id=" + document.userform.id.value
+            document.location.href = " {!! manager_route('create_role', ['action' => 'delete']) !!}"+"&id=" + document.userform.id.value
           }
         },
         cancel: function () {
           documentDirty = false
-          document.location.href = "{{ manager_route('role_list')}}"
+          document.location.href = "{!! manager_route('role_list')!!}"
         }
       }
     </script>

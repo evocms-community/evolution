@@ -537,7 +537,7 @@
                         e.preventDefault();
                         if (modx.config.global_tabs && !e.shiftKey) {
                             modx.tabs({
-                                url: '{{ manager_route('elements') }}',
+                                url: '{!! manager_route('elements') !!}',
                                 title: '{{ ManagerTheme::getLexicon('elements') }}'
                             });
                         } else {
@@ -546,7 +546,7 @@
                                 randomNum += ' #' + Math.floor((Math.random() * 999999) + 1);
                             }
                             modx.openWindow({
-                                url: '{{ manager_route('elements') }}',
+                                url: '{!! manager_route('elements') !!}',
                                 title: randomNum
                             });
                         }
