@@ -54,7 +54,7 @@ if ($mode == 'restore1') {
         }
     }
 
-    header('Location: index.php?r=9&a=93');
+    header('Location: ' . manager_route('backup', ['r' => 9]));
     exit;
 } elseif ($mode == 'restore2') {
     $path = $modx->getConfig('snapshot_path') . $_POST['filename'];
@@ -72,10 +72,11 @@ if ($mode == 'restore1') {
                 import_sql_from_file($path);
                 break;
         }
+        $redirectUrl = manager_route('backup', ['r' => 9]);
         if (headers_sent()) {
-            echo "<script>document.location.href='index.php?r=9&a=93';</script>\n";
+            echo "<script>document.location.href='" . $redirectUrl . "';</script>\n";
         } else {
-            header("Location: index.php?r=9&a=93");
+            header("Location: " . $redirectUrl);
         }
     }
 
@@ -190,7 +191,7 @@ if ($mode == 'restore1') {
 
     if ($dumpfinished) {
         $_SESSION['result_msg'] = 'snapshot_ok';
-        header("Location: index.php?a=93");
+        header("Location:". manager_route('backup'));
         exit;
     } else {
         $modx->webAlertAndQuit('Unable to Backup Database');
@@ -222,7 +223,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
         var actions = {
             cancel: function () {
                 documentDirty = false;
-                document.location.href = 'index.php?a=2';
+                document.location.href = "<?= manager_route('home') ?>";
             },
         };
 
@@ -374,13 +375,13 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                                         $modx->getDatabase()->getConfig('prefix') . 'manager_log',
                                     );
                                     if ($modx->hasPermission('settings') && in_array($db_status['Name'], $truncateable) && $db_status['Rows'] > 0) {
-                                        echo '<td class="text-xs-right"><a class="text-danger" href="index.php?a=54&mode=93&u=' . $db_status['Name'] . '" title="' . $_lang['truncate_table'] . '">' . nicesize($db_status['Data_length'] + $db_status['Data_free']) . '</a>' . '</td>' . "\n";
+                                        echo '<td class="text-xs-right"><a class="text-danger" href="'. manager_route('optimization_table', [ 'mode' => 93, 'u' => $db_status['Name'] ]). '" title="' . $_lang['truncate_table'] . '">' . nicesize($db_status['Data_length'] + $db_status['Data_free']) . '</a>' . '</td>' . "\n";
                                     } else {
                                         echo '<td class="text-xs-right">' . nicesize($db_status['Data_length'] + $db_status['Data_free']) . '</td>' . "\n";
                                     }
 
                                     if ($modx->hasPermission('settings')) {
-                                        echo '<td class="text-xs-right">' . ($db_status['Data_free'] > 0 ? '<a class="text-danger" href="index.php?a=54&mode=93&t=' . $db_status['Name'] . '" title="' . $_lang['optimize_table'] . '">' . nicesize($db_status['Data_free']) . '</a>' : '-') . '</td>' . "\n";
+                                        echo '<td class="text-xs-right">' . ($db_status['Data_free'] > 0 ? '<a class="text-danger" href="'. manager_route('optimization_table', [ 'mode' => 93, 't' => $db_status['Name']]) . '" title="' . $_lang['optimize_table'] . '">' . nicesize($db_status['Data_free']) . '</a>' : '-') . '</td>' . "\n";
                                     } else {
                                         echo '<td class="text-xs-right">' . ($db_status['Data_free'] > 0 ? nicesize($db_status['Data_free']) : '-') . '</td>' . "\n";
                                     }

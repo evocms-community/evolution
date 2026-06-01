@@ -141,7 +141,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         function unzipFile (file)
         {
             if (confirmUnzip()) {
-                window.location.href = "index.php?a=31&mode=unzip&path=" + current_path + '/&file=' + file + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'unzip', 'token' => $newToken]) ?>&path=" + current_path + "/&file=" + file;
                 return false;
             }
         }
@@ -163,7 +163,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         function deleteFolder (folder, status)
         {
             if (confirmDeleteFolder(status)) {
-                window.location.href = "index.php?a=31&mode=deletefolder&path=" + current_path + "&folderpath=" + current_path + '/' + folder + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'deletefolder', 'token' => $newToken]) ?>&path=" + current_path + "&folderpath=" + current_path + '/' + folder;
                 return false;
             }
         }
@@ -171,7 +171,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         function deleteFile (file)
         {
             if (confirmDelete()) {
-                window.location.href = "index.php?a=31&mode=delete&path=" + current_path + '/' + file + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'delete', 'token' => $newToken]) ?>&path=" + current_path + '/' + file;
                 return false;
             }
         }
@@ -180,7 +180,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         {
             var newFilename = prompt("<?= $_lang["files_dynamic_new_file_name"] ?>", file);
             if (newFilename !== null && newFilename !== file) {
-                window.location.href = "index.php?a=31&mode=duplicate&path=" + current_path + '/' + file + "&newFilename=" + newFilename + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'duplicate', 'token' => $newToken]) ?>&path=" + current_path + '/' + file + "&newFilename=" + newFilename;
             }
         }
 
@@ -188,7 +188,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         {
             var newDirname = prompt("<?= $_lang["files_dynamic_new_folder_name"] ?>", dir);
             if (newDirname !== null && newDirname !== dir) {
-                window.location.href = "index.php?a=31&mode=renameFolder&path=" + current_path + '&dirname=' + dir + "&newDirname=" + newDirname + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'renameFolder', 'token' => $newToken]) ?>&path=" + current_path + '&dirname=' + dir + "&newDirname=" + newDirname;
             }
         }
 
@@ -196,7 +196,7 @@ if (substr($webstart_path, 0, 1) == '/') {
         {
             var newFilename = prompt("<?= $_lang["files_dynamic_new_file_name"] ?>", file);
             if (newFilename !== null && newFilename !== file) {
-                window.location.href = "index.php?a=31&mode=renameFile&path=" + current_path + '/' + file + "&newFilename=" + newFilename + "&token=<?= $newToken;?>";
+                window.location.href = "<?= manager_route('files', ['mode' => 'renameFile', 'token' => $newToken]) ?>&path=" + current_path + '/' + file + "&newFilename=" + newFilename;
             }
         }
 
@@ -215,7 +215,7 @@ if (substr($webstart_path, 0, 1) == '/') {
             <?php endif ?>
             <?php
             if (isset($_GET['mode']) && $_GET['mode'] !== 'drill') {
-                $href = 'a=31&path=' . urlencode($_REQUEST['path']);
+                $href = 'a=31&path=' . $_REQUEST['path'];
             } else {
                 $href = 'a=2';
             }
@@ -225,12 +225,20 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $tpl = '<a class="btn btn-secondary" href="[+href+]" onclick="return getFolderName(this);"><i class="[+image+]"></i><span>[+subject+]</span></a>';
                 $ph['image'] = $_style['icon_folder_open'];
                 $ph['subject'] = $_lang['add_folder'];
-                $ph['href'] = 'index.php?a=31&mode=newfolder&path=' . urlencode($startpath) . '&name=';
+                $ph['href'] = manager_route('files', [
+                    'mode'  => 'newfolder',
+                    'path'  => $startpath,
+                    'name'  => ''
+                ]);
                 $_ = parsePlaceholder($tpl, $ph);
 
                 $tpl = '<a class="btn btn-secondary" href="[+href+]" onclick="return getFileName(this);"><i class="[+image+]"></i><span>' . $_lang['files.dynamic.php1'] . '</span></a>';
                 $ph['image'] = $_style['icon_document'];
-                $ph['href'] = 'index.php?a=31&mode=newfile&path=' . urlencode($startpath) . '&name=';
+                $ph['href'] = manager_route('files', [
+                    'mode'  => 'newfile',
+                    'path'  => $startpath,
+                    'name'  => ''
+                ]);
                 $_ .= parsePlaceholder($tpl, $ph);
                 echo $_;
             }
@@ -265,7 +273,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                 $ph['subject'] = '<span>Top</span>';
             } else {
                 $ph['image'] = '' . $_style['icon_folder_open'] . '';
-                $ph['subject'] = '<a href="index.php?a=31&mode=drill&path=' . $filemanager_path . '">Top</a>/';
+                $ph['subject'] = '<a href="' . manager_route('files', [ 'mode' => 'drill', 'path' => $filemanager_path ]) . '">Top</a>/';
             }
 
             echo parsePlaceholder($tpl, $ph);
@@ -284,7 +292,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                     }
                     $path .= rtrim($v, '/') . '/';
                     if (1 < $count) {
-                        $href = 'index.php?a=31&mode=drill&path=' . urlencode($filemanager_path . $path);
+                        $href = manager_route('files', [ 'mode' => 'drill', 'path' => $filemanager_path . $path ]);
                         $pieces[$i] = '<a href="' . $href . '">' . trim($v, '/') . '</a>';
                     } else {
                         $pieces[$i] = '<span>' . trim($v, '/') . '</span>';

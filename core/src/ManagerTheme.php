@@ -617,7 +617,7 @@ class ManagerTheme implements ManagerThemeInterface
             'modx_charset' => $this->getCharset(),
             'favicon' => (file_exists(MODX_BASE_PATH . 'favicon.ico') ? MODX_SITE_URL : $this->getThemeUrl() . 'images/') . 'favicon.ico',
             'homeurl' => $this->getCore()->makeUrl($this->getManagerStartupPageId()),
-            'logouturl' => MODX_MANAGER_URL . 'index.php?a=8',
+            'logouturl' => manager_route('logout'),
             'year' => date('Y'),
             'theme' => $this->getTheme(),
             'manager_theme_url' => $this->getThemeUrl(),
@@ -888,7 +888,7 @@ class ManagerTheme implements ManagerThemeInterface
     public function sendRepairMail($email, $hash, $mode)
     {
         $body = '
-                <p>' . \Lang::get('global.forgot_password_email_intro') . ' <a href="' . MODX_MANAGER_URL . '?a=0&hash=' . $hash . '&mode=' . $mode . '">' . \Lang::get('global.forgot_password_email_link') . '</a></p>
+                <p>' . \Lang::get('global.forgot_password_email_intro') . ' <a href="'.manager_route('repair',[ 'hash' => $hash, 'mode' => $mode ]).'">' . \Lang::get('global.forgot_password_email_link') . '</a></p>
                 <p>' . \Lang::get('global.forgot_password_email_instructions') . '</p>
                 <p><small>' . \Lang::get('global.forgot_password_email_fine_print') . '</small></p>';
 

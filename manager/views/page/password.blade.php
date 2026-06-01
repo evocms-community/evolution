@@ -9,7 +9,7 @@
             },
             cancel: function() {
               documentDirty = false;
-              document.location.href = 'index.php?a=2';
+              document.location.href = {!! manager_route('home') !!};
             }
           };
         </script>

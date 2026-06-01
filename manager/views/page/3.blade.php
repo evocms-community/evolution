@@ -49,14 +49,14 @@
     $add_path = $sd . $sb . $pg;
 
     $actions = [
-        'new'       => 'index.php?pid=' . $_REQUEST['id'] . '&a=4',
-        'newlink'   => 'index.php?pid=' . $_REQUEST['id'] . '&a=72',
-        'edit'      => 'index.php?id=' . $_REQUEST['id'] . '&a=27',
+        'new'       => manager_route('create_resource', [ 'pid' => $_REQUEST['id'] ]),
+        'newlink'   => manager_route('create_weblink', [ 'pid' => $_REQUEST['id'] ]),
+        'edit'      => manager_route('edit_document', [ 'id' => $_REQUEST['id'] ]),
         'save'      => '',
-        'delete'    => 'index.php?id=' . $_REQUEST['id'] . '&a=6',
-        'cancel'    => 'index.php?' . ($id == 0 ? 'a=2' : 'a=3&r=1&id=' . $id . $add_path),
-        'move'      => 'index.php?id=' . $_REQUEST['id'] . '&a=51',
-        'duplicate' => 'index.php?id=' . $_REQUEST['id'] . '&a=94',
+        'delete'    => manager_route('delete_resource', [ 'id' => $_REQUEST['id'] ]),
+        'cancel'    => $id == 0 ? manager_route('home') : manager_route('about_document', ['r' => 1, 'id' => $id]) . $add_path,
+        'move'      => manager_route('move_resource', [ 'id' => $_REQUEST['id'] ]),
+        'duplicate' => manager_route('duplicate_resource', [ 'id' => $_REQUEST['id'] ]),
         'view'      => $modx->getConfig('friendly_urls') ? UrlProcessor::makeUrl($id) : MODX_SITE_URL . 'index.php?id=' . $id,
     ];
 
@@ -227,7 +227,7 @@
                 //$class .= ($children['hidemenu'] ? ' text-muted' : ' text-primary');
                 //$class .= ($children['isfolder'] ? ' font-weight-bold' : '');
                 if ($modx->hasPermission('edit_document')) {
-                    $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="index.php?a=27&id=' . $children['id'] . $add_path . '">' . '<span class="' . $class . '">' . entities($children['pagetitle'],
+                    $title = '<span class="doc-item' . $private . '">' . $icon . '<a href="' . manager_route('edit_document', [ 'id' => $children['id'] ]) . $add_path . '">' . '<span class="' . $class . '">' . entities($children['pagetitle'],
                             $modx->getConfig('modx_charset')) . '</span></a></span>';
                 } else {
                     $title = '<span class="doc-item' . $private . '">' . $icon . '<span class="' . $class . '">' . entities($children['pagetitle'],
@@ -235,12 +235,12 @@
                 }
 
                 $icon_pub_unpub = (!$children['published'])
-                    ? '<a href="index.php?a=61&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>'
-                    : '<a href="index.php?a=62&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
+                    ? '<a href="' . manager_route('publish_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('publish_resource') . '"><i class="' . $_style['icon_check'] . '"></i></a>'
+                    : '<a href="' . manager_route('unpublish_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('unpublish_resource') . '"><i class="' . $_style['icon_close'] . '" ></i></a>';
 
                 $icon_del_undel = (!$children['deleted'])
-                    ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') . '\')" href="index.php?a=6&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('delete_resource') . '"><i class="' . $_style['icon_trash'] . '"></i></a>'
-                    : '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_undelete') . '\')" href="index.php?a=63&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('undelete_resource') . '"><i class="' . $_style['icon_undo'] . '"></i></a>';
+                    ? '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_delete_resource') . '\')" href="' . manager_route('delete_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('delete_resource') . '"><i class="' . $_style['icon_trash'] . '"></i></a>'
+                    : '<a onclick="return confirm(\'' . ManagerTheme::getLexicon('confirm_undelete') . '\')" href="'. manager_route('undelete_resource', [ 'id' => $children['id'] ])  . $add_path . '" title="' . ManagerTheme::getLexicon('undelete_resource') . '"><i class="' . $_style['icon_undo'] . '"></i></a>';
 
                 $listDocs[] = array(
                     'docid'     => '<div class="text-right">' . $children['id'] . '</div>',
@@ -250,14 +250,14 @@
                     'pub_date'  => '<div class="text-right">' . ($children['pub_date'] ? ($modx->toDateFormat($children['pub_date'] + $modx->timestamp(0),
                             'dateOnly')) : '') . '</div>',
                     'status'    => '<div class="text-nowrap">' . ($children['published'] == 0 ? '<span class="unpublishedDoc">' . ManagerTheme::getLexicon('page_data_unpublished') . '</span>' : '<span class="publishedDoc">' . ManagerTheme::getLexicon('page_data_published') . '</span>') . '</div>',
-                    'edit'      => '<div class="actions text-center text-nowrap">' . ($modx->hasPermission('edit_document') ? '<a href="index.php?a=27&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' . $_style['icon_edit'] . '"></i></a>
-                    <a href="index.php?a=51&id=' . $children['id'] . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
+                    'edit'      => '<div class="actions text-center text-nowrap">' . ($modx->hasPermission('edit_document') ? '<a href="' . manager_route('edit_document', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('edit') . '"><i class="' . $_style['icon_edit'] . '"></i></a>
+                    <a href="' . manager_route('move_resource', [ 'id' => $children['id'] ]) . $add_path . '" title="' . ManagerTheme::getLexicon('move') . '"><i
                     class="' . $_style['icon_move'] . '"></i></a>' . $icon_pub_unpub : '') . ($modx->hasPermission('delete_document') ? $icon_del_undel : '') . '</div>'
                 );
             }
 
             $table->createPagingNavigation($numRecords, 'a=3&id=' . $content['id'] . '&dir=' . $dir . '&sort=' . $sort);
-            $children_output = $table->create($listDocs, $listTableHeader, 'index.php?a=3&id=' . $content['id']);
+            $children_output = $table->create($listDocs, $listTableHeader, manager_route('about_document', [ 'id' => $content['id'] ]));
         } else {
             // No Child documents
             $children_output = '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
@@ -462,14 +462,14 @@
                         <div class="float-right">
                             @if($numRecords > 0)
                                 <select size="1" name="sort" class="form-control form-control-sm"
-                                        onchange="document.location='index.php?a=3&id={{ $id }}&dir={{ $dir }}&sort=' + this.options[this.selectedIndex].value">
+                                        onchange="document.location='{!! manager_route('about_document', [ 'id' => $id, 'dir' => $dir, 'sort' => '']) !!}' + this.options[this.selectedIndex].value">
                                     @foreach($filter_sort as $key => $val)
                                         <option value="{{ $key }}"
                                                 @if($key == $sort) selected @endif>{{ $val }}</option>
                                     @endforeach
                                 </select>
                                 <select size="1" name="dir" class="form-control form-control-sm"
-                                        onchange="document.location='index.php?a=3&id={{ $id }}&sort={{ $sort }}&dir=' + this.options[this.selectedIndex].value">
+                                        onchange="document.location='{!! manager_route('about_document', [ 'id' => $id, 'sort' => $sort, 'dir' => '']) !!}' + this.options[this.selectedIndex].value">
                                     @foreach($filter_dir as $key => $val)
                                         <option value="{{ $key }}" @if($key == $dir) selected @endif>{{ $val }}</option>
                                     @endforeach

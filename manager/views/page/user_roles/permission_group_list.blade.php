@@ -1,6 +1,6 @@
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=86&tab={{ $tab->getIndex() }}"><i
+        <a href="{{ manager_route('role_list', ['tab' => $tab->getIndex()]) }}"><i
                     class="{{ $_style['icon_category'] }}"></i>{{ __('global.category_heading') }}</a>
     </h2>
     <script>tpResources.addTabPage(document.getElementById('{{ $tabIndexPageName }}'))</script>

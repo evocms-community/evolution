@@ -1,6 +1,6 @@
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=76&tab={{ $index }}"><i
+        <a href="{{ manager_route('elements', ['tab' => $index]) }}"><i
                 class="{{ $_style['icon_plugin'] }}"></i>{{ ManagerTheme::getLexicon('plugins') }}</a>
     </h2>
 

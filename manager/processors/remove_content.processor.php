@@ -37,5 +37,5 @@ $modx->invokeEvent(
 $modx->clearCache('full');
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=2&r=1";
+$header = "Location:". manager_route('home', [ 'r' => 1 ]);
 header($header);

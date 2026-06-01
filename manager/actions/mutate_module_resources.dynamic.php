@@ -153,7 +153,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
         var win
         w = w ? w : 600;
         h = h ? h : 400;
-        url = "index.php?a=84&sm=" + mode + "&rt=" + resource + "&cb=" + callback
+        url = "<?= manager_route('add_dependencies') ?> &sm=" + mode + "&rt=" + resource + "&cb=" + callback
         // center on parent
         if (window.screenX) {
             var x = window.screenX + (window.outerWidth - w) / 2;
@@ -169,7 +169,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
 
     var actions = {
         close: function () {
-            document.location.href = 'index.php?a=76&tab=5';
+            document.location.href = "<?= manager_route('elements', ['tab' => 5]) ?>";
         }
     }
 </script>

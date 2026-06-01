@@ -129,7 +129,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('new_template')) {
-                            $output .= '<li><a id="a_19" href="index.php?a=19" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_template'] . '</a></li>';
+                            $output .= '<li><a id="a_19" href="'. manager_route('create_template') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_template'] . '</a></li>';
                         }
 
                         break;
@@ -154,7 +154,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('edit_template') && $modx->hasPermission('edit_snippet') && $modx->hasPermission('edit_chunk') && $modx->hasPermission('edit_plugin')) {
-                            $output .= '<li><a id="a_300" href="index.php?a=300" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_tmplvars'] . '</a></li>';
+                            $output .= '<li><a id="a_300" href="'. manager_route('create_tv') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_tmplvars'] . '</a></li>';
                         }
 
                         break;
@@ -168,7 +168,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('new_chunk')) {
-                            $output .= '<li><a id="a_77" href="index.php?a=77" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_htmlsnippet'] . '</a></li>';
+                            $output .= '<li><a id="a_77" href="'. manager_route('create_chunk') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_htmlsnippet'] . '</a></li>';
                         }
 
                         break;
@@ -182,7 +182,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('new_snippet')) {
-                            $output .= '<li><a id="a_23" href="index.php?a=23" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_snippet'] . '</a></li>';
+                            $output .= '<li><a id="a_23" href="'. manager_route('create_snippet') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_snippet'] . '</a></li>';
                         }
 
                         break;
@@ -196,7 +196,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('new_plugin')) {
-                            $output .= '<li><a id="a_101" href="index.php?a=101" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_plugin'] . '</a></li>';
+                            $output .= '<li><a id="a_101" href="'. manager_route('create_plugin') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_plugin'] . '</a></li>';
                         }
 
                         break;
@@ -212,7 +212,7 @@ if (isset($action)) {
                         }
 
                         if ($modx->hasPermission('new_module')) {
-                            $output .= '<li><a id="a_107" href="index.php?a=107" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_module'] . '</a></li>';
+                            $output .= '<li><a id="a_107" href="'. manager_route('create_module') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_module'] . '</a></li>';
                         }
 
                         break;
@@ -264,7 +264,7 @@ if (isset($action)) {
             }
 
             if ($modx->hasPermission('new_role')) {
-                $output .= '<li><a id="a_35" href="index.php?a=35" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_role'] . '</a></li>';
+                $output .= '<li><a id="a_35" href="'. manager_route('create_role') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_role'] . '</a></li>';
             }
 
             if ($count = $sql->count()) {
@@ -301,7 +301,7 @@ if (isset($action)) {
             }
 
             if ($modx->hasPermission('new_user')) {
-                $output .= '<li><a id="a_87" href="index.php?a=87" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_web_user'] . '</a></li>';
+                $output .= '<li><a id="a_87" href="'. manager_route('create_user') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_web_user'] . '</a></li>';
             }
 
             if ($count = $sql->count()) {
@@ -342,7 +342,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=22&id=" . $row['id'],
+                                    'url' => manager_route('edit_snippet', [ 'id' => $row['id'] ]),
                                 ),
                             );
                             if (!empty($row['description'])) {
@@ -358,7 +358,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_snippet'],
-                                    'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                    'url' => manager_route('create_snippet', [ 'itemname' => entities($name, $modx->getConfig('modx_charset')) ]),
                                 ),
                             );
                         }
@@ -375,7 +375,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=78&id=" . $row['id'],
+                                    'url' => manager_route('edit_chunk', [ 'id' => $row['id'] ]),
                                 ),
                             );
                             if (!empty($row['description'])) {
@@ -391,7 +391,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_htmlsnippet'],
-                                    'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                    'url' => manager_route('create_chunk', [ 'itemname' => entities($name, $modx->getConfig('modx_charset')) ]),
                                 ),
                             );
                         }
@@ -408,7 +408,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=78&id=" . $row['id'],
+                                    'url' => manager_route('edit_chunk', [ 'id' => $row['id'] ]),
                                 ),
                             );
                             if (!empty($row['description'])) {
@@ -429,7 +429,7 @@ if (isset($action)) {
                                     ),
                                     'item' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                        'url' => "index.php?a=22&id=" . $row['id'],
+                                        'url' => manager_route('edit_snippet', [ 'id'=> $row['id'] ]),
                                     ),
                                 );
                                 if (!empty($row['description'])) {
@@ -445,11 +445,11 @@ if (isset($action)) {
                                     ),
                                     'item' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_htmlsnippet'],
-                                        'url' => "index.php?a=77&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                        'url' => manager_route('create_chunk', [ 'itemname' => entities($name, $modx->getConfig('modx_charset')) ]),
                                     ),
                                     'item2' => array(
                                         'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_snippet'],
-                                        'url' => "index.php?a=23&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                        'url' => manager_route('create_snippet', [ 'itemname' => entities($name, $modx->getConfig('modx_charset')) ]),
                                     ),
                                 );
                             }
@@ -513,7 +513,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_edit'] . '"></i> ' . $_lang['edit'],
-                                    'url' => "index.php?a=301&id=" . $row['id'],
+                                    'url' => manager_route('edit_tv', [ 'id' => $row['id'] ]),
                                 ),
                             );
                             if (!empty($row['description'])) {
@@ -529,7 +529,7 @@ if (isset($action)) {
                                 ),
                                 'item' => array(
                                     'innerHTML' => '<i class="' . $_style['icon_add'] . '"></i> ' . $_lang['new_tmplvars'],
-                                    'url' => "index.php?a=300&itemname=" . entities($name, $modx->getConfig('modx_charset')),
+                                    'url' => manager_route('create_tv', [ 'itemname' => entities($name, $modx->getConfig('modx_charset')) ]),
                                 ),
                             );
                         }

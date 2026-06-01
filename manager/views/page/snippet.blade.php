@@ -25,16 +25,16 @@
             }, duplicate: function() {
               if (confirm('{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}') === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id={{ $data->getKey() }}&a=98";
+                document.location.href = "{!! manager_route('duplicate_snippet', [ 'id' => $data->getKey()]) !!}";
               }
             }, delete: function() {
               if (confirm('{{ ManagerTheme::getLexicon('confirm_delete_snippet') }}') === true) {
                 documentDirty = false;
-                document.location.href = 'index.php?id={{ $data->getKey() }}&a=25';
+                document.location.href = "{!! manager_route('delete_snippet', ['id'=>$data->getKey()]) !!}";
               }
             }, cancel: function() {
               documentDirty = false;
-              document.location.href = 'index.php?a=76&tab=3';
+              document.location.href = "{!! manager_route('elements', [ 'tab' => 3 ]) !!}";
             }
           };
 

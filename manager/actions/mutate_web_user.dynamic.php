@@ -280,12 +280,12 @@ var actions = {
     },
     delete: function() {
         if(confirm("<?php echo $_lang['confirm_delete_user']; ?>") === true) {
-            window.location.href = "index.php?id=" + document.userform.id.value + "&a=90";
+            window.location.href = "<?= manager_route('delete_user') ?>&id=" + document.userform.id.value;
         }
     },
     cancel: function() {
         documentDirty = false;
-        window.location.href = 'index.php?a=99';
+        window.location.href = "<?= manager_route('user_list') ?>";
     }
 }
 </script>

@@ -26,17 +26,13 @@ class ChangePassword extends AbstractController implements ManagerTheme\PageCont
             foreach ($exception->getValidationErrors() as $errors){
                 if(is_array($errors)){
                     foreach ($errors as $error){
-                        EvolutionCMS()->webAlertAndQuit($error, 'index.php?a=28');
+                        EvolutionCMS()->webAlertAndQuit($error, manager_route('change_password'));
                     }
                 }
             }
         }
 
-        header("Location: index.php?a=99");
+        header("Location:". manager_route('user_list'));
         exit();
     }
-
-
-
-
 }

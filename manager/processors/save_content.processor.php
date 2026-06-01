@@ -110,10 +110,10 @@ if ($modx->getConfig('friendly_urls')) {
         if (!is_null($docid)) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), manager_route('edit_document', [ 'id' => $id ]));
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), "index.php?a=4");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), manager_route('create_resource'));
             }
         }
     } elseif ($alias) {
@@ -127,10 +127,10 @@ if ($modx->getConfig('friendly_urls')) {
         if (!is_null($docid)) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), manager_route('edit_document', [ 'id' => $id ]));
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), "index.php?a=4");
+                $modx->webAlertAndQuit(sprintf($_lang["duplicate_alias_found"], $docid->id, $alias), manager_route('create_resource'));
             }
         }
     }
@@ -181,10 +181,10 @@ if ($_SESSION['mgrRole'] != 1 && is_array($document_groups)) {
         if ($count == 0) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit($_lang["resource_permissions_error"], manager_route('edit_document', [ 'id' => $id ]));
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=4");
+                $modx->webAlertAndQuit($_lang["resource_permissions_error"], manager_route('create_resource'));
             }
         }
     }
@@ -273,10 +273,10 @@ if ($modx->getConfig('use_udperms') == 1) {
         if (!$udperms->checkPermissions()) {
             if ($actionToTake == 'edit') {
                 $modx->getManagerApi()->saveFormValues(27);
-                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], "index.php?a=27&id={$id}");
+                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], manager_route('edit_document', [ 'id' => $id ]));
             } else {
                 $modx->getManagerApi()->saveFormValues(4);
-                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], "index.php?a=4");
+                $modx->webAlertAndQuit($_lang['access_permission_parent_denied'], manager_route('create_resource'));
             }
         }
     }
@@ -456,19 +456,15 @@ switch ($actionToTake) {
 
         // redirect/stay options
         if ($_POST['stay'] != '') {
-            // weblink
-            if ($_POST['mode'] == "72") {
-                $a = ($_POST['stay'] == '2') ? "27&id=$key" : "72&pid=$parentId";
+            if ($_POST['stay'] == '2') {
+                $url = manager_route('edit_document', ['id' => $key, 'r' => 1, 'stay' => $_POST['stay']]);
+            } else {
+                $route = ($_POST['mode'] == '72') ? 'create_weblink' : 'create_resource';
+                $url = manager_route($route, ['pid' => $parentId, 'r' => 1, 'stay' => $_POST['stay']]);
             }
-
-            // document
-            if ($_POST['mode'] == "4") {
-                $a = ($_POST['stay'] == '2') ? "27&id=$key" : "4&pid=$parentId";
-            }
-
-            $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'];
+            $header = "Location: " . $url;
         } else {
-            $header = "Location: index.php?a=3&id=$key&r=1";
+            $header = "Location: " . manager_route('about_document', ['id' => $key, 'r' => 1]);
         }
 
         if (headers_sent()) {
@@ -627,7 +623,7 @@ switch ($actionToTake) {
                     ->pluck('document_group')
                     ->toArray();
                 if (!empty($docgrp) && !array_intersect($docgrp, $remainingGroups)) {
-                    $modx->webAlertAndQuit($_lang["resource_permissions_error"], "index.php?a=27&id={$id}");
+                    $modx->webAlertAndQuit($_lang["resource_permissions_error"], manager_route('edit_document', [ 'id' => $id ]));
                 }
             }
             if (!empty($old_groups)) {
@@ -683,16 +679,15 @@ switch ($actionToTake) {
             }
             if ($_POST['stay'] != '') {
                 $id = $_REQUEST['id'];
-                if ($type == "reference") {
-                    // weblink
-                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "72&pid=$parentId";
+                if ($_POST['stay'] == '2') {
+                    $url = manager_route('edit_document', ['id' => $id, 'r' => 1, 'stay' => $_POST['stay']]);
                 } else {
-                    // document
-                    $a = ($_POST['stay'] == '2') ? "27&id=$id" : "4&pid=$parentId";
+                    $route = ($type == "reference") ? 'create_weblink' : 'create_resource';
+                    $url = manager_route($route, ['pid' => $parentId, 'r' => 1, 'stay' => $_POST['stay']]);
                 }
-                $header = "Location: index.php?a=" . $a . "&r=1&stay=" . $_POST['stay'] . $add_path;
+                $header = "Location: " . $url . $add_path;
             } else {
-                $header = "Location: index.php?a=3&id=$id&r=1" . $add_path;
+                $header = "Location: " . manager_route('about_document', ['id' => $id, 'r' => 1]) . $add_path;
             }
         }
         if (headers_sent()) {

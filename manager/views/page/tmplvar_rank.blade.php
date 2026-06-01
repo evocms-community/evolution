@@ -15,7 +15,7 @@
               setTimeout('document.sortableListForm.submit()', 1000);
             },
             cancel: function() {
-              document.location.href = 'index.php?a=76&tab=1';
+              document.location.href = "{!! manager_route('elements', [ 'tab' => 1 ]) !!}";
             }
           };
 

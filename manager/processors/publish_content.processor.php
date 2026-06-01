@@ -53,6 +53,6 @@ $_SESSION['itemname'] = $content['pagetitle'];
 // empty cache
 $modx->clearCache('full');
 
-$header = "Location: index.php?a=3&id=$pid&r=1" . $add_path;
+$header = "Location:". manager_route('about_document', [ 'id' => $pid, 'r' => 1 ]) . $add_path;
 
 header($header);

@@ -134,5 +134,5 @@ if (isset($data) && count($data) > 0) {
     // empty cache
     $modx->clearCache('full');
 }
-$header = "Location: index.php?a=7&r=10";
+$header = "Location:". manager_route('wait_clean_up', [ 'r' => 10 ]);
 header($header);

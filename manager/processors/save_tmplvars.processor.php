@@ -49,13 +49,13 @@ switch ($_POST['mode']) {
         // disallow duplicate names for new tvs
         if (EvolutionCMS\Models\SiteTmplvar::where('name', '=', $name)->first()) {
             $modx->getManagerApi()->saveFormValues(300);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['tv'], $name), "index.php?a=300");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['tv'], $name), manager_route('create_tv'));
         }
         // disallow reserved names
         if (in_array($name, array('id', 'type', 'contentType', 'pagetitle', 'longtitle', 'description', 'alias', 'link_attributes', 'published', 'pub_date', 'unpub_date', 'parent', 'isfolder', 'introtext', 'content', 'richtext', 'template', 'menuindex', 'searchable', 'cacheable', 'createdby', 'createdon', 'editedby', 'editedon', 'deleted', 'deletedon', 'deletedby', 'publishedon', 'publishedby', 'menutitle', 'hide_from_tree', 'privateweb', 'privatemgr', 'content_dispo', 'hidemenu', 'alias_visible', 'id', 'oldusername', 'oldemail', 'newusername', 'fullname', 'first_name', 'middle_name', 'last_name', 'verified', 'newpassword', 'newpasswordcheck', 'passwordgenmethod', 'passwordnotifymethod', 'specifiedpassword', 'confirmpassword', 'email', 'phone', 'mobilephone', 'fax', 'dob', 'country', 'street', 'city', 'state', 'zip', 'gender', 'photo', 'comment', 'role', 'failedlogincount', 'blocked', 'blockeduntil', 'blockedafter', 'user_groups', 'mode', 'blockedmode', 'stay', 'save', 'theme_refresher', 'username'))) {
             $_POST['name'] = '';
             $modx->getManagerApi()->saveFormValues(300);
-            $modx->webAlertAndQuit(sprintf($_lang['reserved_name_warning'], $_lang['tv'], $name), "index.php?a=300");
+            $modx->webAlertAndQuit(sprintf($_lang['reserved_name_warning'], $_lang['tv'], $name), manager_route('create_tv'));
         }
 
         // Add new TV
@@ -97,11 +97,15 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "301&id=$newid" : "300";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'];
+            $route = ($_POST['stay'] == '2') ? "edit_tv" : "create_tv";
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $newid;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
-            $header = "Location: index.php?a=76&tab=1&r=2";
+            $header = "Location:". manager_route('elements', [ 'tab' => 1, 'r' => 2 ]);
             header($header);
         }
         break;
@@ -115,12 +119,12 @@ switch ($_POST['mode']) {
         // disallow duplicate names for tvs
         if (EvolutionCMS\Models\SiteTmplvar::where('name', '=', $name)->where('id', '!=', $id)->first()) {
             $modx->getManagerApi()->saveFormValues(300);
-            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['tv'], $name), "index.php?a=301&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['duplicate_name_found_general'], $_lang['tv'], $name), manager_route('edit_tv', [ 'id' => $id ]));
         }
         // disallow reserved names
         if (in_array($name, array('id', 'type', 'contentType', 'pagetitle', 'longtitle', 'description', 'alias', 'link_attributes', 'published', 'pub_date', 'unpub_date', 'parent', 'isfolder', 'introtext', 'content', 'richtext', 'template', 'menuindex', 'searchable', 'cacheable', 'createdby', 'createdon', 'editedby', 'editedon', 'deleted', 'deletedon', 'deletedby', 'publishedon', 'publishedby', 'menutitle', 'hide_from_tree', 'privateweb', 'privatemgr', 'content_dispo', 'hidemenu', 'alias_visible', 'id', 'oldusername', 'oldemail', 'newusername', 'fullname', 'first_name', 'middle_name', 'last_name', 'verified', 'newpassword', 'newpasswordcheck', 'passwordgenmethod', 'passwordnotifymethod', 'specifiedpassword', 'confirmpassword', 'email', 'phone', 'mobilephone', 'fax', 'dob', 'country', 'street', 'city', 'state', 'zip', 'gender', 'photo', 'comment', 'role', 'failedlogincount', 'blocked', 'blockeduntil', 'blockedafter', 'user_groups', 'mode', 'blockedmode', 'stay', 'save', 'theme_refresher', 'username'))) {
             $modx->getManagerApi()->saveFormValues(300);
-            $modx->webAlertAndQuit(sprintf($_lang['reserved_name_warning'], $_lang['tv'], $name), "index.php?a=301&id={$id}");
+            $modx->webAlertAndQuit(sprintf($_lang['reserved_name_warning'], $_lang['tv'], $name), manager_route('edit_tv', [ 'id' => $id ]));
         }
 
         // update TV
@@ -161,12 +165,16 @@ switch ($_POST['mode']) {
 
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
-            $a = ($_POST['stay'] == '2') ? "301&id=$id" : "300";
-            $header = "Location: index.php?a=" . $a . "&r=2&stay=" . $_POST['stay'] . "&or=" . $origin . "&oid=" . $originId;
+            $route = ($_POST['stay'] == '2') ? 'edit_tv' : 'create_tv';;
+            $params = [ 'r' =>2, 'stay' => $_POST['stay'], 'or' => $origin, 'oid' => $originId ];
+            if ($_POST['stay'] == '2') {
+                $params ['id'] = $id;
+            }
+            $header = "Location:". manager_route($route, $params);
             header($header);
         } else {
             $modx->unlockElement(2, $id);
-            $header = "Location: index.php?a=" . $origin . "&r=2" . (empty($originId) ? '' : '&id=' . $originId);
+            $header = "Location:". manager_route_by_action($origin, ['r' => 2, 'id' => $originId]);
             header($header);
         }
 

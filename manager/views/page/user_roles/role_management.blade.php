@@ -1,6 +1,6 @@
 <div class="tab-page {{ $tabPageName }}" id="{{ $tabIndexPageName }}">
     <h2 class="tab">
-        <a href="?a=86&tab={{ $tab->getIndex() }}">
+        <a href="{{ manager_route('role_list', ['tab' => $tab->getIndex()]) }}">
             <i class="{{ $_style['icon_role'] }}"></i>{{ __('global.role_management_title') }}
         </a>
     </h2>

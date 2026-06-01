@@ -122,7 +122,7 @@ if ($numRecords > 0) {
 
         $listDocs[] = [
             'icon' => '<a class="gridRowIcon" href="javascript:;" onclick="return showContentMenu(' . $el['id'] . ',event);" title="' . ManagerTheme::getLexicon('click_to_context') . '"><i class="' . $_style[empty($el['name']) ? 'icon_no_user_role' : 'icon_web_user'] . '"></i></a>',
-            'name' => '<a href="index.php?a=88&id=' . $el['id'] . '" title="' . ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',
+            'name' => '<a href="' . manager_route('edit_user', [ 'id' => $el['id'] ]) . '" title="' . ManagerTheme::getLexicon('click_to_edit_title') . '">' . e($el['username']) . '</a>',
             'user_full_name' => e($el['fullname']),
             'email' => e($el['email']),
             'role' => e($el['name'] ?: ManagerTheme::getLexicon('no_user_role')),
@@ -133,7 +133,7 @@ if ($numRecords > 0) {
     }
 
     $table->createPagingNavigation($numRecords, 'a=99&'.http_build_query($query));
-    $output = $table->create($listDocs, $listTableHeader, 'index.php?a=99');
+    $output = $table->create($listDocs, $listTableHeader, manager_route('user_list'));
 } else {
     // no documents
     $output = '<div class="container"><p>' . ManagerTheme::getLexicon('resources_in_container_no') . '</p></div>';
@@ -166,11 +166,11 @@ if ($numRecords > 0) {
         var id = selectedItem;
         switch(a) {
             case 1: // edit
-                window.location.href = 'index.php?a=88&id=' + id;
+                window.location.href = "<?= manager_route('edit_user') ?>&id=" + id;
                 break;
             case 2: // delete
                 if(confirm("<?php echo ManagerTheme::getLexicon('confirm_delete_user') ?>") === true) {
-                    window.location.href = 'index.php?a=90&id=' + id;
+                    window.location.href = "<?= manager_route('delete_user') ?>&id=" + id;
                 }
                 break;
         }
@@ -210,7 +210,7 @@ if ($numRecords > 0) {
             <div class="row searchbar form-group">
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
-                        <a class="btn btn-success btn-sm" href="index.php?a=87"><i class="<?= $_style['icon_add'] ?>"></i> <?php echo ManagerTheme::getLexicon('new_web_user') ?></a>
+                        <a class="btn btn-success btn-sm" href="<?= manager_route('create_user') ?>"><i class="<?= $_style['icon_add'] ?>"></i> <?php echo ManagerTheme::getLexicon('new_web_user') ?></a>
                     </div>
                 </div>
                 <div class="col-sm-6 ">

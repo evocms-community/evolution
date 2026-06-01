@@ -14,18 +14,18 @@
                 duplicate: function () {
                     if (confirm("{{ ManagerTheme::getLexicon('confirm_duplicate_record') }}") === true) {
                         documentDirty = false;
-                        document.location.href = "index.php?id={{ $data->getKey() }}&a=96";
+                        document.location.href = "{!! manager_route('duplicate_template', [ 'id' => $data->getKey() ]) !!}";
                     }
                 },
                 delete: function () {
                     if (confirm("{{ ManagerTheme::getLexicon('confirm_delete_template') }}") === true) {
                         documentDirty = false;
-                        document.location.href = 'index.php?id={{ $data->getKey() }}&a=21';
+                        document.location.href = "{!! manager_route('delete_template', [ 'id' => $data->getKey() ]) !!}";
                     }
                 },
                 cancel: function () {
                     documentDirty = false;
-                    document.location.href = 'index.php?a=76&tab=0';
+                    document.location.href = "{!! manager_route('elements', [ 'tab' => 0 ]) !!}";
                 }
             };
 
@@ -241,7 +241,7 @@
                     @if($modx->hasPermission('save_template') && $data->tvs->count() > 1 && $data->getKey())
                         <div class="form-group">
                             <a class="btn btn-primary"
-                               href="?a=117&id={{ $data->getKey() }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>
+                               href="{{ manager_route('edit_tv_rank', ['id' => $data->getKey()]) }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>
                         </div>
                     @endif
 

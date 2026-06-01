@@ -19,5 +19,5 @@ include_once MODX_MANAGER_PATH . 'includes/categories.inc.php';
 deleteCategory($id);
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=76";
+$header = "Location:". manager_route('elements');
 header($header);

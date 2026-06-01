@@ -42,7 +42,7 @@ class DeleteUser extends AbstractController implements ManagerTheme\PageControll
                 }
             }
         }
-        header("Location: index.php?a=99");
+        header("Location:". manager_route('user_list'));
         exit();
     }
 

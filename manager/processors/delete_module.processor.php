@@ -42,5 +42,5 @@ $modx->invokeEvent(
 $modx->clearCache('full');
 
 // finished emptying cache - redirect
-$header = "Location: index.php?a=76&r=2&tab=5";
+$header = "Location:". manager_route('elements', [ 'r' => 2, 'tab' => 5 ]);
 header($header);

@@ -463,7 +463,7 @@ if (!function_exists('webAlertAndQuit')) {
         $modx = EvolutionCMS();
         $mode = $_POST['mode'];
         $modx->getManagerApi()->saveFormValues($mode);
-        $url = 'index.php?a=' . $action;
+        $url = manager_route_by_action($action);
         if ($id != false) {
             $url .= '&id=' . $id;
         }

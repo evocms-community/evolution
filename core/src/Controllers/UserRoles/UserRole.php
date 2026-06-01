@@ -43,14 +43,14 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             $id = $this->getElementId();
             $count = UserAttribute::where('role',$id)->count();
             if($id==1){
-                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", "index.php?a=35&id={$id}");
+                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", manager_route('edit_role', [ 'id' => $id ]));
             }
             if($count>0){
-                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", "index.php?a=35&id={$id}");
+                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", manager_route('edit_role', [ 'id' => $id ]));
             }
             Models\RolePermissions::query()->where('role_id', $id)->delete();
             Models\UserRole::destroy($id);
-            header('Location: index.php?a=86&tab=0');
+            header('Location:'. manager_route('role_list', [ 'tab' => 0 ]));
         }
 
         if (isset($_POST['a'])) {
@@ -79,7 +79,9 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             $this->managerTheme->getCore()->getManagerApi()->saveFormValues();
             $this->managerTheme->getCore()->webAlertAndQuit(
                 'Please enter a name for this role!',
-                "index.php?a=$mode" . ($mode == 35 ? "&id=$id" : '')
+                $mode == 35 
+                    ? manager_route('edit_role', [ 'id' => $id ])
+                    : manager_route('create_role')
             );
         }
 
@@ -139,10 +141,20 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
         $this->managerTheme->getCore()->getManagerApi()->clearSavedFormValues();
 
         if (!empty($_POST['stay'])) {
-            $a = $_POST['stay'] == '2' ? '35&id=' . $role->getKey() : '38';
-            header('Location: index.php?a=' . $a . '&r=2&stay=' . $_POST['stay']);
+            if ($_POST['stay'] == '2') {
+                header('Location: ' . manager_route('edit_role', [
+                    'id' => $role->getKey(),
+                    'r' => 2,
+                    'stay' => $_POST['stay']
+                ]));
+            } else {
+                header('Location: ' . manager_route('create_role', [
+                    'r' => 2,
+                    'stay' => $_POST['stay']
+                ]));
+            }
         } else {
-            header('Location: index.php?a=86');
+            header('Location: ' . manager_route('role_list'));
         }
     }
 
