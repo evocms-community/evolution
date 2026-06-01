@@ -75,7 +75,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         }
         documentDirty = false;
 
-        window.location.href = "index.php?id=<?= (isset($_REQUEST['id'])) ? $_REQUEST['id'] : "" ?>&a=113";
+        window.location.href = "<?= manager_route('module_dependencies', ['id' => $_REQUEST['id'] ?? '']) ?>";
     }
 
     var actions = {
@@ -88,21 +88,21 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         duplicate: function () {
             if (confirm("<?= $_lang['confirm_duplicate_record'] ?>") === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id=<?= (isset($_REQUEST['id'])) ? $_REQUEST['id'] : "" ?>&a=111";
+                document.location.href = "<?= manager_route('duplicate_module', ['id' => $_REQUEST['id'] ?? '']) ?>";
             }
         },
         delete: function () {
             if (confirm("<?= $_lang['confirm_delete_module'] ?>") === true) {
                 documentDirty = false;
-                document.location.href = "index.php?id=" + document.mutate.id.value + "&a=110";
+                document.location.href = "<?= manager_route('delete_module') ?>?id=" + document.mutate.id.value;
             }
         },
         cancel: function () {
             documentDirty = false;
-            document.location.href = 'index.php?a=76&tab=5';
+            document.location.href = "<?= manager_route('elements', [ 'tab' => 5 ]) ?>";
         },
         run: function () {
-            document.location.href = "index.php?id=<?= (isset($_REQUEST['id'])) ? $_REQUEST['id'] : "" ?>&a=112";
+            document.location.href = "<?= manager_route('execute_modules', ['id' => $_REQUEST['id'] ?? '']) ?>";
         }
     };
 

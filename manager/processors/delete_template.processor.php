@@ -26,7 +26,7 @@ if ($count > 0) {
             <ul>
 <?php
 foreach ($siteContents as $row) {
-        echo '<li><span style="width: 200px"><a href="index.php?id=' . $row->id . '&a=27">' . $row->pagetitle . '</a></span>' . ($row->introtext != '' ? ' - ' . $row->introtext : '') . '</li>';
+        echo '<li><span style="width: 200px"><a href="'. manager_route('edit_document', [ 'id' => $row->id ]) .'">' . $row->pagetitle . '</a></span>' . ($row->introtext != '' ? ' - ' . $row->introtext : '') . '</li>';
     }
     ?>
             </ul>

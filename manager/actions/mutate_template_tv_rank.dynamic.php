@@ -70,7 +70,7 @@ if ($templateVars->count() > 0) {
             }
             setTimeout('document.sortableListForm.submit()', 1000);
         }, cancel: function () {
-            window.location.href = 'index.php?a=16&amp;id=<?= $id ?>';
+            window.location.href = "<?= manager_route('edit_template', ['id' => $id]) ?>";
         },
     };
 

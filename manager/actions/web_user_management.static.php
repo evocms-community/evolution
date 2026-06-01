@@ -166,11 +166,11 @@ if ($numRecords > 0) {
         var id = selectedItem;
         switch(a) {
             case 1: // edit
-                window.location.href = 'index.php?a=88&id=' + id;
+                window.location.href = "<?= manager_route('edit_user') ?>&id=" + id;
                 break;
             case 2: // delete
                 if(confirm("<?php echo ManagerTheme::getLexicon('confirm_delete_user') ?>") === true) {
-                    window.location.href = 'index.php?a=90&id=' + id;
+                    window.location.href = "<?= manager_route('delete_user') ?>&id=" + id;
                 }
                 break;
         }
@@ -210,7 +210,7 @@ if ($numRecords > 0) {
             <div class="row searchbar form-group">
                 <div class="col-sm-6 input-group">
                     <div class="input-group-btn">
-                        <a class="btn btn-success btn-sm" href="index.php?a=87"><i class="<?= $_style['icon_add'] ?>"></i> <?php echo ManagerTheme::getLexicon('new_web_user') ?></a>
+                        <a class="btn btn-success btn-sm" href="<?= manager_route('create_user') ?>"><i class="<?= $_style['icon_add'] ?>"></i> <?php echo ManagerTheme::getLexicon('new_web_user') ?></a>
                     </div>
                 </div>
                 <div class="col-sm-6 ">

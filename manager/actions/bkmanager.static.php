@@ -223,7 +223,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
         var actions = {
             cancel: function () {
                 documentDirty = false;
-                document.location.href = 'index.php?a=2';
+                document.location.href = "<?= manager_route('home') ?>";
             },
         };
 

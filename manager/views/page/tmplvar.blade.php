@@ -95,7 +95,7 @@
             },
             cancel: function() {
               documentDirty = false;
-              document.location.href = 'index.php?a={{ $origin }}@if(!empty($originId))&id={{ $originId}}@endif&tab=1';
+              document.location.href = "{!! manager_route_by_action((int)$origin, array_filter(['id' => $originId ?? null, 'tab' => 1])) !!}";
             }
           };
 

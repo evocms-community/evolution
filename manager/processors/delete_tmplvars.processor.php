@@ -26,10 +26,10 @@ if (!$forced) {
         <script>
             var actions = {
                 delete: function() {
-                    document.location.href = "index.php?id=<?=$id?>&a=303&force=1";
+                    document.location.href = "<?= manager_route('delete_tv', ['id' => $id, 'force' => 1]) ?>";
                 },
                 cancel: function() {
-                    window.location.href = 'index.php?a=301&id=<?=$id?>';
+                    window.location.href = "<?= manager_route('edit_tv', ['id' => $id])?>";
                 }
             };
         </script>

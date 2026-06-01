@@ -49,11 +49,12 @@ if(!isset($modx->config['_hide_configcheck_templateswitcher_present']) || $modx-
         if(!is_null($row) && $row->disabled == 0) {
             $warnings[] = array($_lang['configcheck_templateswitcher_present']);
             $tplName = $row->name;
+            $pluginUpdateUrl = manager_route('plugin_update');
             $script = <<<JS
 <script type="text/javascript">
 function deleteTemplateSwitcher(){
     if(confirm('{$_lang["confirm_delete_plugin"]}')) {
-        var myAjax = new Ajax('index.php?a=118', {
+        var myAjax = new Ajax('{$pluginUpdateUrl}', {
             method: 'post',
             data: 'action=updateplugin&key=_delete_&lang=$tplName'
         });
@@ -66,7 +67,7 @@ function deleteTemplateSwitcher(){
     }
 }
 function disableTemplateSwitcher(){
-    var myAjax = new Ajax('index.php?a=118', {
+    var myAjax = new Ajax('{$pluginUpdateUrl}', {
         method: 'post',
         data: 'action=updateplugin&lang={$tplName}&key=disabled&value=1'
     });
