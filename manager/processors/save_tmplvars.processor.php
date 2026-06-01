@@ -98,7 +98,7 @@ switch ($_POST['mode']) {
         // finished emptying cache - redirect
         if ($_POST['stay'] != '') {
             $route = ($_POST['stay'] == '2') ? "edit_tv" : "create_tv";
-            $params = [ 'r' => 2, 'stay' => $_POST ];
+            $params = [ 'r' => 2, 'stay' => $_POST['stay'] ];
             if ($_POST['stay'] == '2') {
                 $params ['id'] = $newid;
             }

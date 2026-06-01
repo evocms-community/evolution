@@ -459,7 +459,7 @@ switch ($actionToTake) {
             if ($_POST['stay'] == '2') {
                 $url = manager_route('edit_document', ['id' => $key, 'r' => 1, 'stay' => $_POST['stay']]);
             } else {
-                $route = ($_POST['mode'] == '72') ? 'create_weblink' : 'create_document';
+                $route = ($_POST['mode'] == '72') ? 'create_weblink' : 'create_resource';
                 $url = manager_route($route, ['pid' => $parentId, 'r' => 1, 'stay' => $_POST['stay']]);
             }
             $header = "Location: " . $url;
@@ -682,7 +682,7 @@ switch ($actionToTake) {
                 if ($_POST['stay'] == '2') {
                     $url = manager_route('edit_document', ['id' => $id, 'r' => 1, 'stay' => $_POST['stay']]);
                 } else {
-                    $route = ($type == "reference") ? 'create_weblink' : 'create_document';
+                    $route = ($type == "reference") ? 'create_weblink' : 'create_resource';
                     $url = manager_route($route, ['pid' => $parentId, 'r' => 1, 'stay' => $_POST['stay']]);
                 }
                 $header = "Location: " . $url . $add_path;
