@@ -30,5 +30,5 @@ $newSnippet->push();
 $_SESSION['itemname'] = $newSnippet->name;
 
 // finish duplicating - redirect to new snippet
-$header = "Location: index.php?r=2&a=22&id=" . $newSnippet->getKey();
+$header = "Location:". manager_route('edit_snippet', [ 'r' => 2, 'id' => $newSnippet->getKey() ]);
 header($header);

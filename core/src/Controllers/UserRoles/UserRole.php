@@ -43,10 +43,10 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             $id = $this->getElementId();
             $count = UserAttribute::where('role',$id)->count();
             if($id==1){
-                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", manager_route('role_edit', [ 'id' => $id ]));
+                $this->managerTheme->getCore()->webAlertAndQuit->webAlertAndQuit("The role you are trying to delete is the admin role. This role cannot be deleted!", manager_route('edit_role', [ 'id' => $id ]));
             }
             if($count>0){
-                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", manager_route('role_edit', [ 'id' => $id ]));
+                $this->managerTheme->getCore()->webAlertAndQuit("There are users with this role. It can't be deleted.", manager_route('edit_role', [ 'id' => $id ]));
             }
             Models\RolePermissions::query()->where('role_id', $id)->delete();
             Models\UserRole::destroy($id);
@@ -80,8 +80,8 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
             $this->managerTheme->getCore()->webAlertAndQuit(
                 'Please enter a name for this role!',
                 $mode == 35 
-                    ? manager_route('role_edit', [ 'id' => $id ])
-                    : manager_route('role_create')
+                    ? manager_route('edit_role', [ 'id' => $id ])
+                    : manager_route('create_role')
             );
         }
 
@@ -142,13 +142,13 @@ class UserRole extends AbstractController implements ManagerTheme\PageController
 
         if (!empty($_POST['stay'])) {
             if ($_POST['stay'] == '2') {
-                header('Location: ' . manager_route('role_edit', [
+                header('Location: ' . manager_route('edit_role', [
                     'id' => $role->getKey(),
                     'r' => 2,
                     'stay' => $_POST['stay']
                 ]));
             } else {
-                header('Location: ' . manager_route('role_create', [
+                header('Location: ' . manager_route('create_role', [
                     'r' => 2,
                     'stay' => $_POST['stay']
                 ]));

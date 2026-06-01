@@ -32,5 +32,5 @@ $name = EvolutionCMS\Models\SiteContent::select('pagetitle')->findOrFail($docume
 $_SESSION['itemname'] = $name;
 
 // finish cloning - redirect
-$header = "Location: index.php?r=1&a=3&id=" . $document->getKey();
+$header = "Location:". manager_route('about_document', [ 'r' => 1, 'id' => $document->getKey() ]);
 header($header);

@@ -87,7 +87,7 @@
         switch (a) {
           case 1:		// run module
             dontShowWorker = true; // prevent worker from being displayed
-            window.location.href = {!! manager_route('modules') !!} + '&id=' + id;
+            window.location.href = {!! manager_route('execute_modules') !!} + '&id=' + id;
             break;
           case 2:		// edit
             window.location.href = {!! manager_route('edit_module') !!} + '&id=' + id;

@@ -47,7 +47,7 @@ class Permission extends AbstractController implements ManagerTheme\PageControll
         $group->group_id = $group_id;
         $group->disabled = $_POST['disabled'];
         $group->save();
-        header('Location:'. manager_route('permission_edit', [ 'id' => $group->getKey(), 'r' => 9 ]));
+        header('Location:'. manager_route('edit_permission', [ 'id' => $group->getKey(), 'r' => 9 ]));
     }
 
     /**

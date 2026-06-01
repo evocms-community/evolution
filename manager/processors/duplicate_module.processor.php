@@ -64,5 +64,5 @@ $name = EvolutionCMS\Models\SiteModule::select('name')->findOrFail($newid)->name
 $_SESSION['itemname'] = $name;
 
 // finish duplicating - redirect to new module
-$header = "Location: index.php?r=2&a=108&id=$newid";
+$header = "Location:". manager_route('edit_module', [ 'r' => 2, 'id' => $newid ]);
 header($header);

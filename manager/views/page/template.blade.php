@@ -241,7 +241,7 @@
                     @if($modx->hasPermission('save_template') && $data->tvs->count() > 1 && $data->getKey())
                         <div class="form-group">
                             <a class="btn btn-primary"
-                               href="?a=117&id={{ $data->getKey() }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>
+                               href="{{ manager_route('edit_tv_rank', ['id' => $data->getKey()]) }}">{{ ManagerTheme::getLexicon('template_tv_edit') }}</a>
                         </div>
                     @endif
 

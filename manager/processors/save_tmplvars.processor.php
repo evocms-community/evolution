@@ -174,7 +174,7 @@ switch ($_POST['mode']) {
             header($header);
         } else {
             $modx->unlockElement(2, $id);
-            $header = "Location: index.php?a=" . $origin . "&r=2" . (empty($originId) ? '' : '&id=' . $originId);
+            $header = "Location:". manager_route_by_action($origin, ['r' => 2, 'id' => $originId]);
             header($header);
         }
 

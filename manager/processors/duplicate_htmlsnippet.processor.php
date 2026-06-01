@@ -29,5 +29,5 @@ $newHtmlsnippet->push();
 $_SESSION['itemname'] = $newHtmlsnippet->name;
 
 // finish duplicating - redirect to new chunk
-$header = "Location: index.php?r=2&a=78&id=" . $newHtmlsnippet->getKey();
+$header = "Location:". manager_route('edit_chunk', [ 'r' => 2, 'id' => $newHtmlsnippet->getKey() ]);
 header($header);
