@@ -50,4 +50,5 @@ if ($msg) {
     echo "<script>alert('" . addslashes($msg) . "');</script>";
 }
 
-echo "<script>window.location='../#?a=2';</script>";
+header('Location: ' . manager_route('home') . '#');
+exit;

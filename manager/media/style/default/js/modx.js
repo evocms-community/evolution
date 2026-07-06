@@ -41,7 +41,7 @@
             d.addEventListener('click', this.hideDropDown, false);
             if (modx.config.global_tabs) {
                 d.addEventListener('click', this.tabs, false);
-                this.tabs({ url: '?a=2', reload: 0 });
+                this.tabs({ url: modx.routes.home, reload: 0 });
             }
         },
         mainmenu: {
@@ -301,7 +301,7 @@
                     if (s.input.value.length !== '' && s.input.value.length > 2) {
                         s.timer = setTimeout(function () {
                             s.loader.style.display = 'block';
-                            modx.get(modx.MODX_MANAGER_URL + '?a=71&ajax=1&submitok=Search&searchid=' + s.input.value, function (data) {
+                            modx.get(modx.routes.search + '&ajax=1&submitok=Search&searchid=' + s.input.value, function (data) {
                                 s.loader.style.display = 'none';
                                 s.results = data.querySelector('.ajaxSearchResults');
                                 if (s.results && s.results.innerHTML !== '') {
@@ -1056,7 +1056,7 @@
                 }
                 if (tree.ca === 'open' || tree.ca === '') {
                     if (id === 0) {
-                        href = '?a=2';
+                        href = modx.routes.home;
                     } else {
                         var href = '';
                         if (!isNaN(treepageclick) && isFinite(treepageclick)) {
@@ -1249,38 +1249,38 @@
                 switch (a) {
                     case 1:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=3&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.editDocument + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 2:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=27&r=1&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.editDocument + '&r=1&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 3:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=4&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.createResource + '&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 4:
                         if (this.selectedObjectDeleted) {
                             alert('"' + this.selectedObjectName + '" ' + modx.lang.already_deleted);
                         } else if (confirm('"' + this.selectedObjectName + '"\n\n' + modx.lang.confirm_delete_resource) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=6&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.routes.deleteResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 5:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=51&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.moveResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 6:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=72&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.createWeblink + '&pid=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 7:
                         if (confirm(modx.lang.confirm_resource_duplicate) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=94&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.routes.duplicateResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 8:
                         if (d.getElementById('node' + this.itemToChange).firstChild.dataset.deleted) {
                             if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_undelete) === true) {
-                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=63&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                                modx.tabs({ url: modx.routes.undeleteResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                             }
                         } else {
                             alert('"' + this.selectedObjectName + '"' + modx.lang.not_deleted);
@@ -1288,20 +1288,20 @@
                         break;
                     case 9:
                         if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_publish) === true) {
-                            modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=61&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                            modx.tabs({ url: modx.routes.publishResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         }
                         break;
                     case 10:
                         if (this.itemToChange !== modx.config.site_start) {
                             if (confirm('"' + this.selectedObjectName + '" ' + modx.lang.confirm_unpublish) === true) {
-                                modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=62&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                                modx.tabs({ url: modx.routes.unpublishResource + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                             }
                         } else {
                             modx.alert('Document is linked to site_start variable and cannot be unpublished!');
                         }
                         break;
                     case 11:
-                        modx.tabs({ url: modx.MODX_MANAGER_URL + '?a=56&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.refreshTree + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 12:
                         w.open(d.getElementById('node' + this.itemToChange).firstChild.dataset.href, 'previeWin');
@@ -1411,7 +1411,7 @@
             },
             emptyTrash: function () {
                 if (confirm(modx.lang.confirm_empty_trash) === true) {
-                    modx.get(modx.MODX_MANAGER_URL + '?a=64', function () {
+                    modx.get(modx.routes.emptyTrash, function () {
                         modx.tabsClose(modx.tree.deleted);
                         modx.tree.deleted = [];
                         modx.tree.restoreTree();
@@ -1443,7 +1443,7 @@
             unlockElement: function (a, b, c) {
                 var m = modx.lockedElementsTranslation.msg.replace('[+id+]', b).replace('[+element_type+]', modx.lockedElementsTranslation['type' + a]);
                 if (confirm(m) === true) {
-                    modx.get(modx.MODX_MANAGER_URL + '?a=67&type=' + a + '&id=' + b, function (r) {
+                    modx.get(modx.routes.removeLock + '&type=' + a + '&id=' + b, function (r) {
                         if (parseInt(r) === 1) {
                             c.parentNode.removeChild(c);
                         } else {
@@ -1457,7 +1457,7 @@
         removeLocks: function () {
             if (confirm(modx.lang.confirm_remove_locks) === true) {
                 //w.main.location.href = modx.MODX_MANAGER_URL + '?a=67'
-                modx.get(modx.MODX_MANAGER_URL + '?a=67', function () {
+                modx.get(modx.routes.removeLock, function () {
                     modx.tree.restoreTree();
                 });
             }
@@ -1465,7 +1465,7 @@
         keepMeAlive: function () {
             modx.get('includes/session_keepalive.php?tok=' + d.getElementById('sessTokenInput').value + '&o=' + Math.random(), function (r) {
                 r = JSON.parse(r);
-                if (r.status !== 'ok') w.location.href = modx.MODX_MANAGER_URL + '?a=8';
+                if (r.status !== 'ok') w.location.href = modx.routes.logout;
             });
         },
         openWindow: function (a) {
@@ -2575,7 +2575,7 @@
         var a = w.main.frameElement.contentWindow,
             url = modx.normalizeUrl(a.location.href);
         if (modx.getActionFromUrl(url, 27)) {
-            modx.get(modx.MODX_MANAGER_URL + '?a=67&type=7&id=' + modx.main.getQueryVariable('id', url));
+            modx.get(modx.routes.removeLock + '&type=7&id=' + modx.main.getQueryVariable('id', url));
         }
     };
     d.addEventListener('DOMContentLoaded', function () {

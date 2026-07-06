@@ -2,7 +2,7 @@
  *
  * Select Categories
  */
-let ajax_url = 'index.php?a=121';
+let ajax_url = modx.routes.categoriesAjax;
 let categorizeWorkbench = document.getElementById('categorize-workbench');
 document.getElementById('elements-select').onchange = function(e) {
   categorizeWorkbench.innerHTML = '';

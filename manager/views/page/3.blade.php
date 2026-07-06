@@ -256,7 +256,8 @@
                 );
             }
 
-            $table->createPagingNavigation($numRecords, 'a=3&id=' . $content['id'] . '&dir=' . $dir . '&sort=' . $sort);
+            $qs = 'a=' . manager_action_id('about_document') . '&id=' . $content['id'] . '&dir=' . $dir . '&sort=' . $sort;
+            $table->createPagingNavigation($numRecords, $qs);
             $children_output = $table->create($listDocs, $listTableHeader, manager_route('about_document', [ 'id' => $content['id'] ]));
         } else {
             // No Child documents

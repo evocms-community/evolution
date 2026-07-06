@@ -73,7 +73,7 @@
         @csrf
         {!! get_by_key($events, 'OnTempFormPrerender') !!}
 
-        <input type="hidden" name="a" value="20">
+        <input type="hidden" name="a" value="{{ manager_route_by_action('save_template') }}">
         <input type="hidden" name="id" value="{{ $data->getKey() }}">
         <input type="hidden" name="mode" value="{{ $action }}">
 

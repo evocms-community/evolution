@@ -298,3 +298,24 @@ if (!function_exists('manager_route_by_action')) {
         return manager_route($name, $params);
     }
 }
+
+if (!function_exists('manager_action_id')) {
+    /**
+     * Возвращает числовой ID действия по читаемому имени маршрута.
+     *
+     * @param string $name
+     * @return int
+     * @throws InvalidArgumentException
+     */
+    function manager_action_id(string $name): int
+    {
+        static $routes = null;
+        if ($routes === null) {
+            $routes = include __DIR__ . '/../config/manager_routes.php';
+        }
+        if (!isset($routes[$name])) {
+            throw new \InvalidArgumentException("Неизвестный маршрут админки: $name");
+        }
+        return $routes[$name];
+    }
+}

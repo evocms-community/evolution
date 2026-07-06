@@ -178,7 +178,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
     <?php
         echo csrf_field()->toHtml();
     ?>
-    <input type="hidden" name="a" value="113">
+    <input type="hidden" name="a" value="<?php manager_action_id('dependencies_module') ?>">
     <input type="hidden" name="op" value=""/>
     <input type="hidden" name="rt" value=""/>
     <input type="hidden" name="newids" value=""/>

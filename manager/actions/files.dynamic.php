@@ -215,9 +215,9 @@ if (substr($webstart_path, 0, 1) == '/') {
             <?php endif ?>
             <?php
             if (isset($_GET['mode']) && $_GET['mode'] !== 'drill') {
-                $href = 'a=31&path=' . $_REQUEST['path'];
+                $href = manager_route('files', [ 'path' => $_REQUEST['path'] ]);
             } else {
-                $href = 'a=2';
+                $href = manager_route('home');
             }
             if (is_writable($startpath)) {
                 $ph = array();
@@ -476,7 +476,7 @@ if (substr($webstart_path, 0, 1) == '/') {
                         echo csrf_field()->toHtml();
                     ?>
                     <input type="hidden" name="MAX_FILE_SIZE" value="<?= isset($upload_maxsize) ? $upload_maxsize : 3145728 ?>">
-                    <input type="hidden" name="a" value="31">
+                    <input type="hidden" name="a" value="<?php manager_action_id('files') ?>">
                     <input type="hidden" name="path" value="<?= $startpath ?>">
 
                     <?php if (isset($information)) {
@@ -517,7 +517,7 @@ if (get_by_key($_REQUEST, 'mode') == "edit" || get_by_key($_REQUEST, 'mode') == 
             <?php
                 echo csrf_field()->toHtml();
             ?>
-            <input type="hidden" name="a" value="31" />
+            <input type="hidden" name="a" value="<?php manager_action_id('files') ?>" />
             <input type="hidden" name="mode" value="save" />
             <input type="hidden" name="path" value="<?= $_REQUEST['path'] ?>" />
             <table width="100%" border="0" cellspacing="0" cellpadding="0">

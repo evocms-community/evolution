@@ -5,7 +5,7 @@
 return [
     /**
      * true - Activate tracy handler all errors contains at the /core/storage/logs/
-     * false - Default Evolution CMS Error handler. All errors contains at the /manager/index.php?a=114
+     * false - Default Evolution CMS Error handler. All errors contains at the manager_route('event_log')
      * 'manager' - Activate tracy for users who authorize on the admin panel
      *
      * IMPORTANT! Tracy ignore the "error_reporting" EvolutionCMS setting

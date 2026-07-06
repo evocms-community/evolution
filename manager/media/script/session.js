@@ -7,7 +7,7 @@ function keepMeAlive() {
         onComplete: function(sessionResponse) {
             resp = Json.evaluate(sessionResponse);
             if(resp.status != 'ok') {
-                window.location.href = 'index.php?a=8';
+                window.location.href = modx.routes.logout;
             }
         }
     }).request();

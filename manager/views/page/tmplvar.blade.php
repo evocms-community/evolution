@@ -276,7 +276,7 @@
         {!! get_by_key($events, 'OnTVFormPrerender') !!}
 
         <input type="hidden" name="id" value="{{ $data->getKey() }}">
-        <input type="hidden" name="a" value="302">
+        <input type="hidden" name="a" value="{{ manager_route_by_action('save_tv') }}">
         <input type="hidden" name="or" value="{{ $origin }}">
         <input type="hidden" name="oid" value="{{ $originId }}">
         <input type="hidden" name="mode" value="{{ $action }}">

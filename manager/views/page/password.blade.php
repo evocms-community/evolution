@@ -25,7 +25,7 @@
         <div class="contaier container-body">
             <form name="userform" method="post" action="index.php">
                 @csrf
-                <input type="hidden" name="a" value="34">
+                <input type="hidden" name="a" value="{{ manager_route_by_action('save_password') }}">
                 <p>{{ ManagerTheme::getLexicon('change_password_message') }}</p>
                 @include('manager::form.input', [
                     'name' => 'password',

@@ -75,7 +75,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         }
         documentDirty = false;
 
-        window.location.href = "<?= manager_route('module_dependencies', ['id' => $_REQUEST['id'] ?? '']) ?>";
+        window.location.href = "<?= manager_route('dependencies_module', ['id' => $_REQUEST['id'] ?? '']) ?>";
     }
 
     var actions = {
@@ -137,7 +137,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     $docBlockList = $modx->convertDocBlockIntoList($docBlock);
     $internal = array();
     ?>
-    <input type="hidden" name="a" value="109">
+    <input type="hidden" name="a" value="<?php manager_action_id('save_module') ?>">
     <input type="hidden" name="id" value="<?= (isset($content['id'])) ? $content['id'] : "" ?>">
     <input type="hidden" name="mode" value="<?= $modx->getManagerApi()->action ?>">
 

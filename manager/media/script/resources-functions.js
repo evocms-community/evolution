@@ -1,7 +1,7 @@
 function unlockElement(type, id, domEl) {
     var msg = trans.msg.replace('[+id+]', id).replace('[+element_type+]', trans['type' + type]);
     if (confirm(msg) == true) {
-        jQuery.get('index.php?a=67&type=' + type + '&id=' + id, function (data) {
+        jQuery.get(modx.routes.removeLock + '&type=' + type + '&id=' + id, function (data) {
             if (data == 1) {
                 jQuery(domEl).fadeOut();
             } else alert(data);

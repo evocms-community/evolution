@@ -132,7 +132,7 @@ if ($numRecords > 0) {
         ];
     }
 
-    $table->createPagingNavigation($numRecords, 'a=99&'.http_build_query($query));
+    $table->createPagingNavigation($numRecords, 'a=' . manager_action_id('user_list') . '&' . http_build_query($query));
     $output = $table->create($listDocs, $listTableHeader, manager_route('user_list'));
 } else {
     // no documents
@@ -191,7 +191,7 @@ if ($numRecords > 0) {
     });
 </script>
 
-<form name="resource" method="post" action="?a=99">
+<form name="resource" method="post" action="<?php manager_route('user_list') ?>">
     <?php
         echo csrf_field()->toHtml();
     ?>

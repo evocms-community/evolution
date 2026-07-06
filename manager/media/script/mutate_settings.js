@@ -58,7 +58,7 @@ function confirmLangChange(el, lkey, elupd){
         proceed = confirm(lang_chg);
     }
     if(proceed) {
-        $.post('index.php?a=118', {
+        $.post(modx.routes.updatePlugin, {
             action: 'get',
             lang: lang !== '' ? lang : lang_default,
             key: lkey

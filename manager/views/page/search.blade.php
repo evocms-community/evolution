@@ -33,7 +33,7 @@
         <div class="container container-body">
             <form name="searchform" method="post" action="index.php" enctype="multipart/form-data" class="form-group">
                 @csrf
-                <input type="hidden" name="a" value="71">
+                <input type="hidden" name="a" value="{{ manager_route_by_action('search') }}">
 
                 <div class="row form-row">
                     <div class="col-md-3 col-lg-2">{{ ManagerTheme::getLexicon('search_criteria_top') }}</div>

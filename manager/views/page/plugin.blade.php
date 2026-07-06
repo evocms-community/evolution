@@ -101,7 +101,7 @@
         @csrf
         {!! get_by_key($events, 'OnPluginFormPrerender') !!}
 
-        <input type="hidden" name="a" value="103">
+        <input type="hidden" name="a" value="{{ manager_route_by_action('save_plugin') }}">
         <input type="hidden" name="id" value="{{ $data->getKey() }}">
         <input type="hidden" name="mode" value="{{ $action }}">
 

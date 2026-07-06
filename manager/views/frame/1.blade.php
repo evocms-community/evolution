@@ -134,6 +134,26 @@
                 ElementsInTree: <?= isset($modx->pluginCache['ElementsInTree']) ? 1 : 0 ?>,
                 EVOmodal: <?= isset($modx->pluginCache['EVO.modal']) ? 1 : 0 ?>
             },
+            routes: {
+                home: '{!! manager_route('home') !!}',
+                editDocument: '{!! manager_route('edit_document') !!}',
+                createResource: '{!! manager_route('create_resource') !!}',
+                deleteResource: '{!! manager_route('delete_resource') !!}',
+                moveResource: '{!! manager_route('move_resource') !!}',
+                createWeblink: '{!! manager_route('create_weblink') !!}',
+                duplicateResource: '{!! manager_route('duplicate_resource') !!}',
+                undeleteResource: '{!! manager_route('undelete_resource') !!}',
+                publishResource: '{!! manager_route('publish_resource') !!}',
+                unpublishResource: '{!! manager_route('unpublish_resource') !!}',
+                refreshTree: '{!! manager_route('refresh_tree') !!}',
+                removeLock: '{!! manager_route('remove_lock') !!}',
+                emptyTrash: '{!! manager_route('empty_trash') !!}',
+                logout: '{!! manager_route('logout') !!}',
+                waitCleanUp: '{!! manager_route('wait_clean_up') !!}',
+                search: '{!! manager_route('search') !!}',
+                updatePlugin: '{!! manager_route('update_plugin') !!}',
+                categoriesAjax: '{!! manager_route('categories_ajax') !!}',
+            },
             extend: function() {
                 for (var i = 1; i < arguments.length; i++) {
                     for (var key in arguments[i]) {
