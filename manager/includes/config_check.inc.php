@@ -49,7 +49,7 @@ if(!isset($modx->config['_hide_configcheck_templateswitcher_present']) || $modx-
         if(!is_null($row) && $row->disabled == 0) {
             $warnings[] = array($_lang['configcheck_templateswitcher_present']);
             $tplName = $row->name;
-            $pluginUpdateUrl = manager_route('plugin_update');
+            $pluginUpdateUrl = manager_route('update_plugin');
             $script = <<<JS
 <script type="text/javascript">
 function deleteTemplateSwitcher(){

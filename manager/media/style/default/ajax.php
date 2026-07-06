@@ -264,7 +264,7 @@ if (isset($action)) {
             }
 
             if ($modx->hasPermission('new_role')) {
-                $output .= '<li><a id="a_35" href="'. manager_route('create_role') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_role'] . '</a></li>';
+                $output .= '<li><a id="a_38" href="'. manager_route('create_role') .'" target="main"><i class="' . $_style['icon_add'] . '"></i>' . $_lang['new_role'] . '</a></li>';
             }
 
             if ($count = $sql->count()) {

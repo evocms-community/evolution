@@ -153,7 +153,7 @@ if ($content['locked'] == 1 && $_SESSION['mgrRole'] != 1) {
         var win
         w = w ? w : 600;
         h = h ? h : 400;
-        url = "<?= manager_route('add_dependencies') ?> &sm=" + mode + "&rt=" + resource + "&cb=" + callback
+        url = "<?= manager_route('add_dependencies') ?>&sm=" + mode + "&rt=" + resource + "&cb=" + callback
         // center on parent
         if (window.screenX) {
             var x = window.screenX + (window.outerWidth - w) / 2;
