@@ -19,7 +19,7 @@
     @endpush
     <form name="settings" method="post" action="index.php">
         @csrf
-        <input type="hidden" name="a" value="{{ manager_route_by_action('save_settings') }}">
+        <input type="hidden" name="a" value="{{ manager_action_id('save_settings') }}">
         <!-- this field is used to check site settings have been entered/ updated after install or upgrade -->
         <input type="hidden" name="site_id" value="{{ get_by_key($modx->config, 'site_id') }}" />
         <input type="hidden" name="settings_version" value="{{ $modx->getVersionData('version') }}" />

@@ -64,7 +64,7 @@
             <p class="alert alert-info">{{ ManagerTheme::getLexicon('move_resource_message') }}</p>
             <form method="post" action="index.php" name="newdocumentparent">
                 @csrf
-                <input type="hidden" name="a" value="{{manager_route_by_action('process_move')}}" />
+                <input type="hidden" name="a" value="{{ manager_action_id('process_move') }}" />
                 <input type="hidden" name="id" value="{{ $document->getKey() }}" />
                 <input type="hidden" name="idshow" value="{{ $document->getKey() }}" />
                 <input type="hidden" name="new_parent" value="" />

@@ -59,7 +59,7 @@
         @csrf
         {!! get_by_key($events, 'OnChunkFormPrerender') !!}
 
-        <input type="hidden" name="a" value="{{ manager_route_by_action('update_chunk') }}" />
+        <input type="hidden" name="a" value="{{ manager_action_id('update_chunk') }}" />
         <input type="hidden" name="id" value="{{ $data->getKey() }}" />
         <input type="hidden" name="mode" value="{{ $action }}" />
 

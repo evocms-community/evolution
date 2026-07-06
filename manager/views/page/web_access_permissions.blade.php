@@ -49,7 +49,7 @@
                     <b>{{ ManagerTheme::getLexicon('access_permissions_add_user_group') }}</b>
                     <form method="post" action="index.php" name="accesspermissions">
                         @csrf
-                        <input type="hidden" name="a" value="{{ manager_route_by_action('edit_permissions') }}" />
+                        <input type="hidden" name="a" value="{{ manager_action_id('edit_permissions') }}" />
                         <input type="hidden" name="operation" value="add_user_group" />
                         <div class="input-group">
                             <input class="form-control" type="text" value="" name="newusergroup" />
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <form method="post" action="index.php" name="accesspermissions">
                                 @csrf
-                                <input type="hidden" name="a" value="{{ manager_route_by_action('edit_permissions') }}" />
+                                <input type="hidden" name="a" value="{{ manager_action_id('edit_permissions') }}" />
                                 <input type="hidden" name="groupid" value="{{ $userGroup->getKey() }}" />
                                 <input type="hidden" name="operation" value="rename_user_group" />
                                 <div class="input-group">
@@ -96,7 +96,7 @@
                     <b>{{ ManagerTheme::getLexicon('access_permissions_add_resource_group') }}</b>
                     <form method="post" action="index.php" name="accesspermissions">
                         @csrf
-                        <input type="hidden" name="a" value="{{ manager_route_by_action('edit_permissions') }}" />
+                        <input type="hidden" name="a" value="{{ manager_action_id('edit_permissions') }}" />
                         <input type="hidden" name="operation" value="add_document_group" />
                         <div class="input-group">
                             <input class="form-control" type="text" value="" name="newdocgroup" />
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <form method="post" action="index.php" name="accesspermissions">
                                 @csrf
-                                <input type="hidden" name="a" value="{{ manager_route_by_action('edit_permissions') }}" />
+                                <input type="hidden" name="a" value="{{ manager_action_id('edit_permissions') }}" />
                                 <input type="hidden" name="groupid" value="{{ $documentGroup->getKey() }}" />
                                 <input type="hidden" name="operation" value="rename_document_group" />
                                 <div class="input-group">
@@ -144,7 +144,7 @@
                         <b>{{ ManagerTheme::getLexicon('access_permissions_group_link') }}</b>
                         <form method="post" action="index.php" name="accesspermissions">
                             @csrf
-                            <input type="hidden" name="a" value="{{ manager_route_by_action('edit_permissions') }}" />
+                            <input type="hidden" name="a" value="{{ manager_action_id('edit_permissions') }}" />
                             <input type="hidden" name="operation" value="add_document_group_to_user_group" />
 
                             {{ ManagerTheme::getLexicon('access_permissions_link_user_group') }}
