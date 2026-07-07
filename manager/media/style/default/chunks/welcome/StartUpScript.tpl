@@ -1,7 +1,7 @@
 <script type="text/javascript">
     function hideConfigCheckWarning(key) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<?php manager_route('update_plugin') ?>", true);
+        xhr.open("POST", "[+update_plugin_url+]", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
         xhr.onload = function() {
             if(this.readyState === 4) {

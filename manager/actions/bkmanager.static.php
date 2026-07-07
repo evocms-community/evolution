@@ -427,7 +427,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?php
                         echo csrf_field()->toHtml();
                     ?>
-                    <input type="hidden" name="a" value="<?php manager_action_id('backup') ?>"/>
+                    <input type="hidden" name="a" value="<?= manager_action_id('backup') ?>"/>
                     <input type="hidden" name="mode" value="restore1"/>
                     <?php
                     if (isset($_SESSION['textarea']) && !empty($_SESSION['textarea'])) {
@@ -516,7 +516,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?php
                         echo csrf_field()->toHtml();
                     ?>
-                    <input type="hidden" name="a" value="<?php manager_action_id('backup') ?>"/>
+                    <input type="hidden" name="a" value="<?= manager_action_id('backup') ?>"/>
                     <input type="hidden" name="mode" value="snapshot"/>
                     <?= $_lang["description"] ?>
                     <div class="form-group input-group">
@@ -536,7 +536,7 @@ if (isset($_SESSION['result_msg']) && $_SESSION['result_msg'] != '') {
                     <?php
                         echo csrf_field()->toHtml();
                     ?>
-                    <input type="hidden" name="a" value="<?php manager_action_id('backup') ?>"/>
+                    <input type="hidden" name="a" value="<?= manager_action_id('backup') ?>"/>
                     <input type="hidden" name="mode" value="restore2"/>
                     <input type="hidden" name="filename" value=""/>
                     <?php

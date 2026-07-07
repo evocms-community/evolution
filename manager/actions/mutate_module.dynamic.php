@@ -137,7 +137,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
     $docBlockList = $modx->convertDocBlockIntoList($docBlock);
     $internal = array();
     ?>
-    <input type="hidden" name="a" value="<?php manager_action_id('save_module') ?>">
+    <input type="hidden" name="a" value="<?= manager_action_id('save_module') ?>">
     <input type="hidden" name="id" value="<?= (isset($content['id'])) ? $content['id'] : "" ?>">
     <input type="hidden" name="mode" value="<?= $modx->getManagerApi()->action ?>">
 

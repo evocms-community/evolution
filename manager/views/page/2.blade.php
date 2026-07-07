@@ -222,6 +222,7 @@
     $modx->toPlaceholders($ph);
 
     $script = $modx->getChunk('manager#welcome\StartUpScript');
+    $script = $modx->parseText($script, ['update_plugin_url' => manager_route('update_plugin')]);
     $modx->regClientScript($script);
 
     // invoke event OnManagerWelcomePrerender

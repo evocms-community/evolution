@@ -313,7 +313,7 @@ if (is_array($evtOut)) {
     echo implode("", $evtOut);
 }
 ?>
-    <input type="hidden" name="a" value="<?php manager_action_id('edit_web_user') ?>">
+    <input type="hidden" name="a" value="<?= manager_action_id('edit_web_user') ?>">
     <input type="hidden" name="mode" value="<?php echo $modx->getManagerApi()->action; ?>" />
     <input type="hidden" name="id" value="<?php echo $user ?>" />
     <input type="hidden" name="newrole" value="" />

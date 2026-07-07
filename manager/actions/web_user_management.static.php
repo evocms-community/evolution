@@ -191,7 +191,7 @@ if ($numRecords > 0) {
     });
 </script>
 
-<form name="resource" method="post" action="<?php manager_route('user_list') ?>">
+<form name="resource" method="post" action="<?= manager_route('user_list') ?>">
     <?php
         echo csrf_field()->toHtml();
     ?>

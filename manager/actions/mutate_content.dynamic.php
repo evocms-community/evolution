@@ -520,7 +520,7 @@ require_once(MODX_MANAGER_PATH . 'includes/active_user_locks.inc.php');
         /*************************/
 
         ?>
-        <input type="hidden" name="a" value="<?php manager_action_id('save_content') ?>" />
+        <input type="hidden" name="a" value="<?= manager_action_id('save_content') ?>" />
         <input type="hidden" name="id" id="docid" value="<?= (int)get_by_key($content, 'id', 0, 'is_scalar') ?>" />
         <input type="hidden" name="mode" value="<?= $modx->getManagerApi()->action ?>" />
         <input type="hidden" name="MAX_FILE_SIZE" value="<?= $modx->getConfig('upload_maxsize') ?>" />
