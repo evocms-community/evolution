@@ -50,6 +50,7 @@
       var modx = modx || {};
       modx.routes = {
         home: '{!! manager_route('home') !!}',
+        aboutDocument: '{!! manager_route('about_document') !!}',
         editDocument: '{!! manager_route('edit_document') !!}',
         createResource: '{!! manager_route('create_resource') !!}',
         deleteResource: '{!! manager_route('delete_resource') !!}',

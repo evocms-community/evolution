@@ -1249,7 +1249,7 @@
                 switch (a) {
                     case 1:
                         this.setActiveFromContextMenu(this.itemToChange);
-                        modx.tabs({ url: modx.routes.editDocument + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
+                        modx.tabs({ url: modx.routes.aboutDocument  + '&id=' + this.itemToChange, title: this.selectedObjectName + '<small class="text-muted">(' + this.itemToChange + ')</small>' });
                         break;
                     case 2:
                         this.setActiveFromContextMenu(this.itemToChange);
