@@ -46,9 +46,8 @@ if (isset($_GET['rminstall'])) {
         }
     }
 }
+
 if ($msg) {
     echo "<script>alert('" . addslashes($msg) . "');</script>";
 }
-
-header('Location: ' . manager_route('home') . '#');
-exit;
+echo "<script>window.location='../#?a=2';</script>";

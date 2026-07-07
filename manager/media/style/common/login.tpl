@@ -111,7 +111,7 @@
             el.remove();
         }
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '<?php manager_route('repair') ?>', true);
+        xhr.open('POST', '[+repair_url+]', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
         xhr.onload = function() {
             if (this.readyState === 4) {
