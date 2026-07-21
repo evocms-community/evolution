@@ -9,7 +9,7 @@
             },
             cancel: function() {
               documentDirty = false;
-              document.location.href = {!! manager_route('home') !!};
+              document.location.href = "{!! manager_route('home') !!}";
             }
           };
         </script>
