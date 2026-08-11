@@ -547,7 +547,7 @@
 <body class="[+manager_theme_style+] [+login_form_position_class+]">
 <div class="page">
     <div class="tab-page loginbox [+login_form_style_class+]">
-        <form method="post" name="loginfrm" id="loginfrm" class="container container-body" action=[+repair_url+]">
+        <form method="post" name="loginfrm" id="loginfrm" class="container container-body" action="[+repair_url+]">
             [+csrf+]
             <!-- OnManagerLoginFormPrerender -->
             [+OnManagerLoginFormPrerender+]
