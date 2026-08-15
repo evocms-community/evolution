@@ -61,6 +61,6 @@
             "install-path": "../james-heinrich/phpthumb"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
