@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EVO Installer language file
  *
@@ -6,12 +7,16 @@
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language English
+ * @language Ukrainian 
  * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
+$_lang['not_installed_title'] = 'Інсталяція Evolution CMS';
+$_lang['not_installed_header'] = 'Evolution CMS: потрібна інсталяція';
+$_lang['not_installed_message'] = 'Запустіть майстер інсталяції для розгортання базових компонентів та ініціалізації бази даних.';
+$_lang['install_now'] = 'Встановити';
 $_lang["agree_to_terms"] = 'Погодьтеся з умовами ліцензії та встановіть';
 $_lang["alert_database_test_connection"] = 'Вам потрібно створити свою базу даних або протестувати вибір вашої бази даних!';
 $_lang["alert_database_test_connection_failed"] = 'Тест вашої обраної  бази даних не пройшов!';
