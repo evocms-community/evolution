@@ -15,7 +15,7 @@ if (!class_exists("DLFixedPrepare", false)) {
          */
         public static function buildMenu(array $data, DocumentParser $modx, $_DL, prepare_DL_Extender $_eDL)
         {
-            $params = $_DL->getCFGDef('params', array());
+            $params = $_DL->getCFGDef('params', []);
             if ($_DL->getCfgDef('currentDepth', 1) < $_DL->getCFGDef('maxDepth', 5)) {
                 $params['currentDepth'] = $_DL->getCfgDef('currentDepth', 1) + 1;
                 $params['parents'] = $data['id'];
@@ -32,19 +32,19 @@ if (!class_exists("DLFixedPrepare", false)) {
                 $_eDL->setStore('parentIDs', $parentIDs);
             }
             $isActive = ((is_array($parentIDs) && in_array($data['id'],
-                        $parentIDs)) || $data['id'] == $modx->documentObject['id']);
+                $parentIDs)) || $data['id'] == $modx->documentObject['id']);
             $activeClass = $_DL->getCfgDef('activeClass', 'active');
             if ($isActive) {
                 $data['dl.class'] .= ' ' . $activeClass;
             }
 
             if (strpos($data['dl.class'], 'current') !== false && strpos($data['dl.class'],
-                    ' ' . $activeClass) === false
+                ' ' . $activeClass) === false
             ) {
                 $data['dl.class'] = str_replace('current', 'current ' . $activeClass, $data['dl.class']);
             }
 
-            $tpl = empty($data['dl.submenu']) ? 'noChildrenRowTPL' : 'mainRowTpl';
+            $tpl = empty($data['dl.submenu']) ? 'noChildrenRowTpl' : 'mainRowTpl';
 
             $_DL->renderTPL = $_DL->getCfgDef($tpl);
             if (strpos($data['dl.class'], 'current') !== false) {
@@ -108,7 +108,7 @@ if (!class_exists("DLFixedPrepare", false)) {
                     }
                 }
                 $q = $_DocLister->dbQuery("SELECT count(c.id) as total FROM " . $_DocLister->getTable('site_content',
-                        'c') . " " . $where);
+                    'c') . " " . $where);
                 $total = $modx->db->getValue($q);
                 $data['OnNewChar'] = $_DocLister->parseChunk($_DocLister->getCFGDef('tplOnNewChar'),
                     compact("char", "total"));

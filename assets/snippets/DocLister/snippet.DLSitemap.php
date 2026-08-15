@@ -1,11 +1,17 @@
 <?php
-include_once(MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
+include_once MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php';
 
 if (!isset($params['config'])) {
     $params['config'] = 'sitemap:core';
 }
 if (!isset($schema)) {
     $schema = 'https://www.sitemaps.org/schemas/sitemap/0.9';
+}
+
+// fix problem with old param name and config in json
+if (isset($params['ownerTPL'])) {
+    $params['ownerTpl'] = $params['ownerTPL'];
+    unset($params['ownerTPL']);
 }
 
 if (!class_exists("DLSitemap")) {

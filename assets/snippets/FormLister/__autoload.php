@@ -48,6 +48,7 @@ $loader = function($class) {
             'ReCaptchaWrapper' => '/lib/captcha/reCaptcha/wrapper.php',
             'SmsCaptchaWrapper' => '/lib/captcha/smsCaptcha/wrapper.php',
             'SmsModel' => '/lib/captcha/smsCaptcha/model.php',
+            'TurnstileWrapper' => '/lib/captcha/turnstile/wrapper.php',
             'SummaryText' => '/../../lib/class.summary.php',
             'autoTable' => '/../../lib/MODxAPI/autoTable.abstract.php',
             'jsonHelper' => '/../DocLister/lib/jsonHelper.class.php',

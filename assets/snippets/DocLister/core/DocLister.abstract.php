@@ -653,7 +653,7 @@ abstract class DocLister
         $id = isset($this->modx->documentIdentifier) ? (int) $this->modx->documentIdentifier : 0;
         $docData = isset($this->modx->documentObject) ? $this->modx->documentObject : [];
 
-        return empty($id)?\APIHelpers::getkey($docData, 'id', 0) : $id;
+        return empty($id) ? \APIHelpers::getkey($docData, 'id', 0) : $id;
     }
 
     /**
@@ -974,7 +974,7 @@ abstract class DocLister
         $wrap = $this->getCFGDef('prepareWrap');
         if ((($this->getCFGDef("noneWrapOuter",
             "1") && $docs == 0) || $docs > 0) && !empty($this->ownerTPL) || !empty($wrap)) {
-            $this->debug->debug("", "renderWrapTPL", 2);
+            $this->debug->debug("", "renderWrapTpl", 2);
             $parse = true;
             $plh = [$this->getCFGDef("sysKey", "dl") . ".wrap" => $data];
             /**
@@ -998,16 +998,16 @@ abstract class DocLister
             }
             if ($parse && !empty($this->ownerTPL)) {
                 $this->debug->updateMessage(
-                    ["render ownerTPL" => $this->ownerTPL, "With data" => print_r($plh, 1)],
-                    "renderWrapTPL",
+                    ["render ownerTpl" => $this->ownerTPL, "With data" => print_r($plh, 1)],
+                    "renderWrapTpl",
                     ['html', null]
                 );
                 $out = $this->parseChunk($this->ownerTPL, $plh);
             }
             if (empty($this->ownerTPL)) {
-                $this->debug->updateMessage("empty ownerTPL", "renderWrapTPL");
+                $this->debug->updateMessage("empty ownerTpl", "renderWrapTpl");
             }
-            $this->debug->debugEnd("renderWrapTPL");
+            $this->debug->debugEnd("renderWrapTpl");
         }
 
         return $out;
@@ -1317,7 +1317,7 @@ abstract class DocLister
             'cleanIDs',
             2
         );
-        
+
         return APIHelpers::cleanIDs($IDs, $sep);
     }
 

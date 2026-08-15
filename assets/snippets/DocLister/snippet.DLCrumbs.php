@@ -10,19 +10,19 @@ if (!defined('MODX_BASE_PATH')) {
 }
 $_out = '';
 
-if ( isset( $modx->event->params['config'] ) ) {
+if (isset($modx->event->params['config'])) {
     require_once MODX_BASE_PATH . 'assets/lib/Helpers/Config.php';
 
-    $helper = new \Helpers\Config( $modx->event->params );
-    $helper->setPath( '/assets/snippets/DocLister/' );
-    $helper->loadConfig( $modx->event->params['config'] );
-    
-    $modx->event->params = array_merge( $helper->getConfig(), $modx->event->params );
-    extract( $modx->event->params );
+    $helper = new \Helpers\Config($modx->event->params);
+    $helper->setPath('/assets/snippets/DocLister/');
+    $helper->loadConfig($modx->event->params['config']);
+
+    $modx->event->params = array_merge($helper->getConfig(), $modx->event->params);
+    extract($modx->event->params);
 }
 
-$_parents = array();
-$hideMain = (!isset($hideMain) || (int)$hideMain == 0);
+$_parents = [];
+$hideMain = (!isset($hideMain) || (int) $hideMain == 0);
 if ($hideMain) {
     $_parents[] = $modx->config['site_start'];
 }
@@ -35,21 +35,28 @@ foreach ($_parents as $i => $num) {
     }
 }
 
-if (isset($showCurrent) && (int)$showCurrent > 0) {
+if (isset($showCurrent) && (int) $showCurrent > 0) {
     $_parents[] = $id;
 }
-if (!empty($_parents) && count($_parents) >= (empty($minDocs) ? 0 : (int)$minDocs)) {
+if (!empty($_parents) && count($_parents) >= (empty($minDocs) ? 0 : (int) $minDocs)) {
     $_options = array_merge(
-        array(
-            'config' => 'crumbs:core'
-        ),
-        !empty($modx->event->params) ? $modx->event->params : array(),
-        array(
-            'idType'    => 'documents',
-            'sortType'  => 'doclist',
-            'documents' => implode(",", $_parents)
-        )
+        [
+            'config' => 'crumbs:core',
+        ],
+        !empty($modx->event->params) ? $modx->event->params : [],
+        [
+            'idType' => 'documents',
+            'sortType' => 'doclist',
+            'documents' => implode(",", $_parents),
+        ]
     );
+
+    // fix problem with old param name and config in json
+    if (isset($_options['ownerTPL'])) {
+        $_options['ownerTpl'] = $_options['ownerTPL'];
+        unset($_options['ownerTPL']);
+    }
+
     $_out = $modx->runSnippet("DocLister", $_options);
 }
 

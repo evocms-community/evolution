@@ -119,7 +119,7 @@ class Register extends Form
             $this->setField('username', $this->getField('email'));
         }
         //регистрация со случайным паролем
-        if ($this->getField('password') == '' && !isset($this->rules['password'])) {
+        if (!isset($this->rules['password'])) {
             $this->setField('password', APIhelpers::genPass($this->getCFGDef('passwordLength', 6)));
         }
         $password = $this->getField('password');
