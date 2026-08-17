@@ -220,7 +220,7 @@ store = {
 
 					el.closest('.catalog_item').find('.loader').hide();
 					if (data.result == 'error') {
-						Fancybox.show(data.data);
+						Fancybox.show([{ html: data.data }]);
 					} else {
 						el.css('display', 'block').animate({opacity: 1}, 500, function () {
 							el.delay(2000).animate({opacity: 0}, 3000, function () {
