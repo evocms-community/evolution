@@ -1,12 +1,13 @@
 <?php namespace EvolutionCMS\Console;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use League\Flysystem\MountManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
 
 /**
  * @see: https://github.com/laravel-zero/foundation/blob/5.6/src/Illuminate/Foundation/Console/VendorPublishCommand.php
@@ -226,13 +227,16 @@ class VendorPublishCommand extends Command
     protected function moveManagedFiles($manager)
     {
         foreach ($manager->listContents('from://', true) as $file) {
-            if($file['type'] !== 'file') {
+            if (! $file->isFile()) {
                 continue;
             }
-            if (! $manager->has('to://'.$file['path']) || $this->option('force')) {
-                $manager->put(
-                    'to://'.$file['path']
-                    , $manager->read('from://'.$file['path'])
+
+            $path = Str::after($file->path(), 'from://');
+
+            if (! $manager->fileExists('to://'.$path) || $this->option('force')) {
+                $manager->write(
+                    'to://'.$path,
+                    $manager->read('from://'.$path)
                 );
             }
         }

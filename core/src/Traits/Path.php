@@ -85,7 +85,7 @@ trait Path
      *
      * @return string
      */
-    public function storagePath()
+    public function storagePath($path = '')
     {
         return $this->storagePath ?: EVO_STORAGE_PATH;
     }
@@ -378,6 +378,26 @@ trait Path
     public function shouldSkipMiddleware()
     {
         return true;
+    }
+
+    /**
+     * MaintenanceMode the application.
+     *
+     * @return void
+     */
+    public function maintenanceMode()
+    {
+
+    }
+
+    /**
+     * Terminating the application.
+     *
+     * @return void
+     */
+    public function terminating()
+    {
+
     }
 
     /**
