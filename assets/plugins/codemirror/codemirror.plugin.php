@@ -354,70 +354,72 @@ if (('none' == $rte) && $mode && $elements !== null) {
 			<script>
 				var readOnly = {$readOnly};
 				var foldFunc = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
-				var myTextArea = document.getElementsByName('{$el}')[0];
-				config['extraKeys']['F11'] = function(cm) {
-					setFullScreen(cm, !isFullScreen(cm));
-					localStorage['cm_fullScreen_{$object_id}'] = isFullScreen(cm);
-				};
-				config['extraKeys']['Esc'] = function(cm) {
-					if (isFullScreen(cm)){
-						setFullScreen(cm, false);
-						localStorage['cm_fullScreen_{$object_id}'] = 'false';
-					}
-				};
-				myCodeMirrors['{$el}'] = CodeMirror.fromTextArea(myTextArea, config);
-				{$setHeight}
-				// reset onchange tab
-				var els = document.querySelectorAll('.tab-row .tab');
-				for(var i = 0; i < els.length; i++) {
-					els[i].addEventListener('click', function() {
-						myCodeMirrors['{$el}'].refresh()
-					}, false)
-				}
-				// get data in localStorage
-				if ('true' == localStorage['cm_fullScreen_{$object_id}'] && !readOnly){
-					setFullScreen(myCodeMirrors['{$el}'], !isFullScreen(myCodeMirrors['{$el}']));
-					myCodeMirrors['{$el}'].hasFocus();
-				}
-				if (localStorage['history_{$object_id}'] !== undefined && !readOnly){
-					var cmHistory = JSON.parse(localStorage['history_{$object_id}']);
-					myCodeMirrors['{$el}'].doc.setHistory(cmHistory);
-				}
-				// add event
-				myCodeMirrors['{$el}'].on('gutterClick', function(cm, n) {
-					var info = cm.lineInfo(n);
-					foldFunc(cm, n);
-					cm.setGutterMarker(n, 'breakpoints', info.gutterMarkers ? null : makeMarker('+'));
-				});
-                myCodeMirrors['{$el}'].on('cursorActivity', function(cm) {
-                    let position = cm.getScrollInfo();
-                    localStorage['position_{$object_id}'] = JSON.stringify(position);
-				});
-                myCodeMirrors['{$el}'].on('refresh', function(cm) {
-                    if (localStorage['position_{$object_id}'] !== undefined) {
-                        let position = JSON.parse(localStorage['position_{$object_id}']);
-                        cm.scrollTo(0, position.top);
-                    }
-				});
-				myCodeMirrors['{$el}'].on('change', function(cm, n) {
-					try {
-						var cmHistory = myCodeMirrors['{$el}'].doc.getHistory();
-						localStorage['history_{$object_id}'] = JSON.stringify(cmHistory);
-						documentDirty=true;
-					} catch(e) {
-						alert('History could not be written. Error: '+e);
-					}
-				});
-				(function() {
-					var tId = setInterval(function() {
-						if (document.readyState == 'complete')
-							onComplete();
-					}, 11);
-					function onComplete() {
-						clearInterval(tId);
-						myCodeMirrors['{$el}'].refresh();
-					};
-				})();
+				var myTextArea;
+                if(myTextArea = document.getElementsByName('{$el}')[0]) {
+    				config['extraKeys']['F11'] = function(cm) {
+    					setFullScreen(cm, !isFullScreen(cm));
+    					localStorage['cm_fullScreen_{$object_id}'] = isFullScreen(cm);
+    				};
+    				config['extraKeys']['Esc'] = function(cm) {
+    					if (isFullScreen(cm)){
+    						setFullScreen(cm, false);
+    						localStorage['cm_fullScreen_{$object_id}'] = 'false';
+    					}
+    				};
+    				myCodeMirrors['{$el}'] = CodeMirror.fromTextArea(myTextArea, config);
+    				{$setHeight}
+    				// reset onchange tab
+    				var els = document.querySelectorAll('.tab-row .tab');
+    				for(var i = 0; i < els.length; i++) {
+    					els[i].addEventListener('click', function() {
+    						myCodeMirrors['{$el}'].refresh()
+    					}, false)
+    				}
+    				// get data in localStorage
+    				if ('true' == localStorage['cm_fullScreen_{$object_id}'] && !readOnly){
+    					setFullScreen(myCodeMirrors['{$el}'], !isFullScreen(myCodeMirrors['{$el}']));
+    					myCodeMirrors['{$el}'].hasFocus();
+    				}
+    				if (localStorage['history_{$object_id}'] !== undefined && !readOnly){
+    					var cmHistory = JSON.parse(localStorage['history_{$object_id}']);
+    					myCodeMirrors['{$el}'].doc.setHistory(cmHistory);
+    				}
+    				// add event
+    				myCodeMirrors['{$el}'].on('gutterClick', function(cm, n) {
+    					var info = cm.lineInfo(n);
+    					foldFunc(cm, n);
+    					cm.setGutterMarker(n, 'breakpoints', info.gutterMarkers ? null : makeMarker('+'));
+    				});
+                    myCodeMirrors['{$el}'].on('cursorActivity', function(cm) {
+                        let position = cm.getScrollInfo();
+                        localStorage['position_{$object_id}'] = JSON.stringify(position);
+    				});
+                    myCodeMirrors['{$el}'].on('refresh', function(cm) {
+                        if (localStorage['position_{$object_id}'] !== undefined) {
+                            let position = JSON.parse(localStorage['position_{$object_id}']);
+                            cm.scrollTo(0, position.top);
+                        }
+    				});
+    				myCodeMirrors['{$el}'].on('change', function(cm, n) {
+    					try {
+    						var cmHistory = myCodeMirrors['{$el}'].doc.getHistory();
+    						localStorage['history_{$object_id}'] = JSON.stringify(cmHistory);
+    						documentDirty=true;
+    					} catch(e) {
+    						alert('History could not be written. Error: '+e);
+    					}
+    				});
+    				(function() {
+    					var tId = setInterval(function() {
+    						if (document.readyState == 'complete')
+    							onComplete();
+    					}, 11);
+    					function onComplete() {
+    						clearInterval(tId);
+    						myCodeMirrors['{$el}'].refresh();
+    					};
+    				})();
+                }
 			</script>\n";
     };
 };
