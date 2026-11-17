@@ -95,11 +95,11 @@ class DocManagerBackend {
 					} else {
 						if (is_array($_POST["tv" . $tvKeyName])) {
 							$feature_insert = array();
-							$lst = $_POST["tv".$row['id']];
-							while (list($featureValue, $feature_item) = each ($lst)) {
-								$feature_insert[count($feature_insert)] = $feature_item;
-							}
-							$tmplvar = implode("||",$feature_insert);
+                            $lst = $_POST["tv".$row['id']];
+                            foreach ($lst as $feature_item) {
+                                $feature_insert[] = $feature_item;
+                            }
+                            $tmplvar = implode("||",$feature_insert);
          				} else {
   	  	    				$tmplvar = $_POST["tv".$row['id']];
          				}
@@ -369,94 +369,85 @@ class DocManagerBackend {
 		return $this->dm->parseTemplate('update.tpl', $this->dm->ph);
 	}
 
+    /**
+     * Converte la stringa degli id (es. "1-5,10,20*,30**") in un elenco di documenti.
+     * $returnval = 0 → array di id interi; 1 → condizione SQL "col='id' OR ...".
+     * Corretto per PHP 8 (DocManager 1.4.37 + fix locale):
+     * - intervalli con returnval 0: prima veniva aggiunto N volte il primo id
+     * - id singolo dopo un intervallo: prima veniva sommato il contatore del ciclo
+     *   precedente ("1-5,10" elaborava 15 invece di 10)
+     * - "**": prima rielaborava anche gli id dei valori precedenti
+     * - id convertiti in interi, duplicati rimossi, valore non valido escapato
+     */
     function processRange($pids, $column, $returnval = 1) {
 		$values = $idarray = array();
 		$error = '';
 
-		if (trim($pids) <> '') {
+		$pids = trim((string)$pids);
+		if ($pids !== '') {
 			$values = explode(',', $pids);
 		} else {
 			$error .= $this->dm->lang['DM_process_novalues'];
 		}
-		$pids = '';
-        $i = 0;
-		/* parse values, and check for invalid entries */
-		foreach ($values as $key => $value) {
-			/* value is a range */
-			if (preg_match('/^[\d]+\-[\d]+$/', trim($value))) {
-				$match = explode('-', $value);
 
-				if (($match[1] - $match[0]) < 0) {
-					$error = $this->dm->lang['DM_process_limits_error'] . $value . '<br />';
+		foreach ($values as $value) {
+			$value = trim($value);
+
+			/* intervallo: 1-5 */
+			if (preg_match('/^(\d+)-(\d+)$/', $value, $m)) {
+				$from = (int)$m[1];
+				$to = (int)$m[2];
+				if ($to < $from) {
+					$error .= $this->dm->lang['DM_process_limits_error'] . $value . '<br />';
+					continue;
 				}
-
-				$loop = $match[1] - $match[0];
-				for ($i = 0; $i <= $loop; $i++) {
-					if ($returnval == 0) {
-						$idarray[] = ($i + $match[0]);
-					} else {
-						$pids .= '' . $column . '=\'' . ($i + $match[0]) . '\' OR ';
-					}
+				for ($id = $from; $id <= $to; $id++) {
+					$idarray[] = $id;
 				}
 			}
-
-			/* value is a group for immediate children */
-			elseif (preg_match('/^[\d]+\*$/', trim($value), $match)) {
-				$match = rtrim($match[0], '*');
-
-				$group = $this->modx->db->select('id', $this->modx->getFullTablename('site_content'), "parent='{$match}'");
-
-				if ($returnval == 0) {
-					$idarray[] = $match;
-				} else {
-					$pids .= '' . $column . '=\'' . $match . '\' OR ';
-				}
-				while ($row = $this->modx->db->getRow($group)) {
-					if ($returnval == 0) {
-						$idarray[] = ($row['id']);
-					} else {
-						$pids .= '' . $column . '=\'' . $row['id'] . '\' OR ';
-					}
+			/* documento + figli diretti: 10* */
+			elseif (preg_match('/^(\d+)\*$/', $value, $m)) {
+				$parent = (int)$m[1];
+				$idarray[] = $parent;
+				$rs = $this->modx->db->select('id', $this->modx->getFullTableName('site_content'), "parent='{$parent}'");
+				while ($row = $this->modx->db->getRow($rs)) {
+					$idarray[] = (int)$row['id'];
 				}
 			}
-			/* value is a group for ALL children */
-			elseif (preg_match('/^[\d]+\*\*$/', trim($value), $match)) {
-				$match = rtrim($match[0], '**');
-				$idarray[] = $match;
-
-				for ($i = 0; $i < count($idarray); $i++) {
-					$where = 'parent=' . $idarray[$i];
-					$rs = $this->modx->db->select('id', $this->modx->getFullTableName('site_content'), $where);
-						while ($row = $this->modx->db->getRow($rs)) {
-							$idarray[] = $row['id'];
+			/* documento + tutti i discendenti: 10** */
+			elseif (preg_match('/^(\d+)\*\*$/', $value, $m)) {
+				$branch = array((int)$m[1]);
+				for ($k = 0; $k < count($branch); $k++) {
+					$rs = $this->modx->db->select('id', $this->modx->getFullTableName('site_content'), "parent='{$branch[$k]}'");
+					while ($row = $this->modx->db->getRow($rs)) {
+						$child = (int)$row['id'];
+						if (!in_array($child, $branch, true)) {
+							$branch[] = $child;
 						}
+					}
 				}
-
-				for ($i = 0; $i < count($idarray); $i++) {
-					$pids .= '' . $column . '=\'' . $idarray[$i] . '\' OR ';
-				}
+				$idarray = array_merge($idarray, $branch);
 			}
-			/* value is a single document */
-			elseif (preg_match('/^[\d]+$/', trim($value), $match)) {
-				if ($returnval == 0) {
-					$idarray[] = ($i + $match[0]);
-				} else {
-					$pids .= '' . $column . '=\'' . trim($value) . '\' OR ';
-				}
-			} else {
-				$error .= $this->dm->lang['DM_process_invalid_error'] . $value . '<br />';
+			/* documento singolo: 10 */
+			elseif (preg_match('/^\d+$/', $value)) {
+				$idarray[] = (int)$value;
+			}
+			elseif ($value !== '') {
+				$error .= $this->dm->lang['DM_process_invalid_error'] . htmlspecialchars($value, ENT_QUOTES) . '<br />';
 			}
 		}
+
+		$idarray = array_values(array_unique($idarray));
 
 		if ($returnval == 0) {
-			$results[] = $idarray;
-			$results[] = $error;
-		} else {
-			$results[] = $pids;
-			$results[] = $error;
+			return array($idarray, $error);
 		}
 
-		return $results;
+		$pids = '';
+		foreach ($idarray as $id) {
+			$pids .= $column . "='" . $id . "' OR ";
+		}
+		return array($pids, $error);
 	}
 
     function getTemplateVarIds($tvNames, $documentId, $ignoreList=array()) {
