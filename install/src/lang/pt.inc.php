@@ -12,6 +12,10 @@
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
+$_lang['not_installed_title'] = 'Evolution CMS Installation';
+$_lang['not_installed_header'] = 'Evolution CMS: Installation Required';
+$_lang['not_installed_message'] = 'Launch the installation wizard to deploy basic components and initialize the database.';
+$_lang['install_now'] = 'Install Now';
 $_lang["agree_to_terms"] = 'Agree to the License Terms and Install';
 $_lang["alert_database_test_connection"] = 'Você prescisa criar uma base de dados ou testar a seleção de sua base de dados!';
 $_lang["alert_database_test_connection_failed"] = 'O teste de seleção/conexão da Base de Dados falhou!';

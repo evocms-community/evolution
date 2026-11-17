@@ -15,6 +15,8 @@ if (! defined('MGR_DIR')) {
         die('MGR_DIR is not defined');
     }
 }
+
+
 if (!defined('MODX_MANAGER_PATH')) {
     define('MODX_MANAGER_PATH', $base_path . MGR_DIR . '/');
 }
@@ -28,8 +30,10 @@ if (! defined('EVO_CORE_PATH')) {
 require_once 'src/lang.php';
 require_once 'src/functions.php';
 
+
+
 if (empty($_GET['s'])) {
-    require_once '../' . MGR_DIR . '/includes/version.inc.php';
+    require_once   '../' . MGR_DIR . '/includes/version.inc.php';
 
     // start session
     session_start();
@@ -74,11 +78,19 @@ if (empty($_GET['s'])) {
     $ph = array_merge($ph, $_lang);
     $ph['install_language'] = $install_language;
 
-    ob_start();
+    ob_start(); 
     $action = isset($_GET['action']) ? trim(strip_tags($_GET['action'])) : 'language';
-    str_replace('.', '', $action);
+    $action = str_replace('.', '', $action);
+ 
 
     $controller = 'src/controllers/' . $action . '.php';
+
+    if ($action === 'not_installed') {
+        require_once 'src/controllers/not_installed.php';
+        exit;
+    }
+
+
     if (! file_exists($controller)) {
         die("Invalid install action attempted. [action={$action}]");
     }

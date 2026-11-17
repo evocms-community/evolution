@@ -1,21 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
+
 <head>
-<meta charset="utf-8">
-<title>Evolution CMS is not installed!</title>
-<meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300" rel="stylesheet" type="text/css">
-<style type="text/css">
-*{margin:0;padding:0}
-body{margin:50px;background:#eee;}
-.install{padding:10px;border:2px solid #f22;border-radius:10px;background:#ffe8b7;margin:0 auto;font:1.5em 'Open Sans',serif;font-weight:300;text-align:center;}
-p{ margin:20px 0; }
-a{font-size:2em;color:#f22;text-decoration:underline;margin-top: 30px;padding: 5px;}
-</style>
+    <meta charset="[+encoding+]">
+    <title>[+not_installed_title+]</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="/install/style.css" type="text/css" media="screen">
+
 </head>
+
 <body>
-<div class="install">
-<p>Evolution CMS is not currently installed or the configuration file cannot be found.</p>
-<p>Do you want to <a href="install/index.php">install now?</a></p>
-</div>
-</body></html>
+    <div id="header">
+        <div class="container_10">
+            <span class="version">[+version+] ([+release_date+])</span>
+        </div>
+    </div>
+
+    <div id="mainheader">
+        <div class="container_10">
+            <img id="logo" src="/install/img/logo.png" alt="Evolution CMS">
+        </div>
+    </div>
+
+    <div id="contentarea">
+        <div class="container_10">
+            <div id="content">
+                <h2>[+not_installed_header+]</h2>
+                <p>[+not_installed_message+]</p>
+                <div class="buttonlinks">
+
+                    <a href="/install" class="btn btn-primary">[+link_install_now+]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="footer-inner">
+            <div class="container_10">
+                [+footer1+]<br />
+                [+footer2+]
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

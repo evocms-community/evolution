@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EVO Installer language file
  *
@@ -6,12 +7,16 @@
  * @version 1.5.0
  * @date 2018/02/23
  *
- * @language English
+ * @language German 
  * @package evo
  * @subpackage installer
  *
  * Please commit your language changes on Transifex (https://www.transifex.com/projects/p/modx-evolution/) or on GitHub (https://github.com/modxcms/evolution).
  */
+$_lang['not_installed_title'] = 'Evolution CMS Installation';
+$_lang['not_installed_header'] = 'Evolution CMS: Installation erforderlich';
+$_lang['not_installed_message'] = 'Starten Sie den Installationsassistenten, um die Basiskomponenten bereitzustellen und die Datenbank zu initialisieren.';
+$_lang['install_now'] = 'Jetzt installieren';
 $_lang["agree_to_terms"] = 'Lizenzbedingungen akzeptieren und installieren';
 $_lang["alert_database_test_connection"] = 'Sie müssen eine Datenbank erstellen oder die Datenbank-Verbindung testen!';
 $_lang["alert_database_test_connection_failed"] = 'Der Test der Datenbank-Auswahl ist fehlgeschlagen!';
