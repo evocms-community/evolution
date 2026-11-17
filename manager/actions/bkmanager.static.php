@@ -96,6 +96,7 @@ if ($mode == 'restore1') {
     $total = ($files[0] !== $pattern) ? count($files) : 0;
 
     arsort($files);
+    $limit = 0;
     while (10 < $total && $limit < 50) {
         $del_file = array_pop($files);
         unlink($del_file);
