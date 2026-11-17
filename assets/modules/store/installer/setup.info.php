@@ -6,6 +6,23 @@ if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true || ! $modx->hasPerm
 
 //:: MODx Installer Setup file
 //:::::::::::::::::::::::::::::::::::::::::
+// Modifiche locali per PHP 8 (novembre 2026) – da riapplicare se Store viene aggiornato o reinstallato:
+// - campi del docblock con un default '' ($setupDocblockDefaults): prima un warning "Undefined array key"
+//   per ogni campo facoltativo assente (input_options, lock_tv, guid, events, modx_category…);
+// - clean_up(): $modx non era globale, mysql_*() rimosse in PHP 7, $modx->db->queryquery() inesistente
+//   (la funzione non è chiamata dall'installer fast; corretta nel caso venga usata).
+
+// PHP8: valori di default dei campi del docblock. Non includono 'overwrite' e 'installset',
+// che sotto vengono controllati con array_key_exists() e hanno un default diverso.
+$setupDocblockDefaults = array(
+    'name' => '', 'description' => '', 'version' => '', 'type' => '', 'filename' => '',
+    'modx_category' => '', 'properties' => '',
+    'lock_template' => '',
+    'caption' => '', 'input_type' => '', 'input_options' => '', 'input_default' => '',
+    'output_widget' => '', 'output_widget_params' => '', 'template_assignments' => '', 'lock_tv' => '',
+    'events' => '', 'guid' => '', 'legacy_names' => '', 'disabled' => '',
+    'shareparams' => '',
+);
 require_once(MGR.'/includes/version.inc.php');
 $installPath = MODX_BASE_PATH .'assets/cache/store/install';
 
@@ -32,6 +49,7 @@ if(is_dir($templatePath) && is_readable($templatePath)) {
         $params = parse_docblock($templatePath, $tplfile);
         if(is_array($params) && (count($params)>0))
         {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $mt[] = array
             (
@@ -57,6 +75,7 @@ if(is_dir($tvPath) && is_readable($tvPath)) {
         if(substr($tplfile, -4) != '.tpl') continue;
         $params = parse_docblock($tvPath, $tplfile);
         if(is_array($params) && (count($params)>0)) {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $mtv[] = array(
                 $params['name'],
@@ -88,6 +107,7 @@ if(is_dir($chunkPath) && is_readable($chunkPath)) {
         }
         $params = parse_docblock($chunkPath, $tplfile);
         if(is_array($params) && count($params) > 0) {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $mc[] = array(
                 $params['name'],
@@ -115,6 +135,7 @@ if(is_dir($snippetPath) && is_readable($snippetPath)) {
         $params = parse_docblock($snippetPath, $tplfile);
 
         if(is_array($params) && count($params) > 0) {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $ms[] = array(
                 $params['name'],
@@ -139,6 +160,7 @@ if(is_dir($pluginPath) && is_readable($pluginPath)) {
         }
         $params = parse_docblock($pluginPath, $tplfile);
         if(is_array($params) && count($params) > 0) {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $mp[] = array(
                 $params['name'],
@@ -167,6 +189,7 @@ if(is_dir($modulePath) && is_readable($modulePath)) {
         }
         $params = parse_docblock($modulePath, $tplfile);
         if(is_array($params) && count($params) > 0) {
+            $params += $setupDocblockDefaults;
             $description = empty($params['version']) ? $params['description'] : "<strong>{$params['version']}</strong> {$params['description']}";
             $mm[] = array(
                 $params['name'],
@@ -187,79 +210,40 @@ if(is_dir($modulePath) && is_readable($modulePath)) {
 $callBackFnc = "clean_up";
 
 function clean_up($sqlParser) {
-    $ids = array();
-    $mysqlVerOk = -1;
-
-    if(function_exists("mysql_get_server_info")) {
-        $mysqlVerOk = (version_compare(mysql_get_server_info(),"4.0.2")>=0);
-    }
+    // PHP8: riscritta con $modx->db (prima: $modx non globale, mysql_*() rimosse, queryquery() inesistente).
+    // Stessa logica: ricalcola privateweb/privatemgr dai gruppi di documenti.
+    global $modx;
+    $p = $modx->db->config['table_prefix'];
 
     // secure web documents - privateweb
-    mysql_query("UPDATE `".$modx->db->config['table_prefix']."site_content` SET privateweb = 0 WHERE privateweb = 1",$sqlParser->conn);
-    $sql =  "SELECT DISTINCT sc.id
-             FROM `".$modx->db->config['table_prefix']."site_content` sc
-             LEFT JOIN `".$modx->db->config['table_prefix']."document_groups` dg ON dg.document = sc.id
-             LEFT JOIN `".$modx->db->config['table_prefix']."webgroup_access` wga ON wga.documentgroup = dg.document_group
-             WHERE wga.id>0";
-    $ds = $modx->db->queryquery($sql);
-    if(!$ds) {
-        echo "An error occurred while executing a query: ".mysql_error();
-    }
-    else {
-        while($r = $modx->db->GetRow($ds,'assoc')) $ids[]=$r["id"];
-        if(count($ids)>0) {
-            mysql_query("UPDATE `".$modx->db->config['table_prefix']."site_content` SET privateweb = 1 WHERE id IN (".implode(", ",$ids).")");
-            unset($ids);
+    $modx->db->query("UPDATE `{$p}site_content` SET privateweb = 0 WHERE privateweb = 1");
+    $ids = array();
+    $ds = $modx->db->query("SELECT DISTINCT sc.id
+             FROM `{$p}site_content` sc
+             LEFT JOIN `{$p}document_groups` dg ON dg.document = sc.id
+             LEFT JOIN `{$p}webgroup_access` wga ON wga.documentgroup = dg.document_group
+             WHERE wga.id>0");
+    if ($ds) {
+        while ($r = $modx->db->getRow($ds, 'assoc')) $ids[] = (int)$r['id'];
+        if (count($ids) > 0) {
+            $modx->db->query("UPDATE `{$p}site_content` SET privateweb = 1 WHERE id IN (" . implode(', ', $ids) . ")");
         }
     }
 
     // secure manager documents privatemgr
-    mysql_query("UPDATE `".$modx->db->config['table_prefix']."site_content` SET privatemgr = 0 WHERE privatemgr = 1");
-    $sql =  "SELECT DISTINCT sc.id
-             FROM `".$modx->db->config['table_prefix']."site_content` sc
-             LEFT JOIN `".$modx->db->config['table_prefix']."document_groups` dg ON dg.document = sc.id
-             LEFT JOIN `".$modx->db->config['table_prefix']."membergroup_access` mga ON mga.documentgroup = dg.document_group
-             WHERE mga.id>0";
-    $ds = $modx->db->query($sql);
-    if(!$ds) {
-        echo "An error occurred while executing a query: ".mysql_error();
-    }
-    else {
-        while($r = $modx->db->GetRow($ds,'assoc')) $ids[]=$r["id"];
-        if(count($ids)>0) {
-            $modx->db->query("UPDATE `".$modx->db->config['table_prefix']."site_content` SET privatemgr = 1 WHERE id IN (".implode(", ",$ids).")");
-            unset($ids);
+    $modx->db->query("UPDATE `{$p}site_content` SET privatemgr = 0 WHERE privatemgr = 1");
+    $ids = array();
+    $ds = $modx->db->query("SELECT DISTINCT sc.id
+             FROM `{$p}site_content` sc
+             LEFT JOIN `{$p}document_groups` dg ON dg.document = sc.id
+             LEFT JOIN `{$p}membergroup_access` mga ON mga.documentgroup = dg.document_group
+             WHERE mga.id>0");
+    if ($ds) {
+        while ($r = $modx->db->getRow($ds, 'assoc')) $ids[] = (int)$r['id'];
+        if (count($ids) > 0) {
+            $modx->db->query("UPDATE `{$p}site_content` SET privatemgr = 1 WHERE id IN (" . implode(', ', $ids) . ")");
         }
     }
-
-    /**** Add Quick Plugin to Module
-    // get quick edit module id
-    $ds = mysql_query("SELECT id FROM `".$sqlParser->prefix."site_modules` WHERE name='QuickEdit'");
-    if(!$ds) {
-        echo "An error occurred while executing a query: ".mysql_error();
-    }
-    else {
-        $row = mysql_fetch_assoc($ds);
-        $moduleid=$row["id"];
-    }
-    // get plugin id
-    $ds = mysql_query("SELECT id FROM `".$sqlParser->prefix."site_plugins` WHERE name='QuickEdit'");
-    if(!$ds) {
-        echo "An error occurred while executing a query: ".mysql_error();
-    }
-    else {
-        $row = mysql_fetch_assoc($ds);
-        $pluginid=$row["id"];
-    }
-    // setup plugin as module dependency
-    $ds = mysql_query("SELECT module FROM `".$sqlParser->prefix."site_module_depobj` WHERE module='$moduleid' AND resource='$pluginid' AND type='30' LIMIT 1");
-    if(!$ds) {
-        echo "An error occurred while executing a query: ".mysql_error();
-    }
-    elseif (mysql_num_rows($ds)==0){
-        mysql_query("INSERT INTO `".$sqlParser->prefix."site_module_depobj` (module, resource, type) VALUES('$moduleid','$pluginid',30)");
-    }
-    ***/
 }
 
 function parse_docblock($element_dir, $filename) {

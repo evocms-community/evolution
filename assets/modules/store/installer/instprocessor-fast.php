@@ -37,6 +37,22 @@ $moduleTVs = array (); // template variables - array : name, description, type -
 
 $errors= 0;
 
+// PHP8: valore del docblock come stringa ('' se manca o è null)
+$instStr = function ($arr, $i) {
+    return (isset($arr[$i]) && !is_array($arr[$i])) ? (string)$arr[$i] : '';
+};
+// PHP8: valore del docblock come array (installset: può mancare o essere false)
+$instArr = function ($arr, $i) {
+    return (isset($arr[$i]) && is_array($arr[$i])) ? $arr[$i] : array();
+};
+// PHP8: sostituisce mysql_error(), rimossa in PHP 7
+$instDbError = function () use ($modx) {
+    if (isset($modx->db->conn) && $modx->db->conn instanceof mysqli && $modx->db->conn->error !== '') {
+        return htmlspecialchars($modx->db->conn->error, ENT_QUOTES, 'UTF-8');
+    }
+    return 'SQL error';
+};
+
 // get post back status
 $isPostBack = (count($_POST));
 
@@ -75,6 +91,7 @@ $base_path = $pth . (substr($pth, -1) != "/" ? "/" : "");
 if(!function_exists('parseProperties')) {
     // parses a resource property string and returns the result as an array
     // duplicate of method in documentParser class
+    // (non viene mai eseguita: parseProperties() è dichiarata in fondo al file)
     function parseProperties($propertyString) {
         $parameter= array ();
         if (!empty ($propertyString)) {
@@ -105,24 +122,24 @@ $sqlParser->ignoreDuplicateErrors = true;
 // Install Templates
 if ( count($moduleTemplates )>0) {
     echo "<h3>" . $_lang['templates'] . ":</h3> ";
-    $selTemplates = $_POST['template'];
+    $selTemplates = isset($_POST['template']) ? (array)$_POST['template'] : array();
     foreach ($moduleTemplates as $k=>$moduleTemplate) {
-        $installSample = in_array('sample', $moduleTemplate[6]) && $installData == 1;
+        $installSample = in_array('sample', $instArr($moduleTemplate, 6)) && $installData == 1;
       //  if(in_array($k, $selTemplates) || $installSample) {
-            $name = $modx->db->escape($moduleTemplate[0]);
-            $desc = $modx->db->escape($moduleTemplate[1]);
-            $category = $modx->db->escape($moduleTemplate[4]);
-            $locked = $modx->db->escape($moduleTemplate[5]);
-            $filecontent = $moduleTemplate[3];
-            if (!file_exists($filecontent)) {
+            $name = $modx->db->escape($instStr($moduleTemplate, 0));
+            $desc = $modx->db->escape($instStr($moduleTemplate, 1));
+            $categoryName = $instStr($moduleTemplate, 4);
+            $locked = (int)$instStr($moduleTemplate, 5);
+            $filecontent = $instStr($moduleTemplate, 3);
+            if ($filecontent === '' || !file_exists($filecontent)) {
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_template'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
             } else {
                 // Create the category if it does not already exist
-                $category_id = getCreateDbCategory($category, $sqlParser);
+                $category_id = getCreateDbCategory($categoryName, $sqlParser);
 
                 // Strip the first comment up top
                 $template = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', file_get_contents($filecontent), 1);
-                $template = $modx->db->escape($template);
+                $template = $modx->db->escape((string)$template);
 
                 // See if the template already exists
                 $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_templates` WHERE templatename='$name'");
@@ -130,14 +147,14 @@ if ( count($moduleTemplates )>0) {
                 if ($modx->db->getRecordCount($rs)) {
                     if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_templates` SET content='$template', description='$desc', category='$category_id', locked='$locked'  WHERE templatename='$name';")) {
                         $errors += 1;
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
                 } else {
                     if (!@ $modx->db->query("INSERT INTO `" . $table_prefix . "site_templates` (templatename,description,content,category,locked) VALUES('$name','$desc','$template','$category_id','$locked');")) {
                         $errors += 1;
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
@@ -150,33 +167,33 @@ if ( count($moduleTemplates )>0) {
 // Install Template Variables
 if (count($moduleTVs )>0) {
     echo "<h3>" . $_lang['tvs'] . ":</h3> ";
-    $selTVs = $_POST['tv'];
+    $selTVs = isset($_POST['tv']) ? (array)$_POST['tv'] : array();
     foreach ($moduleTVs as $k=>$moduleTV) {
-        $installSample = in_array('sample', $moduleTV[12]) && $installData == 1;
+        $installSample = in_array('sample', $instArr($moduleTV, 12)) && $installData == 1;
         //if(in_array($k, $selTVs) || $installSample) {
-            $name = $modx->db->escape($moduleTV[0]);
-            $caption = $modx->db->escape($moduleTV[1]);
-            $desc = $modx->db->escape($moduleTV[2]);
-            $input_type = $modx->db->escape($moduleTV[3]);
-            $input_options = $modx->db->escape($moduleTV[4]);
-            $input_default = $modx->db->escape($moduleTV[5]);
-            $output_widget = $modx->db->escape($moduleTV[6]);
-            $output_widget_params = $modx->db->escape($moduleTV[7]);
-            $filecontent = $moduleTV[8];
-            $assignments = $moduleTV[9];
-            $category = $modx->db->escape($moduleTV[10]);
-            $locked = $modx->db->escape($moduleTV[11]);
+            $name = $modx->db->escape($instStr($moduleTV, 0));
+            $caption = $modx->db->escape($instStr($moduleTV, 1));
+            $desc = $modx->db->escape($instStr($moduleTV, 2));
+            $input_type = $modx->db->escape($instStr($moduleTV, 3));
+            $input_options = $modx->db->escape($instStr($moduleTV, 4));
+            $input_default = $modx->db->escape($instStr($moduleTV, 5));
+            $output_widget = $modx->db->escape($instStr($moduleTV, 6));
+            $output_widget_params = $modx->db->escape($instStr($moduleTV, 7));
+            $filecontent = $instStr($moduleTV, 8);
+            $assignments = $instStr($moduleTV, 9);
+            $categoryName = $instStr($moduleTV, 10);
+            $locked = (int)$instStr($moduleTV, 11);
 
 
             // Create the category if it does not already exist
-            $category = getCreateDbCategory($category, $sqlParser);
+            $category = getCreateDbCategory($categoryName, $sqlParser);
 
             $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_tmplvars` WHERE name='$name'");
             if ($modx->db->getRecordCount($rs)) {
                 $insert = true;
                 while($row = $modx->db->getRow($rs,'assoc')) {
                     if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_tmplvars` SET type='$input_type', caption='$caption', description='$desc', category='$category', locked='$locked', elements='$input_options', display='$output_widget', display_params='$output_widget_params', default_text='$input_default' WHERE id='{$row['id']}';")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     $insert = false;
@@ -186,34 +203,36 @@ if (count($moduleTVs )>0) {
                 //$q = "INSERT INTO `" . $table_prefix . "site_tmplvars` (type,name,caption,description,category,locked,elements,display,display_params,default_text) VALUES('$input_type','$name','$caption','$desc',(SELECT (CASE COUNT(*) WHEN 0 THEN 0 ELSE `id` END) `id` FROM `" . $table_prefix . "categories` WHERE `category` = '$category'),$locked,'$input_options','$output_widget','$output_widget_params','$input_default');";
                 $q = "INSERT INTO `" . $table_prefix . "site_tmplvars` (type,name,caption,description,category,locked,elements,display,display_params,default_text) VALUES('$input_type','$name','$caption','$desc','$category','$locked','$input_options','$output_widget','$output_widget_params','$input_default');";
                 if (!@ $modx->db->query($q)) {
-                    echo "<p>" . mysql_error() . "</p>";
+                    echo "<p>" . $instDbError() . "</p>";
                     return;
                 }
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
             }
 
             // add template assignments
-            if (trim($assignments) != ''){
-                $assignments = explode(',', $assignments);
-                if (count($assignments) > 0) {
+            $assignments = array_filter(array_map('trim', explode(',', $assignments)), 'strlen');
+            if (count($assignments) > 0) {
 
+                $ds = $modx->db->query("SELECT id FROM `".$table_prefix."site_tmplvars` WHERE name='$name' AND description='$desc';",$sqlParser->conn);
+                $row = $ds ? $modx->db->getRow($ds,'assoc') : false;
+                $id = is_array($row) ? (int)$row['id'] : 0;
+
+                if ($id > 0) {
                     // remove existing tv -> template assignments
-                    $ds=$modx->db->query("SELECT id FROM `".$table_prefix."site_tmplvars` WHERE name='$name' AND description='$desc';",$sqlParser->conn);
-                    $row = $modx->db->getRow($ds,'assoc');
-                    $id = $row["id"];
-                    $modx->db->query('DELETE FROM ' . $dbase . '.`' . $table_prefix . 'site_tmplvar_templates` WHERE tmplvarid = \'' . $id . '\'');
+                    // (prima: 'DELETE FROM ' . $dbase . '.`…`' con $dbase non definita → errore SQL)
+                    $modx->db->query("DELETE FROM `" . $table_prefix . "site_tmplvar_templates` WHERE tmplvarid = '" . $id . "'");
 
-                    // add tv -> template assignments
+                    // add tv -> template assignments ("*" = tutti i template)
                     foreach ($assignments as $assignment) {
                         $template = $modx->db->escape($assignment);
-                        $where = "WHERE templatename='$template'";
-                        if ($template=='*') $where ='';
+                        $where = ($template == '*') ? '' : "WHERE templatename='$template'";
                         $ts = $modx->db->query("SELECT id FROM `".$table_prefix."site_templates` ".$where.";" );
-                        if ($ds && $ts) {
-                            $tRow = $modx->db->getRow($ts,'assoc');
-                            $templateId = $tRow['id'];
-                            $modx->db->query("INSERT INTO `" . $table_prefix . "site_tmplvar_templates` (tmplvarid, templateid) VALUES('$id', '$templateId')");
-                       }
+                        if ($ts) {
+                            while ($tRow = $modx->db->getRow($ts,'assoc')) {
+                                $templateId = (int)$tRow['id'];
+                                $modx->db->query("INSERT IGNORE INTO `" . $table_prefix . "site_tmplvar_templates` (tmplvarid, templateid) VALUES('$id', '$templateId')");
+                            }
+                        }
                     }
                 }
             }
@@ -224,28 +243,29 @@ if (count($moduleTVs )>0) {
 // Install Chunks
 if (count($moduleChunks )>0) {
     echo "<h3>" . $_lang['chunks'] . ":</h3> ";
-    $selChunks = $_POST['chunk'];
+    $selChunks = isset($_POST['chunk']) ? (array)$_POST['chunk'] : array();
     foreach ($moduleChunks as $k=>$moduleChunk) {
-        $installSample = in_array('sample', $moduleChunk[5]) && $installData == 1;
+        $installSample = in_array('sample', $instArr($moduleChunk, 5)) && $installData == 1;
         //if(in_array($k, $selChunks) || $installSample) {
 
-            $name = $modx->db->escape($moduleChunk[0]);
-            $desc = $modx->db->escape($moduleChunk[1]);
-            $category = $modx->db->escape($moduleChunk[3]);
-            $overwrite = $modx->db->escape($moduleChunk[4]);
-            $filecontent = $moduleChunk[2];
+            $name = $modx->db->escape($instStr($moduleChunk, 0));
+            $desc = $modx->db->escape($instStr($moduleChunk, 1));
+            $categoryName = $instStr($moduleChunk, 3);
+            $overwrite = $modx->db->escape($instStr($moduleChunk, 4));
+            $filecontent = $instStr($moduleChunk, 2);
 
-            if (!file_exists($filecontent))
+            if ($filecontent === '' || !file_exists($filecontent))
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_chunk'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
             else {
 
                 // Create the category if it does not already exist
-                $category_id = getCreateDbCategory($category, $sqlParser);
+                $category_id = getCreateDbCategory($categoryName, $sqlParser);
 
                 $chunk = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', file_get_contents($filecontent), 1);
-                $chunk = $modx->db->escape($chunk);
+                $chunk = $modx->db->escape((string)$chunk);
                 $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_htmlsnippets` WHERE name='$name'");
                 $count_original_name = $modx->db->getRecordCount($rs);
+                $count_new_name = 0;
                 if($overwrite == 'false') {
                     $newname = $name . '-' . str_replace('.', '_', $modx_version);
                     $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_htmlsnippets` WHERE name='$newname'");
@@ -255,7 +275,7 @@ if (count($moduleChunks )>0) {
                 if ($update) {
                     if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_htmlsnippets` SET snippet='$chunk', description='$desc', category='$category_id' WHERE name='$name';")) {
                         $errors += 1;
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
@@ -265,7 +285,7 @@ if (count($moduleChunks )>0) {
                     }
                     if (!@ $modx->db->query("INSERT INTO `" . $table_prefix . "site_htmlsnippets` (name,description,snippet,category) VALUES('$name','$desc','$chunk','$category_id');")) {
                         $errors += 1;
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
@@ -278,41 +298,41 @@ if (count($moduleChunks )>0) {
 // Install Modules
 if (count($moduleModules )>0) {
     echo "<h3>" . $_lang['modules'] . ":</h3> ";
-    $selModules = $_POST['module'];
+    $selModules = isset($_POST['module']) ? (array)$_POST['module'] : array();
     foreach ($moduleModules as $k=>$moduleModule) {
-        $installSample = in_array('sample', $moduleModule[7]) && $installData == 1;
+        $installSample = in_array('sample', $instArr($moduleModule, 7)) && $installData == 1;
         //if(in_array($k, $selModules) || $installSample) {
-            $name = $modx->db->escape($moduleModule[0]);
-            $desc = $modx->db->escape($moduleModule[1]);
-            $filecontent = $moduleModule[2];
-            $properties = $moduleModule[3];
-            $guid = $modx->db->escape($moduleModule[4]);
-            $shared = $modx->db->escape($moduleModule[5]);
-            $category = $modx->db->escape($moduleModule[6]);
-            if (!file_exists($filecontent))
+            $name = $modx->db->escape($instStr($moduleModule, 0));
+            $desc = $modx->db->escape($instStr($moduleModule, 1));
+            $filecontent = $instStr($moduleModule, 2);
+            $properties = $instStr($moduleModule, 3);
+            $guid = $modx->db->escape($instStr($moduleModule, 4));
+            $shared = (int)$instStr($moduleModule, 5);
+            $categoryName = $instStr($moduleModule, 6);
+            if ($filecontent === '' || !file_exists($filecontent))
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_module'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
             else {
 
                 // Create the category if it does not already exist
-                $category = getCreateDbCategory($category, $sqlParser);
+                $category = getCreateDbCategory($categoryName, $sqlParser);
                 $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
                 $module = end($tmp);
                 // remove installer docblock
                 $module = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $module, 1);
-                $module = $modx->db->escape($module);
+                $module = $modx->db->escape((string)$module);
                 $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_modules` WHERE name='$name'");
                 if ($modx->db->getRecordCount($rs)) {
                     $row = $modx->db->getRow($rs,'assoc');
-                    $props = $modx->db->escape(propUpdate($properties,$row['properties']));
+                    $props = $modx->db->escape(propUpdate($properties, (string)$row['properties']));
                     if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_modules` SET modulecode='$module', description='$desc', properties='$props', enable_sharedparams='$shared' WHERE name='$name';")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
                 } else {
-                    $properties = $modx->db->escape(parseProperties($properties, true));
+                    $properties = $modx->db->escape((string)parseProperties($properties, true));
                     if (!@ $modx->db->query("INSERT INTO `" . $table_prefix . "site_modules` (name,description,modulecode,properties,guid,enable_sharedparams,category) VALUES('$name','$desc','$module','$properties','$guid','$shared', '$category');")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
@@ -326,22 +346,25 @@ if (count($moduleModules )>0) {
 if (count($modulePlugins )>0) {
     echo "<h3>" . $_lang['plugins'] . ":</h3> ";
     foreach ($modulePlugins as $k=>$modulePlugin) {
-        $installSample = in_array('sample', $modulePlugin[8]) && $installData == 1;
+        $installSample = in_array('sample', $instArr($modulePlugin, 8)) && $installData == 1;
        // if(in_array($k, $selPlugs) || $installSample) {
-            $name = $modx->db->escape($modulePlugin[0]);
-            $desc = $modx->db->escape($modulePlugin[1]);
-            $filecontent = $modulePlugin[2];
-            $properties = $modulePlugin[3];
-            $events = explode(",", $modulePlugin[4]);
-            $guid = $modx->db->escape($modulePlugin[5]);
-            $category = $modx->db->escape($modulePlugin[6]);
+            $descRaw = $instStr($modulePlugin, 1);
+            $name = $modx->db->escape($instStr($modulePlugin, 0));
+            $desc = $modx->db->escape($descRaw);
+            $filecontent = $instStr($modulePlugin, 2);
+            $properties = $instStr($modulePlugin, 3);
+            // eventi senza spazi e senza voci vuote ("OnA, OnB" prima dava " OnB", mai trovato)
+            $events = array_values(array_filter(array_map('trim', explode(',', $instStr($modulePlugin, 4))), 'strlen'));
+            $guid = $modx->db->escape($instStr($modulePlugin, 5));
+            $categoryName = $instStr($modulePlugin, 6);
             $leg_names = '';
-            $disabled = $modulePlugin[9];
-            if(array_key_exists(7, $modulePlugin)) {
+            $disabled = (int)$instStr($modulePlugin, 9);
+            $legacy = trim($instStr($modulePlugin, 7));
+            if($legacy !== '') {
                 // parse comma-separated legacy names and prepare them for sql IN clause
-                $leg_names = "'" . implode("','", preg_split('/\s*,\s*/', $modx->db->escape($modulePlugin[7]))) . "'";
+                $leg_names = "'" . implode("','", preg_split('/\s*,\s*/', $modx->db->escape($legacy))) . "'";
             }
-            if (!file_exists($filecontent))
+            if ($filecontent === '' || !file_exists($filecontent))
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_plugin'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
             else {
 
@@ -352,28 +375,31 @@ if (count($modulePlugins )>0) {
                 }
 
                 // Create the category if it does not already exist
-                $category = getCreateDbCategory($category, $sqlParser);
+                $category = getCreateDbCategory($categoryName, $sqlParser);
                 $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
                 $plugin = end($tmp);
                 // remove installer docblock
                 $plugin = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $plugin, 1);
-                $plugin = $modx->db->escape($plugin);
+                $plugin = $modx->db->escape((string)$plugin);
                 $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_plugins` WHERE name='$name' ORDER BY id");
                 $prev_id = null;
+                $props = '';
 
                 if ($modx->db->getRecordCount($rs)) {
                     $insert = true;
                     while($row = $modx->db->getRow($rs,'assoc')) {
-                        $props = $modx->db->escape(propUpdate($properties,$row['properties']));
-                        if($row['description'] == $desc){
+                        $props = $modx->db->escape(propUpdate($properties, (string)$row['properties']));
+                        // confronto con la descrizione originale: con quella escapata un apostrofo o una virgolette
+                        // nella descrizione facevano disattivare il plugin e inserirne una copia a ogni aggiornamento
+                        if($row['description'] == $descRaw){
                             if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_plugins` SET plugincode='$plugin', description='$desc', properties='$props' WHERE id='{$row['id']}';")) {
-                                echo "<p>" . mysql_error() . "</p>";
+                                echo "<p>" . $instDbError() . "</p>";
                                 return;
                             }
                             $insert = false;
                         } else {
                             if (!@ $modx->db->query("UPDATE `" . $table_prefix . "site_plugins` SET disabled='1' WHERE id='{$row['id']}';")) {
-                                echo "<p>".mysql_error()."</p>";
+                                echo "<p>". $instDbError() ."</p>";
                                 return;
                             }
                         }
@@ -381,31 +407,33 @@ if (count($modulePlugins )>0) {
                     }
                     if($insert === true) {
                         if(!@$modx->db->query("INSERT INTO `".$table_prefix."site_plugins` (name,description,plugincode,properties,moduleguid,disabled,category) VALUES('$name','$desc','$plugin','$props','$guid','0','$category');",$sqlParser->conn)) {
-                            echo "<p>".mysql_error()."</p>";
+                            echo "<p>". $instDbError() ."</p>";
                             return;
                         }
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
                 } else {
-                    $properties = $modx->db->escape(parseProperties($properties, true));
+                    $properties = $modx->db->escape((string)parseProperties($properties, true));
                     if (!@ $modx->db->query("INSERT INTO `" . $table_prefix . "site_plugins` (name,description,plugincode,properties,moduleguid,disabled,category) VALUES('$name','$desc','$plugin','$properties','$guid','$disabled','$category');")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
 
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
                 }
                 // add system events
+                // (senza eventi dichiarati nel pacchetto, prima explode('') dava [''] e il DELETE
+                //  sotto cancellava tutti gli eventi del plugin: ora gli eventi esistenti restano)
                 if (count($events) > 0) {
                     $ds=$modx->db->query("SELECT id FROM `".$table_prefix."site_plugins` WHERE name='$name' AND description='$desc' ORDER BY id DESC LIMIT 1;",$sqlParser->conn);
-                    if ($ds) {
-                        $row = $modx->db->getRow($ds,'assoc');
-                        $id = $row["id"];
-                        $_events = implode("','", $events);
+                    $row = $ds ? $modx->db->getRow($ds,'assoc') : false;
+                    $id = is_array($row) ? (int)$row['id'] : 0;
+                    if ($id > 0) {
+                        $_events = implode("','", array_map(array($modx->db, 'escape'), $events));
 
                         // add new events
                         if ($prev_id) {
-                            $prev_id = $modx->db->escape($prev_id);
+                            $prev_id = (int)$prev_id;
 
                             $modx->db->query("INSERT IGNORE INTO `{$table_prefix}site_plugin_events` (`pluginid`, `evtid`, `priority`)
                                 SELECT {$id} as 'pluginid', `se`.`id` AS `evtid`, COALESCE(`spe`.`priority`, MAX(`spe2`.`priority`) + 1, 0) AS `priority`
@@ -432,42 +460,42 @@ if (count($modulePlugins )>0) {
 // Install Snippets
 if (count($moduleSnippets ) > 0) {
     echo "<h3>" . $_lang['snippets'] . ":</h3> ";
-    $selSnips = $_POST['snippet'];
+    $selSnips = isset($_POST['snippet']) ? (array)$_POST['snippet'] : array();
     foreach ($moduleSnippets as $k=>$moduleSnippet) {
 
-        $installSample = in_array('sample', $moduleSnippet[5] ?? []) && $installData == 1;
+        $installSample = in_array('sample', $instArr($moduleSnippet, 5)) && $installData == 1;
         //if(in_array($k, $selSnips) || $installSample) {
-            $name = $modx->db->escape($moduleSnippet[0]);
-            $desc = $modx->db->escape($moduleSnippet[1]);
-            $filecontent = $moduleSnippet[2];
-            $properties = $moduleSnippet[3];
-            $category = $modx->db->escape($moduleSnippet[4]);
-            if (!file_exists($filecontent))
+            $name = $modx->db->escape($instStr($moduleSnippet, 0));
+            $desc = $modx->db->escape($instStr($moduleSnippet, 1));
+            $filecontent = $instStr($moduleSnippet, 2);
+            $properties = $instStr($moduleSnippet, 3);
+            $categoryName = $instStr($moduleSnippet, 4);
+            if ($filecontent === '' || !file_exists($filecontent))
                 echo "<p>&nbsp;&nbsp;$name: <span class=\"notok\">" . $_lang['unable_install_snippet'] . " '$filecontent' " . $_lang['not_found'] . ".</span></p>";
             else {
 
                 // Create the category if it does not already exist
-                $category = getCreateDbCategory($category, $sqlParser);
+                $category = getCreateDbCategory($categoryName, $sqlParser);
                 $tmp = preg_split("/(\/\/)?\s*\<\?php/", file_get_contents($filecontent), 2);
                 $snippet = end($tmp);
                 // remove installer docblock
                 $snippet = preg_replace("/^.*?\/\*\*.*?\*\/\s+/s", '', $snippet, 1);
-                $snippet = $modx->db->escape($snippet);
+                $snippet = $modx->db->escape((string)$snippet);
                 $rs = $modx->db->query("SELECT * FROM `" . $table_prefix . "site_snippets` WHERE name='$name'");
 
                 if ($modx->db->getRecordCount($rs)) {
 
                     $row = $modx->db->getRow($rs,'assoc');
-                    $props = $modx->db->escape(propUpdate($properties,$row['properties']));
+                    $props = $modx->db->escape(propUpdate($properties, (string)$row['properties']));
                     if (!$modx->db->query("UPDATE `" . $table_prefix . "site_snippets` SET snippet='$snippet', description='$desc', properties='$props' WHERE name='$name';")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
                 } else {
-                    $properties = $modx->db->escape(parseProperties($properties, true));
+                    $properties = $modx->db->escape((string)parseProperties($properties, true));
                     if (!$modx->db->query("INSERT INTO `" . $table_prefix . "site_snippets` (name,description,snippet,properties,category) VALUES('$name','$desc','$snippet','$properties','$category');")) {
-                        echo "<p>" . mysql_error() . "</p>";
+                        echo "<p>" . $instDbError() . "</p>";
                         return;
                     }
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['installed'] . "</span></p>";
@@ -515,40 +543,45 @@ echo "<p><b>" . $_lang['installation_successful'] . "</b></p>";
 
 // Property Update function
 function propUpdate($new,$old){
-    $newArr = parseProperties($new);
-    $oldArr = parseProperties($old);
+    $newArr = parseProperties((string)$new);
+    $oldArr = parseProperties((string)$old);
+    // PHP8: con un valore non array l'operatore + darebbe un Fatal "Unsupported operand types"
+    if (!is_array($newArr)) $newArr = array();
+    if (!is_array($oldArr)) $oldArr = array();
     foreach ($oldArr as $k => $v){
-        if (isset($v['0']['options'])){
+        if (isset($v['0']['options']) && isset($newArr[$k]['0']['options'])){
             $oldArr[$k]['0']['options'] = $newArr[$k]['0']['options'];
         }
     }
     $return = $oldArr + $newArr;
     $return = json_encode($return, JSON_UNESCAPED_UNICODE);
     $return = ($return != '[]') ? $return : '';
-    return $return;
+    return (string)$return;
 }
 
 function parseProperties($propertyString, $json=false) {
+    $propertyString = (string)$propertyString;
     $propertyString = str_replace('{}', '', $propertyString );
     $propertyString = str_replace('} {', ',', $propertyString );
 
-    if(empty($propertyString)) return array();
-    if($propertyString=='{}' || $propertyString=='[]') return array();
+    // con $json=true restituisce sempre una stringa ('' = nessuna proprietà), come si aspettano gli INSERT
+    if(empty($propertyString)) return $json ? '' : array();
+    if($propertyString=='{}' || $propertyString=='[]') return $json ? '' : array();
 
     $jsonFormat = isJson($propertyString, true);
     $property = array();
     // old format
     if ( $jsonFormat === false) {
         $props= explode('&', $propertyString);
-        $arr = array();
-        $key = array();
         foreach ($props as $prop) {
-            if ($prop != ''){
-                $arr = explode(';', $prop);
-                $key = explode('=', $arr['0']);
+            if (trim($prop) != ''){
+                // PHP8: chiavi mancanti (proprietà senza "=" o senza ";tipo;valore") → '' invece di "Undefined array key"
+                $arr = array_pad(explode(';', $prop), 4, '');
+                $key = array_pad(explode('=', $arr['0'], 2), 2, '');
+                if (trim($key['0']) === '') continue;
                 $property[$key['0']]['0']['label'] = trim($key['1']);
                 $property[$key['0']]['0']['type'] = trim($arr['1']);
-                switch ($arr['1']) {
+                switch (trim($arr['1'])) {
                     case 'list':
                     case 'list-multi':
                     case 'checkbox':
@@ -567,13 +600,13 @@ function parseProperties($propertyString, $json=false) {
 
         }
     // new json-format
-    } else if(!empty($jsonFormat)){
+    } else if(!empty($jsonFormat) && is_array($jsonFormat)){
         $property = $jsonFormat;
     }
     if ($json) {
         $property = json_encode($property, JSON_UNESCAPED_UNICODE);
+        $property = ($property != '[]') ? $property : '';
     }
-    $property = ($property != '[]') ? $property : '';
     return $property;
 }
 
@@ -588,6 +621,7 @@ function getCreateDbCategory($category) {
     $dbase = $modx->db->config['dbase'];
     $table_prefix = $modx->db->config['table_prefix'];
     $category_id = 0;
+    $category = trim((string)$category);
     if(!empty($category)) {
         $category = $modx->db->escape($category);
         $rs = $modx->db->query("SELECT id FROM `".$table_prefix."categories` WHERE category = '".$category."'");
