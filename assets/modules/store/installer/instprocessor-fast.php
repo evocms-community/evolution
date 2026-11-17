@@ -1,20 +1,4 @@
 <?php
-/**
- * Store – installer "fast"
- *
- * Modifiche locali per PHP 8 (novembre 2026) – da riapplicare se Store viene aggiornato o reinstallato:
- * - letture di $_POST['template'|'tv'|'chunk'|'module'|'snippet'] controllate (variabili non usate: il filtro è commentato);
- * - valori del docblock letti con $instStr()/$instArr(): niente null a $modx->db->escape(), explode(), trim(), file_exists(),
- *   niente TypeError di in_array() se l'installset manca;
- * - mysql_error() (rimossa in PHP 7) sostituita da $instDbError();
- * - TV: rimosso $dbase non definito nel DELETE delle assegnazioni (errore SQL → installazione interrotta);
- *   con "*" la TV viene assegnata a tutti i template, non solo al primo;
- * - categoria passata a getCreateDbCategory() senza doppio escape;
- * - plugin: descrizione confrontata col valore originale, non con quello escapato; eventi senza spazi;
- *   nessuna cancellazione degli eventi se il pacchetto non ne dichiara; legacy_names vuoto ignorato;
- * - chunk: $count_new_name inizializzata;
- * - propUpdate()/parseProperties(): chiavi mancanti nel formato vecchio e valori non array gestiti.
- */
 if( ! defined('IN_MANAGER_MODE') || IN_MANAGER_MODE !== true || ! $modx->hasPermission('exec_module')) {
     die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the EVO Content Manager instead of accessing this file directly.');
 }
