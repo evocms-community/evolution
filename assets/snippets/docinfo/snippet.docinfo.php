@@ -3,7 +3,7 @@
  * DocInfo
  *
  * @category  parser
- * @version   0.4.1
+ * @version   0.4.2
  * @license     GNU General Public License (GPL), http://www.gnu.org/copyleft/gpl.html
  * @param string $field Значение какого поля необходимо достать
  * @param int $docid ID документа
@@ -52,19 +52,25 @@ if ($templid !== null && $templid >= 0) {
         return '';
     }
 }
-$field = (isset($field)) ? $field : 'pagetitle';
+$field = (isset($field) && $field !== '') ? (string)$field : 'pagetitle';
 $render = (isset($render)) ? (bool)$render : false;
 $output = '';
+if (empty($docid)) {
+    return '';
+}
 if (in_array($field, $default_field)) {
     $doc = $modx->getPageInfo($docid, '1', $field);
-    $output = $doc[$field];
+    $output = (is_array($doc) && isset($doc[$field])) ? $doc[$field] : '';
 } else {
-    if (isset($render) && true === $render) {
+    if ($render === true) {
         $tv = $modx->getTemplateVarOutput($field, $docid);
-        $output = $tv[$field];
+        $output = (is_array($tv) && isset($tv[$field])) ? $tv[$field] : '';
     } else {
         $tv = $modx->getTemplateVar($field, '*', $docid);
-        $output = ($tv['value'] != '') ? $tv['value'] : $tv['defaultText'];
+        if (is_array($tv)) {
+            $value = isset($tv['value']) ? (string)$tv['value'] : '';
+            $output = ($value !== '') ? $value : (isset($tv['defaultText']) ? $tv['defaultText'] : '');
+        }
     }
 }
 

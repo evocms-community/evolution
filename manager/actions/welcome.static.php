@@ -521,7 +521,7 @@ function getRecentInfo() { // recent document info
 function getRecentInfoList() {
     $modx = evolutionCMS();
 
-    $rs = $modx->db->select('id, pagetitle, editedon, editedby, deleted, published', '[+prefix+]site_content', '', 'editedon DESC', 10);
+    $rs = $modx->db->select('id, pagetitle, longtitle, description, introtext, alias, type, cacheable, hidemenu, template, editedon, editedby, deleted, published', '[+prefix+]site_content', '', 'editedon DESC', 10);
 
     if($modx->db->getRecordCount($rs) < 1) {
         return '<tr><td>[%no_activity_message%]</td></tr>';

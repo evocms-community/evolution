@@ -1,7 +1,7 @@
 <?php
 /**
  * mm_widget_tags
- * @version 1.1.3 (2014-05-15)
+ * @version 1.1.4 (2026-11-04)
  * 
  * @desc A widget for ManagerManager plugin allowing tags to be added to the documents (the tag list creates automatically for the required TV with all written tags; new tags may be written right in the tag list) on the document edit page.
  * 
@@ -20,6 +20,12 @@
  * @link http://code.divandesign.biz/modx/mm_widget_tags/1.1.3
  * 
  * @copyright 2014
+ * 
+ * 1.1.4 (2026-11-04) - PHP 8 compatibility:
+ *   - $foundTags key initialized before increment (no more "Undefined array key" warnings)
+ *   - (string) cast on the TV value before explode()
+ *   - empty tags skipped (trailing delimiter or empty TV no longer produce an empty <li>)
+ *   - fields not present in $mm_fields are skipped (no "Undefined array key" on misspelled TV names)
  */
 
 function mm_widget_tags($fields, $delimiter = ',', $source = '', $display_count = false, $roles = '', $templates = ''){
@@ -55,14 +61,10 @@ function mm_widget_tags($fields, $delimiter = ',', $source = '', $display_count 
 		
 		// Go through each of the fields supplied
 		foreach ($fields as $targetTv){
-			$tv_id = $mm_fields[$targetTv]['fieldname'];
+			// Skip TV names that ManagerManager doesn't know (misspelled or nonexistent)
+			if (!isset($mm_fields[$targetTv]['fieldname'])){continue;}
 			
-			// Make an SQL friendly list of fields to look at:
-			//$escaped_sources = array();
-			//foreach ($source as $s){
-			//	$s=substr($s,2,1);
-			//	$escaped_sources[] = "'".$s."'";
-			//}
+			$tv_id = $mm_fields[$targetTv]['fieldname'];
 			
 			$sql_sources = implode(',', $source_tvs[0]);
 			
@@ -72,10 +74,13 @@ function mm_widget_tags($fields, $delimiter = ',', $source = '', $display_count 
 			
 			$foundTags = array();
 			foreach ($all_docs as $theDoc){
-				$theTags = explode($delimiter, $theDoc['value']);
+				$theTags = explode($delimiter, (string)$theDoc['value']);
 				
 				foreach ($theTags as $t){
-					$foundTags[trim($t)]++;
+					$t = trim($t);
+					if ($t === ''){continue;}
+					if (!isset($foundTags[$t])){$foundTags[$t] = 0;}
+					$foundTags[$t]++;
 				}
 			}
 			
