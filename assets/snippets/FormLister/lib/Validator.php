@@ -319,17 +319,29 @@ class Validator
      */
     protected static function sanitizeEmail($email)
     {
-        if (function_exists('idn_to_ascii')) {
-            $_email = explode('@', $email);
-            $_email[1] = $_email[1] ?? '';
-            if (defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46')) {
-                $_email[1] = idn_to_ascii($_email[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
-            } else {
-                $_email[1] = idn_to_ascii($_email[1]);
-            }
-            $email = implode('@', $_email);
+        $email = (string) $email;
+        if ($email === '' || strpos($email, '@') === false || !function_exists('idn_to_ascii')) {
+            return $email;
         }
 
-        return $email;
+        $pos = strrpos($email, '@');
+        $local = substr($email, 0, $pos);
+        $domain = substr($email, $pos + 1);
+
+        if ($domain === '') {
+            return $email;
+        }
+
+        try {
+            if (defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46')) {
+                $ascii = idn_to_ascii($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+            } else {
+                $ascii = idn_to_ascii($domain);
+            }
+        } catch (\ValueError $e) {
+            $ascii = false;
+        }
+
+        return $ascii !== false ? $local . '@' . $ascii : $email;
     }
 }
