@@ -6605,11 +6605,11 @@ class DocumentParser
             } elseif (substr($val['function'], 0, 8) === 'phpError') {
                 break;
             }
-            $path = str_replace('\\', '/', $val['file']);
+            $path = str_replace('\\', '/', $val['file'] ?? '');
             if (strpos($path, MODX_BASE_PATH) === 0) {
                 $path = substr($path, strlen(MODX_BASE_PATH));
             }
-            switch ($val['type']) {
+            switch ($val['type'] ?? '') {
                 case '->':
                 case '::':
                     $functionName = $val['function'] = $val['class'] . $val['type'] . $val['function'];
@@ -6658,7 +6658,7 @@ class DocumentParser
             }, $args);
             $line = array(
                 "<strong>" . $functionName . "</strong>(" . $args . ")",
-                $path . " on line " . $val['line']
+                $path . " on line " . ($val['line'] ?? '')
             );
             $table[] = array(implode("<br />", $line));
         }
