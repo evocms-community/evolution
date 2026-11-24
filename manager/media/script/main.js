@@ -450,7 +450,7 @@ if (typeof window.addEventListener !== 'undefined') {
     document_onload();
   }, false);
 } else if (typeof window.attachEvent !== 'undefined') {
-  window.attachEvent('onload', function() {
+  window.attachEvent('pagehide', function() {
     document_onload();
   });
 } else {
