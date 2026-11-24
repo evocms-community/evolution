@@ -9,7 +9,7 @@ if (is_numeric($lockElementId) && ($lockElementId > 0 || $lockElementId == 0)) {
       // Trigger unlock when leaving window
       var form_save = false;
 
-      window.addEventListener('unload', unlockThisElement, false);
+      window.addEventListener('pagehide', unlockThisElement, false);
 
       function unlockThisElement()
       {
