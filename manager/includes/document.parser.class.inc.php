@@ -1948,7 +1948,7 @@ class DocumentParser
             $detected = true;
         } elseif ($this->config['error_reporting'] == 2 && ($error & ~E_NOTICE)) {
             $detected = true;
-        } elseif ($this->config['error_reporting'] == 1 && ($error & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT)) {
+        } elseif ($this->config['error_reporting'] == 1 && ($error & ~E_NOTICE & ~E_DEPRECATED)) {
             $detected = true;
         }
         return $detected;
@@ -6431,7 +6431,6 @@ class DocumentParser
             E_USER_ERROR => "USER ERROR",
             E_USER_WARNING => "USER WARNING",
             E_USER_NOTICE => "USER NOTICE",
-            E_STRICT => "STRICT NOTICE",
             E_RECOVERABLE_ERROR => "RECOVERABLE ERROR",
             E_DEPRECATED => "DEPRECATED",
             E_USER_DEPRECATED => "USER DEPRECATED"
@@ -6546,7 +6545,6 @@ class DocumentParser
         switch ($nr) {
             case E_DEPRECATED :
             case E_USER_DEPRECATED :
-            case E_STRICT :
             case E_NOTICE :
             case E_USER_NOTICE :
                 $error_level = 2;
