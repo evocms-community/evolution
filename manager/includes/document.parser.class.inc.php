@@ -1948,7 +1948,7 @@ class DocumentParser
             $detected = true;
         } elseif ($this->config['error_reporting'] == 2 && ($error & ~E_NOTICE)) {
             $detected = true;
-        } elseif ($this->config['error_reporting'] == 1 && ($error & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT)) {
+        } elseif ($this->config['error_reporting'] == 1 && ($error & ~E_NOTICE & ~E_DEPRECATED)) {
             $detected = true;
         }
         return $detected;
@@ -6431,7 +6431,6 @@ class DocumentParser
             E_USER_ERROR => "USER ERROR",
             E_USER_WARNING => "USER WARNING",
             E_USER_NOTICE => "USER NOTICE",
-            E_STRICT => "STRICT NOTICE",
             E_RECOVERABLE_ERROR => "RECOVERABLE ERROR",
             E_DEPRECATED => "DEPRECATED",
             E_USER_DEPRECATED => "USER DEPRECATED"
@@ -6546,7 +6545,6 @@ class DocumentParser
         switch ($nr) {
             case E_DEPRECATED :
             case E_USER_DEPRECATED :
-            case E_STRICT :
             case E_NOTICE :
             case E_USER_NOTICE :
                 $error_level = 2;
@@ -6607,11 +6605,11 @@ class DocumentParser
             } elseif (substr($val['function'], 0, 8) === 'phpError') {
                 break;
             }
-            $path = str_replace('\\', '/', $val['file']);
+            $path = str_replace('\\', '/', $val['file'] ?? '');
             if (strpos($path, MODX_BASE_PATH) === 0) {
                 $path = substr($path, strlen(MODX_BASE_PATH));
             }
-            switch ($val['type']) {
+            switch ($val['type'] ?? '') {
                 case '->':
                 case '::':
                     $functionName = $val['function'] = $val['class'] . $val['type'] . $val['function'];
@@ -6660,7 +6658,7 @@ class DocumentParser
             }, $args);
             $line = array(
                 "<strong>" . $functionName . "</strong>(" . $args . ")",
-                $path . " on line " . $val['line']
+                $path . " on line " . ($val['line'] ?? '')
             );
             $table[] = array(implode("<br />", $line));
         }
